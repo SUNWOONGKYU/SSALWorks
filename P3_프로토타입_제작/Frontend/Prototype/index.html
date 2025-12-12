@@ -173,7 +173,7 @@
 
         .layout-container {
             display: grid;
-            grid-template-columns: 220px minmax(500px, 900px) 280px;
+            grid-template-columns: 250px minmax(500px, 870px) 280px;
             flex: 1;
             gap: 0;
             width: 100%;
@@ -695,17 +695,87 @@
             border-color: #2563eb;
         }
 
+        /* ☆ 특별단계 - process-major와 동일한 크기, 파란색 유지 */
+        .process-special-major {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 6px 10px;
+            background: #dbeafe;
+            border: 1px solid #60a5fa;
+            border-radius: 6px;
+            transition: all 0.2s;
+            cursor: pointer;
+            margin-bottom: 6px;
+        }
+        .process-special-major:hover {
+            background: #bfdbfe;
+        }
+        .process-special-major[data-progress="100"] {
+            background: #bfdbfe;
+            border: 1px solid #60a5fa;
+        }
+        .process-special-major .process-header {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .process-special-major .process-icon {
+            font-size: 12px;
+            color: #2563eb;
+            font-weight: bold;
+            min-width: 18px;
+            text-align: center;
+        }
+        .process-special-major .process-name {
+            flex: 1;
+            font-size: 12px;
+            font-weight: 600;
+            color: #212529;
+        }
+        .process-special-major .process-arrow {
+            font-size: 10px;
+            color: #2563eb;
+            transition: transform 0.2s;
+        }
+        .process-special-major .process-progress-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+        .process-special-major .process-progress {
+            flex: 1;
+            height: 5px;
+            background: rgba(37, 99, 235, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .process-special-major .process-progress-fill {
+            height: 100%;
+            background: #2563eb;
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        .process-special-major .process-percent {
+            font-size: 12px;
+            font-weight: 500;
+            color: #2563eb;
+            min-width: 35px;
+            text-align: right;
+        }
+
         /* ○ 준비단계: 초록색 계열 */
         .process-prep {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            padding: 4px 8px;
+            gap: 4px;
+            padding: 6px 10px;
             background: rgba(16, 185, 129, 0.08);
             border: 1px solid rgba(16, 185, 129, 0.2);
             border-radius: 6px;
             cursor: pointer;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
             transition: all 0.2s;
         }
         /* P1, P2 예비단계 완료 스타일 */
@@ -2061,108 +2131,122 @@
                 <h2 class="sidebar-title" style="margin-bottom: 11px;">📊 진행 프로세스</h2>
 
                 <div class="process-list">
-                    <!-- ☆ 작업 디렉토리 구조 생성 (특별단계) -->
-                    <div class="process-special" onclick="loadProcessStage('dir_structure', '작업 디렉토리 구조 생성', '특별단계_☆')">
-                        <div class="process-special-header">
-                            <span class="process-special-icon">☆</span>
-                            <span class="process-special-name">작업 디렉토리 구조 생성</span>
-                            <span class="process-special-percent">0%</span>
+                    <!-- ☆ 작업 디렉토리 구조 생성 -->
+                    <div class="process-special-major" onclick="loadProcessStage('dir_structure', '작업 디렉토리 구조 생성', '특별단계')" data-progress="100">
+                        <div class="process-header">
+                            <span class="process-icon" style="position: relative; top: -1px;">☆</span>
+                            <span class="process-name">작업 디렉토리 구조 생성</span>
                         </div>
-                        <div class="process-special-progress">
-                            <div class="process-special-progress-fill" style="width: 0%"></div>
+                        <div class="process-progress-container">
+                            <div class="process-progress">
+                                <div class="process-progress-fill" style="width: 100%"></div>
+                            </div>
+                            <span class="process-percent">100%</span>
                         </div>
                     </div>
 
-                    <!-- ○ 사업계획 (준비단계) -->
+                    <!-- P1 사업계획 -->
                     <div class="process-item">
-                        <div class="process-prep" onclick="toggleProcessPrep(this)" data-progress="0">
-                            <div class="process-prep-header">
-                                <span class="process-prep-icon">○</span>
-                                <span class="process-prep-name">P1 사업계획</span>
+                        <div class="process-major completed" onclick="toggleProcess(this)" data-progress="100">
+                            <div class="process-header">
+                                <span class="process-icon">P1.</span>
+                                <span class="process-name">사업계획</span>
                                 <span class="process-arrow">▶</span>
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 0%"></div>
+                                    <div class="process-progress-fill" style="width: 100%"></div>
                                 </div>
-                                <span class="process-percent">0%</span>
+                                <span class="process-percent">100%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('biz_0_1', 'Vision_Mission', '사업계획')">
+                            <div class="process-small" onclick="loadProcessStage('biz_0_1', 'Vision & Mission', 'P1')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Vision_Mission</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('biz_0_2', 'Market_Analysis', '사업계획')">
+                            <div class="process-small" onclick="loadProcessStage('biz_0_2', 'Market Analysis', 'P1')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Market_Analysis</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('biz_0_3', 'Business_Model', '사업계획')">
+                            <div class="process-small" onclick="loadProcessStage('biz_0_3', 'Business Model', 'P1')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Business_Model</span>
                                 </div>
                             </div>
+                            <div class="process-small" onclick="loadProcessStage('biz_0_1', 'Patent', 'P1')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Patent</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('biz_0_3', 'Business Plan', 'P1')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>BusenessPlan</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- ○ 프로젝트 기획 (준비단계) -->
+                    <!-- P2 프로젝트 기획 -->
                     <div class="process-item">
-                        <div class="process-prep" onclick="toggleProcessPrep(this)" data-progress="0">
-                            <div class="process-prep-header">
-                                <span class="process-prep-icon">○</span>
-                                <span class="process-prep-name">P2 프로젝트 기획</span>
+                        <div class="process-major completed" onclick="toggleProcess(this)" data-progress="100">
+                            <div class="process-header">
+                                <span class="process-icon">P2.</span>
+                                <span class="process-name">프로젝트 기획</span>
                                 <span class="process-arrow">▶</span>
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 0%"></div>
+                                    <div class="process-progress-fill" style="width: 100%"></div>
                                 </div>
-                                <span class="process-percent">0%</span>
+                                <span class="process-percent">100%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('plan_1_1', 'Project_Plan', '프로젝트_기획')">
+                            <div class="process-small" onclick="loadProcessStage('plan_1_1', 'Project Plan', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Project_Plan</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_2', 'User_Flows', '프로젝트_기획')">
+                            <div class="process-small" onclick="loadProcessStage('plan_1_3', 'User Flows', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>User_Flows</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_3', 'Requirements', '프로젝트_기획')">
+                            <div class="process-small" onclick="loadProcessStage('plan_1_2', 'Requirements', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Requirements</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_4', 'Design_System', '프로젝트_기획')">
+                            <div class="process-small" onclick="loadProcessStage('plan_1_4', 'Design System', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Design_System</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_5', 'UI_UX_Mockup', '프로젝트_기획')">
+                            <div class="process-small" onclick="loadProcessStage('plan_mockup', 'UI/UX Mockup', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>UI_UX_Mockup</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_6', 'Tech_Stack', '프로젝트_기획')">
+                            <div class="process-small" onclick="loadProcessStage('plan_1_5', 'Tech Stack', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Tech_Stack</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_7', 'Workflows', '프로젝트_기획')">
+                            <div class="process-small" onclick="loadProcessStage('plan_1_6', 'Workflows', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Workflows</span>
@@ -2171,27 +2255,49 @@
                         </div>
                     </div>
 
-                    <!-- ☆ Project SAL GRID 생성 (특별단계) -->
-                    <div class="process-special" onclick="loadProcessStage('sal_grid', 'Project SAL Grid 생성', '특별단계_☆')">
-                        <div class="process-special-header">
-                            <span class="process-special-icon">☆</span>
-                            <span class="process-special-name">Project SAL Grid 생성</span>
-                            <span class="process-special-percent">0%</span>
+                    <!-- P3. 프로토타입 제작 -->
+                    <div class="process-item">
+                        <div class="process-major completed" onclick="toggleProcess(this)" data-progress="100">
+                            <div class="process-header">
+                                <span class="process-icon">P3.</span>
+                                <span class="process-name">프로토타입 제작</span>
+                                <span class="process-arrow">▶</span>
+                            </div>
+                            <div class="process-progress-container">
+                                <div class="process-progress">
+                                    <div class="process-progress-fill" style="width: 100%"></div>
+                                </div>
+                                <span class="process-percent">100%</span>
+                            </div>
                         </div>
-                        <div class="process-special-progress">
-                            <div class="process-special-progress-fill" style="width: 0%"></div>
+                        <div class="process-small-list">
+                            <div class="process-small" onclick="loadProcessStage('proto_scripts', 'Documentation', 'P3')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Documentation</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('proto_pages', 'Frontend', 'P3')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Frontend</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('proto_database', 'Database', 'P3')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Database</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 구분선 -->
-                    <div class="process-divider"></div>
-
-                    <!-- S1. 프로토타입 제작 -->
+                    <!-- ☆ Project SAL GRID 생성 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s1_prototype', 'S1. 프로토타입 제작', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="0">
                             <div class="process-header">
-                                <span class="process-icon">S1.</span>
-                                <span class="process-name">P3 프로토타입 제작</span>
+                                <span class="process-icon">☆</span>
+                                <span class="process-name">Project SAL Grid 생성</span>
                                 <span class="process-arrow">▶</span>
                             </div>
                             <div class="process-progress-container">
@@ -2202,32 +2308,44 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="openFolder('P3_프로토타입_제작/Documentation')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Documentation</span>
+                                    <span>manual</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('P3_프로토타입_제작/Frontend')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Frontend</span>
+                                    <span>supabase</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('P3_프로토타입_제작/Database')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Database</span>
+                                    <span>task-instructions</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>verification-instructions</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>viewer</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- S2. 개발 준비 -->
+                    <!-- S1. 개발 준비 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s2_dev_prep', 'S2. 개발 준비', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-major" onclick="loadProcessStage('s2_dev_prep', 'S1. 개발 준비', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
-                                <span class="process-icon">S2.</span>
+                                <span class="process-icon">S1.</span>
                                 <span class="process-name">개발 준비</span>
                                 <span class="process-arrow">▶</span>
                             </div>
@@ -2239,25 +2357,25 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="openFolder('S1_개발_준비/Documentation')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Documentation</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S1_개발_준비/Backend_Infra')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Backend_Infra</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S1_개발_준비/Database')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Database</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S1_개발_준비/Security')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Security</span>
@@ -2266,11 +2384,11 @@
                         </div>
                     </div>
 
-                    <!-- S3. 개발 1차 -->
+                    <!-- S2. 개발 1차 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s3_dev_1', 'S3. 개발 1차', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-major" onclick="loadProcessStage('s3_dev_1', 'S2. 개발 1차', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
-                                <span class="process-icon">S3.</span>
+                                <span class="process-icon">S2.</span>
                                 <span class="process-name">개발 1차</span>
                                 <span class="process-arrow">▶</span>
                             </div>
@@ -2282,80 +2400,80 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Documentation')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Documentation</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Design')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Design</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Frontend')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Frontend</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Backend_Infra')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Backend_Infra</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Backend_API')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Backend_API</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Database')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Database</span>
+                                    <span>Backend_Infra</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Security')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Security</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Testing')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Testing</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/DevOps')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>DevOps</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/External')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>External</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S2_개발-1차/Content_System')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Content_System</span>
                                 </div>
                             </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Database</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Design</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>DevOps</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Documentation</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>External</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Frontend</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Security</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Testing</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- S4. 개발 2차 -->
+                    <!-- S3. 개발 2차 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s4_dev_2', 'S4. 개발 2차', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-major" onclick="loadProcessStage('s4_dev_2', 'S3. 개발 2차', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
-                                <span class="process-icon">S4.</span>
+                                <span class="process-icon">S3.</span>
                                 <span class="process-name">개발 2차</span>
                                 <span class="process-arrow">▶</span>
                             </div>
@@ -2367,80 +2485,80 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Documentation')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Documentation</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Design')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Design</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Frontend')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Frontend</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Backend_Infra')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Backend_Infra</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Backend_API')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Backend_API</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Database')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Database</span>
+                                    <span>Backend_Infra</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Security')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Security</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Testing')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Testing</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/DevOps')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>DevOps</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/External')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>External</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S3_개발-2차/Content_System')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Content_System</span>
                                 </div>
                             </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Database</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Design</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>DevOps</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Documentation</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>External</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Frontend</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Security</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Testing</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- S5. 개발 3차 -->
+                    <!-- S4. 개발 3차 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s5_dev_3', 'S5. 개발 3차', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-major" onclick="loadProcessStage('s5_dev_3', 'S4. 개발 3차', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
-                                <span class="process-icon">S5.</span>
+                                <span class="process-icon">S4.</span>
                                 <span class="process-name">개발 3차</span>
                                 <span class="process-arrow">▶</span>
                             </div>
@@ -2452,80 +2570,80 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Documentation')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Documentation</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Design')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Design</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Frontend')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Frontend</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Backend_Infra')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Backend_Infra</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Backend_API')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Backend_API</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Database')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Database</span>
+                                    <span>Backend_Infra</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Security')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Security</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Testing')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Testing</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/DevOps')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>DevOps</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/External')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>External</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S4_개발-3차/Content_System')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Content_System</span>
                                 </div>
                             </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Database</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Design</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>DevOps</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Documentation</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>External</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Frontend</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Security</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Testing</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- S6. 운영 -->
+                    <!-- S5. 운영 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s6_operation', 'S6. 운영', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-major" onclick="loadProcessStage('s6_operation', 'S5. 운영', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
-                                <span class="process-icon">S6.</span>
+                                <span class="process-icon">S5.</span>
                                 <span class="process-name">운영</span>
                                 <span class="process-arrow">▶</span>
                             </div>
@@ -2537,58 +2655,64 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="openFolder('S5_운영/Documentation')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Documentation</span>
+                                    <span>3_개발-1차</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/Frontend')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Frontend</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/Backend_API')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Backend_API</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/Database')">
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Content_System</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Database</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/Security')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Security</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/Testing')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Testing</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/DevOps')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>DevOps</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/External')">
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Documentation</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>External</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="openFolder('S5_운영/Content_System')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Content_System</span>
+                                    <span>Frontend</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Security</span>
+                                </div>
+                            </div>
+                            <div class="process-small">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Testing</span>
                                 </div>
                             </div>
                         </div>
@@ -4445,19 +4569,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [여기에 요청사항을 작성하세요]
 
 `,
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">🌾 SSAL Works에 오신 것을 환영합니다!</h2>
-
-<h3 style="margin-top: 24px; color: #333;">SSAL Works란?</h3>
-<p>SSAL Works는 비개발자가 AI(Claude Code)와 협업하여 웹사이트를 개발하는 플랫폼입니다.</p>
-
-<h3 style="margin-top: 24px; color: #333;">시작하기</h3>
-<ol style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">좌측 사이드바에서 프로젝트를 선택하세요</li>
-<li style="margin-bottom: 8px;">진행 프로세스에서 현재 단계를 확인하세요</li>
-<li style="margin-bottom: 8px;">Order Sheet를 작성하여 Claude Code에 작업을 요청하세요</li>
-</ol>
-`
+                guideUrl: 'guides/Welcome.html'
             },
 
             // ===== 예시 프로젝트 (SSAL Works 예시) =====
@@ -4468,29 +4580,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 confirmMessage: '',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📂 SSAL Works 예시 프로젝트</h2>
-
-<p>이것은 완성된 프로젝트의 <strong>샘플 파일들을 구경</strong>할 수 있는 예시 프로젝트입니다.</p>
-
-<h3 style="margin-top: 24px; color: #333;">예시 프로젝트란?</h3>
-<p>실제 SSAL Works로 완성된 프로젝트가 어떤 구조와 파일들로 이루어져 있는지 미리 살펴볼 수 있습니다.</p>
-
-<h3 style="margin-top: 24px; color: #333;">구경할 수 있는 내용</h3>
-<ul style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">각 단계별 폴더 구조</li>
-<li style="margin-bottom: 8px;">작성된 문서 샘플 (기획서, 요구사항 등)</li>
-<li style="margin-bottom: 8px;">완성된 코드 예시</li>
-<li style="margin-bottom: 8px;">Order Sheet 작성 예시</li>
-</ul>
-
-<h3 style="margin-top: 24px; color: #333;">사용 방법</h3>
-<p>예시 프로젝트의 <strong>폴더와 파일들을 열어보며</strong> 실제 프로젝트가 어떻게 구성되는지 참고하세요.</p>
-
-<div style="margin-top: 16px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid var(--primary);">
-<strong>💡 참고:</strong> 예시 프로젝트는 구경용입니다. 실제 작업을 시작하려면 "새로운 Project 추가" 버튼을 클릭하세요.
-</div>
-`
+                guideUrl: 'guides/Project_Example.html'
             },
 
             // ===== 실제 프로젝트 선택 =====
@@ -4549,30 +4639,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📦 프로젝트 작업 안내</h2>
-
-<p>선택한 프로젝트에서 작업을 진행합니다.</p>
-
-<h3 style="margin-top: 24px; color: #333;">프로젝트 작업 흐름</h3>
-<ol style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">좌측 <strong>진행 프로세스</strong>에서 현재 단계 확인</li>
-<li style="margin-bottom: 8px;">해당 단계의 Order Sheet 작성</li>
-<li style="margin-bottom: 8px;">Inbox에 발행하여 Claude Code에 작업 요청</li>
-<li style="margin-bottom: 8px;">Outbox에서 작업 결과 확인</li>
-</ol>
-
-<h3 style="margin-top: 24px; color: #333;">Order Sheet 작성 방법</h3>
-<ul style="padding-left: 20px;">
-<li style="margin-bottom: 8px;"><strong>요청 유형</strong>을 선택하세요</li>
-<li style="margin-bottom: 8px;"><strong>상세 요청사항</strong>을 구체적으로 작성하세요</li>
-<li style="margin-bottom: 8px;">필요시 <strong>참고 자료</strong>를 첨부하세요</li>
-</ul>
-
-<div style="margin-top: 16px; padding: 12px; background: #fffbeb; border-radius: 8px; border-left: 4px solid #f59e0b;">
-<strong>⚠️ 주의:</strong> Order Sheet는 명확하고 구체적으로 작성할수록 더 정확한 결과를 얻을 수 있습니다.
-</div>
-`
+                guideUrl: 'guides/Project_Work.html'
             },
 
             // ===== ☆ 특별단계: 디렉토리 구조 생성 =====
@@ -4637,7 +4704,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/SP-1_디렉토리_구조_생성.html'
+                guideUrl: 'guides/SP-1_디렉토리_구조_생성.html',
+                orderSheetUrl: 'templates/SP-1_디렉토리_구조_생성.md'
             },
 
             // ===== ☆ 특별단계: SAL Grid 생성 =====
@@ -4698,7 +4766,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/SP-2_SAL_GRID_생성.html'
+                guideUrl: 'guides/SP-2_SAL_GRID_생성.html',
+                orderSheetUrl: 'templates/SP-2_SAL_GRID_생성.md'
             },
 
             // ===== ○ 사업계획: 0-1 시장조사 =====
@@ -4744,7 +4813,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P1-1_Vision_Mission.html'
+                guideUrl: 'guides/P1-1_Vision_Mission.html',
+                orderSheetUrl: 'templates/P1-1_Vision_Mission.md'
             },
 
             // ===== ○ 사업계획: 0-2 경쟁분석 =====
@@ -4789,7 +4859,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P1-2_Market_Analysis.html'
+                guideUrl: 'guides/P1-2_Market_Analysis.html',
+                orderSheetUrl: 'templates/P1-2_Market_Analysis.md'
             },
 
             // ===== ○ 사업계획: 0-3 사업계획서 =====
@@ -4835,7 +4906,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P1-3_Business_Model.html'
+                guideUrl: 'guides/P1-3_Business_Model.html',
+                orderSheetUrl: 'templates/P1-3_Business_Model.md'
             },
 
             // ===== ○ 프로젝트 기획: 1-1 ~ 1-6 =====
@@ -4881,7 +4953,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P2-1_Directory_Structure.html'
+                guideUrl: 'guides/P2-1_Directory_Structure.html',
+                orderSheetUrl: 'templates/P2-1_Directory_Structure.md'
             },
 
             'plan_1_2': {
@@ -4927,7 +5000,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P2-2-1_Requirements.html'
+                guideUrl: 'guides/P2-2-1_Requirements.html',
+                orderSheetUrl: 'templates/P2-2-1_Requirements.md'
             },
 
             'plan_1_3': {
@@ -4969,7 +5043,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P2-2-2_User_Flows.html'
+                guideUrl: 'guides/P2-2-2_User_Flows.html',
+                orderSheetUrl: 'templates/P2-2-2_User_Flows.md'
             },
 
             'plan_1_4': {
@@ -5011,7 +5086,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P2-3-1_Design_Guidelines.html'
+                guideUrl: 'guides/P2-3-1_Design_Guidelines.html',
+                orderSheetUrl: 'templates/P2-3-1_Design_Guidelines.md'
             },
 
             'plan_1_5': {
@@ -5053,7 +5129,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P2-4_Database_Design.html'
+                guideUrl: 'guides/P2-4_Database_Design.html',
+                orderSheetUrl: 'templates/P2-4_Database_Design.md'
             },
 
             'plan_1_6': {
@@ -5095,7 +5172,225 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P2-2-3_Workflows.html'
+                guideUrl: 'guides/P2-2-3_Workflows.html',
+                orderSheetUrl: 'templates/P2-2-3_Workflows.md'
+            },
+
+            // ===== P2 추가 단계 =====
+            'plan_mockup': {
+                stageId: 'plan_mockup',
+                stageName: '목업 제작',
+                hasAction: true,
+                confirmMessage: '목업을 위와 같이 제작하시겠습니까?',
+                orderSheetAfterExecute: `# 추가 Order Sheet - 목업 제작
+
+## ✅ 자동 실행된 항목
+
+- [x] 화면 목업 디자인
+- [x] 레이아웃 구성
+
+---
+
+## 📝 추가 요청사항
+
+[추가 요청사항을 작성하세요]
+
+`,
+                orderSheet: `# Order Sheet - 목업 제작
+
+## 기본 정보
+- **Order ID**: OS-P2-MK-001
+- **작성일**: ${new Date().toISOString().split('T')[0]}
+
+---
+
+## 작업 항목
+
+- [ ] 주요 화면 목업 디자인
+- [ ] 레이아웃 구성
+- [ ] 반응형 디자인 고려
+
+---
+
+## 추가 지시사항
+
+[추가 요구사항이 있으면 여기에 작성]
+`,
+                guideUrl: 'guides/P2-3-2_Mockup.html',
+                orderSheetUrl: 'templates/P2-3-2_Mockup.md'
+            },
+
+            'plan_prototype': {
+                stageId: 'plan_prototype',
+                stageName: '프로토타입 설계',
+                hasAction: true,
+                confirmMessage: '프로토타입을 위와 같이 설계하시겠습니까?',
+                orderSheetAfterExecute: `# 추가 Order Sheet - 프로토타입 설계
+
+## ✅ 자동 실행된 항목
+
+- [x] 인터랙션 정의
+- [x] 화면 전환 흐름
+
+---
+
+## 📝 추가 요청사항
+
+[추가 요청사항을 작성하세요]
+
+`,
+                orderSheet: `# Order Sheet - 프로토타입 설계
+
+## 기본 정보
+- **Order ID**: OS-P2-PT-001
+- **작성일**: ${new Date().toISOString().split('T')[0]}
+
+---
+
+## 작업 항목
+
+- [ ] 인터랙션 정의
+- [ ] 화면 전환 흐름
+- [ ] 사용성 테스트 계획
+
+---
+
+## 추가 지시사항
+
+[추가 요구사항이 있으면 여기에 작성]
+`,
+                guideUrl: 'guides/P2-3-3_Prototype.html',
+                orderSheetUrl: 'templates/P2-3-3_Prototype.md'
+            },
+
+            // ===== P3 추가 단계 =====
+            'proto_pages': {
+                stageId: 'proto_pages',
+                stageName: '프론트엔드 페이지 개발',
+                hasAction: true,
+                confirmMessage: '페이지를 위와 같이 개발하시겠습니까?',
+                orderSheetAfterExecute: `# 추가 Order Sheet - 프론트엔드 페이지
+
+## ✅ 자동 실행된 항목
+
+- [x] 페이지 컴포넌트 개발
+- [x] 상태 관리 구현
+
+---
+
+## 📝 추가 요청사항
+
+[추가 요청사항을 작성하세요]
+
+`,
+                orderSheet: `# Order Sheet - 프론트엔드 페이지 개발
+
+## 기본 정보
+- **Order ID**: OS-P3-FP-001
+- **작성일**: ${new Date().toISOString().split('T')[0]}
+
+---
+
+## 작업 항목
+
+- [ ] 페이지 컴포넌트 개발
+- [ ] 상태 관리 구현
+- [ ] API 연동 준비
+
+---
+
+## 추가 지시사항
+
+[추가 요구사항이 있으면 여기에 작성]
+`,
+                guideUrl: 'guides/P3-1-2_Frontend_Pages.html',
+                orderSheetUrl: 'templates/P3-1-2_Frontend_Pages.md'
+            },
+
+            'proto_database': {
+                stageId: 'proto_database',
+                stageName: '데이터베이스 구축',
+                hasAction: true,
+                confirmMessage: '데이터베이스를 위와 같이 구축하시겠습니까?',
+                orderSheetAfterExecute: `# 추가 Order Sheet - 데이터베이스 구축
+
+## ✅ 자동 실행된 항목
+
+- [x] 테이블 생성
+- [x] RLS 정책 적용
+
+---
+
+## 📝 추가 요청사항
+
+[추가 요청사항을 작성하세요]
+
+`,
+                orderSheet: `# Order Sheet - 데이터베이스 구축
+
+## 기본 정보
+- **Order ID**: OS-P3-DB-001
+- **작성일**: ${new Date().toISOString().split('T')[0]}
+
+---
+
+## 작업 항목
+
+- [ ] 테이블 생성 SQL 작성
+- [ ] RLS 정책 적용
+- [ ] 초기 데이터 투입
+
+---
+
+## 추가 지시사항
+
+[추가 요구사항이 있으면 여기에 작성]
+`,
+                guideUrl: 'guides/P3-2_Database.html',
+                orderSheetUrl: 'templates/P3-2_Database.md'
+            },
+
+            'proto_scripts': {
+                stageId: 'proto_scripts',
+                stageName: '스크립트 개발',
+                hasAction: true,
+                confirmMessage: '스크립트를 위와 같이 개발하시겠습니까?',
+                orderSheetAfterExecute: `# 추가 Order Sheet - 스크립트 개발
+
+## ✅ 자동 실행된 항목
+
+- [x] 빌드 스크립트 작성
+- [x] 유틸리티 함수 개발
+
+---
+
+## 📝 추가 요청사항
+
+[추가 요청사항을 작성하세요]
+
+`,
+                orderSheet: `# Order Sheet - 스크립트 개발
+
+## 기본 정보
+- **Order ID**: OS-P3-SC-001
+- **작성일**: ${new Date().toISOString().split('T')[0]}
+
+---
+
+## 작업 항목
+
+- [ ] 빌드 스크립트 작성
+- [ ] 데이터 마이그레이션 스크립트
+- [ ] 유틸리티 함수 개발
+
+---
+
+## 추가 지시사항
+
+[추가 요구사항이 있으면 여기에 작성]
+`,
+                guideUrl: 'guides/P3-3_Scripts.html',
+                orderSheetUrl: 'templates/P3-3_Scripts.md'
             },
 
             // ===== S1 ~ S6 개발 단계 =====
@@ -5138,7 +5433,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/P3-1-1_Frontend_Prototype.html'
+                guideUrl: 'guides/P3-1-1_Frontend_Prototype.html',
+                orderSheetUrl: 'templates/P3-1-1_Frontend_Prototype.md'
             },
 
             's2_dev_prep': {
@@ -5180,16 +5476,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">⚙️ S2. 개발 준비 안내</h2>
-
-<h3 style="margin-top: 24px; color: #333;">작업 항목</h3>
-<ul style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">개발 환경 구축</li>
-<li style="margin-bottom: 8px;">프로젝트 초기 설정</li>
-<li style="margin-bottom: 8px;">CI/CD 파이프라인</li>
-</ul>
-`
+                guideUrl: 'guides/S1_개발_준비.html',
+                orderSheetUrl: 'templates/S1_개발_준비.md'
             },
 
             's3_dev_1': {
@@ -5231,16 +5519,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">💻 S3. 개발 1차 안내</h2>
-
-<h3 style="margin-top: 24px; color: #333;">작업 항목</h3>
-<ul style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">핵심 기능 개발</li>
-<li style="margin-bottom: 8px;">기본 테스트</li>
-<li style="margin-bottom: 8px;">코드 리뷰</li>
-</ul>
-`
+                guideUrl: 'guides/S2_개발_1차.html',
+                orderSheetUrl: 'templates/S2_개발_1차.md'
             },
 
             's4_dev_2': {
@@ -5282,16 +5562,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">💻 S4. 개발 2차 안내</h2>
-
-<h3 style="margin-top: 24px; color: #333;">작업 항목</h3>
-<ul style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">추가 기능 개발</li>
-<li style="margin-bottom: 8px;">통합 테스트</li>
-<li style="margin-bottom: 8px;">버그 수정</li>
-</ul>
-`
+                guideUrl: 'guides/S3_개발_2차.html',
+                orderSheetUrl: 'templates/S3_개발_2차.md'
             },
 
             's5_dev_3': {
@@ -5333,16 +5605,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">💻 S5. 개발 3차 안내</h2>
-
-<h3 style="margin-top: 24px; color: #333;">작업 항목</h3>
-<ul style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">최종 기능 완성</li>
-<li style="margin-bottom: 8px;">성능 최적화</li>
-<li style="margin-bottom: 8px;">보안 점검</li>
-</ul>
-`
+                guideUrl: 'guides/S4_개발_3차.html',
+                orderSheetUrl: 'templates/S4_개발_3차.md'
             },
 
             's6_operation': {
@@ -5384,16 +5648,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideContent: `
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">🚀 S6. 운영 안내</h2>
-
-<h3 style="margin-top: 24px; color: #333;">작업 항목</h3>
-<ul style="padding-left: 20px;">
-<li style="margin-bottom: 8px;">배포</li>
-<li style="margin-bottom: 8px;">모니터링 설정</li>
-<li style="margin-bottom: 8px;">유지보수 계획</li>
-</ul>
-`
+                guideUrl: 'guides/S5_운영.html',
+                orderSheetUrl: 'templates/S5_운영.md'
             }
         };
 
@@ -5478,34 +5734,32 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             initDragPopup();
         }
 
-        // [예] 버튼 클릭 시 - Inbox에 저장 후 실행 + 간소화 템플릿 로드
+        // [확인] 버튼 클릭 시 - Order Sheet 표준 템플릿을 워크스페이스에 로드
         async function executeStageAction() {
             if (!currentStageData) return;
 
-            // 워크스페이스에 간소화 템플릿 로드 (추가 요청용)
-            document.getElementById('textEditor').value = currentStageData.orderSheetAfterExecute;
+            // orderSheetUrl이 있으면 ORDER_SHEET_TEMPLATES에서 로드
+            // 없으면 기존 orderSheetAfterExecute 사용 (하위 호환)
+            let templateContent = '';
 
-            try {
-                // Inbox에 기본 Order Sheet 저장 (자동 실행)
-                const filename = `OS_${currentStageData.stageId}_${Date.now()}.md`;
-                const response = await fetch('http://localhost:3030/save-to-inbox', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        filename: filename,
-                        content: currentStageData.orderSheet
-                    })
-                });
+            if (currentStageData.orderSheetUrl) {
+                // orderSheetUrl에서 키 추출: 'templates/P1-1_Vision_Mission.md' -> 'P1-1_Vision_Mission'
+                const templateKey = currentStageData.orderSheetUrl.replace('templates/', '').replace('.md', '');
+                templateContent = (typeof ORDER_SHEET_TEMPLATES !== 'undefined')
+                    ? ORDER_SHEET_TEMPLATES[templateKey]
+                    : null;
 
-                if (response.ok) {
-                    showStatus(`✅ Order Sheet가 자동으로 발행되었습니다. 추가 요청사항이 있으면 작성 후 발행하세요.`, 'success');
-                } else {
-                    showStatus('❌ 자동 발행 실패 - 워크스페이스에서 수동 발행하세요', 'error');
+                if (!templateContent) {
+                    console.error('Order Sheet 템플릿 로드 오류:', templateKey);
+                    templateContent = currentStageData.orderSheetAfterExecute || '';
                 }
-            } catch (error) {
-                console.error('Inbox 저장 실패:', error);
-                showStatus('❌ 서버 연결 실패 - 워크스페이스에서 수동 발행하세요', 'warning');
+            } else {
+                templateContent = currentStageData.orderSheetAfterExecute || '';
             }
+
+            // 워크스페이스에 Order Sheet 템플릿 로드
+            document.getElementById('textEditor').value = templateContent;
+            showStatus(`✅ Order Sheet 템플릿이 워크스페이스에 로드되었습니다.`, 'success');
 
             closeGuidePopup();
         }
@@ -6509,217 +6763,9 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             window.open('../../../project-ssal-grid/viewer/viewer.html', '_blank');
         }
 
-        // 폴더 열기 함수 (Antigravity 또는 VSCode 선택)
+        // 폴더 열기 함수 (비활성화됨 - 폴더 편집 안내 기능 제거)
         function openFolder(folderPath) {
-            const fullPath = `C:/!SSAL_Works_Private/${folderPath}`;
-
-            // 에디터 선택 모달 표시
-            showEditorSelectModal(fullPath);
-        }
-
-        // 에디터 선택 모달 표시 함수 (드래그 가능한 팝업 스타일)
-        function showEditorSelectModal(fullPath) {
-            // 기존 모달이 있으면 제거
-            const existingModal = document.getElementById('editorSelectModal');
-            if (existingModal) {
-                existingModal.remove();
-            }
-
-            // 폴더명 추출
-            const folderName = fullPath.split('/').pop();
-
-            const modalHTML = `
-                <div id="editorSelectModal" style="
-                    position: fixed;
-                    top: 100px;
-                    right: 50px;
-                    width: 480px;
-                    background: white;
-                    border-radius: 12px;
-                    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-                    z-index: 10000;
-                    overflow: hidden;
-                    font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-                ">
-                    <!-- 헤더 (드래그 가능) -->
-                    <div id="editorModalHeader" style="
-                        background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%);
-                        color: white;
-                        padding: 12px 16px;
-                        cursor: move;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        user-select: none;
-                    ">
-                        <span style="font-weight: 700; font-size: 14px;">📂 폴더 편집 안내</span>
-                        <button onclick="closeEditorSelectModal()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0 4px;">&times;</button>
-                    </div>
-
-                    <!-- 컨텐츠 -->
-                    <div style="padding: 20px; font-size: 12px; line-height: 1.6; color: #212529;">
-                        <h3 style="margin: 0 0 12px 0; color: var(--primary-dark); font-size: 14px; border-bottom: 2px solid var(--primary); padding-bottom: 8px;">
-                            ${folderName} 폴더
-                        </h3>
-
-                        <p style="margin: 0 0 16px 0;">이 폴더의 내용을 편집하시겠습니까?</p>
-
-                        <div style="background: #f8f9fa; padding: 12px; border-radius: 8px; margin-bottom: 16px;">
-                            <p style="margin: 0 0 8px 0; font-weight: 600; color: #333;">📍 폴더 경로</p>
-                            <code style="font-size: 11px; color: #6c757d; word-break: break-all;">${fullPath}</code>
-                        </div>
-
-                        <p style="margin: 0 0 12px 0; font-weight: 600; color: #333;">아래 두 가지 중 하나를 선택하세요:</p>
-
-                        <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;">
-                            <button onclick="openWithEditor('antigravity', '${fullPath}')" style="
-                                padding: 12px 16px;
-                                border: none;
-                                border-radius: 8px;
-                                background: linear-gradient(135deg, #4285F4, #34A853);
-                                color: white;
-                                cursor: pointer;
-                                font-size: 13px;
-                                font-weight: 600;
-                                display: flex;
-                                align-items: center;
-                                gap: 10px;
-                                transition: transform 0.2s, box-shadow 0.2s;
-                            " onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 12px rgba(66,133,244,0.4)';"
-                               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M8 4 L10 4 C9 10, 8 16, 7 22 L2 22 C4 16, 6 10, 8 4 Z" fill="white"/>
-                                    <path d="M14 4 L16 4 C18 10, 20 16, 22 22 L17 22 C16 16, 15 10, 14 4 Z" fill="white"/>
-                                    <ellipse cx="12" cy="3" rx="6" ry="3" fill="white"/>
-                                </svg>
-                                <span>Antigravity 열기</span>
-                            </button>
-                            <button onclick="openWithEditor('vscode', '${fullPath}')" style="
-                                padding: 12px 16px;
-                                border: none;
-                                border-radius: 8px;
-                                background: linear-gradient(135deg, #007ACC, #0065A9);
-                                color: white;
-                                cursor: pointer;
-                                font-size: 13px;
-                                font-weight: 600;
-                                display: flex;
-                                align-items: center;
-                                gap: 10px;
-                                transition: transform 0.2s, box-shadow 0.2s;
-                            " onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 12px rgba(0,122,204,0.4)';"
-                               onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vscode/vscode-original.svg" alt="VS Code" style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
-                                <span>VS Code 열기</span>
-                            </button>
-                        </div>
-
-                        <div style="background: #fffbeb; padding: 12px; border-radius: 8px; border-left: 4px solid #f59e0b;">
-                            <p style="margin: 0; font-size: 11px; color: #92400e;">
-                                <strong>⚠️ 필수 프로그램 안내</strong><br>
-                                위 프로그램이 설치되어 있어야 폴더가 열립니다.<br>
-                                • <strong>Antigravity</strong>: Google Project IDX 기반 에디터<br>
-                                • <strong>VS Code</strong>: Microsoft Visual Studio Code
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- 하단 버튼 -->
-                    <div style="padding: 0 20px 20px 20px;">
-                        <button onclick="closeEditorSelectModal()" style="
-                            width: 100%;
-                            padding: 10px;
-                            border: 1px solid #dee2e6;
-                            border-radius: 6px;
-                            background: #f8f9fa;
-                            color: #6c757d;
-                            cursor: pointer;
-                            font-size: 13px;
-                            font-weight: 500;
-                        ">취소</button>
-                    </div>
-                </div>
-            `;
-
-            document.body.insertAdjacentHTML('beforeend', modalHTML);
-
-            // 드래그 기능 추가
-            initEditorModalDrag();
-        }
-
-        // 에디터 모달 드래그 기능
-        function initEditorModalDrag() {
-            const modal = document.getElementById('editorSelectModal');
-            const header = document.getElementById('editorModalHeader');
-
-            if (!modal || !header) return;
-
-            let isDragging = false;
-            let offsetX, offsetY;
-
-            header.onmousedown = function(e) {
-                isDragging = true;
-                offsetX = e.clientX - modal.offsetLeft;
-                offsetY = e.clientY - modal.offsetTop;
-
-                document.onmousemove = function(e) {
-                    if (isDragging) {
-                        modal.style.left = (e.clientX - offsetX) + 'px';
-                        modal.style.top = (e.clientY - offsetY) + 'px';
-                        modal.style.right = 'auto';
-                    }
-                };
-
-                document.onmouseup = function() {
-                    isDragging = false;
-                    document.onmousemove = null;
-                    document.onmouseup = null;
-                };
-            };
-        }
-
-        // 에디터 선택 모달 닫기
-        function closeEditorSelectModal() {
-            const modal = document.getElementById('editorSelectModal');
-            if (modal) {
-                modal.remove();
-            }
-        }
-
-        // 선택한 에디터로 폴더 열기
-        function openWithEditor(editor, fullPath) {
-            closeEditorSelectModal();
-
-            let editorUrl, editorName, downloadUrl;
-
-            if (editor === 'antigravity') {
-                editorUrl = `antigravity://file/${fullPath}`;
-                editorName = 'Antigravity';
-                downloadUrl = 'https://developers.google.com/antigravity';
-            } else {
-                editorUrl = `vscode://file/${fullPath}`;
-                editorName = 'VS Code';
-                downloadUrl = 'https://code.visualstudio.com/download';
-            }
-
-            // 숨겨진 iframe을 사용하여 커스텀 프로토콜 실행
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-
-            try {
-                iframe.contentWindow.location.href = editorUrl;
-            } catch (e) {
-                // iframe 방식 실패 시 location.href 시도
-                window.location.href = editorUrl;
-            }
-
-            // iframe 정리
-            setTimeout(() => {
-                if (iframe.parentNode) {
-                    iframe.parentNode.removeChild(iframe);
-                }
-            }, 100);
+            // 기능 제거됨 - 아무 동작 안 함
         }
 
         // Claude Code 소식 펼치기/접기
@@ -7770,7 +7816,7 @@ ${result.answer}`;
     </div>
 
     <!-- 안내문 드래그 가능 팝업 -->
-    <div id="guidePopup" style="display: none; position: fixed; top: 80px; right: 50px; width: 680px; max-height: calc(100vh - 150px); background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); z-index: 1000; overflow: hidden; font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;">
+    <div id="guidePopup" style="display: none; position: fixed; top: 80px; right: 50px; width: 748px; max-height: calc(100vh - 150px); background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); z-index: 1000; overflow: hidden; font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;">
         <div id="guidePopupHeader" style="background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%); color: white; padding: 12px 16px; cursor: move; display: flex; justify-content: space-between; align-items: center; user-select: none;">
             <span id="guidePopupTitle" style="font-weight: 700; font-size: 14px;">📖 안내문</span>
             <button onclick="closeGuidePopup()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0 4px;">&times;</button>
@@ -9066,6 +9112,7 @@ ${result.answer}`;
         });
     </script>
 <script src="guides.js"></script>
+<script src="ordersheets.js"></script>
 </body>
 
 </html>
