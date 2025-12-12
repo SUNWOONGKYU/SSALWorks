@@ -7,6 +7,10 @@ on:
     paths:
       - '학습용_콘텐츠/**/*.md'
       - 'Project-SSAL-Grid/manual/**/*.md'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   convert:
