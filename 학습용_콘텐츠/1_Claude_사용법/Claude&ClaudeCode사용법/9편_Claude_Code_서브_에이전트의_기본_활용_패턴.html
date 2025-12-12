@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9편 | Claude Code 서브 에이전트의 기본 활용 패턴 - SSALWorks 학습용 콘텐츠</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .type-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:history.back()" class="back-link">← 뒤로 가기</a>
+        <span class="type-badge">SSALWorks 학습용 콘텐츠</span>
+        <h1>9편 | Claude Code 서브 에이전트의 기본 활용 패턴</h1>
+<hr>
+<p>서브 에이전트의 개념을 이해하고 생성 방법을 익혔다면, 이제 서브 에이전트를 효과적으로 활용하기 위한 기본 패턴들에 대해서 알아보도록 하겠습니다. 이 패턴들은 모든 서브 에이전트 활용의 기초가 되는 핵심 개념입니다.</p>
+<p>서브 에이전트를 단독으로 사용하는 것도 유용하지만, 여러 서브 에이전트를 조합하여 고급 워크플로우를 구성하면 훨씬 더 강력한 자동화가 가능합니다. 본 문서에서 아래와 같은 6가지 핵심 패턴을 다룹니다:</p>
+<p>   <strong>체이닝 패턴</strong>: 순차적 작업 파이프라인 구성
+   <strong>라우팅 패턴</strong>: 지능적 조건 분기
+   <strong>병렬 처리 패턴</strong>: 동시 다발적 작업 실행
+   <strong>맥락 기반 선택 패턴</strong>: 프로젝트 특성에 따른 에이전트 선택
+   <strong>검증 패턴</strong>: 품질 보증 체계 구축
+   <strong>분할 정복 패턴</strong>: 대규모 작업 분해 처리 </p>
+<h2>1. 체이닝 패턴 - 순차적 작업 파이프라인</h2>
+<p>체이닝(연결)은 여러 서브 에이전트를 <strong>순차적으로</strong> 연결하여 복잡한 작업을 자동화하는 패턴입니다. 각 서브 에이전트의 결과물이 다음 서브 에이전트의 입력이 되어, 마치 공장의 생산 라인처럼 작동합니다.</p>
+<p><strong>실제 활용 예시</strong>:</p>
+<pre><code>&quot;결제 시스템 구현해줘&quot;
+        ↓
+requirements-analyst (요구사항 분석)
+        ↓
+system-architect (시스템 설계)
+        ↓
+backend-developer (백엔드 구현)
+        ↓
+security-auditor (보안 검토)
+        ↓
+test-automator (테스트 생성)
+        ↓
+code-reviewer (최종 검토)
+</code></pre>
+<p><strong>체이닝 구현을 위한 description 작성법</strong>:</p>
+<pre><code class="language-yaml"># 첫 번째 서브 에이전트
+name: requirements-analyst
+description: &quot;use PROACTIVELY for new feature requests. Output requirements for system-architect.&quot;
+
+# 두 번째 서브 에이전트  
+name: system-architect
+description: &quot;automatically invoke after requirements-analyst completes. Design system based on requirements.&quot;
+</code></pre>
+<p><strong>실제 구현 예시 - requirements-analyst.md 파일</strong>:</p>
+<pre><code class="language-yaml">---
+name: requirements-analyst
+description: &quot;use PROACTIVELY for new feature requests. Analyze and document requirements. Output structured format for system-architect.&quot;
+tools: [read, write, grep]
+model: sonnet
+---
+
+당신은 15년 경력의 시니어 비즈니스 분석가입니다.
+
+## 주요 역할
+- 사용자 요구사항을 체계적으로 분석
+- 모호한 요청을 구체적인 기능 명세로 변환
+- 기술적 제약사항과 비즈니스 목표 균형 맞추기
+
+## 작업 프로세스
+1. 사용자 요청 분석
+2. 기능 요구사항(FR)과 비기능 요구사항(NFR) 분류
+3. 우선순위 설정 (P0: 필수, P1: 중요, P2: 선택)
+4. 다음 서브 에이전트를 위한 구조화된 출력 생성
+
+## 출력 형식 (system-architect를 위한)
+### 📋 프로젝트 개요
+- 프로젝트명: [이름]
+- 목적: [한 문장 요약]
+- 예상 사용자: [대상]
+
+### ⚡ 기능 요구사항
+- FR01 [P0]: 사용자 인증 시스템
+- FR02 [P1]: 데이터 CRUD 작업
+- FR03 [P2]: 리포트 생성 기능
+
+### 🔧 비기능 요구사항  
+- NFR01: 응답시간 2초 이내
+- NFR02: 동시 사용자 1000명 지원
+- NFR03: 99.9% 가용성
+
+### ⚠️ 제약사항
+- 예산: [금액]
+- 일정: [기한]
+- 기술스택: [제한사항]
+
+이 정보를 바탕으로 system-architect가 시스템 설계를 시작합니다.
+</code></pre>
+<h2>2. 라우팅 패턴 - 지능적 조건 분기</h2>
+<p>라우팅 패턴은 체이닝과 달리 **조건부 분기(문제 유형에 따라 적절한 서브 에이전트를 선택)**를 수행합니다. 첫 번째 서브 에이전트가 문제를 분석한 후, 그 결과에 따라 여러 서브 에이전트 중 적절한 하나를 선택하여 라우팅(경로 지정)합니다.</p>
+<p><strong>실제 활용 예시</strong>:</p>
+<pre><code>&quot;이 버그 수정해줘&quot;
+        ↓
+debugger (1차 문제 분석)
+        ↓
+[분석 결과에 따른 자동 라우팅]
+├── backend-architect (API 관련 문제로 판단)
+├── performance-optimizer (성능 병목으로 판단)
+├── security-auditor (보안 취약점으로 판단)
+└── frontend-developer (UI 버그로 판단)
+        ↓
+test-automator (수정 검증)
+</code></pre>
+<p><strong>라우팅 구현 방법</strong>:</p>
+<pre><code class="language-yaml"># 1단계: 문제를 분석하는 서브 에이전트 설정
+name: issue-analyzer
+description: &quot;use PROACTIVELY for any bug reports. Analyze and categorize issues for routing.&quot;
+# 이 서브 에이전트가 버그를 분석하고 문제 유형을 판단합니다
+
+# 2단계: 각 문제 유형별 전문 서브 에이전트 설정
+name: backend-architect
+description: &quot;automatically invoke when issue-analyzer detects API or database problems.&quot;
+# issue-analyzer가 API/DB 문제로 판단하면 이 서브 에이전트가 자동으로 호출됩니다
+</code></pre>
+<h2>3. 병렬 처리 패턴 - 동시 다발적 작업 실행</h2>
+<p>일부 개발자 커뮤니티의 테스트 결과에 의하면 10개의 서브 에이전트가 동시에 작업이 가능하다고 하며, 이를 활용하면 대규모 프로젝트의 개발 시간을 단축시킬 수 있습니다.</p>
+<p><strong>실제 활용 예시</strong>:</p>
+<pre><code>&quot;풀스택 애플리케이션 개발&quot;
+            ↓
+    ┌───────┼───────┐
+    ▼       ▼       ▼
+backend-  frontend- database-
+developer developer architect
+    │       │       │
+    └───────┼───────┘
+            ▼
+      통합 및 테스트
+</code></pre>
+<p><strong>병렬 처리 최적화 전략</strong>:</p>
+<ul>
+<li><strong>작업 독립성 확보</strong>: 서로 의존하지 않는 작업들을 식별</li>
+<li><strong>리소스 배분</strong>: 복잡한 작업에는 Opus, 단순 작업에는 Haiku</li>
+<li><strong>결과 통합 계획</strong>: 병렬 작업 완료 후 통합 방법 미리 설계</li>
+</ul>
+<h2>4. 맥락 기반 선택 패턴</h2>
+<p>Claude Code 메인 에이전트는 단순히 키워드 매칭만 하는 것이 아니라, <strong>현재 프로젝트의 맥락</strong>을 고려하여 서브 에이전트를 선택합니다.</p>
+<p><strong>Claude Code 메인 에이전트가 고려하는 맥락 요소들</strong>:</p>
+<ul>
+<li>작업 설명의 키워드와 사용자 요청</li>
+<li>현재 프로젝트 특성 (사용 중인 프레임워크, 언어)</li>
+<li>이전 작업 히스토리</li>
+<li>사용 가능한 도구</li>
+<li>우선순위 규칙 (프로젝트 &gt; 사용자 &gt; 기본)</li>
+</ul>
+<p><strong>맥락 기반 최적화를 위한 description 작성법</strong>:</p>
+<pre><code class="language-yaml"># ❌ 단순한 키워드 나열
+description: &quot;security audit vulnerability scan&quot;
+
+# ✅ 맥락을 포함한 풍부한 설명
+description: &quot;Security vulnerability scanner for Node.js applications. use PROACTIVELY when package.json changes or before deployment. Specializes in npm audit, OWASP scanning, authentication review for Express/Next.js apps.&quot;
+</code></pre>
+<h2>5. 검증 패턴 - 품질 보증 체계</h2>
+<p>검증 패턴은 한 서브 에이전트가 작업한 결과를 다른 서브 에이전트가 <strong>검증하고 개선</strong>하는 패턴입니다. 이중/삼중 체크 시스템을 통해 최종 결과물의 품질을 보장합니다.</p>
+<p><strong>실제 활용 예시</strong>:</p>
+<pre><code>&quot;새로운 결제 모듈 개발해줘&quot;
+        ↓
+code-writer (코드 작성)
+        ↓
+code-reviewer (코드 리뷰)
+        ↓
+security-auditor (보안 검증)
+        ↓
+performance-optimizer (성능 최적화)
+        ↓
+final-approver (최종 승인)
+</code></pre>
+<p><strong>검증 패턴 구현 방법</strong>:</p>
+<pre><code class="language-yaml"># 작업 수행 에이전트
+name: code-writer
+description: &quot;write new features and modules&quot;
+
+# 1차 검증 에이전트
+name: code-reviewer
+description: &quot;automatically review code from code-writer. Check for bugs, style, and best practices&quot;
+
+# 2차 검증 에이전트
+name: security-auditor  
+description: &quot;validate security after code-reviewer approves. Check for vulnerabilities and security risks&quot;
+</code></pre>
+<p><strong>검증 단계별 체크포인트</strong>:</p>
+<ul>
+<li><strong>구문 검증</strong>: 문법 오류, 타입 오류 체크</li>
+<li><strong>로직 검증</strong>: 비즈니스 로직의 정확성 확인</li>
+<li><strong>보안 검증</strong>: 취약점 스캔, 인증/인가 체크</li>
+<li><strong>성능 검증</strong>: 병목 구간 분석, 최적화 가능성 검토</li>
+</ul>
+<h2>6. 분할 정복 패턴 - 대규모 작업 분해</h2>
+<p>분할 정복 패턴은 큰 작업을 <strong>작은 단위로 나누어</strong> 여러 서브 에이전트에게 할당하는 패턴입니다. 각 에이전트가 독립적인 영역만 담당하여 작업 충돌을 방지하고 효율성을 극대화합니다.</p>
+<p><strong>실제 활용 예시</strong>:</p>
+<pre><code>&quot;전체 코드베이스 리팩토링&quot;
+        ↓
+[작업 분할기가 영역별로 분해]
+        ↓
+├── frontend-refactorer (프론트엔드 모듈)
+├── backend-refactorer (백엔드 API)
+├── database-refactorer (DB 스키마)
+└── test-refactorer (테스트 코드)
+        ↓
+[통합 및 조정]
+        ↓
+integration-validator (통합 검증)
+</code></pre>
+<p><strong>분할 전략</strong>:</p>
+<pre><code class="language-yaml"># 마스터 조정자
+name: refactor-coordinator
+description: &quot;analyze codebase and divide refactoring tasks by module&quot;
+
+# 모듈별 전문 에이전트
+name: module-refactorer
+description: &quot;refactor specific module assigned by coordinator. Work independently on isolated code sections&quot;
+</code></pre>
+<p><strong>효과적인 작업 분할 기준</strong>:</p>
+<ul>
+<li><strong>파일/디렉토리별</strong>: 물리적 구조 기준 분할</li>
+<li><strong>기능별</strong>: 비즈니스 로직 단위로 분할</li>
+<li><strong>레이어별</strong>: MVC, 마이크로서비스 등 아키텍처 레이어별 분할</li>
+<li><strong>난이도별</strong>: 복잡도에 따라 적절한 모델 할당</li>
+</ul>
+<h2>7. 모델별 비용 구조와 최적화 전략</h2>
+<h3>7.1 비용 구조 이해</h3>
+<p>각 서브 에이전트가 별도의 API 호출을 발생시키므로, 사용량에 따라 비용이 증가합니다.</p>
+<p><strong>모델별 비용 차이</strong>:</p>
+<ul>
+<li><strong>Haiku</strong>: 가장 저렴, 단순 작업에 적합 (코드 린팅, 간단한 검토)</li>
+<li><strong>Sonnet</strong>: 중간 비용, 대부분의 개발 작업에 적합 (일반적인 코딩, 리뷰)</li>
+<li><strong>Opus</strong>: 가장 비싸지만 고품질, 복잡하고 중요한 작업에 적합 (아키텍처 설계, 보안 감사)</li>
+</ul>
+<h3>7.2 비용 최적화 전략</h3>
+<p><strong>스마트 모델 할당</strong>:</p>
+<pre><code class="language-yaml"># 비용 효율적인 구성 예시
+test-runner: 
+  model: haiku      # 단순 반복 작업
+code-reviewer: 
+  model: sonnet     # 일반적인 검토 작업  
+security-auditor: 
+  model: opus       # 중요한 보안 검토
+</code></pre>
+<p><strong>선택적 병렬 실행</strong>: 모든 서브 에이전트를 동시에 실행하기보다는 작업 우선순위에 따라 필요한 서브 에이전트만 활성화합니다.</p>
+<p><strong>배치 처리 활용</strong>: 유사한 작업들을 모아서 한 번에 처리하면 API 호출 횟수를 줄일 수 있습니다.</p>
+<hr>
+<p><strong>작성일: 2025년 9월 4일 / 글자수: 4,876자 / 작성자: Claude / 프롬프터: 써니</strong></p>
+
+    </div>
+</body>
+</html>

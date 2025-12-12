@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude & Claude Code 입문  - SSALWorks 학습용 콘텐츠</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .type-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:history.back()" class="back-link">← 뒤로 가기</a>
+        <span class="type-badge">SSALWorks 학습용 콘텐츠</span>
+        <h1>Claude &amp; Claude Code 입문</h1>
+<h3>1편 | Claude란 무엇인가?</h3>
+<ol>
+<li>Anthropic 회사 소개와 창립 철학</li>
+<li>Claude 탄생 배경 - AI 안전성과 정렬(Alignment) 추구</li>
+<li>Claude 모델 3가지 - Haiku, Sonnet, Opus 특징과 차이점</li>
+<li>Claude 접근 방식 5가지</li>
+<li>Claude 요금제 체계 (2025년 8월 기준)</li>
+<li>Claude 활용 시 주의사항과 한계</li>
+</ol>
+<h3>2편 | 프롬프트 엔지니어링 (기초)</h3>
+<ol>
+<li>프롬프트 엔지니어링이란?</li>
+<li>좋은 프롬프트의 5가지 핵심 요소</li>
+<li>프롬프트 작성 기본 기법 6가지</li>
+<li>자주 하는 실수와 해결법 (10가지)</li>
+<li>업무별 프롬프트 예시</li>
+<li>프롬프트 최적화 체크리스트</li>
+</ol>
+<h3>3편 | 프롬프트 엔지니어링 (심화)</h3>
+<ol>
+<li>역할 전환과 다중 관점 프롬프팅</li>
+<li>Chain of Thought (CoT)와 자기 일관성 (SC)</li>
+<li>Tree of Thoughts (ToT) - 사고 트리</li>
+<li>ReAct (Reasoning and Acting)</li>
+<li>프롬프트 체이닝 (Prompt Chaining)</li>
+<li>메타 프롬프팅과 동적 개선</li>
+<li>제약 기반 고급 프롬프팅</li>
+<li>Program-aided Language (PAL)</li>
+<li>투표 기반 자기 일관성 (Self-Consistency with Voting)</li>
+<li>멀티모달 프롬프팅</li>
+</ol>
+<h3>4편 | Claude Code 첫 만남</h3>
+<ol>
+<li>Claude Code가 무엇이고 왜 필요한가?</li>
+<li>Windows에서 Claude Code 설치하기 (5분 완성)</li>
+<li>설치 후 트러블슈팅</li>
+<li>인증 완료 후 첫 사용</li>
+<li>인터페이스 둘러보기 - 각 영역의 역할</li>
+<li>첫 번째 명령어 실행해보기</li>
+<li>프로젝트 초기 설정</li>
+<li>설치 관련 도움말</li>
+</ol>
+<h3>5편 | Claude Code 직접 실행 기능</h3>
+<ol>
+<li>파일 읽기와 분석</li>
+<li>파일 생성과 수정</li>
+<li>디렉토리 탐색과 구조 파악</li>
+<li>내용 검색과 패턴 매칭</li>
+<li>Git 버전 관리 실행</li>
+<li>코드 실행과 테스트</li>
+<li>멀티파일 일괄 처리</li>
+<li>프로젝트 설정과 메모리</li>
+<li>웹 콘텐츠 가져오기와 분석</li>
+<li>실시간 코드 실행과 결과 확인</li>
+</ol>
+<h3>6편 | Claude Code 자동화 워크플로우 구축</h3>
+<ol>
+<li>반복 작업 자동화 코드 생성</li>
+<li>조건부 로직과 분기 처리 자동화</li>
+<li>스케줄링과 정기 실행 자동화</li>
+<li>웹 스크래핑과 데이터 수집 자동화</li>
+<li>데이터 분석과 시각화 자동화</li>
+<li>외부 API 연동과 서비스 통합 자동화</li>
+<li>복합 워크플로우 자동화</li>
+<li>Hook과 이벤트 기반 자동화</li>
+<li>모니터링과 알림 자동화</li>
+<li>로그 관리와 작업 기록 자동화</li>
+</ol>
+<h3>7편 | Claude Code 서브 에이전트 이해</h3>
+<ol>
+<li>서브 에이전트란 무엇인가?</li>
+<li>왜 서브 에이전트가 필요한가?</li>
+<li>서브 에이전트의 구조와 작동 원리</li>
+<li>주요 서브 에이전트 종류</li>
+<li>커뮤니티 서브 에이전트 활용</li>
+<li>서브 에이전트 디렉토리 관리</li>
+</ol>
+<h3>8편 | Claude Code 서브 에이전트 생성과 관리</h3>
+<ol>
+<li>서브 에이전트 생성 및 설정 방법</li>
+<li>서브 에이전트 설정 파일 구조 분석</li>
+<li>설정 파일 저장 위치와 우선순위 관리</li>
+<li>프로액티브 키워드 활용법</li>
+</ol>
+<h3>9편 | Claude Code 서브 에이전트의 기본 활용 패턴</h3>
+<ol>
+<li>체이닝 패턴 - 순차적 작업 파이프라인</li>
+<li>라우팅 패턴 - 지능적 조건 분기</li>
+<li>병렬 처리 패턴 - 동시 다발적 작업 실행</li>
+<li>맥락 기반 선택 패턴</li>
+<li>검증 패턴 - 품질 보증 체계</li>
+<li>분할 정복 패턴 - 대규모 작업 분해</li>
+<li>모델별 비용 구조와 최적화 전략</li>
+</ol>
+<h3>10편 | Claude Code 서브 에이전트의 개발분야 활용법</h3>
+<ol>
+<li>백엔드 개발용 서브 에이전트</li>
+<li>프론트엔드 개발용 서브 에이전트</li>
+<li>테스트 자동화용 서브 에이전트</li>
+<li>DevOps/인프라 자동화용 서브 에이전트</li>
+<li>AI/ML 개발용 서브 에이전트</li>
+<li>보안 및 코드 품질 관리용 서브 에이전트</li>
+<li>데이터베이스 관리용 서브 에이전트</li>
+<li>모바일 개발용 서브 에이전트</li>
+<li>API 설계 및 통합용 서브 에이전트</li>
+</ol>
+<h3>11편 | Claude Code 서브 에이전트의 비개발분야 활용법</h3>
+<ol>
+<li>문서 작성용 서브 에이전트</li>
+<li>책 쓰기 전용 서브 에이전트</li>
+<li>마케팅/콘텐츠 제작용 서브 에이전트</li>
+<li>재무/투자 분석용 서브 에이전트</li>
+<li>데이터 분석용 서브 에이전트</li>
+</ol>
+<h3>12편 | MCP 기초 - 외부 서비스와 연결하기</h3>
+<ol>
+<li>MCP란 무엇인가?</li>
+<li>Claude 내부 MCP 서버</li>
+<li>Claude 외부 MCP 서버</li>
+<li>MCP 보안 고려사항</li>
+</ol>
+<h3>13편 | MCP 실전 활용법 및 다른 AI 확장 시스템과의 비교</h3>
+<ol>
+<li>MCP 실전 활용법 - 커뮤니티에서 인기 있는 10가지 조합 예시</li>
+<li>다른 AI 확장 시스템과의 비교</li>
+</ol>
+<h3>14편 | API를 통한 AI 연동과 협업</h3>
+<ol>
+<li>AI 협업이 필요한 이유</li>
+<li>생성형 AI 연동</li>
+<li>제작형 AI 연동</li>
+<li>AI 체인 - 여러 AI를 순차적으로 연결</li>
+<li>LLM 라우팅 - 작업별 최적 AI 선택</li>
+<li>AI 오케스트레이션 - 병렬 처리와 결과 통합</li>
+<li>API 키 관리와 보안</li>
+</ol>
+<h3>15편 | VS Code 이해</h3>
+<ol>
+<li>VS Code란 무엇인가</li>
+<li>VS Code 설치와 기본 설정</li>
+<li>화면 구성 완벽 이해 - 워크스페이스</li>
+<li>폴더와 파일 다루기</li>
+<li>주요 단축키 소개</li>
+<li>통합 터미널 사용법</li>
+<li>확장 프로그램이란?</li>
+<li>VS Code 실전 활용 사례</li>
+</ol>
+<h3>16편 | Claude Code와 VS Code 결합 (기초)</h3>
+<ol>
+<li>두 도구의 시너지 이해하기</li>
+<li>Claude Code 작업 폴더를 VS Code에서 열기</li>
+<li>VS Code 통합 터미널에서 Claude Code 사용하기</li>
+<li>두 도구를 함께 사용하는 작업 패턴</li>
+<li>파일 동기화와 관리</li>
+<li>실전 예제: Todo 앱 만들기</li>
+</ol>
+<h3>17편 | Claude Code와 VS Code 결합 (심화)</h3>
+<ol>
+<li>멀티커서와 패턴 분석 결합</li>
+<li>에러 로그 분석과 해결</li>
+<li>커스텀 스니펫과 AI 템플릿 연동</li>
+<li>실시간 코드 리팩토링</li>
+<li>AI 기반 Git 워크플로우</li>
+</ol>
+<h3>18편 | Claude 토큰 사용료 구조 및 최적화 방안</h3>
+<ol>
+<li>토큰이란 무엇인가? - AI 사용료 계산의 기본 단위</li>
+<li>Claude 토큰 계산법 - 입력과 출력 토큰의 차이</li>
+<li>토큰 사용량 확인 방법</li>
+<li>Claude 토큰 사용량에 대한 과금 체계</li>
+<li>프롬프트 최적화로 토큰 절약하기</li>
+<li>컨텍스트 관리로 비용 줄이기</li>
+<li>캐싱과 템플릿 활용하기</li>
+<li>배치 처리와 병렬 처리 최적화</li>
+<li>토큰 예산 관리 시스템 운영</li>
+<li>ROI 분석 및 최적화 방안 모색</li>
+</ol>
+<h3>19편 | Claude와 Claude Code 작업 환경 최적화 방법</h3>
+<ol>
+<li>물리적 작업환경 설정</li>
+<li>프롬프트 및 워크플로우 라이브러리 구축</li>
+<li>작업 폴더 구조 설계</li>
+</ol>
+<hr>
+
+    </div>
+</body>
+</html>

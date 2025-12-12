@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Part 3: 웹개발 기초지식 교육 콘텐츠 구성 - SSALWorks 학습용 콘텐츠</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 15px;
+        }
+        ul, ol {
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+        blockquote {
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            margin: 20px 0;
+            color: #666;
+            font-style: italic;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .type-badge {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="javascript:history.back()" class="back-link">← 뒤로 가기</a>
+        <span class="type-badge">SSALWorks 학습용 콘텐츠</span>
+        <h1>Part 3: 웹개발 기초지식 교육 콘텐츠 구성</h1>
+<p><strong>작성일</strong>: 2025년 9월 24일 (최종 완성)
+<strong>프로젝트</strong>: AI 실전활용 마스터
+<strong>파트</strong>: Part 3 - 웹개발 기초지식 (21편)
+<strong>목표</strong>: 실전 개발을 위한 필수 기초 개념 완전 이해</p>
+<hr>
+<h2>📚 전체 구성 개요</h2>
+<p><strong>총 21편 × 약 5,700자 = 약 120,000자</strong>
+<strong>학습 목표</strong>: 클로드 코드로 실제 개발하기 전 반드시 알아야 할 웹개발 기초 지식 완전 습득
+<strong>학습 순서</strong>: 개념 이해 → 개발 환경 → 핵심 기술 → 프레임워크 → 백엔드 → 데이터베이스 → 배포와 운영 → 종합 실습</p>
+<hr>
+<h2>📖 세부 커리큘럼 (21편 전체)</h2>
+<h3><strong>🔰 1단계: 웹개발 이해 (2편)</strong></h3>
+<h4><strong>✅ 1편: 웹개발 핵심 개념 &amp; 용어 이해하기</strong></h4>
+<ol>
+<li>웹사이트, 웹앱, 플랫폼의 차이</li>
+<li>프론트엔드와 백엔드</li>
+<li>웹개발 필수 용어들</li>
+<li>클라이언트와 서버</li>
+<li>API와 데이터베이스</li>
+<li>반응형 디자인과 모바일 퍼스트</li>
+</ol>
+<h4><strong>✅ 2편: 웹사이트가 작동하는 원리와 구조</strong></h4>
+<ol>
+<li>브라우저가 웹페이지를 보여주는 과정</li>
+<li>HTML, CSS, JavaScript의 역할</li>
+<li>웹서버와 호스팅</li>
+<li>도메인과 DNS</li>
+<li>정적 웹사이트 vs 동적 웹사이트</li>
+<li>웹사이트 파일 구조</li>
+</ol>
+<h3><strong>🛠 2단계: 개발 환경 구축 (2편)</strong></h3>
+<h4><strong>✅ 3편: 명령줄(CLI)와 개발환경 설정</strong></h4>
+<p><strong>Part A: 명령줄(CLI) 기초</strong></p>
+<ol>
+<li>CLI의 개념과 활용</li>
+<li>윈도우 명령줄(CLI) 종류와 차이점</li>
+<li>명령줄(CLI) 사용 팁</li>
+</ol>
+<p><strong>Part B: 개발 환경 설정</strong></p>
+<ol>
+<li>Node.js &amp; npm</li>
+<li>Git 초기 설정</li>
+<li>로컬 서버 구축</li>
+</ol>
+<h4><strong>✅ 4편: 코드 에디터와 IDE 이해하기</strong></h4>
+<ol>
+<li>개발 도구의 진화와 선택</li>
+<li>VS Code 완벽 가이드</li>
+<li>Cursor - AI 특화 코드 에디터</li>
+<li>기타 에디터 및 IDE 소개</li>
+</ol>
+<h3><strong>🎨 3단계: 웹 기술 핵심 (3편)</strong></h3>
+<h4><strong>✅ 5편: HTML - 웹사이트 언어</strong></h4>
+<ol>
+<li>HTML이란 무엇인가</li>
+<li>HTML 문서 기본 구조</li>
+<li>HTML 태그 시스템</li>
+<li>꼭 알아야 할 HTML 태그들</li>
+<li>HTML 구조 태그</li>
+<li>HTML 속성</li>
+<li>올바른 HTML 작성법</li>
+</ol>
+<h4><strong>✅ 6편: CSS - 웹사이트 스타일링</strong></h4>
+<ol>
+<li>CSS란 무엇인가</li>
+<li>CSS 기본 구조</li>
+<li>CSS를 HTML에 연결하는 방법</li>
+<li>주요 CSS 속성들</li>
+<li>CSS 선택자 심화</li>
+<li>박스 모델 이해하기</li>
+<li>CSS로 반응형 웹사이트 만들기</li>
+</ol>
+<h4><strong>✅ 7편: JavaScript - 웹사이트에 생명을 불어넣기</strong></h4>
+<ol>
+<li>JavaScript란 무엇인가</li>
+<li>JavaScript 기본 개념</li>
+<li>DOM 조작하기</li>
+<li>이벤트 처리하기</li>
+<li>비동기 프로그래밍</li>
+<li>최신 JavaScript 기능들</li>
+<li>JavaScript 실전 활용</li>
+</ol>
+<h3><strong>🔧 4단계: 프레임워크와 도구 (4편)</strong></h3>
+<h4><strong>✅ 8편: Git과 GitHub 완전 정복</strong></h4>
+<ol>
+<li>Git의 핵심 개념과 작동 원리</li>
+<li>기본 Git 명령어 마스터</li>
+<li>브랜치와 병합 전략</li>
+<li>GitHub 활용법</li>
+<li>협업 워크플로우와 Pull Request</li>
+</ol>
+<h4><strong>✅ 9편: 라이브러리와 프레임워크</strong></h4>
+<ol>
+<li>라이브러리와 프레임워크의 기본 이해</li>
+<li>주요 프레임워크 비교 (React, Vue, Angular)</li>
+<li>컴포넌트 기반 아키텍처</li>
+<li>상태 관리의 중요성</li>
+<li>프레임워크 선택 기준</li>
+</ol>
+<h4><strong>✅ 10편: 패키지 관리와 빌드 도구</strong></h4>
+<ol>
+<li>npm과 yarn 심화</li>
+<li>package.json 완전 이해</li>
+<li>모듈 시스템과 번들링</li>
+<li>Webpack과 Vite 소개</li>
+<li>개발 환경과 프로덕션 환경</li>
+<li>코드 품질 도구 - 린팅과 포매팅</li>
+</ol>
+<h4><strong>✅ 11편: 백엔드 기초와 Node.js</strong></h4>
+<ol>
+<li>백엔드의 역할과 필요성</li>
+<li>Node.js의 이해</li>
+<li>Express 프레임워크</li>
+<li>웹 페이지 생성 방식의 종류</li>
+</ol>
+<h3><strong>💾 5단계: 데이터와 통신 (3편)</strong></h3>
+<h4><strong>✅ 12편: 데이터베이스 기초</strong></h4>
+<ol>
+<li>데이터베이스의 필요성</li>
+<li>SQL vs NoSQL 차이점</li>
+<li>데이터베이스 기본 구조</li>
+<li>Firebase, Supabase 활용</li>
+<li>데이터 모델링 기초</li>
+</ol>
+<h4><strong>✅ 13편: 데이터베이스 실무</strong></h4>
+<ol>
+<li>고급 SQL 기법</li>
+<li>트랜잭션과 동시성 제어</li>
+<li>데이터베이스 성능 최적화</li>
+<li>NoSQL 심화와 CAP 이론</li>
+<li>데이터베이스 마이그레이션</li>
+</ol>
+<h4><strong>✅ 14편: API와 서버 통신</strong></h4>
+<ol>
+<li>API의 기본 개념</li>
+<li>HTTP 통신의 이해</li>
+<li>JavaScript로 API 사용하기</li>
+<li>실제 API 활용</li>
+<li>API 설계 원칙 (RESTful API)</li>
+<li>에러 처리와 디버깅</li>
+<li>보안 고려사항</li>
+</ol>
+<h3><strong>🚀 6단계: 배포와 운영 (6편)</strong></h3>
+<h4><strong>✅ 15편: 도메인과 호스팅</strong></h4>
+<ol>
+<li>도메인 시스템의 작동 원리</li>
+<li>호스팅 서비스 종류와 선택</li>
+<li>DNS와 네임서버 설정</li>
+<li>도메인 구매부터 연결까지</li>
+<li>GitHub Pages, Netlify, Vercel 활용</li>
+</ol>
+<h4><strong>✅ 16편: 현대적 개발 워크플로우와 DevOps 기초</strong></h4>
+<ol>
+<li>테스트 자동화와 TDD</li>
+<li>지속적 통합과 배포 (CI/CD)</li>
+<li>컨테이너와 Docker 기초</li>
+<li>쿠버네티스 개념 이해</li>
+<li>모니터링과 로깅</li>
+<li>인프라 자동화</li>
+</ol>
+<h4><strong>✅ 17편: 웹 보안과 성능 최적화</strong></h4>
+<ol>
+<li>웹 보안의 기본 원칙</li>
+<li>HTTPS와 SSL 인증서</li>
+<li>일반적인 보안 위협과 대응</li>
+<li>웹사이트 성능 최적화 기법</li>
+<li>Core Web Vitals와 성능 측정</li>
+</ol>
+<h4><strong>✅ 18편: SEO와 웹 접근성</strong></h4>
+<ol>
+<li>SEO의 이해</li>
+<li>웹 접근성의 이해</li>
+<li>SEO 실전 적용</li>
+<li>접근성 실전 적용</li>
+<li>모바일 SEO와 접근성</li>
+<li>로컬 SEO</li>
+</ol>
+<h3><strong>🎯 7단계: 종합 실습 (3편)</strong></h3>
+<h4><strong>✅ 19편: 전체 개발 프로세스 통합 가이드</strong></h4>
+<ol>
+<li>전체 개발 프로세스 개요</li>
+<li>프로젝트 시작하기</li>
+<li>개발 워크플로우</li>
+<li>테스트 전략</li>
+<li>CI/CD 구축</li>
+<li>배포와 운영</li>
+<li>보안과 유지보수</li>
+<li>프로젝트 규모별 적용 가이드</li>
+<li>실전 팁과 베스트 프랙티스</li>
+</ol>
+<h4><strong>✅ 20편: 종합 실습 프로젝트 Part 1 (HTML/CSS)</strong></h4>
+<ul>
+<li>프로젝트 기획과 설계</li>
+<li>HTML 구조 작성</li>
+<li>CSS 스타일링</li>
+<li>반응형 디자인 구현</li>
+<li>애니메이션 추가</li>
+</ul>
+<h4><strong>✅ 21편: 종합 실습 프로젝트 Part 2 (JavaScript/배포)</strong></h4>
+<ul>
+<li>JavaScript 기능 추가</li>
+<li>폼 처리와 유효성 검사</li>
+<li>Git으로 버전 관리</li>
+<li>GitHub Pages/Netlify 배포</li>
+<li>성능 최적화와 SEO 적용</li>
+</ul>
+<hr>
+<h2>📊 작성 현황</h2>
+<table>
+<thead>
+<tr>
+<th>편</th>
+<th>제목</th>
+<th>글자수</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1편</td>
+<td>웹개발 핵심 개념 &amp; 용어 이해하기</td>
+<td>5,186자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>2편</td>
+<td>웹사이트가 작동하는 원리와 구조</td>
+<td>5,654자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>3편</td>
+<td>명령줄(CLI)와 개발 환경 설정</td>
+<td>6,011자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>4편</td>
+<td>코드 에디터와 IDE 이해하기</td>
+<td>6,812자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>5편</td>
+<td>HTML - 웹사이트 언어</td>
+<td>4,883자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>6편</td>
+<td>CSS - 웹사이트 스타일링</td>
+<td>4,639자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>7편</td>
+<td>JavaScript - 웹사이트에 생명을 불어넣기</td>
+<td>5,423자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>8편</td>
+<td>Git과 GitHub 완전 정복</td>
+<td>6,532자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>9편</td>
+<td>라이브러리와 프레임워크</td>
+<td>7,766자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>10편</td>
+<td>패키지 관리와 빌드 도구</td>
+<td>6,417자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>11편</td>
+<td>백엔드 기초와 Node.js</td>
+<td>6,135자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>12편</td>
+<td>데이터베이스 기초</td>
+<td>6,089자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>13편</td>
+<td>데이터베이스 실무</td>
+<td>5,987자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>14편</td>
+<td>API와 서버 통신</td>
+<td>5,073자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>15편</td>
+<td>도메인과 호스팅</td>
+<td>5,423자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>16편</td>
+<td>현대적 개발 워크플로우와 DevOps 기초</td>
+<td>5,623자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>17편</td>
+<td>웹 보안과 성능 최적화</td>
+<td>6,192자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>18편</td>
+<td>SEO와 웹 접근성</td>
+<td>5,245자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>19편</td>
+<td>전체 개발 프로세스 통합 가이드</td>
+<td>5,892자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>20편</td>
+<td>종합 실습 프로젝트 Part 1</td>
+<td>5,823자</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td>21편</td>
+<td>종합 실습 프로젝트 Part 2</td>
+<td>5,876자</td>
+<td>✅ 완료</td>
+</tr>
+</tbody></table>
+<p><strong>전체 진행률</strong>: 21/21편 완료 (100%)
+<strong>총 글자수</strong>: 약 120,000자</p>
+<hr>
+<h2>🎯 학습 전략</h2>
+<h3><strong>학습 방식</strong></h3>
+<ul>
+<li><strong>쉬운 비유</strong>를 통한 개념 설명</li>
+<li><strong>초보자 눈높이</strong>에 맞춘 설명</li>
+<li><strong>풀어쓰기 형식</strong>으로 이해하기 쉽게 작성</li>
+<li><strong>실습 중심</strong>의 hands-on 학습</li>
+</ul>
+<h3><strong>콘텐츠 특징</strong></h3>
+<ul>
+<li><strong>평균 5,700자</strong> 분량으로 일관성 있는 구성</li>
+<li><strong>최신 기술 트렌드</strong> 반영 (2025년 기준)</li>
+<li><strong>실무 중심</strong>의 실용적 내용</li>
+<li><strong>체계적인 단계별</strong> 학습 구조</li>
+</ul>
+<hr>
+<h2>📅 제작 일정</h2>
+<p><strong>시작일</strong>: 2025년 8월 23일
+<strong>완료일</strong>: 2025년 9월 24일
+<strong>총 제작 기간</strong>: 약 1개월</p>
+<hr>
+<h2>✨ 주요 특징</h2>
+<ul>
+<li><strong>완벽한 용어 일관성</strong>: 모든 편에서 통일된 기술 용어 사용</li>
+<li><strong>체계적인 커리큘럼</strong>: 기초부터 실습까지 논리적 흐름</li>
+<li><strong>최신 정보 반영</strong>: 2025년 기준 최신 웹개발 트렌드 포함</li>
+<li><strong>실습 프로젝트</strong>: 이론과 실전을 연결하는 종합 프로젝트 포함</li>
+<li><strong>초보자 친화적</strong>: 복잡한 개념을 쉬운 비유로 설명</li>
+</ul>
+<hr>
+<p><strong>작성자: Claude / 프롬프터: 써니</strong></p>
+
+    </div>
+</body>
+</html>
