@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P3BA30: Whois 도메인을 Vercel에 연동하는 방법 - 완전 가이드 - SSALWorks 학습용 콘텐츠</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #10B981;
+            --secondary: #F59E0B;
+            --tertiary: #2C4A8A;
+            --tertiary-dark: #1F3563;
+            --bg-light: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header-title { font-size: 20px; font-weight: 700; }
+        .close-btn {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .close-btn:hover { background: rgba(255,255,255,0.3); border-color: white; }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Markdown Styles */
+        .markdown-body h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--tertiary);
+            margin: 40px 0 20px;
+            padding-bottom: 16px;
+            border-bottom: 3px solid var(--secondary);
+        }
+        .markdown-body h1:first-child { margin-top: 0; }
+        .markdown-body h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 48px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .markdown-body h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 32px 0 16px;
+        }
+        .markdown-body h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 24px 0 12px;
+        }
+        .markdown-body p { margin-bottom: 16px; color: var(--text-dark); }
+        .markdown-body blockquote {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .markdown-body blockquote p { margin: 0; font-style: italic; }
+        .markdown-body pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .markdown-body code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        .markdown-body pre code { background: none; padding: 0; color: inherit; }
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .markdown-body th, .markdown-body td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .markdown-body th { background: #f1f3f5; color: var(--text-dark); font-weight: 600; }
+        .markdown-body tr:nth-child(even) { background: #f8f9fa; }
+        .markdown-body tr:hover { background: #e9ecef; }
+        .markdown-body ul, .markdown-body ol { margin: 16px 0; padding-left: 24px; }
+        .markdown-body li { margin-bottom: 8px; }
+        .markdown-body hr { border: none; border-top: 2px solid var(--border-color); margin: 40px 0; }
+        .markdown-body a { color: var(--tertiary); text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 16px 0; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
+
+        /* Print */
+        @media print {
+            .header { display: none; }
+            .main-content { padding: 0; max-width: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">P3BA30: Whois 도메인을 Vercel에 연동하는 방법 - 완전 가이드</div>
+        <a href="javascript:history.back()" class="close-btn">← 뒤로 가기</a>
+    </header>
+    <main class="main-content">
+        <article class="markdown-body">
+            <h1>P3BA30: Whois 도메인을 Vercel에 연동하는 방법 - 완전 가이드</h1>
+<p><strong>작성일</strong>: 2025-11-18
+<strong>작업자</strong>: Claude Code
+<strong>관련 테스크</strong>: P3BA30 - Resend 이메일 시스템 연동
+<strong>도메인</strong>: politicianfinder.ai.kr (한국 .ai.kr 도메인)
+<strong>호스팅</strong>: Vercel (politician-finder 프로젝트)</p>
+<hr>
+<h2>📋 목차</h2>
+<ol>
+<li><a href="#%EC%9E%91%EC%97%85-%EA%B0%9C%EC%9A%94">작업 개요</a></li>
+<li><a href="#%EB%AC%B8%EC%A0%9C-%EC%83%81%ED%99%A9-%EB%B0%8F-%EC%9B%90%EC%9D%B8">문제 상황 및 원인</a></li>
+<li><a href="#%ED%95%B4%EA%B2%B0-%EA%B3%BC%EC%A0%95">해결 과정</a></li>
+<li><a href="#%EC%B5%9C%EC%A2%85-%ED%95%B4%EA%B2%B0-%EB%B0%A9%EB%B2%95">최종 해결 방법</a></li>
+<li><a href="#whois-dns-%EC%84%A4%EC%A0%95-%EA%B0%80%EC%9D%B4%EB%93%9C">Whois DNS 설정 가이드</a></li>
+<li><a href="#%ED%8A%B8%EB%9F%AC%EB%B8%94%EC%8A%88%ED%8C%85">트러블슈팅</a></li>
+<li><a href="#%EA%B5%90%ED%9B%88-%EB%B0%8F-%EA%B6%8C%EC%9E%A5%EC%82%AC%ED%95%AD">교훈 및 권장사항</a></li>
+</ol>
+<hr>
+<h2>1. 작업 개요</h2>
+<h3>목표</h3>
+<ul>
+<li><strong>Resend 이메일 시스템</strong> 연동을 위한 도메인 인증</li>
+<li><strong>politicianfinder.ai.kr</strong> 도메인을 Vercel 프로젝트에 연결</li>
+<li>이메일 발송 기능 구현 (문의 답변, 회원가입 인증 등)</li>
+</ul>
+<h3>초기 상황</h3>
+<ul>
+<li>✅ 도메인: Whois에서 <code>politicianfinder.ai.kr</code> 구매 완료</li>
+<li>✅ 호스팅: Vercel <code>politician-finder</code> 프로젝트 배포 완료</li>
+<li>❌ 도메인-호스팅 연결: 미완료</li>
+<li>❌ 이메일 시스템: 미구현</li>
+</ul>
+<hr>
+<h2>2. 문제 상황 및 원인</h2>
+<h3>2.1. 발생한 문제들</h3>
+<h4>문제 1: Vercel 네임서버 권한 오류</h4>
+<pre><code>Error: Not authorized to use politicianfinder.ai.kr (403)
+This domain is linked to another Vercel account.
+</code></pre>
+<p><strong>원인</strong>:</p>
+<ul>
+<li>네임서버를 <code>ns1.vercel-dns.com</code>으로 변경했을 때</li>
+<li>도메인이 Vercel 내부적으로 <strong>다른 계정에 등록되어 있거나 캐시됨</strong></li>
+<li>한국 도메인(.ai.kr)은 Vercel DNS에서 완전히 지원되지 않음</li>
+</ul>
+<h4>문제 2: Whois DNS 제한사항</h4>
+<pre><code>- CNAME 레코드 입력 불가
+- TXT 레코드 입력 시 특수문자(_) 사용 불가
+- A 레코드 호스트명에 @ 입력 불가
+</code></pre>
+<p><strong>원인</strong>:</p>
+<ul>
+<li>Whois DNS 관리 인터페이스의 <strong>사용자 입력 제한</strong></li>
+<li>일반 DNS 호스트 관리 화면에서는 제한적인 기능만 제공</li>
+<li><strong>네임서버 고급설정</strong>에서만 CNAME/TXT 레코드 관리 가능</li>
+</ul>
+<h4>문제 3: Cloudflare DNS 사용 불가</h4>
+<pre><code>Invalid domain: politicianfinder.ai.kr
+</code></pre>
+<p><strong>원인</strong>:</p>
+<ul>
+<li>Cloudflare가 <strong>.ai.kr 도메인을 지원하지 않음</strong></li>
+<li>한국 특수 도메인(ccTLD)은 일부 DNS 서비스에서 제한됨</li>
+</ul>
+<hr>
+<h3>2.2. 근본 원인 분석</h3>
+<table>
+<thead>
+<tr>
+<th>문제 유형</th>
+<th>근본 원인</th>
+<th>해결 방향</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Vercel DNS 권한 오류</td>
+<td>.ai.kr 도메인 특성 + Vercel 내부 등록 충돌</td>
+<td>Whois DNS 사용</td>
+</tr>
+<tr>
+<td>DNS 레코드 입력 제한</td>
+<td>Whois 일반 관리 화면 사용</td>
+<td>네임서버 고급설정 사용</td>
+</tr>
+<tr>
+<td>Cloudflare 불가</td>
+<td>.ai.kr 도메인 미지원</td>
+<td>Whois DNS 계속 사용</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. 해결 과정</h2>
+<h3>3.1. 시도한 방법들 (실패)</h3>
+<h4>❌ 방법 1: Vercel DNS 사용</h4>
+<pre><code class="language-bash"># 네임서버를 Vercel로 변경
+ns1.vercel-dns.com
+ns2.vercel-dns.com
+
+# 결과: 403 권한 오류
+Error: Not authorized to use politicianfinder.ai.kr
+</code></pre>
+<p><strong>실패 이유</strong>: 도메인이 다른 Vercel 계정에 연결되어 있거나 .ai.kr 미지원</p>
+<hr>
+<h4>❌ 방법 2: Whois 일반 DNS 관리</h4>
+<pre><code>문제:
+- CNAME 레코드 추가 불가 (IP 주소만 입력 가능)
+- TXT 레코드에 _vercel 입력 불가 (특수문자 제한)
+- A 레코드 호스트명에 @ 입력 불가
+</code></pre>
+<p><strong>실패 이유</strong>: 일반 DNS 호스트 관리 화면의 기능 제한</p>
+<hr>
+<h4>❌ 방법 3: Cloudflare DNS 사용</h4>
+<pre><code>1. Cloudflare 계정 생성
+2. 도메인 추가 시도: politicianfinder.ai.kr
+3. 결과: Invalid domain
+</code></pre>
+<p><strong>실패 이유</strong>: Cloudflare가 .ai.kr 도메인을 지원하지 않음</p>
+<hr>
+<h3>3.2. 최종 성공 방법 발견</h3>
+<p><strong>Whois 네임서버 고급설정</strong> 사용</p>
+<ol>
+<li>Whois 도메인 관리 → <strong>부가서비스</strong> → <strong>네임서버 변경/부가서비스</strong></li>
+<li><strong>네임서버 고급설정</strong> 메뉴 진입</li>
+<li>다음 섹션들 발견:<ul>
+<li>✅ <strong>A 레코드 관리(네임서버 호스팅)</strong></li>
+<li>✅ <strong>CNAME 레코드 관리</strong></li>
+<li>✅ <strong>SPF(TXT) 레코드 관리</strong></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>4. 최종 해결 방법</h2>
+<h3>4.1. Whois 네임서버 설정</h3>
+<p><strong>네임서버를 Whois 기본값으로 유지</strong>:</p>
+<pre><code>ns1.whoisdomain.kr
+ns2.whoisdomain.kr
+ns3.whoisdomain.kr
+ns4.whoisdomain.kr
+</code></pre>
+<p><strong>중요</strong>: Vercel DNS로 변경하지 않고 Whois DNS 사용</p>
+<hr>
+<h3>4.2. Vercel에서 도메인 추가</h3>
+<p><strong>URL</strong>: <code>https://vercel.com/finder-world/politician-finder/settings/domains</code></p>
+<ol>
+<li><strong>Add Domain</strong> 버튼 클릭</li>
+<li><code>www.politicianfinder.ai.kr</code> 입력 (www 포함)</li>
+<li><strong>Production</strong> 환경에 연결</li>
+<li>추가</li>
+</ol>
+<p><strong>Vercel이 요구하는 DNS 레코드</strong>:</p>
+<pre><code>Type: CNAME
+Name: www
+Value: cab135ccde227379.vercel-dns-016.com
+
+Type: TXT
+Name: _vercel
+Value: vc-domain-verify=www.politicianfinder.ai.kr,40b3cc2672da384e0ba8
+</code></pre>
+<hr>
+<h3>4.3. Whois DNS 레코드 설정</h3>
+<h4>1️⃣ A 레코드 추가</h4>
+<p><strong>경로</strong>: 네임서버 고급설정 → <strong>A 레코드 관리(네임서버 호스팅)</strong> → 관리페이지 열기</p>
+<pre><code>호스트명: www
+IP 주소: 216.150.1.1
+</code></pre>
+<p><strong>주의사항</strong>:</p>
+<ul>
+<li>호스트명을 비워두거나 <code>@</code> 입력 시 에러 발생</li>
+<li>루트 도메인(<code>politicianfinder.ai.kr</code>)은 Whois DNS 제한으로 설정 불가</li>
+<li><strong>www 서브도메인만 사용</strong></li>
+</ul>
+<hr>
+<h4>2️⃣ CNAME 레코드 추가</h4>
+<p><strong>경로</strong>: 네임서버 고급설정 → <strong>CNAME 레코드 관리</strong> → 관리페이지 열기</p>
+<pre><code>호스트명: www
+값: cab135ccde227379.vercel-dns-016.com
+</code></pre>
+<p><strong>참고</strong>: Vercel이 제공하는 CNAME 값은 프로젝트마다 다름</p>
+<hr>
+<h4>3️⃣ TXT 레코드 추가</h4>
+<p><strong>경로</strong>: 네임서버 고급설정 → <strong>SPF(TXT) 레코드 관리</strong> → 관리페이지 열기</p>
+<pre><code>호스트명: _vercel
+값: vc-domain-verify=www.politicianfinder.ai.kr,40b3cc2672da384e0ba8
+</code></pre>
+<p><strong>주의사항</strong>:</p>
+<ul>
+<li>일반 DNS 관리에서는 <code>_vercel</code> 입력 불가 (특수문자 제한)</li>
+<li><strong>고급설정</strong>에서만 가능</li>
+</ul>
+<hr>
+<h3>4.4. DNS 전파 대기</h3>
+<p><strong>소요 시간</strong>: 6시간 ~ 48시간</p>
+<p><strong>진행 상황 확인</strong>:</p>
+<pre><code class="language-bash"># DNS 전파 확인
+nslookup www.politicianfinder.ai.kr 8.8.8.8
+
+# 성공 예시:
+Server:  dns.google
+Address:  8.8.8.8
+
+Name:    www.politicianfinder.ai.kr
+Address:  216.150.1.1
+</code></pre>
+<hr>
+<h3>4.5. Vercel에서 인증 완료 확인</h3>
+<p><strong>Vercel 도메인 설정 페이지</strong>:</p>
+<ul>
+<li><code>www.politicianfinder.ai.kr</code> 상태 확인</li>
+<li><strong>&quot;Generating SSL Certificate&quot;</strong> → SSL 인증서 생성 중 (1-5분)</li>
+<li><strong>&quot;Valid Configuration&quot;</strong> (초록색 체크) → 성공!</li>
+</ul>
+<hr>
+<h2>5. Whois DNS 설정 가이드</h2>
+<h3>5.1. 네임서버 고급설정 접근 방법</h3>
+<pre><code>Whois 로그인
+  ↓
+도메인 관리
+  ↓
+부가서비스 → 네임서버 변경/부가서비스
+  ↓
+네임서버 고급설정
+  ↓
+- A 레코드 관리
+- CNAME 레코드 관리
+- SPF(TXT) 레코드 관리
+</code></pre>
+<hr>
+<h3>5.2. 각 레코드 설정 화면</h3>
+<h4>A 레코드 관리</h4>
+<pre><code>[서비스 선택]
+○ 등록  ○ 변경  ○ 삭제
+
+호스트명: www
+IP 주소: 216.150.1.1
+
+[호스트 추가] 버튼
+</code></pre>
+<h4>CNAME 레코드 관리</h4>
+<pre><code>호스트명: www
+별칭(CNAME): cab135ccde227379.vercel-dns-016.com
+
+[등록] 버튼
+</code></pre>
+<h4>TXT 레코드 관리</h4>
+<pre><code>호스트명: _vercel
+TXT 값: vc-domain-verify=www.politicianfinder.ai.kr,40b3cc2672da384e0ba8
+
+[등록] 버튼
+</code></pre>
+<hr>
+<h3>5.3. 저장 및 확인</h3>
+<ol>
+<li>각 레코드 추가 후 <strong>[다음 단계로]</strong> 또는 <strong>[확인]</strong> 버튼 클릭</li>
+<li><strong>신청 정보</strong> 화면에서 등록 내역 확인</li>
+<li><strong>&quot;등록완료&quot;</strong> 상태 확인</li>
+<li>DNS 전파 대기 (6-48시간)</li>
+</ol>
+<hr>
+<h2>6. 트러블슈팅</h2>
+<h3>6.1. 일반적인 문제</h3>
+<h4>❌ 문제: &quot;특수문자를 입력할 수 없습니다&quot;</h4>
+<p><strong>증상</strong>:</p>
+<pre><code>호스트명에 @ 입력 시:
+&quot;호스트명에 특수문자를 입력할 수 없습니다&quot;
+
+_vercel 입력 시:
+&quot;특수문자를 사용할 수 없습니다&quot;
+</code></pre>
+<p><strong>해결</strong>:</p>
+<ul>
+<li>일반 DNS 관리 화면이 아닌 <strong>네임서버 고급설정</strong> 사용</li>
+<li>A 레코드는 <code>@</code> 대신 <code>www</code> 사용</li>
+<li>TXT 레코드는 고급설정 메뉴에서 입력</li>
+</ul>
+<hr>
+<h4>❌ 문제: CNAME 레코드 입력란에 IP 주소만 입력 가능</h4>
+<p><strong>증상</strong>:</p>
+<pre><code>CNAME 값에 &quot;cab135ccde227379.vercel-dns-016.com&quot; 입력 시:
+&quot;IP 주소를 입력하세요&quot;
+</code></pre>
+<p><strong>해결</strong>:</p>
+<ul>
+<li>일반 DNS 관리 화면은 A 레코드만 지원</li>
+<li><strong>네임서버 고급설정 → CNAME 레코드 관리</strong> 사용</li>
+</ul>
+<hr>
+<h4>❌ 문제: DNS_PROBE_FINISHED_NXDOMAIN 오류</h4>
+<p><strong>증상</strong>:</p>
+<pre><code>브라우저 접속 시:
+&quot;사이트에 연결할 수 없음&quot;
+&quot;DNS_PROBE_FINISHED_NXDOMAIN&quot;
+</code></pre>
+<p><strong>원인</strong>: DNS가 아직 전파되지 않음</p>
+<p><strong>해결</strong>:</p>
+<ol>
+<li>DNS 전파 확인: <code>nslookup www.politicianfinder.ai.kr 8.8.8.8</code></li>
+<li>6-48시간 대기</li>
+<li>Whois DNS에서 레코드 저장 확인</li>
+</ol>
+<hr>
+<h4>❌ 문제: Vercel &quot;Verification Needed&quot; 경고</h4>
+<p><strong>증상</strong>:</p>
+<pre><code>Vercel 도메인 상태:
+⚠️ Verification Needed
+</code></pre>
+<p><strong>원인</strong>:</p>
+<ul>
+<li>DNS 레코드가 아직 전파 안 됨</li>
+<li>또는 TXT 레코드가 누락됨</li>
+</ul>
+<p><strong>해결</strong>:</p>
+<ol>
+<li>Whois DNS에서 TXT 레코드 확인</li>
+<li>DNS 전파 대기</li>
+<li>Vercel에서 <strong>&quot;Refresh&quot;</strong> 버튼 클릭</li>
+</ol>
+<hr>
+<h3>6.2. Vercel 관련 문제</h3>
+<h4>❌ 문제: &quot;Not authorized to use domain (403)&quot;</h4>
+<p><strong>증상</strong>:</p>
+<pre><code class="language-bash">npx vercel domains add politicianfinder.ai.kr
+Error: Not authorized to use politicianfinder.ai.kr (403)
+</code></pre>
+<p><strong>원인</strong>:</p>
+<ul>
+<li>도메인이 다른 Vercel 계정에 등록됨</li>
+<li>또는 Vercel DNS를 사용했을 때 권한 충돌</li>
+</ul>
+<p><strong>해결</strong>:</p>
+<ol>
+<li>Vercel DNS 사용 중단</li>
+<li>Whois DNS로 전환</li>
+<li>웹 대시보드에서 도메인 추가 (CLI 사용 안 함)</li>
+</ol>
+<hr>
+<h4>❌ 문제: &quot;This domain is linked to another Vercel account&quot;</h4>
+<p><strong>증상</strong>:</p>
+<pre><code>Vercel DNS 탭:
+&quot;Please move this domain to this team&quot;
+</code></pre>
+<p><strong>원인</strong>: 네임서버를 Vercel로 변경했을 때 발생</p>
+<p><strong>해결</strong>:</p>
+<ol>
+<li>도메인을 프로젝트에서 제거</li>
+<li>Whois에서 네임서버를 <strong>Whois 기본값으로 변경</strong></li>
+<li>A/CNAME/TXT 레코드 방식으로 연결</li>
+</ol>
+<hr>
+<h2>7. 교훈 및 권장사항</h2>
+<h3>7.1. 핵심 교훈</h3>
+<ol>
+<li><p><strong>한국 도메인(.ai.kr)은 특수성이 있음</strong></p>
+<ul>
+<li>Cloudflare 등 일부 DNS 서비스에서 미지원</li>
+<li>Vercel DNS도 완전 호환되지 않음</li>
+<li><strong>Whois DNS를 그대로 사용하는 것이 가장 안전</strong></li>
+</ul>
+</li>
+<li><p><strong>Whois DNS 고급설정을 활용해야 함</strong></p>
+<ul>
+<li>일반 DNS 관리 화면은 기능 제한적</li>
+<li>CNAME/TXT 레코드는 고급설정에서만 가능</li>
+</ul>
+</li>
+<li><p><strong>루트 도메인(@) 대신 www 서브도메인 사용</strong></p>
+<ul>
+<li>Whois DNS 제한으로 루트 도메인 설정이 어려움</li>
+<li><code>www.politicianfinder.ai.kr</code> 사용 권장</li>
+</ul>
+</li>
+<li><p><strong>DNS 전파는 오래 걸림 (6-48시간)</strong></p>
+<ul>
+<li>조급해하지 말고 기다려야 함</li>
+<li><code>nslookup</code>으로 주기적 확인</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3>7.2. 권장 설정 방법</h3>
+<p><strong>추천 구성</strong>:</p>
+<pre><code>도메인 등록: Whois
+네임서버: Whois 기본값 (ns1.whoisdomain.kr)
+DNS 관리: Whois 네임서버 고급설정
+호스팅: Vercel
+도메인: www.politicianfinder.ai.kr (www 포함)
+</code></pre>
+<p><strong>추천하지 않는 방법</strong>:</p>
+<ul>
+<li>❌ Vercel DNS 사용 (.ai.kr 도메인)</li>
+<li>❌ Cloudflare DNS 사용 (.ai.kr 미지원)</li>
+<li>❌ 루트 도메인(@) 직접 설정</li>
+</ul>
+<hr>
+<h3>7.3. 향후 작업</h3>
+<ol>
+<li><p>✅ <strong>도메인 연결 완료 확인</strong></p>
+<ul>
+<li><code>www.politicianfinder.ai.kr</code> 접속 테스트</li>
+<li>SSL 인증서 정상 작동 확인</li>
+</ul>
+</li>
+<li><p>⏳ <strong>Resend 이메일 설정</strong></p>
+<ul>
+<li>Resend API 키 발급</li>
+<li>도메인 인증 (이메일 발송용)</li>
+<li>이메일 발송 테스트</li>
+</ul>
+</li>
+<li><p>⏳ <strong>루트 도메인 리다이렉트 설정</strong></p>
+<ul>
+<li><code>politicianfinder.ai.kr</code> → <code>www.politicianfinder.ai.kr</code> 리다이렉트</li>
+<li>Vercel 설정 또는 DNS 설정</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>8. 요약</h2>
+<h3>최종 설정 결과</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>설정 값</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>도메인</strong></td>
+<td><a href="http://www.politicianfinder.ai.kr">www.politicianfinder.ai.kr</a></td>
+</tr>
+<tr>
+<td><strong>네임서버</strong></td>
+<td>ns1.whoisdomain.kr ~ ns4.whoisdomain.kr</td>
+</tr>
+<tr>
+<td><strong>A 레코드</strong></td>
+<td>www → 216.150.1.1</td>
+</tr>
+<tr>
+<td><strong>CNAME 레코드</strong></td>
+<td>www → cab135ccde227379.vercel-dns-016.com</td>
+</tr>
+<tr>
+<td><strong>TXT 레코드</strong></td>
+<td>_vercel → vc-domain-verify=...</td>
+</tr>
+<tr>
+<td><strong>호스팅</strong></td>
+<td>Vercel (politician-finder)</td>
+</tr>
+<tr>
+<td><strong>SSL</strong></td>
+<td>Let&#39;s Encrypt (자동)</td>
+</tr>
+</tbody></table>
+<hr>
+<h3>작업 시간</h3>
+<ul>
+<li><strong>총 소요 시간</strong>: 약 3-4시간</li>
+<li><strong>주요 시행착오</strong>: Vercel DNS, Cloudflare 시도</li>
+<li><strong>최종 해결</strong>: Whois 네임서버 고급설정 발견</li>
+</ul>
+<hr>
+<h3>성공 요인</h3>
+<ol>
+<li>✅ Whois DNS 고급설정 기능 발견</li>
+<li>✅ www 서브도메인 사용 결정</li>
+<li>✅ DNS 레코드 (A, CNAME, TXT) 모두 추가</li>
+<li>✅ 인내심 (DNS 전파 대기)</li>
+</ol>
+<hr>
+<h2>9. 참고 자료</h2>
+<h3>Vercel 공식 문서</h3>
+<ul>
+<li><a href="https://vercel.com/docs/projects/domains/add-a-domain">Adding a Domain</a></li>
+<li><a href="https://vercel.com/docs/projects/domains/working-with-domains">DNS Records</a></li>
+</ul>
+<h3>Whois 설정 화면</h3>
+<ul>
+<li>도메인 관리 → 부가서비스 → 네임서버 고급설정</li>
+</ul>
+<h3>DNS 확인 도구</h3>
+<pre><code class="language-bash"># DNS 전파 확인
+nslookup www.politicianfinder.ai.kr 8.8.8.8
+
+# 또는
+dig www.politicianfinder.ai.kr
+</code></pre>
+<hr>
+<p><strong>작성 완료일</strong>: 2025-11-18
+<strong>문서 버전</strong>: 1.0
+<strong>관련 테스크</strong>: P3BA30</p>
+
+        </article>
+    </main>
+</body>
+</html>

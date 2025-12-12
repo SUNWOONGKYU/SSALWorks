@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>21편 | 종합 실습 프로젝트 Part 2 - JavaScript와 배포 - SSALWorks 학습용 콘텐츠</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #10B981;
+            --secondary: #F59E0B;
+            --tertiary: #2C4A8A;
+            --tertiary-dark: #1F3563;
+            --bg-light: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header-title { font-size: 20px; font-weight: 700; }
+        .close-btn {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .close-btn:hover { background: rgba(255,255,255,0.3); border-color: white; }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Markdown Styles */
+        .markdown-body h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--tertiary);
+            margin: 40px 0 20px;
+            padding-bottom: 16px;
+            border-bottom: 3px solid var(--secondary);
+        }
+        .markdown-body h1:first-child { margin-top: 0; }
+        .markdown-body h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 48px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .markdown-body h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 32px 0 16px;
+        }
+        .markdown-body h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 24px 0 12px;
+        }
+        .markdown-body p { margin-bottom: 16px; color: var(--text-dark); }
+        .markdown-body blockquote {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .markdown-body blockquote p { margin: 0; font-style: italic; }
+        .markdown-body pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .markdown-body code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        .markdown-body pre code { background: none; padding: 0; color: inherit; }
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .markdown-body th, .markdown-body td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .markdown-body th { background: #f1f3f5; color: var(--text-dark); font-weight: 600; }
+        .markdown-body tr:nth-child(even) { background: #f8f9fa; }
+        .markdown-body tr:hover { background: #e9ecef; }
+        .markdown-body ul, .markdown-body ol { margin: 16px 0; padding-left: 24px; }
+        .markdown-body li { margin-bottom: 8px; }
+        .markdown-body hr { border: none; border-top: 2px solid var(--border-color); margin: 40px 0; }
+        .markdown-body a { color: var(--tertiary); text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 16px 0; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
+
+        /* Print */
+        @media print {
+            .header { display: none; }
+            .main-content { padding: 0; max-width: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">21편 | 종합 실습 프로젝트 Part 2 - JavaScript와 배포</div>
+        <a href="javascript:history.back()" class="close-btn">← 뒤로 가기</a>
+    </header>
+    <main class="main-content">
+        <article class="markdown-body">
+            <h1>21편 | 종합 실습 프로젝트 Part 2 - JavaScript와 배포</h1>
+<hr>
+<p>20편에서 HTML과 CSS로 포트폴리오의 기본 구조를 완성하고, 이제 JavaScript로 동적 기능을 추가하고 실제 배포까지 마무리하겠습니다. Part 1에서 제작한 정적 웹사이트에 동적 기능을 추가하겠습니다. JavaScript로 인터랙티브한 기능들을 추가하고, Git으로 버전 관리를 하며, 마지막에는 실제 인터넷에 배포하여 전 세계 누구나 접근할 수 있는 웹사이트로 완성하겠습니다. 웹개발 시리즈의 마지막 단계를 진행하겠습니다.</p>
+<h2>프로젝트 완성하기</h2>
+<p>20편에서 제작한 HTML과 CSS에 JavaScript 기능을 추가하고, 실제로 배포까지 진행하겠습니다.</p>
+<h2>STEP 4: JavaScript로 동작 추가하기</h2>
+<h3>4-1. script.js - 인터랙티브 기능</h3>
+<pre><code class="language-javascript">// 부드러운 스크롤 효과
+document.querySelectorAll(&quot;a[href^=\&quot;#\&quot;]&quot;).forEach(link =&gt; {
+    link.addEventListener(&quot;click&quot;, function(e) {
+        e.preventDefault();
+        
+        const targetId = this.getAttribute(&quot;href&quot;);
+        const targetSection = document.querySelector(targetId);
+        
+        if (targetSection) {
+            targetSection.scrollIntoView({
+                behavior: &quot;smooth&quot;,
+                block: &quot;start&quot;
+            });
+        }
+    });
+});
+
+// 스크롤 시 네비게이션 바 스타일 변경
+window.addEventListener(&quot;scroll&quot;, () =&gt; {
+    const navbar = document.querySelector(&quot;.navbar&quot;);
+    
+    if (window.scrollY &gt; 100) {
+        navbar.style.background = &quot;rgba(51, 51, 51, 0.95)&quot;;
+        navbar.style.backdropFilter = &quot;blur(10px)&quot;;
+    } else {
+        navbar.style.background = &quot;#333&quot;;
+    }
+});
+
+// 프로젝트 카드 클릭 이벤트
+const projectCards = document.querySelectorAll(&quot;.project-card&quot;);
+
+projectCards.forEach(card =&gt; {
+    card.addEventListener(&quot;click&quot;, function() {
+        const projectTitle = this.querySelector(&quot;h3&quot;).textContent;
+        alert(`${projectTitle}의 상세 페이지로 이동합니다.`);
+    });
+});
+
+// 폼 제출 처리 (이메일 보내기 시뮬레이션)
+const contactForm = document.getElementById(&quot;contact-form&quot;);
+
+if (contactForm) {
+    contactForm.addEventListener(&quot;submit&quot;, function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById(&quot;name&quot;).value;
+        const email = document.getElementById(&quot;email&quot;).value;
+        const message = document.getElementById(&quot;message&quot;).value;
+        
+        // 실제로는 서버로 전송하지만, 여기서는 콘솔에 출력
+        console.log(&quot;폼 데이터:&quot;, { name, email, message });
+        
+        alert(&quot;메시지가 전송되었습니다.&quot;);
+        this.reset();
+    });
+}
+
+// 타이핑 효과
+function typeWriter(element, text, speed = 100) {
+    let i = 0;
+    element.innerHTML = &quot;&quot;;
+    
+    function typing() {
+        if (i &lt; text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, speed);
+        }
+    }
+    
+    typing();
+}
+
+// 페이지 로드 시 타이핑 효과 실행
+window.addEventListener(&quot;load&quot;, () =&gt; {
+    const heroTitle = document.querySelector(&quot;.hero h1&quot;);
+    if (heroTitle) {
+        const originalText = heroTitle.innerHTML;
+        typeWriter(heroTitle, &quot;안녕하세요. 홍길동입니다&quot;, 150);
+    }
+});
+
+// 프로젝트 데이터 동적 생성
+const projects = [
+    {
+        title: &quot;쇼핑몰 웹사이트&quot;,
+        description: &quot;React로 만든 온라인 쇼핑몰&quot;,
+        tech: &quot;React, Node.js, MongoDB&quot;
+    },
+    {
+        title: &quot;날씨 앱&quot;,
+        description: &quot;실시간 날씨 정보 제공&quot;,
+        tech: &quot;JavaScript, Weather API&quot;
+    },
+    {
+        title: &quot;포트폴리오 사이트&quot;,
+        description: &quot;개인 포트폴리오 웹사이트&quot;,
+        tech: &quot;HTML, CSS, JavaScript&quot;
+    }
+];
+
+// 프로젝트 카드 동적 생성
+function createProjectCards() {
+    const projectGrid = document.querySelector(&quot;.project-grid&quot;);
+    
+    if (!projectGrid) return;
+    
+    projectGrid.innerHTML = &quot;&quot;;
+    
+    projects.forEach(project =&gt; {
+        const card = document.createElement(&quot;div&quot;);
+        card.className = &quot;project-card&quot;;
+        
+        card.innerHTML = `
+            &lt;h3&gt;${project.title}&lt;/h3&gt;
+            &lt;p&gt;${project.description}&lt;/p&gt;
+            &lt;p&gt;&lt;small&gt;${project.tech}&lt;/small&gt;&lt;/p&gt;
+            &lt;a href=&quot;#&quot;&gt;자세히 보기 →&lt;/a&gt;
+        `;
+        
+        projectGrid.appendChild(card);
+    });
+}
+
+// 페이지 로드 시 프로젝트 카드 생성
+document.addEventListener(&quot;DOMContentLoaded&quot;, createProjectCards);
+</code></pre>
+<h2>STEP 5: 연락처 폼 개선하기</h2>
+<h3>5-1. HTML에 폼 추가 (contact 섹션 수정)</h3>
+<pre><code class="language-html">&lt;!-- 연락처 섹션 개선 --&gt;
+&lt;section id=&quot;contact&quot; class=&quot;contact&quot;&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;h2&gt;Contact&lt;/h2&gt;
+        &lt;form id=&quot;contact-form&quot;&gt;
+            &lt;input type=&quot;text&quot; id=&quot;name&quot; placeholder=&quot;이름&quot; required&gt;
+            &lt;input type=&quot;email&quot; id=&quot;email&quot; placeholder=&quot;이메일&quot; required&gt;
+            &lt;textarea id=&quot;message&quot; rows=&quot;5&quot; placeholder=&quot;메시지&quot; required&gt;&lt;/textarea&gt;
+            &lt;button type=&quot;submit&quot; class=&quot;btn&quot;&gt;메시지 보내기&lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+<h3>5-2. 폼 스타일 추가 (style.css에 추가)</h3>
+<pre><code class="language-css">/* 폼 스타일 */
+#contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#contact-form input,
+#contact-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+#contact-form input::placeholder,
+#contact-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#contact-form button {
+    width: 100%;
+    background: #4CAF50;
+    color: white;
+}
+</code></pre>
+<h2>STEP 6: Git으로 버전 관리하기</h2>
+<h3>6-1. Git 초기화와 커밋</h3>
+<pre><code class="language-bash"># Git 저장소 만들기
+git init
+
+# .gitignore 파일 생성
+echo &quot;node_modules/
+.DS_Store
+*.log&quot; &gt; .gitignore
+
+# 첫 커밋
+git add .
+git commit -m &quot;첫 번째 커밋: 포트폴리오 사이트 완성&quot;
+
+# GitHub에 저장소 만들고 연결
+git remote add origin https://github.com/[username]/my-portfolio.git
+git push -u origin main
+</code></pre>
+<h2>STEP 7: 배포하기</h2>
+<h3>7-1. GitHub Pages로 배포</h3>
+<p>GitHub Pages는 무료로 정적 웹사이트를 호스팅할 수 있습니다.</p>
+<ol>
+<li>GitHub에서 새 저장소 만들기</li>
+<li>코드 푸시하기</li>
+<li>Settings → Pages → Source를 main 브랜치로 설정</li>
+<li>몇 분 후 <code>https://[username].github.io/my-portfolio</code> 에서 확인</li>
+</ol>
+<h3>7-2. Netlify로 배포 (더 쉬운 방법)</h3>
+<ol>
+<li><a href="https://netlify.com">netlify.com</a> 접속</li>
+<li>GitHub 계정으로 로그인</li>
+<li>&quot;New site from Git&quot; 클릭</li>
+<li>GitHub 저장소 선택</li>
+<li>Deploy 클릭</li>
+<li>자동으로 배포 완료</li>
+</ol>
+<h2>STEP 8: 성능 최적화</h2>
+<h3>8-1. 이미지 최적화</h3>
+<pre><code class="language-html">&lt;!-- 이미지 지연 로딩 추가 --&gt;
+&lt;img src=&quot;profile.jpg&quot; loading=&quot;lazy&quot; alt=&quot;프로필&quot;&gt;
+</code></pre>
+<h3>8-2. CSS/JS 파일 압축</h3>
+<pre><code class="language-html">&lt;!-- 프로덕션에서는 압축된 파일 사용 --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;style.min.css&quot;&gt;
+&lt;script src=&quot;script.min.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<h2>프로젝트 완성 체크리스트</h2>
+<h3>✅ 완료한 것들</h3>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> HTML 구조 완성</li>
+<li><input checked="" disabled="" type="checkbox"> CSS 스타일링</li>
+<li><input checked="" disabled="" type="checkbox"> 반응형 디자인</li>
+<li><input checked="" disabled="" type="checkbox"> JavaScript 인터랙션</li>
+<li><input checked="" disabled="" type="checkbox"> 부드러운 스크롤</li>
+<li><input checked="" disabled="" type="checkbox"> 동적 콘텐츠 생성</li>
+<li><input checked="" disabled="" type="checkbox"> 폼 처리</li>
+</ul>
+<h3>📝 추가로 할 수 있는 것들</h3>
+<ul>
+<li><input disabled="" type="checkbox"> 다크 모드 추가</li>
+<li><input disabled="" type="checkbox"> 애니메이션 더 추가</li>
+<li><input disabled="" type="checkbox"> 블로그 섹션 추가</li>
+<li><input disabled="" type="checkbox"> 실제 프로젝트 연결</li>
+<li><input disabled="" type="checkbox"> SEO 최적화</li>
+<li><input disabled="" type="checkbox"> PWA로 만들기</li>
+</ul>
+<h2>학습 포인트 정리</h2>
+<p><strong>이 프로젝트를 통해 배운 것들</strong>:</p>
+<ol>
+<li><strong>HTML</strong> (5편): 시맨틱 태그로 구조 만들기</li>
+<li><strong>CSS</strong> (6편): 스타일과 레이아웃</li>
+<li><strong>JavaScript</strong> (7편): 동적 기능 구현</li>
+<li><strong>Git</strong> (8편): 버전 관리</li>
+<li><strong>반응형</strong> (7편): 모바일 대응</li>
+<li><strong>배포</strong> (15편): 실제 웹에 공개</li>
+</ol>
+<p>이제 각자만의 포트폴리오를 제작해보십시오. 학습한 내용을 활용하여 자신만의 독특한 사이트를 제작할 수 있습니다.</p>
+<h2>도움이 되는 리소스</h2>
+<ul>
+<li><strong>무료 이미지</strong>: <a href="https://unsplash.com">Unsplash</a></li>
+<li><strong>아이콘</strong>: <a href="https://fontawesome.com">Font Awesome</a></li>
+<li><strong>색상 팔레트</strong>: <a href="https://coolors.co">Coolors</a></li>
+<li><strong>폰트</strong>: <a href="https://fonts.google.com">Google Fonts</a></li>
+</ul>
+<hr>
+<p><strong>작성일: 2025-01-01 / 글자수: 5,876자 / 작성자: Claude / 프롬프터: 써니</strong></p>
+
+        </article>
+    </main>
+</body>
+</html>

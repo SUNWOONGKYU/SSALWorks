@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8편 | Claude Code 서브 에이전트 생성과 관리 - SSALWorks 학습용 콘텐츠</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #10B981;
+            --secondary: #F59E0B;
+            --tertiary: #2C4A8A;
+            --tertiary-dark: #1F3563;
+            --bg-light: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .header-title { font-size: 20px; font-weight: 700; }
+        .close-btn {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .close-btn:hover { background: rgba(255,255,255,0.3); border-color: white; }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px;
+            background: white;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Markdown Styles */
+        .markdown-body h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--tertiary);
+            margin: 40px 0 20px;
+            padding-bottom: 16px;
+            border-bottom: 3px solid var(--secondary);
+        }
+        .markdown-body h1:first-child { margin-top: 0; }
+        .markdown-body h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 48px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .markdown-body h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 32px 0 16px;
+        }
+        .markdown-body h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 24px 0 12px;
+        }
+        .markdown-body p { margin-bottom: 16px; color: var(--text-dark); }
+        .markdown-body blockquote {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        .markdown-body blockquote p { margin: 0; font-style: italic; }
+        .markdown-body pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .markdown-body code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+        .markdown-body pre code { background: none; padding: 0; color: inherit; }
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .markdown-body th, .markdown-body td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+        .markdown-body th { background: #f1f3f5; color: var(--text-dark); font-weight: 600; }
+        .markdown-body tr:nth-child(even) { background: #f8f9fa; }
+        .markdown-body tr:hover { background: #e9ecef; }
+        .markdown-body ul, .markdown-body ol { margin: 16px 0; padding-left: 24px; }
+        .markdown-body li { margin-bottom: 8px; }
+        .markdown-body hr { border: none; border-top: 2px solid var(--border-color); margin: 40px 0; }
+        .markdown-body a { color: var(--tertiary); text-decoration: none; }
+        .markdown-body a:hover { text-decoration: underline; }
+        .markdown-body img { max-width: 100%; height: auto; border-radius: 8px; margin: 16px 0; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #c1c1c1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1a1; }
+
+        /* Print */
+        @media print {
+            .header { display: none; }
+            .main-content { padding: 0; max-width: none; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-title">8편 | Claude Code 서브 에이전트 생성과 관리</div>
+        <a href="javascript:history.back()" class="close-btn">← 뒤로 가기</a>
+    </header>
+    <main class="main-content">
+        <article class="markdown-body">
+            <h1>8편 | Claude Code 서브 에이전트 생성과 관리</h1>
+<hr>
+<p>서브 에이전트는 Claude Code에서 특정 작업을 전담하는 전문가 AI입니다. 마치 회사에서 개발팀, 디자인팀, QA팀을 따로 두는 것처럼, 각 분야별 전문 에이전트를 만들어 활용할 수 있습니다. 이번 편에서는 이러한 서브 에이전트를 직접 생성하고 관리하는 실전 방법을 알아봅니다.</p>
+<h2>1. 서브 에이전트 생성 및 설정 방법</h2>
+<h3><code>/agents</code> 명령어 통합 관리 인터페이스</h3>
+<p>서브 에이전트는 <code>/agents</code> 명령어를 통해 생성 및 관리합니다. Claude Code 채팅창에 <code>/agents</code>를 입력하면 서브 에이전트를 관리할 수 있는 대화형 메뉴가 나타납니다. 마치 앱의 설정 메뉴처럼 원하는 기능을 선택해서 사용할 수 있습니다.</p>
+<pre><code class="language-bash">/agents  # Claude Code 채팅창에 입력
+</code></pre>
+<p>입력하면 다음과 같은 메뉴 옵션들이 표시되어 원하는 작업을 선택할 수 있습니다:</p>
+<ul>
+<li><strong>View All Agents</strong>: 기본 제공, 사용자, 프로젝트 에이전트 전체 목록 조회</li>
+<li><strong>Create New Agent</strong>: 가이드형 에이전트 생성 (Claude가 자동 생성 + 사용자 커스터마이징)</li>
+<li><strong>Edit Existing Agent</strong>: 기존 에이전트의 프롬프트, 도구 권한, 모델 수정</li>
+<li><strong>Delete Agent</strong>: 불필요한 에이전트 안전 삭제</li>
+<li><strong>Active Agent Status</strong>: 중복 이름 에이전트 시 우선순위 표시</li>
+<li><strong>Tool Permission Manager</strong>: 모든 사용 가능한 도구 시각적 관리 (MCP 도구 포함)</li>
+</ul>
+<p>이 중에서 필요한 작업을 선택하면 Claude Code가 해당 기능을 실행합니다.</p>
+<h3>서브 에이전트 생성 단계별 가이드</h3>
+<p><strong>1단계: 통합 관리 인터페이스 접속 및 생성 옵션 선택</strong></p>
+<pre><code class="language-bash">/agents
+</code></pre>
+<p>위 명령어를 입력한 후 메뉴에서 &quot;Create New Agent&quot;를 선택합니다.</p>
+<p><strong>2단계: 기본 정보 입력</strong></p>
+<ul>
+<li><p><strong>이름</strong>: 서브 에이전트의 고유 식별자 (예: code-reviewer, test-generator)</p>
+<ul>
+<li>소문자와 하이픈만 사용</li>
+<li>역할을 명확히 나타내는 이름 선택</li>
+<li>15자 이내 권장</li>
+</ul>
+</li>
+<li><p><strong>설명</strong>: 언제 이 에이전트가 호출될지 설명</p>
+<ul>
+<li>Claude가 자동 선택 시 참고하는 핵심 정보</li>
+<li>구체적인 트리거 조건 포함</li>
+<li>프로액티브 키워드 포함 권장</li>
+</ul>
+</li>
+<li><p><strong>모델 선택</strong>:</p>
+<ul>
+<li>Haiku: 빠르고 저렴, 단순 반복 작업용</li>
+<li>Sonnet: 균형잡힌 성능, 일반 개발 작업용</li>
+<li>Opus: 고품질, 복잡한 분석과 설계용</li>
+</ul>
+</li>
+</ul>
+<p><strong>3단계: 시스템 프롬프트 작성</strong>
+서브 에이전트의 성격과 작업 방식을 상세히 기술합니다. 구체적일수록 더 정확한 결과를 얻을 수 있습니다.</p>
+<pre><code class="language-markdown">당신은 15년 경력의 사이버보안 전문가입니다.
+
+## 주요 역할
+- 코드 보안 취약점 탐지
+- 보안 강화 방안 제시
+- 보안 코딩 가이드라인 검증
+
+## 검토 기준
+1. **Critical**: 즉시 수정 필요한 심각한 보안 위험
+2. **Warning**: 잠재적 보안 위험, 수정 권장
+3. **Suggestion**: 보안 향상을 위한 제안사항
+
+## 응답 형식
+각 발견사항을 위험도별로 분류하여 구체적인 수정 방법과 코드 예시를 함께 제시해주세요.
+</code></pre>
+<p><strong>4단계: 도구 권한 설정</strong>
+필요한 도구만 선택적으로 부여합니다. 보안과 집중도를 위해 최소 권한 원칙을 적용합니다.</p>
+<p><strong>전체 도구 목록</strong>:</p>
+<p>파일 시스템 도구:</p>
+<ul>
+<li><strong>read</strong>: 파일 내용 읽기 (모든 분석 에이전트 필수)</li>
+<li><strong>write</strong>: 파일 생성/수정 (개발 에이전트 필수)</li>
+<li><strong>edit</strong>: 파일의 특정 부분 수정</li>
+<li><strong>list</strong>: 디렉토리 목록 조회</li>
+<li><strong>grep</strong>: 텍스트 패턴 검색 (코드 분석에 필수)</li>
+<li><strong>glob</strong>: 파일 패턴 매칭</li>
+<li><strong>diff</strong>: 파일 변경사항 비교 (리뷰 에이전트 필수)</li>
+</ul>
+<p>실행 도구:</p>
+<ul>
+<li><strong>bash</strong>: 시스템 명령어 실행 (고위험, 제한적 사용)</li>
+<li><strong>python</strong>: Python 스크립트 실행</li>
+<li><strong>node</strong>: Node.js 스크립트 실행</li>
+</ul>
+<p>네트워크 도구:</p>
+<ul>
+<li><strong>fetch</strong>: HTTP 요청 (API 테스트 에이전트)</li>
+<li><strong>curl</strong>: 고급 네트워크 요청</li>
+<li><strong>websearch</strong>: 웹 검색</li>
+<li><strong>webfetch</strong>: 웹 페이지 내용 가져오기</li>
+</ul>
+<p><strong>도구별 위험도 분류</strong>:</p>
+<ul>
+<li>🔴 <strong>고위험</strong> (신중한 할당 필요): <ul>
+<li>bash (시스템 명령어 실행)</li>
+<li>write, edit (파일 수정)</li>
+<li>network 관련 도구 (외부 접속)</li>
+</ul>
+</li>
+<li>🟡 <strong>중위험</strong> (대부분 안전):<ul>
+<li>read (파일 읽기)</li>
+<li>grep, glob (검색)</li>
+<li>python, node (스크립트 실행)</li>
+</ul>
+</li>
+<li>🟢 <strong>저위험</strong> (모든 에이전트에 안전):<ul>
+<li>diff (비교)</li>
+<li>list (목록 조회)</li>
+</ul>
+</li>
+</ul>
+<p><strong>5단계: 검토 및 수정</strong>
+생성된 서브 에이전트 내용을 검토하고 필요시 세부 조정을 수행합니다.</p>
+<p><strong>6단계: 저장 및 활성화</strong>
+저장하면 즉시 사용 가능한 상태가 됩니다.</p>
+<h2>2. 서브 에이전트 설정 파일 구조 분석</h2>
+<h3>서브 에이전트 설정 파일의 두 가지 구성 요소</h3>
+<p>서브 에이전트는 하나의 <code>.md</code> 파일로 만들어지며, 이 파일은 크게 두 부분으로 나뉩니다.</p>
+<p><strong>1. YAML 설정부 (상단)</strong> - Claude Code 메인 에이전트가 읽는 부분
+<strong>2. 마크다운 지시문 (하단)</strong> - 서브 에이전트가 읽는 부분</p>
+<h3>YAML이란 무엇인가</h3>
+<p>YAML은 &quot;YAML Ain&#39;t Markup Language&quot;의 약자로, 사람이 읽기 쉬운 데이터 직렬화 표준입니다. JSON이나 XML보다 간결하고 읽기 쉬워서 설정 파일에 널리 사용됩니다.</p>
+<p><strong>YAML의 특징</strong>:</p>
+<ul>
+<li>들여쓰기로 구조를 표현 (탭 대신 스페이스 사용)</li>
+<li>콜론(:)으로 키와 값을 구분</li>
+<li>대괄호([])로 리스트 표현</li>
+<li>하이픈(---)으로 문서 구분</li>
+</ul>
+<p><strong>YAML 기본 문법</strong>:</p>
+<pre><code class="language-yaml"># 주석은 해시(#)로 시작
+name: value              # 키-값 쌍
+number: 123             # 숫자
+boolean: true           # 불린값
+list: [item1, item2]    # 리스트 (인라인)
+multiline: |            # 여러 줄 텍스트
+  첫 번째 줄
+  두 번째 줄
+</code></pre>
+<h3>실제 파일 예시</h3>
+<pre><code class="language-yaml">---                              # ← YAML 시작
+name: security-auditor           # ← 서브 에이전트 이름
+description: 보안 검토를 수행합니다. use PROACTIVELY for security.  # ← 언제 호출할지
+tools: [read, grep, bash]        # ← 사용 가능한 도구들
+model: opus                      # ← AI 모델 (haiku/sonnet/opus)
+---                              # ← YAML 끝
+
+당신은 15년 경력의 보안 전문가입니다.    # ← 여기부터 마크다운
+
+## 검토할 보안 항목
+- SQL 인젝션 취약점
+- XSS 공격 가능성
+- 인증/인가 문제
+
+## 보고서 작성 방법
+발견한 문제를 다음과 같이 분류하세요:
+- 🔴 Critical: 즉시 수정 필요
+- 🟡 Warning: 개선 권장
+- 🔵 Info: 참고사항
+</code></pre>
+<h3>YAML 설정부 작성법 (4개 필드)</h3>
+<p><strong>1. name (필수)</strong> - 서브 에이전트 이름</p>
+<pre><code class="language-yaml">name: security-auditor  # 소문자와 하이픈만 사용, 15자 이내
+</code></pre>
+<ul>
+<li>역할을 명확히 나타내는 이름 선택</li>
+<li>예: <code>code-reviewer</code>, <code>test-generator</code>, <code>api-designer</code></li>
+</ul>
+<p><strong>2. description (필수)</strong> - 언제 호출할지 설명</p>
+<pre><code class="language-yaml">description: 보안 검토 전문가. use PROACTIVELY for security review. MUST BE USED before deployment.
+</code></pre>
+<ul>
+<li>자동 호출을 위한 프로액티브 키워드 포함 (<code>use PROACTIVELY</code>, <code>MUST BE USED</code>)</li>
+<li>구체적인 트리거 조건 명시</li>
+</ul>
+<p><strong>3. tools (선택)</strong> - 사용 가능한 도구</p>
+<pre><code class="language-yaml">tools: [read, grep, bash]  # 필요한 도구만 선택
+</code></pre>
+<ul>
+<li>생략하면 Claude Code 메인 에이전트의 모든 도구 사용 가능 (MCP 도구 포함)</li>
+<li>최소 권한 원칙 적용 권장</li>
+<li>MCP 도구: Claude Code에 연결된 외부 도구들 (파일시스템, 데이터베이스, API 등)도 함께 사용 가능</li>
+</ul>
+<p><strong>4. model (선택)</strong> - AI 모델 선택</p>
+<pre><code class="language-yaml">model: opus  # haiku(저렴), sonnet(균형), opus(고품질)
+</code></pre>
+<ul>
+<li>작업 복잡도에 따라 선택</li>
+<li>생략 시 Claude Code 메인 에이전트와 동일한 모델 사용</li>
+</ul>
+<h3>마크다운 지시문 작성법</h3>
+<p>마크다운 부분은 서브 에이전트에게 구체적인 작업 방법을 알려줍니다. 역할 정의, 업무 범위, 작업 프로세스, 평가 기준, 출력 형식을 명확히 작성하면 더 정확한 결과를 얻을 수 있습니다.</p>
+<h2>3. 설정 파일 저장 위치와 우선순위 관리</h2>
+<h3>저장 위치별 특성</h3>
+<p><strong>프로젝트별 저장</strong> (<code>.claude/agents/</code>)</p>
+<ul>
+<li>범위: 해당 프로젝트에서만 사용</li>
+<li>용도: 프로젝트 특수 요구사항</li>
+<li>관리: Git으로 버전 관리</li>
+<li>우선순위: 최우선</li>
+<li>예시 경로: <code>/my-project/.claude/agents/team-reviewer.md</code></li>
+</ul>
+<p><strong>사용자별 저장</strong> (<code>~/.claude/agents/</code>)</p>
+<ul>
+<li>범위: 모든 프로젝트에서 사용</li>
+<li>용도: 개인 작업 스타일</li>
+<li>관리: 개인 백업 필요</li>
+<li>우선순위: 프로젝트 레벨보다 낮음</li>
+<li>예시 경로: <code>/Users/username/.claude/agents/my-helper.md</code></li>
+</ul>
+<h3>우선순위 충돌 시 해결방법</h3>
+<p>동일한 이름의 서브 에이전트가 여러 위치에 있을 때:</p>
+<pre><code>프로젝트 레벨 (최우선)
+    ↓ (없으면)
+사용자 레벨 (사용)
+</code></pre>
+<p>예시: <code>code-reviewer</code>라는 이름의 서브 에이전트가 두 곳 모두에 있다면, 프로젝트 폴더의 것이 실행됩니다.</p>
+<h2>4. 프로액티브 키워드 활용법</h2>
+<p>프로액티브 키워드는 서브 에이전트를 자동으로 호출하게 만드는 특별한 단어들입니다. 사용자가 직접 서브 에이전트를 호출하지 않아도, Claude Code 메인 에이전트가 작업 내용을 분석해서 적절한 서브 에이전트를 자동으로 선택하고 실행합니다.</p>
+<p>예를 들어, &quot;코드를 검토해줘&quot;라고 요청하면 description에 프로액티브 키워드가 있는 code-reviewer가 자동으로 실행됩니다. 마치 개인 비서가 상황을 파악하고 적절한 전문가를 부르는 것과 같습니다.</p>
+<h3>핵심 프로액티브 키워드</h3>
+<p><strong>&quot;use PROACTIVELY&quot;</strong></p>
+<ul>
+<li>가장 강력한 자동 실행 트리거</li>
+<li>관련 작업 감지 시 즉시 실행</li>
+<li>예: <code>&quot;use PROACTIVELY for security review&quot;</code></li>
+</ul>
+<p><strong>&quot;MUST BE USED&quot;</strong></p>
+<ul>
+<li>특정 조건에서 반드시 실행</li>
+<li>강제성이 가장 높음</li>
+<li>예: <code>&quot;MUST BE USED before deployment&quot;</code></li>
+</ul>
+<p><strong>&quot;immediately after&quot;</strong></p>
+<ul>
+<li>특정 이벤트 직후 실행</li>
+<li>순서가 중요한 작업에 사용</li>
+<li>예: <code>&quot;immediately after code changes&quot;</code></li>
+</ul>
+<p><strong>&quot;automatically invoke&quot;</strong></p>
+<ul>
+<li>조건 충족 시 자동 호출</li>
+<li>백그라운드 작업에 적합</li>
+<li>예: <code>&quot;automatically invoke for test generation&quot;</code></li>
+</ul>
+<h3>YAML description 필드 작성 예시</h3>
+<p>YAML 설정부의 description 필드에 프로액티브 키워드를 넣는 방법:</p>
+<pre><code class="language-yaml"># ❌ 나쁜 예시 (너무 모호함)
+description: &quot;코드를 검토하는 에이전트&quot;
+
+# ✅ 좋은 예시 (구체적이고 프로액티브)
+description: &quot;Code security auditor. use PROACTIVELY for vulnerability scanning. MUST BE USED before commits. Specializes in SQL injection, XSS, and authentication issues.&quot;
+</code></pre>
+<h3>YAML description 필드의 키워드 조합 전략</h3>
+<p>YAML description 필드에서 여러 프로액티브 키워드를 조합하여 더 정확한 자동 호출을 만드는 방법:</p>
+<p><strong>다중 트리거 설정</strong> (여러 상황에서 자동 실행):</p>
+<pre><code class="language-yaml">description: &quot;Performance optimizer. use PROACTIVELY when response time &gt; 1s. MUST BE USED before production deployment. automatically invoke during load testing.&quot;
+</code></pre>
+<p><strong>동의어 포함</strong> (비슷한 요청에도 반응):</p>
+<pre><code class="language-yaml">description: &quot;Bug hunter. use PROACTIVELY for debugging, error analysis, issue tracking, problem solving, troubleshooting.&quot;
+</code></pre>
+<p><strong>작성일: 2025년 9월 3일 / 글자수: 5,117자 / 작성자: Claude / 프롬프터: 써니</strong></p>
+
+        </article>
+    </main>
+</body>
+</html>
