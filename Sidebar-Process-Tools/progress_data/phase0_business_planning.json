@@ -1,0 +1,43 @@
+{
+  "phase": "Phase 0: 사업계획",
+  "phase_code": "P0",
+  "description": "SSALWorks 비즈니스 전략 및 사업 계획 수립",
+  "base_folder": "P1_사업계획/",
+  "items": [
+    {
+      "id": "P0-01",
+      "name": "Vision & Mission 정의",
+      "description": "SSALWorks의 비전과 미션, 핵심 가치 정의",
+      "folder": "0-1_Vision_Mission/",
+      "weight": 20,
+      "completed": false
+    },
+    {
+      "id": "P0-02",
+      "name": "시장 분석",
+      "description": "타겟 시장, 경쟁사 분석, 시장 트렌드 파악",
+      "folder": "0-2_Market_Analysis/",
+      "weight": 30,
+      "completed": false
+    },
+    {
+      "id": "P0-03",
+      "name": "비즈니스 모델 수립",
+      "description": "수익 모델 (월 50,000원 구독), 가격 전략, 서비스 제공 범위",
+      "folder": "0-3_Business_Model/",
+      "weight": 30,
+      "completed": false
+    },
+    {
+      "id": "P0-04",
+      "name": "타겟 사용자 페르소나",
+      "description": "주요 고객층 정의 (프리랜서, 스타트업, 1인 개발자)",
+      "folder": "0-2_Market_Analysis/",
+      "weight": 20,
+      "completed": false
+    }
+  ],
+  "total_weight": 100,
+  "progress": 0,
+  "last_updated": "2025-11-17"
+}
