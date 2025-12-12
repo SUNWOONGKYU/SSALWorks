@@ -42,6 +42,6 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add 학습용_콘텐츠/**/*.html Project-SSAL-Grid/manual/**/*.html
+          git add "학습용_콘텐츠/" "Project-SSAL-Grid/manual/"
           git diff --staged --quiet || git commit -m "자동 변환: MD → HTML [GitHub Actions]"
           git push
