@@ -1,7 +1,7 @@
-# PROJECT SAL GRID MANUAL v3.0
+# PROJECT SAL GRID MANUAL v3.2
 
 > **작성일**: 2025-11-25
-> **최종 수정**: 2025-11-25 (v3.0)
+> **최종 수정**: 2025-12-12 (v3.2)
 > **기반**: PROJECT_SAL_GRID_생성_가이드_V2.0.md
 > **용도**: PROJECT SAL GRID 완전 매뉴얼
 
@@ -33,7 +33,7 @@
 ### PART 4: Supabase 설정 및 실행
 
 13. [5분 만에 시작하기](#13-5분-만에-시작하기)
-14. [표준 Grid 설치](#14-표준-grid-설치-66개-task)
+14. [표준 Grid 설치](#14-표준-grid-설치)
 15. [설치 확인 및 문제 해결](#15-설치-확인-및-문제-해결)
 16. [Supabase 기본 개념](#16-supabase-기본-개념)
 17. [CRUD 작업](#17-crud-작업)
@@ -475,7 +475,7 @@ S2F1_S1F6_login_component.tsx
      • "/docs/instructions/S4BA1.md" (절대 경로)
      • "https://docs.example.com/tasks/S1O1" (웹 문서)
      • "-" (지시서 없음)
-   - **표준 위치**: `project-ssal-grid/task-instructions/{TaskID}_instruction.md`
+   - **표준 위치**: `Project-SSAL-Grid/task-instructions/{TaskID}_instruction.md` (별도 폴더 관리)
    - **표준 파일명**: `{TaskID}_instruction.md`
    - **용도**: AI Agent가 작업 수행 시 참조하는 핵심 문서
    - **주의**: 경로가 틀리면 AI가 작업 불가
@@ -591,7 +591,7 @@ S2F1_S1F6_login_component.tsx
       • "tasks/S4O1_verification.md" (상대 경로)
       • "/docs/verifications/S4BA1.md" (절대 경로)
       • "-" (검증지시서 없음)
-    - **표준 위치**: `project-ssal-grid/verification-instructions/{TaskID}_verification.md`
+    - **표준 위치**: `Project-SSAL-Grid/verification-instructions/{TaskID}_verification.md` (별도 폴더 관리)
     - **표준 파일명**: `{TaskID}_verification.md`
     - **용도**: 검증 Agent가 Task 검증 시 참조하는 체크리스트
 
@@ -867,30 +867,29 @@ project-root/
 ├── PROJECT_STATUS.md
 ├── PROJECT_DIRECTORY_STRUCTURE.md
 │
-├── P1_사업계획/                        # Business Plan
-├── 1_기획/                            # Planning (Stage 1)
-├── 2_프로토타입_제작/                  # Prototype (Stage 2)
-├── 2_개발 준비/                       # Development Preparation (Stage 2)
-├── 3_개발_1차/                        # Development Phase 1 (Stage 3)
-├── 4_개발_2차/                        # Development Phase 2 (Stage 4)
-├── 5_개발_3차/                        # Development Phase 3 (Stage 5)
-├── S5_운영/                            # Operations (Stage 6)
+├── P1_사업계획/                        # Business Plan (GRID 범위 밖)
+├── P2_프로젝트_기획/                   # Project Planning (GRID 범위 밖)
+├── P3_프로토타입_제작/                 # Prototype (GRID 범위 밖)
+├── S1_개발_준비/                       # Development Setup (Stage 1)
+├── S2_개발-1차/                        # Core Development (Stage 2)
+├── S3_개발-2차/                        # Advanced Features (Stage 3)
+├── S4_개발-3차/                        # QA & Optimization (Stage 4)
+├── S5_운영/                            # Operations (Stage 5)
 │
-├── claude/                            # Claude 작업 폴더
-│   └── claude.md
+├── .claude/                           # Claude Code 설정
+│   └── CLAUDE.md
 │
-├── web_claude-code_bridge/           # Web ↔ Claude Code 브릿지
+├── Web_ClaudeCode_Bridge/            # Web ↔ Claude Code 브릿지
 │   ├── inbox/                        # 인간 → Claude
 │   └── outbox/                       # Claude → 인간
 │
-└── project-ssal-grid/                # PROJECT SAL GRID 관리
+└── Project-SSAL-Grid/                # PROJECT SAL GRID 관리
+    ├── ssal-grid/                    # Task 기획 + Grid 데이터
+    │   ├── SSALWORKS_TASK_PLAN.md   # Task 기획서
+    │   └── SSALWORKS_5x11_MATRIX.md # 5×11 매트릭스
     ├── manual/                       # 매뉴얼
     ├── supabase/                     # 데이터베이스 스키마
-    ├── task-instructions/            # Task Instructions
-    ├── verification-instructions/    # Verification Instructions
     └── viewer/                       # 뷰어
-        ├── viewer.html              # HTML 뷰어
-        └── converter.py             # Grid → HTML 변환기
 ```
 
 ---
@@ -1016,57 +1015,44 @@ outbox/
 
 ---
 
-### 4.7 project-ssal-grid/ 폴더
+### 4.7 Project-SSAL-Grid/ 폴더
 
 #### **구조**
 ```
-project-ssal-grid/
+Project-SSAL-Grid/
+├── ssal-grid/                        # Task 기획 + Grid 데이터
+│   ├── SSALWORKS_TASK_PLAN.md       # Task 기획서 (v3.0)
+│   └── SSALWORKS_5x11_MATRIX.md     # 5×11 매트릭스 (v3.0)
+│
 ├── manual/
-│   └── PROJECT_SAL_GRID_생성_가이드.md
+│   ├── PROJECT_SSAL_GRID_MANUAL.md  # 완전 매뉴얼
+│   └── references/                   # 참조 문서
 │
 ├── supabase/
 │   ├── schema.sql
 │   ├── migrations/
 │   └── rls_policies.sql
 │
-├── task-instructions/
-│   ├── S1M1_instruction.md
-│   ├── S2F3_instruction.md
-│   └── ...
-│
-├── verification-instructions/
-│   ├── S1M1_verification.md
-│   ├── S2F3_verification.md
-│   └── ...
-│
 └── viewer/
-    ├── viewer.html
-    ├── converter.py
-    ├── style.css
-    └── script.js
+    └── viewer.html                   # HTML 뷰어
 ```
 
 #### **각 폴더 역할**
 
+**ssal-grid/**
+- Task 기획서 (SSALWORKS_TASK_PLAN.md)
+- 5×11 매트릭스 정의 (SSALWORKS_5x11_MATRIX.md)
+- Task 기획 완료 시 Grid 데이터 생성
+
 **manual/**
-- PROJECT SAL GRID 생성 가이드
-- 사용법 문서
-- 매뉴얼
+- PROJECT SAL GRID 완전 매뉴얼
+- 참조 문서 (references/)
+- 사용법 가이드
 
 **supabase/**
 - 데이터베이스 스키마
 - 마이그레이션 파일
 - RLS 정책
-
-**task-instructions/**
-- 각 Task의 작업 지시서
-- `{TaskID}_instruction.md` 형식
-- Claude가 Task 실행 시 참고
-
-**verification-instructions/**
-- 각 Task의 검증 지시서
-- `{TaskID}_verification.md` 형식
-- verification_agent가 검증 시 사용
 
 **viewer/**
 - HTML 뷰어
@@ -1132,47 +1118,43 @@ project-ssal-grid/
 
 ### 5.1 생성 시점
 
-**PROJECT SAL GRID는 Stage 1 (Planning) 단계에서 생성합니다.**
+**PROJECT SAL GRID는 P3 프로토타입 완료 후, S1 개발 준비 시작 전에 생성합니다.**
 
 ```
-[Stage 1: Prototype (프로토타입)]
+[P1-P3: 예비단계 (GRID 범위 밖)]
 
-  Step 1-1: 프로젝트 요구사항 정의
-    ├─ 목표 정의
-    ├─ 기능 목록
-    └─ 제약 사항
+  P1 사업계획
+    ├─ Vision & Mission
+    ├─ Market Analysis
+    └─ Business Model
          ↓
-  Step 1-2: 🎨 목업 디자인 완성 (필수!)
-    ├─ 모든 화면 디자인
-    ├─ UI 컴포넌트
-    └─ 화면 플로우
+  P2 프로젝트 기획
+    ├─ 요구사항 정의
+    ├─ 🎨 목업 디자인 완성 (필수!)
+    ├─ ERD 설계
+    └─ 기술 스택 결정
          ↓
-  Step 1-3: ERD 설계
-    ├─ 테이블 구조
-    └─ 관계 설정
+  P3 프로토타입 제작
+    ├─ Frontend 프로토타입
+    ├─ Database 설정
+    └─ 기본 동작 확인
          ↓
-  Step 1-4: 기술 스택 결정
-    ├─ 프론트엔드 기술
-    ├─ 백엔드 기술
-    └─ 인프라
-         ↓
-  Step 1-5: ✨ PROJECT SAL GRID 생성
-    ├─ AI가 모든 Task 도출
-    ├─ Stage 2~5의 모든 작업 정의
+  ✨ PROJECT SAL GRID 생성
+    ├─ AI가 S1~S5 모든 Task 도출
     ├─ 의존성 체인 설정
     └─ Task/Verification Instruction 작성
          ↓
   PROJECT SAL GRID 완성! ✅
-  (Stage 1 종료, Stage 2 진입 대기)
+  (예비단계 종료, 실행단계 진입 대기)
 
-[Stage 2~5: 실행]
+[S1-S5: 실행단계 (GRID 관리 범위)]
   └─ Grid에 정의된 Task를 순서대로 실행
 ```
 
 **핵심:**
-- Grid는 **계획 산출물**이므로 Planning 단계에서 완성
+- Grid는 **예비단계 완료 후** 생성 (P3 프로토타입 → GRID → S1 개발 준비)
 - **목업 디자인** 완성 후 Grid 생성 (순서 중요!)
-- Grid 완성 = Stage 1 종료 = 실제 개발 준비 완료
+- Grid 완성 = 예비단계 종료 = 실제 개발(S1~S5) 준비 완료
 
 ---
 
@@ -1185,7 +1167,7 @@ Step 1: 필수 초기 자료 확인
   ├─ ERD ✅
   └─ 기술 스택 ✅
          ↓
-Step 2: 6×11 매트릭스 참고
+Step 2: 5×11 매트릭스 참고
   ├─ 각 Stage별 필요 Area 확인
   ├─ 일반적인 Task 예시 참고
   └─ 프로젝트에 맞게 조정
@@ -3322,7 +3304,7 @@ Success. No rows returned
 
 ---
 
-### 14-3. Step 2: 데이터 입력 (66개 Task)
+### 14-3. Step 2: 데이터 입력
 
 **목적:** 표준 Task들을 테이블에 입력합니다.
 
@@ -3366,15 +3348,16 @@ Success. No rows returned
 ```
 또는
 ```
-Success. 93 rows affected
+Success. N rows affected
 ```
+(N = 입력한 Task 개수)
 
 **6. 데이터 확인**
 
 1. 왼쪽 사이드바 → **Table Editor** 클릭
 2. `project_ssal_grid_tasks` 테이블 클릭
-3. **93 rows** 표시되면 성공!
-4. 스크롤하면 S1M1, S1M2, ... S5C2까지 보임
+3. Task 개수만큼 rows가 표시되면 성공!
+4. 스크롤하면 S1M1, S1M2, ... 순서대로 보임
 
 ---
 
@@ -3387,7 +3370,7 @@ Success. 93 rows affected
 SELECT COUNT(*) as total_tasks
 FROM project_ssal_grid_tasks;
 
--- 결과: total_tasks = 93
+-- 결과: 프로젝트 Task 기획서에 정의된 개수가 표시됨
 ```
 
 ```sql
@@ -3397,12 +3380,8 @@ FROM project_ssal_grid_tasks
 GROUP BY stage
 ORDER BY stage;
 
--- 결과:
--- stage 1: 12
--- stage 2: 10
--- stage 3: 16
--- stage 4: 33
--- stage 5: 22
+-- 결과: Stage 1~5별 Task 개수가 표시됨
+-- (구체적인 개수는 SSALWORKS_TASK_PLAN.md 참조)
 ```
 
 ```sql
@@ -3424,7 +3403,7 @@ LIMIT 10;
 - ✅ Supabase 프로젝트 생성
 - ✅ `project_ssal_grid_tasks` 테이블 생성
 - ✅ 표준 Task 입력
-- ✅ 6×11 매트릭스 완성
+- ✅ 5×11 매트릭스 완성
 
 **다음 단계:**
 
@@ -3453,14 +3432,14 @@ Step 1 (schema.sql):
 ☑ 테이블이 비어있음 (0 rows)
 
 Step 2 (데이터):
-☑ STANDARD_PROJECT_SAL_GRID_FINAL.sql 실행
+☑ 프로젝트 Task SQL 파일 실행
 ☑ "Success" 메시지 확인
-☑ Table Editor에 93 rows 표시
-☑ SELECT COUNT(*) 실행 시 93 반환
+☑ Table Editor에 Task 개수만큼 rows 표시
+☑ SELECT COUNT(*) 실행 시 Task 개수 반환
 
 최종 확인:
-☑ Stage별 개수: 1(12), 2(10), 3(16), 4(33), 5(22)
-☑ Task ID: S1M1 ~ S5C2까지 존재
+☑ Stage 1~5 각각 Task 존재
+☑ Task ID: S1으로 시작해서 S5까지 존재
 ☑ 모든 Task에 task_name, stage, area 입력됨
 ```
 
@@ -5129,7 +5108,7 @@ const { data } = await supabase
 
 - 생성 가이드: `PROJECT_SAL_GRID_생성_가이드_V2.0.md`
 - 22 속성: `PROJECT_GRID_22_ATTRIBUTES_FINAL.md`
-- 6×11 매트릭스: `SSALWORKS_5x11_MATRIX.md`
+- 5×11 매트릭스: `SSALWORKS_5x11_MATRIX.md`
 - 디렉토리 구조: `PROJECT_DIRECTORY_STRUCTURE.md`
 - 템플릿 README: `template/README.md`
 
@@ -5367,7 +5346,7 @@ A:
     - 6개 Stage 폴더 (P1_사업계획 ~ 5_운영)
     - claude/ 폴더
     - web_claude-code_bridge/ (Inbox/Outbox)
-    - project-ssal-grid/ (매뉴얼, DB, Instructions, 뷰어)
+    - Project-SSAL-Grid/ (매뉴얼, DB, 뷰어, ssal-grid)
     - 파일 명명 규칙
     - 폴더별 역할 상세 설명
 
@@ -5383,7 +5362,7 @@ A:
   - **Git 통합 추적 시스템 추가**
 
 - **V1.0 (2025-11-23)**: 초기 버전
-  - SSALWorks 6×11 매트릭스 반영
+  - SSALWorks 5×11 매트릭스 반영
   - Task 선정 2대 원칙
   - 22개 속성 체계
   - 3단계 검증 시스템
@@ -5392,6 +5371,19 @@ A:
 ---
 
 ### PROJECT SAL GRID MANUAL 버전 이력
+
+- **v3.2 (2025-12-12)**: 유연성 확보 및 현행화
+  - 섹션 5.1 Grid 생성 시점: P1-P3 + S1-S5 구조에 맞게 수정
+  - 섹션 14: Task 개수 일반화 (66개/93개 → 프로젝트별 Task)
+  - 구체적인 Task 개수는 SSALWORKS_TASK_PLAN.md 참조하도록 안내
+  - 매뉴얼은 기준과 원칙 제시, Task 기획서에서 개수 관리
+
+- **v3.1 (2025-12-12)**: 폴더 구조 정리 및 매뉴얼 현행화
+  - `Project-SSAL-Grid/ssal-grid/` 폴더로 Task 기획 파일 통합
+  - 섹션 4.2 전체 구조 업데이트 (P1-P3, S1-S5 표기 통일)
+  - 섹션 4.7 Project-SSAL-Grid 폴더 구조 업데이트
+  - task-instructions, verification-instructions 폴더 제거 (별도 관리)
+  - SSALWORKS_TASK_PLAN.md (v3.0), SSALWORKS_5x11_MATRIX.md (v3.0) 참조
 
 - **v3.0 (2025-11-25)**: 생성 가이드와 Supabase 가이드를 통합한 완전 매뉴얼 제작
   - PART 1: 프로젝트 개요 및 핵심 개념
@@ -5416,7 +5408,8 @@ A:
 > 🌾 **SSALWorks - Your AI-Powered Project Management System**
 >
 > **작성**: 2025-11-25
-> **버전**: v3.0
+> **버전**: v3.2
+> **최종 수정**: 2025-12-12
 > **문의**: PROJECT_SAL_GRID 관련 문서 참고
 
 **Happy Coding!** 💻✨

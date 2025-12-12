@@ -5,6 +5,37 @@
   },
   "structure": [
     {
+      "id": "Project-SSAL-Grid",
+      "name": "Project-SSAL-Grid",
+      "name_ko": "Project SAL Grid",
+      "categories": [
+        {
+          "id": "ssal-grid",
+          "name_en": "ssal-grid",
+          "name_ko": "SSAL Grid",
+          "items": []
+        },
+        {
+          "id": "manual",
+          "name_en": "manual",
+          "name_ko": "매뉴얼",
+          "items": []
+        },
+        {
+          "id": "supabase",
+          "name_en": "supabase",
+          "name_ko": "Supabase",
+          "items": []
+        },
+        {
+          "id": "viewer",
+          "name_en": "viewer",
+          "name_ko": "뷰어",
+          "items": []
+        }
+      ]
+    },
+    {
       "id": "P1_사업계획",
       "name": "P1_사업계획",
       "name_ko": "사업계획",

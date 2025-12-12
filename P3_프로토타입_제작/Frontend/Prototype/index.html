@@ -2063,64 +2063,75 @@
             <div class="left-sidebar-section">
                 <h2 class="sidebar-title" style="margin-bottom: 11px;">📦 PROJECT</h2>
 
-                <!-- Project List Header -->
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #495057; margin-bottom: 8px; padding-left: 4px; cursor: pointer;"
-                    onclick="toggleProjectList()">
-                    <span>Project 목록</span>
-                    <span id="projectListArrow" style="font-size: 12px;">▲</span>
-                </div>
-
-                <!-- Project List -->
-                <div class="project-list" id="projectList" style="display: flex; flex-direction: column; gap: 6px;">
-                    <!-- 예시 프로젝트 (최상단 고정) -->
-                    <div class="project-list-item" onclick="loadProcessStage('project_example', 'SSAL Works (예시)', '프로젝트'); showExampleProject()">
-                        <span class="project-name">SSAL Works</span>
-                        <span class="project-status" style="background: rgba(16, 185, 129, 0.1); color: var(--primary);">예시</span>
+                <!-- 1. 예시 Project (3개) -->
+                <div style="margin-bottom: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: var(--primary); padding: 6px 8px; background: rgba(16, 185, 129, 0.08); border-radius: 4px; cursor: pointer;"
+                        onclick="toggleExampleProjects()">
+                        <span>📚 예시 Project (3개)</span>
+                        <span id="exampleProjectsArrow" style="font-size: 10px;">▶</span>
                     </div>
-
-                    <!-- 완료 프로젝트 (최신 1개만 표시) -->
-                    <div class="project-list-item" onclick="loadProcessStage('project_work', 'PoliticianFinder', '프로젝트'); selectProject('PoliticianFinder')" style="opacity: 0.6;">
-                        <span class="project-name">PoliticianFinder</span>
-                        <span class="project-status" style="background: var(--success); color: white;">완료</span>
-                    </div>
-
-                    <!-- 완료 프로젝트 더보기 (2개 이상일 때만 표시) -->
-                    <div id="completedProjectsMore" style="display: flex; flex-direction: column; gap: 6px;">
-                        <div style="font-size: 12px; font-weight: 600; color: #6c757d; padding: 8px 12px; background: #f8f9fa; border-radius: 6px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;"
-                            onclick="toggleCompletedProjects()">
-                            <span id="completedProjectsText">완료 프로젝트 더보기</span>
-                            <span id="completedProjectsArrow" style="font-size: 12px;">▼</span>
+                    <div id="exampleProjectsList" style="display: none; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px;">
+                        <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/POLITICIAN_FINDER_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
+                            <span class="project-name">PoliticianFinder</span>
+                            <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
                         </div>
-
-                        <!-- 펼침 영역 (스크롤) -->
-                        <div id="completedProjectsList" style="display: none; flex-direction: column; gap: 6px; max-height: 300px; overflow-y: auto; padding: 4px;">
-                            <!-- 추가 완료 프로젝트들 (예시) -->
-                            <div class="project-list-item" onclick="selectProject('포트폴리오')" style="opacity: 0.6;">
-                                <span class="project-name">포트폴리오</span>
-                                <span class="project-status" style="background: var(--success); color: white;">완료</span>
-                            </div>
-                            <div class="project-list-item" onclick="selectProject('쇼핑몰 프로젝트')" style="opacity: 0.6;">
-                                <span class="project-name">쇼핑몰 프로젝트</span>
-                                <span class="project-status" style="background: var(--success); color: white;">완료</span>
-                            </div>
-                            <div class="project-list-item" onclick="selectProject('회사 홈페이지')" style="opacity: 0.6;">
-                                <span class="project-name">회사 홈페이지</span>
-                                <span class="project-status" style="background: var(--success); color: white;">완료</span>
-                            </div>
+                        <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/SSAL_WORKS_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
+                            <span class="project-name">SSAL Works</span>
+                            <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
                         </div>
-                    </div>
-
-                    <!-- 진행중 프로젝트 (맨 아래 고정) -->
-                    <div class="project-list-item selected" onclick="loadProcessStage('project_work', 'SSAL Works', '프로젝트'); selectProject('SSAL Works')">
-                        <span class="project-name">SSAL Works</span>
-                        <span class="project-status">진행중</span>
+                        <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/HDH_FINTECH_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
+                            <span class="project-name">HDH Fintech</span>
+                            <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Add New Project Button -->
-                <div class="project-menu">
-                    <div class="project-menu-item" onclick="openAddProjectModal()">
-                        <span style="color: var(--success) !important; font-size: 24px; font-weight: bold;">+</span>
+                <!-- 2. 완료 Project -->
+                <div style="margin-bottom: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #495057; padding: 6px 8px; background: rgba(16, 185, 129, 0.05); border-radius: 4px; cursor: pointer;"
+                        onclick="toggleCompletedProjects()">
+                        <span>✅ 완료 Project (<span id="completedProjectsCount">3</span>개)</span>
+                        <span id="completedProjectsArrow" style="font-size: 10px;">▶</span>
+                    </div>
+                    <div id="completedProjectsList" style="display: none; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px; max-height: 200px; overflow-y: auto;">
+                        <!-- 완료 프로젝트들 (DB에서 동적 로드) -->
+                        <div class="project-list-item" onclick="selectProject('포트폴리오')" style="opacity: 0.7;">
+                            <span class="project-name">포트폴리오</span>
+                            <span class="project-status" style="background: var(--success); color: white;">완료</span>
+                        </div>
+                        <div class="project-list-item" onclick="selectProject('쇼핑몰 프로젝트')" style="opacity: 0.7;">
+                            <span class="project-name">쇼핑몰 프로젝트</span>
+                            <span class="project-status" style="background: var(--success); color: white;">완료</span>
+                        </div>
+                        <div class="project-list-item" onclick="selectProject('회사 홈페이지')" style="opacity: 0.7;">
+                            <span class="project-name">회사 홈페이지</span>
+                            <span class="project-status" style="background: var(--success); color: white;">완료</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 진행중 Project (1개만) -->
+                <div style="margin-bottom: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #495057; padding: 6px 8px; background: rgba(16, 185, 129, 0.05); border-radius: 4px; cursor: pointer;"
+                        onclick="toggleCurrentProject()">
+                        <span>🔄 진행중 Project</span>
+                        <span id="currentProjectArrow" style="font-size: 10px;">▼</span>
+                    </div>
+                    <div id="currentProjectList" style="display: flex; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px;">
+                        <div class="project-list-item selected" onclick="loadProcessStage('project_work', 'SSAL Works', '프로젝트'); selectProject('SSAL Works')">
+                            <span class="project-name">SSAL Works</span>
+                            <span class="project-status">진행중</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. 새로운 Project 등록 -->
+                <div style="margin-top: 8px;">
+                    <div style="display: flex; align-items: center; gap: 6px; padding: 6px 8px; background: rgba(16, 185, 129, 0.08); border: 1px dashed var(--primary); border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--primary); transition: all 0.2s;"
+                        onclick="openAddProjectModal()"
+                        onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'; this.style.borderStyle='solid'"
+                        onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'; this.style.borderStyle='dashed'">
+                        <span style="font-size: 14px;">+</span>
                         <span>새로운 Project 등록</span>
                     </div>
                 </div>
@@ -2308,31 +2319,25 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small">
+                            <div class="process-small" onclick="loadProcessStage('ssal_grid', 'SSAL Grid', 'SAL Grid')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>ssal-grid</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_manual', 'Manual', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>manual</span>
                                 </div>
                             </div>
-                            <div class="process-small">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_supabase', 'Supabase', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>supabase</span>
                                 </div>
                             </div>
-                            <div class="process-small">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>task-instructions</span>
-                                </div>
-                            </div>
-                            <div class="process-small">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>verification-instructions</span>
-                                </div>
-                            </div>
-                            <div class="process-small">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_viewer', 'Viewer', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>viewer</span>
@@ -2947,23 +2952,26 @@ The content you enter in the workspace will be displayed here.</pre>
         <aside class="right-sidebar">
             <!-- 마이페이지 메뉴 -->
             <div class="sidebar-section" id="mypageMenuSection">
-                <h3 style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;" onclick="toggleMypageMenu()">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     👤 마이페이지
-                    <span id="mypageArrow" style="font-size: 12px; transition: transform 0.2s;">▶</span>
+                    <span id="mypageMoreBtn" onclick="toggleMypageMenu()" style="cursor: pointer; font-size: 12px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
                 </h3>
-                <!-- 펼쳐지는 마이페이지 링크들 -->
-                <div id="mypageLinks" style="display: none; margin-top: 8px;">
+                <!-- 기본 노출: 내 프로필 -->
+                <div style="margin-top: 8px;">
+                    <a href="pages/mypage/profile.html" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        내 프로필
+                    </a>
+                </div>
+                <!-- 펼쳐지는 추가 메뉴들 -->
+                <div id="mypageLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <a href="pages/mypage/profile.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
-                            <span>👤</span> 내 프로필
-                        </a>
-                        <a href="pages/mypage/subscription.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <a href="pages/mypage/subscription.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='transparent'">
                             <span>📋</span> 구독 정보
                         </a>
-                        <a href="pages/mypage/credit.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <a href="pages/mypage/credit.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='transparent'">
                             <span>💰</span> 크레딧 관리
                         </a>
-                        <a href="pages/mypage/security.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='#f0f0f0'" onmouseout="this.style.background='transparent'">
+                        <a href="pages/mypage/security.html" style="display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #333; text-decoration: none; font-size: 13px; border-radius: 6px; transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='transparent'">
                             <span>🔒</span> 보안 설정
                         </a>
                     </div>
@@ -2972,7 +2980,10 @@ The content you enter in the workspace will be displayed here.</pre>
 
             <!-- Notices Section (공지사항 - 상단 배치) -->
             <div class="sidebar-section">
-                <h3>📢 공지사항</h3>
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    📢 공지사항
+                    <a href="admin-dashboard.html" style="font-size: 12px; font-weight: 400; color: #6c757d; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</a>
+                </h3>
                 <div id="noticesList">
                     <div style="text-align: center; padding: 20px; color: #6c757d;">
                         공지사항을 불러오는 중...
@@ -3400,15 +3411,15 @@ The content you enter in the workspace will be displayed here.</pre>
             </div>
             <!-- 학습용 콘텐츠 섹션 끝 -->
 
-            <!-- FAQ -->
+            <!-- FAQ & Tip -->
             <div class="sidebar-section" id="faqSection">
-                <h3>🙋 FAQ</h3>
+                <h3>🙋 FAQ & Tip</h3>
 
-                <!-- FAQ 검색창 -->
+                <!-- FAQ & Tip 검색창 -->
                 <div style="margin-bottom: 11px;">
                     <input type="text"
                            id="faqSearchInput"
-                           placeholder="FAQ 검색하기"
+                           placeholder="FAQ & Tip 검색하기"
                            oninput="searchFaqs(this.value)"
                            style="width: 100%; padding: 8px 12px; border: 1px solid #F59E0B; border-radius: 6px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; transition: all 0.2s;">
                 </div>
@@ -4120,12 +4131,16 @@ The content you enter in the workspace will be displayed here.</pre>
         // 진행중인 프로젝트를 기본값으로 자동 설정
         let currentSelectedProject = 'SSAL Works';
 
-        // Sidebar structure data (updated 2025-11-27)
+        // Sidebar structure data (updated 2025-12-12)
         const SIDEBAR_STRUCTURE = {
-            "metadata": { "lastUpdate": "2025-11-27", "source": "PROJECT_DIRECTORY_STRUCTURE.md" },
+            "metadata": { "lastUpdate": "2025-12-12", "source": "PROJECT_DIRECTORY_STRUCTURE.md" },
             "specialStages": [
                 { "id": "dir_structure", "name": "작업 디렉토리 구조 생성", "icon": "☆", "type": "special" },
                 { "id": "sal_grid", "name": "Project SAL GRID 생성", "icon": "☆", "type": "special" }
+            ],
+            "gridStages": [
+                { "id": "SSAL-Grid", "name": "SSAL Grid", "icon": "◈", "path": "SSAL-Grid", "categories": ["task-planning", "grid"] },
+                { "id": "Project-SSAL-Grid", "name": "Project SAL Grid", "icon": "◈", "path": "Project-SSAL-Grid", "categories": ["manual", "supabase", "viewer"] }
             ],
             "prepStages": [
                 { "id": "P1_사업계획", "name": "사업계획", "icon": "○", "path": "P1_사업계획", "categories": ["0-1_Vision_Mission", "0-2_Market_Analysis", "0-3_Business_Model"] },
@@ -4768,6 +4783,68 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 `,
                 guideUrl: 'guides/SP-2_SAL_GRID_생성.html',
                 orderSheetUrl: 'templates/SP-2_SAL_GRID_생성.md'
+            },
+
+            // ===== SAL Grid 하위 항목 =====
+            'sal_grid_manual': {
+                stageId: 'sal_grid_manual',
+                stageName: 'SAL Grid Manual',
+                hasAction: true,
+                confirmMessage: 'SAL Grid Manual 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SAL_Grid_Manual.html'
+            },
+
+            'sal_grid_supabase': {
+                stageId: 'sal_grid_supabase',
+                stageName: 'SAL Grid Supabase',
+                hasAction: true,
+                confirmMessage: 'SAL Grid Supabase 연동 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SAL_Grid_Supabase.html'
+            },
+
+            'sal_grid_task_instructions': {
+                stageId: 'sal_grid_task_instructions',
+                stageName: 'Task Instructions',
+                hasAction: true,
+                confirmMessage: 'Task Instructions 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SAL_Grid_Task_Instructions.html'
+            },
+
+            'sal_grid_verification_instructions': {
+                stageId: 'sal_grid_verification_instructions',
+                stageName: 'Verification Instructions',
+                hasAction: true,
+                confirmMessage: 'Verification Instructions 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SAL_Grid_Verification_Instructions.html'
+            },
+
+            'sal_grid_viewer': {
+                stageId: 'sal_grid_viewer',
+                stageName: 'SAL Grid Viewer',
+                hasAction: true,
+                confirmMessage: 'SAL Grid Viewer 개발 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SAL_Grid_Viewer.html'
+            },
+
+            // ===== ◈ SSAL Grid (Task 기획 + Grid 생성) =====
+            'ssal_grid': {
+                stageId: 'ssal_grid',
+                stageName: 'SSAL Grid',
+                hasAction: true,
+                confirmMessage: 'SSAL Grid 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SSAL_Grid.html'
             },
 
             // ===== ○ 사업계획: 0-1 시장조사 =====
@@ -6753,8 +6830,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // 매뉴얼 보기
         function openManual() {
-            // HTML 매뉴얼 페이지 열기 (project-ssal-grid 폴더)
-            window.open('../../../project-ssal-grid/manual/manual.html', '_blank');
+            // 매뉴얼 뷰어 페이지 열기 (Supabase에서 매뉴얼 URL 로드)
+            window.open('pages/manual/index.html', '_blank');
         }
 
         // Viewer 열기
@@ -6782,35 +6859,72 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             }
         }
 
-        // 프로젝트 목록 펼치기/접기
-        function toggleProjectList() {
-            const projectList = document.getElementById('projectList');
-            const arrow = document.getElementById('projectListArrow');
+        // 예시 Project 펼치기/접기
+        function toggleExampleProjects() {
+            const list = document.getElementById('exampleProjectsList');
+            const arrow = document.getElementById('exampleProjectsArrow');
 
-            if (projectList.style.display === 'none') {
-                projectList.style.display = 'flex';
-                projectList.style.flexDirection = 'column';
-                projectList.style.gap = '6px';
-                arrow.textContent = '▲';
-            } else {
-                projectList.style.display = 'none';
+            if (list.style.display === 'none') {
+                list.style.display = 'flex';
                 arrow.textContent = '▼';
+                // 안내문 표시
+                showExampleProjectGuide();
+            } else {
+                list.style.display = 'none';
+                arrow.textContent = '▶';
             }
         }
 
-        // 완료된 프로젝트 더보기 펼치기/접기
+        // 예시 Project 안내문 표시
+        function showExampleProjectGuide() {
+            const workspace = document.getElementById('workspaceContent');
+            if (workspace) {
+                workspace.innerHTML = `
+                    <h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📚 예시 Project 안내</h2>
+                    <p style="margin-top: 16px; line-height: 1.8;">SSAL Works 개발자인 <strong>Sunny</strong>가 직접 진행한 3개 Project와 관련한 모든 문서 및 소스코드 파일을 열람하실 수 있습니다.</p>
+
+                    <h3 style="margin-top: 24px; color: #333;">제공되는 예시 Project</h3>
+                    <ul style="padding-left: 20px; line-height: 2;">
+                        <li><strong>PoliticianFinder</strong> - 정치인 정보 검색 서비스</li>
+                        <li><strong>SSAL Works</strong> - AI 기반 개발 플랫폼</li>
+                        <li><strong>HDH Fintech</strong> - 핀테크 서비스</li>
+                    </ul>
+
+                    <h3 style="margin-top: 24px; color: #333;">열람 방법</h3>
+                    <p style="line-height: 1.8;">각 Project를 클릭하시면 <strong>Google Drive</strong>로 바로 연결됩니다.</p>
+
+                    <div style="margin-top: 20px; padding: 12px 16px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid var(--primary);">
+                        <strong>💡 Tip:</strong> 자유롭게 참고하세요! 실제 작업을 시작하려면 "새로운 Project 등록" 버튼을 클릭하세요.
+                    </div>
+                `;
+            }
+        }
+
+        // 완료 프로젝트 펼치기/접기
         function toggleCompletedProjects() {
-            const completedList = document.getElementById('completedProjectsList');
+            const list = document.getElementById('completedProjectsList');
             const arrow = document.getElementById('completedProjectsArrow');
 
-            if (completedList.style.display === 'none') {
-                completedList.style.display = 'flex';
-                completedList.style.flexDirection = 'column';
-                completedList.style.gap = '6px';
-                arrow.textContent = '▲';
-            } else {
-                completedList.style.display = 'none';
+            if (list.style.display === 'none') {
+                list.style.display = 'flex';
                 arrow.textContent = '▼';
+            } else {
+                list.style.display = 'none';
+                arrow.textContent = '▶';
+            }
+        }
+
+        // 진행중 프로젝트 펼치기/접기
+        function toggleCurrentProject() {
+            const list = document.getElementById('currentProjectList');
+            const arrow = document.getElementById('currentProjectArrow');
+
+            if (list.style.display === 'none') {
+                list.style.display = 'flex';
+                arrow.textContent = '▼';
+            } else {
+                list.style.display = 'none';
+                arrow.textContent = '▶';
             }
         }
 
@@ -6916,7 +7030,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             });
 
             if (hasInProgress) {
-                alert('⚠️ 이미 진행 중인 프로젝트가 있습니다!\n\n현재 프로젝트를 완료한 후 새 프로젝트를 추가할 수 있습니다.');
+                alert('⚠️ 이미 진행 중인 Project가 있습니다!\n\n현재 Project를 완료한 후 새로운 Project를 추가할 수 있습니다.');
                 return;
             }
 
@@ -6959,7 +7073,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             const description = document.getElementById('projectDescription').value;
 
             if (!name) {
-                alert('프로젝트명을 입력해주세요!');
+                alert('Project명을 입력해주세요!');
                 return;
             }
 
@@ -6976,16 +7090,16 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             if (hasInProgress) {
                 // 현재 프로젝트의 개발이 완료되었는지 확인
                 if (!isProjectCompleted()) {
-                    alert('⚠️ 현재 프로젝트의 개발이 완료되지 않았습니다!\n\n모든 진행 프로세스가 100%가 되어야 새 프로젝트를 시작할 수 있습니다.\n현재 진행 중인 프로젝트를 먼저 완료해주세요.');
+                    alert('⚠️ 현재 Project의 개발이 완료되지 않았습니다!\n\n모든 진행 프로세스가 100%가 되어야 새로운 Project를 시작할 수 있습니다.\n현재 진행 중인 Project를 먼저 완료해주세요.');
                     return;
                 }
 
-                alert('⚠️ 진행 중인 프로젝트가 이미 있습니다!\n\n한 번에 하나의 프로젝트만 진행할 수 있습니다.\n현재 프로젝트를 완료한 후 새 프로젝트를 시작해주세요.\n\n💡 여러 프로젝트를 동시에 진행하시려면 새로운 계정으로 로그인하세요.');
+                alert('⚠️ 진행 중인 Project가 이미 있습니다!\n\n한 번에 하나의 Project만 진행할 수 있습니다.\n현재 Project를 완료한 후 새로운 Project를 시작해주세요.\n\n💡 여러 Project를 동시에 진행하시려면 새로운 계정으로 로그인하세요.');
                 return;
             }
 
-            // 프로젝트 구조 생성 중 표시
-            showStatus('🚀 표준 프로젝트 구조 생성 중...', 'info');
+            // Project 구조 생성 중 표시
+            showStatus('🚀 표준 Project 구조 생성 중...', 'info');
 
             try {
                 // 서버에 프로젝트 생성 요청
@@ -7008,18 +7122,18 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 
                     // 성공 안내 메시지를 에디터에 표시
                     const editor = document.getElementById('textEditor');
-                    editor.value = `# ✅ 새 프로젝트 생성 완료!
+                    editor.value = `# ✅ 새로운 Project 생성 완료!
 
-## 프로젝트 정보
-- **프로젝트명**: ${name}
+## Project 정보
+- **Project명**: ${name}
 - **생성 경로**: ${result.projectPath}
 - **상태**: 진행중
 
 ---
 
-## 🎉 생성된 표준 프로젝트 구조
+## 🎉 생성된 표준 Project 구조
 
-표준 프로젝트 디렉토리가 자동으로 생성되었습니다!
+표준 Project 디렉토리가 자동으로 생성되었습니다!
 
 ### 📁 생성된 폴더 및 파일:
 
@@ -8271,10 +8385,10 @@ ${result.answer}`;
         function toggleMypageMenu() {
             console.log('마이페이지 메뉴 토글 클릭');
             const links = document.getElementById('mypageLinks');
-            const arrow = document.getElementById('mypageArrow');
+            const btn = document.getElementById('mypageMoreBtn');
 
-            if (!links || !arrow) {
-                console.error('mypageLinks 또는 mypageArrow 요소를 찾을 수 없습니다.');
+            if (!links) {
+                console.error('mypageLinks 요소를 찾을 수 없습니다.');
                 return;
             }
 
@@ -8284,10 +8398,10 @@ ${result.answer}`;
 
             if (currentDisplay === 'none') {
                 links.style.display = 'block';
-                arrow.textContent = '▼';
+                if (btn) btn.textContent = '접기 ←';
             } else {
                 links.style.display = 'none';
-                arrow.textContent = '▶';
+                if (btn) btn.textContent = '더보기 →';
             }
         }
 
@@ -8386,7 +8500,7 @@ ${result.answer}`;
             }
         }
 
-        // 공지사항 렌더링
+        // 공지사항 렌더링 (최신 1개만 표시, 더보기는 h3 헤더에 있음)
         function renderNotices(notices) {
             const noticesList = document.getElementById('noticesList');
 
@@ -8404,26 +8518,23 @@ ${result.answer}`;
                 return;
             }
 
-            noticesList.innerHTML = notices.map(notice => {
-                // DOMPurify가 있으면 사용, 없으면 기본 텍스트만
-                const safeTitle = typeof DOMPurify !== 'undefined'
-                    ? DOMPurify.sanitize(notice.title, { ALLOWED_TAGS: [] })
-                    : notice.title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            // 최신 1개만 표시
+            const latestNotice = notices[0];
+            const safeTitle = typeof DOMPurify !== 'undefined'
+                ? DOMPurify.sanitize(latestNotice.title, { ALLOWED_TAGS: [] })
+                : latestNotice.title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-                // 작성일시 포맷 (연.월.일 시:분)
-                const createdDate = new Date(notice.created_at);
-                const formattedDate = `${createdDate.getFullYear()}.${String(createdDate.getMonth() + 1).padStart(2, '0')}.${String(createdDate.getDate()).padStart(2, '0')} ${String(createdDate.getHours()).padStart(2, '0')}:${String(createdDate.getMinutes()).padStart(2, '0')}`;
+            const createdDate = new Date(latestNotice.created_at);
+            const formattedDate = `${createdDate.getFullYear()}.${String(createdDate.getMonth() + 1).padStart(2, '0')}.${String(createdDate.getDate()).padStart(2, '0')} ${String(createdDate.getHours()).padStart(2, '0')}:${String(createdDate.getMinutes()).padStart(2, '0')}`;
 
-                return `
-                    <div class="notice-item" onclick="showNoticeDetail('${notice.id}', this)">
-                        
-                        <div class="notice-title">
-                            ${safeTitle}
-                        </div>
-                        <span class="notice-date">${formattedDate}</span>
+            noticesList.innerHTML = `
+                <div class="notice-item" onclick="showNoticeDetail('${latestNotice.id}', this)">
+                    <div class="notice-title">
+                        ${safeTitle}
                     </div>
-                `;
-            }).join('');
+                    <span class="notice-date">${formattedDate}</span>
+                </div>
+            `;
         }
 
         // 공지사항 상세 보기
