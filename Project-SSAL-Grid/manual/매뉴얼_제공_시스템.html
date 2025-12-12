@@ -377,9 +377,16 @@ display_order: 1             # 정렬 순서 (기본값: 0)
 CREATE INDEX idx_manuals_category ON manuals(category);
 CREATE INDEX idx_manuals_display_order ON manuals(display_order);
 </code></pre>
-<h3>5.2 GitHub URL 형식</h3>
-<pre><code>https://raw.githubusercontent.com/{owner}/{repo}/main/Project-SSAL-Grid/manual/.../파일명.html
+<h3>5.2 URL 형식</h3>
+<p><strong>jsdelivr CDN (권장):</strong></p>
+<pre><code>https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/Project-SSAL-Grid/manual/파일명.html
+https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/Project-SSAL-Grid/manual/파일명.md
 </code></pre>
+<p><strong>예시 (SSALWorks):</strong></p>
+<pre><code>https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/Project-SSAL-Grid/manual/PROJECT_SSAL_GRID_MANUAL.html
+https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/Project-SSAL-Grid/manual/PROJECT_SSAL_GRID_MANUAL.md
+</code></pre>
+<p><strong>주의:</strong> GitHub raw URL(<code>raw.githubusercontent.com</code>)은 Content-Type이 <code>text/plain</code>이라 iframe에서 HTML 렌더링이 안 됨. jsdelivr CDN 사용 권장.</p>
 <hr>
 <h2>6. 프로세스 상세</h2>
 <h3>6.1 새 매뉴얼 추가</h3>
@@ -479,7 +486,24 @@ CREATE INDEX idx_manuals_display_order ON manuals(display_order);
   Admin Dashboard에서 직접 수정 (제목, 분류, URL)
 </code></pre>
 <hr>
-<h2>9. 관련 파일</h2>
+<h2>9. 프로토타입 매뉴얼 뷰어</h2>
+<h3>9.1 연결 구조</h3>
+<pre><code>index.html (메인 페이지)
+    └─ openManual() 함수
+        └─ ../../../Project-SSAL-Grid/manual/manual.html (마크다운 뷰어)
+            └─ jsdelivr CDN에서 PROJECT_SSAL_GRID_MANUAL.md fetch
+                └─ Marked.js로 HTML 렌더링
+</code></pre>
+<h3>9.2 로컬 CORS 문제 해결</h3>
+<p><strong>문제:</strong> 브라우저에서 <code>file://</code> 프로토콜로 열면 fetch 요청이 CORS 정책에 의해 차단됨.</p>
+<p><strong>해결:</strong> manual.html에서 로컬 파일 대신 jsdelivr CDN URL 사용</p>
+<pre><code class="language-javascript">// 변경 전 (CORS 오류 발생)
+const MANUAL_PATH = &#39;PROJECT_SSAL_GRID_MANUAL.md&#39;;
+
+// 변경 후 (정상 작동)
+const MANUAL_PATH = &#39;https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/Project-SSAL-Grid/manual/PROJECT_SSAL_GRID_MANUAL.md&#39;;
+</code></pre>
+<h3>9.3 관련 파일</h3>
 <table>
 <thead>
 <tr>
@@ -507,6 +531,16 @@ CREATE INDEX idx_manuals_display_order ON manuals(display_order);
 <td>메인 매뉴얼</td>
 <td><code>Project-SSAL-Grid/manual/PROJECT_SSAL_GRID_MANUAL.md</code></td>
 <td>Project Grid 매뉴얼</td>
+</tr>
+<tr>
+<td>매뉴얼 뷰어</td>
+<td><code>Project-SSAL-Grid/manual/manual.html</code></td>
+<td>마크다운 렌더링 뷰어</td>
+</tr>
+<tr>
+<td>메인 페이지</td>
+<td><code>P3_프로토타입_제작/Frontend/Prototype/index.html</code></td>
+<td>openManual() 함수</td>
 </tr>
 </tbody></table>
 <hr>
@@ -545,6 +579,11 @@ CREATE INDEX idx_manuals_display_order ON manuals(display_order);
 <td>2.0</td>
 <td>2025-12-12</td>
 <td>GitHub Actions 방식으로 변경, 문서 위치 이동</td>
+</tr>
+<tr>
+<td>3.0</td>
+<td>2025-12-13</td>
+<td>jsdelivr CDN 방식 적용, 프로토타입 매뉴얼 뷰어 연결, 로컬 CORS 문제 해결</td>
 </tr>
 </tbody></table>
 <hr>
