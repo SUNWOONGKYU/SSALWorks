@@ -2039,7 +2039,7 @@
                     <h1>SSAL Works</h1>
                 </div>
                 <div class="header-center">
-                    <div class="header-tagline">Claude Code를 활용한 SAL Grid 기반 풀스텍 웹사이트 개발 플랫폼</div>
+                    <div class="header-tagline">Claude Code를 활용한 풀스택 웹사이트 개발 플랫폼</div>
                 </div>
                 <div class="header-right">
                     <!-- 로그인 전 -->
@@ -6830,8 +6830,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // 매뉴얼 보기
         function openManual() {
-            // 매뉴얼 뷰어 페이지 열기 (Supabase에서 매뉴얼 URL 로드)
-            window.open('pages/manual/index.html', '_blank');
+            // PROJECT SAL GRID 매뉴얼 뷰어 직접 열기
+            window.open('../../../Project-SSAL-Grid/manual/manual.html', '_blank');
         }
 
         // Viewer 열기
@@ -6877,17 +6877,21 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // 예시 Project 안내문 표시
         function showExampleProjectGuide() {
-            const workspace = document.getElementById('workspaceContent');
-            if (workspace) {
-                workspace.innerHTML = `
+            const popup = document.getElementById('guidePopup');
+            const title = document.getElementById('guidePopupTitle');
+            const content = document.getElementById('guidePopupContent');
+
+            if (popup && title && content) {
+                title.textContent = '📚 예시 Project 안내';
+                content.innerHTML = `
                     <h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📚 예시 Project 안내</h2>
                     <p style="margin-top: 16px; line-height: 1.8;">SSAL Works 개발자인 <strong>Sunny</strong>가 직접 진행한 3개 Project와 관련한 모든 문서 및 소스코드 파일을 열람하실 수 있습니다.</p>
 
                     <h3 style="margin-top: 24px; color: #333;">제공되는 예시 Project</h3>
                     <ul style="padding-left: 20px; line-height: 2;">
-                        <li><strong>PoliticianFinder</strong> - 정치인 정보 검색 서비스</li>
-                        <li><strong>SSAL Works</strong> - AI 기반 개발 플랫폼</li>
-                        <li><strong>HDH Fintech</strong> - 핀테크 서비스</li>
+                        <li><strong>PoliticianFinder</strong> - AI 기반 정치인 평가 플랫폼</li>
+                        <li><strong>SSAL Works</strong> - Claude Code를 활용한 풀스택 웹사이트 개발 플랫폼</li>
+                        <li><strong>HDH Fintech</strong> - HDH 핀테크 솔루션 운영 지원 플랫폼</li>
                     </ul>
 
                     <h3 style="margin-top: 24px; color: #333;">열람 방법</h3>
@@ -6897,6 +6901,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         <strong>💡 Tip:</strong> 자유롭게 참고하세요! 실제 작업을 시작하려면 "새로운 Project 등록" 버튼을 클릭하세요.
                     </div>
                 `;
+                popup.style.display = 'block';
             }
         }
 
