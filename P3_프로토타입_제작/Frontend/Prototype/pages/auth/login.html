@@ -635,7 +635,7 @@
 
             try {
                 const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/P3_프로토타입_제작/Frontend/Prototype/reset-password.html'
+                    redirectTo: window.location.origin + '/P3_프로토타입_제작/Frontend/Prototype/pages/auth/reset-password.html'
                 });
 
                 if (error) throw error;

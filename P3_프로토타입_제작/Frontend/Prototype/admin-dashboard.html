@@ -1278,9 +1278,6 @@
                 <div class="menu-item" onclick="showSection('notice', event)">
                     📢 공지사항 관리
                 </div>
-                <div class="menu-item" onclick="showSection('learning', event)">
-                    📚 학습용 컨텐츠 관리
-                </div>
                 <div class="menu-item" onclick="showSection('manual', event)">
                     📖 매뉴얼 관리
                 </div>
@@ -1640,60 +1637,6 @@
                 </div>
             </div>
 
-            <!-- Learning Content Section -->
-            <div id="learning-section" class="content-view" style="display:none;">
-                <div class="content-header">
-                    <h1 class="content-title">📚 학습용 컨텐츠 관리</h1>
-                    <p class="content-subtitle">학습용 컨텐츠의 메타데이터를 관리합니다. (GitHub Actions로 HTML 자동 변환)</p>
-                </div>
-
-                <!-- 자동화 안내 -->
-                <div style="background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); border-radius: 12px; padding: 16px 20px; margin-bottom: 24px; border-left: 4px solid #2196f3;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 24px;">🔄</span>
-                        <div>
-                            <div style="font-weight: 600; color: #1565c0; margin-bottom: 4px;">GitHub Actions 자동화 시스템</div>
-                            <div style="font-size: 13px; color: #1976d2;">MD 파일 작성 → GitHub Push → HTML 자동 변환 → 이 페이지에서 DB 메타데이터 등록</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 학습용 컨텐츠 통계 -->
-                <div class="stats-grid">
-                    <div class="stat-card primary">
-                        <div class="stat-value" id="depth1Count">0</div>
-                        <div class="stat-label">대분류 (Depth 1)</div>
-                    </div>
-                    <div class="stat-card success">
-                        <div class="stat-value" id="depth2Count">0</div>
-                        <div class="stat-label">중분류 (Depth 2)</div>
-                    </div>
-                    <div class="stat-card warning">
-                        <div class="stat-value" id="depth3Count">0</div>
-                        <div class="stat-label">소분류 (Depth 3)</div>
-                    </div>
-                </div>
-
-                <!-- 컨텐츠 트리 관리 -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">📋 컨텐츠 구조 관리</h2>
-                        <div style="display: flex; gap: 8px;">
-                            <button class="section-action" onclick="showAddLearningDepth1Form()">+ 대분류 추가</button>
-                            <button class="section-action" onclick="loadLearningContents()" style="background: #6c757d;">🔄 새로고침</button>
-                        </div>
-                    </div>
-
-                    <!-- 트리 구조 -->
-                    <div id="learningContentTree" class="learning-tree">
-                        <div style="text-align: center; padding: 40px 20px; color: #6c757d;">
-                            <div style="font-size: 48px; margin-bottom: 16px;">⏳</div>
-                            <div style="font-size: 16px; font-weight: 600;">데이터를 불러오는 중...</div>
-                            <div style="font-size: 13px; margin-top: 8px;">잠시만 기다려주세요.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Manual Section -->
             <div id="manual-section" class="content-view" style="display:none;">

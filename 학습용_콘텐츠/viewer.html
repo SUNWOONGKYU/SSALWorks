@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSALWorks 학습용 콘텐츠</title>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10B981;
+            --primary-dark: #059669;
+            --secondary: #F59E0B;
+            --tertiary: #667eea;
+            --tertiary-dark: #764ba2;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-color: #dee2e6;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%);
+            color: white;
+            padding: 20px 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: white;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 350px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* Search */
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--tertiary);
+        }
+
+        /* Category */
+        .category {
+            margin-bottom: 20px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #f1f3f5;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-dark);
+            transition: background 0.2s;
+        }
+
+        .category-header:hover {
+            background: #e9ecef;
+        }
+
+        .category-header .icon {
+            transition: transform 0.2s;
+        }
+
+        .category-header.collapsed .icon {
+            transform: rotate(-90deg);
+        }
+
+        .category-list {
+            list-style: none;
+            margin-top: 8px;
+            padding-left: 12px;
+        }
+
+        .category-list.hidden {
+            display: none;
+        }
+
+        .content-item {
+            margin-bottom: 4px;
+        }
+
+        .content-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .content-link:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: var(--tertiary);
+        }
+
+        .content-link.active {
+            background: var(--tertiary);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 350px;
+            padding: 40px 60px;
+            max-width: 1000px;
+            background: white;
+            min-height: 100%;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            padding: 40px 20px;
+        }
+
+        .welcome-screen p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .welcome-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .welcome-category {
+            background: white;
+            border: 2px solid var(--secondary);
+            color: var(--text-dark);
+            padding: 16px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .welcome-category:hover {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: #D97706;
+        }
+
+        .welcome-category h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .welcome-category p {
+            font-size: 12px;
+            margin: 0;
+            color: var(--text-muted);
+        }
+
+        /* Markdown Styles */
+        .markdown-body h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--tertiary);
+            margin: 40px 0 20px;
+            padding-bottom: 16px;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .markdown-body h1:first-child {
+            margin-top: 0;
+        }
+
+        .markdown-body h2 {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 48px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .markdown-body h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--tertiary);
+            margin: 32px 0 16px;
+        }
+
+        .markdown-body h4 {
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 24px 0 12px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .markdown-body blockquote {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .markdown-body blockquote p {
+            margin: 0;
+            font-style: italic;
+        }
+
+        .markdown-body pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .markdown-body code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            color: #e83e8c;
+        }
+
+        .markdown-body pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .markdown-body th {
+            background: #f1f3f5;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .markdown-body tr:hover {
+            background: #e9ecef;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 40px 0;
+        }
+
+        .markdown-body a {
+            color: var(--tertiary);
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--tertiary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error */
+        .error {
+            text-align: center;
+            padding: 60px;
+            color: #dc3545;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+            min-height: 120px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 300px;
+            }
+            .main-content {
+                margin-left: 300px;
+                padding: 30px 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <div class="header-title">SSALWorks 학습용 콘텐츠</div>
+        </div>
+        <button class="close-btn" onclick="window.history.length > 1 ? history.back() : window.close()" title="닫기">✕ 닫기</button>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="콘텐츠 검색..." id="searchInput">
+            </div>
+            <div class="sidebar-title">학습 콘텐츠 목록</div>
+            <div id="categoryList">
+                <!-- Categories will be generated dynamically -->
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content" class="markdown-body">
+                <div class="welcome-screen">
+                    <h2>SSALWorks 학습용 콘텐츠</h2>
+                    <p>왼쪽 메뉴에서 학습할 콘텐츠를 선택하세요.</p>
+                    <div class="welcome-categories" id="welcomeCategories">
+                        <!-- Welcome categories will be generated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // GitHub CDN Base URL
+        const GITHUB_BASE = 'https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/';
+
+        // 콘텐츠 목록 (카테고리별)
+        const CONTENTS = {
+            '1_Claude_사용법': {
+                name: 'Claude & Claude Code 사용법',
+                icon: '🤖',
+                description: 'AI 활용의 기초부터 고급까지',
+                files: [
+                    { name: '1편 - Claude란 무엇인가', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/1편_Claude란_무엇인가.md' },
+                    { name: '2편 - 프롬프트 엔지니어링 기초', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/2편_프롬프트_엔지니어링_기초편_보강.md' },
+                    { name: '3편 - 프롬프트 엔지니어링 고급', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/3편_프롬프트_엔지니어링_고급편_10개.md' },
+                    { name: '4편 - Claude Code 첫 만남', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/4편_Claude_Code_첫_만남_수정.md' },
+                    { name: '5편 - Claude Code 직접 실행 기능', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/5편_Claude_Code의_직접_실행_기능.md' },
+                    { name: '6편 - 자동화 워크플로우 구축', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/6편_Claude_Code의_자동화_워크플로우_구축용_코드_생성_기능.md' },
+                    { name: '7편 - 서브 에이전트 이해', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/7편_Claude_Code_서브_에이전트_이해.md' },
+                    { name: '8편 - 서브 에이전트 생성과 관리', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/8편_Claude_Code_서브_에이전트_생성과_관리.md' },
+                    { name: '9편 - 서브 에이전트 기본 활용 패턴', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/9편_Claude_Code_서브_에이전트의_기본_활용_패턴.md' },
+                    { name: '10편 - 서브 에이전트 개발분야 활용법', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/10편_Claude Code 서브 에이전트의 개발분야 활용법.md' },
+                    { name: '11편 - 서브 에이전트 비개발분야 활용법', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/11편_Claude Code 서브 에이전트의 비개발분야 활용법.md' },
+                    { name: '12편 - MCP 기초', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/12편_MCP_기초_외부_서비스와_연결하기.md' },
+                    { name: '13편 - MCP 실전 활용법', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/13편_MCP_실전_활용법_및_다른_AI_확장_시스템과의_비교.md' },
+                    { name: '14편 - API를 통한 AI 연동', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/14편_API를_통한_AI_연동과_협업_여러_AI를_조화롭게_활용하기.md' },
+                    { name: '15편 - VS Code 완전 정복', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/15편_VS_Code_완전_정복_초보자_필수_가이드.md' },
+                    { name: '16편 - Claude Code와 VS Code 결합 기초', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/16편_Claude_Code와_VS_Code_결합_기초.md' },
+                    { name: '17편 - Claude Code와 VS Code 결합 심화', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/17편_Claude_Code와_VS_Code_결합_심화.md' },
+                    { name: '18편 - Claude 토큰 사용료 구조', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/18편_Claude 토큰 사용료 구조 및 최적화 방안.md' },
+                    { name: '19편 - 작업환경 최적화', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/19편_작업환경_최적화_3개_최종.md' },
+                    { name: '20편 - 세션 기억 관리 완벽 가이드', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/20편_Claude_Code_세션_기억_관리_완벽_가이드.md' },
+                    { name: 'Claude Code 설치 가이드', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/Claude_Code_설치_단계별_가이드.md' },
+                    { name: 'Claude 파일 생성 기능 핵심 정리', path: '학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/Claude 파일 생성 기능 - 혁신적 업데이트 핵심 정리.md' }
+                ]
+            },
+            '2_웹개발_지식': {
+                name: '웹개발 기초지식',
+                icon: '💻',
+                description: '웹 개발의 A to Z',
+                files: [
+                    { name: '1편 - 웹개발 핵심 개념 이해하기', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/1편 웹개발 핵심 개념 & 용어 이해하기.md' },
+                    { name: '2편 - 웹사이트 작동 원리와 구조', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/2편 웹사이트가 작동하는 원리와 구조.md' },
+                    { name: '3편 - 명령줄(CLI)와 개발 환경', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/3편 명령줄(CLI)와 개발 환경 설정.md' },
+                    { name: '4편 - 코드 에디터와 IDE', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/4편 코드 에디터와 IDE 이해하기.md' },
+                    { name: '5편 - HTML 이해하기', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/5편 웹사이트 언어 HTML 이해하기.md' },
+                    { name: '6편 - CSS 웹사이트 스타일링', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/6편 CSS - 웹사이트 스타일링 원리.md' },
+                    { name: '7편 - JavaScript 기초', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/7편 JavaScript - 웹사이트에 생명을 불어넣기.md' },
+                    { name: '8편 - Git과 GitHub', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/8편-Git과-GitHub.md' },
+                    { name: '9편 - 라이브러리와 프레임워크', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/9편-라이브러리와-프레임워크.md' },
+                    { name: '10편 - 패키지 관리와 빌드 도구', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/10편-패키지-관리와-빌드-도구.md' },
+                    { name: '11편 - 백엔드 기초와 Node.js', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/11편-백엔드-기초와-Node.js.md' },
+                    { name: '12편 - 데이터베이스 기초', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/12편-데이터베이스-기초.md' },
+                    { name: '13편 - 데이터베이스 실무', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/13편-데이터베이스-실무.md' },
+                    { name: '14편 - API와 서버 통신', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/14편.API와 서버 통신.md' },
+                    { name: '15편 - 도메인과 호스팅', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/15편-도메인과-호스팅.md' },
+                    { name: '16편 - DevOps 기초', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/16편-개발-워크플로우-자동화와-DevOps-기초.md' },
+                    { name: '17편 - 웹 보안과 성능 최적화', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/17편-웹-보안과-성능-최적화.md' },
+                    { name: '18편 - SEO와 웹 접근성', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/18편-SEO와-웹-접근성.md' },
+                    { name: '19편 - 전체 개발 프로세스 통합 가이드', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/19편-전체-개발-프로세스-통합-가이드.md' },
+                    { name: '20편 - 종합 실습 프로젝트 Part1', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/20편-종합-실습-프로젝트-Part1.md' },
+                    { name: '21편 - 종합 실습 프로젝트 Part2', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/21편-종합-실습-프로젝트-Part2.md' },
+                    { name: '웹개발 용어 사전', path: '학습용_콘텐츠/2_웹개발_지식/웹개발 기초지식/웹개발-용어-사전-빠른참조.md' }
+                ]
+            },
+            '3_AI_도구_활용': {
+                name: 'AI 도구 활용',
+                icon: '🛠️',
+                description: 'AI 도구 실전 가이드',
+                files: [
+                    { name: 'Inbox/Outbox JSON 시스템', path: '학습용_콘텐츠/3_AI_도구_활용/Claude_Code/3_고급/Inbox_Outbox_JSON_시스템.md' }
+                ]
+            }
+        };
+
+        let currentContent = null;
+
+        // 사이드바 카테고리 생성
+        function generateSidebar() {
+            const categoryList = document.getElementById('categoryList');
+            const welcomeCategories = document.getElementById('welcomeCategories');
+            categoryList.innerHTML = '';
+            welcomeCategories.innerHTML = '';
+
+            Object.keys(CONTENTS).forEach(key => {
+                const category = CONTENTS[key];
+
+                // 사이드바 카테고리
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `<span class="icon">▼</span> ${category.icon} ${category.name}`;
+                header.onclick = () => toggleCategory(header);
+
+                const list = document.createElement('ul');
+                list.className = 'category-list';
+
+                category.files.forEach(file => {
+                    const li = document.createElement('li');
+                    li.className = 'content-item';
+
+                    const a = document.createElement('a');
+                    a.className = 'content-link';
+                    a.textContent = file.name;
+                    a.onclick = () => loadContent(file.path, a);
+
+                    li.appendChild(a);
+                    list.appendChild(li);
+                });
+
+                categoryDiv.appendChild(header);
+                categoryDiv.appendChild(list);
+                categoryList.appendChild(categoryDiv);
+
+                // Welcome 카테고리 카드
+                const card = document.createElement('div');
+                card.className = 'welcome-category';
+                card.innerHTML = `<h3>${category.icon} ${category.name}</h3><p>${category.description}</p>`;
+                card.onclick = () => {
+                    // 첫 번째 콘텐츠 로드
+                    if (category.files.length > 0) {
+                        loadContent(category.files[0].path);
+                    }
+                };
+                welcomeCategories.appendChild(card);
+            });
+        }
+
+        // 카테고리 토글
+        function toggleCategory(header) {
+            header.classList.toggle('collapsed');
+            const list = header.nextElementSibling;
+            list.classList.toggle('hidden');
+        }
+
+        // 콘텐츠 로드
+        async function loadContent(path, linkElement) {
+            const contentDiv = document.getElementById('content');
+
+            // 로딩 표시
+            contentDiv.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>콘텐츠를 불러오는 중...</p>
+                </div>
+            `;
+
+            // 활성 링크 업데이트
+            document.querySelectorAll('.content-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            if (linkElement) {
+                linkElement.classList.add('active');
+            }
+
+            try {
+                const url = GITHUB_BASE + path;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('콘텐츠를 불러올 수 없습니다.');
+                }
+
+                const markdown = await response.text();
+
+                // Marked.js 설정
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: true,
+                    mangle: false
+                });
+
+                // Markdown을 HTML로 변환
+                const html = marked.parse(markdown);
+                contentDiv.innerHTML = html;
+                currentContent = path;
+
+                // 스크롤 맨 위로
+                contentDiv.scrollTop = 0;
+
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <h2>콘텐츠 로드 실패</h2>
+                        <p>${error.message}</p>
+                        <p>파일 경로: ${path}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 검색 기능
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+
+            document.querySelectorAll('.content-link').forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const item = link.parentElement;
+
+                if (query === '' || text.includes(query)) {
+                    item.style.display = 'block';
+                    if (text.includes(query) && query !== '') {
+                        link.style.background = 'rgba(245, 158, 11, 0.2)';
+                    } else {
+                        link.style.background = '';
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // 카테고리 표시/숨김
+            document.querySelectorAll('.category').forEach(category => {
+                const visibleItems = category.querySelectorAll('.content-item[style="display: block"], .content-item:not([style])');
+                const list = category.querySelector('.category-list');
+
+                if (query !== '') {
+                    // 검색 중에는 모든 카테고리 펼치기
+                    list.classList.remove('hidden');
+                    category.querySelector('.category-header').classList.remove('collapsed');
+                }
+            });
+        });
+
+        // URL 파라미터에서 path 읽기
+        function getPathFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('path');
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            generateSidebar();
+
+            // URL에 path 파라미터가 있으면 해당 콘텐츠 로드, 없으면 첫 번째 콘텐츠 로드
+            const pathParam = getPathFromURL();
+            if (pathParam) {
+                loadContent(pathParam);
+            } else {
+                // 첫 번째 콘텐츠 바로 로드 (1편 - Claude란 무엇인가)
+                const firstContent = CONTENTS['1_Claude_사용법'].files[0];
+                if (firstContent) {
+                    loadContent(firstContent.path);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
