@@ -94,3 +94,21 @@ Human-AI (Resend Dashboard 접속 필요)
 - 무료 티어: 월 3,000 이메일
 - 도메인 인증은 DNS 전파 시간 필요
 - 개발 중에는 @resend.dev 도메인 사용 가능
+
+---
+
+## ⚠️ 작업 결과물 저장 2대 규칙
+
+> **이 규칙은 반드시 준수하세요!**
+
+### 제1 규칙: Stage + Area 폴더에 저장
+- Task ID의 Stage와 Area에 해당하는 폴더에 저장
+- 예: S1S1 → `S1_개발_준비/Security/`
+- 예: S2F1 → `S2_개발-1차/Frontend/`
+
+### 제2 규칙: Production 코드는 이중 저장
+- Frontend, Database, Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장
+- 문서(Documentation, Security, Testing, DevOps)는 Stage 폴더에만 저장
+
+**Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
+

@@ -2039,7 +2039,8 @@
                     <h1>SSAL Works</h1>
                 </div>
                 <div class="header-center">
-                    <div class="header-tagline">Claude Code를 활용한 풀스택 웹사이트 개발 플랫폼</div>
+                    <div class="header-tagline">Claude Code를 활용한 SAL Grid 기반 풀스택
+      웹사이트 개발 플랫폼</div>
                 </div>
                 <div class="header-right">
                     <!-- 로그인 전 -->
@@ -2320,11 +2321,11 @@
                         </div>
                     </div>
 
-                    <!-- S0. Project SSAL Grid 생성 -->
+                    <!-- S0. Project SAL Grid 생성 -->
                     <div class="process-item">
                         <div class="process-special-major" onclick="toggleProcess(this)" data-progress="100">
                             <div class="process-header">
-                                <span class="process-name">S0. Project SSAL Grid 생성</span>
+                                <span class="process-name">S0. Project SAL Grid 생성</span>
                                 <span class="process-arrow">▶</span>
                             </div>
                             <div class="process-progress-container">
@@ -2335,7 +2336,7 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('ssal_grid', 'SSAL Grid', 'SAL Grid')">
+                            <div class="process-small" onclick="loadProcessStage('ssal_grid', 'SAL Grid', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>ssal-grid</span>
@@ -3664,7 +3665,7 @@ The content you enter in the workspace will be displayed here.</pre>
                 { "id": "sal_grid", "name": "Project SAL GRID 생성", "icon": "☆", "type": "special" }
             ],
             "gridStages": [
-                { "id": "SSAL-Grid", "name": "SSAL Grid", "icon": "◈", "path": "SSAL-Grid", "categories": ["task-planning", "grid"] },
+                { "id": "SSAL-Grid", "name": "SAL Grid", "icon": "◈", "path": "SSAL-Grid", "categories": ["task-planning", "grid"] },
                 { "id": "Project-SSAL-Grid", "name": "Project SAL Grid", "icon": "◈", "path": "Project-SSAL-Grid", "categories": ["manual", "supabase", "viewer"] }
             ],
             "prepStages": [
@@ -4364,12 +4365,12 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 orderSheetUrl: 'templates/SAL_Grid_Viewer.md'
             },
 
-            // ===== ◈ SSAL Grid (Task 기획 + Grid 생성) =====
+            // ===== ◈ SAL Grid (Task 기획 + Grid 생성) =====
             'ssal_grid': {
                 stageId: 'ssal_grid',
-                stageName: 'SSAL Grid',
+                stageName: 'SAL Grid',
                 hasAction: true,
-                confirmMessage: 'SSAL Grid 작업을 진행하시겠습니까?',
+                confirmMessage: 'SAL Grid 작업을 진행하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
                 guideUrl: 'guides/SSAL_Grid.html',
@@ -6360,12 +6361,12 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         // 매뉴얼 보기
         function openManual() {
             // PROJECT SAL GRID 매뉴얼 뷰어 열기
-            window.open('../../../Project-SSAL-Grid/manual/manual.html', '_blank');
+            window.open('../../S0_Project-SSAL-Grid_생성/manual/manual.html', '_blank');
         }
 
         function openLearningViewer() {
             // 학습용 콘텐츠 뷰어 열기
-            window.open('../../../학습용_콘텐츠/viewer.html', '_blank');
+            window.open('../../부수적_고유기능/학습용_콘텐츠/viewer.html', '_blank');
         }
 
         // 학습용 콘텐츠 목록 (로컬 검색용)
@@ -6460,13 +6461,13 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // 특정 콘텐츠 열기
         function openLearningContent(path) {
-            window.open('../../../학습용_콘텐츠/viewer.html?path=' + encodeURIComponent(path), '_blank');
+            window.open('../../부수적_고유기능/학습용_콘텐츠/viewer.html?path=' + encodeURIComponent(path), '_blank');
         }
 
         // Viewer 열기
         function openViewer() {
-            // viewer.html 페이지 열기 (project-ssal-grid 폴더)
-            window.open('../../../project-ssal-grid/viewer/viewer.html', '_blank');
+            // viewer.html 페이지 열기 (S0_Project-SSAL-Grid_생성 폴더)
+            window.open('../../S0_Project-SSAL-Grid_생성/viewer/viewer.html', '_blank');
         }
 
         // 폴더 열기 함수 (비활성화됨 - 폴더 편집 안내 기능 제거)
@@ -6519,7 +6520,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     <h3 style="margin-top: 24px; color: #333;">제공되는 예시 Project</h3>
                     <ul style="padding-left: 20px; line-height: 2;">
                         <li><strong>PoliticianFinder</strong> - AI 기반 정치인 평가 플랫폼</li>
-                        <li><strong>SSAL Works</strong> - Claude Code를 활용한 풀스택 웹사이트 개발 플랫폼</li>
+                        <li><strong>SSAL Works</strong> - Claude Code를 활용한 SAL Grid 기반 풀스택
+      웹사이트 개발 플랫폼</li>
                         <li><strong>HDH Fintech</strong> - HDH 핀테크 솔루션 운영 지원 플랫폼</li>
                     </ul>
 

@@ -286,28 +286,28 @@
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Area Names
+        // Area Names (매뉴얼 정의대로)
         const AREA_NAMES = {
-            'M': 'Management (문서)',
-            'U': 'UI/UX (디자인)',
+            'M': 'Documentation (문서화)',
+            'U': 'Design (UI/UX 디자인)',
             'F': 'Frontend (프론트엔드)',
-            'BI': 'Backend Infra (백엔드 인프라)',
+            'BI': 'Backend Infrastructure (백엔드 기반)',
             'BA': 'Backend APIs (백엔드 API)',
             'D': 'Database (데이터베이스)',
-            'S': 'Security (보안)',
+            'S': 'Security (보안/인증/인가)',
             'T': 'Testing (테스트)',
-            'O': 'DevOps (운영)',
-            'E': 'External (외부연동)',
-            'C': 'Content (콘텐츠)'
+            'O': 'DevOps (운영/배포)',
+            'E': 'External (외부 연동)',
+            'C': 'Content System (콘텐츠 시스템)'
         };
 
-        // Stage Names - SSALWorks v1.0
+        // Stage Names - SSALWorks v1.0 (매뉴얼 정의대로)
         const STAGE_NAMES = {
-            1: '기반 구축 (Foundation)',
-            2: '핵심 기능 (Core Features)',
-            3: 'AI 기능 (AI Features)',
-            4: '결제 연동 (Payment)',
-            5: '배포 운영 (Deployment)'
+            1: '개발 준비 (Development Setup)',
+            2: '개발 1차 (Core Development)',
+            3: '개발 2차 (Advanced Features)',
+            4: '개발 3차 (QA & Optimization)',
+            5: '운영 (Operations)'
         };
 
         let allTasks = [], filteredTasks = [], stageGates = [], currentView = '2d', currentStage = 'all';
@@ -404,7 +404,7 @@
             if (gate.verification_report_path) {
                 document.getElementById('aiReportPath').value = gate.verification_report_path;
             } else {
-                document.getElementById('aiReportPath').value = `docs/STAGE${stageNum}_VERIFICATION_REPORT.md`;
+                document.getElementById('aiReportPath').value = `S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/S${stageNum}GATE_verification_report.md`;
             }
 
             // PO 승인 정보 로드
@@ -640,6 +640,7 @@
             event.target.classList.add('active');
             hideGatePanel();  // Stage 선택 시 Gate 패널 숨김
             renderGrid();
+            updateStats();  // 선택된 Stage에 맞게 통계 업데이트
         }
 
         function toggleArea(area) {
@@ -647,16 +648,21 @@
         }
 
         function updateStats() {
-            const total = allTasks.length;
-            const pending = allTasks.filter(t => t.task_status === 'Pending').length;
-            const inProgress = allTasks.filter(t => t.task_status === 'In Progress').length;
-            const completed = allTasks.filter(t => t.task_status === 'Completed').length;
-            const fixing = allTasks.filter(t => t.task_status === 'Fixing').length;
+            // 현재 선택된 Stage에 해당하는 Task만 필터링
+            const tasksForStats = currentStage === 'all'
+                ? allTasks
+                : allTasks.filter(t => t.stage === currentStage);
+
+            const total = tasksForStats.length;
+            const pending = tasksForStats.filter(t => t.task_status === 'Pending').length;
+            const inProgress = tasksForStats.filter(t => t.task_status === 'In Progress').length;
+            const completed = tasksForStats.filter(t => t.task_status === 'Completed').length;
+            const fixing = tasksForStats.filter(t => t.task_status === 'Fixing').length;
 
             // Verification Status 통계
-            const notVerified = allTasks.filter(t => t.verification_status === 'Not Verified').length;
-            const passed = allTasks.filter(t => t.verification_status === 'Passed').length;
-            const failed = allTasks.filter(t => t.verification_status === 'Failed').length;
+            const notVerified = tasksForStats.filter(t => t.verification_status === 'Not Verified').length;
+            const passed = tasksForStats.filter(t => t.verification_status === 'Passed' || t.verification_status === 'Verified').length;
+            const failed = tasksForStats.filter(t => t.verification_status === 'Failed').length;
 
             document.getElementById('totalTasks').textContent = total;
             document.getElementById('pendingTasks').textContent = pending;

@@ -59,6 +59,113 @@
 
 ---
 
+## ⚠️ 🚨 AI 필수 준수 규칙 (Grid 데이터 작성 시) 🚨 ⚠️
+
+> **이 섹션은 AI(Claude Code)가 Grid 데이터를 생성/수정할 때 반드시 준수해야 할 규칙입니다.**
+> **이 규칙을 어기면 Grid 데이터가 엉망이 됩니다!**
+
+### 📌 Stage 명칭 (정확히 사용)
+
+| Stage | 올바른 명칭 | ❌ 잘못된 예시 |
+|-------|-------------|---------------|
+| S1 | 개발 준비 (Development Setup) | 기반 구축, Foundation |
+| S2 | 개발 1차 (Core Development) | 핵심 기능, Core Features |
+| S3 | 개발 2차 (Advanced Features) | AI 기능, AI Features |
+| S4 | 개발 3차 (QA & Optimization) | 결제 연동, Payment |
+| S5 | 운영 (Operations) | 배포 운영, Deployment |
+
+### 📌 Area 명칭 (정확히 사용)
+
+| Area | 올바른 명칭 | ❌ 잘못된 예시 |
+|------|-------------|---------------|
+| M | Documentation (문서화) | Management |
+| U | Design (UI/UX 디자인) | UI/UX |
+| F | Frontend (프론트엔드) | - |
+| BI | Backend Infrastructure (백엔드 기반) | Backend Infra |
+| BA | Backend APIs (백엔드 API) | - |
+| D | Database (데이터베이스) | - |
+| S | Security (보안/인증/인가) | 보안 |
+| T | Testing (테스트) | - |
+| O | DevOps (운영/배포) | 운영 |
+| E | External (외부 연동) | 외부연동 |
+| C | Content System (콘텐츠 시스템) | Content, 콘텐츠 |
+
+### 📌 Task Agent vs Verification Agent
+
+**핵심 원칙: 작성자 ≠ 검증자 (분리 필수!)**
+
+**Task Agent (작업 수행자):**
+- `documentation-specialist` (M)
+- `frontend-developer` (F)
+- `backend-developer` (BA, BI)
+- `database-specialist` (D)
+- `security-specialist` (S)
+- `test-engineer` (T)
+- `devops-troubleshooter` (O, BI, E)
+- `content-specialist` (C)
+
+**Verification Agent (검증자):**
+- `code-reviewer`
+- `qa-specialist`
+- `security-auditor`
+- `database-specialist` (DB 전용)
+
+**❌ 금지**: Task Agent에 `code-reviewer` 사용
+
+### 📌 🔄 자동 검증 프로세스 (필수!)
+
+**Task Agent 작업 완료 → Verification Agent 자동 검증:**
+
+```
+Task Agent 작업 완료 ──▶ Grid 지정 Verification Agent 투입 ──▶ 검증 결과 Grid 기록
+```
+
+**프로세스:**
+1. Task Agent가 작업 완료 → `task_status: 'Completed'`
+2. Grid의 `verification_agent` 필드에 지정된 Agent 서브에이전트로 투입
+3. Verification Instruction에 따라 검증 수행
+4. 검증 결과 Grid에 JSON 형식으로 기록
+5. `verification_status: 'Passed'` 또는 `'Failed'` 설정
+
+**⚠️ 필수 규칙:**
+- 검증은 반드시 **서브에이전트 투입**으로 수행
+- Task Agent가 직접 검증하면 안 됨 (작성자 ≠ 검증자)
+- 검증 없이 `verification_status: 'Passed'` 설정 금지
+- 검증 결과는 반드시 Grid에 기록
+
+### 📌 Tools 필드 (올바른 값)
+
+**✅ 포함해야 할 것:**
+- Slash Commands: `/review-pr`, `/deploy`, `/test`
+- CLI 도구: `gh`, `vercel-cli`, `npm`
+- MCP Servers: `/mcp__supabase__*`, `browser-mcp`
+- Skills: `pdf-skill`, `playwright-mcp`
+- SDK: `openai-sdk`, `toss-payments-sdk`
+
+**❌ 포함하면 안 되는 것:**
+- `Read`, `Write` (기본 동작이므로 불필요)
+- `TypeScript`, `React` (기술 스택 - Task Instruction에 기재)
+
+### 📌 Verification 필드 (JSON 형식 필수)
+
+모든 Verification 관련 필드(#16-20)는 반드시 JSON 형식으로 구조화:
+- `test`: unit_test, integration_test, edge_cases, manual_test
+- `build`: compile, lint, deploy, runtime
+- `integration_verification`: dependency_propagation, cross_task_connection, data_flow
+- `blockers`: dependency, environment, external_api, status
+- `comprehensive_verification`: task_instruction, test, build, integration, blockers, final
+
+### 📌 Grid 데이터 작성 체크리스트
+
+- [ ] Stage 명칭이 정확한가?
+- [ ] Area 명칭이 정확한가?
+- [ ] Task Agent가 작업 유형에 맞는가?
+- [ ] Verification Agent가 Task Agent와 다른가?
+- [ ] Tools에 Skills/Commands/MCP가 있는가?
+- [ ] Verification 필드가 JSON 형식인가?
+
+---
+
 ## PART 1: 개요 및 프레임워크
 
 ---
@@ -934,7 +1041,85 @@ PROJECT_STATUS.md 참고
 
 ---
 
-### 4.4 Stage 폴더 (0-5)
+### 4.4 작업 결과물 저장 2대 규칙 (2025-12-13 확정)
+
+> **⚠️ 이 규칙은 모든 Task 작업에 적용됩니다. 반드시 준수하세요!**
+
+#### 📌 제1 규칙: Stage + Area 폴더에 저장
+
+**모든 작업 결과물은 Task ID의 Stage와 Area에 해당하는 폴더에 저장합니다.**
+
+```
+Task ID 구조: [Stage][Area][번호]
+예: S1S1 → Stage: S1, Area: S (Security)
+    S2F1 → Stage: S2, Area: F (Frontend)
+```
+
+**Stage 폴더 매핑:**
+| Stage | 폴더명 |
+|-------|--------|
+| S1 | `S1_개발_준비/` |
+| S2 | `S2_개발-1차/` |
+| S3 | `S3_개발-2차/` |
+| S4 | `S4_개발-3차/` |
+| S5 | `S5_운영/` |
+
+**Area 폴더 매핑:**
+| Area 코드 | 폴더명 |
+|-----------|--------|
+| M | `Documentation/` |
+| F | `Frontend/` |
+| BI | `Backend_Infra/` |
+| BA | `Backend_APIs/` |
+| D | `Database/` |
+| S | `Security/` |
+| T | `Testing/` |
+| O | `DevOps/` |
+| E | `External/` |
+| C | `Content/` |
+
+**예시:**
+- S1S1 → `S1_개발_준비/Security/`
+- S1M1 → `S1_개발_준비/Documentation/`
+- S2F1 → `S2_개발-1차/Frontend/`
+- S3BA1 → `S3_개발-2차/Backend_APIs/`
+
+#### 📌 제2 규칙: Production 코드는 이중 저장
+
+**Frontend, Database, Backend_APIs 코드 파일은 Stage/Area 폴더 + Production 폴더 둘 다 저장합니다.**
+
+```
+Production/                 ← 배포용 코드 (최신 상태 유지)
+├── Frontend/               # 프론트엔드 코드
+├── Backend_APIs/           # API 코드
+└── Database/               # DB 스키마
+```
+
+**이중 저장 대상:**
+| Area | Stage 폴더 | Production 폴더 |
+|------|------------|-----------------|
+| F (Frontend) | `S?_*/Frontend/` | `Production/Frontend/` |
+| BA (Backend_APIs) | `S?_*/Backend_APIs/` | `Production/Backend_APIs/` |
+| D (Database) | `S?_*/Database/` | `Production/Database/` |
+
+**예시:**
+- S2F1 코드 → `S2_개발-1차/Frontend/` + `Production/Frontend/`
+- S3BA1 코드 → `S3_개발-2차/Backend_APIs/` + `Production/Backend_APIs/`
+- S1D1 스키마 → `S1_개발_준비/Database/` + `Production/Database/`
+
+**문서는 Stage 폴더에만:**
+- Documentation, Security, Testing, DevOps 등 문서는 Production에 저장하지 않음
+- 예: S1S1 문서 → `S1_개발_준비/Security/` (Production에 저장 X)
+
+#### ❌ 금지 사항
+
+- 다른 Stage 폴더에 저장 금지 (예: S1 작업을 P3에 저장)
+- Area 무시하고 임의 폴더에 저장 금지 (예: Security 작업을 Documentation에 저장)
+- Stage 폴더 구조 무시 금지 (Security, Testing, DevOps 등 Area 폴더가 있는데 안 쓰기)
+
+---
+
+### 4.5 Stage 폴더 (0-5)
 
 #### **명명 규칙**
 ```
@@ -1860,40 +2045,132 @@ PROJECT SAL GRID는 **3단계 검증 시스템**으로 품질을 보증합니다
 
 ### 9.2 1단계: Task 검증 (Sub-agent)
 
+#### **⚠️ 핵심 원칙: 서브에이전트 투입 필수!**
+
+**Claude Code(Main Agent)가 직접 작업/검증하면 안 됨!**
+- Task 작업: 반드시 **Task Agent 서브에이전트 투입**
+- Task 검증: 반드시 **Verification Agent 서브에이전트 투입**
+- Grid 기록: **Main Agent가 서브에이전트 결과를 받아서 대리 기록**
+
 #### **역할 분담**
 
-**작성자 (Sub-agent):**
-- 예시: `frontend-developer`, `api-designer`, `database-architect`
-- 실제 코드 작성
-- 기본 테스트 실행
+| 역할 | 수행자 | 기록자 | 기록 필드 |
+|------|--------|--------|----------|
+| Task 작업 | Task Agent **서브에이전트** | Main Agent | #10-13 (진행/상태/파일/이력) |
+| Task 검증 | Verification Agent **서브에이전트** | Main Agent | #16-21 (테스트/빌드/검증) |
 
-**검증자 (전문 검증 Sub-agent):**
-- 예시: `qa-specialist`, `code-reviewer`
+**Task Agent (작업 담당 Sub-agent):**
+- 예시: `frontend-developer`, `backend-developer`, `database-developer`
+- **반드시 서브에이전트로 투입** (Main Agent가 직접 작업 금지)
+- 실제 코드 작성, 기본 테스트 실행
+- 작업 완료 후 **결과 보고서를 Main Agent에게 반환**
+
+**Verification Agent (검증 담당 Sub-agent):**
+- 예시: `code-reviewer`, `qa-specialist`, `test-engineer`
 - 속성 #15 `verification_agent`에 지정
-- 코드 리뷰
-- 테스트 검증
-- 품질 확인
+- **반드시 서브에이전트로 투입** (Main Agent가 직접 검증 금지)
+- 코드 리뷰, 테스트 검증, 품질 확인
+- 검증 완료 후 **검증 결과를 Main Agent에게 반환**
 
-#### **검증 프로세스**
+#### **작업-검증 프로세스 (7단계)**
 
 ```
-[작성자 작업]
-frontend-developer가 S4F5 작업
+┌─────────────────────────────────────────────────────────────────┐
+│  1단계: Task 작업 - 서브에이전트 수행, Main Agent 기록          │
+└─────────────────────────────────────────────────────────────────┘
+
+[1. Main Agent → Task Agent 서브에이전트 투입]
+Main Agent가 Task tool로 서브에이전트 투입
+  └─ 예: Task tool (subagent_type="frontend-developer")
+       ↓
+[2. Task Agent 서브에이전트 → 작업 수행]
+frontend-developer 서브에이전트가 작업
   - 파일 생성
   - 기능 구현
   - 기본 테스트
        ↓
-[검증자 검증]
-qa-specialist가 검증
+[3. Task Agent 서브에이전트 → 결과 반환]
+서브에이전트가 작업 결과를 Main Agent에게 반환
+  - 생성된 파일 목록
+  - 수정 이력
+  - 작업 완료 상태
+       ↓
+[4. Main Agent → Grid에 작업 결과 기록]
+Main Agent가 서브에이전트 결과를 받아 Grid에 기록:
+  - generated_files: 생성된 파일 목록
+  - modification_history: 수정 이력
+  - task_status: 'Completed'
+  - task_progress: 100
+
+┌─────────────────────────────────────────────────────────────────┐
+│  2단계: Task 검증 - 서브에이전트 수행, Main Agent 기록          │
+└─────────────────────────────────────────────────────────────────┘
+       ↓
+[5. Main Agent → Verification Agent 서브에이전트 투입]
+Main Agent가 Task tool로 서브에이전트 투입
+  └─ 예: Task tool (subagent_type="code-reviewer")
+       ↓
+[6. Verification Agent 서브에이전트 → 검증 수행]
+code-reviewer 서브에이전트가 검증
   - 코드 리뷰
   - 테스트 확인
   - 빌드 확인
-  - 검증 리포트 작성
        ↓
-[결과]
-✅ Pass → Task 완료
-❌ Fail → 재작업
+[7. Verification Agent 서브에이전트 → 결과 반환]
+서브에이전트가 검증 결과를 Main Agent에게 반환
+  - 테스트 결과
+  - 빌드 결과
+  - 종합 검증 결과
+       ↓
+[8. Main Agent → Grid에 검증 결과 기록]
+Main Agent가 서브에이전트 결과를 받아 Grid에 기록:
+  - test: 테스트 결과 JSON
+  - build: 빌드 결과 JSON
+  - integration_verification: 통합 검증 JSON
+  - blockers: 차단 요소 JSON
+  - comprehensive_verification: 종합 검증 JSON
+  - verification_status: 'Passed' 또는 'Failed'
+       ↓
+[9. 결과]
+✅ Pass → Task 완료, 다음 Task 진행
+❌ Fail → Task Agent 재투입하여 재작업
 ```
+
+#### **왜 Main Agent가 대리 기록하는가?**
+
+```
+기술적 이유:
+├─ 서브에이전트는 Task tool 완료 시 결과를 텍스트로 반환
+├─ 서브에이전트의 환경 변수/Supabase 접근이 불안정할 수 있음
+├─ Main Agent가 Grid 전체를 총괄하여 일관성 유지
+└─ 서브에이전트 중간 종료 시 기록 누락 방지
+```
+
+#### **❌ 금지 사항**
+
+```
+❌ Main Agent(Claude Code)가 직접 Task 작업 수행
+❌ Main Agent(Claude Code)가 직접 Task 검증 수행
+❌ Task Agent가 검증까지 수행 (작성자 ≠ 검증자)
+❌ 서브에이전트 투입 없이 작업/검증 완료 표시
+❌ 서브에이전트 결과 확인 없이 Grid에 기록
+```
+
+#### **✅ 올바른 방식**
+
+```
+✅ Task 작업: Task Agent 서브에이전트 투입 → 작업 수행 → 결과 반환 → Main Agent가 Grid 기록
+✅ Task 검증: Verification Agent 서브에이전트 투입 → 검증 수행 → 결과 반환 → Main Agent가 Grid 기록
+✅ 작성자 ≠ 검증자 원칙 준수
+✅ Main Agent는 서브에이전트 투입/조율/기록 담당
+```
+
+#### **Grid 기록 필드 구분**
+
+| 단계 | 기록 필드 | 기록자 |
+|------|----------|--------|
+| Task 작업 결과 | #10 task_progress, #11 task_status, #12 generated_files, #13 modification_history | Main Agent (서브에이전트 결과 기반) |
+| Task 검증 결과 | #16 test, #17 build, #18 integration_verification, #19 blockers, #20 comprehensive_verification, #21 verification_status | Main Agent (서브에이전트 결과 기반) |
 
 #### **세션 중단 시**
 
@@ -1904,9 +2181,9 @@ qa-specialist가 검증
        ↓
 새 세션 B 시작
        ↓
-새 세션의 Sub-agent가 계속 진행
-  - S4F5를 이어서 작업
-  - 같은 verification_agent가 검증
+새 세션의 Main Agent가 서브에이전트 재투입
+  - 동일 Task Agent 서브에이전트로 작업 계속
+  - 동일 Verification Agent 서브에이전트로 검증
 ```
 
 ---
@@ -1929,7 +2206,48 @@ qa-specialist가 검증
 ├─ 통합 테스트 통과 확인
 ├─ 의존성 체인 완결성
 ├─ 파일 생성 완료 확인
-└─ 자동 검증 리포트 생성
+└─ 자동 검증 리포트 생성 및 저장
+```
+
+#### **⭐ Stage Gate 검증 리포트 저장 (필수!)**
+
+**저장 위치:**
+```
+S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/
+├── TEMPLATE_stage_gate_report.md    ← 템플릿
+├── S1GATE_verification_report.md    ← Stage 1 검증 리포트
+├── S2GATE_verification_report.md    ← Stage 2 검증 리포트
+├── S3GATE_verification_report.md    ← Stage 3 검증 리포트
+├── S4GATE_verification_report.md    ← Stage 4 검증 리포트
+└── S5GATE_verification_report.md    ← Stage 5 검증 리포트
+```
+
+**파일명 규칙:**
+```
+S{N}GATE_verification_report.md
+
+예시:
+- S1GATE_verification_report.md (Stage 1)
+- S2GATE_verification_report.md (Stage 2)
+```
+
+**리포트 내용:**
+- Stage 완료 현황 (Task 완료율)
+- 빌드 검증 결과
+- 테스트 검증 결과 (Unit, Integration, E2E)
+- 의존성 체인 검증
+- 산출물 검증
+- 블로커 확인
+- 종합 판정
+
+**DB 기록 (stage_verification 테이블):**
+```sql
+UPDATE stage_verification SET
+  verification_report_path = 'S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/S1GATE_verification_report.md',
+  ai_verification_note = '검증 의견',
+  ai_verification_date = NOW(),
+  stage_gate_status = 'AI Verified'
+WHERE stage_name = 'Stage 1';
 ```
 
 #### **검증 프로세스**

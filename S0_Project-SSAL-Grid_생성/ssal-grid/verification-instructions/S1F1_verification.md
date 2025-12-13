@@ -57,3 +57,13 @@ frontend-developer
 - 모든 UI 구성 요소 존재
 - 반응형 3개 브레이크포인트 동작
 - 접근성 기본 요소 충족
+
+---
+
+## ⚠️ 저장 위치 검증 항목
+
+### 필수 검증
+- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
+- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
+- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
+

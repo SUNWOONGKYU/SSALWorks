@@ -58,3 +58,13 @@ database-developer
 - 모든 콘텐츠 파일 존재
 - SQL 파일 유효
 - DB에 데이터 삽입 확인
+
+---
+
+## ⚠️ 저장 위치 검증 항목
+
+### 필수 검증
+- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
+- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
+- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
+

@@ -19,7 +19,12 @@
       "Bash(findstr:*)",
       "Bash(find:*)",
       "Bash(node restore_all.js:*)",
-      "Bash(node fix_s1_prototype.js:*)"
+      "Bash(node fix_s1_prototype.js:*)",
+      "Bash(npx playwright:*)",
+      "Bash(node -e:*)",
+      "Bash(npx jest --listTests --config=\"S1_개발_준비/Testing/jest.config.js\")",
+      "Bash(test:*)",
+      "Bash(node verify.js:*)"
     ],
     "deny": [],
     "ask": []

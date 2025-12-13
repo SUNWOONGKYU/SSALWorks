@@ -233,12 +233,7 @@ S1_개발_준비/
 │   └── Vercel/
 ├── Database/               # D: 데이터베이스 초기 설정
 ├── DevOps/                 # O: 운영/배포 설정
-├── Documentation/          # M: 문서화
-│   ├── manual/
-│   ├── project_grid/
-│   ├── scripts/
-│   ├── tasks/
-│   └── validation/
+├── Documentation/          # M: 문서화 (개발 가이드 등)
 ├── Frontend/               # F: 프론트엔드 설정
 ├── Security/               # S: 보안 초기 설정
 └── Testing/                # T: 테스트 환경 설정

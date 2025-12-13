@@ -104,40 +104,85 @@ AI: 작업 완료 후 Outbox에 결과 전송
    - 작업 완료 JSON 파일 생성
    - 웹사이트에서 확인 가능하도록
 
-### 📂 파일 저장 위치 규칙
+### 📂 작업 결과물 저장 2대 규칙 (2025-12-13 확정)
 
-**🚨 Production/ 워크플로우 (중요!)**
+> **이 규칙은 모든 Task 작업에 적용됩니다. 반드시 준수하세요!**
+
+#### 📌 제1 규칙: Stage + Area 폴더에 저장
+
+**모든 작업 결과물은 Task ID의 Stage와 Area에 해당하는 폴더에 저장합니다.**
 
 ```
-Production/                 ← 종합집결지 (배포용 코드)
+Task ID 구조: [Stage][Area][번호]
+예: S1S1 → Stage: S1, Area: S (Security)
+    S2F1 → Stage: S2, Area: F (Frontend)
+```
+
+**Stage 폴더 매핑:**
+| Stage | 폴더명 |
+|-------|--------|
+| S1 | `S1_개발_준비/` |
+| S2 | `S2_개발-1차/` |
+| S3 | `S3_개발-2차/` |
+| S4 | `S4_개발-3차/` |
+| S5 | `S5_운영/` |
+
+**Area 폴더 매핑:**
+| Area 코드 | 폴더명 |
+|-----------|--------|
+| M | `Documentation/` |
+| F | `Frontend/` |
+| BI | `Backend_Infra/` |
+| BA | `Backend_APIs/` |
+| D | `Database/` |
+| S | `Security/` |
+| T | `Testing/` |
+| O | `DevOps/` |
+| E | `External/` |
+| C | `Content/` |
+
+**예시:**
+- S1S1 → `S1_개발_준비/Security/`
+- S1M1 → `S1_개발_준비/Documentation/`
+- S2F1 → `S2_개발-1차/Frontend/`
+- S3BA1 → `S3_개발-2차/Backend_APIs/`
+
+#### 📌 제2 규칙: Production 코드는 이중 저장
+
+**Frontend, Database, Backend_APIs 코드 파일은 Stage/Area 폴더 + Production 폴더 둘 다 저장합니다.**
+
+```
+Production/                 ← 배포용 코드 (최신 상태 유지)
 ├── Frontend/               # 프론트엔드 코드
-├── Backend_API/            # API 코드
+├── Backend_APIs/           # API 코드
 └── Database/               # DB 스키마
-
-S1~S5 Stage 폴더/           ← 작업 + 이력 관리
-├── Frontend/
-├── Backend_API/
-├── Database/
-└── ...
 ```
 
-**워크플로우:**
-1. 각 Stage(S1-S5)에서 작업 수행
-2. 작업 완료 후 **Production/에 반영**
-3. Production/은 항상 배포 가능한 최신 상태 유지
+**이중 저장 대상:**
+| Area | Stage 폴더 | Production 폴더 |
+|------|------------|-----------------|
+| F (Frontend) | `S?_*/Frontend/` | `Production/Frontend/` |
+| BA (Backend_APIs) | `S?_*/Backend_APIs/` | `Production/Backend_APIs/` |
+| D (Database) | `S?_*/Database/` | `Production/Database/` |
 
-**코드 저장 시 필수:**
-- HTML/CSS/JS → 해당 Stage `Frontend/` + `Production/Frontend/`
-- API 코드 → 해당 Stage `Backend_API/` + `Production/Backend_API/`
-- SQL 파일 → 해당 Stage `Database/` + `Production/Database/`
+**예시:**
+- S2F1 코드 → `S2_개발-1차/Frontend/` + `Production/Frontend/`
+- S3BA1 코드 → `S3_개발-2차/Backend_APIs/` + `Production/Backend_APIs/`
+- S1D1 스키마 → `S1_개발_준비/Database/` + `Production/Database/`
+
+**문서는 Stage 폴더에만:**
+- Documentation, Security, Testing, DevOps 등 문서는 Production에 저장하지 않음
+- 예: S1S1 문서 → `S1_개발_준비/Security/` (Production에 저장 X)
+
+---
 
 **학습용 문서:**
-- **학습/참고 자료**: `학습용_콘텐츠/`
+- **학습/참고 자료**: `부수적_고유기능/학습용_콘텐츠/`
 
 **네이밍 규칙:**
 - **예비단계**: P1, P2, P3 (한글+숫자)
 - **실행단계**: S1, S2, S3, S4, S5 (한글+숫자)
-- **하위 폴더**: 영문 사용 (Frontend, Backend_API, Database)
+- **하위 폴더**: 영문 사용 (Frontend, Backend_APIs, Database)
 
 ---
 
@@ -1108,6 +1153,226 @@ GitHub 토큰 설정이 필요합니다. 진행하시겠습니까?"
 - ✅ 신뢰할 수 있는 결과물
 
 ---
+
+## ⚠️ 🚨 CRITICAL: PROJECT SAL GRID 데이터 작성 규칙 🚨 ⚠️
+
+**Grid 데이터 생성/수정 시 반드시 매뉴얼을 준수해야 합니다!**
+
+### 필수 참조 문서
+
+**Grid 작업 전 반드시 읽어야 할 문서:**
+```
+S0_Project-SSAL-Grid_생성/manual/PROJECT_SSAL_GRID_MANUAL.md
+```
+
+### Stage 명칭 (정확히 사용)
+
+| Stage | 올바른 명칭 | ❌ 잘못된 예시 |
+|-------|-------------|---------------|
+| S1 | 개발 준비 (Development Setup) | 기반 구축, Foundation |
+| S2 | 개발 1차 (Core Development) | 핵심 기능, Core Features |
+| S3 | 개발 2차 (Advanced Features) | AI 기능, AI Features |
+| S4 | 개발 3차 (QA & Optimization) | 결제 연동, Payment |
+| S5 | 운영 (Operations) | 배포 운영, Deployment |
+
+### Area 명칭 (정확히 사용)
+
+| Area | 올바른 명칭 | ❌ 잘못된 예시 |
+|------|-------------|---------------|
+| M | Documentation (문서화) | Management |
+| U | Design (UI/UX 디자인) | UI/UX |
+| F | Frontend (프론트엔드) | - |
+| BI | Backend Infrastructure (백엔드 기반) | Backend Infra |
+| BA | Backend APIs (백엔드 API) | - |
+| D | Database (데이터베이스) | - |
+| S | Security (보안/인증/인가) | 보안 |
+| T | Testing (테스트) | - |
+| O | DevOps (운영/배포) | 운영 |
+| E | External (외부 연동) | 외부연동 |
+| C | Content System (콘텐츠 시스템) | Content, 콘텐츠 |
+
+### Task Agent (작업 수행자) - 올바른 값
+
+**Area별 적합한 Task Agent:**
+- **M (Documentation)**: `documentation-specialist`
+- **F (Frontend)**: `frontend-developer`
+- **BI (Backend Infrastructure)**: `devops-troubleshooter`, `backend-developer`
+- **BA (Backend APIs)**: `backend-developer`
+- **D (Database)**: `database-specialist`
+- **S (Security)**: `security-specialist`
+- **T (Testing)**: `test-engineer`
+- **O (DevOps)**: `devops-troubleshooter`
+- **E (External)**: `devops-troubleshooter`, `backend-developer`
+- **C (Content)**: `content-specialist`
+
+**❌ 잘못된 예시**: `code-reviewer` (이것은 Verification Agent용)
+
+### Verification Agent (검증자) - Task Agent와 다르게!
+
+**검증 전문 Agent:**
+- `code-reviewer` - 코드 리뷰
+- `qa-specialist` - 품질 보증
+- `security-auditor` - 보안 감사
+- `database-specialist` - DB 검증 (DB Task의 경우)
+
+**⚠️ 핵심 원칙**: Task Agent ≠ Verification Agent (작성자와 검증자 분리)
+
+### 🔄 종합 검증 프로세스 규칙 (2025-12-13 확정)
+
+#### **1단계: Task 실행 및 검증 (서브에이전트 투입)**
+
+| 단계 | 수행자 | 기록자 | 기록 필드 |
+|------|--------|--------|----------|
+| Task 작업 | Task Agent **서브에이전트** | Main Agent | Grid #10-13 |
+| Task 검증 | Verification Agent **서브에이전트** | Main Agent | Grid #16-21 |
+
+**프로세스:**
+```
+[Task 작업]
+Main Agent → Task Agent 서브에이전트 투입 (Task tool)
+           → 서브에이전트가 작업 수행
+           → 결과 반환
+           → Main Agent가 Grid에 기록 (#10-13)
+
+[Task 검증]
+Main Agent → Verification Agent 서브에이전트 투입 (Task tool)
+           → 서브에이전트가 검증 수행
+           → 결과 반환
+           → Main Agent가 Grid에 기록 (#16-21)
+```
+
+**❌ 금지:**
+- Main Agent가 직접 Task 작업 수행
+- Main Agent가 직접 Task 검증 수행
+- Task Agent가 검증까지 수행 (작성자 ≠ 검증자)
+
+#### **2단계: Stage Gate 검증 (Main Agent 직접)**
+
+**Stage Gate는 Main Agent가 직접 수행 + 리포트 파일 저장:**
+```
+[Stage Gate 검증 프로세스]
+1. Main Agent가 직접 검증 수행
+   - Stage 내 모든 Task 완료 확인
+   - 전체 빌드/테스트 통과 확인
+   - 의존성 체인 완결성 확인
+
+2. 검증 리포트 파일 생성
+   - 저장 위치: S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/
+   - 파일명: S{N}GATE_verification_report.md
+
+3. DB에 파일 경로 기록 (stage_verification 테이블)
+   - verification_report_path: 리포트 파일 경로
+   - ai_verification_note: 검증 의견
+   - stage_gate_status: 'AI Verified'
+```
+
+**⭐ Stage Gate 리포트 저장:**
+```
+[파일 저장]
+S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/
+├── S1GATE_verification_report.md  ← 리포트 내용
+├── S2GATE_verification_report.md
+└── ...
+
+[DB 기록] stage_verification 테이블
+┌─────────────────────────────────────────────────────────────────────┐
+│ verification_report_path:                                           │
+│   'S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/S1GATE_verification_report.md' │
+│                                                                     │
+│ ai_verification_note: '모든 Task 완료, 빌드/테스트 통과'            │
+│ stage_gate_status: 'AI Verified'                                    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+#### **3단계: Project Owner 최종 승인**
+
+- AI 검증 리포트 (파일 경로로 찾아서) 검토
+- 최종 승인/거부 → `stage_gate_status: 'Approved'/'Rejected'`
+
+#### **요약 표**
+
+| 검증 단계 | 수행자 | 리포트 저장 | DB 기록 |
+|----------|--------|------------|---------|
+| Task 작업 | Task Agent 서브에이전트 | - | Grid #10-13 |
+| Task 검증 | Verification Agent 서브에이전트 | - | Grid #16-21 |
+| Stage Gate | **Main Agent 직접** | `ssal-grid/stage-gates/` | `verification_report_path`에 경로 저장 |
+| 최종 승인 | Project Owner | - | `stage_gate_status` |
+
+### Tools (사용 도구) - 올바른 값
+
+**포함해야 할 것:**
+- ✅ Slash Commands: `/review-pr`, `/deploy`, `/test`
+- ✅ CLI 도구: `gh`, `vercel-cli`, `npm`
+- ✅ MCP Servers: `/mcp__supabase__*`, `browser-mcp`
+- ✅ Skills: `pdf-skill`, `playwright-mcp`
+- ✅ SDK: `openai-sdk`, `toss-payments-sdk`
+
+**❌ 포함하면 안 되는 것:**
+- ❌ `Read`, `Write` (기본 동작)
+- ❌ `TypeScript`, `React` (기술 스택 - Task Instruction에 기재)
+
+### Verification 필드 (22개 속성 중 16-20번)
+
+**반드시 JSON 형식으로 구조화:**
+
+```javascript
+// #16 Test
+{
+    "unit_test": "✅/❌/⏳ 설명",
+    "integration_test": "✅/❌/⏳ 설명",
+    "edge_cases": "✅/❌/⏳ 설명",
+    "manual_test": "✅/❌/⏳ 설명"
+}
+
+// #17 Build
+{
+    "compile": "✅/❌/N/A 설명",
+    "lint": "✅/❌/N/A 설명",
+    "deploy": "✅/❌/N/A 설명",
+    "runtime": "✅/❌/N/A 설명"
+}
+
+// #18 Integration Verification
+{
+    "dependency_propagation": "✅/❌ 설명",
+    "cross_task_connection": "✅/❌ 설명",
+    "data_flow": "✅/❌ 설명"
+}
+
+// #19 Blockers
+{
+    "dependency": "None/⚠️ 설명",
+    "environment": "None/⚠️ 설명",
+    "external_api": "None/⚠️ 설명",
+    "status": "No Blockers ✅ / N Blockers 🚫"
+}
+
+// #20 Comprehensive Verification
+{
+    "task_instruction": "✅/❌ 설명",
+    "test": "✅/❌ N/N 통과",
+    "build": "✅/❌ N/N 통과",
+    "integration": "✅/❌ N/N 통과",
+    "blockers": "✅ None/❌ N개",
+    "final": "✅ Passed / ❌ Failed"
+}
+```
+
+### Grid 데이터 작성 체크리스트
+
+Grid 데이터 생성/수정 전 확인:
+
+- [ ] 매뉴얼 (`PROJECT_SSAL_GRID_MANUAL.md`) 읽었는가?
+- [ ] Stage 명칭이 정확한가? (개발 준비, 개발 1차, 개발 2차, 개발 3차, 운영)
+- [ ] Area 명칭이 정확한가? (Documentation, Design, Frontend, ...)
+- [ ] Task Agent가 작업 유형에 맞는가? (documentation-specialist, frontend-developer, ...)
+- [ ] Verification Agent가 Task Agent와 다른가?
+- [ ] Tools에 Skills/Commands/MCP가 있는가? (Read/Write 금지)
+- [ ] Verification 필드가 JSON 형식인가?
+- [ ] 의존성(Dependencies)이 정확한가?
+
+**이 규칙을 어기면 Grid 데이터가 엉망이 됩니다!**
+
 ---
 
 ## Universal Development Guidelines

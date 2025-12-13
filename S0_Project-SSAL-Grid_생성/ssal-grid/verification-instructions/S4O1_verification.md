@@ -57,3 +57,13 @@ devops-troubleshooter
 - 테스트 환경 설정 완료
 - 테스트 결제 성공
 - 웹훅 수신 확인
+
+---
+
+## ⚠️ 저장 위치 검증 항목
+
+### 필수 검증
+- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
+- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
+- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
+

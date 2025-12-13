@@ -88,3 +88,21 @@ AI-Only
 ## Remarks
 - 이 문서는 모든 개발자/AI가 참조하는 기준 문서
 - P3 프로토타입에서 사용된 패턴을 기반으로 작성
+
+---
+
+## ⚠️ 작업 결과물 저장 2대 규칙
+
+> **이 규칙은 반드시 준수하세요!**
+
+### 제1 규칙: Stage + Area 폴더에 저장
+- Task ID의 Stage와 Area에 해당하는 폴더에 저장
+- 예: S1S1 → `S1_개발_준비/Security/`
+- 예: S2F1 → `S2_개발-1차/Frontend/`
+
+### 제2 규칙: Production 코드는 이중 저장
+- Frontend, Database, Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장
+- 문서(Documentation, Security, Testing, DevOps)는 Stage 폴더에만 저장
+
+**Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
+
