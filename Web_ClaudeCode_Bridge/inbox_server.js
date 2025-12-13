@@ -506,8 +506,8 @@ app.get('/order-status/:orderId', (req, res) => {
 // Order Sheet 템플릿 조회 엔드포인트 (MD 파일 기반)
 app.get('/ordersheet-templates', (req, res) => {
     try {
-        // 새 템플릿 경로: P2_프로젝트_기획/1-2_User_Flows/5_Development_Process/Order_Sheet_템플릿/
-        const newTemplateDir = path.join(__dirname, '..', 'P2_프로젝트_기획', '1-2_User_Flows', '5_Development_Process', 'Order_Sheet_템플릿');
+        // 새 템플릿 경로: P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/
+        const newTemplateDir = path.join(__dirname, '..', 'P2_프로젝트_기획', 'User_Flows', 'Order_Sheet_템플릿');
 
         if (!fs.existsSync(newTemplateDir)) {
             return res.status(404).json({

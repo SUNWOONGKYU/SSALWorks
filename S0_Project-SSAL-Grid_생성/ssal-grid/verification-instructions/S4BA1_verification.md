@@ -1,0 +1,64 @@
+# Verification Instruction - S4BA1
+
+## Task ID
+S4BA1
+
+## Task Name
+결제 API
+
+## Verification Checklist
+
+### 1. 파일 존재 검증
+- [ ] api/payment/confirm.js 존재
+- [ ] api/payment/billing-key.js 존재
+- [ ] api/payment/auto-charge.js 존재
+- [ ] api/payment/cancel.js 존재
+
+### 2. 결제 승인 API 검증
+- [ ] POST /api/payment/confirm
+- [ ] paymentKey, orderId, amount 필수
+- [ ] 토스 API 호출
+- [ ] 결제 정보 DB 저장
+- [ ] 구독 활성화
+
+### 3. 빌링키 API 검증
+- [ ] POST /api/payment/billing-key
+- [ ] authKey, customerKey 처리
+- [ ] 토스 빌링 API 호출
+- [ ] 빌링키 저장
+
+### 4. 자동결제 API 검증
+- [ ] Cron 인증 확인
+- [ ] 만료 예정 구독 조회
+- [ ] 자동 결제 실행
+- [ ] 구독 기간 연장
+
+### 5. 결제 취소 API 검증
+- [ ] POST /api/payment/cancel
+- [ ] paymentKey 필수
+- [ ] 토스 취소 API 호출
+- [ ] DB 상태 업데이트
+
+## Test Commands
+```bash
+# 파일 존재 확인
+ls -la api/payment/
+
+# 결제 승인 테스트 (테스트 환경)
+curl -X POST http://localhost:3000/api/payment/confirm \
+  -H "Content-Type: application/json" \
+  -d '{"paymentKey":"test","orderId":"test","amount":9900}'
+```
+
+## Expected Results
+- 결제 API 파일 존재
+- 토스 API 연동
+- DB 연동 동작
+
+## Verification Agent
+backend-developer
+
+## Pass Criteria
+- 결제 승인 API 동작
+- 빌링키 발급 동작
+- 자동결제 로직 정확

@@ -1,0 +1,66 @@
+# Verification Instruction - S3BA1
+
+## Task ID
+S3BA1
+
+## Task Name
+AI Q&A API
+
+## Verification Checklist
+
+### 1. 파일 존재 검증
+- [ ] api/ai/qa.js 존재
+- [ ] api/lib/ai/context-loader.js 존재
+
+### 2. Q&A API 기능 검증
+- [ ] POST /api/ai/qa 엔드포인트
+- [ ] question 필수 파라미터
+- [ ] 인증 필수 (withAuth)
+- [ ] AI 응답 반환
+
+### 3. 시스템 프롬프트 검증
+- [ ] 역할 정의 (AI 튜터)
+- [ ] 한국어 응답 설정
+- [ ] 콘텐츠 컨텍스트 포함
+
+### 4. 사용량 연동 검증
+- [ ] checkUsageLimit 호출
+- [ ] 한도 초과 시 429 반환
+- [ ] 사용량 로깅
+
+### 5. 응답 형식 검증
+```json
+{
+  "answer": "AI 응답 내용",
+  "usage": {
+    "inputTokens": 100,
+    "outputTokens": 200
+  },
+  "remainingTokens": 4500
+}
+```
+
+## Test Commands
+```bash
+# 파일 존재 확인
+ls -la api/ai/qa.js
+
+# API 테스트
+curl -X POST http://localhost:3000/api/ai/qa \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{"question": "테스트 질문"}'
+```
+
+## Expected Results
+- Q&A API 동작
+- AI 응답 생성
+- 사용량 추적
+
+## Verification Agent
+backend-developer
+
+## Pass Criteria
+- AI 응답 생성 성공
+- 사용량 제한 동작
+- 에러 핸들링 정상

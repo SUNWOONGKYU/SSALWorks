@@ -62,12 +62,12 @@ AI: 작업 완료 후 Outbox에 결과 전송
 ### 2단계: 프로젝트 상태 확인
 **현재 프로젝트 진행 상황 파악:**
 
-3. **`PROJECT_STATUS.md`** (루트 디렉토리)
+3. **`P0_작업_디렉토리_구조_생성/Project_Status.md`**
    - 현재 프로젝트 진행 상황
    - 어디까지 완료되었는지
    - 다음에 무엇을 해야 하는지
 
-4. **`PROJECT_DIRECTORY_STRUCTURE.md`** (루트 디렉토리)
+4. **`P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`**
    - 전체 디렉토리 구조 및 설명
    - 파일을 어디에 저장해야 하는지
    - 네이밍 규칙 및 프로젝트 구조
@@ -106,14 +106,38 @@ AI: 작업 완료 후 Outbox에 결과 전송
 
 ### 📂 파일 저장 위치 규칙
 
-**설치 vs 사용법 구분:**
-- **설치/설정 관련**: `2_개발준비/2-3_Development_Setup/`
-- **사용법/학습 자료**: `학습용_콘텐츠/2_웹개발_지식/`
+**🚨 Production/ 워크플로우 (중요!)**
+
+```
+Production/                 ← 종합집결지 (배포용 코드)
+├── Frontend/               # 프론트엔드 코드
+├── Backend_API/            # API 코드
+└── Database/               # DB 스키마
+
+S1~S5 Stage 폴더/           ← 작업 + 이력 관리
+├── Frontend/
+├── Backend_API/
+├── Database/
+└── ...
+```
+
+**워크플로우:**
+1. 각 Stage(S1-S5)에서 작업 수행
+2. 작업 완료 후 **Production/에 반영**
+3. Production/은 항상 배포 가능한 최신 상태 유지
+
+**코드 저장 시 필수:**
+- HTML/CSS/JS → 해당 Stage `Frontend/` + `Production/Frontend/`
+- API 코드 → 해당 Stage `Backend_API/` + `Production/Backend_API/`
+- SQL 파일 → 해당 Stage `Database/` + `Production/Database/`
+
+**학습용 문서:**
+- **학습/참고 자료**: `학습용_콘텐츠/`
 
 **네이밍 규칙:**
-- **대분류(1-4단계)**: 한글 사용 (1_기획, 2_개발준비, 3_개발, 4_운영)
-- **하위 폴더**: 영문 사용 (Project_Plan, Frontend, Backend_APIs)
-- **독립 폴더**: 상황에 따라 (사업계획, 학습용_콘텐츠, Web_ClaudeCode_Bridge)
+- **예비단계**: P1, P2, P3 (한글+숫자)
+- **실행단계**: S1, S2, S3, S4, S5 (한글+숫자)
+- **하위 폴더**: 영문 사용 (Frontend, Backend_API, Database)
 
 ---
 
@@ -121,10 +145,34 @@ AI: 작업 완료 후 Outbox에 결과 전송
 
 **이 규칙은 반드시 지켜야 합니다. 실전 프로젝트에서 가장 많은 문제를 일으킨 사항입니다!**
 
+### 🚫 새 폴더 생성 절대 금지 (2025-12-13 확정)
+
+> **폴더 구조가 완성되었습니다. 더 이상 새 폴더를 만들 필요가 없습니다.**
+
+```
+⛔ 절대 금지: 새 폴더 생성
+⛔ 절대 금지: 폴더 구조 변경
+⛔ 절대 금지: 폴더 이름 변경
+```
+
+**현재 폴더 구조는 충분히 모든 파일을 수용할 수 있습니다:**
+- P0~P3: 예비단계 (기획, 프로토타입)
+- S0~S5: 실행단계 (개발, 운영)
+- Production: 배포용 코드
+- 부수적_고유기능: SSALWorks 전용 기능
+- 기타 독립 폴더: 브릿지, 사이드바, 참고자료
+
+**새 폴더가 필요하다고 느껴지면:**
+1. ❌ 절대 직접 생성하지 말 것
+2. ✅ 기존 폴더 중 적합한 곳을 찾을 것
+3. ✅ 정말 없다면 사용자에게 문의할 것
+
+---
+
 ### 1. 지정된 폴더에만 파일 저장
 
 **규칙:**
-- 파일은 **반드시 `PROJECT_DIRECTORY_STRUCTURE.md`에 정의된 폴더**에만 저장
+- 파일은 **반드시 `Project_Directory_Structure.md`에 정의된 폴더**에만 저장
 - **임의로 새 폴더를 만들거나 예상 밖의 위치에 저장하는 것은 절대 금지**
 
 ### 2. 적절한 폴더가 없을 경우 필수 절차
@@ -156,12 +204,12 @@ AI: 작업 완료 후 Outbox에 결과 전송
 - 예상치 못한 위치에 파일 생성
 - "일단 여기 저장하고 나중에 옮기면 되겠지" 라는 생각
 - 사용자 확인 없이 새 폴더 생성
-- `PROJECT_DIRECTORY_STRUCTURE.md`를 무시하고 직감으로 저장
+- `Project_Directory_Structure.md`를 무시하고 직감으로 저장
 
 ### 4. 올바른 작업 절차
 
 ✅ **올바른 절차:**
-1. `PROJECT_DIRECTORY_STRUCTURE.md` 확인
+1. `Project_Directory_Structure.md` 확인
 2. 파일 목적에 맞는 폴더 찾기
 3. 폴더가 명확하면 → 저장
 4. 폴더가 불명확하면 → **사용자에게 문의 후 승인 받기**
@@ -209,8 +257,8 @@ AI: 작업 완료 후 Outbox에 결과 전송
 
 ### 🚀 작업 시작 전 체크리스트
 
-- [ ] `PROJECT_STATUS.md` 읽고 현재 Phase 확인
-- [ ] `PROJECT_DIRECTORY_STRUCTURE.md` 읽고 디렉토리 구조 파악
+- [ ] `Project_Status.md` 읽고 현재 Phase 확인
+- [ ] `Project_Directory_Structure.md` 읽고 디렉토리 구조 파악
 - [ ] 현재 Phase에 맞는 작업 폴더 확인
 - [ ] **파일 저장 위치 규칙 숙지 (위 CRITICAL 섹션 반드시 확인!)**
 

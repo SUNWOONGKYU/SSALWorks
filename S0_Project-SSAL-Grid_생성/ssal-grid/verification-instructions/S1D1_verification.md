@@ -1,0 +1,67 @@
+# Verification Instruction - S1D1
+
+## Task ID
+S1D1
+
+## Task Name
+DB 스키마 확정
+
+## Verification Checklist
+
+### 1. 스키마 파일 검증
+- [ ] schema.sql 파일 존재
+- [ ] 모든 필수 테이블 정의
+
+### 2. 테이블 존재 검증
+- [ ] users 테이블
+- [ ] subscription_plans 테이블
+- [ ] subscriptions 테이블
+- [ ] ai_usage_logs 테이블
+- [ ] learning_contents 테이블
+
+### 3. 컬럼 검증 (users)
+- [ ] id (UUID, PK)
+- [ ] email (UNIQUE)
+- [ ] name
+- [ ] created_at
+- [ ] updated_at
+
+### 4. 외래 키 검증
+- [ ] subscriptions.user_id → users.id
+- [ ] subscriptions.plan_id → subscription_plans.id
+- [ ] ai_usage_logs.user_id → users.id
+
+### 5. 인덱스 검증
+- [ ] users.email 인덱스
+- [ ] subscriptions.user_id 인덱스
+- [ ] ai_usage_logs.created_at 인덱스
+
+### 6. RLS 정책 검증
+- [ ] 테이블별 RLS 활성화
+- [ ] 적절한 정책 정의
+
+## Test Commands
+```sql
+-- 테이블 목록 확인
+SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';
+
+-- 컬럼 확인
+SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'users';
+
+-- 인덱스 확인
+SELECT indexname FROM pg_indexes WHERE schemaname = 'public';
+```
+
+## Expected Results
+- 모든 테이블 생성 완료
+- 외래 키 관계 설정
+- 인덱스 생성 완료
+- RLS 정책 적용
+
+## Verification Agent
+database-developer
+
+## Pass Criteria
+- 5개 이상 필수 테이블 존재
+- 외래 키 관계 정확
+- RLS 정책 활성화

@@ -1,13 +1,13 @@
 {
   "metadata": {
-    "lastUpdate": "2025-12-12",
-    "source": "실제 디렉토리 구조 반영"
+    "lastUpdate": "2025-12-13",
+    "source": "SSALWORKS_TASK_PLAN.md Area 분포와 일치 + P0 추가"
   },
   "structure": [
     {
-      "id": "Project-SSAL-Grid",
-      "name": "Project-SSAL-Grid",
-      "name_ko": "Project SAL Grid",
+      "id": "S0_Project-SSAL-Grid_생성",
+      "name": "S0_Project-SSAL-Grid_생성",
+      "name_ko": "Project SSAL Grid 생성",
       "categories": [
         {
           "id": "ssal-grid",
@@ -31,6 +31,25 @@
           "id": "viewer",
           "name_en": "viewer",
           "name_ko": "뷰어",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "P0_작업_디렉토리_구조_생성",
+      "name": "P0_작업_디렉토리_구조_생성",
+      "name_ko": "작업 디렉토리 구조 생성",
+      "categories": [
+        {
+          "id": "Project_Directory_Structure",
+          "name_en": "Project_Directory_Structure",
+          "name_ko": "디렉토리 구조",
+          "items": []
+        },
+        {
+          "id": "Project_Status",
+          "name_en": "Project_Status",
+          "name_ko": "프로젝트 상태",
           "items": []
         }
       ]
@@ -158,27 +177,45 @@
       "name_ko": "개발 준비",
       "categories": [
         {
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
+          "items": []
+        },
+        {
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드 (F)",
+          "items": []
+        },
+        {
           "id": "Backend_Infra",
           "name_en": "Backend_Infra",
-          "name_ko": "백엔드 인프라",
+          "name_ko": "백엔드 인프라 (BI)",
           "items": []
         },
         {
           "id": "Database",
           "name_en": "Database",
-          "name_ko": "데이터베이스",
-          "items": []
-        },
-        {
-          "id": "Documentation",
-          "name_en": "Documentation",
-          "name_ko": "문서화",
+          "name_ko": "데이터베이스 (D)",
           "items": []
         },
         {
           "id": "Security",
           "name_en": "Security",
-          "name_ko": "보안",
+          "name_ko": "보안 (S)",
+          "items": []
+        },
+        {
+          "id": "Testing",
+          "name_en": "Testing",
+          "name_ko": "테스트 (T)",
+          "items": []
+        },
+        {
+          "id": "DevOps",
+          "name_en": "DevOps",
+          "name_ko": "DevOps (O)",
           "items": []
         }
       ]
@@ -189,69 +226,51 @@
       "name_ko": "개발 1차",
       "categories": [
         {
-          "id": "Frontend",
-          "name_en": "Frontend",
-          "name_ko": "프론트엔드",
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
           "items": []
         },
         {
-          "id": "Backend_API",
-          "name_en": "Backend_API",
-          "name_ko": "백엔드 API",
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드 (F)",
           "items": []
         },
         {
           "id": "Backend_Infra",
           "name_en": "Backend_Infra",
-          "name_ko": "백엔드 인프라",
+          "name_ko": "백엔드 인프라 (BI)",
+          "items": []
+        },
+        {
+          "id": "Backend_API",
+          "name_en": "Backend_API",
+          "name_ko": "백엔드 API (BA)",
           "items": []
         },
         {
           "id": "Database",
           "name_en": "Database",
-          "name_ko": "데이터베이스",
-          "items": []
-        },
-        {
-          "id": "Content_System",
-          "name_en": "Content_System",
-          "name_ko": "콘텐츠 시스템",
-          "items": []
-        },
-        {
-          "id": "Design",
-          "name_en": "Design",
-          "name_ko": "디자인",
-          "items": []
-        },
-        {
-          "id": "DevOps",
-          "name_en": "DevOps",
-          "name_ko": "DevOps",
-          "items": []
-        },
-        {
-          "id": "External",
-          "name_en": "External",
-          "name_ko": "외부 연동",
+          "name_ko": "데이터베이스 (D)",
           "items": []
         },
         {
           "id": "Security",
           "name_en": "Security",
-          "name_ko": "보안",
+          "name_ko": "보안 (S)",
           "items": []
         },
         {
           "id": "Testing",
           "name_en": "Testing",
-          "name_ko": "테스트",
+          "name_ko": "테스트 (T)",
           "items": []
         },
         {
-          "id": "Documentation",
-          "name_en": "Documentation",
-          "name_ko": "문서화",
+          "id": "Content_System",
+          "name_en": "Content_System",
+          "name_ko": "콘텐츠 시스템 (C)",
           "items": []
         }
       ]
@@ -262,69 +281,27 @@
       "name_ko": "개발 2차",
       "categories": [
         {
-          "id": "Frontend",
-          "name_en": "Frontend",
-          "name_ko": "프론트엔드",
+          "id": "Backend_Infra",
+          "name_en": "Backend_Infra",
+          "name_ko": "백엔드 인프라 (BI)",
           "items": []
         },
         {
           "id": "Backend_API",
           "name_en": "Backend_API",
-          "name_ko": "백엔드 API",
-          "items": []
-        },
-        {
-          "id": "Backend_Infra",
-          "name_en": "Backend_Infra",
-          "name_ko": "백엔드 인프라",
-          "items": []
-        },
-        {
-          "id": "Database",
-          "name_en": "Database",
-          "name_ko": "데이터베이스",
-          "items": []
-        },
-        {
-          "id": "Content_System",
-          "name_en": "Content_System",
-          "name_ko": "콘텐츠 시스템",
-          "items": []
-        },
-        {
-          "id": "Design",
-          "name_en": "Design",
-          "name_ko": "디자인",
-          "items": []
-        },
-        {
-          "id": "DevOps",
-          "name_en": "DevOps",
-          "name_ko": "DevOps",
-          "items": []
-        },
-        {
-          "id": "External",
-          "name_en": "External",
-          "name_ko": "외부 연동",
+          "name_ko": "백엔드 API (BA)",
           "items": []
         },
         {
           "id": "Security",
           "name_en": "Security",
-          "name_ko": "보안",
+          "name_ko": "보안 (S)",
           "items": []
         },
         {
-          "id": "Testing",
-          "name_en": "Testing",
-          "name_ko": "테스트",
-          "items": []
-        },
-        {
-          "id": "Documentation",
-          "name_en": "Documentation",
-          "name_ko": "문서화",
+          "id": "External",
+          "name_en": "External",
+          "name_ko": "외부 연동 (E)",
           "items": []
         }
       ]
@@ -332,72 +309,48 @@
     {
       "id": "S4_개발-3차",
       "name": "S4_개발-3차",
-      "name_ko": "개발 3차 (테스트/안정화)",
+      "name_ko": "개발 3차",
       "categories": [
         {
-          "id": "Frontend",
-          "name_en": "Frontend",
-          "name_ko": "프론트엔드",
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
           "items": []
         },
         {
-          "id": "Backend_API",
-          "name_en": "Backend_API",
-          "name_ko": "백엔드 API",
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드 (F)",
           "items": []
         },
         {
           "id": "Backend_Infra",
           "name_en": "Backend_Infra",
-          "name_ko": "백엔드 인프라",
+          "name_ko": "백엔드 인프라 (BI)",
           "items": []
         },
         {
-          "id": "Database",
-          "name_en": "Database",
-          "name_ko": "데이터베이스",
-          "items": []
-        },
-        {
-          "id": "Content_System",
-          "name_en": "Content_System",
-          "name_ko": "콘텐츠 시스템",
-          "items": []
-        },
-        {
-          "id": "Design",
-          "name_en": "Design",
-          "name_ko": "디자인",
-          "items": []
-        },
-        {
-          "id": "DevOps",
-          "name_en": "DevOps",
-          "name_ko": "DevOps",
-          "items": []
-        },
-        {
-          "id": "External",
-          "name_en": "External",
-          "name_ko": "외부 연동",
+          "id": "Backend_API",
+          "name_en": "Backend_API",
+          "name_ko": "백엔드 API (BA)",
           "items": []
         },
         {
           "id": "Security",
           "name_en": "Security",
-          "name_ko": "보안",
+          "name_ko": "보안 (S)",
           "items": []
         },
         {
           "id": "Testing",
           "name_en": "Testing",
-          "name_ko": "테스트",
+          "name_ko": "테스트 (T)",
           "items": []
         },
         {
-          "id": "Documentation",
-          "name_en": "Documentation",
-          "name_ko": "문서화",
+          "id": "DevOps",
+          "name_en": "DevOps",
+          "name_ko": "DevOps (O)",
           "items": []
         }
       ]
@@ -408,57 +361,39 @@
       "name_ko": "운영",
       "categories": [
         {
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
+          "items": []
+        },
+        {
           "id": "Frontend",
           "name_en": "Frontend",
-          "name_ko": "프론트엔드",
+          "name_ko": "프론트엔드 (F)",
           "items": []
         },
         {
           "id": "Backend_API",
           "name_en": "Backend_API",
-          "name_ko": "백엔드 API",
+          "name_ko": "백엔드 API (BA)",
           "items": []
         },
         {
           "id": "Database",
           "name_en": "Database",
-          "name_ko": "데이터베이스",
-          "items": []
-        },
-        {
-          "id": "Content_System",
-          "name_en": "Content_System",
-          "name_ko": "콘텐츠 시스템",
-          "items": []
-        },
-        {
-          "id": "DevOps",
-          "name_en": "DevOps",
-          "name_ko": "DevOps",
-          "items": []
-        },
-        {
-          "id": "External",
-          "name_en": "External",
-          "name_ko": "외부 연동",
+          "name_ko": "데이터베이스 (D)",
           "items": []
         },
         {
           "id": "Security",
           "name_en": "Security",
-          "name_ko": "보안",
+          "name_ko": "보안 (S)",
           "items": []
         },
         {
-          "id": "Testing",
-          "name_en": "Testing",
-          "name_ko": "테스트",
-          "items": []
-        },
-        {
-          "id": "Documentation",
-          "name_en": "Documentation",
-          "name_ko": "문서화",
+          "id": "DevOps",
+          "name_en": "DevOps",
+          "name_ko": "DevOps (O)",
           "items": []
         }
       ]
