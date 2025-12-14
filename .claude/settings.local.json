@@ -24,7 +24,9 @@
       "Bash(node -e:*)",
       "Bash(npx jest --listTests --config=\"S1_개발_준비/Testing/jest.config.js\")",
       "Bash(test:*)",
-      "Bash(node verify.js:*)"
+      "Bash(node verify.js:*)",
+      "Bash(cp:*)",
+      "Bash(python3:*)"
     ],
     "deny": [],
     "ask": []

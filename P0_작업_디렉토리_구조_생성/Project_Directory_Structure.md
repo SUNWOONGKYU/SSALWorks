@@ -1,7 +1,7 @@
 # SSALWorks 프로젝트 디렉토리 구조 가이드
 
-> **버전**: v8.0
-> **최종 업데이트**: 2025-12-13
+> **버전**: v9.0
+> **최종 업데이트**: 2025-12-14
 > **프로젝트**: SaaS 구독형 학습 + 프로젝트 관리 통합 플랫폼
 
 ---
@@ -371,12 +371,12 @@ Production/
 
 ## 📂 독립 폴더 상세 설명
 
-### Project-SSAL-Grid/
+### S0_Project-SSAL-Grid_생성/
 
 **용도:** 프로젝트 그리드 관리 시스템
 
 ```
-Project-SSAL-Grid/
+S0_Project-SSAL-Grid_생성/
 ├── manual/                 # 매뉴얼
 │   ├── PROJECT_SSAL_GRID_MANUAL.md
 │   └── references/                 # 참조 문서
@@ -414,16 +414,18 @@ Web_ClaudeCode_Bridge/
 
 ---
 
-### AI_Link/
+### 부수적_고유기능/AI_Link/
 
 **용도:** AI 서비스 연동
 
 ```
-AI_Link/
-└── AI/
-    ├── ChatGPT/            # ChatGPT 연동
-    ├── Gemini/             # Gemini 연동
-    └── Perplexity/         # Perplexity 연동
+부수적_고유기능/AI_Link/
+├── AI/
+│   ├── ChatGPT/            # ChatGPT 연동
+│   ├── Gemini/             # Gemini 연동
+│   └── Perplexity/         # Perplexity 연동
+├── ai_server.js            # AI 서버 스크립트
+└── README.md               # AI Link 설명
 ```
 
 ---
@@ -440,24 +442,28 @@ Sidebar-Process-Tools/
 
 ---
 
-### 학습용_콘텐츠/
+### 부수적_고유기능/학습용_콘텐츠/
 
 **용도:** 학습 자료 및 개발 지식 저장소
 
 ```
-학습용_콘텐츠/
-├── 1_Claude_사용법/        # Claude & Claude Code 가이드
+부수적_고유기능/학습용_콘텐츠/
+├── 1_Claude_사용법/                    # Claude & Claude Code 가이드
 │   └── Claude&ClaudeCode사용법/
-├── 2_웹개발_지식/          # 웹 개발 관련 지식
+├── 2_웹개발_지식/                      # 웹 개발 관련 지식
 │   ├── Web_Development/
 │   └── 웹개발 기초지식/
-└── 3_AI_도구_활용/         # AI 도구 활용
-    └── Claude_Code/
+├── 3_AI_도구_활용/                     # AI 도구 활용
+│   └── Claude_Code/
+├── viewer.html                         # 콘텐츠 뷰어
+├── 학습용_콘텐츠_제공_프로세스.html     # 프로세스 문서 (HTML)
+└── 학습용_콘텐츠_제공_프로세스.md       # 프로세스 문서 (MD)
 ```
 
 **중요:**
 - 모든 파일은 Markdown (.md) 형식
 - 사용법 = 학습용_콘텐츠 (여기)
+- viewer.html로 콘텐츠 열람 가능
 
 ---
 
@@ -467,7 +473,10 @@ Sidebar-Process-Tools/
 
 ```
 참고자료/
-└── Project_Grid_DB/        # 프로젝트 그리드 DB 참고
+├── Project_Grid_DB/                 # 프로젝트 그리드 DB 참고
+├── references/                       # 참조 문서들
+├── PROJECT_SSAL_GRID_MANUAL.html    # SSAL Grid 매뉴얼 (HTML)
+└── SSALWorks참고자료.md              # SSALWorks 참고자료
 ```
 
 ---
@@ -566,6 +575,22 @@ Sidebar-Process-Tools/
 
 ## 📝 중요 원칙 및 규칙
 
+### 🛑 절대 규칙: 새 폴더 생성 전 사용자 승인 필수
+
+```
+⛔ 폴더 구조가 완성되었습니다. 새 폴더를 만들 필요가 없습니다!
+⛔ 새 폴더가 정말 필요하다면 반드시 사용자에게 먼저 물어야 합니다!
+⛔ 임의로 폴더를 생성하면 프로젝트 구조가 엉망이 됩니다!
+```
+
+**새 폴더 생성이 필요할 때:**
+1. 기존 폴더 중 적합한 곳이 있는지 먼저 확인
+2. 정말 없다면 작업 중단
+3. 사용자에게 질문: "폴더 [폴더명] 생성이 필요합니다. 승인하시겠습니까?"
+4. 승인 후에만 폴더 생성
+
+---
+
 ### ✅ 반드시 지켜야 할 것
 
 1. **P1-P3는 GRID 범위 밖** (예비단계)
@@ -573,6 +598,7 @@ Sidebar-Process-Tools/
 3. **네이밍 규칙 준수** (대분류: 한글+숫자, 하위: 영문)
 4. **순서대로 진행** (P1 → P2 → P3 → S1 → S2 → S3 → S4 → S5)
 5. **문서화 필수**
+6. **새 폴더 생성 전 사용자 승인 필수**
 
 ### ❌ 절대 하지 말아야 할 것
 
@@ -580,6 +606,7 @@ Sidebar-Process-Tools/
 2. **디렉토리 구조 무시**
 3. **비밀 정보 Git에 올리기** (.env 파일은 .gitignore에)
 4. **문서 없이 코드만 작성**
+5. **사용자 승인 없이 새 폴더 생성** ← 가장 중요!
 
 ---
 
@@ -614,10 +641,11 @@ Sidebar-Process-Tools/
 | v5.0 | 2025-12-02 | P2, P3 폴더 구조 상세화 | Claude Code |
 | v6.0 | 2025-12-12 | 전면 재작성: P1-P3 + S1-S5 실제 구조 반영 | Claude Code |
 | v7.0 | 2025-12-13 | S1-S5 구조를 SSALWORKS_TASK_PLAN.md와 완전 일치하도록 수정 | Claude Code |
-| **v8.0** | **2025-12-13** | **Production/ 종합집결지 추가, 체크리스트 개선** | Claude Code |
+| v8.0 | 2025-12-13 | Production/ 종합집결지 추가, 체크리스트 개선 | Claude Code |
+| **v9.0** | **2025-12-14** | **실제 폴더와 문서 일치화: AI_Link/학습용_콘텐츠 경로 수정, Project-SSAL-Grid→S0_Project-SSAL-Grid_생성, 누락 파일 추가** | Claude Code |
 
 ---
 
-**현재 버전:** v8.0
+**현재 버전:** v9.0
 **작성자:** SSALWorks Team
-**마지막 업데이트:** 2025-12-13
+**마지막 업데이트:** 2025-12-14

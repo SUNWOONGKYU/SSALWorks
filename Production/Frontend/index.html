@@ -709,7 +709,14 @@
             margin-bottom: 6px;
         }
         .process-special-major:hover {
-            background: #bfdbfe;
+            background: #2563eb !important;
+            color: white !important;
+        }
+        .process-special-major:hover .process-icon,
+        .process-special-major:hover .process-name,
+        .process-special-major:hover .process-arrow,
+        .process-special-major:hover .process-percent {
+            color: white !important;
         }
         .process-special-major[data-progress="100"] {
             background: #bfdbfe;
@@ -2143,9 +2150,9 @@
                 <h2 class="sidebar-title" style="margin-bottom: 11px;">📊 진행 프로세스</h2>
 
                 <div class="process-list">
-                    <!-- P0. 작업 디렉토리 구조 생성 -->
+                    <!-- P0. 작업 디렉토리 구조 생성 (특별단계) -->
                     <div class="process-item">
-                        <div class="process-major completed" onclick="toggleProcess(this)" data-progress="100">
+                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="100">
                             <div class="process-header">
                                 <span class="process-icon">P0.</span>
                                 <span class="process-name">작업 디렉토리 구조 생성</span>
@@ -2363,9 +2370,9 @@
                         </div>
                     </div>
 
-                    <!-- S1. 개발 준비 -->
+                    <!-- S1. 개발 준비 (Stage Gate 완료) -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s2_dev_prep', 'S1. 개발 준비', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-major completed" onclick="loadProcessStage('s2_dev_prep', 'S1. 개발 준비', '개발단계'); toggleProcess(this)" data-progress="100">
                             <div class="process-header">
                                 <span class="process-icon">S1.</span>
                                 <span class="process-name">개발 준비</span>
@@ -2373,9 +2380,9 @@
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 0%"></div>
+                                    <div class="process-progress-fill" style="width: 100%"></div>
                                 </div>
-                                <span class="process-percent">0%</span>
+                                <span class="process-percent">100%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
@@ -7805,19 +7812,19 @@ ${result.answer}`;
             });
         }
 
-        // 페이지 로드 시 진행률 자동 업데이트 (일시 비활성화 - 서버 미구축)
-        // window.addEventListener('load', () => {
-        //     setTimeout(() => {
-        //         calculateFolderProgress();
-        //         calculateStageProgress();
-        //     }, 1500);
-        // });
+        // 페이지 로드 시 진행률 자동 업데이트 (Stage Gate 기반)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                calculateFolderProgress();
+                calculateStageProgress();
+            }, 1500);
+        });
 
-        // // 30초마다 자동 갱신 (일시 비활성화 - 서버 미구축)
-        // setInterval(() => {
-        //     calculateFolderProgress();
-        //     calculateStageProgress();
-        // }, 30000);
+        // 60초마다 자동 갱신
+        setInterval(() => {
+            calculateFolderProgress();
+            calculateStageProgress();
+        }, 60000);
     </script>
 
     <!-- Socket.io for real-time Order Sheet notifications -->

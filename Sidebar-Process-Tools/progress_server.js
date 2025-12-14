@@ -139,27 +139,46 @@ app.get('/check-folder-progress', (req, res) => {
 });
 
 // ================================================================
-// Supabase 기반 진행률 계산 (S1~S6 개발단계)
-// TODO: 실제 Supabase 연동 시 구현
+// Stage Gate 기반 진행률 계산 (S1~S5 개발단계)
+// Stage Gate 검증 리포트 파일 존재 여부로 완료 판단
 // ================================================================
 app.get('/check-stage-progress', (req, res) => {
     try {
-        // 현재는 더미 데이터 (Supabase 연동 후 실제 쿼리로 교체)
-        // project_ssal_grid_tasks 테이블에서:
-        // SELECT stage, COUNT(*) as total,
-        //        SUM(CASE WHEN task_status = 'Completed' THEN 1 ELSE 0 END) as completed
-        // FROM project_ssal_grid_tasks GROUP BY stage
+        const stageGatePath = path.join(SSAL_WORKS_PATH, 'S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates');
 
-        const result = {
-            s1: { stage: 'S1. 프로토타입 제작', completed: 0, total: 9, progress: 0 },
-            s2: { stage: 'S2. 개발 준비', completed: 0, total: 8, progress: 0 },
-            s3: { stage: 'S3. 개발 1차', completed: 0, total: 12, progress: 0 },
-            s4: { stage: 'S4. 개발 2차', completed: 0, total: 30, progress: 0 },
-            s5: { stage: 'S5. 개발 3차', completed: 0, total: 15, progress: 0 },
-            s6: { stage: 'S6. 운영', completed: 0, total: 8, progress: 0 }
+        // Stage별 정보 (Task 수는 SSALWORKS_TASK_PLAN.md 기준)
+        const stages = {
+            s1: { name: 'S1. 개발 준비', gateFile: 'S1GATE_verification_report.md', totalTasks: 8 },
+            s2: { name: 'S2. 개발 1차', gateFile: 'S2GATE_verification_report.md', totalTasks: 12 },
+            s3: { name: 'S3. 개발 2차', gateFile: 'S3GATE_verification_report.md', totalTasks: 4 },
+            s4: { name: 'S4. 개발 3차', gateFile: 'S4GATE_verification_report.md', totalTasks: 7 },
+            s5: { name: 'S5. 운영', gateFile: 'S5GATE_verification_report.md', totalTasks: 6 }
         };
 
-        console.log('📊 Stage 진행률 조회 (Supabase 연동 대기 중)');
+        const result = {};
+
+        Object.entries(stages).forEach(([key, stage]) => {
+            const gateFilePath = path.join(stageGatePath, stage.gateFile);
+            const gateExists = fs.existsSync(gateFilePath);
+
+            // Stage Gate 파일이 존재하면 100% 완료
+            const progress = gateExists ? 100 : 0;
+            const completed = gateExists ? stage.totalTasks : 0;
+
+            result[key] = {
+                stage: stage.name,
+                completed: completed,
+                total: stage.totalTasks,
+                progress: progress,
+                gateStatus: gateExists ? 'Verified' : 'Pending'
+            };
+        });
+
+        console.log('📊 Stage Gate 기반 진행률 조회:');
+        Object.entries(result).forEach(([key, val]) => {
+            console.log(`   ${val.stage}: ${val.progress}% (${val.gateStatus})`);
+        });
+
         res.json(result);
     } catch (error) {
         console.error('❌ Stage 진행률 조회 실패:', error.message);
