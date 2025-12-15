@@ -32,7 +32,7 @@ const CONFIG = {
     contentSourceDir: path.resolve(__dirname, '../../학습용_콘텐츠'),
 
     // 출력 경로 (GitHub Pages 배포용)
-    htmlOutputDir: path.resolve(__dirname, '../Frontend/Prototype/pages/learning/contents'),
+    htmlOutputDir: path.resolve(__dirname, '../pages/learning/contents'),
 
     // 템플릿 경로
     templatePath: path.resolve(__dirname, 'templates/learning-content.html'),
@@ -638,7 +638,7 @@ async function processFile(filePath, index, total) {
 
     // GitHub Pages URL 생성
     const relativeHtmlPath = path.relative(
-        path.resolve(__dirname, '../Frontend/Prototype'),
+        path.resolve(__dirname, '..'),
         htmlFilePath
     ).replace(/\\/g, '/');
     const url = `${CONFIG.githubPagesBaseUrl}/${relativeHtmlPath}`;

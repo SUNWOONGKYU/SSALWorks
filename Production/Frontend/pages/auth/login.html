@@ -609,7 +609,7 @@
                 const { data, error } = await supabaseClient.auth.signInWithOAuth({
                     provider: 'google',
                     options: {
-                        redirectTo: window.location.origin + '/P3_프로토타입_제작/Frontend/Prototype/index.html'
+                        redirectTo: window.location.origin + '/Production/Frontend/index.html'
                     }
                 });
 
@@ -635,7 +635,7 @@
 
             try {
                 const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/P3_프로토타입_제작/Frontend/Prototype/pages/auth/reset-password.html'
+                    redirectTo: window.location.origin + '/Production/Frontend/pages/auth/reset-password.html'
                 });
 
                 if (error) throw error;
