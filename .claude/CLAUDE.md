@@ -174,6 +174,67 @@ Main Agent → 사용자에게 작업 및 검증 결과 보고
 
 ---
 
+### 🛑 절대 규칙 5: Human-AI Task는 실제 작동 테스트 필수
+
+```
+⛔ Human-AI Task에서 가이드 문서 작성만으로 "완료" 처리 금지!
+⛔ PO가 실제로 외부 서비스 설정을 완료해야 합니다!
+⛔ 실제 작동 테스트 성공 없이 Task 완료 금지!
+```
+
+**Human-AI Task란?**
+- `execution_type: 'Human-AI'` 또는 `'Human-Assisted'`로 설정된 Task
+- AI가 혼자 완료할 수 없고 PO(사람)의 직접 작업이 필요한 Task
+- 예: 외부 서비스 설정 (Google OAuth, Resend, 결제 등)
+
+**Human-AI Task 완료 기준:**
+
+| 단계 | 수행자 | 필수 여부 |
+|------|--------|----------|
+| 1. 설정 가이드 작성 | AI | ✅ |
+| 2. PO에게 설정 요청 | AI | ✅ |
+| 3. 외부 서비스 설정 | **PO (Human)** | ✅ **필수** |
+| 4. 설정 완료 확인 | AI + PO | ✅ |
+| 5. **실제 작동 테스트** | AI + PO | ✅ **필수** |
+| 6. 테스트 성공 시 "완료" | AI | ✅ |
+
+**올바른 프로세스:**
+```
+[AI] 가이드 문서 작성
+    ↓
+[AI → PO] "이 설정이 필요합니다. 진행해주세요."
+    - Google Cloud Console에서 ~
+    - Supabase Dashboard에서 ~
+    ↓
+[PO] 실제로 외부 서비스 설정 수행
+    ↓
+[PO → AI] "설정 완료했어"
+    ↓
+[AI + PO] 실제 작동 테스트
+    - 로컬 서버 실행
+    - 기능 테스트 (로그인, 이메일 발송 등)
+    ↓
+[테스트 성공] → "Task 완료"
+[테스트 실패] → 문제 해결 후 재테스트
+```
+
+**금지 행동:**
+- ❌ 가이드 문서만 작성하고 "완료" 처리
+- ❌ PO에게 설정 요청 없이 Task 완료
+- ❌ 설정 완료 확인 없이 다음 Task 진행
+- ❌ 실제 작동 테스트 없이 검증 통과
+- ❌ Verification Instruction에서 문서 존재만 확인
+
+**Human-AI Task 예시:**
+- S1S1: Supabase Auth Provider 설정 (Google OAuth)
+- S2BI1: Resend 이메일 서비스 설정
+- S3E1: AI API 키 설정
+- S4O1: PG사 설정 (토스 페이먼트)
+- S5O1: 프로덕션 배포
+- S5O2: 도메인 연결
+
+---
+
 ## 🌾 SSALWorks Project - FIRST THINGS FIRST
 
 **🚨 새 세션 시작 시 필수 확인 사항 (반드시 순서대로!)**

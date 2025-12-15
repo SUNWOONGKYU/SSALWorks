@@ -50,16 +50,29 @@ Supabase에서 Google OAuth Provider 설정 및 Redirect URL 등록
 - Scopes: email, profile, openid
 
 ## Expected Output Files
-- 없음 (외부 서비스 설정)
-- `docs/GOOGLE_OAUTH_SETUP.md` (설정 가이드 문서)
+- `S1_개발_준비/Security/GOOGLE_OAUTH_SETUP.md` (설정 가이드 문서)
+
+## ⚠️ Human-AI Task 주의사항
+
+이 Task는 **Human-AI** 유형입니다.
+- **가이드 문서 작성만으로는 완료가 아닙니다!**
+- **PO가 실제로 외부 서비스 설정을 완료해야 합니다!**
+- **실제 작동 테스트가 필수입니다!**
+
+### 작업 절차
+1. AI: 설정 가이드 제공
+2. **PO: Google Cloud Console 설정 (Human 필수)**
+3. **PO: Supabase Dashboard 설정 (Human 필수)**
+4. AI + PO: 실제 로그인 테스트
+5. **테스트 성공 시에만 "완료" 처리**
 
 ## Completion Criteria
-- [ ] Google Cloud OAuth 클라이언트 생성
-- [ ] Supabase Google Provider 활성화
-- [ ] Redirect URL 등록 완료
-- [ ] 환경변수 설정 완료
-- [ ] OAuth Consent Screen 설정 완료
-- [ ] 설정 가이드 문서 작성
+- [ ] Google Cloud OAuth 클라이언트 생성 **(PO 실행)**
+- [ ] Supabase Google Provider 활성화 **(PO 실행)**
+- [ ] Redirect URL 등록 완료 **(PO 실행)**
+- [ ] OAuth Consent Screen 설정 완료 **(PO 실행)**
+- [ ] 설정 가이드 문서 작성 (AI)
+- [ ] **⭐ 실제 로그인 테스트 성공 (필수!)**
 
 ## Tech Stack
 - Google Cloud Console

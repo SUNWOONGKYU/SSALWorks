@@ -4,65 +4,75 @@
 S1S1
 
 ## Task Name
-보안 정책 문서
+Supabase Auth Provider 설정
 
 ## Verification Checklist
 
-### 1. 문서 존재 검증
-- [ ] SECURITY_POLICY.md 파일 존재
-- [ ] 모든 필수 섹션 포함
+### 1. Google Cloud Console 설정 검증
+- [ ] Google Cloud 프로젝트에 OAuth 2.0 클라이언트 존재
+- [ ] Application type이 "Web application"인지 확인
+- [ ] Authorized redirect URIs에 Supabase callback URL 등록됨
+  - `https://[project-ref].supabase.co/auth/v1/callback`
 
-### 2. 인증 보안 섹션
-- [ ] 비밀번호 정책 정의
-- [ ] 세션 관리 정책
-- [ ] OAuth 보안 고려사항
-- [ ] 토큰 관리 정책
+### 2. Supabase Dashboard 설정 검증
+- [ ] Authentication > Providers > Google이 활성화됨
+- [ ] Client ID가 올바르게 입력됨
+- [ ] Client Secret이 올바르게 입력됨
 
-### 3. API 보안 섹션
-- [ ] Rate Limiting 정책
-- [ ] CORS 설정 정책
-- [ ] 입력 검증 정책
-- [ ] 에러 응답 정책
+### 3. OAuth Consent Screen 검증
+- [ ] 앱 이름이 올바르게 설정됨
+- [ ] 필요한 Scopes (email, profile, openid) 설정됨
 
-### 4. 데이터 보안 섹션
-- [ ] RLS 정책 명시
-- [ ] 민감 데이터 암호화 정책
-- [ ] 백업 정책
-- [ ] 데이터 보존 정책
-
-### 5. 결제 보안 섹션
-- [ ] PCI DSS 고려사항
-- [ ] 결제 정보 처리 정책
-- [ ] 웹훅 검증 정책
+### 4. ⭐ 실제 작동 테스트 (필수!)
+- [ ] 로컬 서버 실행 (localhost)
+- [ ] Google 로그인 버튼 클릭
+- [ ] Google OAuth 화면으로 리다이렉트됨
+- [ ] Google 계정 선택 후 로그인 성공
+- [ ] 원래 페이지로 돌아옴
+- [ ] 사용자 정보가 Supabase에 저장됨
 
 ## Test Commands
 ```bash
-# 파일 존재 확인
-ls -la docs/SECURITY_POLICY.md
+# 로컬 서버 실행
+cd Production/Frontend
+npx serve . -l 8888
 
-# 섹션 확인
-grep -E "^##" docs/SECURITY_POLICY.md
+# 브라우저에서 테스트
+# http://localhost:8888/pages/auth/google-login.html
 ```
 
 ## Expected Results
-- 보안 정책 문서 존재
-- 모든 영역(인증, API, 데이터, 결제) 커버
-- 구체적인 정책 정의
+- Google OAuth 화면이 올바르게 표시됨
+- 로그인 후 원래 페이지로 리다이렉트됨
+- Supabase auth.users 테이블에 사용자 생성됨
 
 ## Verification Agent
-code-reviewer
+devops-troubleshooter
 
 ## Pass Criteria
-- 문서 완성도 100%
-- 4개 주요 영역 모두 포함
-- 구체적인 정책 수치 명시
+- Google Cloud Console 설정 완료
+- Supabase Google Provider 활성화
+- **⭐ 실제 로그인 테스트 성공 (필수)**
+
+## ⚠️ Human-AI Task 검증 주의사항
+
+이 Task는 **Human-AI** 유형입니다.
+- 가이드 문서 작성만으로는 완료가 아닙니다
+- **PO가 실제로 외부 서비스 설정을 완료해야 합니다**
+- **실제 작동 테스트가 필수입니다**
+
+### 검증 절차
+1. AI: 설정 가이드 제공
+2. PO: Google Cloud Console 설정 (Human)
+3. PO: Supabase Dashboard 설정 (Human)
+4. AI + PO: 실제 로그인 테스트
+5. 테스트 성공 시에만 "완료" 처리
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] 설정 가이드 문서가 `S1_개발_준비/Security/`에 저장되었는가?
+- [ ] 외부 서비스(Google Cloud, Supabase) 설정이 완료되었는가?
+- [ ] 실제 작동 테스트가 성공했는가?
