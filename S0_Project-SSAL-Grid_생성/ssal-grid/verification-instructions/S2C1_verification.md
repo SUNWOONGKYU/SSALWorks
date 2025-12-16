@@ -4,67 +4,71 @@
 S2C1
 
 ## Task Name
-Books 콘텐츠 업로드
+학습용 콘텐츠 시스템 정비
 
 ## Verification Checklist
 
-### 1. 콘텐츠 파일 검증
-- [ ] 학습용_Books/1_Claude_사용법/ 폴더 존재
+### 1. 콘텐츠 폴더 검증
+- [ ] `부수적_고유기능/학습용_콘텐츠/` 폴더 존재
+- [ ] `부수적_고유기능/Tips/` 폴더 존재
 - [ ] MD 파일 목록 확인
-- [ ] 파일명 일관성 검증
 
-### 2. SQL 파일 검증
-- [ ] seed_learning_contents.sql 존재
-- [ ] INSERT 문 형식 정확
-- [ ] 모든 콘텐츠 포함
+### 2. viewer.html 검증
+- [ ] `부수적_고유기능/학습용_Books/viewer.html` 존재
+- [ ] CONTENTS 객체가 실제 폴더 구조와 일치
+- [ ] jsdelivr CDN URL 형식 정확
 
-### 3. 데이터 구조 검증
-```sql
--- 필수 컬럼 확인
-id, title, category, subcategory, content_path, sort_order, is_premium
-```
+### 3. index.html 검증
+- [ ] LEARNING_CONTENTS 배열이 실제 파일과 동기화
+- [ ] TIPS_CONTENTS 배열이 실제 파일과 동기화 (48개)
+- [ ] 검색 기능 작동
 
-### 4. viewer.html 동기화 검증
-- [ ] CONTENTS 객체와 DB 데이터 일치
-- [ ] 경로 정보 정확
-
-### 5. 데이터 삽입 확인
-```sql
--- 콘텐츠 수 확인
-SELECT COUNT(*) FROM learning_contents;
-
--- 카테고리별 확인
-SELECT category, COUNT(*) FROM learning_contents GROUP BY category;
+### 4. CDN 접근 테스트
+```bash
+# jsdelivr CDN 접근 확인
+curl -I "https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/학습용_콘텐츠/1.%20Claude%26ClaudeCode사용법/1편_Claude란_무엇인가.md"
 ```
 
 ## Test Commands
 ```bash
-# 콘텐츠 파일 확인
-ls -la 학습용_Books/1_Claude_사용법/Claude\&ClaudeCode사용법/
+# 학습 콘텐츠 파일 목록
+ls -la "부수적_고유기능/학습용_콘텐츠/"
 
-# SQL 파일 확인
-cat P3_프로토타입_제작/Database/seed_learning_contents.sql
+# Tips 파일 목록
+ls -la "부수적_고유기능/Tips/"
+
+# CONTENTS 객체 확인
+grep -n "CONTENTS" "부수적_고유기능/학습용_Books/viewer.html" | head -5
+
+# TIPS_CONTENTS 배열 확인
+grep -n "TIPS_CONTENTS" "Production/Frontend/index.html" | head -5
 ```
 
 ## Expected Results
-- 콘텐츠 파일 존재
-- SQL INSERT 파일 생성
-- DB 삽입 성공
+- 학습 콘텐츠 MD 파일 존재
+- Tips MD 파일 존재 (48개)
+- viewer.html CONTENTS 객체 동기화
+- index.html 배열 동기화
+- jsdelivr CDN 접근 가능
 
 ## Verification Agent
-database-developer
+content-specialist
 
 ## Pass Criteria
-- 모든 콘텐츠 파일 존재
-- SQL 파일 유효
-- DB에 데이터 삽입 확인
+- 모든 콘텐츠 폴더 존재
+- viewer.html CONTENTS 객체 동기화 완료
+- index.html 배열 동기화 완료
+- CDN 접근 테스트 통과
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
+- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S2→S2_개발-1차/)
+- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (C→Content_System/)
+- [ ] Production 관련 코드는 Production 폴더에도 저장되었는가?
 
+### 아키텍처 검증
+- [ ] DB를 사용하지 않고 jsdelivr CDN 방식으로 구현되었는가?
+- [ ] SQL 파일이 불필요하게 생성되지 않았는가?
