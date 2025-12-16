@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSALWorks Tips</title>
+    <!-- Marked.js for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10B981;
+            --primary-dark: #059669;
+            --secondary: #F59E0B;
+            --tertiary: #667eea;
+            --tertiary-dark: #764ba2;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border-color: #dee2e6;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+        }
+
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background: var(--bg-light);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--secondary) 0%, #D97706 100%);
+            color: white;
+            padding: 20px 40px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            padding: 6px 14px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.15);
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+            border-color: white;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            margin-top: 80px;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            background: white;
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            top: 80px;
+            left: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        /* Search */
+        .search-box {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+
+        /* Category */
+        .category {
+            margin-bottom: 16px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            background: #FEF3C7;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-dark);
+            transition: background 0.2s;
+        }
+
+        .category-header:hover {
+            background: #FDE68A;
+        }
+
+        .category-header .icon {
+            transition: transform 0.2s;
+        }
+
+        .category-header.collapsed .icon {
+            transform: rotate(-90deg);
+        }
+
+        .category-list {
+            list-style: none;
+            margin-top: 8px;
+            padding-left: 12px;
+        }
+
+        .category-list.hidden {
+            display: none;
+        }
+
+        .content-item {
+            margin-bottom: 4px;
+        }
+
+        .content-link {
+            display: block;
+            padding: 8px 12px;
+            color: var(--text-dark);
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .content-link:hover {
+            background: rgba(245, 158, 11, 0.15);
+            color: #B45309;
+        }
+
+        .content-link.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 320px;
+            padding: 40px 60px;
+            max-width: 900px;
+            background: white;
+            min-height: 100%;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            padding: 40px 20px;
+        }
+
+        .welcome-screen h2 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .welcome-screen p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .welcome-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .welcome-category {
+            background: white;
+            border: 2px solid var(--secondary);
+            color: var(--text-dark);
+            padding: 16px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .welcome-category:hover {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: #D97706;
+        }
+
+        .welcome-category h3 {
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-dark);
+        }
+
+        .welcome-category p {
+            font-size: 12px;
+            margin: 0;
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        /* Markdown Styles */
+        .markdown-body h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #B45309;
+            margin: 40px 0 20px;
+            padding-bottom: 16px;
+            border-bottom: 3px solid var(--secondary);
+        }
+
+        .markdown-body h1:first-child {
+            margin-top: 0;
+        }
+
+        .markdown-body h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #B45309;
+            margin: 36px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .markdown-body h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 28px 0 12px;
+        }
+
+        .markdown-body h4 {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 20px 0 10px;
+        }
+
+        .markdown-body p {
+            margin-bottom: 16px;
+            color: var(--text-dark);
+        }
+
+        .markdown-body blockquote {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
+            border-left: 4px solid var(--secondary);
+            padding: 16px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .markdown-body blockquote p {
+            margin: 0;
+            font-style: italic;
+        }
+
+        .markdown-body pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 16px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .markdown-body code {
+            background: #FEF3C7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            color: #B45309;
+        }
+
+        .markdown-body pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .markdown-body th, .markdown-body td {
+            padding: 12px 16px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        .markdown-body th {
+            background: #FEF3C7;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        .markdown-body tr:nth-child(even) {
+            background: #FFFBEB;
+        }
+
+        .markdown-body tr:hover {
+            background: #FEF3C7;
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+
+        .markdown-body li {
+            margin-bottom: 8px;
+        }
+
+        .markdown-body hr {
+            border: none;
+            border-top: 2px solid var(--border-color);
+            margin: 40px 0;
+        }
+
+        .markdown-body a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .markdown-body a:hover {
+            text-decoration: underline;
+        }
+
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: var(--text-muted);
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--border-color);
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Error */
+        .error {
+            text-align: center;
+            padding: 60px;
+            color: #dc3545;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 4px;
+            min-height: 120px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 280px;
+            }
+            .main-content {
+                margin-left: 280px;
+                padding: 30px 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div>
+            <div class="header-title">SSALWorks Tips</div>
+        </div>
+        <button class="close-btn" onclick="window.history.length > 1 ? history.back() : window.close()" title="닫기">X 닫기</button>
+    </header>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="search-box">
+                <input type="text" class="search-input" placeholder="Tips 검색..." id="searchInput">
+            </div>
+            <div class="sidebar-title">Tips 카테고리 (48개)</div>
+            <div id="categoryList">
+                <!-- Categories will be generated dynamically -->
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div id="content" class="markdown-body">
+                <div class="welcome-screen">
+                    <h2>SSALWorks Tips</h2>
+                    <p>왼쪽 메뉴에서 원하는 팁을 선택하세요.</p>
+                    <div class="welcome-categories" id="welcomeCategories">
+                        <!-- Welcome categories will be generated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // GitHub CDN Base URL
+        const GITHUB_BASE = 'https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/';
+
+        // Tips 콘텐츠 목록 (카테고리별)
+        const TIPS_CONTENTS = {
+            '프로젝트_시작': {
+                name: '프로젝트 시작',
+                icon: '🚀',
+                description: '프로젝트 초기 설정 가이드',
+                files: [
+                    { name: '작업 디렉터리 구조 먼저 생성하기', path: 'Tips/프로젝트_시작/작업_디렉터리_구조_먼저_생성하기.md' },
+                    { name: '디렉터리 구조 문서 만들기', path: 'Tips/프로젝트_시작/디렉터리_구조_문서_만들기.md' },
+                    { name: '프로젝트 진행 상황 문서 만들기', path: 'Tips/프로젝트_시작/프로젝트_진행_상황_문서_만들기.md' },
+                    { name: 'CLAUDE.md로 작업 참고사항 정리하기', path: 'Tips/프로젝트_시작/CLAUDE.md로_작업_참고사항_정리하기.md' }
+                ]
+            },
+            '설치_실행': {
+                name: '설치/실행',
+                icon: '⚙️',
+                description: 'Claude Code 설치 및 실행',
+                files: [
+                    { name: 'Claude Code 설치 방법 및 오류 해결', path: 'Tips/설치_실행/Claude_Code_설치_방법_및_오류_해결.md' },
+                    { name: '폴더에서 터미널 열어 실행하기', path: 'Tips/설치_실행/폴더에서_터미널_열어_실행하기.md' },
+                    { name: '토큰 사용량 확인하기', path: 'Tips/설치_실행/토큰_사용량_확인하기.md' }
+                ]
+            },
+            '입력_편의': {
+                name: '입력/편의',
+                icon: '🎤',
+                description: '음성 입력 및 편의 기능',
+                files: [
+                    { name: '음성으로 지시하기 - Windows 기본', path: 'Tips/입력_편의/음성으로_지시하기_-_Windows_기본.md' },
+                    { name: '음성으로 지시하기 - AI 활용', path: 'Tips/입력_편의/음성으로_지시하기_-_AI_활용.md' }
+                ]
+            },
+            '도구_활용': {
+                name: '도구 활용',
+                icon: '🛠️',
+                description: 'Claude Code 도구 활용법',
+                files: [
+                    { name: '서브에이전트 효과적으로 활용하기', path: 'Tips/도구_활용/서브에이전트_효과적으로_활용하기.md' },
+                    { name: 'Slash Commands 활용하기', path: 'Tips/도구_활용/Slash_Commands_활용하기.md' },
+                    { name: 'MCP 서버 설정 방법', path: 'Tips/도구_활용/MCP_서버_설정_방법.md' },
+                    { name: 'Skills 활용하기', path: 'Tips/도구_활용/Skills_활용하기.md' }
+                ]
+            },
+            '작업_기록_백업': {
+                name: '작업 기록/백업',
+                icon: '💾',
+                description: '작업 기록 및 백업 관리',
+                files: [
+                    { name: 'work_logs로 작업 기록 관리하기', path: 'Tips/작업_기록_백업/work_logs로_작업_기록_관리하기.md' },
+                    { name: 'Git으로 버전 관리하기', path: 'Tips/작업_기록_백업/Git으로_버전_관리하기.md' },
+                    { name: 'outbox에 작업 결과 저장하기', path: 'Tips/작업_기록_백업/outbox에_작업_결과_저장하기.md' },
+                    { name: '중요한 파일 주기적으로 백업하기', path: 'Tips/작업_기록_백업/중요한_파일_주기적으로_백업하기.md' },
+                    { name: '.gitignore로 민감정보 보호하기', path: 'Tips/작업_기록_백업/.gitignore로_민감정보_보호하기.md' }
+                ]
+            },
+            '세션_관리': {
+                name: '세션 관리',
+                icon: '🔄',
+                description: '세션 관리 및 복구',
+                files: [
+                    { name: '세션 끊어졌을 때 복구하기', path: 'Tips/세션_관리/세션_끊어졌을_때_복구하기.md' },
+                    { name: '헤매면 미련 없이 세션 정리하기', path: 'Tips/세션_관리/헤매면_미련_없이_세션_정리하기.md' },
+                    { name: 'Google Drive 동기화 문제 해결', path: 'Tips/세션_관리/Google_Drive_동기화_문제_해결.md' }
+                ]
+            },
+            '검증_문서화': {
+                name: '검증/문서화',
+                icon: '✅',
+                description: '검증 및 문서화 방법',
+                files: [
+                    { name: '별도 서브에이전트로 검증하기', path: 'Tips/검증_문서화/별도_서브에이전트로_검증하기.md' },
+                    { name: '수시로 문서화 지시하기', path: 'Tips/검증_문서화/수시로_문서화_지시하기.md' },
+                    { name: '작업 규칙 CLAUDE.md에 업데이트하기', path: 'Tips/검증_문서화/작업_규칙_CLAUDE.md에_업데이트하기.md' }
+                ]
+            },
+            '개발_실무': {
+                name: '개발 실무',
+                icon: '💻',
+                description: '개발 실무 팁',
+                files: [
+                    { name: '반응형 디자인은 별도로 요청하기', path: 'Tips/개발_실무/반응형_디자인은_별도로_요청하기.md' },
+                    { name: '최적화/성능 개선 작업 시키기', path: 'Tips/개발_실무/최적화_성능_개선_작업_시키기.md' },
+                    { name: 'GitHub Push/Pull로 작업 반영하기', path: 'Tips/개발_실무/GitHub_Push_Pull로_작업_반영하기.md' },
+                    { name: '인증 코드는 숫자 6자리로', path: 'Tips/개발_실무/인증_코드는_숫자_6자리로.md' },
+                    { name: '폴더 정리 및 임의 생성 금지 규칙', path: 'Tips/개발_실무/폴더_정리_및_임의_생성_금지_규칙.md' },
+                    { name: '파일 저장 위치 확인하기', path: 'Tips/개발_실무/파일_저장_위치_확인하기.md' }
+                ]
+            },
+            '효율적인_소통': {
+                name: '효율적인 소통',
+                icon: '💬',
+                description: 'AI와 효율적으로 소통하기',
+                files: [
+                    { name: '3가지 이상 대안 요청하기', path: 'Tips/효율적인_소통/3가지_이상_대안_요청하기.md' },
+                    { name: '이해될 때까지 질문하기', path: 'Tips/효율적인_소통/이해될_때까지_질문하기.md' },
+                    { name: 'Claude Code에게 사용법 물어보기', path: 'Tips/효율적인_소통/Claude_Code에게_사용법_물어보기.md' },
+                    { name: '구체적으로 질문하는 방법', path: 'Tips/효율적인_소통/구체적으로_질문하는_방법.md' },
+                    { name: '단계별로 요청하기', path: 'Tips/효율적인_소통/단계별로_요청하기.md' }
+                ]
+            },
+            '데이터베이스': {
+                name: '데이터베이스',
+                icon: '🗄️',
+                description: 'DB 관리 팁',
+                files: [
+                    { name: 'DB 삭제해도 복구 가능', path: 'Tips/데이터베이스/DB_삭제해도_복구_가능.md' },
+                    { name: 'SQL 직접 실행해야 할 경우', path: 'Tips/데이터베이스/SQL_직접_실행해야_할_경우.md' },
+                    { name: 'Supabase RLS 정책 관리', path: 'Tips/데이터베이스/Supabase_RLS_정책_관리.md' },
+                    { name: 'Supabase 쿼리 최적화', path: 'Tips/데이터베이스/Supabase_쿼리_최적화.md' }
+                ]
+            },
+            'SAL_Grid': {
+                name: 'SAL Grid',
+                icon: '📊',
+                description: 'SAL Grid 활용법',
+                files: [
+                    { name: 'Task를 작게 나누는 기준', path: 'Tips/SAL_Grid/Task를_작게_나누는_기준.md' },
+                    { name: 'Phase Gate 검증 체크리스트', path: 'Tips/SAL_Grid/Phase_Gate_검증_체크리스트.md' },
+                    { name: 'Task ID로 파일 관리하기', path: 'Tips/SAL_Grid/Task_ID로_파일_관리하기.md' },
+                    { name: '검증 완료 후 문서화하기', path: 'Tips/SAL_Grid/검증_완료_후_문서화하기.md' }
+                ]
+            },
+            '트러블슈팅': {
+                name: '트러블슈팅',
+                icon: '🔧',
+                description: '문제 해결 가이드',
+                files: [
+                    { name: '브라우저 콘솔 에러 확인하기', path: 'Tips/트러블슈팅/브라우저_콘솔_에러_확인하기.md' },
+                    { name: '에러 핸들링 패턴', path: 'Tips/트러블슈팅/에러_핸들링_패턴.md' },
+                    { name: '로컬 서버 실행 방법', path: 'Tips/트러블슈팅/로컬_서버_실행_방법.md' },
+                    { name: 'API 키 보안 관리', path: 'Tips/트러블슈팅/API_키_보안_관리.md' },
+                    { name: '환경변수 관리 베스트 프랙티스', path: 'Tips/트러블슈팅/환경변수_관리_베스트_프랙티스.md' }
+                ]
+            }
+        };
+
+        let currentContent = null;
+
+        // 사이드바 카테고리 생성
+        function generateSidebar() {
+            const categoryList = document.getElementById('categoryList');
+            const welcomeCategories = document.getElementById('welcomeCategories');
+            categoryList.innerHTML = '';
+            welcomeCategories.innerHTML = '';
+
+            Object.keys(TIPS_CONTENTS).forEach(key => {
+                const category = TIPS_CONTENTS[key];
+
+                // 사이드바 카테고리
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'category';
+
+                const header = document.createElement('div');
+                header.className = 'category-header';
+                header.innerHTML = `<span class="icon">▼</span> ${category.icon} ${category.name} (${category.files.length})`;
+                header.onclick = () => toggleCategory(header);
+
+                const list = document.createElement('ul');
+                list.className = 'category-list';
+
+                category.files.forEach(file => {
+                    const li = document.createElement('li');
+                    li.className = 'content-item';
+
+                    const a = document.createElement('a');
+                    a.className = 'content-link';
+                    a.textContent = file.name;
+                    a.onclick = () => loadContent(file.path, a);
+
+                    li.appendChild(a);
+                    list.appendChild(li);
+                });
+
+                categoryDiv.appendChild(header);
+                categoryDiv.appendChild(list);
+                categoryList.appendChild(categoryDiv);
+
+                // Welcome 카테고리 카드
+                const card = document.createElement('div');
+                card.className = 'welcome-category';
+                card.innerHTML = `<div><h3>${category.icon} ${category.name}</h3><p>${category.description} (${category.files.length}개)</p></div>`;
+                card.onclick = () => {
+                    if (category.files.length > 0) {
+                        loadContent(category.files[0].path);
+                    }
+                };
+                welcomeCategories.appendChild(card);
+            });
+        }
+
+        // 카테고리 토글
+        function toggleCategory(header) {
+            header.classList.toggle('collapsed');
+            const list = header.nextElementSibling;
+            list.classList.toggle('hidden');
+        }
+
+        // 콘텐츠 로드
+        async function loadContent(path, linkElement) {
+            const contentDiv = document.getElementById('content');
+
+            // 로딩 표시
+            contentDiv.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>콘텐츠를 불러오는 중...</p>
+                </div>
+            `;
+
+            // 활성 링크 업데이트
+            document.querySelectorAll('.content-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            if (linkElement) {
+                linkElement.classList.add('active');
+            }
+
+            try {
+                const url = GITHUB_BASE + path;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('콘텐츠를 불러올 수 없습니다.');
+                }
+
+                const markdown = await response.text();
+
+                // Marked.js 설정
+                marked.setOptions({
+                    breaks: true,
+                    gfm: true,
+                    headerIds: true,
+                    mangle: false
+                });
+
+                // Markdown을 HTML로 변환
+                const html = marked.parse(markdown);
+                contentDiv.innerHTML = html;
+                currentContent = path;
+
+                // 스크롤 맨 위로
+                contentDiv.scrollTop = 0;
+
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <h2>콘텐츠 로드 실패</h2>
+                        <p>${error.message}</p>
+                        <p>파일 경로: ${path}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // 검색 기능
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const query = this.value.toLowerCase();
+
+            document.querySelectorAll('.content-link').forEach(link => {
+                const text = link.textContent.toLowerCase();
+                const item = link.parentElement;
+
+                if (query === '' || text.includes(query)) {
+                    item.style.display = 'block';
+                    if (text.includes(query) && query !== '') {
+                        link.style.background = 'rgba(245, 158, 11, 0.3)';
+                    } else {
+                        link.style.background = '';
+                    }
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            // 카테고리 표시/숨김
+            document.querySelectorAll('.category').forEach(category => {
+                const list = category.querySelector('.category-list');
+
+                if (query !== '') {
+                    list.classList.remove('hidden');
+                    category.querySelector('.category-header').classList.remove('collapsed');
+                }
+            });
+        });
+
+        // URL 파라미터에서 path 읽기
+        function getPathFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('path');
+        }
+
+        // 페이지 로드 시 초기화
+        document.addEventListener('DOMContentLoaded', function() {
+            generateSidebar();
+
+            // URL에 path 파라미터가 있으면 해당 콘텐츠 로드
+            const pathParam = getPathFromURL();
+            if (pathParam) {
+                loadContent(pathParam);
+            }
+        });
+    </script>
+</body>
+</html>
