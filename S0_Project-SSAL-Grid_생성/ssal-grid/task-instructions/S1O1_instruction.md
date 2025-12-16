@@ -4,14 +4,14 @@
 S1O1
 
 ## Task Name
-DNS 설정
+DNS 설정 및 도메인 연결
 
 ## Task Goal
-커스텀 도메인 연결을 위한 DNS 레코드 설정 준비 (도메인은 P2에서 구매 완료)
+커스텀 도메인 DNS 설정 및 Vercel 프로젝트에 연결
 
 ## Prerequisites (Dependencies)
 - 없음 (독립 Task)
-- 도메인 구매 완료 (ssalworks.com 또는 유사)
+- 도메인 구매 완료
 
 ## Specific Instructions
 
@@ -20,7 +20,7 @@ DNS 설정
 - 도메인 등록 업체 (Registrar) 확인
 - DNS 관리 패널 접속 방법 확인
 
-### 2. Vercel DNS 레코드 준비
+### 2. Vercel DNS 레코드 설정
 - Vercel 연결에 필요한 레코드:
 ```
 Type: A
@@ -32,56 +32,64 @@ Name: www
 Value: cname.vercel-dns.com
 ```
 
-### 3. DNS 설정 문서 작성
-- 위치: `docs/DNS_SETUP.md`
-- 레코드 설정 방법 가이드
-- 각 레코드 타입 설명
-- TTL 권장값 (3600초 또는 1시간)
+### 3. Vercel 프로젝트에 도메인 연결
+- Vercel Dashboard → 프로젝트 선택
+- Settings → Domains
+- 도메인 추가 및 DNS 검증
 
-### 4. DNS 전파 확인 방법
+### 4. DNS 전파 확인
 ```bash
 # A 레코드 확인
-dig @8.8.8.8 ssalworks.com A
+dig @8.8.8.8 [도메인] A
 
 # CNAME 확인
-dig @8.8.8.8 www.ssalworks.com CNAME
+dig @8.8.8.8 www.[도메인] CNAME
 
 # 또는 온라인 도구
 # https://www.whatsmydns.net/
 ```
 
-### 5. 체크리스트 작성
-- [ ] 도메인 등록 업체 로그인 정보 확인
-- [ ] DNS 관리 패널 접속 가능 확인
-- [ ] 현재 DNS 레코드 백업
-- [ ] Vercel 레코드 설정 준비
+### 5. SSL 인증서 확인
+- Vercel에서 자동 발급
+- HTTPS 접속 확인
 
 ## Expected Output Files
-- `docs/DNS_SETUP.md`
+- `S1_개발_준비/DevOps/DNS_SETUP.md` (선택)
 
 ## Completion Criteria
-- [ ] 도메인 현황 확인 완료
-- [ ] DNS 레코드 준비 완료
-- [ ] DNS 설정 가이드 문서 작성
-- [ ] 레코드 설정 체크리스트 작성
+- [ ] DNS 레코드 설정 완료
+- [ ] Vercel에 도메인 연결 완료
+- [ ] DNS 전파 완료 (사이트 접속 가능)
+- [ ] SSL 인증서 적용 확인 (HTTPS)
 
 ## Tech Stack
 - DNS
+- Vercel
 - Domain Management
 
 ## Tools
-- Write, Read
-- Bash (dig 명령어)
-- WebFetch (DNS 조회 도구)
+- Vercel Dashboard
+- 도메인 등록 업체 DNS 관리 패널
 
 ## Execution Type
-Human-AI (도메인 등록 업체 접속 필요)
+Human-AI (도메인 등록 업체 및 Vercel 접속 필요)
 
 ## Remarks
-- 실제 DNS 레코드 적용은 S5O2에서 수행
 - DNS 전파에 최대 48시간 소요 가능 (보통 몇 시간)
-- 현재 DNS 레코드 변경 전 백업 필수
-- 이 Task는 준비 단계이며, 실제 적용은 프로덕션 배포 시점에 수행
+- OAuth, 이메일 등 외부 서비스 테스트에 실제 도메인 필요
+- S2 개발 전에 완료 권장
+
+---
+
+## 완료 상태 (2025-12-17)
+
+**Status: ✅ 완료**
+
+- 도메인: ssalworks.ai.kr
+- 등록업체: 후이즈
+- Vercel 연결: 완료
+- SSL: 자동 적용됨
+- 테스트: Google OAuth 정상 작동 확인
 
 ---
 
@@ -91,12 +99,10 @@ Human-AI (도메인 등록 업체 접속 필요)
 
 ### 제1 규칙: Stage + Area 폴더에 저장
 - Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S1S1 → `S1_개발_준비/Security/`
-- 예: S2F1 → `S2_개발-1차/Frontend/`
+- 예: S1O1 → `S1_개발_준비/DevOps/`
 
 ### 제2 규칙: Production 코드는 이중 저장
 - Frontend, Database, Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장
 - 문서(Documentation, Security, Testing, DevOps)는 Stage 폴더에만 저장
 
 **Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
-

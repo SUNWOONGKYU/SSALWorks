@@ -4,64 +4,75 @@
 S1O1
 
 ## Task Name
-DNS 설정
+DNS 설정 및 도메인 연결
 
 ## Verification Checklist
 
-### 1. 도메인 현황 확인 검증
-- [ ] 구매한 도메인 확인 완료
-- [ ] 도메인 등록 업체 확인 완료
-- [ ] DNS 관리 패널 접속 방법 확인 완료
+### 1. DNS 레코드 설정 검증
+- [x] A 레코드 설정 완료 (@ → Vercel IP)
+- [x] CNAME 레코드 설정 완료 (www → cname.vercel-dns.com)
 
-### 2. DNS 레코드 준비 검증
-- [ ] A 레코드 정보 준비 (@ → 76.76.21.21)
-- [ ] CNAME 레코드 정보 준비 (www → cname.vercel-dns.com)
+### 2. Vercel 도메인 연결 검증
+- [x] Vercel Dashboard에서 도메인 추가 완료
+- [x] DNS 검증 통과
+- [x] 도메인 활성화 상태
 
-### 3. DNS 설정 문서 검증
-- [ ] `DNS_SETUP.md` 문서 존재
-- [ ] 레코드 설정 방법 가이드 포함
-- [ ] 각 레코드 타입 설명 포함
-- [ ] TTL 권장값 설명 포함
+### 3. DNS 전파 검증
+- [x] 사이트 접속 가능 (https://ssalworks.ai.kr)
+- [x] DNS 전파 완료
 
-### 4. DNS 전파 확인 방법 검증
-- [ ] dig 명령어 사용법 설명
-- [ ] 온라인 도구 링크 제공
+### 4. SSL 인증서 검증
+- [x] HTTPS 접속 가능
+- [x] SSL 인증서 자동 발급됨
+- [x] 보안 연결 표시 (자물쇠 아이콘)
 
-### 5. 체크리스트 검증
-- [ ] 도메인 등록 업체 로그인 정보 확인
-- [ ] DNS 관리 패널 접속 가능 확인
-- [ ] 현재 DNS 레코드 백업
+### 5. 기능 테스트 검증
+- [x] Google OAuth 리다이렉트 정상 작동
+- [x] 사이트 정상 로딩
 
 ## Test Commands
 ```bash
-# DNS 레코드 확인 (적용 후)
-dig @8.8.8.8 ssalworks.com A
-dig @8.8.8.8 www.ssalworks.com CNAME
+# DNS 레코드 확인
+dig @8.8.8.8 ssalworks.ai.kr A
+dig @8.8.8.8 www.ssalworks.ai.kr CNAME
+
+# HTTPS 접속 확인
+curl -I https://ssalworks.ai.kr
 ```
 
 ## Expected Results
-- DNS 설정 가이드 문서 존재
-- Vercel DNS 레코드 정보 준비 완료
-- 체크리스트 작성 완료
+- 도메인으로 사이트 접속 가능
+- HTTPS 정상 작동
+- OAuth 리다이렉트 정상
 
 ## Verification Agent
 devops-troubleshooter
 
 ## Pass Criteria
-- 도메인 현황 확인 완료
-- DNS 레코드 준비 완료
-- DNS 설정 가이드 문서 작성 완료
+- DNS 설정 완료
+- Vercel 도메인 연결 완료
+- SSL 인증서 적용
+- 사이트 정상 접속
 
-## ⚠️ Human-AI Task 검증 주의사항
+---
 
-이 Task는 **Human-AI** 유형입니다.
-- DNS 설정 가이드 작성은 AI가 수행
-- **실제 DNS 레코드 적용은 S5O2에서 PO가 수행**
-- 도메인 등록 업체 접속은 Human 필수
+## 검증 결과 (2025-12-17)
+
+**Status: ✅ 검증 통과**
+
+| 항목 | 결과 |
+|------|------|
+| 도메인 | ssalworks.ai.kr |
+| 등록업체 | 후이즈 |
+| Vercel 연결 | ✅ 완료 |
+| DNS 전파 | ✅ 완료 |
+| SSL 인증서 | ✅ 자동 적용 |
+| Google OAuth | ✅ 정상 작동 |
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] DNS 설정 문서가 `S1_개발_준비/DevOps/`에 저장되었는가?
+- [x] Task ID의 Stage에 맞는 작업 수행 (S1)
+- [x] 실제 도메인 연결 완료
