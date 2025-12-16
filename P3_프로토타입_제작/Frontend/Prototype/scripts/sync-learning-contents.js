@@ -29,7 +29,7 @@ const crypto = require('crypto');
 
 const CONFIG = {
     // 소스 경로
-    contentSourceDir: path.resolve(__dirname, '../../학습용_콘텐츠'),
+    contentSourceDir: path.resolve(__dirname, '../../학습용_Books'),
 
     // 출력 경로 (GitHub Pages 배포용)
     htmlOutputDir: path.resolve(__dirname, '../Frontend/Prototype/pages/learning/contents'),
@@ -720,7 +720,7 @@ async function main() {
 
     if (mdFiles.length === 0) {
         console.log('\n⚠️ 처리할 MD 파일이 없습니다.');
-        console.log('학습용_콘텐츠/ 폴더에 .md 파일을 추가하세요.');
+        console.log('학습용_Books/ 폴더에 .md 파일을 추가하세요.');
         return;
     }
 

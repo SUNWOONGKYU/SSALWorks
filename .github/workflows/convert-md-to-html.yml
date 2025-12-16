@@ -1,11 +1,11 @@
 name: MD to HTML 자동 변환
 
-# 학습용_콘텐츠, 매뉴얼 폴더의 .md 파일이 push되면 실행
+# 학습용_Books, 매뉴얼 폴더의 .md 파일이 push되면 실행
 # (상황별_안내문은 팝업용이라 별도 HTML로 관리)
 on:
   push:
     paths:
-      - '학습용_콘텐츠/**/*.md'
+      - '학습용_Books/**/*.md'
       - 'Project-SSAL-Grid/manual/**/*.md'
   workflow_dispatch:
 
@@ -42,6 +42,6 @@ jobs:
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
-          git add "학습용_콘텐츠/" "Project-SSAL-Grid/manual/"
+          git add "학습용_Books/" "Project-SSAL-Grid/manual/"
           git diff --staged --quiet || git commit -m "자동 변환: MD → HTML [GitHub Actions]"
           git push

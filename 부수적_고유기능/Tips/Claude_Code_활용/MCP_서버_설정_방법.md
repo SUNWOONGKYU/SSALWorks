@@ -48,4 +48,4 @@ SSAL Works에서는 Memory MCP 서버가 설정되어 있어서:
 - 이전 세션 컨텍스트 활용 가능
 
 ### 관련 문서
-- `학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/15편_MCP_서버_활용.md`
+- `학습용_Books/1_Claude_사용법/Claude&ClaudeCode사용법/15편_MCP_서버_활용.md`

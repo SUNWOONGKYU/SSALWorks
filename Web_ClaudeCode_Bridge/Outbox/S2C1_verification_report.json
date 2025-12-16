@@ -60,19 +60,19 @@
 
   "file_path_mapping": {
     "claude_contents": {
-      "expected_location": "부수적_고유기능/학습용_콘텐츠/1_Claude_사용법/",
+      "expected_location": "부수적_고유기능/학습용_Books/1_Claude_사용법/",
       "actual_files": 24,
       "mapped_to_urls": "contents/*.md",
       "status": "⚠️ Path mismatch - SQL uses 'contents/*.md' but actual files are in '1_Claude_사용법/Claude&ClaudeCode사용법/*.md'"
     },
     "webdev_contents": {
-      "expected_location": "부수적_고유기능/학습용_콘텐츠/2_웹개발_지식/",
+      "expected_location": "부수적_고유기능/학습용_Books/2_웹개발_지식/",
       "actual_files": 29,
       "mapped_to_urls": "web/*.md",
       "status": "⚠️ Path mismatch - SQL uses 'web/*.md' but actual files are in '2_웹개발_지식/웹개발 기초지식/*.md' and '2_웹개발_지식/Web_Development/*.md'"
     },
     "ai_tools_contents": {
-      "expected_location": "부수적_고유기능/학습용_콘텐츠/3_AI_도구_활용/",
+      "expected_location": "부수적_고유기능/학습용_Books/3_AI_도구_활용/",
       "actual_files": 1,
       "mapped_to_urls": "ai/inbox-outbox.md",
       "status": "⚠️ Path mismatch - SQL uses 'ai/inbox-outbox.md' but actual file is in '3_AI_도구_활용/Claude_Code/3_고급/Inbox_Outbox_JSON_시스템.md'"

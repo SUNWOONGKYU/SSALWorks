@@ -1,7 +1,7 @@
 /**
  * MD → HTML 변환 스크립트
  *
- * 학습용_콘텐츠, 매뉴얼 폴더의 모든 .md 파일을 .html로 변환합니다.
+ * 학습용_Books, 매뉴얼 폴더의 모든 .md 파일을 .html로 변환합니다.
  * GitHub Actions에서 자동으로 실행됩니다.
  *
  * 참고: 상황별_안내문은 팝업용이라 별도 HTML로 관리 (이 스크립트 대상 아님)
@@ -13,7 +13,7 @@ const { marked } = require('marked');
 
 // 변환 대상 폴더 목록
 const CONTENT_DIRS = [
-    path.join(__dirname, '..', '학습용_콘텐츠'),
+    path.join(__dirname, '..', '학습용_Books'),
     path.join(__dirname, '..', 'Project-SSAL-Grid', 'manual')
 ];
 

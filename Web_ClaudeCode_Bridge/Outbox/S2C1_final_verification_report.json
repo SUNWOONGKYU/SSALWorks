@@ -82,7 +82,7 @@
 
     "source_content_verification": {
       "status": "✅ Verified",
-      "location": "부수적_고유기능/학습용_콘텐츠/",
+      "location": "부수적_고유기능/학습용_Books/",
       "folders_checked": {
         "1_Claude_사용법/Claude&ClaudeCode사용법/": {
           "status": "✅ Exists",
@@ -304,7 +304,7 @@
     "integration": {
       "status": "✅",
       "dependency_propagation": "✅ S1D1 dependency satisfied (table exists)",
-      "cross_task_connection": "✅ Content data ready for viewer.html (부수적_고유기능/학습용_콘텐츠/viewer.html)",
+      "cross_task_connection": "✅ Content data ready for viewer.html (부수적_고유기능/학습용_Books/viewer.html)",
       "data_flow": "⚠️ Path mapping needed in frontend"
     },
     "blockers": {
@@ -424,7 +424,7 @@
       "S2_개발-1차/Content_System/S2C1_seed_learning_contents.sql",
       "Production/Database/S2C1_seed_learning_contents.sql",
       "Web_ClaudeCode_Bridge/Outbox/S2C1_verification_report.json (previous QA)",
-      "부수적_고유기능/학습용_콘텐츠/ (source content verification)"
+      "부수적_고유기능/학습용_Books/ (source content verification)"
     ],
     "verification_scope": "Full compliance check + technical validation + previous QA issue review",
     "report_format": "JSON comprehensive report",

@@ -9,7 +9,7 @@ Books 콘텐츠 업로드
 ## Verification Checklist
 
 ### 1. 콘텐츠 파일 검증
-- [ ] 학습용_콘텐츠/1_Claude_사용법/ 폴더 존재
+- [ ] 학습용_Books/1_Claude_사용법/ 폴더 존재
 - [ ] MD 파일 목록 확인
 - [ ] 파일명 일관성 검증
 
@@ -40,7 +40,7 @@ SELECT category, COUNT(*) FROM learning_contents GROUP BY category;
 ## Test Commands
 ```bash
 # 콘텐츠 파일 확인
-ls -la 학습용_콘텐츠/1_Claude_사용법/Claude\&ClaudeCode사용법/
+ls -la 학습용_Books/1_Claude_사용법/Claude\&ClaudeCode사용법/
 
 # SQL 파일 확인
 cat P3_프로토타입_제작/Database/seed_learning_contents.sql

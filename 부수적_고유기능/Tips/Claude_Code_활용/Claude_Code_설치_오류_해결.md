@@ -52,4 +52,4 @@ export ANTHROPIC_API_KEY="your-api-key"
 - Account Settings → API Keys → Create Key
 
 ### 관련 문서
-- `학습용_콘텐츠/1_Claude_사용법/Claude&ClaudeCode사용법/`
+- `학습용_Books/1_Claude_사용법/Claude&ClaudeCode사용법/`

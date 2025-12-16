@@ -87,7 +87,7 @@
       "created_folder": "부수적_고유기능/",
       "sub_folders": [
         "AI_Link/",
-        "학습용_콘텐츠/",
+        "학습용_Books/",
         "콘텐츠_변환_자동화_scripts/"
       ],
       "moved_items": [
@@ -96,8 +96,8 @@
           "new_location": "부수적_고유기능/AI_Link/"
         },
         {
-          "original": "학습용_콘텐츠/ (루트)",
-          "new_location": "부수적_고유기능/학습용_콘텐츠/"
+          "original": "학습용_Books/ (루트)",
+          "new_location": "부수적_고유기능/학습용_Books/"
         },
         {
           "original": "scripts/ (루트)",
