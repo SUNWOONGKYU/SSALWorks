@@ -3517,7 +3517,7 @@ The content you enter in the workspace will be displayed here.</pre>
                 <div id="serviceGuideLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <a onclick="openServiceGuide('supabase')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            Supabase 환경 설정
+                            Supabase 설정
                         </a>
                         <a onclick="openServiceGuide('resend')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             Resend 이메일 설정
@@ -9431,7 +9431,7 @@ ${result.answer}`;
 
         const SERVICE_GUIDE_PATHS = {
             'google-oauth': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/GOOGLE_OAUTH_SETUP.md`,
-            'supabase': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/SUPABASE_ENV_SETUP.md`,
+            'supabase': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/SUPABASE_SETUP.md`,
             'resend': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/RESEND_SETUP.md`,
             'vercel': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/VERCEL_INTEGRATION_SETUP_GUIDE.md`,
             'toss': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/TOSS_PAYMENT_SETUP.md`
@@ -9439,7 +9439,7 @@ ${result.answer}`;
 
         const SERVICE_GUIDE_TITLES = {
             'google-oauth': '🔐 Google OAuth 설정 가이드',
-            'supabase': '🗄️ Supabase 설정 가이드',
+            'supabase': '🗄️ Supabase 설정',
             'resend': '📧 Resend 이메일 설정 가이드',
             'vercel': '🚀 Vercel 배포/도메인 설정 가이드',
             'toss': '💳 토스 페이먼트 결제 설정 가이드'
@@ -9459,7 +9459,7 @@ ${result.answer}`;
 
             const guideItems = [
                 { id: 'google-oauth', icon: '🔐', title: 'Google OAuth 설정', desc: 'Google 소셜 로그인 연동' },
-                { id: 'supabase', icon: '🗄️', title: 'Supabase 환경 설정', desc: '데이터베이스 및 인증 설정' },
+                { id: 'supabase', icon: '🗄️', title: 'Supabase 설정', desc: '데이터베이스 및 인증 설정' },
                 { id: 'resend', icon: '📧', title: 'Resend 이메일 설정', desc: '이메일 발송 연동' },
                 { id: 'vercel', icon: '🚀', title: 'Vercel 배포/도메인 설정', desc: '프로덕션 배포 및 도메인 연결' },
                 { id: 'toss', icon: '💳', title: '토스 페이먼트 결제 설정', desc: '결제 시스템 연동' }
