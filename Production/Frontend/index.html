@@ -9426,12 +9426,15 @@ ${result.answer}`;
         /**
          * 외부 연동 설정 Guide - MD 파일 경로 매핑
          */
+        // GitHub Raw URL 베이스
+        const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/SUNWOONGKYU/SSALWorks/master';
+
         const SERVICE_GUIDE_PATHS = {
-            'google-oauth': '부수적_고유기능/외부_연동_설정_Guide/GOOGLE_OAUTH_SETUP.md',
-            'supabase': '부수적_고유기능/외부_연동_설정_Guide/SUPABASE_ENV_SETUP.md',
-            'resend': '부수적_고유기능/외부_연동_설정_Guide/RESEND_SETUP.md',
-            'vercel': '부수적_고유기능/외부_연동_설정_Guide/VERCEL_INTEGRATION_SETUP_GUIDE.md',
-            'toss': '부수적_고유기능/외부_연동_설정_Guide/TOSS_PAYMENT_SETUP.md' // 추후 추가 예정
+            'google-oauth': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/GOOGLE_OAUTH_SETUP.md`,
+            'supabase': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/SUPABASE_ENV_SETUP.md`,
+            'resend': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/RESEND_SETUP.md`,
+            'vercel': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/VERCEL_INTEGRATION_SETUP_GUIDE.md`,
+            'toss': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/TOSS_PAYMENT_SETUP.md`
         };
 
         const SERVICE_GUIDE_TITLES = {
@@ -9504,25 +9507,24 @@ ${result.answer}`;
          * 외부 연동 설정 Guide 열기
          */
         async function openServiceGuide(serviceId) {
-            const filePath = SERVICE_GUIDE_PATHS[serviceId];
+            const fileUrl = SERVICE_GUIDE_PATHS[serviceId];
             const title = SERVICE_GUIDE_TITLES[serviceId];
 
-            if (!filePath) {
+            if (!fileUrl) {
                 showStatus('⚠️ 해당 가이드는 아직 준비 중입니다.', 'warning');
                 return;
             }
 
             try {
-                // 서버에서 MD 파일 로드
-                const response = await fetch(`http://localhost:3030/file/${encodeURIComponent(filePath)}`);
+                // GitHub Raw URL에서 MD 파일 로드
+                const response = await fetch(fileUrl);
 
                 if (!response.ok) {
                     showStatus('❌ 가이드 파일을 불러올 수 없습니다.', 'error');
                     return;
                 }
 
-                const data = await response.json();
-                const mdContent = data.content || '내용을 불러올 수 없습니다.';
+                const mdContent = await response.text();
 
                 // 모달 생성
                 const overlay = document.createElement('div');
