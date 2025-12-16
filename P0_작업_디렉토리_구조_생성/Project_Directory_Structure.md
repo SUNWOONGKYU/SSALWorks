@@ -484,16 +484,11 @@ Sidebar-Process-Tools/
 
 ```
 부수적_고유기능/학습용_Books/
-├── 1_Claude_사용법/                    # Claude & Claude Code 가이드
-│   └── Claude&ClaudeCode사용법/
-├── 2_웹개발_지식/                      # 웹 개발 관련 지식
-│   ├── Web_Development/
-│   └── 웹개발 기초지식/
-├── 3_AI_도구_활용/                     # AI 도구 활용
-│   └── Claude_Code/
+├── 1. Claude&ClaudeCode사용법/         # Claude & Claude Code 가이드
+├── 2. 웹개발 기초지식/                 # 웹 개발 기초 지식
+├── 3_SAL Grid/                        # SAL Grid 관련
 ├── viewer.html                         # 콘텐츠 뷰어
-├── 학습용_콘텐츠_제공_프로세스.html     # 프로세스 문서 (HTML)
-└── 학습용_콘텐츠_제공_프로세스.md       # 프로세스 문서 (MD)
+└── 학습용_콘텐츠_제공_프로세스.md       # 프로세스 문서
 ```
 
 **중요:**
