@@ -68,10 +68,8 @@ CREATE INDEX IF NOT EXISTS idx_users_subscription_created
 -- 대분류별 조회 최적화 (단일 컬럼 인덱스)
 CREATE INDEX IF NOT EXISTS idx_learning_depth1 ON learning_contents(depth1);
 
--- 대분류 + 상태 복합 인덱스 (게시된 콘텐츠만 조회)
-CREATE INDEX IF NOT EXISTS idx_learning_depth1_status
-    ON learning_contents(depth1, status)
-    WHERE status = 'published';
+-- 참고: learning_contents 테이블에 status 컬럼 없음 (2025-12-16 확인)
+-- idx_learning_depth1_status 인덱스 생략
 
 -- ================================================================
 -- 6. faqs 테이블 인덱스
@@ -81,11 +79,8 @@ CREATE INDEX IF NOT EXISTS idx_learning_depth1_status
 --   ✅ idx_faqs_order (order_num) - 정렬 순서
 --   ✅ idx_faqs_status (status) - 게시 상태 필터
 
--- 추가 인덱스
--- 카테고리 + 상태 복합 인덱스 (게시된 FAQ만 조회)
-CREATE INDEX IF NOT EXISTS idx_faqs_category_status
-    ON faqs(category, status)
-    WHERE status = 'published';
+-- 참고: faqs 테이블에 status 컬럼 없음 (2025-12-16 확인)
+-- idx_faqs_category_status 인덱스 생략
 
 -- ================================================================
 -- 7. ai_service_pricing 테이블 인덱스

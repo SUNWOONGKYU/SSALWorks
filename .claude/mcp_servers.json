@@ -13,9 +13,9 @@
     },
     "supabase": {
       "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=YOUR_PROJECT_REF",
+      "url": "https://mcp.supabase.com/mcp?project_ref=zwjmfewyshhwpgwdtrus",
       "headers": {
-        "Authorization": "Bearer YOUR_SUPABASE_TOKEN"
+        "Authorization": "Bearer sbp_bf0036aca8b4ee50b86eae611b3ebbb4413bacdf"
       }
     },
     "vercel": {
