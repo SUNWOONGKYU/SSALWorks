@@ -4,8 +4,7 @@
   "description": "SSALWorks v1.0 - AI 기반 웹 개발 플랫폼",
   "main": "index.html",
   "scripts": {
-    "dev": "vercel dev",
-    "build": "vercel build",
+    "dev": "npx serve . -l 8888",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
