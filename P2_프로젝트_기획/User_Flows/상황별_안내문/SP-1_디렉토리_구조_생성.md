@@ -1,28 +1,99 @@
-# 📋 SP-1 디렉토리 구조 자동 생성 안내
+# SP-1 디렉토리 구조 자동 생성 안내 (P0)
 
-## 이 단계에서 수행하는 작업
+> **Stage**: 특별단계 (P0)
+> **Task ID**: SP-1
+> **버전**: 2.0
+
+---
+
+## 1. 이 단계에서 수행하는 작업
 
 **프로젝트 디렉토리 구조 자동 생성**을 위한 Order Sheet를 발행합니다.
 
-### 작업 목적
-새 프로젝트를 위한 표준 디렉토리 구조(P1~P3, S1~S5)를 자동 생성합니다.
+---
 
-### 주요 작업 내용
-- P1~P3 Preliminary 단계 폴더 생성
-- S1~S5 Stage 단계 폴더 생성
-- 기본 문서 파일 생성
-- 설정 파일 생성
+## 2. 작업 목적
 
-### 필요한 입력 정보
-- 프로젝트명
-- 저장 경로
-- 커스텀 폴더 요구사항 (선택)
+새 프로젝트를 위한 SSALWorks 표준 디렉토리 구조를 자동 생성합니다.
 
-### 예상 결과물
-- 전체 디렉토리 구조
+---
+
+## 3. 주요 작업 내용
+
+### 3.1 표준 디렉토리 구조 생성
+- P0~P3 예비단계 폴더
+- S0~S5 실행단계 폴더
+- 하위 폴더 구조 (Area별)
+- Production 폴더 (배포용 코드)
+
+### 3.2 기본 문서 생성
 - PROJECT_DIRECTORY_STRUCTURE.md
 - PROJECT_STATUS.md
 - README.md
+- .gitignore
+
+### 3.3 설정 파일 생성
+- .claude/CLAUDE.md (Claude Code 설정)
+- .env.example (환경 변수 템플릿)
+- Web_ClaudeCode_Bridge/ 구조
+
+---
+
+## 4. 필요한 입력 정보
+
+| 항목 | 설명 |
+|------|------|
+| 프로젝트명 | 새 프로젝트 이름 |
+| 저장 경로 | 프로젝트 생성 디렉토리 |
+| 커스텀 요구사항 | 추가 폴더 필요 시 (선택) |
+
+---
+
+## 5. 예상 결과물
+
+- 전체 디렉토리 구조
+- `PROJECT_DIRECTORY_STRUCTURE.md`
+- `PROJECT_STATUS.md`
+- `.claude/CLAUDE.md`
+
+---
+
+## 6. Task 정보
+
+| 항목 | 값 |
+|------|-----|
+| Task Agent | devops-troubleshooter |
+| Verification Agent | qa-specialist |
+| 실행 유형 | AI-Only |
+| 의존성 | 없음 (첫 번째 Task) |
+
+---
+
+## 7. SSALWorks 표준 구조
+
+```
+[프로젝트명]/
+├── P0_작업_디렉토리_구조_생성/
+├── S0_Project-SSAL-Grid_생성/
+├── P1_사업계획/
+├── P2_프로젝트_기획/
+├── P3_프로토타입_제작/
+├── S1_개발_준비/
+├── S2_개발-1차/
+├── S3_개발-2차/
+├── S4_개발-3차/
+├── S5_운영/
+├── Production/
+├── Web_ClaudeCode_Bridge/
+├── .claude/
+└── README.md
+```
+
+---
+
+## 8. 다음 단계
+
+SP-1 완료 → SP-2 (Project Grid 생성) 진행
 
 ---
 

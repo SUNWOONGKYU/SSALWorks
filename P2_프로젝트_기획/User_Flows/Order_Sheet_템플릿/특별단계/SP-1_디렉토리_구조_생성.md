@@ -1,69 +1,121 @@
-# Order Sheet - SP-1 디렉토리 구조 자동 생성
+# Order Sheet - SP-1 디렉토리 구조 자동 생성 (P0)
 
-## 작업 지시
-
-**Claude AI에게**: 새 프로젝트를 위한 표준 디렉토리 구조를 자동 생성해주세요.
+> **작성일**: 2025-12-17
+> **버전**: 2.0 (종합 템플릿)
+> **Stage**: 특별단계 (P0)
+> **Task ID**: SP-1 (P0-1)
 
 ---
 
-## 작업 내용
+## 1. Task 개요
 
-### 1. 표준 디렉토리 구조 생성
-- P1~P3 Preliminary 단계 폴더
-- S1~S5 Stage 단계 폴더
-- 하위 폴더 구조
+### 1.1 목표
+새 프로젝트를 위한 SSALWorks 표준 디렉토리 구조를 자동 생성합니다.
 
-### 2. 기본 문서 생성
+### 1.2 Task 정보
+
+| 항목 | 값 |
+|------|-----|
+| Task ID | SP-1 (P0-1) |
+| Task Name | 디렉토리 구조 생성 |
+| Stage | P0 (특별단계) |
+| Area | Setup |
+| 실행 유형 | AI-Only |
+| 의존성 | 없음 (첫 번째 Task) |
+| Task Agent | devops-troubleshooter |
+| Verification Agent | qa-specialist |
+
+---
+
+## 2. 작업 내용
+
+### 2.1 표준 디렉토리 구조 생성
+- P0~P3 예비단계 폴더
+- S0~S5 실행단계 폴더
+- 하위 폴더 구조 (Area별)
+- Production 폴더 (배포용 코드)
+
+### 2.2 기본 문서 생성
 - PROJECT_DIRECTORY_STRUCTURE.md
 - PROJECT_STATUS.md
 - README.md
 - .gitignore
 
-### 3. 설정 파일 생성
+### 2.3 설정 파일 생성
 - .claude/CLAUDE.md (Claude Code 설정)
 - .env.example (환경 변수 템플릿)
+- Web_ClaudeCode_Bridge/ 구조
 
 ---
 
-## 사용자 입력 (필수)
+## 3. Order Sheet 템플릿
 
-**프로젝트명:**
-```
-[새 프로젝트 이름]
-```
+```json
+{
+  "task_id": "SP-1",
+  "task_name": "디렉토리 구조 생성",
+  "stage": "P0",
+  "area": "Setup",
+  "execution_type": "AI-Only",
 
-**저장 경로:**
-```
-[프로젝트를 생성할 디렉토리 경로]
-```
+  "task_instruction": {
+    "목표": "SSALWorks 표준 디렉토리 구조 생성",
+    "산출물": [
+      "전체 폴더 구조",
+      "PROJECT_DIRECTORY_STRUCTURE.md",
+      "PROJECT_STATUS.md",
+      ".claude/CLAUDE.md"
+    ]
+  },
 
-**프로젝트 유형:**
-```
-[예: 웹앱, API, 풀스택 등]
+  "user_input": {
+    "프로젝트명": "[새 프로젝트 이름]",
+    "저장_경로": "[프로젝트 생성 디렉토리]",
+    "프로젝트_유형": "[웹앱/API/풀스택]"
+  },
+
+  "output": {
+    "파일_저장": "[프로젝트명]/"
+  },
+
+  "task_agent": "devops-troubleshooter",
+  "verification_agent": "qa-specialist"
+}
 ```
 
 ---
 
-## SSALWorks 표준 구조
+## 4. SSALWorks 표준 구조
 
 ```
 [프로젝트명]/
+├── P0_작업_디렉토리_구조_생성/    # 특별단계
+├── S0_Project-SSAL-Grid_생성/    # 특별단계
 ├── P1_사업계획/
 ├── P2_프로젝트_기획/
-│   ├── 1-1_Project_Plan/
-│   ├── 1-2_User_Flows/
-│   └── 1-3_UI_UX_Design/
+│   ├── Project_Plan/
+│   ├── User_Flows/
+│   └── UI_UX_Design/
 ├── P3_프로토타입_제작/
 │   ├── Frontend/
 │   ├── Database/
 │   └── Scripts/
 ├── S1_개발_준비/
+│   ├── Documentation/
+│   ├── Security/
+│   └── Testing/
 ├── S2_개발-1차/
 ├── S3_개발-2차/
 ├── S4_개발-3차/
 ├── S5_운영/
-├── Web_ClaudeCode_Bridge/
-├── .claude/
+├── Production/                   # 배포용 코드
+│   ├── Frontend/
+│   ├── Backend_APIs/
+│   └── Database/
+├── Web_ClaudeCode_Bridge/        # AI 통신용
+│   ├── Inbox/
+│   └── Outbox/
+├── .claude/                      # Claude Code 설정
 ├── PROJECT_DIRECTORY_STRUCTURE.md
 ├── PROJECT_STATUS.md
 └── README.md
@@ -71,15 +123,21 @@
 
 ---
 
-## 결과물
+## 5. 검증 기준
 
-- 전체 디렉토리 구조
-- 기본 문서 파일
-- 설정 파일
+- [ ] SSALWorks 표준 구조를 준수하는가?
+- [ ] 네이밍 규칙이 일관성 있는가?
+- [ ] 기본 문서가 모두 생성되었는가?
+- [ ] .claude/CLAUDE.md 설정이 완료되었는가?
 
 ---
 
-## 제약 조건
+## 6. 다음 Task
+SP-1 완료 → SP-2 (Project Grid 생성) 진행
 
-- SSALWorks 표준 구조 준수
-- 네이밍 규칙 준수 (대분류: 한글, 하위: 영문)
+---
+
+| 버전 | 날짜 | 내용 |
+|------|------|------|
+| 1.0 | - | 기본 템플릿 |
+| 2.0 | 2025-12-17 | 종합 템플릿 업데이트 |
