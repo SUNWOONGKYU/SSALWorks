@@ -1,57 +1,45 @@
 # Order Sheet - P2-1 디렉토리 구조 설계
 
-## 작업 지시
-
-**Claude AI에게**: 이 프로젝트의 전체 디렉토리 구조를 설계하고 PROJECT_DIRECTORY_STRUCTURE.md 문서를 작성해주세요.
-
----
-
-## 작업 내용
-
-### 1. 디렉토리 구조 설계
-- SSALWorks 표준 구조 기반 설계
-- 프로젝트 특성에 맞는 폴더 구성
-- 확장 가능한 구조 고려
-
-### 2. 네이밍 규칙 정의
-- 폴더명 규칙 (대분류: 한글, 하위: 영문)
-- 파일명 규칙
-- 특수 규칙 (있는 경우)
-
-### 3. 문서화
-- PROJECT_DIRECTORY_STRUCTURE.md 작성
-- 각 폴더의 목적 및 용도 설명
+> **작성일**: 2025-12-17
+> **버전**: 2.0 (종합 템플릿)
+> **Stage**: P2 프로젝트 기획
+> **Task ID**: P2-1
 
 ---
 
-## 사용자 입력 (필수)
+## 1. Task 개요
 
-**프로젝트 유형:**
-```
-[웹앱/모바일앱/API/풀스택 등]
-```
+### 1.1 목표
+프로젝트의 전체 디렉토리 구조를 설계하고 문서화합니다.
 
-**사용 기술 스택:**
-```
-[프레임워크, 언어, DB 등]
-```
+### 1.2 Task 정보
 
-**특별 요구사항 (선택):**
-```
-[커스텀 폴더 요구사항 있으면 작성]
-```
+| 항목 | 값 |
+|------|-----|
+| Task ID | P2-1 |
+| Task Name | 디렉토리 구조 설계 |
+| Stage | P2 (프로젝트 기획) |
+| Area | Documentation |
+| 실행 유형 | AI-Only |
+| 의존성 | P1 완료 |
+| Task Agent | documentation-specialist |
+| Verification Agent | qa-specialist |
 
 ---
 
-## SSALWorks 표준 구조 참조
+## 2. 작업 내용
+
+### 2.1 SSALWorks 표준 구조
 
 ```
 프로젝트명/
+├── P0_작업_디렉토리_구조_생성/    # 특별단계
+├── S0_Project-SSAL-Grid_생성/    # 특별단계
 ├── P1_사업계획/
 ├── P2_프로젝트_기획/
-│   ├── 1-1_Project_Plan/
-│   ├── 1-2_User_Flows/
-│   └── 1-3_UI_UX_Design/
+│   ├── Project_Plan/
+│   ├── User_Flows/
+│   └── UI_UX_Design/
 ├── P3_프로토타입_제작/
 │   ├── Frontend/
 │   ├── Database/
@@ -61,20 +49,70 @@
 ├── S3_개발-2차/
 ├── S4_개발-3차/
 ├── S5_운영/
-└── Web_ClaudeCode_Bridge/
+├── Production/                   # 배포용 코드
+├── Web_ClaudeCode_Bridge/        # AI 통신용
+└── .claude/                      # Claude Code 설정
+```
+
+### 2.2 네이밍 규칙
+- 대분류 폴더: 한글 + 숫자 (P1_사업계획)
+- 하위 폴더: 영문 (Frontend, Database)
+- 파일: Task ID 포함 권장
+
+---
+
+## 3. Order Sheet 템플릿
+
+```json
+{
+  "task_id": "P2-1",
+  "task_name": "디렉토리 구조 설계",
+  "stage": "P2",
+  "area": "Documentation",
+  "execution_type": "AI-Only",
+
+  "task_instruction": {
+    "목표": "프로젝트 디렉토리 구조 설계",
+    "산출물": [
+      "PROJECT_DIRECTORY_STRUCTURE.md",
+      "폴더 구조 생성"
+    ]
+  },
+
+  "user_input": {
+    "프로젝트_유형": "[웹앱/API/풀스택]",
+    "기술_스택": "[사용자 입력]"
+  },
+
+  "output": {
+    "파일_저장": [
+      "PROJECT_DIRECTORY_STRUCTURE.md (루트)",
+      "P2_프로젝트_기획/Project_Plan/"
+    ]
+  },
+
+  "task_agent": "documentation-specialist",
+  "verification_agent": "qa-specialist"
+}
 ```
 
 ---
 
-## 결과물 저장 위치
+## 4. 검증 기준
 
-- `PROJECT_DIRECTORY_STRUCTURE.md` (루트)
-- `P2_프로젝트_기획/1-1_Project_Plan/Directory_Structure.md`
+- [ ] SSALWorks 표준 구조 준수
+- [ ] 네이밍 규칙 일관성
+- [ ] 확장 가능한 구조
+- [ ] 문서화 완성
 
 ---
 
-## 제약 조건
+## 5. 다음 Task
+P2-1 완료 → P2-2-1 (요구사항 정의) 진행
 
-- 확장 가능한 구조
-- 명확하고 일관된 네이밍
-- SSALWorks 표준 준수
+---
+
+| 버전 | 날짜 | 내용 |
+|------|------|------|
+| 1.0 | - | 기본 템플릿 |
+| 2.0 | 2025-12-17 | 종합 템플릿 업데이트 |

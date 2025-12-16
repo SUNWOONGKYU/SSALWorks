@@ -3507,26 +3507,26 @@ The content you enter in the workspace will be displayed here.</pre>
                     🔗 외부 연동 설정 Guide
                     <span id="serviceGuideMoreBtn" onclick="toggleServiceGuideMenu()" style="cursor: pointer; font-size: 12px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
                 </h3>
-                <!-- 기본 노출: Google OAuth (클릭 시 펼침 + 가이드 열기) -->
+                <!-- 기본 노출: 데이터베이스 설정 (클릭 시 펼침 + 가이드 열기) -->
                 <div style="margin-top: 8px;">
-                    <a onclick="toggleServiceGuideMenu(); openServiceGuide('google-oauth')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                        Google OAuth 설정
+                    <a onclick="toggleServiceGuideMenu(); openServiceGuide('database')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        데이터베이스 설정
                     </a>
                 </div>
                 <!-- 펼쳐지는 추가 메뉴들 -->
                 <div id="serviceGuideLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <a onclick="openServiceGuide('supabase')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            Supabase 설정
+                        <a onclick="openServiceGuide('auth')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                            회원인증 설정
                         </a>
-                        <a onclick="openServiceGuide('resend')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            Resend 이메일 설정
+                        <a onclick="openServiceGuide('email')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                            이메일 시스템 설정
                         </a>
-                        <a onclick="openServiceGuide('vercel')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            Vercel 배포/도메인 설정
+                        <a onclick="openServiceGuide('deploy')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                            배포/도메인 설정
                         </a>
-                        <a onclick="openServiceGuide('toss')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            토스 페이먼트 결제 설정
+                        <a onclick="openServiceGuide('payment')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                            결제 시스템 설정
                         </a>
                     </div>
                 </div>
@@ -9430,19 +9430,19 @@ ${result.answer}`;
         const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/SUNWOONGKYU/SSALWorks/master';
 
         const SERVICE_GUIDE_PATHS = {
-            'google-oauth': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/GOOGLE_OAUTH_SETUP.md`,
-            'supabase': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/SUPABASE_SETUP.md`,
-            'resend': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/RESEND_SETUP.md`,
-            'vercel': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/VERCEL_INTEGRATION_SETUP_GUIDE.md`,
-            'toss': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/TOSS_PAYMENT_SETUP.md`
+            'database': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/01_데이터베이스_설정.md`,
+            'auth': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/02_회원인증_설정.md`,
+            'email': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/03_이메일_시스템_설정.md`,
+            'deploy': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/04_배포_도메인_설정.md`,
+            'payment': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/05_결제_시스템_설정.md`
         };
 
         const SERVICE_GUIDE_TITLES = {
-            'google-oauth': '🔐 Google OAuth 설정 가이드',
-            'supabase': '🗄️ Supabase 설정',
-            'resend': '📧 Resend 이메일 설정 가이드',
-            'vercel': '🚀 Vercel 배포/도메인 설정 가이드',
-            'toss': '💳 토스 페이먼트 결제 설정 가이드'
+            'database': '🗄️ 데이터베이스 설정 (Supabase DB + RLS)',
+            'auth': '🔐 회원인증 설정 (Google OAuth + Supabase)',
+            'email': '📧 이메일 시스템 설정 (Resend + SMTP)',
+            'deploy': '🚀 배포/도메인 설정 (Vercel + Whois)',
+            'payment': '💳 결제 시스템 설정 (토스 페이먼트)'
         };
 
         /**
@@ -9458,11 +9458,11 @@ ${result.answer}`;
             modal.style.cssText = 'background: white; border-radius: 12px; max-width: 600px; width: 95%; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); position: relative;';
 
             const guideItems = [
-                { id: 'google-oauth', icon: '🔐', title: 'Google OAuth 설정', desc: 'Google 소셜 로그인 연동' },
-                { id: 'supabase', icon: '🗄️', title: 'Supabase 설정', desc: '데이터베이스 및 인증 설정' },
-                { id: 'resend', icon: '📧', title: 'Resend 이메일 설정', desc: '이메일 발송 연동' },
-                { id: 'vercel', icon: '🚀', title: 'Vercel 배포/도메인 설정', desc: '프로덕션 배포 및 도메인 연결' },
-                { id: 'toss', icon: '💳', title: '토스 페이먼트 결제 설정', desc: '결제 시스템 연동' }
+                { id: 'database', icon: '🗄️', title: '데이터베이스 설정', desc: 'Supabase 프로젝트 + DB + RLS' },
+                { id: 'auth', icon: '🔐', title: '회원인증 설정', desc: 'Google OAuth + Supabase Auth' },
+                { id: 'email', icon: '📧', title: '이메일 시스템 설정', desc: 'Resend + SMTP + 템플릿' },
+                { id: 'deploy', icon: '🚀', title: '배포/도메인 설정', desc: 'Vercel + Whois DNS' },
+                { id: 'payment', icon: '💳', title: '결제 시스템 설정', desc: '토스 페이먼트 연동' }
             ];
 
             const itemsHtml = guideItems.map(item => `

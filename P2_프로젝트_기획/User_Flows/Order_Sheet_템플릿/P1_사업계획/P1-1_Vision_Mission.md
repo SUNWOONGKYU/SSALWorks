@@ -1,54 +1,115 @@
 # Order Sheet - P1-1 Vision & Mission 정의
 
-## 작업 지시
-
-**Claude AI에게**: 이 프로젝트의 Vision(비전)과 Mission(미션)을 정의해주세요.
+> **작성일**: 2025-12-17
+> **버전**: 2.0 (종합 템플릿)
+> **Stage**: P1 사업계획
+> **Task ID**: P1-1
 
 ---
 
-## 작업 내용
+## 1. Task 개요
 
-### 1. Vision Statement (비전) 작성
+### 1.1 목표
+프로젝트의 핵심 방향을 정의하는 Vision과 Mission 문서를 작성합니다.
+
+### 1.2 Task 정보
+
+| 항목 | 값 |
+|------|-----|
+| Task ID | P1-1 |
+| Task Name | Vision & Mission 정의 |
+| Stage | P1 (사업계획) |
+| Area | Documentation |
+| 실행 유형 | AI-Only |
+| Task Agent | documentation-specialist |
+| Verification Agent | qa-specialist |
+
+---
+
+## 2. 작업 내용
+
+### 2.1 Vision Statement (비전)
+```
 프로젝트가 궁극적으로 달성하고자 하는 목표를 1-2문장으로 작성:
 - 이 프로젝트가 완성되면 어떤 가치를 제공하는가?
 - 사용자에게 어떤 변화를 가져다주는가?
+```
 
-### 2. Mission Statement (미션) 작성
+### 2.2 Mission Statement (미션)
+```
 비전을 달성하기 위한 구체적인 방법:
 - 어떤 방식으로 비전을 달성하는가?
 - 핵심 차별점은 무엇인가?
 - 주요 타겟 사용자는 누구인가?
+```
 
-### 3. Core Values (핵심 가치) 정의
-프로젝트에서 중요시하는 3~5개의 핵심 가치
+### 2.3 Core Values (핵심 가치)
+- 프로젝트에서 중요시하는 3~5개의 핵심 가치 정의
 
-### 4. 엘리베이터 피치 작성
-30초 내에 프로젝트를 설명할 수 있는 소개 문구
+### 2.4 엘리베이터 피치
+- 30초 내에 프로젝트를 설명할 수 있는 소개 문구
 
 ---
 
-## 사용자 입력 (필수)
+## 3. Order Sheet 템플릿
 
-**프로젝트 설명:**
-```
-[여기에 프로젝트에 대한 설명을 작성하세요]
-```
+```json
+{
+  "task_id": "P1-1",
+  "task_name": "Vision & Mission 정의",
+  "stage": "P1",
+  "area": "Documentation",
+  "execution_type": "AI-Only",
 
-**참고할 기존 자료 (선택):**
-```
-[있다면 경로 또는 내용 입력]
+  "task_instruction": {
+    "목표": "프로젝트 비전/미션 정의",
+    "산출물": [
+      "Vision Statement (1-2문장)",
+      "Mission Statement (구체적 방법)",
+      "Core Values (3-5개)",
+      "Elevator Pitch (30초)"
+    ]
+  },
+
+  "user_input": {
+    "프로젝트_설명": "[사용자 입력]",
+    "목표_고객": "[사용자 입력]",
+    "기대_효과": "[사용자 입력]"
+  },
+
+  "output": {
+    "파일_저장": "P1_사업계획/Vision_Mission.md"
+  },
+
+  "task_agent": "documentation-specialist",
+  "verification_agent": "qa-specialist"
+}
 ```
 
 ---
 
-## 결과물 저장 위치
+## 4. 검증 기준
 
-- `P1_사업계획/Vision_Mission.md`
+### 4.1 검증 항목
+- [ ] Vision이 영감을 주고 간결한가?
+- [ ] Mission이 구체적이고 실행 가능한가?
+- [ ] Core Values가 의사결정에 적용 가능한가?
+- [ ] Elevator Pitch가 30초 내에 설명 가능한가?
+
+### 4.2 완료 기준
+- Vision/Mission 문서 작성 완료
+- PO 검토 및 승인
 
 ---
 
-## 제약 조건
+## 5. 다음 Task
+P1-1 완료 → P1-2 (시장 분석) 진행
 
-- Vision: 1-2문장으로 간결하고 영감을 주는 표현
-- Mission: 구체적이고 실행 가능해야 함
-- 핵심 가치: 실제 의사결정에 적용 가능한 것
+---
+
+**버전 이력**
+
+| 버전 | 날짜 | 내용 |
+|------|------|------|
+| 1.0 | - | 기본 템플릿 |
+| 2.0 | 2025-12-17 | 종합 템플릿 업데이트 |
