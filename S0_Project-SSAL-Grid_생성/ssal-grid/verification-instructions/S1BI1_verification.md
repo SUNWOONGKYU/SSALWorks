@@ -4,64 +4,71 @@
 S1BI1
 
 ## Task Name
-Supabase 클라이언트 설정
+환경변수 설정
 
 ## Verification Checklist
 
-### 1. 파일 존재 검증
-- [ ] supabase-client.js 파일 존재
-- [ ] 환경 설정 파일 존재 (.env.local 또는 config.js)
+### 1. .env.example 파일 검증
+- [ ] `.env.example` 파일 존재
+- [ ] 모든 필수 환경변수 목록 포함:
+  - Supabase (SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY)
+  - Google OAuth (GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET)
+  - Resend (RESEND_API_KEY)
+  - AI APIs (OPENAI_API_KEY, GOOGLE_AI_API_KEY, PERPLEXITY_API_KEY)
+  - 토스 페이먼트 (TOSS_CLIENT_KEY, TOSS_SECRET_KEY)
+  - Sentry (SENTRY_DSN)
+  - App (APP_URL, CRON_SECRET)
 
-### 2. 클라이언트 초기화 검증
-- [ ] createClient 함수 사용
-- [ ] URL 환경 변수 참조
-- [ ] Anon Key 환경 변수 참조
-- [ ] 클라이언트 export 확인
+### 2. Vercel 환경변수 설정 검증
+- [ ] Vercel Dashboard에서 환경변수 설정 완료
+- [ ] Production/Preview/Development 환경별 설정
+- [ ] 민감한 키 Encrypted 설정
 
-### 3. 기능 검증
-```javascript
-// 연결 테스트 코드
-const { data, error } = await supabase.from('health_check').select('*').limit(1);
-console.log('Connection:', error ? 'Failed' : 'Success');
-```
+### 3. .gitignore 검증
+- [ ] `.env` 파일 제외 확인
+- [ ] `.env.local` 파일 제외 확인
+- [ ] `.env.*.local` 파일 제외 확인
 
-### 4. 보안 검증
-- [ ] Service Role Key가 클라이언트에 노출되지 않음
-- [ ] Anon Key만 클라이언트에서 사용
-- [ ] 환경 변수 하드코딩 없음
-
-### 5. 에러 핸들링 검증
-- [ ] 연결 실패 시 에러 처리
-- [ ] 타임아웃 설정 (선택)
+### 4. 문서 검증
+- [ ] 환경변수 설정 가이드 문서 존재
+- [ ] 환경변수 접근 방법 설명 포함
 
 ## Test Commands
 ```bash
-# 파일 존재 확인
-ls -la P3_프로토타입_제작/Frontend/Prototype/lib/supabase-client.js
+# .env.example 파일 확인
+cat .env.example
 
-# 하드코딩된 키 확인
-grep -E "(eyJ|supabase.co)" P3_프로토타입_제작/Frontend/Prototype/lib/*.js
+# .gitignore 확인
+grep ".env" .gitignore
+
+# Vercel 환경변수 확인 (Vercel CLI)
+vercel env ls
 ```
 
 ## Expected Results
-- Supabase 클라이언트 파일 존재
-- 환경 변수로 설정값 관리
-- 보안 키 노출 없음
+- .env.example 파일 존재 및 모든 필수 환경변수 포함
+- .gitignore에 .env 파일 제외 설정
+- Vercel 환경변수 설정 완료
 
 ## Verification Agent
-backend-developer
+devops-troubleshooter
 
 ## Pass Criteria
-- 클라이언트 초기화 성공
-- 환경 변수 사용
-- Service Role Key 클라이언트 노출 없음
+- .env.example 파일 완성
+- Vercel 환경변수 설정 완료
+- .gitignore 설정 완료
+
+## ⚠️ Human-AI Task 검증 주의사항
+
+이 Task는 **Human-AI** 유형입니다.
+- .env.example 템플릿 작성은 AI가 수행
+- **실제 Vercel 환경변수 설정은 PO가 수행해야 합니다**
+- 실제 API 키 값 입력은 Human 필수
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] `.env.example`이 프로젝트 루트에 저장되었는가?
+- [ ] 환경변수 가이드 문서가 `S1_개발_준비/Backend_Infra/`에 저장되었는가?

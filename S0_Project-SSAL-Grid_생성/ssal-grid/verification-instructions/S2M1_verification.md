@@ -4,64 +4,73 @@
 S2M1
 
 ## Task Name
-기능 명세서
+API 문서 v1
 
 ## Verification Checklist
 
 ### 1. 문서 존재 검증
-- [ ] FEATURE_SPEC.md 파일 존재
-- [ ] 모든 기능 명세 포함
+- [ ] `API_DOCUMENTATION_V1.md` 파일 존재
+- [ ] Markdown 형식 유효성
 
-### 2. 인증 기능 명세
-- [ ] 이메일 로그인 명세
-- [ ] Google OAuth 명세
-- [ ] 세션 관리 명세
-- [ ] 비밀번호 재설정 명세
+### 2. 문서 구조 검증
+- [ ] Base URL 섹션 (Production, Development)
+- [ ] Authentication 섹션 (Bearer Token)
+- [ ] Endpoints 섹션
 
-### 3. 구독 기능 명세
-- [ ] 구독 플랜 구조
-- [ ] 구독 신청 프로세스
-- [ ] 구독 관리 기능
-- [ ] 결제 연동 명세
+### 3. Auth API 문서화 검증
+- [ ] POST /api/auth/google
+- [ ] GET /api/auth/google/callback
+- [ ] POST /api/auth/logout
 
-### 4. AI 기능 명세
-- [ ] AI Q&A 기능 명세
-- [ ] 사용량 추적 명세
-- [ ] 사용량 제한 명세
+### 4. Email API 문서화 검증
+- [ ] POST /api/email/password-reset
+- [ ] POST /api/email/welcome
 
-### 5. 명세 품질
-- [ ] 입력/출력 정의
-- [ ] 에러 케이스 정의
-- [ ] API 엔드포인트 정의
+### 5. Subscription API 문서화 검증
+- [ ] GET /api/subscription/status
+- [ ] POST /api/subscription/create
+- [ ] POST /api/subscription/cancel
+
+### 6. 엔드포인트 문서 품질 검증
+- [ ] Method & URL
+- [ ] Description
+- [ ] Request Headers
+- [ ] Request Body (JSON schema)
+- [ ] Response (성공/실패)
+- [ ] Error Codes
+- [ ] Example (curl)
+
+### 7. 에러 코드 표준화 검증
+- [ ] 에러 응답 형식 정의
+- [ ] 에러 코드 목록
 
 ## Test Commands
 ```bash
-# 파일 존재 확인
-ls -la docs/FEATURE_SPEC.md
+# 문서 존재 확인
+ls -la docs/API_DOCUMENTATION_V1.md
 
-# 섹션 확인
-grep -E "^##" docs/FEATURE_SPEC.md
+# 엔드포인트 목록 확인
+grep -E "^### |POST |GET |PUT |DELETE " docs/API_DOCUMENTATION_V1.md
 ```
 
 ## Expected Results
-- 기능 명세서 완성
-- 모든 주요 기능 포함
-- API 엔드포인트 정의
+- API 문서 완성
+- 모든 엔드포인트 문서화
+- curl 예제 포함
 
 ## Verification Agent
-code-reviewer
+documentation-specialist
 
 ## Pass Criteria
-- 인증, 구독, AI 3대 기능 명세 완료
-- API 엔드포인트 목록 포함
-- 에러 케이스 정의
+- 모든 인증 API 문서화
+- 모든 이메일 API 문서화
+- 모든 구독 API 문서화
+- 에러 코드 표준화
+- curl 예제 포함
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] API 문서가 `S2_개발-1차/Documentation/`에 저장되었는가?

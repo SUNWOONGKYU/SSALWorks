@@ -2055,7 +2055,8 @@
                         <a href="pages/auth/signup.html" class="header-btn" style="text-decoration: none;">회원가입</a>
                     </div>
                     <!-- 로그인 후 -->
-                    <div id="headerUserBtns" style="display: none;">
+                    <div id="headerUserBtns" style="display: none; align-items: center; gap: 12px;">
+                        <span id="userNickname" style="font-weight: 600; color: var(--primary);"></span>
                         <button class="header-btn" onclick="logoutFromMain()">로그아웃</button>
                     </div>
                 </div>
@@ -8131,7 +8132,24 @@ ${result.answer}`;
 
                 if (session && session.user) {
                     console.log('✅ 로그인 상태:', session.user.email);
-                    showLoggedInUI();
+
+                    // 사용자 닉네임 가져오기
+                    const { data: userData, error: userError } = await supabaseClient
+                        .from('users')
+                        .select('nickname')
+                        .eq('id', session.user.id)
+                        .single();
+
+                    let nickname = '사용자';
+                    if (userData && userData.nickname) {
+                        nickname = userData.nickname;
+                    } else if (session.user.user_metadata?.nickname) {
+                        nickname = session.user.user_metadata.nickname;
+                    } else if (session.user.email) {
+                        nickname = session.user.email.split('@')[0];
+                    }
+
+                    showLoggedInUI(nickname);
                 } else {
                     console.log('ℹ️ 로그인되지 않은 상태');
                     showLoggedOutUI();
@@ -8142,11 +8160,13 @@ ${result.answer}`;
             }
         }
 
-        function showLoggedInUI() {
+        function showLoggedInUI(nickname = '사용자') {
             const guestBtns = document.getElementById('headerGuestBtns');
             const userBtns = document.getElementById('headerUserBtns');
+            const nicknameEl = document.getElementById('userNickname');
             if (guestBtns) guestBtns.style.display = 'none';
             if (userBtns) userBtns.style.display = 'flex';
+            if (nicknameEl) nicknameEl.textContent = nickname + '님';
         }
 
         function showLoggedOutUI() {

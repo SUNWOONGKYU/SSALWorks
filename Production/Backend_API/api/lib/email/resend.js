@@ -16,7 +16,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
  * @param {string} [emailData.from] - 발신자 이메일 (기본값: onboarding@resend.dev)
  * @returns {Promise<Object>} Resend API 응답
  */
-async function sendEmail({ to, subject, html, from = 'onboarding@resend.dev' }) {
+async function sendEmail({ to, subject, html, from = 'noreply@ssalworks.ai.kr' }) {
   try {
     // 환경 변수 검증
     if (!process.env.RESEND_API_KEY) {
@@ -55,7 +55,7 @@ async function sendEmail({ to, subject, html, from = 'onboarding@resend.dev' }) 
  * @param {string} [emailData.from] - 발신자 이메일
  * @returns {Promise<Object>} Resend API 응답
  */
-async function sendTemplateEmail({ to, subject, template, data, from = 'onboarding@resend.dev' }) {
+async function sendTemplateEmail({ to, subject, template, data, from = 'noreply@ssalworks.ai.kr' }) {
   try {
     // 템플릿 렌더링
     const html = template(data);

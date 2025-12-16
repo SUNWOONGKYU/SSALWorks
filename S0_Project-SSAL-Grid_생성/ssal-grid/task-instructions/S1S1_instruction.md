@@ -50,7 +50,7 @@ Supabase에서 Google OAuth Provider 설정 및 Redirect URL 등록
 - Scopes: email, profile, openid
 
 ## Expected Output Files
-- `S1_개발_준비/Security/GOOGLE_OAUTH_SETUP.md` (설정 가이드 문서)
+- `S1_개발_준비/Security/GOOGLE_OAUTH_SETUP.md` (Google OAuth 설정 가이드)
 
 ## ⚠️ Human-AI Task 주의사항
 

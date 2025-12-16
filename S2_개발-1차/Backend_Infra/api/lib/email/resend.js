@@ -1,5 +1,5 @@
 // S2BI1: Resend 이메일 서비스 클라이언트
-// 파일 위치: S2_개발-1차/Backend_Infra/api/lib/email/resend.js
+// 파일 위치: Production/Backend_APIs/api/lib/email/resend.js
 // 목적: Resend API를 사용한 이메일 발송 기능 구현
 
 const { Resend } = require('resend');
@@ -16,7 +16,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
  * @param {string} [emailData.from] - 발신자 이메일 (기본값: onboarding@resend.dev)
  * @returns {Promise<Object>} Resend API 응답
  */
-async function sendEmail({ to, subject, html, from = 'onboarding@resend.dev' }) {
+async function sendEmail({ to, subject, html, from = 'noreply@ssalworks.ai.kr' }) {
   try {
     // 환경 변수 검증
     if (!process.env.RESEND_API_KEY) {
@@ -55,7 +55,7 @@ async function sendEmail({ to, subject, html, from = 'onboarding@resend.dev' }) 
  * @param {string} [emailData.from] - 발신자 이메일
  * @returns {Promise<Object>} Resend API 응답
  */
-async function sendTemplateEmail({ to, subject, template, data, from = 'onboarding@resend.dev' }) {
+async function sendTemplateEmail({ to, subject, template, data, from = 'noreply@ssalworks.ai.kr' }) {
   try {
     // 템플릿 렌더링
     const html = template(data);

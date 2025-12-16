@@ -65,18 +65,34 @@ await resend.emails.send({
 ```
 
 ## Expected Output Files
-- `api/lib/email/resend.js`
-- `api/lib/email/templates/welcome.js`
-- `api/lib/email/templates/password-reset.js`
-- `docs/EMAIL_SETUP.md`
+- `S2_개발-1차/Backend_Infra/email/resend.js` - Resend 클라이언트
+- `S2_개발-1차/Backend_Infra/email/templates/welcome.js` - 환영 이메일
+- `S2_개발-1차/Backend_Infra/email/templates/password-reset.js` - 비밀번호 재설정
+- `S2_개발-1차/Backend_Infra/RESEND_SETUP.md` - 설정 가이드
+- `Production/Backend_APIs/lib/email/` - Production 복사본
+
+## ⚠️ Human-AI Task 주의사항
+
+이 Task는 **Human-AI** 유형입니다.
+- **가이드 문서 작성만으로는 완료가 아닙니다!**
+- **PO가 실제로 Resend 계정 및 API 설정을 완료해야 합니다!**
+- **실제 이메일 발송 테스트가 필수입니다!**
+
+### 작업 절차
+1. AI: 설정 가이드 및 코드 템플릿 제공
+2. **PO: Resend 계정 가입 (Human 필수)**
+3. **PO: API Key 발급 및 환경변수 설정 (Human 필수)**
+4. AI + PO: 테스트 이메일 발송
+5. **테스트 성공 시에만 "완료" 처리**
 
 ## Completion Criteria
-- [ ] Resend 계정 생성
-- [ ] API Key 환경변수 설정
-- [ ] Resend 클라이언트 파일 생성
-- [ ] 이메일 템플릿 구조 생성
-- [ ] 테스트 이메일 발송 성공
-- [ ] 설정 문서 작성
+- [ ] Resend 계정 생성 **(PO 실행)**
+- [ ] API Key 발급 및 환경변수 설정 **(PO 실행)**
+- [ ] Resend 클라이언트 파일 생성 (AI)
+- [ ] 이메일 템플릿 구조 생성 (AI)
+- [ ] 설정 가이드 문서 작성 (AI)
+- [ ] **⭐ 실제 테스트 이메일 발송 성공 (필수!)**
+- [ ] **⭐ 수신자에게 이메일 도착 확인 (필수!)**
 
 ## Tech Stack
 - Resend

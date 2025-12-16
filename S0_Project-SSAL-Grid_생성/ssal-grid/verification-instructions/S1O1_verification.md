@@ -4,65 +4,64 @@
 S1O1
 
 ## Task Name
-Vercel 프로젝트 설정
+DNS 설정
 
 ## Verification Checklist
 
-### 1. 프로젝트 설정 검증
-- [ ] Vercel 프로젝트 생성 확인
-- [ ] GitHub 리포지토리 연결
-- [ ] 자동 배포 설정 확인
+### 1. 도메인 현황 확인 검증
+- [ ] 구매한 도메인 확인 완료
+- [ ] 도메인 등록 업체 확인 완료
+- [ ] DNS 관리 패널 접속 방법 확인 완료
 
-### 2. 환경 변수 설정
-- [ ] SUPABASE_URL 설정
-- [ ] SUPABASE_ANON_KEY 설정
-- [ ] 환경별 변수 분리 (Development, Preview, Production)
+### 2. DNS 레코드 준비 검증
+- [ ] A 레코드 정보 준비 (@ → 76.76.21.21)
+- [ ] CNAME 레코드 정보 준비 (www → cname.vercel-dns.com)
 
-### 3. 빌드 설정 검증
-- [ ] vercel.json 파일 존재
-- [ ] 빌드 명령어 설정
-- [ ] 출력 디렉토리 설정
+### 3. DNS 설정 문서 검증
+- [ ] `DNS_SETUP.md` 문서 존재
+- [ ] 레코드 설정 방법 가이드 포함
+- [ ] 각 레코드 타입 설명 포함
+- [ ] TTL 권장값 설명 포함
 
-### 4. 배포 테스트
-- [ ] Preview 배포 성공
-- [ ] 배포된 URL 접근 가능
-- [ ] API 엔드포인트 동작
+### 4. DNS 전파 확인 방법 검증
+- [ ] dig 명령어 사용법 설명
+- [ ] 온라인 도구 링크 제공
 
-### 5. 도메인 설정 (선택)
-- [ ] 커스텀 도메인 연결 준비
-- [ ] SSL 자동 설정 확인
+### 5. 체크리스트 검증
+- [ ] 도메인 등록 업체 로그인 정보 확인
+- [ ] DNS 관리 패널 접속 가능 확인
+- [ ] 현재 DNS 레코드 백업
 
 ## Test Commands
 ```bash
-# Vercel CLI로 프로젝트 확인
-vercel ls
-
-# 배포 상태 확인
-vercel inspect <deployment-url>
-
-# API 테스트
-curl https://<deployment-url>/api/health
+# DNS 레코드 확인 (적용 후)
+dig @8.8.8.8 ssalworks.com A
+dig @8.8.8.8 www.ssalworks.com CNAME
 ```
 
 ## Expected Results
-- Vercel 프로젝트 활성화
-- 환경 변수 설정 완료
-- Preview 배포 성공
+- DNS 설정 가이드 문서 존재
+- Vercel DNS 레코드 정보 준비 완료
+- 체크리스트 작성 완료
 
 ## Verification Agent
 devops-troubleshooter
 
 ## Pass Criteria
-- 프로젝트 생성 및 연결 완료
-- 필수 환경 변수 설정
-- Preview 배포 성공
+- 도메인 현황 확인 완료
+- DNS 레코드 준비 완료
+- DNS 설정 가이드 문서 작성 완료
+
+## ⚠️ Human-AI Task 검증 주의사항
+
+이 Task는 **Human-AI** 유형입니다.
+- DNS 설정 가이드 작성은 AI가 수행
+- **실제 DNS 레코드 적용은 S5O2에서 PO가 수행**
+- 도메인 등록 업체 접속은 Human 필수
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] DNS 설정 문서가 `S1_개발_준비/DevOps/`에 저장되었는가?

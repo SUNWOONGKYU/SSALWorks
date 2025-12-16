@@ -4,66 +4,62 @@
 S1F1
 
 ## Task Name
-랜딩페이지 시안
+Vercel 프로젝트 설정
 
 ## Verification Checklist
 
-### 1. 파일 존재 검증
-- [ ] index.html 파일 존재
-- [ ] shared.css 파일 존재
-- [ ] 필요한 에셋 파일 존재
+### 1. Vercel 프로젝트 생성 검증
+- [ ] Vercel Dashboard에서 프로젝트 존재 확인
+- [ ] 프로젝트명: `ssalworks`
 
-### 2. UI 구성 요소 검증
-- [ ] 히어로 섹션 존재
-- [ ] 기능 소개 섹션 존재
-- [ ] 가격 섹션 존재
-- [ ] CTA 버튼 존재
-- [ ] 푸터 존재
+### 2. GitHub 연결 검증
+- [ ] GitHub 저장소 `SUNWOONGKYU/SSALWorks` 연결 완료
+- [ ] Production Branch: `master` 설정
+- [ ] Auto-deploy on push 활성화
 
-### 3. 반응형 검증
-- [ ] 데스크톱 레이아웃 정상 (1200px+)
-- [ ] 태블릿 레이아웃 정상 (768px-1199px)
-- [ ] 모바일 레이아웃 정상 (~767px)
+### 3. 프레임워크 설정 검증
+- [ ] Framework Preset: `Other`
+- [ ] Root Directory 설정 완료
+- [ ] Output Directory 설정 완료
 
-### 4. 접근성 검증
-- [ ] 적절한 heading 구조 (h1, h2, h3)
-- [ ] 이미지 alt 텍스트
-- [ ] 키보드 네비게이션 가능
-- [ ] 색상 대비 적절
-
-### 5. 링크 검증
-- [ ] 내부 링크 동작 확인
-- [ ] CTA 버튼 링크 설정
+### 4. ⭐ 실제 배포 테스트 (필수!)
+- [ ] 초기 배포 성공
+- [ ] 배포 URL 접속 가능 (예: `ssalworks.vercel.app`)
+- [ ] 기본 페이지 정상 표시
 
 ## Test Commands
 ```bash
-# 파일 존재 확인
-ls -la P3_프로토타입_제작/Frontend/Prototype/index.html
-ls -la P3_프로토타입_제작/Frontend/Prototype/shared.css
+# Vercel CLI로 프로젝트 확인
+vercel list
 
-# HTML 유효성 검사 (온라인 도구 사용)
-# https://validator.w3.org/
+# 배포 URL 접속 테스트
+curl -I https://ssalworks.vercel.app
 ```
 
 ## Expected Results
-- 모든 필수 파일 존재
-- 반응형 레이아웃 동작
-- 접근성 기준 충족
+- Vercel 프로젝트 생성 및 GitHub 연결 완료
+- 자동 배포 설정 완료
+- 배포 URL 접속 가능
 
 ## Verification Agent
-frontend-developer
+devops-troubleshooter
 
 ## Pass Criteria
-- 모든 UI 구성 요소 존재
-- 반응형 3개 브레이크포인트 동작
-- 접근성 기본 요소 충족
+- Vercel 프로젝트 생성 완료
+- GitHub 저장소 연결 완료
+- **⭐ 배포 URL 접속 성공 (필수)**
+
+## ⚠️ Human-AI Task 검증 주의사항
+
+이 Task는 **Human-AI** 유형입니다.
+- **PO가 Vercel Dashboard에서 프로젝트를 생성해야 합니다**
+- **PO가 GitHub 저장소를 연결해야 합니다**
+- 실제 배포 테스트 성공 시에만 완료 처리
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] Vercel 프로젝트 설정이 완료되었는가? (외부 서비스)
+- [ ] 배포 URL이 정상 동작하는가?

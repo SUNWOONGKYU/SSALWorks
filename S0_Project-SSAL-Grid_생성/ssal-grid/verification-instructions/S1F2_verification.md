@@ -4,68 +4,67 @@
 S1F2
 
 ## Task Name
-로그인/회원가입 UI
+vercel.json 설정
 
 ## Verification Checklist
 
 ### 1. 파일 존재 검증
-- [ ] login.html 존재
-- [ ] signup.html 존재
-- [ ] auth.css 또는 shared.css에 스타일 포함
+- [ ] `vercel.json` 파일 존재
+- [ ] JSON 문법 유효성 검증
 
-### 2. 로그인 폼 검증
-- [ ] 이메일 입력 필드
-- [ ] 비밀번호 입력 필드
-- [ ] 로그인 버튼
-- [ ] Google OAuth 버튼
-- [ ] 회원가입 링크
-- [ ] 비밀번호 찾기 링크
+### 2. 기본 설정 검증
+- [ ] `version: 2` 설정
+- [ ] `cleanUrls: true` 설정
+- [ ] `trailingSlash: false` 설정
 
-### 3. 회원가입 폼 검증
-- [ ] 이메일 입력 필드
-- [ ] 비밀번호 입력 필드
-- [ ] 비밀번호 확인 필드
-- [ ] 약관 동의 체크박스
-- [ ] 회원가입 버튼
-- [ ] 로그인 링크
+### 3. 보안 헤더 검증
+- [ ] X-Content-Type-Options 헤더
+- [ ] X-Frame-Options 헤더
+- [ ] X-XSS-Protection 헤더
+- [ ] Referrer-Policy 헤더
+- [ ] Permissions-Policy 헤더
 
-### 4. 유효성 검사 UI
-- [ ] 필수 필드 표시 (*)
-- [ ] 에러 메시지 표시 영역
-- [ ] 입력값 검증 피드백
+### 4. API 라우팅 검증
+- [ ] `/api/*` 라우팅 설정
 
-### 5. 반응형 검증
-- [ ] 모바일에서 폼 사용 가능
-- [ ] 버튼 터치 영역 적절 (44px+)
+### 5. CORS 설정 검증
+- [ ] Access-Control-Allow-Origin 헤더
+- [ ] Access-Control-Allow-Methods 헤더
+- [ ] Access-Control-Allow-Headers 헤더
+
+### 6. 캐싱 설정 검증
+- [ ] 정적 파일 캐싱 설정
+
+### 7. 배포 후 헤더 확인
+- [ ] Vercel 재배포 후 보안 헤더 적용 확인
 
 ## Test Commands
 ```bash
-# 파일 존재 확인
-ls -la P3_프로토타입_제작/Frontend/Prototype/pages/auth/
+# JSON 문법 검증
+cat vercel.json | python -m json.tool
 
-# HTML 구조 확인
-grep -E "(input|button|form)" P3_프로토타입_제작/Frontend/Prototype/pages/auth/login.html
+# 배포 후 헤더 확인
+curl -I https://ssalworks.vercel.app
 ```
 
 ## Expected Results
-- 로그인/회원가입 페이지 존재
-- 모든 필수 폼 요소 포함
-- 유효성 검사 UI 준비
+- vercel.json 파일 유효
+- 보안 헤더 설정 적용
+- CORS 설정 적용
 
 ## Verification Agent
-frontend-developer
+code-reviewer
 
 ## Pass Criteria
-- 모든 필수 입력 필드 존재
-- OAuth 버튼 존재
-- 반응형 레이아웃 동작
+- vercel.json 파일 생성 완료
+- 보안 헤더 설정 완료
+- JSON 문법 검증 통과
+- 배포 후 헤더 확인
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] `vercel.json`이 프로젝트 루트에 저장되었는가?
+- [ ] `S1_개발_준비/Frontend/`에도 저장되었는가?

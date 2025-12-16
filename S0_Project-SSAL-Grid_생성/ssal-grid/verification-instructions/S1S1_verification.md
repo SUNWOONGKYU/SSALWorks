@@ -73,6 +73,6 @@ devops-troubleshooter
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] 설정 가이드 문서가 `S1_개발_준비/Security/`에 저장되었는가?
+- [ ] `GOOGLE_OAUTH_SETUP.md` 문서가 `S1_개발_준비/Security/`에 저장되었는가?
 - [ ] 외부 서비스(Google Cloud, Supabase) 설정이 완료되었는가?
 - [ ] 실제 작동 테스트가 성공했는가?

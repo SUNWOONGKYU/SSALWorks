@@ -1781,6 +1781,71 @@ src/components/ProfileAvatar.tsx
 
 ### 8.2 Verification Instruction 작성 가이드
 
+#### **⚠️ 🚨 CRITICAL: Task-Verification 일치 규칙 🚨 ⚠️**
+
+> **이 규칙은 Verification Instruction 작성의 가장 기본적이고 중요한 규칙입니다!**
+> **실제 검토 결과 42개 Task 중 11개(26%)가 불일치 상태였습니다!**
+
+**필수 일치 항목:**
+
+| 항목 | Task Instruction | Verification Instruction |
+|------|-----------------|-------------------------|
+| Task ID | `S2F1` | `S2F1` (동일해야 함) |
+| Task Name | `Google 소셜 로그인 UI` | `Google 소셜 로그인 UI` (동일해야 함) |
+| 검증 대상 | Expected Output Files | Verification Checklist에 포함 |
+| 완료 기준 | Completion Criteria | Pass Criteria에 반영 |
+
+**검증 방법:**
+
+```bash
+# Task Instruction의 Task Name 확인
+grep "## Task Name" task-instructions/S2F1_instruction.md -A 1
+
+# Verification Instruction의 Task Name 확인
+grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
+
+# 두 값이 정확히 일치해야 함!
+```
+
+**❌ 발견된 불일치 사례 (실제 오류):**
+
+| Task ID | Task Instruction | Verification Instruction (잘못됨) |
+|---------|-----------------|----------------------------------|
+| S1BI1 | 환경변수 설정 | ~~Supabase 클라이언트 설정~~ |
+| S2F1 | Google 소셜 로그인 UI | ~~마이페이지 UI~~ |
+| S2BI2 | 에러 핸들링 시스템 | ~~구독 클라이언트 모듈~~ |
+
+**불일치 시 발생하는 문제:**
+- ❌ 잘못된 Task를 검증하게 됨
+- ❌ 실제 Task의 품질이 검증되지 않음
+- ❌ Grid 데이터 무결성 파괴
+- ❌ Stage Gate 통과 후 결함 발견
+
+**필수 점검 절차:**
+
+1. **Verification Instruction 작성 전**:
+   - 해당 Task Instruction 파일을 **반드시 먼저 읽기**
+   - Task ID, Task Name 정확히 복사
+
+2. **Verification Instruction 작성 후**:
+   - Task Name이 정확히 일치하는지 확인
+   - Checklist가 Task Instruction의 완료 기준을 검증하는지 확인
+
+3. **일괄 검증 (권장)**:
+   ```bash
+   # 모든 Task-Verification 일치 여부 확인 스크립트
+   for f in task-instructions/*.md; do
+     id=$(basename "$f" _instruction.md)
+     task_name=$(grep -A1 "## Task Name" "$f" | tail -1)
+     verif_name=$(grep -A1 "## Task Name" "verification-instructions/${id}_verification.md" | tail -1)
+     if [ "$task_name" != "$verif_name" ]; then
+       echo "MISMATCH: $id - Task: $task_name vs Verif: $verif_name"
+     fi
+   done
+   ```
+
+---
+
 #### **작성 원칙**
 
 **1. 객관성 (Objectivity)**

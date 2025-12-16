@@ -4,62 +4,73 @@
 S2F2
 
 ## Task Name
-구독 플랜 페이지
+비밀번호 재설정 UI
 
 ## Verification Checklist
 
 ### 1. 파일 존재 검증
-- [ ] pricing.html 존재
-- [ ] 가격 표시 스타일
+- [ ] `pages/auth/forgot-password.html` (신규)
+- [ ] `pages/auth/reset-password.html` (신규 또는 수정)
+- [ ] `pages/auth/login.html` (수정 - 링크 추가)
 
-### 2. 플랜 카드 검증
-- [ ] Free 플랜 카드
-- [ ] Basic 플랜 카드
-- [ ] Premium 플랜 카드
-- [ ] 각 플랜 가격 표시
-- [ ] 기능 목록 표시
+### 2. 비밀번호 재설정 요청 페이지 검증
+- [ ] 이메일 입력 필드
+- [ ] "재설정 링크 발송" 버튼
+- [ ] 성공 메시지 표시 영역
+- [ ] 로그인 페이지 링크
 
-### 3. CTA 버튼 검증
-- [ ] 각 플랜별 선택 버튼
-- [ ] 로그인 상태별 버튼 텍스트
-- [ ] 결제 페이지 연결
+### 3. 이메일 발송 연동 검증
+- [ ] `/api/email/password-reset` API 호출
+- [ ] POST 메서드 사용
+- [ ] JSON 형식 요청
+- [ ] 성공 시 메시지 표시
 
-### 4. 비교 표 검증 (선택)
-- [ ] 기능별 비교 표
-- [ ] 체크마크/X 아이콘
+### 4. 비밀번호 재설정 페이지 검증
+- [ ] URL 파라미터로 토큰 수신
+- [ ] 새 비밀번호 입력 필드
+- [ ] 비밀번호 확인 필드
+- [ ] "비밀번호 변경" 버튼
 
-### 5. 반응형 검증
-- [ ] 모바일에서 카드 세로 배치
-- [ ] 가격 정보 가독성
+### 5. 비밀번호 유효성 검사 검증
+- [ ] 최소 8자 검증
+- [ ] 영문/숫자 조합 검증
+- [ ] 비밀번호 일치 확인
+- [ ] 에러 메시지 표시
+
+### 6. 로그인 페이지 링크 검증
+- [ ] "비밀번호를 잊으셨나요?" 링크 존재
+- [ ] forgot-password.html로 연결
 
 ## Test Commands
 ```bash
 # 파일 존재 확인
-ls -la P3_프로토타입_제작/Frontend/Prototype/pages/subscription/pricing.html
+ls -la pages/auth/forgot-password.html
+ls -la pages/auth/reset-password.html
 
-# 플랜 카드 확인
-grep -E "(plan|price)" P3_프로토타입_제작/Frontend/Prototype/pages/subscription/pricing.html
+# 로그인 페이지 링크 확인
+grep -E "(forgot|password)" pages/auth/login.html
 ```
 
 ## Expected Results
-- 가격 페이지 존재
-- 3개 플랜 카드 표시
-- CTA 버튼 동작
+- 비밀번호 재설정 요청 페이지 존재
+- 이메일 발송 API 연동
+- 비밀번호 재설정 페이지 존재
+- 유효성 검사 동작
 
 ## Verification Agent
 frontend-developer
 
 ## Pass Criteria
-- Free, Basic, Premium 3개 플랜 표시
-- 가격 정보 정확
-- 결제 페이지 연결
+- 비밀번호 재설정 요청 페이지 구현
+- 이메일 발송 API 연동
+- 비밀번호 재설정 페이지 구현
+- 비밀번호 유효성 검사
+- 로그인 페이지에 링크 추가
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] 코드가 `S2_개발-1차/Frontend/`에 저장되었는가?
+- [ ] Production 코드가 `Production/Frontend/`에도 저장되었는가?

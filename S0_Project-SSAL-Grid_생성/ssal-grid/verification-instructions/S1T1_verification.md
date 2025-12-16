@@ -4,62 +4,73 @@
 S1T1
 
 ## Task Name
-테스트 전략 문서
+테스트 환경 설정
 
 ## Verification Checklist
 
-### 1. 문서 존재 검증
-- [ ] TEST_STRATEGY.md 파일 존재
-- [ ] 테스트 구조 정의
+### 1. Jest 설정 검증
+- [ ] `jest.config.js` 파일 존재
+- [ ] testEnvironment 설정
+- [ ] testMatch 패턴 설정
+- [ ] collectCoverage 설정
 
-### 2. 테스트 유형 정의
-- [ ] 단위 테스트 전략
-- [ ] 통합 테스트 전략
-- [ ] E2E 테스트 전략
-- [ ] 성능 테스트 전략 (선택)
+### 2. Playwright 설정 검증
+- [ ] `playwright.config.js` 파일 존재
+- [ ] testDir 설정
+- [ ] timeout 설정
+- [ ] use.baseURL 설정
+- [ ] projects (브라우저) 설정
 
-### 3. 도구 및 환경
-- [ ] 테스트 프레임워크 선정 (Jest)
-- [ ] E2E 도구 선정 (Playwright)
-- [ ] 테스트 환경 구성
+### 3. 테스트 디렉토리 구조 검증
+- [ ] `tests/unit/` 디렉토리 존재
+- [ ] `tests/integration/` 디렉토리 존재
+- [ ] `tests/e2e/` 디렉토리 존재
 
-### 4. 커버리지 목표
-- [ ] 단위 테스트 커버리지 목표 (80%+)
-- [ ] 핵심 기능 E2E 커버리지
+### 4. package.json 스크립트 검증
+- [ ] `test` 스크립트
+- [ ] `test:unit` 스크립트
+- [ ] `test:integration` 스크립트
+- [ ] `test:e2e` 스크립트
 
-### 5. CI/CD 연동
-- [ ] 자동 테스트 실행 계획
-- [ ] 테스트 실패 시 처리 정책
+### 5. 샘플 테스트 파일 검증
+- [ ] 단위 테스트 샘플 존재
+- [ ] E2E 테스트 샘플 존재
+
+### 6. 테스트 실행 검증
+- [ ] `npm test` 실행 성공
+- [ ] `npm run test:e2e` 실행 성공 (로컬 서버 필요)
 
 ## Test Commands
 ```bash
-# 파일 존재 확인
-ls -la docs/TEST_STRATEGY.md
+# 설정 파일 확인
+ls -la jest.config.js playwright.config.js
 
-# 테스트 설정 파일 확인
-ls -la jest.config.js
-ls -la playwright.config.js
+# 테스트 디렉토리 확인
+ls -la tests/
+
+# 테스트 실행
+npm test
+npm run test:e2e
 ```
 
 ## Expected Results
-- 테스트 전략 문서 존재
-- 테스트 도구 선정 완료
-- 커버리지 목표 명시
+- Jest 설정 파일 존재 및 유효
+- Playwright 설정 파일 존재 및 유효
+- 테스트 디렉토리 구조 완성
+- 샘플 테스트 실행 성공
 
 ## Verification Agent
 test-engineer
 
 ## Pass Criteria
-- 3가지 테스트 유형 전략 정의
-- 테스트 도구 선정
-- 커버리지 목표 설정
+- Jest/Playwright 설정 완료
+- 테스트 디렉토리 구조 생성
+- 샘플 테스트 실행 성공
 
 ---
 
 ## ⚠️ 저장 위치 검증 항목
 
 ### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] 테스트 설정 파일이 프로젝트 루트에 저장되었는가?
+- [ ] 테스트 관련 문서가 `S1_개발_준비/Testing/`에 저장되었는가?
