@@ -385,7 +385,8 @@
     <!-- Header -->
     <header class="header">
         <div>
-            <div class="header-title">PROJECT SAL GRID MANUAL v3.0</div>
+            <div class="header-title" id="headerTitle">PROJECT SAL GRID MANUAL</div>
+            <div id="headerMeta" style="font-size: 13px; opacity: 0.9; margin-top: 5px;"></div>
         </div>
         <button class="close-btn" onclick="window.history.length > 1 ? history.back() : window.close()" title="닫기">✕ 닫기</button>
     </header>
@@ -428,7 +429,34 @@
                     throw new Error('파일을 불러올 수 없습니다.');
                 }
 
-                const markdown = await response.text();
+                let markdown = await response.text();
+
+                // 1. 제목 추출 (첫 번째 # 라인)
+                const titleMatch = markdown.match(/^# (.+)$/m);
+                if (titleMatch) {
+                    document.getElementById('headerTitle').textContent = titleMatch[1];
+                }
+
+                // 2. 메타데이터 추출 (> 로 시작하는 라인들)
+                const metaLines = [];
+                const metaRegex = /^> \*\*(.+?)\*\*: (.+)$/gm;
+                let match;
+                while ((match = metaRegex.exec(markdown)) !== null) {
+                    metaLines.push(`<strong>${match[1]}</strong>: ${match[2]}`);
+                }
+                if (metaLines.length > 0) {
+                    document.getElementById('headerMeta').innerHTML = metaLines.slice(0, 2).join(' | ');
+                }
+
+                // 3. 본문에서 제목, 메타데이터, 목차 섹션 제거
+                // 제목 제거
+                markdown = markdown.replace(/^# .+\n/m, '');
+                // 메타데이터 블록 제거 (> 로 시작하는 연속 라인들)
+                markdown = markdown.replace(/^(> .+\n)+/m, '');
+                // 첫 번째 --- 제거
+                markdown = markdown.replace(/^---\n/m, '');
+                // 목차 섹션 제거 (## 📋 목차 부터 다음 --- 까지)
+                markdown = markdown.replace(/## 📋 목차[\s\S]*?---\n/m, '');
 
                 // Marked.js 설정
                 marked.setOptions({
