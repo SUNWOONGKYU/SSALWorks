@@ -2965,7 +2965,7 @@ The content you enter in the workspace will be displayed here.</pre>
             <div class="sidebar-section">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     📚 학습용 Books
-                    <button onclick="openLearningViewer()" style="font-size: 11px; padding: 4px 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 4px; cursor: pointer;">전체 보기</button>
+                    <button onclick="openLearningViewer()" style="font-size: 11px; padding: 4px 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 4px; cursor: pointer;">전체 보기 →</button>
                 </h3>
                 <!-- 검색창 -->
                 <div style="margin-bottom: 11px;">
@@ -2984,9 +2984,22 @@ The content you enter in the workspace will be displayed here.</pre>
             <div class="sidebar-section" id="tipsSection">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     💡 Tips
-                    <button onclick="openTipsViewer()" style="font-size: 11px; padding: 4px 8px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; border: none; border-radius: 4px; cursor: pointer;">전체 보기 →</button>
+                    <button onclick="openTipsViewer()" style="font-size: 11px; padding: 4px 8px; background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); color: white; border: none; border-radius: 4px; cursor: pointer;">전체 보기 →</button>
                 </h3>
-                <p style="font-size: 12px; color: #666; margin-top: 8px;">Claude Code 활용 팁 48개</p>
+
+                <!-- Tips 검색창 -->
+                <div style="margin-bottom: 11px;">
+                    <input type="text"
+                           id="tipsSearchInput"
+                           placeholder="Tips 검색하기"
+                           oninput="searchTipsLocal(this.value)"
+                           style="width: 100%; padding: 8px 12px; border: 1px solid #8B5CF6; border-radius: 6px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; transition: all 0.2s;">
+                </div>
+
+                <!-- Tips 검색 결과 영역 -->
+                <div id="tipsSearchResults" style="max-height: 300px; overflow-y: auto;">
+                    <!-- 검색 결과가 여기에 동적으로 추가됨 -->
+                </div>
 
                 <!-- 기존 정적 FAQ (백업용 - 삭제 예정) -->
                 <div id="faqStaticBackup" style="display: none;">
@@ -6412,6 +6425,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             { name: '18편 - Claude 토큰 사용료 구조', path: '부수적_고유기능/학습용_Books/1. Claude&ClaudeCode사용법/18편_Claude 토큰 사용료 구조 및 최적화 방안.md', category: 'Claude 사용법' },
             { name: '19편 - 작업환경 최적화', path: '부수적_고유기능/학습용_Books/1. Claude&ClaudeCode사용법/19편_작업환경_최적화_3개_최종.md', category: 'Claude 사용법' },
             { name: '20편 - 세션 기억 관리 완벽 가이드', path: '부수적_고유기능/학습용_Books/1. Claude&ClaudeCode사용법/20편_Claude_Code_세션_기억_관리_완벽_가이드.md', category: 'Claude 사용법' },
+            { name: 'Claude Code 설치 가이드', path: '부수적_고유기능/학습용_Books/1. Claude&ClaudeCode사용법/Claude_Code_설치_단계별_가이드.md', category: 'Claude 사용법' },
+            { name: 'Claude 파일 생성 기능 핵심 정리', path: '부수적_고유기능/학습용_Books/1. Claude&ClaudeCode사용법/Claude 파일 생성 기능 - 혁신적 업데이트 핵심 정리.md', category: 'Claude 사용법' },
             { name: '1편 - 웹개발 핵심 개념 이해하기', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/1편 웹개발 핵심 개념 & 용어 이해하기.md', category: '웹개발 기초' },
             { name: '2편 - 웹사이트 작동 원리와 구조', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/2편 웹사이트가 작동하는 원리와 구조.md', category: '웹개발 기초' },
             { name: '3편 - 명령줄(CLI)와 개발 환경', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/3편 명령줄(CLI)와 개발 환경 설정.md', category: '웹개발 기초' },
@@ -6432,7 +6447,9 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             { name: '18편 - SEO와 웹 접근성', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/18편-SEO와-웹-접근성.md', category: '웹개발 기초' },
             { name: '19편 - 전체 개발 프로세스 통합 가이드', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/19편-전체-개발-프로세스-통합-가이드.md', category: '웹개발 기초' },
             { name: '20편 - 종합 실습 프로젝트 Part1', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/20편-종합-실습-프로젝트-Part1.md', category: '웹개발 기초' },
-            { name: '21편 - 종합 실습 프로젝트 Part2', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/21편-종합-실습-프로젝트-Part2.md', category: '웹개발 기초' }
+            { name: '21편 - 종합 실습 프로젝트 Part2', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/21편-종합-실습-프로젝트-Part2.md', category: '웹개발 기초' },
+            { name: '웹개발 용어 사전', path: '부수적_고유기능/학습용_Books/2. 웹개발 기초지식/웹개발-용어-사전-빠른참조.md', category: '웹개발 기초' },
+            { name: 'Inbox/Outbox JSON 시스템', path: '부수적_고유기능/학습용_Books/3_프로젝트관리방법/Inbox_Outbox_JSON_시스템.md', category: 'AI 도구 활용' }
         ];
 
         // 로컬 검색 함수
@@ -9227,7 +9244,249 @@ ${result.answer}`;
         }
 
         // ================================================
-        // 💡 Tips - viewer.html로 분리됨
+        // 💡 Tips 로컬 배열 기반 시스템
+        // ================================================
+
+        // Tips 콘텐츠 배열 (48개, 12개 카테고리) - path 기반으로 MD 파일에서 로드
+        const TIPS_CONTENTS = [
+            // === 프로젝트 시작 (4개) ===
+            { category: '프로젝트 시작', title: '작업 디렉터리 구조 먼저 생성하기', path: 'Tips/프로젝트_시작/작업_디렉터리_구조_먼저_생성하기.md' },
+            { category: '프로젝트 시작', title: '디렉터리 구조 문서 만들기', path: 'Tips/프로젝트_시작/디렉터리_구조_문서_만들기.md' },
+            { category: '프로젝트 시작', title: '프로젝트 진행 상황 문서 만들기', path: 'Tips/프로젝트_시작/프로젝트_진행_상황_문서_만들기.md' },
+            { category: '프로젝트 시작', title: 'CLAUDE.md로 작업 참고사항 정리하기', path: 'Tips/프로젝트_시작/CLAUDE.md로_작업_참고사항_정리하기.md' },
+
+            // === 설치/실행 (3개) ===
+            { category: '설치/실행', title: 'Claude Code 설치 방법 및 오류 해결', path: 'Tips/설치_실행/Claude_Code_설치_방법_및_오류_해결.md' },
+            { category: '설치/실행', title: '폴더에서 터미널 열어 실행하기', path: 'Tips/설치_실행/폴더에서_터미널_열어_실행하기.md' },
+            { category: '설치/실행', title: '토큰 사용량 확인하기', path: 'Tips/설치_실행/토큰_사용량_확인하기.md' },
+
+            // === 입력/편의 (2개) ===
+            { category: '입력/편의', title: '음성으로 지시하기 - Windows 기본', path: 'Tips/입력_편의/음성으로_지시하기_-_Windows_기본.md' },
+            { category: '입력/편의', title: '음성으로 지시하기 - AI 활용', path: 'Tips/입력_편의/음성으로_지시하기_-_AI_활용.md' },
+
+            // === 도구 활용 (4개) ===
+            { category: '도구 활용', title: '서브에이전트 효과적으로 활용하기', path: 'Tips/도구_활용/서브에이전트_효과적으로_활용하기.md' },
+            { category: '도구 활용', title: 'Slash Commands 활용하기', path: 'Tips/도구_활용/Slash_Commands_활용하기.md' },
+            { category: '도구 활용', title: 'MCP 서버 설정 방법', path: 'Tips/도구_활용/MCP_서버_설정_방법.md' },
+            { category: '도구 활용', title: 'Skills 활용하기', path: 'Tips/도구_활용/Skills_활용하기.md' },
+
+            // === 작업 기록/백업 (5개) ===
+            { category: '작업 기록/백업', title: 'work_logs로 작업 기록 관리하기', path: 'Tips/작업_기록_백업/work_logs로_작업_기록_관리하기.md' },
+            { category: '작업 기록/백업', title: 'Git으로 버전 관리하기', path: 'Tips/작업_기록_백업/Git으로_버전_관리하기.md' },
+            { category: '작업 기록/백업', title: 'outbox에 작업 결과 저장하기', path: 'Tips/작업_기록_백업/outbox에_작업_결과_저장하기.md' },
+            { category: '작업 기록/백업', title: '중요한 파일 주기적으로 백업하기', path: 'Tips/작업_기록_백업/중요한_파일_주기적으로_백업하기.md' },
+            { category: '작업 기록/백업', title: '.gitignore로 민감정보 보호하기', path: 'Tips/작업_기록_백업/.gitignore로_민감정보_보호하기.md' },
+
+            // === 세션 관리 (3개) ===
+            { category: '세션 관리', title: '세션 끊어졌을 때 복구하기', path: 'Tips/세션_관리/세션_끊어졌을_때_복구하기.md' },
+            { category: '세션 관리', title: '헤매면 미련 없이 세션 정리하기', path: 'Tips/세션_관리/헤매면_미련_없이_세션_정리하기.md' },
+            { category: '세션 관리', title: 'Google Drive 동기화 문제 해결', path: 'Tips/세션_관리/Google_Drive_동기화_문제_해결.md' },
+
+            // === 검증/문서화 (3개) ===
+            { category: '검증/문서화', title: '별도 서브에이전트로 검증하기', path: 'Tips/검증_문서화/별도_서브에이전트로_검증하기.md' },
+            { category: '검증/문서화', title: '수시로 문서화 지시하기', path: 'Tips/검증_문서화/수시로_문서화_지시하기.md' },
+            { category: '검증/문서화', title: '작업 규칙 CLAUDE.md에 업데이트하기', path: 'Tips/검증_문서화/작업_규칙_CLAUDE.md에_업데이트하기.md' },
+
+            // === 개발 실무 (6개) ===
+            { category: '개발 실무', title: '반응형 디자인은 별도로 요청하기', path: 'Tips/개발_실무/반응형_디자인은_별도로_요청하기.md' },
+            { category: '개발 실무', title: '최적화/성능 개선 작업 시키기', path: 'Tips/개발_실무/최적화_성능_개선_작업_시키기.md' },
+            { category: '개발 실무', title: 'GitHub Push/Pull로 작업 반영하기', path: 'Tips/개발_실무/GitHub_Push_Pull로_작업_반영하기.md' },
+            { category: '개발 실무', title: '인증 코드는 숫자 6자리로', path: 'Tips/개발_실무/인증_코드는_숫자_6자리로.md' },
+            { category: '개발 실무', title: '폴더 정리 및 임의 생성 금지 규칙', path: 'Tips/개발_실무/폴더_정리_및_임의_생성_금지_규칙.md' },
+            { category: '개발 실무', title: '파일 저장 위치 확인하기', path: 'Tips/개발_실무/파일_저장_위치_확인하기.md' },
+
+            // === 효율적인 소통 (5개) ===
+            { category: '효율적인 소통', title: '3가지 이상 대안 요청하기', path: 'Tips/효율적인_소통/3가지_이상_대안_요청하기.md' },
+            { category: '효율적인 소통', title: '이해될 때까지 질문하기', path: 'Tips/효율적인_소통/이해될_때까지_질문하기.md' },
+            { category: '효율적인 소통', title: 'Claude Code에게 사용법 물어보기', path: 'Tips/효율적인_소통/Claude_Code에게_사용법_물어보기.md' },
+            { category: '효율적인 소통', title: '구체적으로 질문하는 방법', path: 'Tips/효율적인_소통/구체적으로_질문하는_방법.md' },
+            { category: '효율적인 소통', title: '단계별로 요청하기', path: 'Tips/효율적인_소통/단계별로_요청하기.md' },
+
+            // === 데이터베이스 (4개) ===
+            { category: '데이터베이스', title: 'DB 삭제해도 복구 가능', path: 'Tips/데이터베이스/DB_삭제해도_복구_가능.md' },
+            { category: '데이터베이스', title: 'SQL 직접 실행해야 할 경우', path: 'Tips/데이터베이스/SQL_직접_실행해야_할_경우.md' },
+            { category: '데이터베이스', title: 'Supabase RLS 정책 관리', path: 'Tips/데이터베이스/Supabase_RLS_정책_관리.md' },
+            { category: '데이터베이스', title: 'Supabase 쿼리 최적화', path: 'Tips/데이터베이스/Supabase_쿼리_최적화.md' },
+
+            // === SAL Grid (4개) ===
+            { category: 'SAL Grid', title: 'Task를 작게 나누는 기준', path: 'Tips/SAL_Grid/Task를_작게_나누는_기준.md' },
+            { category: 'SAL Grid', title: 'Phase Gate 검증 체크리스트', path: 'Tips/SAL_Grid/Phase_Gate_검증_체크리스트.md' },
+            { category: 'SAL Grid', title: 'Task ID로 파일 관리하기', path: 'Tips/SAL_Grid/Task_ID로_파일_관리하기.md' },
+            { category: 'SAL Grid', title: '검증 완료 후 문서화하기', path: 'Tips/SAL_Grid/검증_완료_후_문서화하기.md' },
+
+            // === 트러블슈팅 (5개) ===
+            { category: '트러블슈팅', title: '브라우저 콘솔 에러 확인하기', path: 'Tips/트러블슈팅/브라우저_콘솔_에러_확인하기.md' },
+            { category: '트러블슈팅', title: '에러 핸들링 패턴', path: 'Tips/트러블슈팅/에러_핸들링_패턴.md' },
+            { category: '트러블슈팅', title: '로컬 서버 실행 방법', path: 'Tips/트러블슈팅/로컬_서버_실행_방법.md' },
+            { category: '트러블슈팅', title: 'API 키 보안 관리', path: 'Tips/트러블슈팅/API_키_보안_관리.md' },
+            { category: '트러블슈팅', title: '환경변수 관리 베스트 프랙티스', path: 'Tips/트러블슈팅/환경변수_관리_베스트_프랙티스.md' }
+        ];
+
+        // 현재 선택된 카테고리 (전체 보기용)
+        let currentTipsCategory = '전체';
+
+        /**
+         * Tips 사이드바 검색
+         */
+        function searchTipsLocal(query) {
+            const resultsDiv = document.getElementById('tipsSearchResults');
+
+            if (!query || query.trim() === '') {
+                resultsDiv.innerHTML = '';
+                return;
+            }
+
+            const searchTerm = query.toLowerCase();
+            const results = TIPS_CONTENTS.filter(item =>
+                item.title.toLowerCase().includes(searchTerm) ||
+                
+                item.category.toLowerCase().includes(searchTerm)
+            );
+
+            if (results.length === 0) {
+                resultsDiv.innerHTML = `
+                    <div style="padding: 15px; text-align: center; color: #666; font-size: 13px;">
+                        🔍 "${query}"에 대한 검색 결과가 없습니다.
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <div style="padding: 8px 12px; background: #F5F3FF; border-radius: 6px; margin-bottom: 8px; font-size: 12px; color: #7C3AED;">
+                    🔍 검색 결과: ${results.length}개
+                </div>
+            `;
+
+            results.forEach(item => {
+                html += `
+                    <div style="padding: 10px 12px; margin-bottom: 6px; background: white; border-radius: 6px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
+                         onclick="showTipDetail('${item.category}', '${item.title.replace(/'/g, "\\'")}')"
+                         onmouseover="this.style.borderColor='#8B5CF6'; this.style.background='#F5F3FF';"
+                         onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white';">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+                            <span style="font-size: 14px;">💡</span>
+                            <span style="font-size: 14px; font-weight: 500; color: #333;">${item.title}</span>
+                        </div>
+                        <div style="font-size: 12px; color: #8B5CF6;">
+                            ${item.category}
+                        </div>
+                    </div>
+                `;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+
+        /**
+         * Tip 상세 보기 (MD 파일 fetch)
+         */
+        async function showTipDetail(category, title) {
+            const item = TIPS_CONTENTS.find(i => i.category === category && i.title === title);
+            if (!item) return;
+
+            // 로딩 오버레이 먼저 표시
+            const overlay = document.createElement('div');
+            overlay.className = 'tips-modal-overlay';
+            overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10001;';
+
+            const modal = document.createElement('div');
+            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
+
+            // 로딩 상태 표시
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-start; border-radius: 12px 12px 0 0;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <span style="font-size: 20px;">💡</span>
+                            <span style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 4px; font-size: 12px; color: white;">${item.category}</span>
+                        </div>
+                        <div style="font-size: 16px; font-weight: 700; color: white; line-height: 1.4;">
+                            ${item.title}
+                        </div>
+                    </div>
+                    <button onclick="this.closest('.tips-modal-overlay').remove()"
+                            style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 20px; cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        ×
+                    </button>
+                </div>
+                <div id="tipContentArea" style="padding: 20px 24px; line-height: 1.7; color: #495057; font-size: 14px; overflow-y: auto; max-height: calc(80vh - 140px);">
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 24px; margin-bottom: 12px;">⏳</div>
+                        <div>콘텐츠를 불러오는 중...</div>
+                    </div>
+                </div>
+                <div style="padding: 12px 24px; border-top: 1px solid #dee2e6; text-align: right; background: #f8f9fa; border-radius: 0 0 12px 12px;">
+                    <button onclick="this.closest('.tips-modal-overlay').remove()"
+                            style="padding: 8px 20px; background: #8B5CF6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500;">
+                        닫기
+                    </button>
+                </div>
+            `;
+
+            overlay.appendChild(modal);
+            overlay.onclick = (e) => {
+                if (e.target === overlay) overlay.remove();
+            };
+
+            document.body.appendChild(overlay);
+
+            // MD 파일 fetch
+            try {
+                const url = GITHUB_RAW_BASE + '/부수적_고유기능/' + item.path;
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error('파일을 찾을 수 없습니다.');
+                }
+
+                const mdContent = await response.text();
+
+                // marked.js로 MD를 HTML로 변환
+                const htmlContent = marked.parse(mdContent);
+
+                // 콘텐츠 영역 업데이트
+                const contentArea = document.getElementById('tipContentArea');
+                if (contentArea) {
+                    contentArea.innerHTML = htmlContent;
+                }
+            } catch (error) {
+                console.error('Tip 로드 오류:', error);
+                const contentArea = document.getElementById('tipContentArea');
+                if (contentArea) {
+                    contentArea.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #dc3545;">
+                            <div style="font-size: 24px; margin-bottom: 12px;">❌</div>
+                            <div>콘텐츠를 불러올 수 없습니다.</div>
+                            <div style="font-size: 12px; margin-top: 8px; color: #6c757d;">${error.message}</div>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        /**
+         * 외부 연동 설정 Guide - MD 파일 경로 매핑
+         */
+        // GitHub Raw URL 베이스
+        const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/SUNWOONGKYU/SSALWorks/master';
+
+        const SERVICE_GUIDE_PATHS = {
+            'database': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/01_데이터베이스_설정.md`,
+            'auth': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/02_회원인증_설정.md`,
+            'email': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/03_이메일_시스템_설정.md`,
+            'deploy': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/04_배포_도메인_설정.md`,
+            'payment': `${GITHUB_RAW_BASE}/부수적_고유기능/외부_연동_설정_Guide/05_결제_시스템_설정.md`
+        };
+
+        const SERVICE_GUIDE_TITLES = {
+            'database': '🗄️ 데이터베이스 설정 (Supabase DB + RLS)',
+            'auth': '🔐 회원인증 설정 (Google OAuth + Supabase)',
+            'email': '📧 이메일 시스템 설정 (Resend + SMTP)',
+            'deploy': '🚀 배포/도메인 설정 (Vercel + Whois)',
+            'payment': '💳 결제 시스템 설정 (토스 페이먼트)'
+        };
+
         /**
          * 외부 연동 설정 Guide 전체 목록 뷰어
          */
@@ -9422,11 +9681,240 @@ ${result.answer}`;
          * Tips 전체 보기 모달 (아코디언 방식)
          */
         function openTipsViewer() {
-            window.open('tips-viewer.html', '_blank');
+            // 카테고리 목록 추출
+            const categories = [...new Set(TIPS_CONTENTS.map(item => item.category))];
+            currentTipsCategory = '전체';
+
+            const overlay = document.createElement('div');
+            overlay.className = 'tips-viewer-overlay';
+            overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10000;';
+
+            const modal = document.createElement('div');
+            modal.className = 'tips-modal-draggable';
+            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 1000px; width: 95%; max-height: 92vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); position: relative;';
+
+            // 카테고리 버튼 HTML 생성
+            let categoryBtnsHtml = `<button class="tips-category-btn active" data-category="전체" onclick="filterTipsByCategory('전체')">전체</button>`;
+            categories.forEach(cat => {
+                categoryBtnsHtml += `<button class="tips-category-btn" data-category="${cat}" onclick="filterTipsByCategory('${cat}')">${cat}</button>`;
+            });
+
+            modal.innerHTML = `
+                <div class="tips-modal-header" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
+                    <div style="font-size: 18px; font-weight: 700; color: white; pointer-events: none;">💡 Tips (${TIPS_CONTENTS.length}개) <span style="font-size: 12px; opacity: 0.8;">- 드래그하여 이동</span></div>
+                    <button onclick="this.closest('.tips-viewer-overlay').remove()"
+                            style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 20px; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        ×
+                    </button>
+                </div>
+                <div style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB;">
+                    <input type="text" id="tipsViewerSearch" placeholder="🔍 Tips 검색..."
+                           oninput="filterTipsInViewer(this.value)"
+                           style="width: 100%; padding: 10px 14px; border: 1px solid #DDD6FE; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s;"
+                           onfocus="this.style.borderColor='#8B5CF6'"
+                           onblur="this.style.borderColor='#DDD6FE'">
+                </div>
+                <div style="padding: 8px 16px; border-bottom: 1px solid #E5E7EB; display: flex; gap: 6px; flex-wrap: wrap;">
+                    ${categoryBtnsHtml}
+                </div>
+                <style>
+                    .tips-category-btn {
+                        padding: 5px 12px;
+                        border: 1px solid #DDD6FE;
+                        border-radius: 16px;
+                        background: white;
+                        color: #7C3AED;
+                        font-size: 12px;
+                        cursor: pointer;
+                        transition: all 0.2s;
+                    }
+                    .tips-category-btn:hover {
+                        background: #F5F3FF;
+                    }
+                    .tips-category-btn.active {
+                        background: #8B5CF6;
+                        color: white;
+                        border-color: #8B5CF6;
+                    }
+                    .tip-accordion {
+                        margin-bottom: 6px;
+                        border: 1px solid #E5E7EB;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        transition: all 0.2s;
+                    }
+                    .tip-accordion:hover {
+                        border-color: #8B5CF6;
+                    }
+                    .tip-accordion-header {
+                        padding: 12px 14px;
+                        background: #FAFAFA;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        transition: background 0.2s;
+                    }
+                    .tip-accordion-header:hover {
+                        background: #F5F3FF;
+                    }
+                    .tip-accordion.open .tip-accordion-header {
+                        background: #F5F3FF;
+                        border-bottom: 1px solid #E5E7EB;
+                    }
+                    .tip-accordion-title {
+                        font-size: 14px;
+                        font-weight: 500;
+                        color: #374151;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                    }
+                    .tip-accordion-arrow {
+                        font-size: 10px;
+                        color: #8B5CF6;
+                        transition: transform 0.2s;
+                    }
+                    .tip-accordion.open .tip-accordion-arrow {
+                        transform: rotate(180deg);
+                    }
+                    .tip-accordion-content {
+                        padding: 0;
+                        max-height: 0;
+                        overflow: hidden;
+                        background: white;
+                        transition: max-height 0.3s ease, padding 0.3s ease;
+                    }
+                    .tip-accordion.open .tip-accordion-content {
+                        padding: 14px;
+                        max-height: 200px;
+                    }
+                    .tip-accordion-text {
+                        font-size: 14px;
+                        line-height: 1.6;
+                        color: #4B5563;
+                    }
+                </style>
+                <div id="tipsViewerContent" style="flex: 1; overflow-y: auto; padding: 16px;">
+                    <!-- Tips 목록이 여기에 렌더링됨 -->
+                </div>
+            `;
+
+            overlay.appendChild(modal);
+            overlay.onclick = (e) => {
+                if (e.target === overlay) overlay.remove();
+            };
+
+            document.body.appendChild(overlay);
+
+            // 드래그 기능 추가
+            const header = modal.querySelector('.tips-modal-header');
+            let isDragging = false;
+            let startX, startY, initialX, initialY;
+
+            header.addEventListener('mousedown', (e) => {
+                if (e.target.tagName === 'BUTTON') return; // 닫기 버튼 클릭 시 드래그 안함
+
+                isDragging = true;
+                startX = e.clientX;
+                startY = e.clientY;
+
+                // 현재 모달 위치 계산
+                const rect = modal.getBoundingClientRect();
+                initialX = rect.left;
+                initialY = rect.top;
+
+                // 중앙 정렬 해제하고 절대 위치로 변경
+                overlay.style.alignItems = 'flex-start';
+                overlay.style.justifyContent = 'flex-start';
+                modal.style.position = 'fixed';
+                modal.style.left = initialX + 'px';
+                modal.style.top = initialY + 'px';
+                modal.style.margin = '0';
+
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isDragging) return;
+
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+
+                let newX = initialX + deltaX;
+                let newY = initialY + deltaY;
+
+                // 화면 밖으로 나가지 않도록 제한
+                const modalRect = modal.getBoundingClientRect();
+                newX = Math.max(0, Math.min(newX, window.innerWidth - modalRect.width));
+                newY = Math.max(0, Math.min(newY, window.innerHeight - modalRect.height));
+
+                modal.style.left = newX + 'px';
+                modal.style.top = newY + 'px';
+            });
+
+            document.addEventListener('mouseup', () => {
+                isDragging = false;
+            });
+
+            // 초기 렌더링
+            renderTipsInViewer(TIPS_CONTENTS);
         }
 
-        
-        
+        /**
+         * Tips 뷰어 내 목록 렌더링 (아코디언 방식)
+         */
+        function renderTipsInViewer(tips) {
+            const contentDiv = document.getElementById('tipsViewerContent');
+            if (!contentDiv) return;
+
+            if (tips.length === 0) {
+                contentDiv.innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: #9CA3AF;">
+                        검색 결과가 없습니다.
+                    </div>
+                `;
+                return;
+            }
+
+            // 카테고리별로 그룹화
+            const byCategory = {};
+            tips.forEach(item => {
+                if (!byCategory[item.category]) byCategory[item.category] = [];
+                byCategory[item.category].push(item);
+            });
+
+            let html = '';
+            let tipIndex = 0;
+            Object.keys(byCategory).forEach(category => {
+                html += `
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 12px; font-weight: 600; color: #8B5CF6; margin-bottom: 8px; padding-left: 4px;">
+                            📂 ${category} (${byCategory[category].length})
+                        </div>
+                `;
+                byCategory[category].forEach(item => {
+                    const escapedCategory = item.category.replace(/'/g, "\\'");
+                    const escapedTitle = item.title.replace(/'/g, "\\'");
+                    html += `
+                        <div class="tip-item" onclick="showTipDetail('${escapedCategory}', '${escapedTitle}')"
+                             style="padding: 12px 16px; margin-bottom: 8px; background: white; border-radius: 8px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
+                             onmouseover="this.style.borderColor='#8B5CF6'; this.style.background='#F5F3FF';"
+                             onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white';">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="color: #8B5CF6;">💡</span>
+                                <span style="font-size: 14px; font-weight: 500; color: #333;">${item.title}</span>
+                            </div>
+                        </div>
+                    `;
+                    tipIndex++;
+                });
+                html += '</div>';
+            });
+
+            contentDiv.innerHTML = html;
+        }
+
         /**
          * 아코디언 토글
          */
@@ -9440,8 +9928,46 @@ ${result.answer}`;
         /**
          * Tips 뷰어 내 검색
          */
-        
-        
+        function filterTipsInViewer(query) {
+            const searchTerm = query.toLowerCase().trim();
+            let filtered = TIPS_CONTENTS;
+
+            // 카테고리 필터 적용
+            if (currentTipsCategory !== '전체') {
+                filtered = filtered.filter(item => item.category === currentTipsCategory);
+            }
+
+            // 검색어 필터 적용
+            if (searchTerm) {
+                filtered = filtered.filter(item =>
+                    item.title.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            renderTipsInViewer(filtered);
+        }
+
+        /**
+         * 카테고리 필터
+         */
+        function filterTipsByCategory(category) {
+            currentTipsCategory = category;
+
+            // 버튼 활성화 상태 변경
+            document.querySelectorAll('.tips-category-btn').forEach(btn => {
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // 검색어도 함께 적용
+            const searchInput = document.getElementById('tipsViewerSearch');
+            const query = searchInput ? searchInput.value : '';
+            filterTipsInViewer(query);
+        }
+
         // 페이지 로드 시 Supabase 초기화
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initSupabase);
