@@ -5712,7 +5712,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             // 2순위: File System Access API (매번 폴더 선택 - 확실하게)
             if ('showDirectoryPicker' in window) {
                 try {
-                    // 매번 Inbox 폴더 선택
+                    // 저장할 폴더 안내
+                    alert(`📁 Inbox 폴더를 선택해주세요.\n\n저장 경로:\n${targetInboxPath}`);
+
+                    // 폴더 선택
                     const folderHandle = await window.showDirectoryPicker({
                         mode: 'readwrite'
                     });
