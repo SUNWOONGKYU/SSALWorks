@@ -1,34 +1,186 @@
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📋 S4 개발 3차 단계 안내</h2>
+<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">S4 개발 3차 (QA & Optimization) 안내문</h2>
 
-<h3 style="margin-top: 24px; color: #333;">이 단계에서 수행하는 작업</h3>
+<p style="margin-bottom: 12px;">> <strong>작성일</strong>: 2025-12-17</p>
+<p style="margin-bottom: 12px;">> <strong>버전</strong>: 2.1 (Stage Context 추가)</p>
 
-<p style="margin-bottom: 12px;"><strong>3차 개발 (완성 및 안정화)</strong>을 위한 Order Sheet를 발행합니다.</p>
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
 
-<h4 style="margin-top: 16px; color: #555;">작업 목적</h4>
-<p style="margin-bottom: 12px;">최종 기능을 완성하고 출시 전 안정화 작업을 수행합니다.</p>
+<h3 style="margin-top: 24px; color: #333;">1. Stage 맥락 (Context)</h3>
 
-<h4 style="margin-top: 16px; color: #555;">주요 작업 내용</h4>
+<h4 style="margin-top: 16px; color: #555;">현재 위치</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">┌─────────────────────────────────────────────────────────────────────────┐</p>
+<p style="margin-bottom: 12px;">│                        SSAL Works 개발 흐름                              │</p>
+<p style="margin-bottom: 12px;">├─────────────────────────────────────────────────────────────────────────┤</p>
+<p style="margin-bottom: 12px;">│                                                                         │</p>
+<p style="margin-bottom: 12px;">│   P0~P3        ▶▶▶   S1   ▶▶▶   S2   ▶▶▶   S3   ▶▶▶   [S4]   ▶▶▶   S5  │</p>
+<p style="margin-bottom: 12px;">│   예비단계           개발준비     개발1차     개발2차      개발3차      운영  │</p>
+<p style="margin-bottom: 12px;">│   (기획/설계)        (기반구축)   (핵심기능)  (고급기능)   (QA/최적화)  (배포) │</p>
+<p style="margin-bottom: 12px;">│                                                         ────────       │</p>
+<p style="margin-bottom: 12px;">│                                                         현재 Stage     │</p>
+<p style="margin-bottom: 12px;">│                                                                         │</p>
+<p style="margin-bottom: 12px;">└─────────────────────────────────────────────────────────────────────────┘</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">Stage 간 관계</h4>
+
+<p style="margin-bottom: 12px;">| 단계 | Stage | 설명 | 비고 |</p>
+<p style="margin-bottom: 12px;">|------|-------|------|------|</p>
+<p style="margin-bottom: 12px;">| 이전 | S3 | 개발 2차 - 고급 기능 완료 | ✅ 완료됨 |</p>
+<p style="margin-bottom: 12px;">| <strong>현재</strong> | <strong>S4</strong> | <strong>개발 3차 - QA 및 최적화</strong> | <strong>🔄 진행 중</strong> |</p>
+<p style="margin-bottom: 12px;">| 다음 | S5 | 운영 - 프로덕션 배포 | ⏳ 대기 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">이전 단계에서 완료된 것 (S3)</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">남은 기능 완성</li>
-<li style="margin-bottom: 8px;">전체 시스템 테스트</li>
-<li style="margin-bottom: 8px;">보안 점검</li>
-<li style="margin-bottom: 8px;">성능 테스트</li>
-<li style="margin-bottom: 8px;">문서화 완료</li>
+<li style="margin-bottom: 8px;">✅ AI 서비스 연동 (OpenAI, Claude 등)</li>
+<li style="margin-bottom: 8px;">✅ 결제 시스템 기반 구축</li>
+<li style="margin-bottom: 8px;">✅ 대시보드 기능 고도화</li>
+<li style="margin-bottom: 8px;">✅ 알림 시스템 구축</li>
+<li style="margin-bottom: 8px;">✅ 크레딧 관리 기능</li>
+<li style="margin-bottom: 8px;">✅ API Rate Limiting</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">필요한 입력 정보</h4>
+<h4 style="margin-top: 16px; color: #555;">현재 단계에서 수행할 것 (S4)</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">최종 기능 목록</li>
-<li style="margin-bottom: 8px;">품질 기준</li>
-<li style="margin-bottom: 8px;">출시 요구사항</li>
+<li style="margin-bottom: 8px;">🔄 결제 시스템 연동 (토스 페이먼트)</li>
+<li style="margin-bottom: 8px;">🔄 종합 테스트 (Unit, Integration, E2E)</li>
+<li style="margin-bottom: 8px;">🔄 성능 최적화</li>
+<li style="margin-bottom: 8px;">🔄 버그 수정 및 안정화</li>
+<li style="margin-bottom: 8px;">🔄 결제 보안 검증</li>
+<li style="margin-bottom: 8px;">🔄 테스트 문서화</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">예상 결과물</h4>
+<h4 style="margin-top: 16px; color: #555;">다음 단계에서 수행할 것 (S5)</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">완성된 애플리케이션</li>
-<li style="margin-bottom: 8px;">QA 보고서</li>
-<li style="margin-bottom: 8px;">사용자 문서</li>
+<li style="margin-bottom: 8px;">⏳ 프로덕션 배포 (Vercel)</li>
+<li style="margin-bottom: 8px;">⏳ 도메인 연결 및 SSL 설정</li>
+<li style="margin-bottom: 8px;">⏳ 모니터링 시스템 구축</li>
+<li style="margin-bottom: 8px;">⏳ 백업 및 복구 체계</li>
+<li style="margin-bottom: 8px;">⏳ RLS 정책 프로덕션 적용</li>
+<li style="margin-bottom: 8px;">⏳ 운영 문서화</li>
 </ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">2. Stage 개요</h3>
+
+<p style="margin-bottom: 12px;"><strong>S4 (개발 3차)</strong>는 품질 보증 및 최적화 단계입니다.</p>
+
+<h4 style="margin-top: 16px; color: #555;">Stage 목표</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">결제 시스템 연동 (토스 페이먼트)</li>
+<li style="margin-bottom: 8px;">종합 테스트 (Unit, Integration, E2E)</li>
+<li style="margin-bottom: 8px;">성능 최적화</li>
+<li style="margin-bottom: 8px;">버그 수정 및 안정화</li>
+<li style="margin-bottom: 8px;">보안 감사</li>
+</ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">3. Task 목록 (예상 11개)</h3>
+
+<p style="margin-bottom: 12px;">| Task ID | Task Name | Area | 유형 |</p>
+<p style="margin-bottom: 12px;">|---------|-----------|------|------|</p>
+<p style="margin-bottom: 12px;">| S4F1 | 결제 페이지 UI | Frontend | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4F2 | 결제 완료/실패 페이지 | Frontend | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4BA1 | 결제 API (토스) | Backend_APIs | <strong>Human-AI</strong> |</p>
+<p style="margin-bottom: 12px;">| S4BA2 | 웹훅 처리 API | Backend_APIs | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4BI1 | 토스 페이먼트 모듈 | Backend_Infra | <strong>Human-AI</strong> |</p>
+<p style="margin-bottom: 12px;">| S4S1 | 결제 보안 검증 | Security | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4T1 | Unit 테스트 | Testing | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4T2 | Integration 테스트 | Testing | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4T3 | E2E 테스트 | Testing | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4O1 | 성능 최적화 | DevOps | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S4M1 | 테스트 문서화 | Documentation | AI-Only |</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">4. 작업 규칙</h3>
+
+<h4 style="margin-top: 16px; color: #555;">파일 저장 규칙 (이중 저장)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">Frontend, Backend_APIs → Stage 폴더 + Production 폴더</li>
+<li style="margin-bottom: 8px;">Testing, Documentation → Stage 폴더에만</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">Task ID 코멘트</h4>
+<p style="margin-bottom: 12px;">```javascript</p>
+<p style="margin-bottom: 12px;">// Task ID: S4BA1 - 결제 API (토스)</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">5. 검증 프로세스 (3단계)</h3>
+
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">1단계: Task Agent → 작업 수행</p>
+<p style="margin-bottom: 12px;">2단계: Verification Agent → 검증 (작성자 ≠ 검증자)</p>
+<p style="margin-bottom: 12px;">3단계: Stage Gate → Main Agent 직접 수행</p>
+<p style="margin-bottom: 12px;">4단계: PO 승인 → 테스트 후 승인/거부</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">6. PO(Project Owner) 필수 작업</h3>
+
+<h4 style="margin-top: 16px; color: #555;">S4BI1: 토스 페이먼트 설정</h4>
+
+<p style="margin-bottom: 12px;"><strong>⚠️ 가맹점 심사에 1-2주 소요!</strong></p>
+
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">[1단계: 가맹점 등록]</p>
+<p style="margin-bottom: 12px;">1. https://developers.tosspayments.com 접속</p>
+<p style="margin-bottom: 12px;">2. 가맹점 등록 신청</p>
+<p style="margin-bottom: 12px;">3. 사업자등록증 제출</p>
+<p style="margin-bottom: 12px;">4. 심사 완료 대기</p>
+
+<p style="margin-bottom: 12px;">[2단계: API 키 발급]</p>
+<p style="margin-bottom: 12px;">1. 테스트용 API 키 발급</p>
+<p style="margin-bottom: 12px;">2. 프로덕션용 API 키 발급 (심사 후)</p>
+<p style="margin-bottom: 12px;">3. Vercel 환경변수 설정:</p>
+<p style="margin-bottom: 12px;">   - TOSS_CLIENT_KEY</p>
+<p style="margin-bottom: 12px;">   - TOSS_SECRET_KEY</p>
+
+<p style="margin-bottom: 12px;">[3단계: 웹훅 설정]</p>
+<p style="margin-bottom: 12px;">1. 토스 대시보드 → 웹훅 설정</p>
+<p style="margin-bottom: 12px;">2. 웹훅 URL: https://도메인/api/payment/webhook</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">테스트 실행</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">npm test                    # Unit 테스트</p>
+<p style="margin-bottom: 12px;">npm run test:integration    # Integration 테스트</p>
+<p style="margin-bottom: 12px;">npm run test:e2e            # E2E 테스트</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">7. Stage Gate 완료 기준</h3>
+
+<h4 style="margin-top: 16px; color: #555;">체크리스트</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">[ ] S4F1: 결제 페이지 UI 렌더링 확인</li>
+<li style="margin-bottom: 8px;">[ ] S4F2: 결제 완료/실패 페이지 동작 확인</li>
+<li style="margin-bottom: 8px;">[ ] S4BA1: 결제 API 테스트 (토스 테스트 모드)</li>
+<li style="margin-bottom: 8px;">[ ] S4T1: Unit 테스트 80% 이상 통과</li>
+<li style="margin-bottom: 8px;">[ ] S4T2: Integration 테스트 통과</li>
+<li style="margin-bottom: 8px;">[ ] S4T3: E2E 테스트 통과</li>
+<li style="margin-bottom: 8px;">[ ] S4O1: 페이지 로딩 3초 이내</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">다음 Stage 조건</h4>
+<p style="margin-bottom: 12px;">S4 완료 → S5 시작 가능</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">8. 주의사항</h3>
+
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">⚠️ 토스 페이먼트 가맹점 심사에 1-2주 소요!</p>
+<p style="margin-bottom: 12px;">⚠️ 실제 결제 테스트 전 테스트 모드 확인!</p>
+<p style="margin-bottom: 12px;">⚠️ PG 이용약관 동의 체크박스 필수!</p>
+<p style="margin-bottom: 12px;">⚠️ 테스트 실패 시 배포 금지!</p>
+<p style="margin-bottom: 12px;">```</p>
 
 <hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
 

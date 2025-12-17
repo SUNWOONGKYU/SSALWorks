@@ -1,32 +1,121 @@
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📋 Tech Stack 안내</h2>
+<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">P2-3-3 프로토타입 설계 안내</h2>
 
-<h3 style="margin-top: 24px; color: #333;">이 단계에서 수행하는 작업</h3>
+<p style="margin-bottom: 12px;">> <strong>Stage</strong>: P2 프로젝트 기획</p>
+<p style="margin-bottom: 12px;">> <strong>Task ID</strong>: P2-3-3</p>
+<p style="margin-bottom: 12px;">> <strong>버전</strong>: 2.1 (Stage Context 추가)</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">1. Stage 맥락 (Context)</h3>
+
+<h4 style="margin-top: 16px; color: #555;">P2 Stage 내 항목 위치</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">P2 프로젝트 기획</p>
+<p style="margin-bottom: 12px;">├── P2-1: Directory Structure ✅</p>
+<p style="margin-bottom: 12px;">├── P2-2-1: Requirements ✅</p>
+<p style="margin-bottom: 12px;">├── P2-2-2: User Flows ✅</p>
+<p style="margin-bottom: 12px;">├── P2-2-3: Workflows ✅</p>
+<p style="margin-bottom: 12px;">├── P2-3-1: Design Guidelines ✅</p>
+<p style="margin-bottom: 12px;">├── P2-3-2: Mockup ✅</p>
+<p style="margin-bottom: 12px;">├── [P2-3-3] Prototype ← 현재 항목</p>
+<p style="margin-bottom: 12px;">└── P2-4: Database Design</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">이전 항목에서 완료된 것 (P2-3-2)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">✅ 목업 대상 화면 선정</li>
+<li style="margin-bottom: 8px;">✅ 화면별 목업 제작</li>
+<li style="margin-bottom: 8px;">✅ 와이어프레임 문서화</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">현재 항목에서 수행할 것 (P2-3-3)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">🔄 프로토타입 범위 정의</li>
+<li style="margin-bottom: 8px;">🔄 인터랙션 구현</li>
+<li style="margin-bottom: 8px;">🔄 테스트 시나리오 작성</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">다음 항목에서 수행할 것 (P2-4)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">⏳ 엔티티 정의</li>
+<li style="margin-bottom: 8px;">⏳ 테이블 스키마 설계</li>
+<li style="margin-bottom: 8px;">⏳ ERD 작성</li>
+<li style="margin-bottom: 8px;">⏳ SQL 스크립트 생성</li>
+</ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">2. 이 단계에서 수행하는 작업</h3>
 
 <p style="margin-bottom: 12px;"><strong>인터랙티브 프로토타입 설계</strong>를 위한 Order Sheet를 발행합니다.</p>
 
-<h4 style="margin-top: 16px; color: #555;">작업 목적</h4>
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">3. 작업 목적</h3>
+
 <p style="margin-bottom: 12px;">클릭 가능한 프로토타입을 만들어 사용자 경험을 테스트합니다.</p>
 
-<h4 style="margin-top: 16px; color: #555;">주요 작업 내용</h4>
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">4. 주요 작업 내용</h3>
+
+<h4 style="margin-top: 16px; color: #555;">3.1 프로토타입 범위 정의</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">인터랙션 정의</li>
-<li style="margin-bottom: 8px;">화면 전환 흐름</li>
-<li style="margin-bottom: 8px;">애니메이션/트랜지션</li>
-<li style="margin-bottom: 8px;">사용성 테스트 계획</li>
+<li style="margin-bottom: 8px;">구현할 인터랙션 목록</li>
+<li style="margin-bottom: 8px;">연결할 화면 플로우</li>
+<li style="margin-bottom: 8px;">시뮬레이션할 기능</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">필요한 입력 정보</h4>
+<h4 style="margin-top: 16px; color: #555;">3.2 인터랙션 구현</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">목업 파일</li>
-<li style="margin-bottom: 8px;">User Flow</li>
-<li style="margin-bottom: 8px;">인터랙션 요구사항</li>
+<li style="margin-bottom: 8px;">버튼 클릭, 폼 제출 등 기본 인터랙션</li>
+<li style="margin-bottom: 8px;">화면 전환 애니메이션</li>
+<li style="margin-bottom: 8px;">상태 변화 시뮬레이션</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">예상 결과물</h4>
+<h4 style="margin-top: 16px; color: #555;">3.3 테스트 시나리오 작성</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">인터랙티브 프로토타입</li>
+<li style="margin-bottom: 8px;">주요 사용자 여정 테스트</li>
+<li style="margin-bottom: 8px;">예외 상황 테스트</li>
+<li style="margin-bottom: 8px;">사용성 검증 포인트</li>
+</ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">5. 필요한 입력 정보</h3>
+
+<p style="margin-bottom: 12px;">| 항목 | 설명 |</p>
+<p style="margin-bottom: 12px;">|------|------|</p>
+<p style="margin-bottom: 12px;">| 목업 파일 | P2-3-2 결과물 |</p>
+<p style="margin-bottom: 12px;">| User Flow | P2-2-2 결과물 |</p>
+<p style="margin-bottom: 12px;">| 인터랙션 요구사항 | 시뮬레이션할 기능 |</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">6. 예상 결과물</h3>
+
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">`P3_프로토타입_제작/Frontend/Prototype/` 폴더</li>
+<li style="margin-bottom: 8px;">인터랙티브 프로토타입 HTML/CSS/JS</li>
 <li style="margin-bottom: 8px;">인터랙션 명세서</li>
 </ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">7. Task 정보</h3>
+
+<p style="margin-bottom: 12px;">| 항목 | 값 |</p>
+<p style="margin-bottom: 12px;">|------|-----|</p>
+<p style="margin-bottom: 12px;">| Task Agent | design-specialist |</p>
+<p style="margin-bottom: 12px;">| Verification Agent | qa-specialist |</p>
+<p style="margin-bottom: 12px;">| 실행 유형 | AI-Only |</p>
+<p style="margin-bottom: 12px;">| 의존성 | P2-3-2 완료 |</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">8. 다음 단계</h3>
+
+<p style="margin-bottom: 12px;">P2-3-3 완료 → P2-4 (데이터베이스 설계) 진행</p>
 
 <hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
 

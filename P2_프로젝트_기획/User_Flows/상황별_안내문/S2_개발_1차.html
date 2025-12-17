@@ -1,34 +1,196 @@
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📋 S2 개발 1차 단계 안내</h2>
+<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">S2 개발 1차 (Core Development) 안내문</h2>
 
-<h3 style="margin-top: 24px; color: #333;">이 단계에서 수행하는 작업</h3>
+<p style="margin-bottom: 12px;">> <strong>작성일</strong>: 2025-12-17</p>
+<p style="margin-bottom: 12px;">> <strong>버전</strong>: 2.1 (Stage Context 추가)</p>
 
-<p style="margin-bottom: 12px;"><strong>1차 개발 (핵심 기능 구현)</strong>을 위한 Order Sheet를 발행합니다.</p>
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
 
-<h4 style="margin-top: 16px; color: #555;">작업 목적</h4>
-<p style="margin-bottom: 12px;">MVP(Minimum Viable Product)에 필요한 핵심 기능을 구현합니다.</p>
+<h3 style="margin-top: 24px; color: #333;">1. Stage 맥락 (Context)</h3>
 
-<h4 style="margin-top: 16px; color: #555;">주요 작업 내용</h4>
+<h4 style="margin-top: 16px; color: #555;">현재 위치</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">┌─────────────────────────────────────────────────────────────────────────┐</p>
+<p style="margin-bottom: 12px;">│                        SSAL Works 개발 흐름                              │</p>
+<p style="margin-bottom: 12px;">├─────────────────────────────────────────────────────────────────────────┤</p>
+<p style="margin-bottom: 12px;">│                                                                         │</p>
+<p style="margin-bottom: 12px;">│   P0~P3        ▶▶▶   S1   ▶▶▶   [S2]   ▶▶▶   S3   ▶▶▶   S4   ▶▶▶   S5  │</p>
+<p style="margin-bottom: 12px;">│   예비단계           개발준비      개발1차     개발2차     개발3차     운영  │</p>
+<p style="margin-bottom: 12px;">│   (기획/설계)        (기반구축)    (핵심기능)  (고급기능)  (QA/최적화) (배포) │</p>
+<p style="margin-bottom: 12px;">│                                   ────────                              │</p>
+<p style="margin-bottom: 12px;">│                                   현재 Stage                            │</p>
+<p style="margin-bottom: 12px;">│                                                                         │</p>
+<p style="margin-bottom: 12px;">└─────────────────────────────────────────────────────────────────────────┘</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">Stage 간 관계</h4>
+
+<p style="margin-bottom: 12px;">| 단계 | Stage | 설명 | 비고 |</p>
+<p style="margin-bottom: 12px;">|------|-------|------|------|</p>
+<p style="margin-bottom: 12px;">| 이전 | S1 | 개발 준비 - 기반 구축 완료 | ✅ 완료됨 |</p>
+<p style="margin-bottom: 12px;">| <strong>현재</strong> | <strong>S2</strong> | <strong>개발 1차 - 핵심 기능 구현</strong> | <strong>🔄 진행 중</strong> |</p>
+<p style="margin-bottom: 12px;">| 다음 | S3 | 개발 2차 - 고급 기능 구현 | ⏳ 대기 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">이전 단계에서 완료된 것 (S1)</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">핵심 기능 개발</li>
-<li style="margin-bottom: 8px;">데이터베이스 연동</li>
-<li style="margin-bottom: 8px;">API 개발</li>
-<li style="margin-bottom: 8px;">기본 UI 구현</li>
-<li style="margin-bottom: 8px;">단위 테스트 작성</li>
+<li style="margin-bottom: 8px;">✅ 프론트엔드 기본 구조 설정</li>
+<li style="margin-bottom: 8px;">✅ 디자인 시스템 구축 (SSAL Works 브랜딩)</li>
+<li style="margin-bottom: 8px;">✅ DB 스키마 확정 및 Supabase 적용</li>
+<li style="margin-bottom: 8px;">✅ Google OAuth Provider 설정</li>
+<li style="margin-bottom: 8px;">✅ Vercel 배포 환경 구축</li>
+<li style="margin-bottom: 8px;">✅ 기술 문서화</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">필요한 입력 정보</h4>
+<h4 style="margin-top: 16px; color: #555;">현재 단계에서 수행할 것 (S2)</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">1차 개발 범위 (기능 목록)</li>
-<li style="margin-bottom: 8px;">우선순위</li>
-<li style="margin-bottom: 8px;">기술 명세</li>
+<li style="margin-bottom: 8px;">🔄 인증/인가 시스템 구현 (Google OAuth, 세션 관리)</li>
+<li style="margin-bottom: 8px;">🔄 이메일 시스템 연동 (Resend)</li>
+<li style="margin-bottom: 8px;">🔄 구독 관리 API 개발</li>
+<li style="margin-bottom: 8px;">🔄 프론트엔드 인증 페이지 구현</li>
+<li style="margin-bottom: 8px;">🔄 인증 미들웨어 구축</li>
+<li style="margin-bottom: 8px;">🔄 테스트 인프라 구축</li>
+<li style="margin-bottom: 8px;">🔄 API 문서화</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">예상 결과물</h4>
+<h4 style="margin-top: 16px; color: #555;">다음 단계에서 수행할 것 (S3)</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">핵심 기능 구현 완료</li>
-<li style="margin-bottom: 8px;">API 엔드포인트</li>
-<li style="margin-bottom: 8px;">테스트 코드</li>
+<li style="margin-bottom: 8px;">⏳ AI 서비스 연동 (OpenAI, Claude 등)</li>
+<li style="margin-bottom: 8px;">⏳ 결제 시스템 기반 구축</li>
+<li style="margin-bottom: 8px;">⏳ 대시보드 고도화</li>
+<li style="margin-bottom: 8px;">⏳ 알림 시스템 구축</li>
 </ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">2. Stage 개요</h3>
+
+<p style="margin-bottom: 12px;"><strong>S2 (개발 1차)</strong>는 핵심 기능을 구현하는 단계입니다.</p>
+
+<h4 style="margin-top: 16px; color: #555;">Stage 목표</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">인증/인가 시스템 구축 (Google OAuth, 세션 관리)</li>
+<li style="margin-bottom: 8px;">이메일 시스템 구축 (Resend 연동)</li>
+<li style="margin-bottom: 8px;">구독 관리 API 구현</li>
+<li style="margin-bottom: 8px;">프론트엔드 인증 페이지 구현</li>
+<li style="margin-bottom: 8px;">테스트 인프라 구축</li>
+<li style="margin-bottom: 8px;">API 문서화</li>
+</ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">3. Task 목록 (13개)</h3>
+
+<p style="margin-bottom: 12px;">| Task ID | Task Name | Area | 유형 |</p>
+<p style="margin-bottom: 12px;">|---------|-----------|------|------|</p>
+<p style="margin-bottom: 12px;">| S2F1 | Google 로그인 UI | Frontend | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2F2 | 비밀번호 재설정 UI | Frontend | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2BA1 | Google OAuth API | Backend_APIs | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2BA2 | 이메일 발송 API | Backend_APIs | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2BA3 | 구독 관리 API | Backend_APIs | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2S1 | 인증 미들웨어 | Security | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2BI1 | 이메일 모듈 | Backend_Infra | <strong>Human-AI</strong> |</p>
+<p style="margin-bottom: 12px;">| S2BI2 | 에러 처리/토스트 | Backend_Infra | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2C1 | 학습 콘텐츠 시드 | Content_System | <strong>PO 실행</strong> |</p>
+<p style="margin-bottom: 12px;">| S2D1 | DB 인덱스 최적화 | Database | <strong>PO 실행</strong> |</p>
+<p style="margin-bottom: 12px;">| S2M1 | API 문서화 | Documentation | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2T1 | 인증 API 테스트 | Testing | AI-Only |</p>
+<p style="margin-bottom: 12px;">| S2O1 | Vercel 환경변수 설정 | DevOps | <strong>Human-AI</strong> |</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">4. 작업 규칙</h3>
+
+<h4 style="margin-top: 16px; color: #555;">파일 저장 규칙 (이중 저장)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">Frontend, Backend_APIs, Database → Stage 폴더 + Production 폴더</li>
+<li style="margin-bottom: 8px;">문서 (Documentation, Testing) → Stage 폴더에만</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">Task ID 코멘트</h4>
+<p style="margin-bottom: 12px;">```javascript</p>
+<p style="margin-bottom: 12px;">// Task ID: S2BA1 - Google OAuth API</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<p style="margin-bottom: 12px;">```html</p>
+<p style="margin-bottom: 12px;"><!-- Task ID: S2F1 - Google 로그인 UI --></p>
+<p style="margin-bottom: 12px;">```</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">5. 검증 프로세스 (3단계)</h3>
+
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">1단계: Task Agent → 작업 수행</p>
+<p style="margin-bottom: 12px;">2단계: Verification Agent → 검증 (작성자 ≠ 검증자)</p>
+<p style="margin-bottom: 12px;">3단계: Stage Gate → Main Agent 직접 수행</p>
+<p style="margin-bottom: 12px;">4단계: PO 승인 → 테스트 후 승인/거부</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">6. PO(Project Owner) 필수 작업</h3>
+
+<h4 style="margin-top: 16px; color: #555;">S2BI1: Resend 설정</h4>
+<p style="margin-bottom: 12px;">1. https://resend.com 에서 계정 생성</p>
+<p style="margin-bottom: 12px;">2. API Key 발급</p>
+<p style="margin-bottom: 12px;">3. Vercel 환경변수에 RESEND_API_KEY 추가</p>
+
+<h4 style="margin-top: 16px; color: #555;">S2D1: DB 인덱스 SQL 실행</h4>
+<p style="margin-bottom: 12px;">1. Supabase SQL Editor 접속</p>
+<p style="margin-bottom: 12px;">2. S2D1_indexes.sql 실행</p>
+<p style="margin-bottom: 12px;">3. 인덱스 생성 확인</p>
+
+<h4 style="margin-top: 16px; color: #555;">S2C1: 학습 콘텐츠 시드 SQL 실행</h4>
+<p style="margin-bottom: 12px;">1. Supabase SQL Editor 접속</p>
+<p style="margin-bottom: 12px;">2. seed SQL 실행</p>
+<p style="margin-bottom: 12px;">3. 데이터 확인</p>
+
+<h4 style="margin-top: 16px; color: #555;">S2O1: Vercel 환경변수</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">필수 환경변수:</p>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">RESEND_API_KEY</li>
+<li style="margin-bottom: 8px;">NEXT_PUBLIC_SUPABASE_URL</li>
+<li style="margin-bottom: 8px;">NEXT_PUBLIC_SUPABASE_ANON_KEY</li>
+<li style="margin-bottom: 8px;">SUPABASE_SERVICE_ROLE_KEY</li>
+</ul>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">도메인 연결</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">Whois DNS 설정 (네임서버 고급설정):</p>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">A 레코드: 76.76.21.21</li>
+<li style="margin-bottom: 8px;">CNAME: cname.vercel-dns.com</li>
+<li style="margin-bottom: 8px;">TXT: Vercel 제공 값</li>
+</ul>
+<p style="margin-bottom: 12px;">```</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">7. Stage Gate 완료 기준</h3>
+
+<h4 style="margin-top: 16px; color: #555;">체크리스트</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">[ ] S2F1: Google 로그인 버튼 동작 확인</li>
+<li style="margin-bottom: 8px;">[ ] S2F2: 비밀번호 재설정 플로우 확인</li>
+<li style="margin-bottom: 8px;">[ ] S2BA2: 이메일 발송 테스트 (실제 수신)</li>
+<li style="margin-bottom: 8px;">[ ] S2S1: 인증 미들웨어 동작 확인</li>
+<li style="margin-bottom: 8px;">[ ] S2C1: 학습 콘텐츠 시드 데이터 확인</li>
+<li style="margin-bottom: 8px;">[ ] S2D1: DB 인덱스 생성 확인</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">다음 Stage 조건</h4>
+<p style="margin-bottom: 12px;">S2 완료 → S3 시작 가능</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">8. 주의사항</h3>
+
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">⚠️ 가이드 문서만 작성하고 "완료" 처리 금지!</p>
+<p style="margin-bottom: 12px;">⚠️ PO가 실제 설정을 완료해야 Task 완료!</p>
+<p style="margin-bottom: 12px;">⚠️ 실제 작동 테스트 성공 필수!</p>
+<p style="margin-bottom: 12px;">```</p>
 
 <hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
 

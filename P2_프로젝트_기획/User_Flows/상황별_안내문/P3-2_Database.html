@@ -1,33 +1,128 @@
-<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📋 Database 안내</h2>
+<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">P3-2 데이터베이스 구축 안내</h2>
 
-<h3 style="margin-top: 24px; color: #333;">이 단계에서 수행하는 작업</h3>
+<p style="margin-bottom: 12px;">> <strong>Stage</strong>: P3 프로토타입 제작</p>
+<p style="margin-bottom: 12px;">> <strong>Task ID</strong>: P3-2</p>
+<p style="margin-bottom: 12px;">> <strong>버전</strong>: 2.1 (Stage Context 추가)</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">1. Stage 맥락 (Context)</h3>
+
+<h4 style="margin-top: 16px; color: #555;">P3 Stage 내 항목 위치</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">P3 프로토타입 제작</p>
+<p style="margin-bottom: 12px;">├── P3-1-1: Frontend Prototype ✅</p>
+<p style="margin-bottom: 12px;">├── P3-1-2: Frontend Pages ✅</p>
+<p style="margin-bottom: 12px;">├── [P3-2] Database ← 현재 항목</p>
+<p style="margin-bottom: 12px;">└── P3-3: Scripts</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">이전 항목에서 완료된 것 (P3-1-2)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">✅ 추가 페이지 구현</li>
+<li style="margin-bottom: 8px;">✅ 네비게이션 연결</li>
+<li style="margin-bottom: 8px;">✅ 페이지별 기능 구현</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">현재 항목에서 수행할 것 (P3-2)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">🔄 테이블 생성 (SQL)</li>
+<li style="margin-bottom: 8px;">🔄 RLS 정책 설정</li>
+<li style="margin-bottom: 8px;">🔄 초기 데이터 (Seed) 삽입</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">다음 항목에서 수행할 것 (P3-3)</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">⏳ 유틸리티 스크립트 작성</li>
+<li style="margin-bottom: 8px;">⏳ 자동화 스크립트 개발</li>
+<li style="margin-bottom: 8px;">⏳ 사용 가이드 작성</li>
+</ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">2. 이 단계에서 수행하는 작업</h3>
 
 <p style="margin-bottom: 12px;"><strong>데이터베이스 프로토타입 구축</strong>을 위한 Order Sheet를 발행합니다.</p>
 
-<h4 style="margin-top: 16px; color: #555;">작업 목적</h4>
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">3. 작업 목적</h3>
+
 <p style="margin-bottom: 12px;">설계된 스키마를 기반으로 실제 데이터베이스를 구축합니다.</p>
 
-<h4 style="margin-top: 16px; color: #555;">주요 작업 내용</h4>
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">4. 주요 작업 내용</h3>
+
+<h4 style="margin-top: 16px; color: #555;">3.1 테이블 생성</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">테이블 생성 SQL 작성</li>
-<li style="margin-bottom: 8px;">RLS 정책 적용</li>
-<li style="margin-bottom: 8px;">초기 데이터 투입</li>
-<li style="margin-bottom: 8px;">인덱스 생성</li>
+<li style="margin-bottom: 8px;">DB 설계서 기반 테이블 SQL 작성</li>
+<li style="margin-bottom: 8px;">제약조건 및 인덱스 설정</li>
+<li style="margin-bottom: 8px;">관계(FK) 설정</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">필요한 입력 정보</h4>
+<h4 style="margin-top: 16px; color: #555;">3.2 RLS 정책 설정</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">데이터베이스 설계 문서</li>
-<li style="margin-bottom: 8px;">Supabase/PostgreSQL 접속 정보</li>
-<li style="margin-bottom: 8px;">초기 데이터 샘플</li>
+<li style="margin-bottom: 8px;">테이블별 접근 권한 정책</li>
+<li style="margin-bottom: 8px;">인증 기반 접근 제어</li>
+<li style="margin-bottom: 8px;">역할별 권한 분리</li>
 </ul>
 
-<h4 style="margin-top: 16px; color: #555;">예상 결과물</h4>
+<h4 style="margin-top: 16px; color: #555;">3.3 초기 데이터 (Seed)</h4>
 <ul style="padding-left: 20px; margin-bottom: 15px;">
-<li style="margin-bottom: 8px;">SQL 스키마 파일</li>
+<li style="margin-bottom: 8px;">테스트용 샘플 데이터</li>
+<li style="margin-bottom: 8px;">기본 설정 데이터</li>
+<li style="margin-bottom: 8px;">데모용 데이터</li>
+</ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">5. 필요한 입력 정보</h3>
+
+<p style="margin-bottom: 12px;">| 항목 | 설명 |</p>
+<p style="margin-bottom: 12px;">|------|------|</p>
+<p style="margin-bottom: 12px;">| 데이터베이스 설계 문서 | P2-4 결과물 |</p>
+<p style="margin-bottom: 12px;">| Supabase 접속 정보 | 프로젝트 URL, 키 |</p>
+<p style="margin-bottom: 12px;">| 초기 데이터 샘플 | 시드 데이터 |</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">6. 예상 결과물</h3>
+
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">`P3_프로토타입_제작/Database/` SQL 파일들</li>
+<li style="margin-bottom: 8px;">`Production/Database/` (이중 저장)</li>
 <li style="margin-bottom: 8px;">RLS 정책 파일</li>
 <li style="margin-bottom: 8px;">시드 데이터 파일</li>
 </ul>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">7. Task 정보</h3>
+
+<p style="margin-bottom: 12px;">| 항목 | 값 |</p>
+<p style="margin-bottom: 12px;">|------|-----|</p>
+<p style="margin-bottom: 12px;">| Task Agent | database-specialist |</p>
+<p style="margin-bottom: 12px;">| Verification Agent | qa-specialist |</p>
+<p style="margin-bottom: 12px;">| 실행 유형 | Human-AI |</p>
+<p style="margin-bottom: 12px;">| 의존성 | P2-4 완료 |</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">8. PO 작업 가이드</h3>
+
+<h4 style="margin-top: 16px; color: #555;">Supabase SQL 실행 순서</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">1. 01_create_tables.sql 실행</p>
+<p style="margin-bottom: 12px;">2. 02_rls_policies.sql 실행</p>
+<p style="margin-bottom: 12px;">3. 03_seed_data.sql 실행</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
+
+<h3 style="margin-top: 24px; color: #333;">9. 다음 단계</h3>
+
+<p style="margin-bottom: 12px;">P3-2 완료 → P3-3 (유틸리티 스크립트) 진행</p>
 
 <hr style="margin: 20px 0; border: none; border-top: 1px solid #dee2e6;">
 

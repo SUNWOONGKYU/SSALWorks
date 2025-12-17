@@ -11,7 +11,8 @@ const fs = require('fs');
 const path = require('path');
 
 // 소스 폴더 (MD와 HTML을 같은 폴더에 보관)
-const SOURCE_DIR = path.join(__dirname, '..', 'P2_프로젝트_기획', 'User_Flows', '상황별_안내문');
+// 스크립트가 상황별_안내문 폴더 안에 있으므로 __dirname 사용
+const SOURCE_DIR = __dirname;
 const TARGET_DIR = SOURCE_DIR;  // 같은 폴더에 HTML 생성
 
 // 간단한 MD → HTML 변환 (팝업용)

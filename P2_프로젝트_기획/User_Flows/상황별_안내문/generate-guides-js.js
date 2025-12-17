@@ -10,10 +10,11 @@
 const fs = require('fs');
 const path = require('path');
 
-// HTML 파일 위치 (MD와 같은 폴더)
-const GUIDES_DIR = path.join(__dirname, '..', 'P2_프로젝트_기획', 'User_Flows', '상황별_안내문');
-// 출력 JS 파일 위치
-const OUTPUT_FILE = path.join(__dirname, '..', 'P3_프로토타입_제작', 'Frontend', 'Prototype', 'guides.js');
+// HTML 파일 위치 (스크립트가 상황별_안내문 폴더에 있음)
+const GUIDES_DIR = __dirname;
+// 출력 JS 파일 위치 - Production/Frontend에 저장
+// 상황별_안내문 → User_Flows → P2_프로젝트_기획 → (root) → Production/Frontend
+const OUTPUT_FILE = path.join(__dirname, '..', '..', '..', 'Production', 'Frontend', 'guides.js');
 
 function main() {
     console.log('📋 guides.js 생성 시작...\n');

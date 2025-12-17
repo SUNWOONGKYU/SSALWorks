@@ -1,0 +1,210 @@
+<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">상황별 안내문 시스템</h2>
+
+<h3 style="margin-top: 24px; color: #333;">개요</h3>
+
+<p style="margin-bottom: 12px;">사용자가 사이드바에서 진행 프로세스 단계를 클릭하면 해당 단계의 안내문이 팝업으로 표시됩니다.</p>
+
+<h3 style="margin-top: 24px; color: #333;">시스템 구조</h3>
+
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">상황별_안내문/</p>
+<p style="margin-bottom: 12px;">├── README.md                    ← 이 문서</p>
+<p style="margin-bottom: 12px;">├── P1-1_Vision_Mission.html     ← 안내문 HTML 파일들</p>
+<p style="margin-bottom: 12px;">├── P1-2_Market_Analysis.html</p>
+<p style="margin-bottom: 12px;">├── ...</p>
+<p style="margin-bottom: 12px;">└── (총 25개 HTML 파일)</p>
+
+<p style="margin-bottom: 12px;">        ↓ 빌드 시 번들링</p>
+
+<p style="margin-bottom: 12px;">P3_프로토타입_제작/Frontend/Prototype/</p>
+<p style="margin-bottom: 12px;">└── guides.js                    ← 번들된 JS 파일</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h3 style="margin-top: 24px; color: #333;">동작 흐름</h3>
+
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">1. 사이드바 클릭</p>
+<p style="margin-bottom: 12px;">   └── loadProcessStage(stageId) 호출</p>
+
+<p style="margin-bottom: 12px;">2. STAGE_DATA에서 guideUrl 조회</p>
+<p style="margin-bottom: 12px;">   └── 예: guideUrl: 'guides/P1-1_Vision_Mission.html'</p>
+
+<p style="margin-bottom: 12px;">3. guideUrl에서 키 추출</p>
+<p style="margin-bottom: 12px;">   └── 'P1-1_Vision_Mission'</p>
+
+<p style="margin-bottom: 12px;">4. GUIDE_CONTENTS[키]에서 HTML 로드</p>
+<p style="margin-bottom: 12px;">   └── GUIDE_CONTENTS['P1-1_Vision_Mission']</p>
+
+<p style="margin-bottom: 12px;">5. 팝업에 안내문 표시</p>
+<p style="margin-bottom: 12px;">   └── [확인] / [취소] 버튼</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h3 style="margin-top: 24px; color: #333;">파일 목록 (25개)</h3>
+
+<h4 style="margin-top: 16px; color: #555;">특별단계 (2개)</h4>
+<p style="margin-bottom: 12px;">| 파일명 | 설명 |</p>
+<p style="margin-bottom: 12px;">|--------|------|</p>
+<p style="margin-bottom: 12px;">| SP-1_디렉토리_구조_생성.html | 작업 디렉토리 구조 생성 안내 |</p>
+<p style="margin-bottom: 12px;">| SP-2_SAL_GRID_생성.html | Project SAL Grid 생성 안내 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">P1 사업계획 (3개)</h4>
+<p style="margin-bottom: 12px;">| 파일명 | 설명 |</p>
+<p style="margin-bottom: 12px;">|--------|------|</p>
+<p style="margin-bottom: 12px;">| P1-1_Vision_Mission.html | Vision & Mission 정의 안내 |</p>
+<p style="margin-bottom: 12px;">| P1-2_Market_Analysis.html | 시장 분석 안내 |</p>
+<p style="margin-bottom: 12px;">| P1-3_Business_Model.html | 비즈니스 모델 안내 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">P2 프로젝트 기획 (10개)</h4>
+<p style="margin-bottom: 12px;">| 파일명 | 설명 |</p>
+<p style="margin-bottom: 12px;">|--------|------|</p>
+<p style="margin-bottom: 12px;">| P2-1_Directory_Structure.html | 디렉토리 구조 설계 안내 |</p>
+<p style="margin-bottom: 12px;">| P2-2-1_Requirements.html | 요구사항 정의 안내 |</p>
+<p style="margin-bottom: 12px;">| P2-2-2_User_Flows.html | 사용자 흐름 설계 안내 |</p>
+<p style="margin-bottom: 12px;">| P2-2-3_Workflows.html | 워크플로우 설계 안내 |</p>
+<p style="margin-bottom: 12px;">| P2-3-1_Design_Guidelines.html | 디자인 가이드라인 안내 |</p>
+<p style="margin-bottom: 12px;">| P2-3-2_Mockup.html | 목업 제작 안내 |</p>
+<p style="margin-bottom: 12px;">| P2-3-3_Prototype.html | 프로토타입 설계 안내 |</p>
+<p style="margin-bottom: 12px;">| P2-4_Database_Design.html | 데이터베이스 설계 안내 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">P3 프로토타입 제작 (4개)</h4>
+<p style="margin-bottom: 12px;">| 파일명 | 설명 |</p>
+<p style="margin-bottom: 12px;">|--------|------|</p>
+<p style="margin-bottom: 12px;">| P3-1-1_Frontend_Prototype.html | 프론트엔드 프로토타입 안내 |</p>
+<p style="margin-bottom: 12px;">| P3-1-2_Frontend_Pages.html | 프론트엔드 페이지 개발 안내 |</p>
+<p style="margin-bottom: 12px;">| P3-2_Database.html | 데이터베이스 구축 안내 |</p>
+<p style="margin-bottom: 12px;">| P3-3_Scripts.html | 스크립트 개발 안내 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">S 개발단계 (5개)</h4>
+<p style="margin-bottom: 12px;">| 파일명 | 설명 |</p>
+<p style="margin-bottom: 12px;">|--------|------|</p>
+<p style="margin-bottom: 12px;">| S1_개발_준비.html | 개발 준비 단계 안내 |</p>
+<p style="margin-bottom: 12px;">| S2_개발_1차.html | 개발 1차 안내 |</p>
+<p style="margin-bottom: 12px;">| S3_개발_2차.html | 개발 2차 안내 |</p>
+<p style="margin-bottom: 12px;">| S4_개발_3차.html | 개발 3차 안내 |</p>
+<p style="margin-bottom: 12px;">| S5_운영.html | 운영 단계 안내 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">기타 (3개)</h4>
+<p style="margin-bottom: 12px;">| 파일명 | 설명 |</p>
+<p style="margin-bottom: 12px;">|--------|------|</p>
+<p style="margin-bottom: 12px;">| Welcome.html | 환영 메시지 |</p>
+<p style="margin-bottom: 12px;">| Project_Example.html | 예시 프로젝트 안내 |</p>
+<p style="margin-bottom: 12px;">| Project_Work.html | 프로젝트 작업 안내 |</p>
+
+<h3 style="margin-top: 24px; color: #333;">빌드 방법</h3>
+
+<h4 style="margin-top: 16px; color: #555;">guides.js 생성 스크립트</h4>
+
+<p style="margin-bottom: 12px;">```bash</p>
+<p style="margin-bottom: 12px;">node scripts/generate-guides-js.js</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">스크립트 위치</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">scripts/generate-guides-js.js</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">스크립트 동작</h4>
+<p style="margin-bottom: 12px;">1. `상황별_안내문/` 폴더의 모든 HTML 파일 읽기</p>
+<p style="margin-bottom: 12px;">2. 파일명(확장자 제외)을 키로, 내용을 값으로 저장</p>
+<p style="margin-bottom: 12px;">3. `guides.js` 파일 생성</p>
+
+<h4 style="margin-top: 16px; color: #555;">생성되는 파일</h4>
+<p style="margin-bottom: 12px;">```</p>
+<p style="margin-bottom: 12px;">P3_프로토타입_제작/Frontend/Prototype/guides.js</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">guides.js 구조</h4>
+<p style="margin-bottom: 12px;">```javascript</p>
+<p style="margin-bottom: 12px;">const GUIDE_CONTENTS = {</p>
+<p style="margin-bottom: 12px;">    'P1-1_Vision_Mission': '<h2>...</h2>...',</p>
+<p style="margin-bottom: 12px;">    'P1-2_Market_Analysis': '<h2>...</h2>...',</p>
+<p style="margin-bottom: 12px;">    // ...</p>
+<p style="margin-bottom: 12px;">};</p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h3 style="margin-top: 24px; color: #333;">안내문 HTML 작성 가이드</h3>
+
+<h4 style="margin-top: 16px; color: #555;">기본 구조</h4>
+<p style="margin-bottom: 12px;">```html</p>
+<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">
+<p style="margin-bottom: 12px;">    [이모지] [제목]</p>
+<p style="margin-bottom: 12px;"></h2></p>
+
+<p style="margin-bottom: 12px;"><p>[간단한 설명]</p></p>
+
+<h3 style="margin-top: 24px; color: #333;">[섹션 제목]</h3>
+<p style="margin-bottom: 12px;"><ul style="padding-left: 20px;"></p>
+<p style="margin-bottom: 12px;">    <li style="margin-bottom: 8px;">[항목]</li></p>
+<p style="margin-bottom: 12px;"></ul></p>
+
+<p style="margin-bottom: 12px;"><div style="margin-top: 16px; padding: 12px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid var(--primary);"></p>
+<p style="margin-bottom: 12px;">    <strong>[아이콘] [강조 제목]:</strong> [내용]</p>
+<p style="margin-bottom: 12px;"></div></p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h4 style="margin-top: 16px; color: #555;">스타일 가이드</h4>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">제목: `var(--primary-dark)` 색상, 하단 보더</li>
+<li style="margin-bottom: 8px;">섹션 제목: `#333` 색상, 상단 마진 24px</li>
+<li style="margin-bottom: 8px;">리스트: 좌측 패딩 20px</li>
+<li style="margin-bottom: 8px;">강조 박스: 배경 `#f0fdf4`, 좌측 보더</li>
+</ul>
+
+<h3 style="margin-top: 24px; color: #333;">새 안내문 추가 방법</h3>
+
+<p style="margin-bottom: 12px;">1. `상황별_안내문/` 폴더에 HTML 파일 생성</p>
+<p style="margin-bottom: 12px;">2. 위 작성 가이드에 따라 내용 작성</p>
+<p style="margin-bottom: 12px;">3. `node scripts/generate-guides-js.js` 실행</p>
+<p style="margin-bottom: 12px;">4. `index.html`의 STAGE_DATA에 guideUrl 추가</p>
+
+<h3 style="margin-top: 24px; color: #333;">안내문 표시 규칙</h3>
+
+<h4 style="margin-top: 16px; color: #555;">프로세스 단계별 안내문 규칙</h4>
+
+<p style="margin-bottom: 12px;">| 단계 | 안내문 표시 레벨 | 설명 |</p>
+<p style="margin-bottom: 12px;">|------|-----------------|------|</p>
+<p style="margin-bottom: 12px;">| P1 사업계획 | <strong>하위 항목별</strong> | 각 하위 항목 클릭 시 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| P2 프로젝트 기획 | <strong>하위 항목별</strong> | 각 하위 항목 클릭 시 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| P3 프로토타입 제작 | <strong>하위 항목별</strong> | 각 하위 항목 클릭 시 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| ☆ Project SAL Grid 생성 | <strong>Phase 레벨</strong> | Phase 클릭 시에만 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| S1 개발 준비 | <strong>Phase 레벨</strong> | Phase 클릭 시에만 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| S2 개발 1차 | <strong>Phase 레벨</strong> | Phase 클릭 시에만 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| S3 개발 2차 | <strong>Phase 레벨</strong> | Phase 클릭 시에만 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| S4 개발 3차 | <strong>Phase 레벨</strong> | Phase 클릭 시에만 안내문 표시 |</p>
+<p style="margin-bottom: 12px;">| S5 운영 | <strong>Phase 레벨</strong> | Phase 클릭 시에만 안내문 표시 |</p>
+
+<h4 style="margin-top: 16px; color: #555;">규칙 설명</h4>
+
+<p style="margin-bottom: 12px;"><strong>SAL Grid 생성 이전 (P1, P2, P3)</strong>:</p>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">각 하위 항목별로 안내문이 표시됨</li>
+<li style="margin-bottom: 8px;">사용자가 개별 작업 항목을 클릭하면 해당 안내문 팝업이 뜸</li>
+<li style="margin-bottom: 8px;">`loadProcessStage()` 함수로 안내문 로드</li>
+</ul>
+
+<p style="margin-bottom: 12px;"><strong>SAL Grid 생성 이후 (S1 ~ S5)</strong>:</p>
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;">Phase 레벨에서만 안내문이 표시됨</li>
+<li style="margin-bottom: 8px;">하위 항목 클릭 시 안내문이 뜨지 않음</li>
+<li style="margin-bottom: 8px;">이유: SAL Grid가 생성된 후에는 Project SAL Grid에서 작업이 관리되기 때문</li>
+<li style="margin-bottom: 8px;">하위 항목은 폴더 구조 표시 목적으로만 사용</li>
+</ul>
+
+<h4 style="margin-top: 16px; color: #555;">코드 구현</h4>
+
+<p style="margin-bottom: 12px;">```javascript</p>
+<p style="margin-bottom: 12px;">// P1/P2/P3 하위 항목 (안내문 O)</p>
+<p style="margin-bottom: 12px;"><div class="process-small" onclick="loadProcessStage('biz_0_1', 'Vision & Mission', 'P1')"></p>
+
+<p style="margin-bottom: 12px;">// S1~S5 하위 항목 (안내문 X - onclick 없음)</p>
+<p style="margin-bottom: 12px;"><div class="process-small"></p>
+<p style="margin-bottom: 12px;">```</p>
+
+<h3 style="margin-top: 24px; color: #333;">연관 파일</h3>
+
+<ul style="padding-left: 20px; margin-bottom: 15px;">
+<li style="margin-bottom: 8px;"><strong>스크립트</strong>: `scripts/generate-guides-js.js`</li>
+<li style="margin-bottom: 8px;"><strong>번들 파일</strong>: `P3_프로토타입_제작/Frontend/Prototype/guides.js`</li>
+<li style="margin-bottom: 8px;"><strong>메인 HTML</strong>: `P3_프로토타입_제작/Frontend/Prototype/index.html`</li>
+<li style="margin-bottom: 8px;"><strong>STAGE_DATA</strong>: index.html 내 JavaScript 객체</li>
+</ul>
