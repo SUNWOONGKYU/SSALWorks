@@ -318,18 +318,25 @@
 
                 script.onload = () => {
                     console.log('Supabase 스크립트 로드됨, createClient 확인 중...');
+                    console.log('window.supabase:', window.supabase);
+                    console.log('window.Supabase:', window.Supabase);
+
                     // 스크립트 로드 후 supabase 객체가 준비될 때까지 대기
                     let attempts = 0;
                     const checkReady = setInterval(() => {
                         attempts++;
-                        console.log(`Supabase 확인 시도 ${attempts}:`, typeof window.supabase);
+                        const sb = window.supabase || window.Supabase;
+                        console.log(`Supabase 확인 시도 ${attempts}:`, sb);
 
-                        if (window.supabase && window.supabase.createClient) {
+                        if (sb && sb.createClient) {
                             clearInterval(checkReady);
+                            // window.supabase로 통일
+                            if (!window.supabase) window.supabase = window.Supabase;
                             console.log('Supabase createClient 준비 완료');
                             resolve();
                         } else if (attempts >= 50) {
                             clearInterval(checkReady);
+                            console.error('타임아웃 - window keys:', Object.keys(window).filter(k => k.toLowerCase().includes('supa')));
                             reject(new Error('Supabase 초기화 타임아웃'));
                         }
                     }, 100);
