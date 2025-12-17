@@ -10,10 +10,11 @@
 const fs = require('fs');
 const path = require('path');
 
-// Order Sheet 템플릿 폴더 위치
-const TEMPLATES_DIR = path.join(__dirname, '..', 'P2_프로젝트_기획', 'User_Flows', 'Order_Sheet_템플릿');
-// 출력 JS 파일 위치
-const OUTPUT_FILE = path.join(__dirname, '..', 'P3_프로토타입_제작', 'Frontend', 'Prototype', 'ordersheets.js');
+// Order Sheet 템플릿 폴더 위치 (스크립트가 Order_Sheet_템플릿 폴더에 있음)
+const TEMPLATES_DIR = __dirname;
+// 출력 JS 파일 위치 - Production/Frontend에 저장
+// Order_Sheet_템플릿 → User_Flows → P2_프로젝트_기획 → (root) → Production/Frontend
+const OUTPUT_FILE = path.join(__dirname, '..', '..', '..', 'Production', 'Frontend', 'ordersheets.js');
 
 /**
  * 디렉토리를 재귀적으로 탐색하여 모든 MD 파일 찾기

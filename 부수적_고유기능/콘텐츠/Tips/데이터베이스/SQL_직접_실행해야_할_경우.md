@@ -2,242 +2,253 @@
 
 ## 핵심 요약
 
-Claude Code가 SQL 작업을 직접 할 수 없는 경우가 있습니다. 테이블 생성, RLS 정책 설정, 인덱스 추가 등은 Supabase SQL Editor에서 직접 실행해야 합니다. Claude Code에게 SQL을 작성하게 하고 사용자가 직접 실행하는 방식으로 진행하세요.
+Claude Code가 SQL을 직접 실행할 수 있는 경우도 있고, 사용자가 직접 실행해야 하는 경우도 있습니다. MCP 서버 설정이나 CLI 도구가 있으면 Claude Code가 대신 실행할 수 있습니다.
 
-## Claude Code가 직접 실행할 수 없는 작업
+## Claude Code가 SQL을 직접 실행할 수 있는 경우
 
-### 직접 실행 필요 목록
+### 전제조건
 
-| 작업 유형 | 예시 | 이유 |
-|----------|------|------|
-| DDL (스키마 변경) | CREATE TABLE, ALTER TABLE | 관리자 권한 필요 |
-| RLS 정책 | CREATE POLICY, ALTER POLICY | 보안 관련 |
-| 인덱스 | CREATE INDEX | DB 구조 변경 |
-| 함수/트리거 | CREATE FUNCTION, CREATE TRIGGER | 서버사이드 코드 |
-| 권한 설정 | GRANT, REVOKE | 보안 관련 |
-| Extension | CREATE EXTENSION | 시스템 설정 |
+| 방법 | 필요 설정 | 설명 |
+|------|----------|------|
+| **Supabase MCP 서버** | MCP 서버 설정 | 가장 권장되는 방법 |
+| **Supabase CLI** | CLI 설치 + 프로젝트 연결 | 터미널에서 실행 |
+| **psql 클라이언트** | psql 설치 + 연결 문자열 | PostgreSQL 직접 연결 |
 
-### Claude Code가 할 수 있는 작업
-
-| 작업 유형 | 가능 여부 | 방법 |
-|----------|----------|------|
-| SQL 작성 | ✅ 가능 | 코드 생성 |
-| 파일 저장 | ✅ 가능 | .sql 파일 생성 |
-| 문법 검증 | ✅ 가능 | 리뷰 |
-| 실행 | ❌ 불가 | 사용자 직접 실행 |
-
-## 작업 흐름
-
-### 1단계: Claude Code에게 SQL 작성 요청
+### 1. Supabase MCP 서버 (권장)
 
 ```
-"users 테이블 생성 SQL 작성해줘.
-- id: UUID (PK)
-- email: VARCHAR(255) UNIQUE
-- created_at: TIMESTAMP
-- profile: JSONB"
+MCP 서버가 설정되어 있으면:
+✅ Claude Code가 SQL 직접 실행 가능
+✅ 테이블 생성, RLS 정책, 인덱스 등 모두 가능
 ```
 
-### 2단계: SQL 파일 확인
+**설정 확인:**
+```
+claude mcp list
 
-```sql
--- Claude Code가 생성한 SQL
-CREATE TABLE users (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  profile JSONB DEFAULT '{}'::jsonb
-);
+출력에 supabase가 있으면 설정됨:
+- supabase: connected
 ```
 
-### 3단계: Supabase SQL Editor에서 실행
+**MCP로 실행 예시:**
+```
+"users 테이블 생성해줘"
+→ Claude Code가 MCP를 통해 직접 CREATE TABLE 실행
+```
+
+### 2. Supabase CLI
 
 ```
+CLI가 설치되고 프로젝트가 연결되어 있으면:
+✅ Claude Code가 supabase db 명령어로 실행 가능
+```
+
+**설정 확인:**
+```bash
+supabase --version  # CLI 설치 확인
+supabase status     # 프로젝트 연결 확인
+```
+
+**CLI로 실행 예시:**
+```bash
+# Claude Code가 이 명령을 실행
+supabase db execute -f create_users.sql
+```
+
+### 3. psql 클라이언트
+
+```
+psql이 설치되고 연결 문자열이 있으면:
+✅ Claude Code가 psql 명령으로 실행 가능
+```
+
+**설정 확인:**
+```bash
+psql --version  # psql 설치 확인
+```
+
+**연결 문자열 필요:**
+```
+DATABASE_URL=postgresql://user:password@host:port/database
+```
+
+**psql로 실행 예시:**
+```bash
+# Claude Code가 이 명령을 실행
+psql "$DATABASE_URL" -f create_users.sql
+psql "$DATABASE_URL" -c "CREATE TABLE users (...);"
+```
+
+## Claude Code 대신 실행 요청 방법
+
+### MCP가 설정된 경우
+
+```
+"MCP로 users 테이블 생성해줘"
+
+"Supabase MCP 써서 이 SQL 실행해줘:
+CREATE TABLE products (...);"
+```
+
+### CLI가 설정된 경우
+
+```
+"Supabase CLI로 이 SQL 파일 실행해줘"
+
+"supabase db execute로 스키마 적용해줘"
+```
+
+## 사용자가 직접 실행해야 하는 경우
+
+### 직접 실행이 필요한 상황
+
+| 상황 | 이유 | 대안 |
+|------|------|------|
+| MCP 미설정 | Claude Code가 DB에 접근 불가 | MCP 설정 또는 SQL Editor |
+| CLI 미설치 | 명령어 실행 불가 | CLI 설치 또는 SQL Editor |
+| 보안 제한 | 연결 정보 없음 | SQL Editor에서 직접 |
+| 특수 권한 필요 | 슈퍼유저 권한 등 | Dashboard에서 직접 |
+
+### 직접 실행 필요 시 작업 흐름
+
+```
+[1단계: Claude Code에게 SQL 작성 요청]
+"users 테이블 생성 SQL 작성해줘"
+
+[2단계: SQL 파일 확인]
+Claude Code가 .sql 파일 생성
+
+[3단계: Supabase SQL Editor에서 실행]
 1. Supabase Dashboard 접속
 2. SQL Editor 클릭
 3. SQL 붙여넣기
 4. Run 버튼 클릭
-5. 결과 확인
+
+[4단계: 결과 공유]
+"SQL 실행 완료됐어" 또는 "이런 오류 발생: [오류]"
 ```
 
-### 4단계: 실행 결과 공유
+## 설정 방법
 
-```
-"SQL 실행했어. 결과:
-- Success: Query executed successfully
-또는
-- Error: [오류 메시지]"
+### Supabase MCP 서버 설정
+
+```bash
+# MCP 서버 추가
+claude mcp add supabase
+
+# 또는 설정 파일에서 추가
+# .claude/mcp_servers.json
 ```
 
-## 상황별 요청 방법
+**설정 후 확인:**
+```
+"Supabase MCP 연결 상태 확인해줘"
+```
+
+### Supabase CLI 설정
+
+```bash
+# CLI 설치
+npm install -g supabase
+
+# 로그인
+supabase login
+
+# 프로젝트 연결
+supabase link --project-ref [project-id]
+```
+
+**설정 후 확인:**
+```
+"Supabase CLI로 DB 상태 확인해줘"
+```
+
+## 작업 유형별 실행 방법
 
 ### 테이블 생성
 
 ```
-"다음 테이블 생성 SQL 만들어줘:
+[MCP 있을 때]
+"MCP로 users 테이블 생성해줘"
+→ Claude Code가 직접 실행
 
-테이블명: products
-컬럼:
-- id: UUID (PK)
-- name: TEXT
-- price: INTEGER
-- category_id: UUID (FK → categories)
-- created_at: TIMESTAMP
-
-외래키 제약조건과 인덱스도 포함해줘"
+[MCP 없을 때]
+"users 테이블 생성 SQL 작성해줘"
+→ 사용자가 SQL Editor에서 실행
 ```
 
 ### RLS 정책 설정
 
 ```
-"users 테이블에 RLS 정책 설정 SQL 만들어줘:
-- SELECT: 모든 사용자 가능
-- INSERT: 인증된 사용자만
-- UPDATE/DELETE: 본인 데이터만"
+[CLI 있을 때]
+"CLI로 RLS 정책 SQL 실행해줘"
+→ Claude Code가 supabase db execute 실행
+
+[CLI 없을 때]
+"RLS 정책 SQL 작성해줘"
+→ 사용자가 SQL Editor에서 실행
 ```
 
 ### 인덱스 추가
 
 ```
-"products 테이블에 인덱스 추가 SQL 만들어줘:
-- category_id 컬럼 인덱스
-- name 컬럼 검색용 인덱스
-- created_at 정렬용 인덱스"
+[psql 있을 때]
+"psql로 인덱스 추가해줘"
+→ Claude Code가 psql -c 명령 실행
+
+[psql 없을 때]
+"인덱스 추가 SQL 만들어줘"
+→ 사용자가 SQL Editor에서 실행
 ```
 
-### 함수 생성
+## 권장 설정
+
+### 가장 편리한 방법: MCP 서버 설정
 
 ```
-"사용자 통계 조회 함수 SQL 만들어줘:
-- 함수명: get_user_stats
-- 파라미터: user_id UUID
-- 반환: 주문 수, 총 결제액, 마지막 주문일"
+✅ 한 번 설정하면 이후 모든 SQL 작업을 Claude Code가 대신 실행
+✅ "~해줘"라고만 하면 됨
+✅ SQL Editor 왔다갔다 불필요
+
+설정 명령:
+claude mcp add supabase
 ```
 
-## SQL Editor 사용법
-
-### Supabase Dashboard에서
+### 차선책: Supabase CLI 설정
 
 ```
-1. 프로젝트 선택
-2. 왼쪽 메뉴 → SQL Editor
-3. New Query 또는 기존 쿼리 선택
-4. SQL 입력
-5. Run (Ctrl/Cmd + Enter)
-6. 결과 확인
+✅ 파일 기반 SQL 실행 가능
+✅ 마이그레이션 관리 가능
+✅ 버전 관리와 연동 용이
 ```
 
-### 여러 SQL 실행
-
-```sql
--- 여러 명령을 한 번에 실행 가능
--- 각 명령은 세미콜론으로 구분
-
-CREATE TABLE table1 (...);
-
-CREATE TABLE table2 (...);
-
-CREATE INDEX idx_name ON table1 (column);
-```
-
-### 오류 발생 시
+## 현재 설정 확인 요청
 
 ```
-오류 메시지 복사해서 Claude Code에게:
-
-"이 SQL 실행했는데 오류 발생:
-[오류 메시지]
-
-어떻게 수정해야 해?"
-```
-
-## 작업 유형별 템플릿
-
-### 테이블 생성 SQL 요청 템플릿
-
-```
-"[테이블명] 테이블 생성 SQL 작성해줘:
-
-컬럼:
-- [컬럼1]: [타입] [제약조건]
-- [컬럼2]: [타입] [제약조건]
-
-필요한 것:
-- [ ] 기본키
-- [ ] 외래키
-- [ ] 인덱스
-- [ ] RLS 정책
-- [ ] 기본값
-
-Database 폴더에 저장해줘"
-```
-
-### RLS 정책 요청 템플릿
-
-```
-"[테이블명] 테이블 RLS 정책 SQL 작성해줘:
-
-권한:
-- SELECT: [누가 가능]
-- INSERT: [누가 가능]
-- UPDATE: [누가 가능]
-- DELETE: [누가 가능]
-
-조건:
-- [추가 조건]"
-```
-
-## 실행 후 확인
-
-### 테이블 생성 확인
-
-```sql
--- 테이블 존재 확인
-SELECT * FROM information_schema.tables
-WHERE table_schema = 'public';
-
--- 컬럼 확인
-SELECT column_name, data_type
-FROM information_schema.columns
-WHERE table_name = '테이블명';
-```
-
-### RLS 정책 확인
-
-```sql
--- 정책 목록 확인
-SELECT * FROM pg_policies
-WHERE tablename = '테이블명';
-```
-
-### 인덱스 확인
-
-```sql
--- 인덱스 목록 확인
-SELECT indexname, indexdef
-FROM pg_indexes
-WHERE tablename = '테이블명';
+"현재 Supabase 연결 방법 확인해줘:
+- MCP 서버 설정됐어?
+- CLI 설치됐어?
+- psql 사용 가능해?"
 ```
 
 ## 체크리스트
 
 ### SQL 실행 전 확인
 
+- [ ] MCP/CLI/psql 중 하나 설정됐는가?
+- [ ] DB 연결 확인됐는가?
 - [ ] SQL 문법 검토했는가?
-- [ ] 테이블/컬럼명 올바른가?
-- [ ] 데이터 타입 적절한가?
-- [ ] 기존 테이블에 영향 없는가?
-- [ ] 백업했는가? (구조 변경 시)
+- [ ] 백업 필요한 작업인가?
 
-### SQL 실행 후 확인
+### 설정이 안 된 경우
 
-- [ ] 오류 없이 실행됐는가?
-- [ ] 테이블/인덱스 생성 확인했는가?
-- [ ] RLS 정책 적용 확인했는가?
-- [ ] 애플리케이션에서 정상 동작하는가?
+- [ ] SQL 파일 생성 요청
+- [ ] SQL Editor에서 직접 실행
+- [ ] 실행 결과 Claude Code에게 공유
 
 ## 주의사항
 
+- MCP/CLI 설정 시 연결 정보(비밀번호 등) 보안 주의
 - 프로덕션 DB에서는 더욱 신중하게
 - 중요 변경 전 백업 필수
 - DROP/DELETE 명령어 실행 전 재확인
