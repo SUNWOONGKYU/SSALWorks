@@ -250,32 +250,51 @@ Main Agent → 사용자에게 작업 및 검증 결과 보고
 - ❌ 세션 시작 시 자동으로 Order 찾기
 - ❌ AI가 먼저 확인하고 작업 시작
 
-**현재 방식 (적용 중):**
-- ✅ **사용자가 명시적으로 "Order Sheet 보냈으니 작업해라" 요청**
-- ✅ **요청이 있을 때만 Inbox 확인 및 Order 처리**
-- ✅ **사용자 지시 없이는 Inbox를 확인하지 않음**
+**현재 방식 (2025-12-18 업데이트):**
+- ✅ **사용자가 대시보드에서 Order Sheet 작성 후 클립보드에 복사**
+- ✅ **사용자가 Claude Code에 직접 붙여넣기로 Order 전달**
+- ✅ **Claude Code가 Order Sheet를 Orders 폴더에 저장 후 작업 시작**
+- ✅ **Claude Code가 작업 완료 후 Reports 폴더에 결과 저장**
+- ✅ **사용자가 대시보드의 "Reports 불러오기" 버튼으로 결과 확인**
 
 **동작 원칙:**
 ```
-사용자: "Order Sheet 보냈어, 처리해줘"
+[Order Sheet 전달]
+사용자: 대시보드에서 Order Sheet 작성
     ↓
-AI: Inbox 확인
+사용자: "Order Sheet 복사하기" 버튼 클릭 → 클립보드에 복사
+    ↓
+사용자: Claude Code에 붙여넣기
+    ↓
+AI: Order Sheet를 Human_ClaudeCode_Bridge/Orders/에 저장 (원칙!)
     ↓
 AI: Order 읽고 작업 시작
     ↓
-AI: 작업 완료 후 Outbox에 결과 전송
+AI: 작업 완료 후 Human_ClaudeCode_Bridge/Reports/에 결과 저장
+
+[결과 확인]
+사용자: 대시보드에서 "Reports 불러오기" 버튼 클릭
+    ↓
+대시보드: Reports 폴더의 파일 목록 표시
+    ↓
+사용자: 원하는 Report 파일 선택하여 확인
+```
+
+**폴더 구조:**
+```
+Human_ClaudeCode_Bridge/
+├── Orders/     # Order Sheet 저장 (Claude Code가 받으면 여기 저장!)
+└── Reports/    # 작업 결과 보고서 저장
 ```
 
 **금지 사항:**
-- ❌ 세션 시작 시 자동 Inbox 확인 금지
-- ❌ 작업 완료 후 자동 Inbox 확인 금지
-- ❌ "새 작업 발견했습니다" 자동 알림 금지
-- ❌ 사용자 요청 없이 Order 처리 시도 금지
+- ❌ 세션 시작 시 자동 Orders 폴더 확인 금지
+- ❌ Order Sheet를 받았는데 Orders 폴더에 저장하지 않고 바로 작업 시작 금지
 
 **허용 사항:**
-- ✅ 사용자가 "Order 처리해줘" 요청 시에만 Inbox 확인
-- ✅ 사용자가 명시적으로 지시한 경우에만 Order 읽기
-- ✅ 사용자 승인 후에만 작업 시작
+- ✅ 사용자가 Order Sheet를 붙여넣으면 Orders 폴더에 저장
+- ✅ 저장 후 작업 시작
+- ✅ 작업 완료 후 Reports 폴더에 결과 저장
 
 ---
 
@@ -331,9 +350,9 @@ AI: 작업 완료 후 Outbox에 결과 전송
      3. 이전 로그 링크 추가
    - 30일 이상 된 로그 → `archive/`로 이동
 
-2. **필요시 `Web_ClaudeCode_Bridge/outbox/`에 결과 보고**
+2. **필요시 `Human_ClaudeCode_Bridge/Reports/`에 결과 보고**
    - 작업 완료 JSON 파일 생성
-   - 웹사이트에서 확인 가능하도록
+   - 사용자가 직접 파일 확인
 
 ### 📂 작업 결과물 저장 2대 규칙 (2025-12-13 확정)
 
@@ -1036,9 +1055,9 @@ GitHub 토큰 설정이 필요합니다. 진행하시겠습니까?"
 
    **작업 완료 → 검증 → 문서화 → 보고 순서**
 
-   **📋 필수 생성 파일 (outbox에 저장):**
+   **📋 필수 생성 파일 (Reports에 저장):**
 
-   a) **작업 결과 보고서** (`Web_ClaudeCode_Bridge/outbox/`)
+   a) **작업 결과 보고서** (`Human_ClaudeCode_Bridge/Reports/`)
       ```
       파일명 예시: agenda3_faq_system_completed.json
       또는: task_[작업명]_completed.json
@@ -1050,7 +1069,7 @@ GitHub 토큰 설정이 필요합니다. 진행하시겠습니까?"
       - 완료 상태
       ```
 
-   b) **검증 결과 보고서** (`Web_ClaudeCode_Bridge/outbox/`)
+   b) **검증 결과 보고서** (`Human_ClaudeCode_Bridge/Reports/`)
       ```
       파일명 예시: agenda3_faq_verification_report.json
       또는: task_[작업명]_verification.json
@@ -1082,8 +1101,8 @@ GitHub 토큰 설정이 필요합니다. 진행하시겠습니까?"
 
    **Project Grid가 아닌 모든 작업:**
    - ✅ 반드시 검증 수행
-   - ✅ 작업 결과 보고서 생성 (outbox)
-   - ✅ 검증 결과 보고서 생성 (outbox)
+   - ✅ 작업 결과 보고서 생성 (Reports)
+   - ✅ 검증 결과 보고서 생성 (Reports)
    - ✅ 프로젝트 문서화 (해당 폴더)
 
 5. **최종 완료 보고**
@@ -1101,8 +1120,8 @@ GitHub 토큰 설정이 필요합니다. 진행하시겠습니까?"
    - ✅ [검증 항목 2]
 
    생성된 문서:
-   - ✅ Web_ClaudeCode_Bridge/outbox/[작업명]_completed.json
-   - ✅ Web_ClaudeCode_Bridge/outbox/[작업명]_verification.json
+   - ✅ Human_ClaudeCode_Bridge/Reports/[작업명]_completed.json
+   - ✅ Human_ClaudeCode_Bridge/Reports/[작업명]_verification.json
    - ✅ Documentation/[관련 문서].md (업데이트)
 
    다음 작업 지시를 기다리겠습니다."
@@ -1372,7 +1391,7 @@ GitHub 토큰 설정이 필요합니다. 진행하시겠습니까?"
 4. **도구 활용**: Skills/Subagents/Commands 적극 활용 및 제안
 5. **필수 검증 + 문서화**:
    - 작업 완료 후 검증 도구 실행 자발적 제안
-   - 검증 후 반드시 문서화 (작업 결과 보고서, 검증 결과 보고서 → outbox)
+   - 검증 후 반드시 문서화 (작업 결과 보고서, 검증 결과 보고서 → Reports)
    - 프로젝트 문서 업데이트 (해당 폴더)
    - **예외**: Project Grid 작업은 해당 프로세스 따름
 6. **거짓 금지**: 절대 거짓 보고 금지. "제대로 & 빠르게" (속도 < 정확성)
@@ -1741,7 +1760,7 @@ When recording 1st execution results in Project Grid:
 ```
 
 #### 2nd Execution (Claude Code Session 2) - Detailed Report Format
-Claude Code (Session 2) creates a comprehensive JSON report saved to `Web_ClaudeCode_Bridge/inbox/{task_id}.json`:
+Claude Code (Session 2) creates a comprehensive JSON report saved to `Human_ClaudeCode_Bridge/Orders/{task_id}.json`:
 
 ```json
 {
@@ -1809,11 +1828,11 @@ Claude Code (Session 2) creates a comprehensive JSON report saved to `Web_Claude
 
 **Key Rules for Dual Execution Recording**:
 - **1st Execution**: Claude Code Session 1 records basic info (file paths, basic build/test results)
-- **2nd Execution**: Claude Code Session 2 creates comprehensive JSON report in `Web_ClaudeCode_Bridge/inbox/{task_id}.json`
+- **2nd Execution**: Claude Code Session 2 creates comprehensive JSON report in `Human_ClaudeCode_Bridge/Orders/{task_id}.json`
 - **File Tracking**: Mark Session 2's work with `(ClaudeCode수정)`, `(ClaudeCode추가)`, or `(ClaudeCode재작현)` in `generated_files`
 - **Test History**: Always show both 1st and 2nd execution results separated by ` | `
 - **Build Result**: Always show both 1st and 2nd execution results separated by ` | `
-- **Report Location**: Claude Code Session 2 saves full report to `Web_ClaudeCode_Bridge/inbox/{task_id}.json` (required for final verification)
+- **Report Location**: Claude Code Session 2 saves full report to `Human_ClaudeCode_Bridge/Orders/{task_id}.json` (required for final verification)
 
 ### Phase-based Workflow
 

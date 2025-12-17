@@ -2802,6 +2802,12 @@
                                 <span>복사하기</span>
                             </span>
                         </button>
+                        <button class="action-btn" onclick="loadFromReports()" style="background: #495057;">
+                            <span style="display: flex; flex-direction: column; line-height: 1.3;">
+                                <span>Reports</span>
+                                <span>불러오기</span>
+                            </span>
+                        </button>
                     </div>
                 </div>
                 <div class="workspace-content">
@@ -5653,6 +5659,170 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             }
         }
 
+        // Load from Reports (Claude Code 작업 결과 가져오기)
+        // 참고: 백엔드 엔드포인트는 /outbox/files 유지 (호환성)
+        async function loadFromReports() {
+            // 배포 환경에서는 로컬 서버 기능 비활성화
+            if (IS_PRODUCTION) {
+                alert('이 기능은 로컬 개발 환경에서만 사용 가능합니다.\n\n로컬에서 Bridge 서버를 실행한 후 사용해주세요:\ncd Human_ClaudeCode_Bridge\nnode inbox_server.js');
+                return;
+            }
+
+            showStatus('Reports 확인 중...', 'info');
+
+            try {
+                // Reports 파일 목록 가져오기 (백엔드는 /outbox/files 유지)
+                const response = await fetch(BRIDGE_SERVER_URL + '/outbox/files');
+                const result = await response.json();
+
+                if (!result.success || result.files.length === 0) {
+                    alert('📭 Reports가 비어있습니다.\n\nClaude Code가 작업을 완료하면 결과물이 Human_ClaudeCode_Bridge/Reports/에 저장됩니다.');
+                    showStatus('📭 Reports 비어있음', 'info');
+                    return;
+                }
+
+                // 모달에 파일 목록 표시
+                const filesList = document.getElementById('outboxFilesList');
+                filesList.innerHTML = '';
+
+                // JSON 파일들의 내용을 미리 읽어서 매핑
+                const jsonData = {};
+                for (const file of result.files) {
+                    if (file.filename.endsWith('.json')) {
+                        try {
+                            const contentRes = await fetch(`${BRIDGE_SERVER_URL}/outbox/read/${file.filename}`);
+                            const contentResult = await contentRes.json();
+                            if (contentResult.success) {
+                                const data = JSON.parse(contentResult.content);
+                                jsonData[file.filename] = data;
+                            }
+                        } catch (e) {
+                            // 무시
+                        }
+                    }
+                }
+
+                // 파일 목록을 처리하여 배열에 저장
+                const fileItems = [];
+
+                result.files.forEach((file) => {
+                    // _ack.json 파일은 숨기기
+                    if (file.filename.includes('_ack.json')) return;
+
+                    // 파일 유형에 따른 아이콘 및 표시 정보 설정
+                    const fileExt = file.filename.split('.').pop().toLowerCase();
+                    let displayIcon = '📄';
+                    let displayName = file.filename;
+                    let displayMeta = '';
+                    let badgeClass = '';
+
+                    // JSON 파일 처리
+                    if (fileExt === 'json') {
+                        const data = jsonData[file.filename];
+                        if (data) {
+                            displayIcon = data.response_type === 'final' ? '✅' : '📋';
+                            displayName = data.order_name || data.task_name || file.filename;
+                            displayMeta = data.status || '';
+                        }
+                        badgeClass = 'json';
+                    }
+                    // MD 파일 처리
+                    else if (fileExt === 'md') {
+                        displayIcon = '📝';
+                        displayName = file.filename.replace('.md', '');
+                        badgeClass = 'markdown';
+                    }
+
+                    // 시간 정보 추가
+                    const modDate = new Date(file.modified);
+                    const timeStr = modDate.toLocaleString('ko-KR', {
+                        month: 'short', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+                    displayMeta = displayMeta ? `${displayMeta} · ${timeStr}` : timeStr;
+
+                    fileItems.push({
+                        file: file,
+                        displayIcon,
+                        displayName,
+                        displayMeta,
+                        fileExt,
+                        badgeClass,
+                        modified: file.modified
+                    });
+                });
+
+                // 최신순 정렬
+                fileItems.sort((a, b) => new Date(b.modified) - new Date(a.modified));
+
+                // HTML 생성
+                fileItems.forEach(item => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'outbox-file-item';
+                    fileItem.onclick = () => selectReportFile(item.file);
+                    fileItem.innerHTML = `
+                        <div class="outbox-file-icon">${item.displayIcon}</div>
+                        <div class="outbox-file-info">
+                            <div class="outbox-file-name">${item.displayName}</div>
+                            <div class="outbox-file-meta">${item.displayMeta}</div>
+                        </div>
+                        <div class="outbox-file-badge ${item.badgeClass}">${item.fileExt.toUpperCase()}</div>
+                    `;
+                    filesList.appendChild(fileItem);
+                });
+
+                // 모달 열기
+                const modal = document.getElementById('outboxFilesModal');
+                modal.style.display = 'flex';
+                modal.querySelector('.grid-fullscreen-title').textContent = '📤 Reports - 파일 선택';
+
+                showStatus('📤 Reports 파일 목록 표시', 'info');
+
+            } catch (error) {
+                console.error('Reports 로드 실패:', error);
+                showStatus('❌ Reports 로드 실패', 'error');
+                alert(`❌ Bridge 서버에 연결할 수 없습니다.\n\n서버가 실행 중인지 확인하세요:\ncd Human_ClaudeCode_Bridge\nnode inbox_server.js`);
+            }
+        }
+
+        // Reports 파일 선택
+        async function selectReportFile(file) {
+            closeOutboxModal();
+
+            showStatus(`📄 ${file.filename} 로딩 중...`, 'info');
+
+            try {
+                // 파일 내용 가져오기
+                const contentResponse = await fetch(`${BRIDGE_SERVER_URL}/outbox/read/${file.filename}`);
+                const contentResult = await contentResponse.json();
+
+                if (!contentResult.success) {
+                    throw new Error(contentResult.error || '파일 로드 실패');
+                }
+
+                // 에디터에 표시
+                const editor = document.getElementById('textEditor');
+
+                if (file.filename.endsWith('.md')) {
+                    // MD 파일: 원본 마크다운을 가져오기 위해 다시 파싱
+                    const data = JSON.parse(contentResult.content);
+                    editor.value = `# ${data.title}\n\n${data.content}`;
+                } else {
+                    // JSON 파일: 보기 좋게 포맷팅
+                    const data = JSON.parse(contentResult.content);
+                    editor.value = JSON.stringify(data, null, 2);
+                }
+
+                showStatus(`✅ ${file.filename} 로드 완료`, 'success');
+
+            } catch (error) {
+                console.error('파일 로드 실패:', error);
+                showStatus(`❌ 파일 로드 실패: ${error.message}`, 'error');
+                alert(`❌ 파일 로드에 실패했습니다.\n\n${error.message}`);
+            }
+        }
+
+        // 기존 함수 유지 (호환성)
         // Load from Outbox (Claude Code 작업 결과 가져오기)
         async function loadFromOutbox() {
             // 배포 환경에서는 로컬 서버 기능 비활성화

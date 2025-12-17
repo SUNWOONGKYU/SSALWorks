@@ -69,18 +69,20 @@ app.use(cors());
 // JSON 요청 본문 파싱
 app.use(express.json({ limit: '10mb' }));
 
-// inbox 디렉토리 경로
-const INBOX_DIR = path.join(__dirname, 'Inbox');
+// Orders 디렉토리 경로 (이전: Inbox)
+const INBOX_DIR = path.join(__dirname, 'Orders');
+const ORDERS_DIR = INBOX_DIR;  // 별칭
 
-// inbox 디렉토리가 없으면 생성
+// Orders 디렉토리가 없으면 생성
 if (!fs.existsSync(INBOX_DIR)) {
     fs.mkdirSync(INBOX_DIR, { recursive: true });
 }
 
-// outbox 디렉토리 경로
-const OUTBOX_DIR = path.join(__dirname, 'Outbox');
+// Reports 디렉토리 경로 (이전: Outbox)
+const OUTBOX_DIR = path.join(__dirname, 'Reports');
+const REPORTS_DIR = OUTBOX_DIR;  // 별칭
 
-// outbox 디렉토리가 없으면 생성
+// Reports 디렉토리가 없으면 생성
 if (!fs.existsSync(OUTBOX_DIR)) {
     fs.mkdirSync(OUTBOX_DIR, { recursive: true });
 }
