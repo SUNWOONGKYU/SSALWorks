@@ -178,7 +178,7 @@ work_logs/2025-01-10.md → work_logs/archive/2025-01-10.md
 
 ## 세션 시작 시 필수 확인
 1. `.claude/work_logs/current.md` 읽기 ← 작업 기록
-2. `P0_프로젝트_구조/Project_Status.md` 확인 ← 전체 현황
+2. `P0_작업_디렉토리_구조_생성/Project_Status.md` 확인 ← 전체 현황
 ```
 
 ## 주의사항

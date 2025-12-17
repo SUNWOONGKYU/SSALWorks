@@ -2796,16 +2796,10 @@
                                 <span>지우기</span>
                             </span>
                         </button>
-                        <button class="action-btn" onclick="downloadToInbox()">
+                        <button class="action-btn success" onclick="copyOrderSheet()">
                             <span style="display: flex; flex-direction: column; line-height: 1.3;">
                                 <span>Order Sheet</span>
-                                <span>보내기</span>
-                            </span>
-                        </button>
-                        <button class="action-btn success" onclick="loadFromOutbox()">
-                            <span style="display: flex; flex-direction: column; line-height: 1.3;">
-                                <span>Output</span>
-                                <span>불러오기</span>
+                                <span>복사하기</span>
                             </span>
                         </button>
                     </div>
@@ -3677,16 +3671,16 @@ The content you enter in the workspace will be displayed here.</pre>
         const PROGRESS_SERVER_URL = 'http://localhost:3032';
         const AI_SERVER_URL = 'http://localhost:3031';
 
-        // 프로젝트별 inbox 경로 설정
+        // 프로젝트별 Orders 경로 설정
         const PROJECT_CONFIGS = {
             'PoliticianFinder': {
                 name: 'PoliticianFinder',
-                inboxPath: 'C:\\Development_PoliticianFinder_copy\\Web_ClaudeCode_Bridge\\Inbox',
+                ordersPath: 'C:\\Development_PoliticianFinder_copy\\Human_ClaudeCode_Bridge\\Orders',
                 status: '완료'
             },
             'SSAL Works': {
                 name: 'SSAL Works',
-                inboxPath: 'C:\\!SSAL_Works_Private\\Web_ClaudeCode_Bridge\\Inbox',
+                ordersPath: 'C:\\!SSAL_Works_Private\\Human_ClaudeCode_Bridge\\Orders',
                 status: '진행중'
             }
         };
@@ -5639,8 +5633,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             return result.join('\n');
         }
 
-        // Download to inbox functionality (폴더 선택 후 직접 저장)
-        async function downloadToInbox() {
+        // Order Sheet 복사하기 (클립보드에 복사)
+        async function copyOrderSheet() {
             const content = document.getElementById('textEditor').value;
 
             if (!content.trim()) {
@@ -5648,116 +5642,15 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 return;
             }
 
-            // 프로젝트 선택 확인
-            if (!currentSelectedProject) {
-                alert('먼저 프로젝트를 선택해주세요!');
-                return;
+            try {
+                await navigator.clipboard.writeText(content);
+                showStatus('✅ Order Sheet 복사 완료', 'success');
+                alert('Order Sheet가 클립보드에 복사되었습니다!\n\nClaude Code에 붙여넣기 하세요.');
+            } catch (e) {
+                console.error('복사 실패:', e);
+                showStatus('❌ 복사 실패', 'error');
+                alert('복사에 실패했습니다. 직접 선택해서 복사해주세요.');
             }
-
-            const projectConfig = PROJECT_CONFIGS[currentSelectedProject];
-            const targetInboxPath = projectConfig.inboxPath;
-
-            // 한글이 있어도 번역 없이 원문 사용
-            let translatedContent = content;
-
-            // Generate timestamp and Order ID
-            const now = new Date();
-            const dateStr = now.toISOString().slice(2, 10).replace(/-/g, ''); // YYMMDD
-            const seq = String(Math.floor(Math.random() * 99) + 1).padStart(2, '0'); // 01-99
-            const orderId = `ORDER-GE-${dateStr}-${seq}`; // GE = General
-
-            // JSON Order 객체 생성
-            const orderData = {
-                order_id: orderId,
-                order_name: "Dashboard에서 생성된 작업",
-                content_korean: content,
-                content_english: translatedContent,
-                priority: "medium",
-                status: "pending",
-                created_at: now.toISOString(),
-                project: currentSelectedProject,
-                metadata: {
-                    source: "dashboard",
-                    target_inbox: targetInboxPath
-                }
-            };
-
-            // JSON 문자열로 변환 (pretty print)
-            const finalContent = JSON.stringify(orderData, null, 2);
-            const filename = `${orderId}.json`;
-
-            // 1순위: 로컬 서버 시도 (localhost에서만)
-            if (!IS_PRODUCTION) {
-                try {
-                    const response = await fetch('http://localhost:3030/save', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            content: finalContent,
-                            filename: filename,
-                            targetPath: targetInboxPath
-                        })
-                    });
-                    const result = await response.json();
-                    if (result.success) {
-                        showStatus('✅ Order Sheet 저장 완료', 'success');
-                        alert(`Order Sheet가 Inbox에 저장되었습니다!\n\nOrder ID: ${orderId}`);
-                        return;
-                    }
-                } catch (e) {
-                    console.log('로컬 서버 연결 실패, File System API 시도');
-                }
-            }
-
-            // 2순위: File System Access API (매번 폴더 선택 - 확실하게)
-            if ('showDirectoryPicker' in window) {
-                try {
-                    // 저장할 폴더 안내
-                    alert(`📁 Inbox 폴더를 선택해주세요.\n\n저장 경로:\n${targetInboxPath}`);
-
-                    // 폴더 선택
-                    const folderHandle = await window.showDirectoryPicker({
-                        mode: 'readwrite'
-                    });
-
-                    // 파일 생성 및 저장
-                    const fileHandle = await folderHandle.getFileHandle(filename, { create: true });
-                    const writable = await fileHandle.createWritable();
-                    await writable.write(finalContent);
-                    await writable.close();
-
-                    showStatus('✅ Order Sheet 저장 완료', 'success');
-                    alert(`Order Sheet가 저장되었습니다!\n\nOrder ID: ${orderId}\n파일명: ${filename}`);
-                    return;
-
-                } catch (e) {
-                    if (e.name === 'AbortError') {
-                        showStatus('❌ 저장 취소됨', 'error');
-                        return;
-                    }
-                    console.error('File System API 실패:', e);
-                }
-            }
-
-            // 3순위: 일반 다운로드 (fallback - File System API 미지원 브라우저)
-            manualDownload(finalContent, filename);
-            showStatus('✅ Order Sheet 다운로드 완료', 'success');
-            alert(`Order Sheet가 다운로드되었습니다.\n\nOrder ID: ${orderId}`);
-        }
-
-        // 수동 다운로드 (fallback)
-        function manualDownload(content, filename) {
-            const blob = new Blob([content], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-
-            a.href = url;
-            a.download = filename;
-
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
         }
 
         // Load from Outbox (Claude Code 작업 결과 가져오기)
