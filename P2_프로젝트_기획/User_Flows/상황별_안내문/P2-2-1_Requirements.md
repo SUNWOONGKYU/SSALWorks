@@ -2,11 +2,42 @@
 
 > **Stage**: P2 프로젝트 기획
 > **Task ID**: P2-2-1
-> **버전**: 2.0
+> **버전**: 2.1 (Stage Context 추가)
 
 ---
 
-## 1. 이 단계에서 수행하는 작업
+## 1. Stage 맥락 (Context)
+
+### P2 Stage 내 항목 위치
+```
+P2 프로젝트 기획
+├── P2-1: Directory Structure ✅
+├── [P2-2-1] Requirements ← 현재 항목
+├── P2-2-2: User Flows
+├── P2-2-3: Workflows
+├── P2-3-1: Design Guidelines
+├── P2-3-2: Mockup
+├── P2-3-3: Prototype
+└── P2-4: Database Design
+```
+
+### 이전 항목에서 완료된 것 (P2-1)
+- ✅ SSALWorks 표준 디렉토리 구조 설계
+- ✅ 폴더별 역할 정의
+- ✅ 네이밍 규칙 수립
+
+### 현재 항목에서 수행할 것 (P2-2-1)
+- 🔄 기능 요구사항 (Functional) 정의
+- 🔄 비기능 요구사항 (Non-Functional) 정의
+- 🔄 우선순위 분류 (Must/Should/Could)
+
+### 다음 항목에서 수행할 것 (P2-2-2)
+- ⏳ 사용자 플로우 정의
+- ⏳ 화면 이동 경로 설계
+
+---
+
+## 2. 이 단계에서 수행하는 작업
 
 **기능 요구사항 문서 작성**을 위한 Order Sheet를 발행합니다.
 

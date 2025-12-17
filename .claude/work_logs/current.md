@@ -5,6 +5,51 @@
 
 ---
 
+## Stage Guide 문서 정비 완료 (2025-12-17)
+
+### 작업 내용: ✅ 완료 (2회차 - Stage 맥락 추가)
+
+**1. S4, S5 Stage Guide 신규 생성**
+- S4_STAGE_GUIDE_AND_ORDERSHEET.md (개발 3차 - 결제, Admin, 테스트)
+- S5_STAGE_GUIDE_AND_ORDERSHEET.md (운영 - 배포, SSL, 보안)
+
+**2. S1~S3 Stage Guide에 "Stage 맥락(Context)" 섹션 추가**
+- 섹션 1: Stage 맥락 (Context)
+  - 1.1 전체 개발 흐름에서의 위치 (시각적 다이어그램)
+  - 1.2 이전 단계에서 완료된 것
+  - 1.3 이번 Stage에서 할 것
+  - 1.4 다음 Stage 예고
+
+**3. 모든 가이드 섹션 번호 재정렬 (S1~S3)**
+- 기존 섹션들이 1번씩 밀림
+- S1: 1~9 → 1~9 (Stage 맥락 추가로 인한 재정렬)
+- S2: 1~9 → 1~10 (Stage 맥락 추가 + 섹션 추가)
+- S3: 1~10 → 1~11 (Stage 맥락 추가 + 섹션 추가)
+
+**4. 최종 문서 구조 (S1, S2, S3 동일 패턴)**
+| 섹션 | 제목 |
+|------|------|
+| 1 | **Stage 맥락 (Context)** ← 새로 추가! |
+| 2 | Stage 개요 |
+| 3 | 작업 규칙 |
+| 4 | 3단계 검증 시스템 |
+| 5 | AI-PO 협업 규칙 |
+| 6 | PO가 해야 할 작업 |
+| 7 | Stage Gate 테스트 가이드 |
+| 8 | Order Sheet 템플릿 |
+| 9 | 주의사항 및 경고 |
+| 10 | Stage 완료 기준 |
+| 11 | Grid 기록 필드 안내 (S3만) |
+
+**수정된 파일:**
+- `S0_Project-SSAL-Grid_생성/manual/S1_STAGE_GUIDE_AND_ORDERSHEET.md` (v1.1)
+- `S0_Project-SSAL-Grid_생성/manual/S2_STAGE_GUIDE_AND_ORDERSHEET.md` (v1.1)
+- `S0_Project-SSAL-Grid_생성/manual/S3_STAGE_GUIDE_AND_ORDERSHEET.md` (v1.1)
+- `S0_Project-SSAL-Grid_생성/manual/S4_STAGE_GUIDE_AND_ORDERSHEET.md` (신규)
+- `S0_Project-SSAL-Grid_생성/manual/S5_STAGE_GUIDE_AND_ORDERSHEET.md` (신규)
+
+---
+
 ## 현재 상태 요약
 
 ### S2 Stage Gate 완료
