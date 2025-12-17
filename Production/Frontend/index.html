@@ -9391,7 +9391,7 @@ ${result.answer}`;
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10001;';
 
             const modal = document.createElement('div');
-            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 600px; width: 90%; max-height: 80vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
+            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
 
             // 로딩 상태 표시
             modal.innerHTML = `
@@ -9410,7 +9410,7 @@ ${result.answer}`;
                         ×
                     </button>
                 </div>
-                <div id="tipContentArea" style="padding: 20px 24px; line-height: 1.7; color: #495057; font-size: 14px; overflow-y: auto; max-height: calc(80vh - 140px);">
+                <div id="tipContentArea" style="padding: 20px 24px; line-height: 1.7; color: #495057; font-size: 14px; overflow-y: auto; max-height: calc(90vh - 140px);">
                     <div style="text-align: center; padding: 40px;">
                         <div style="font-size: 24px; margin-bottom: 12px;">⏳</div>
                         <div>콘텐츠를 불러오는 중...</div>
@@ -9433,7 +9433,7 @@ ${result.answer}`;
 
             // MD 파일 fetch
             try {
-                const url = GITHUB_RAW_BASE + '/부수적_고유기능/' + item.path;
+                const url = GITHUB_RAW_BASE + '/부수적_고유기능/콘텐츠/' + item.path;
                 const response = await fetch(url);
 
                 if (!response.ok) {
