@@ -48,7 +48,7 @@ C:\!SSAL_Works_Private\
 │   ├── AI_Link/                 # AI 서비스 연동 (ChatGPT, Gemini, Perplexity)
 │   ├── 콘텐츠/                  # 사용자 제공 콘텐츠 통합 폴더
 │   │   ├── Tips/                # 개발 팁 및 노하우
-│   │   ├── 서비스_연동_설정_Guide/  # 외부 서비스 연동 설정 가이드
+│   │   ├── 외부_연동_설정_Guide/  # 외부 서비스 연동 설정 가이드
 │   │   └── 학습용_Books/        # 학습용 콘텐츠 (Books)
 │
 # ========== 독립 폴더 ==========
@@ -458,12 +458,12 @@ Sidebar-Process-Tools/
 
 ---
 
-### 부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/
+### 부수적_고유기능/콘텐츠/외부_연동_설정_Guide/
 
 **용도:** 외부 서비스 연동 설정 가이드 (기능별 통합)
 
 ```
-부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/
+부수적_고유기능/콘텐츠/외부_연동_설정_Guide/
 ├── 01_데이터베이스_설정.md     # Supabase 프로젝트 + DB + RLS
 ├── 02_회원인증_설정.md         # Google OAuth + Supabase Auth
 ├── 03_이메일_시스템_설정.md    # Resend + SMTP + 템플릿
@@ -552,7 +552,7 @@ Sidebar-Process-Tools/
 | 배포용 코드 | `Production/` (종합집결지) |
 | 학습 자료 | `부수적_고유기능/콘텐츠/학습용_Books/` |
 | 개발 팁 | `부수적_고유기능/콘텐츠/Tips/` |
-| 외부 연동 설정 | `부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/` |
+| 외부 연동 설정 | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/` |
 | Order Sheet | `Web_ClaudeCode_Bridge/Inbox/` |
 | 작업 결과 보고 | `Web_ClaudeCode_Bridge/Outbox/` |
 
@@ -565,7 +565,7 @@ Sidebar-Process-Tools/
 → `부수적_고유기능/콘텐츠/Tips/`
 
 **Q: 외부 서비스 연동 가이드를 작성했어요**
-→ `부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/`
+→ `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/`
 
 **Q: HTML 페이지를 만들었어요**
 → 해당 Stage의 `Frontend/` + `Production/Frontend/`에 반영

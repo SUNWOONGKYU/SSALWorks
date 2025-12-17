@@ -1,4 +1,4 @@
-# 서비스 연동 설정 Guide 제공 프로세스
+# 외부 연동 설정 Guide 제공 프로세스
 
 ## 핵심 구조
 
@@ -13,7 +13,7 @@ GitHub (저장소) + jsdelivr (CDN) + Marked.js (렌더링)
 
 ### 1.1 GitHub (저장소)
 - **역할**: MD 파일 저장 및 버전 관리
-- **위치**: `부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/` 폴더
+- **위치**: `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/` 폴더
 - **장점**:
   - 무료 호스팅
   - 버전 관리 자동
@@ -22,7 +22,7 @@ GitHub (저장소) + jsdelivr (CDN) + Marked.js (렌더링)
 ### 1.2 jsdelivr CDN
 - **역할**: GitHub 파일을 전 세계에서 빠르게 접근 가능하게 함
 - **URL 형식**: `https://cdn.jsdelivr.net/gh/{사용자명}/{저장소명}@{브랜치}/{파일경로}`
-- **예시**: `https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/01_데이터베이스_설정.md`
+- **예시**: `https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/콘텐츠/외부_연동_설정_Guide/01_데이터베이스_설정.md`
 - **장점**:
   - CORS 문제 해결 (브라우저에서 직접 fetch 가능)
   - 빠른 응답 속도 (전 세계 CDN)
@@ -73,7 +73,7 @@ GitHub (저장소) + jsdelivr (CDN) + Marked.js (렌더링)
 ## 3. 새 가이드 추가 방법
 
 ### 3.1 MD 파일 작성
-1. `부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/` 폴더에 MD 파일 생성
+1. `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/` 폴더에 MD 파일 생성
    - 파일명 형식: `{번호}_{서비스명}_설정.md`
    - 예: `06_SMS_시스템_설정.md`
 2. Markdown 형식으로 내용 작성
@@ -81,7 +81,7 @@ GitHub (저장소) + jsdelivr (CDN) + Marked.js (렌더링)
 ### 3.2 index.html 업데이트 (Claude Code에게 요청)
 **요청 예시:**
 ```
-"부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/06_SMS_시스템_설정.md 파일 추가했어.
+"부수적_고유기능/콘텐츠/외부_연동_설정_Guide/06_SMS_시스템_설정.md 파일 추가했어.
 index.html에 추가해줘."
 ```
 
@@ -108,8 +108,8 @@ git push
 ```
 부수적_고유기능/
 └── 콘텐츠/
-    └── 서비스_연동_설정_Guide/
-        ├── 서비스_연동_설정_Guide_제공_프로세스.md  ← 이 문서
+    └── 외부_연동_설정_Guide/
+        ├── 외부_연동_설정_Guide_제공_프로세스.md  ← 이 문서
         │
         ├── 01_데이터베이스_설정.md       ← Supabase 프로젝트 + DB + RLS
         ├── 02_회원인증_설정.md           ← Google OAuth + Supabase Auth
@@ -190,12 +190,12 @@ MD 작성 → index.html 목록 추가 → GitHub Push → 끝
 3. git push
 
 ### 파일 위치
-- 가이드: `부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/{번호}_{서비스명}_설정.md`
+- 가이드: `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/{번호}_{서비스명}_설정.md`
 - 메인 페이지: `Production/Frontend/index.html`
 
 ### CDN URL 형식
 ```
-https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/{파일명}
+https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/콘텐츠/외부_연동_설정_Guide/{파일명}
 ```
 
 ### 현재 가이드 목록
