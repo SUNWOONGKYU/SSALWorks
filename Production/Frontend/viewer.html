@@ -304,6 +304,7 @@
         // Supabase 클라이언트 생성 (head에서 스크립트 로드됨)
         let supabaseClient = null;
         try {
+            const { createClient } = supabase;
             supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
             console.log('Supabase 클라이언트 생성 완료');
         } catch (e) {
