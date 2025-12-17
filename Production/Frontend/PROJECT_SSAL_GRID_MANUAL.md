@@ -7,7 +7,7 @@
 
 ---
 
-## 📋 목차 (전체 27개 섹션)
+## 목차 (전체 27개 섹션)
 
 ### PART 1: 개요 및 프레임워크
 
@@ -59,16 +59,16 @@
 
 ---
 
-## ⚠️ 🚨 AI 필수 준수 규칙 (Grid 데이터 작성 시) 🚨 ⚠️
+## AI 필수 준수 규칙 (Grid 데이터 작성 시) 
 
 > **이 섹션은 AI(Claude Code)가 Grid 데이터를 생성/수정할 때 반드시 준수해야 할 규칙입니다.**
-> **이 규칙을 어기면 Grid 데이터가 엉망이 됩니다!**
+> **이 규칙을 어기면 Grid 데이터가 문제가 발생할 수 있습니다.**
 
-### 🛑 절대 규칙: 폴더 생성 전 사용자 승인 필수
+### 절대 규칙: 폴더 생성 전 사용자 승인 필수
 
 ```
-⛔ Task 실행 중 새 폴더가 필요하면 반드시 사용자에게 먼저 물어야 합니다!
-⛔ 임의로 폴더를 생성하면 프로젝트 구조가 엉망이 됩니다!
+ Task 실행 중 새 폴더가 필요하면 반드시 사용자에게 먼저 물어야 합니다!
+ 임의로 폴더를 생성하면 프로젝트 구조가 문제가 발생할 수 있습니다.
 ```
 
 **폴더 생성이 필요할 때:**
@@ -78,9 +78,9 @@
 
 ---
 
-### 📌 Stage 명칭 (정확히 사용)
+### Stage 명칭 (정확히 사용)
 
-| Stage | 올바른 명칭 | ❌ 잘못된 예시 |
+| Stage | 올바른 명칭 | 잘못된 예시 |
 |-------|-------------|---------------|
 | S1 | 개발 준비 (Development Setup) | 기반 구축, Foundation |
 | S2 | 개발 1차 (Core Development) | 핵심 기능, Core Features |
@@ -88,9 +88,9 @@
 | S4 | 개발 3차 (QA & Optimization) | 결제 연동, Payment |
 | S5 | 운영 (Operations) | 배포 운영, Deployment |
 
-### 📌 Area 명칭 (정확히 사용)
+### Area 명칭 (정확히 사용)
 
-| Area | 올바른 명칭 | ❌ 잘못된 예시 |
+| Area | 올바른 명칭 | 잘못된 예시 |
 |------|-------------|---------------|
 | M | Documentation (문서화) | Management |
 | U | Design (UI/UX 디자인) | UI/UX |
@@ -104,7 +104,7 @@
 | E | External (외부 연동) | 외부연동 |
 | C | Content System (콘텐츠 시스템) | Content, 콘텐츠 |
 
-### 📌 Task Agent vs Verification Agent
+### Task Agent vs Verification Agent
 
 **핵심 원칙: 작성자 ≠ 검증자 (분리 필수!)**
 
@@ -124,9 +124,9 @@
 - `security-auditor`
 - `database-specialist` (DB 전용)
 
-**❌ 금지**: Task Agent에 `code-reviewer` 사용
+** 금지**: Task Agent에 `code-reviewer` 사용
 
-### 📌 🔄 자동 검증 프로세스 (필수!)
+### 자동 검증 프로세스 (필수!)
 
 **Task Agent 작업 완료 → Verification Agent 자동 검증:**
 
@@ -141,26 +141,26 @@ Task Agent 작업 완료 ──▶ Grid 지정 Verification Agent 투입 ──�
 4. 검증 결과 Grid에 JSON 형식으로 기록
 5. `verification_status: 'Passed'` 또는 `'Failed'` 설정
 
-**⚠️ 필수 규칙:**
+** 필수 규칙:**
 - 검증은 반드시 **서브에이전트 투입**으로 수행
 - Task Agent가 직접 검증하면 안 됨 (작성자 ≠ 검증자)
 - 검증 없이 `verification_status: 'Passed'` 설정 금지
 - 검증 결과는 반드시 Grid에 기록
 
-### 📌 Tools 필드 (올바른 값)
+### Tools 필드 (올바른 값)
 
-**✅ 포함해야 할 것:**
+** 포함해야 할 것:**
 - Slash Commands: `/review-pr`, `/deploy`, `/test`
 - CLI 도구: `gh`, `vercel-cli`, `npm`
 - MCP Servers: `/mcp__supabase__*`, `browser-mcp`
 - Skills: `pdf-skill`, `playwright-mcp`
 - SDK: `openai-sdk`, `toss-payments-sdk`
 
-**❌ 포함하면 안 되는 것:**
+** 포함하면 안 되는 것:**
 - `Read`, `Write` (기본 동작이므로 불필요)
 - `TypeScript`, `React` (기술 스택 - Task Instruction에 기재)
 
-### 📌 Verification 필드 (JSON 형식 필수)
+### Verification 필드 (JSON 형식 필수)
 
 모든 Verification 관련 필드(#16-20)는 반드시 JSON 형식으로 구조화:
 - `test`: unit_test, integration_test, edge_cases, manual_test
@@ -169,7 +169,7 @@ Task Agent 작업 완료 ──▶ Grid 지정 Verification Agent 투입 ──�
 - `blockers`: dependency, environment, external_api, status
 - `comprehensive_verification`: task_instruction, test, build, integration, blockers, final
 
-### 📌 Grid 데이터 작성 체크리스트
+### Grid 데이터 작성 체크리스트
 
 - [ ] Stage 명칭이 정확한가?
 - [ ] Area 명칭이 정확한가?
@@ -198,65 +198,65 @@ Task Agent 작업 완료 ──▶ Grid 지정 Verification Agent 투입 ──�
 
 ```
 SSALWorks 5×11 매트릭스 (표준 템플릿)
-         ↓
+ ↓
 Task 선정 (프로젝트별 커스터마이징)
-         ↓
+ ↓
 22개 속성 반영 (상세 정보 입력)
-         ↓
+ ↓
 Task Instruction + Verification Instruction 작성
-         ↓
-PROJECT SAL GRID 완성! ✅
+ ↓
+PROJECT SAL GRID 완성! 
 ```
 
 ### 1.2 핵심 원칙
 
-#### **1. 🤖 AI-First 원칙 (작업 수행의 기본 규칙)**
+#### **1. AI-First 원칙 (작업 수행의 기본 규칙)**
 
 **프로젝트 그리드에 제시되어 있는 모든 작업은 AI가 먼저 수행하고, 안 되는 것만 인간이 수행합니다.**
 
 **기본 원칙:**
-- ✅ **모든 작업은 AI가 먼저 수행**: 코드 작성, 테스트, 빌드, 배포 등 모든 개발 작업
-- ✅ **Project Owner의 역할**: 초기 계획 자료 제공, AI가 못하는 작업 수행, 최종 검수 및 승인
-- ✅ **작업 방식 속성(#8 Execution Type) 기본값**: "AI-Only" (전체 작업의 80% 목표)
+- **모든 작업은 AI가 먼저 수행**: 코드 작성, 테스트, 빌드, 배포 등 모든 개발 작업
+- **Project Owner의 역할**: 초기 계획 자료 제공, AI가 못하는 작업 수행, 최종 검수 및 승인
+- **작업 방식 속성(#8 Execution Type) 기본값**: "AI-Only" (전체 작업의 80% 목표)
 
 **예외 상황 (Project Owner 협력이 필요한 경우):**
 
 Project Owner가 협력 지원하는 경우는 **AI가 할 수 없는 명확한 사유**가 있을 때만 허용됩니다:
 
 1. **외부 서비스 관련**
-   - 유료 서비스 가입 및 결제 필요
-   - 외부 API 키 발급 (이메일 인증, 신원 확인 등)
-   - 도메인 구매 및 등록
+ - 유료 서비스 가입 및 결제 필요
+ - 외부 API 키 발급 (이메일 인증, 신원 확인 등)
+ - 도메인 구매 및 등록
 
 2. **물리적 작업**
-   - 하드웨어 설정 및 연결
-   - 네트워크 장비 구성
-   - 물리적 서버 설치
+ - 하드웨어 설정 및 연결
+ - 네트워크 장비 구성
+ - 물리적 서버 설치
 
 3. **법적/행정적 작업**
-   - 법적 서명 및 승인
-   - 계약서 작성 및 검토
-   - 개인정보 취급 동의
+ - 법적 서명 및 승인
+ - 계약서 작성 및 검토
+ - 개인정보 취급 동의
 
 4. **인간 고유 판단**
-   - 최종 디자인 승인
-   - 비즈니스 의사결정
-   - 윤리적 판단 필요
+ - 최종 디자인 승인
+ - 비즈니스 의사결정
+ - 윤리적 판단 필요
 
 **작업 방식 속성 지정:**
 - **"AI-Only"**: 기본값 (AI가 독립적으로 수행 가능)
 - **"Human-AI"**: 위 예외 상황에만 사용
 - **명확한 사유 기재**: Task Instruction(#5) 또는 Remarks(#22)에 인간 협력이 필요한 이유 명시
 
-⚠️ **주의**: "AI가 어려울 것 같아서"는 명확한 사유가 아닙니다. AI가 실제로 시도했으나 기술적으로 불가능한 경우에만 예외 처리합니다.
+ **주의**: "AI가 어려울 것 같아서"는 명확한 사유가 아닙니다. AI가 실제로 시도했으나 기술적으로 불가능한 경우에만 예외 처리합니다.
 
 ---
 
-#### **2. 📅 미래 계획의 절대 시간 금지 원칙**
+#### **2. 미래 계획의 절대 시간 금지 원칙**
 
 **계획 수립 시 절대 시간 개념(특정 날짜, 시간, 기간)을 사용하지 않습니다.**
 
-**❌ 금지 사항 (미래 계획에 절대 시간 사용):**
+** 금지 사항 (미래 계획에 절대 시간 사용):**
 ```
 잘못된 예시:
 - "1시간 내에 완료"
@@ -271,7 +271,7 @@ Project Owner가 협력 지원하는 경우는 **AI가 할 수 없는 명확한 
 - 절대 시간 목표는 불필요한 압박과 실패감 유발
 - 실제 완료 시간과 괴리 발생 시 계획 전체가 무의미해짐
 
-**✅ 허용 사항 1: 이미 발생한 이력 (절대 시간 기록 필수)**
+** 허용 사항 1: 이미 발생한 이력 (절대 시간 기록 필수)**
 
 완료된 작업에는 정확한 시간 기록이 필수입니다:
 ```
@@ -285,7 +285,7 @@ DB 자동 기록: created_at, updated_at (Supabase)
 - 실제 소요 시간 추적으로 미래 프로젝트 계획 개선
 - KPI 측정 및 최적화에 활용
 
-**✅ 허용 사항 2: 상대적 순서 표현 (의존성만 명시)**
+** 허용 사항 2: 상대적 순서 표현 (의존성만 명시)**
 
 미래 작업은 순서와 의존성만 표현합니다:
 ```
@@ -311,9 +311,9 @@ DB 자동 기록: created_at, updated_at (Supabase)
 ---
 
 #### **3. 완전한 추적성**
-- ✅ 모든 Task는 고유 ID로 추적
-- ✅ Task → 파일 → Git 커밋 양방향 추적
-- ✅ 작업 이력 100% 기록
+- 모든 Task는 고유 ID로 추적
+- Task → 파일 → Git 커밋 양방향 추적
+- 작업 이력 100% 기록
 
 ---
 
@@ -331,30 +331,30 @@ DB 자동 기록: created_at, updated_at (Supabase)
 #### **전체 프로세스 (GRID 범위 포함)**
 ```
 ╔═══════════════════════════════════════════════════════════════════════╗
-║              PRELIMINARY (예비단계) - GRID 범위 밖                     ║
+║ PRELIMINARY (예비단계) - GRID 범위 밖 ║
 ╠═══════════════════════════════════════════════════════════════════════╣
-║   [P1 사업계획] ──→ [P2 프로젝트 기획] ──→ [P3 프로토타입 제작]        ║
-║                                                                       ║
-║   ※ Preliminary 단계는 GRID 생성 전에 완료해야 함                     ║
-║   ※ 프로토타입(P3) 완료 후 GRID 생성                                  ║
+║ [P1 사업계획] ──→ [P2 프로젝트 기획] ──→ [P3 프로토타입 제작] ║
+║ ║
+║ ※ Preliminary 단계는 GRID 생성 전에 완료해야 함 ║
+║ ※ 프로토타입(P3) 완료 후 GRID 생성 ║
 ╚═══════════════════════════════════════════════════════════════════════╝
-                              │
-                              ▼
-                    ┌────────────────┐
-                    │   Gate 검증    │
-                    │  P3 프로토타입 │
-                    │  승인 여부     │
-                    └────────────────┘
-                              │
-                              ▼
+ │
+ ▼
+ ┌────────────────┐
+ │ Gate 검증 │
+ │ P3 프로토타입 │
+ │ 승인 여부 │
+ └────────────────┘
+ │
+ ▼
 ╔═══════════════════════════════════════════════════════════════════════╗
-║                PROJECT SAL GRID 관리 범위 (S1-S5)                     ║
+║ PROJECT SAL GRID 관리 범위 (S1-S5) ║
 ╠═══════════════════════════════════════════════════════════════════════╣
-║   Stage 1: Development Setup (개발 준비)        ← 일부 Areas          ║
-║   Stage 2: Core Development (개발 1차)          ← 11 Areas            ║
-║   Stage 3: Advanced Features (개발 2차)         ← 11 Areas            ║
-║   Stage 4: QA & Optimization (개발 3차)         ← 일부 Areas          ║
-║   Stage 5: Operations (운영)                    ← 9 Areas             ║
+║ Stage 1: Development Setup (개발 준비) ← 일부 Areas ║
+║ Stage 2: Core Development (개발 1차) ← 11 Areas ║
+║ Stage 3: Advanced Features (개발 2차) ← 11 Areas ║
+║ Stage 4: QA & Optimization (개발 3차) ← 일부 Areas ║
+║ Stage 5: Operations (운영) ← 9 Areas ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
 
@@ -373,33 +373,33 @@ Stage 5: Operations (운영)
 
 #### **11 Areas (작업 영역)**
 ```
-M  - Documentation (문서화)
-U  - Design (UI/UX 디자인)
-F  - Frontend (프론트엔드)
+M - Documentation (문서화)
+U - Design (UI/UX 디자인)
+F - Frontend (프론트엔드)
 BI - Backend Infrastructure (백엔드 기반)
 BA - Backend APIs (백엔드 API)
-D  - Database (데이터베이스)
-S  - Security (보안/인증/인가)
-T  - Testing (테스트)
-O  - DevOps (운영/배포)
-E  - External (외부 연동)
-C  - Content System (콘텐츠 시스템)
+D - Database (데이터베이스)
+S - Security (보안/인증/인가)
+T - Testing (테스트)
+O - DevOps (운영/배포)
+E - External (외부 연동)
+C - Content System (콘텐츠 시스템)
 ```
 
 ### 2.2 Task 개수의 유연성
 
-> ⚠️ **중요**: 55개 Task는 "표준 템플릿"일 뿐, 필수 개수가 아닙니다!
+> **중요**: 55개 Task는 "표준 템플릿"일 뿐, 필수 개수가 아닙니다!
 
 **핵심 원칙: 프로젝트에 맞게 자유롭게 조정**
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│  Task 개수는 프로젝트 규모와 상황에 따라 유연하게 조정  │
-│                                                         │
-│  • 10개로 시작 → 필요시 100개로 확장 ✅                │
-│  • 100개로 시작 → 불필요한 것 삭제하여 축소 ✅         │
-│  • 표준 템플릿 그대로 사용 ✅                           │
-│  • 프로젝트 진행 중 언제든 추가/삭제 가능 ✅           │
+│ Task 개수는 프로젝트 규모와 상황에 따라 유연하게 조정 │
+│ │
+│ • 10개로 시작 → 필요시 100개로 확장 │
+│ • 100개로 시작 → 불필요한 것 삭제하여 축소 │
+│ • 표준 템플릿 그대로 사용 │
+│ • 프로젝트 진행 중 언제든 추가/삭제 가능 │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -447,12 +447,12 @@ S4F5c: 알림 페이지 (병렬 c)
 Task ID는 3개의 축으로 이루어진 3D 좌표입니다:
 ```
 Task ID = S[X축][Y축][Z축]
-        = S[Stage][Area][Number]
+ = S[Stage][Area][Number]
 
 예: S2BA5
-    ├─ X축 (Stage): 2
-    ├─ Y축 (Area): BA
-    └─ Z축 (Number): 5
+ ├─ X축 (Stage): 2
+ ├─ Y축 (Area): BA
+ └─ Z축 (Number): 5
 ```
 
 #### 번호 부여 규칙
@@ -460,44 +460,44 @@ Task ID = S[X축][Y축][Z축]
 **기본 원칙: X, Y, Z 중 하나라도 변경되면 새로운 ID 부여**
 
 1. **XYZ 모두 동일 - ID 유지 (변경 없음)**
-   ```
-   S1F3 → S1F3 (위치 변경 없음)
-   S2D7 → S2D7 (위치 변경 없음)
-   ```
+ ```
+ S1F3 → S1F3 (위치 변경 없음)
+ S2D7 → S2D7 (위치 변경 없음)
+ ```
 
 2. **하나 이상의 축이 변경 - 새로운 ID 부여**
-   ```
-   형식: [기존ID]_[새로운ID]
-   ```
+ ```
+ 형식: [기존ID]_[새로운ID]
+ ```
 
 #### 변경 사례
 
 **【X축(Stage) 변경 예시】**
 ```
 S2F1이 새로운 Stage 1로 이동하고 Z축도 변경되면:
-  기존: S2F1 (Stage 2, Area F, Number 1)
-  변경: S2F1_S1F6 (Stage 1로 이동, Number도 6으로 변경)
+ 기존: S2F1 (Stage 2, Area F, Number 1)
+ 변경: S2F1_S1F6 (Stage 1로 이동, Number도 6으로 변경)
 ```
 
 **【Y축(Area) 변경 예시】**
 ```
 S2BA5가 Area 변경되고 Stage도 변경되면:
-  기존: S2BA5 (Stage 2, Area BA, Number 5)
-  변경: S2BA5_S3F2 (Stage 3, Area F로 변경, Number 2로 변경)
+ 기존: S2BA5 (Stage 2, Area BA, Number 5)
+ 변경: S2BA5_S3F2 (Stage 3, Area F로 변경, Number 2로 변경)
 ```
 
 **【Z축(Number) 변경 예시】**
 ```
 Stage 1 내에서 S1D3이 D5로 위치가 변경되면:
-  기존: S1D3 (Stage 1, Area D, Number 3)
-  변경: S1D3_S1D5 (Stage 1, Area D 유지, Number만 5로 변경)
+ 기존: S1D3 (Stage 1, Area D, Number 3)
+ 변경: S1D3_S1D5 (Stage 1, Area D 유지, Number만 5로 변경)
 ```
 
 **【X, Y, Z 모두 변경 예시】**
 ```
 S2BA5가 완전히 다른 위치로 이동하면:
-  기존: S2BA5 (Stage 2, Area BA, Number 5)
-  변경: S2BA5_S1F10 (Stage 1, Area F, Number 10으로 모든 축 변경)
+ 기존: S2BA5 (Stage 2, Area BA, Number 5)
+ 변경: S2BA5_S1F10 (Stage 1, Area F, Number 10으로 모든 축 변경)
 ```
 
 #### 파일 및 커밋에서의 활용
@@ -526,60 +526,60 @@ S2F1_S1F6_login_component.tsx
 
 ---
 
-## 📊 22개 속성 전체 구조
+## 22개 속성 전체 구조
 
 ### **[1-4] Basic Info (기본 정보)**
 
 ```
 1. Stage (단계)
-   - **정의**: 프로젝트의 개발 단계 (순차적 개발 진행 단계)
-   - **값 범위**: 1, 2, 3, 4, 5, ... (프로젝트별로 가변)
-   - **데이터 타입**: 정수 (Integer)
-   - **예시**: 4
-   - **주의**: 프로젝트 규모에 따라 확대/축소 가능
-   - **용도**: X축 좌표, 순차적 진행 관리
+ - **정의**: 프로젝트의 개발 단계 (순차적 개발 진행 단계)
+ - **값 범위**: 1, 2, 3, 4, 5, ... (프로젝트별로 가변)
+ - **데이터 타입**: 정수 (Integer)
+ - **예시**: 4
+ - **주의**: 프로젝트 규모에 따라 확대/축소 가능
+ - **용도**: X축 좌표, 순차적 진행 관리
 
 2. Area (영역)
-   - **정의**: 작업이 속한 개발 영역
-   - **값 범위**: 11개 표준 영역 또는 프로젝트에 따라 유연하게 정의
-   - **표준 영역** (11개):
-     • **M (Documentation)**: 문서화
-     • **U (Design)**: UI/UX 디자인
-     • **F (Frontend)**: 프론트엔드
-     • **BI (Backend Infrastructure)**: 백엔드 기반 (Supabase 클라이언트, 미들웨어, 공통 유틸)
-     • **BA (Backend APIs)**: 백엔드 API (비즈니스 로직, REST API 엔드포인트)
-     • **D (Database)**: 데이터베이스
-     • **S (Security)**: 보안/인증/인가
-     • **T (Testing)**: 테스트
-     • **O (DevOps)**: 운영/배포
-     • **E (External)**: 외부 연동
-     • **C (Content System)**: 콘텐츠 시스템
-   - **커스텀 영역**: 프로젝트 필요에 따라 자유롭게 정의 가능
-   - **데이터 타입**: 텍스트 (고정값)
-   - **예시**: "DevOps", "Frontend", "Backend Infrastructure", "Backend APIs"
-   - **용도**: Y축 좌표, 작업 분류 및 담당 AI Agent 역할 결정
+ - **정의**: 작업이 속한 개발 영역
+ - **값 범위**: 11개 표준 영역 또는 프로젝트에 따라 유연하게 정의
+ - **표준 영역** (11개):
+ • **M (Documentation)**: 문서화
+ • **U (Design)**: UI/UX 디자인
+ • **F (Frontend)**: 프론트엔드
+ • **BI (Backend Infrastructure)**: 백엔드 기반 (Supabase 클라이언트, 미들웨어, 공통 유틸)
+ • **BA (Backend APIs)**: 백엔드 API (비즈니스 로직, REST API 엔드포인트)
+ • **D (Database)**: 데이터베이스
+ • **S (Security)**: 보안/인증/인가
+ • **T (Testing)**: 테스트
+ • **O (DevOps)**: 운영/배포
+ • **E (External)**: 외부 연동
+ • **C (Content System)**: 콘텐츠 시스템
+ - **커스텀 영역**: 프로젝트 필요에 따라 자유롭게 정의 가능
+ - **데이터 타입**: 텍스트 (고정값)
+ - **예시**: "DevOps", "Frontend", "Backend Infrastructure", "Backend APIs"
+ - **용도**: Y축 좌표, 작업 분류 및 담당 AI Agent 역할 결정
 
 3. Task ID (작업ID)
-   - **정의**: 각 작업의 고유 식별 번호
-   - **형식**: S[Stage][Area][Number][병렬기호]
-     • Stage: 1, 2, 3, 4, 5
-     • Area: M, U, F, BI, BA, D, S, T, O, E, C
-     • Number: 1, 2, 3... (순차적)
-     • 병렬기호: a, b, c... (소문자, 병렬 작업 시만 사용)
-   - **데이터 타입**: 텍스트 (고정값)
-   - **예시**:
-     • "S1O1" (Stage 1, DevOps, 작업 1번 - 단독)
-     • "S2BI3a" (Stage 2, Backend Infrastructure, 작업 3번 병렬 a)
-     • "S2BA5b" (Stage 2, Backend APIs, 작업 5번 병렬 b)
-     • "S3F7" (Stage 3, Frontend, 작업 7번 - 단독)
-   - **용도**: Grid에서 작업을 추적하고 의존성/병렬성을 표현하는 핵심 키값
+ - **정의**: 각 작업의 고유 식별 번호
+ - **형식**: S[Stage][Area][Number][병렬기호]
+ • Stage: 1, 2, 3, 4, 5
+ • Area: M, U, F, BI, BA, D, S, T, O, E, C
+ • Number: 1, 2, 3... (순차적)
+ • 병렬기호: a, b, c... (소문자, 병렬 작업 시만 사용)
+ - **데이터 타입**: 텍스트 (고정값)
+ - **예시**:
+ • "S1O1" (Stage 1, DevOps, 작업 1번 - 단독)
+ • "S2BI3a" (Stage 2, Backend Infrastructure, 작업 3번 병렬 a)
+ • "S2BA5b" (Stage 2, Backend APIs, 작업 5번 병렬 b)
+ • "S3F7" (Stage 3, Frontend, 작업 7번 - 단독)
+ - **용도**: Grid에서 작업을 추적하고 의존성/병렬성을 표현하는 핵심 키값
 
 4. Task Name (업무명)
-   - **정의**: 작업의 간단한 설명 (한 줄)
-   - **값**: 간결한 작업 내용 요약
-   - **데이터 타입**: 텍스트
-   - **예시**: "크롤링 스케줄러", "회원가입 페이지 구현", "정치인 테이블 마이그레이션"
-   - **용도**: Grid Viewer에서 Task 식별 및 빠른 이해
+ - **정의**: 작업의 간단한 설명 (한 줄)
+ - **값**: 간결한 작업 내용 요약
+ - **데이터 타입**: 텍스트
+ - **예시**: "크롤링 스케줄러", "회원가입 페이지 구현", "정치인 테이블 마이그레이션"
+ - **용도**: Grid Viewer에서 Task 식별 및 빠른 이해
 ```
 
 ---
@@ -588,89 +588,89 @@ S2F1_S1F6_login_component.tsx
 
 ```
 5. Task Instruction (작업지시서)
-   - **정의**: 작업을 수행하기 위한 상세 지시사항이 저장된 파일의 경로
-   - **값**: 파일 경로 또는 URL
-   - **데이터 타입**: 텍스트
-   - **예시**:
-     • "tasks/S4O1_instruction.md" (상대 경로)
-     • "/docs/instructions/S4BA1.md" (절대 경로)
-     • "https://docs.example.com/tasks/S1O1" (웹 문서)
-     • "-" (지시서 없음)
-   - **표준 위치**: `Project-SSAL-Grid/task-instructions/{TaskID}_instruction.md` (별도 폴더 관리)
-   - **표준 파일명**: `{TaskID}_instruction.md`
-   - **용도**: AI Agent가 작업 수행 시 참조하는 핵심 문서
-   - **주의**: 경로가 틀리면 AI가 작업 불가
+ - **정의**: 작업을 수행하기 위한 상세 지시사항이 저장된 파일의 경로
+ - **값**: 파일 경로 또는 URL
+ - **데이터 타입**: 텍스트
+ - **예시**:
+ • "tasks/S4O1_instruction.md" (상대 경로)
+ • "/docs/instructions/S4BA1.md" (절대 경로)
+ • "https://docs.example.com/tasks/S1O1" (웹 문서)
+ • "-" (지시서 없음)
+ - **표준 위치**: `Project-SSAL-Grid/task-instructions/{TaskID}_instruction.md` (별도 폴더 관리)
+ - **표준 파일명**: `{TaskID}_instruction.md`
+ - **용도**: AI Agent가 작업 수행 시 참조하는 핵심 문서
+ - **주의**: 경로가 틀리면 AI가 작업 불가
 
 6. Task Agent (작업에이전트)
-   - **정의**: 작업을 수행할 AI 에이전트 이름
-   - **값**: Agent 이름
-   - **데이터 타입**: 텍스트
-   - **예시**: "devops-troubleshooter", "fullstack-developer", "frontend-specialist"
-   - **용도**: 작업을 실제로 수행하는 AI Agent 지정
+ - **정의**: 작업을 수행할 AI 에이전트 이름
+ - **값**: Agent 이름
+ - **데이터 타입**: 텍스트
+ - **예시**: "devops-troubleshooter", "fullstack-developer", "frontend-specialist"
+ - **용도**: 작업을 실제로 수행하는 AI Agent 지정
 
 7. Tools (사용도구)
-   - **정의**: Agent가 작업 수행 시 동원하는 도구 목록
-   - **값**: 쉼표로 구분된 도구 목록
-   - **데이터 타입**: 텍스트
-   - **포함 항목** (Agent가 사용하는 도구만):
-     • **Claude Code Plugins**: 플러그인 이름 (예: @anthropic/code-review)
-     • **Slash Commands**: /review-pr, /test, /deploy 등
-     • **Skills**: pdf, xlsx, image-processing 등
-     • **MCP Servers**: /mcp__github__*, /mcp__postgres__* 등
-     • **CLI 도구**: gh (GitHub CLI), docker, npm 등
-   - **제외 항목** (구현에 사용되는 것, Task Instruction에 명시):
-     • ❌ 기술 스택: TypeScript, React, Next.js 등
-     • ❌ 라이브러리: Tailwind CSS, Zustand, Zod 등
-   - **예시**:
-     • "/deploy, gh, @myteam/devops-plugin"
-     • "/review-pr, pdf-skill, /mcp__github__create-pr"
-     • "/test, docker, @anthropic/testing-tools"
-   - **용도**: Agent가 작업 수행 시 동원할 수 있는 도구 명시
-   - **참고**: Claude Code Plugin System (Commands, Skills, MCP 포함)
+ - **정의**: Agent가 작업 수행 시 동원하는 도구 목록
+ - **값**: 쉼표로 구분된 도구 목록
+ - **데이터 타입**: 텍스트
+ - **포함 항목** (Agent가 사용하는 도구만):
+ • **Claude Code Plugins**: 플러그인 이름 (예: @anthropic/code-review)
+ • **Slash Commands**: /review-pr, /test, /deploy 등
+ • **Skills**: pdf, xlsx, image-processing 등
+ • **MCP Servers**: /mcp__github__*, /mcp__postgres__* 등
+ • **CLI 도구**: gh (GitHub CLI), docker, npm 등
+ - **제외 항목** (구현에 사용되는 것, Task Instruction에 명시):
+ • 기술 스택: TypeScript, React, Next.js 등
+ • 라이브러리: Tailwind CSS, Zustand, Zod 등
+ - **예시**:
+ • "/deploy, gh, @myteam/devops-plugin"
+ • "/review-pr, pdf-skill, /mcp__github__create-pr"
+ • "/test, docker, @anthropic/testing-tools"
+ - **용도**: Agent가 작업 수행 시 동원할 수 있는 도구 명시
+ - **참고**: Claude Code Plugin System (Commands, Skills, MCP 포함)
 
 8. Execution Type (실행유형)
-   - **정의**: 작업 수행 방식 (AI 자동화 수준)
-   - **값**: AI-Only | Human-AI | Human-Only
-   - **데이터 타입**: 텍스트 (고정값)
-   - **예시**:
-     • "AI-Only" (기본값, 80% 목표)
-     • "Human-AI" (AI가 물리적으로 불가능한 경우만)
-     • "Human-Only" (거의 사용 안 함)
-   - **용도**: 작업의 자동화 수준 명시
-   - **원칙**: AI-First, 명확한 사유 없이 Human 개입 금지
+ - **정의**: 작업 수행 방식 (AI 자동화 수준)
+ - **값**: AI-Only | Human-AI | Human-Only
+ - **데이터 타입**: 텍스트 (고정값)
+ - **예시**:
+ • "AI-Only" (기본값, 80% 목표)
+ • "Human-AI" (AI가 물리적으로 불가능한 경우만)
+ • "Human-Only" (거의 사용 안 함)
+ - **용도**: 작업의 자동화 수준 명시
+ - **원칙**: AI-First, 명확한 사유 없이 Human 개입 금지
 
-   ⚠️ **Human-AI Task 검증 규칙 (2025-12-15 추가)**:
+ **Human-AI Task 검증 규칙 (2025-12-15 추가)**:
 
-   Human-AI Task는 가이드 문서 작성만으로 "완료" 처리 금지!
+ Human-AI Task는 가이드 문서 작성만으로 "완료" 처리 금지!
 
-   **필수 완료 기준:**
-   | 단계 | 수행자 | 필수 |
-   |------|--------|------|
-   | 1. 설정 가이드 작성 | AI | ✅ |
-   | 2. PO에게 설정 요청 | AI | ✅ |
-   | 3. 외부 서비스 설정 | PO (Human) | ✅ |
-   | 4. 설정 완료 확인 | AI + PO | ✅ |
-   | 5. **실제 작동 테스트** | AI + PO | ✅ **필수** |
-   | 6. 테스트 성공 시 "완료" | AI | ✅ |
+ **필수 완료 기준:**
+ | 단계 | 수행자 | 필수 |
+ |------|--------|------|
+ | 1. 설정 가이드 작성 | AI | |
+ | 2. PO에게 설정 요청 | AI | |
+ | 3. 외부 서비스 설정 | PO (Human) | |
+ | 4. 설정 완료 확인 | AI + PO | |
+ | 5. **실제 작동 테스트** | AI + PO | **필수** |
+ | 6. 테스트 성공 시 "완료" | AI | |
 
-   **Human-AI Task 예시:**
-   - S1S1: Google OAuth 설정
-   - S2BI1: Resend 이메일 설정
-   - S3E1: AI API 키 설정
-   - S4O1: PG사 설정
-   - S5O1/S5O2: 배포/도메인 연결
+ **Human-AI Task 예시:**
+ - S1S1: Google OAuth 설정
+ - S2BI1: Resend 이메일 설정
+ - S3E1: AI API 키 설정
+ - S4O1: PG사 설정
+ - S5O1/S5O2: 배포/도메인 연결
 
 9. Dependencies (의존성체인)
-   - **정의**: 현재 작업이 시작되기 전에 먼저 완료되어야 할 선행 작업의 ID
-   - **값**: Task ID 목록 (쉼표로 구분)
-   - **데이터 타입**: 텍스트
-   - **예시**:
-     • "S1O4" (단일 의존성)
-     • "S2BI1, S2F2" (복수 의존성)
-     • "S3F2a, S3F2b, S3F2c" (병렬 작업 그룹 전체 의존)
-     • "-" 또는 빈 칸 (의존성 없음)
-   - **용도**: Task 실행 순서 제어, 자동 의존성 검증
-   - **참고**: 코드 import 문에서 자동 의존성 감지 가능
+ - **정의**: 현재 작업이 시작되기 전에 먼저 완료되어야 할 선행 작업의 ID
+ - **값**: Task ID 목록 (쉼표로 구분)
+ - **데이터 타입**: 텍스트
+ - **예시**:
+ • "S1O4" (단일 의존성)
+ • "S2BI1, S2F2" (복수 의존성)
+ • "S3F2a, S3F2b, S3F2c" (병렬 작업 그룹 전체 의존)
+ • "-" 또는 빈 칸 (의존성 없음)
+ - **용도**: Task 실행 순서 제어, 자동 의존성 검증
+ - **참고**: 코드 import 문에서 자동 의존성 감지 가능
 ```
 
 ---
@@ -679,45 +679,45 @@ S2F1_S1F6_login_component.tsx
 
 ```
 10. Task Progress (작업진도)
-    - **정의**: 작업 완료율
-    - **값**: 0% ~ 100% (10% 단위 권장)
-    - **데이터 타입**: 정수 (Integer)
-    - **예시**: 0%, 50%, 100%
-    - **용도**: 작업 진행 상황 추적
+ - **정의**: 작업 완료율
+ - **값**: 0% ~ 100% (10% 단위 권장)
+ - **데이터 타입**: 정수 (Integer)
+ - **예시**: 0%, 50%, 100%
+ - **용도**: 작업 진행 상황 추적
 
 11. Task Status (작업상태)
-    - **정의**: 현재 작업 상태
-    - **값**: Pending | In Progress | Completed | Fixing
-    - **데이터 타입**: 텍스트 (고정값)
-    - **예시**:
-      • "Pending" (대기)
-      • "In Progress" (진행 중)
-      • "Completed" (완료)
-      • "Fixing" (수정 중)
-    - **용도**: 작업 진행 단계 추적
-    - **참고**: 타임스탬프는 DB의 created_at, updated_at 사용
+ - **정의**: 현재 작업 상태
+ - **값**: Pending | In Progress | Completed | Fixing
+ - **데이터 타입**: 텍스트 (고정값)
+ - **예시**:
+ • "Pending" (대기)
+ • "In Progress" (진행 중)
+ • "Completed" (완료)
+ • "Fixing" (수정 중)
+ - **용도**: 작업 진행 단계 추적
+ - **참고**: 타임스탬프는 DB의 created_at, updated_at 사용
 
 12. Generated Files (생성파일)
-    - **정의**: 작업으로 생성된 파일 목록
-    - **값**: 쉼표로 구분된 파일 경로 목록
-    - **데이터 타입**: 텍스트
-    - **예시**:
-      • "src/app/api/cron/route.ts, vercel.json, README.md"
-      • "src/components/ProfileCard.tsx, src/lib/utils.ts"
-    - **표준 파일명**: {TaskID}_ 접두사 사용 권장
-    - **용도**: Task가 생성한 파일 추적
-    - **참고**: Git 커밋으로 파일 생성 시점 추적 가능
+ - **정의**: 작업으로 생성된 파일 목록
+ - **값**: 쉼표로 구분된 파일 경로 목록
+ - **데이터 타입**: 텍스트
+ - **예시**:
+ • "src/app/api/cron/route.ts, vercel.json, README.md"
+ • "src/components/ProfileCard.tsx, src/lib/utils.ts"
+ - **표준 파일명**: {TaskID}_ 접두사 사용 권장
+ - **용도**: Task가 생성한 파일 추적
+ - **참고**: Git 커밋으로 파일 생성 시점 추적 가능
 
 13. Modification History (수정이력)
-    - **정의**: 생성된 파일들의 수정 내역 및 오류 복구 과정
-    - **값**: 버전 및 변경 내용 기록
-    - **데이터 타입**: 텍스트
-    - **예시**:
-      • "[v1.0.0] 초기 구현"
-      • "[ERROR] TypeScript 타입 오류 → [FIX] 인터페이스 수정 → [PASS] 빌드 성공"
-      • "[v1.0.1] 코드 리뷰 반영"
-    - **작성 원칙**: 버전 번호 포함, 오류 복구 과정 상세 기록
-    - **용도**: 변경 이력 추적 및 문제 해결 과정 기록
+ - **정의**: 생성된 파일들의 수정 내역 및 오류 복구 과정
+ - **값**: 버전 및 변경 내용 기록
+ - **데이터 타입**: 텍스트
+ - **예시**:
+ • "[v1.0.0] 초기 구현"
+ • "[ERROR] TypeScript 타입 오류 → [FIX] 인터페이스 수정 → [PASS] 빌드 성공"
+ • "[v1.0.1] 코드 리뷰 반영"
+ - **작성 원칙**: 버전 번호 포함, 오류 복구 과정 상세 기록
+ - **용도**: 변경 이력 추적 및 문제 해결 과정 기록
 ```
 
 ---
@@ -726,28 +726,28 @@ S2F1_S1F6_login_component.tsx
 
 ```
 14. Verification Instruction (검증지시서)
-    - **정의**: 검증을 수행하기 위한 체크리스트가 저장된 파일의 경로
-    - **값**: 파일 경로 또는 URL
-    - **데이터 타입**: 텍스트
-    - **예시**:
-      • "tasks/S4O1_verification.md" (상대 경로)
-      • "/docs/verifications/S4BA1.md" (절대 경로)
-      • "-" (검증지시서 없음)
-    - **표준 위치**: `Project-SSAL-Grid/verification-instructions/{TaskID}_verification.md` (별도 폴더 관리)
-    - **표준 파일명**: `{TaskID}_verification.md`
-    - **용도**: 검증 Agent가 Task 검증 시 참조하는 체크리스트
+ - **정의**: 검증을 수행하기 위한 체크리스트가 저장된 파일의 경로
+ - **값**: 파일 경로 또는 URL
+ - **데이터 타입**: 텍스트
+ - **예시**:
+ • "tasks/S4O1_verification.md" (상대 경로)
+ • "/docs/verifications/S4BA1.md" (절대 경로)
+ • "-" (검증지시서 없음)
+ - **표준 위치**: `Project-SSAL-Grid/verification-instructions/{TaskID}_verification.md` (별도 폴더 관리)
+ - **표준 파일명**: `{TaskID}_verification.md`
+ - **용도**: 검증 Agent가 Task 검증 시 참조하는 체크리스트
 
 15. Verification Agent (검증에이전트)
-    - **정의**: 작업 완료 후 검증을 수행할 전문 AI 에이전트 이름
-    - **값**: Agent 이름
-    - **데이터 타입**: 텍스트
-    - **예시**:
-      • "qa-specialist" (품질 보증 전문가)
-      • "code-reviewer" (코드 리뷰어)
-      • "security-auditor" (보안 감사자)
-      • "performance-tester" (성능 테스터)
-    - **용도**: 1단계 Task 검증 수행 (작성자와 분리된 독립 검증자)
-    - **참고**: Task Agent와 다른 Agent 사용 권장 (객관적 검증)
+ - **정의**: 작업 완료 후 검증을 수행할 전문 AI 에이전트 이름
+ - **값**: Agent 이름
+ - **데이터 타입**: 텍스트
+ - **예시**:
+ • "qa-specialist" (품질 보증 전문가)
+ • "code-reviewer" (코드 리뷰어)
+ • "security-auditor" (보안 감사자)
+ • "performance-tester" (성능 테스터)
+ - **용도**: 1단계 Task 검증 수행 (작성자와 분리된 독립 검증자)
+ - **참고**: Task Agent와 다른 Agent 사용 권장 (객관적 검증)
 ```
 
 ---
@@ -756,71 +756,71 @@ S2F1_S1F6_login_component.tsx
 
 ```
 16. Test (테스트)
-    - **정의**: 작업 결과물에 대한 테스트 수행 결과
-    - **구성**: 4가지 테스트 유형
-      • Unit Test (단위테스트): 개별 함수/컴포넌트 테스트
-      • Integration Test (통합테스트): 모듈 간 연동 테스트
-      • Edge Cases (엣지케이스): 경계값/예외 상황 테스트
-      • Manual Test (수동테스트): 실제 동작 확인
-    - **데이터 타입**: 구조화된 텍스트 (각 테스트별 Pass/Fail)
-    - **예시**:
-      • Unit Test (단위테스트): ✅ CRON_SECRET 인증
-      • Integration Test (통합테스트): ✅ S4BA1 크롤러 연동
-      • Edge Cases (엣지케이스): ✅ 빈 데이터 처리
-      • Manual Test (수동테스트): ✅ curl 실행 확인
-    - **용도**: 코드 품질 검증 및 오류 조기 발견
-    - **참고**: 모든 항목이 ✅ Pass 되어야 Comprehensive Verification 통과
+ - **정의**: 작업 결과물에 대한 테스트 수행 결과
+ - **구성**: 4가지 테스트 유형
+ • Unit Test (단위테스트): 개별 함수/컴포넌트 테스트
+ • Integration Test (통합테스트): 모듈 간 연동 테스트
+ • Edge Cases (엣지케이스): 경계값/예외 상황 테스트
+ • Manual Test (수동테스트): 실제 동작 확인
+ - **데이터 타입**: 구조화된 텍스트 (각 테스트별 Pass/Fail)
+ - **예시**:
+ • Unit Test (단위테스트): CRON_SECRET 인증
+ • Integration Test (통합테스트): S4BA1 크롤러 연동
+ • Edge Cases (엣지케이스): 빈 데이터 처리
+ • Manual Test (수동테스트): curl 실행 확인
+ - **용도**: 코드 품질 검증 및 오류 조기 발견
+ - **참고**: 모든 항목이 Pass 되어야 Comprehensive Verification 통과
 
 17. Build (빌드)
-    - **정의**: 빌드 프로세스 각 단계의 성공 여부
-    - **구성**: 4가지 빌드 단계
-      • Compile (컴파일): 타입스크립트/컴파일 오류 검사
-      • Lint (린트): 코드 스타일 및 정적 분석
-      • Deploy (배포): 실제 배포 환경 테스트
-      • Runtime (실행): 런타임 동작 확인
-    - **데이터 타입**: 구조화된 텍스트 (각 단계별 Pass/Fail)
-    - **예시**:
-      • Compile (컴파일): ✅ TypeScript 오류 없음
-      • Lint (린트): ✅ ESLint 통과
-      • Deploy (배포): ✅ Vercel Production 정상
-      • Runtime (실행): ✅ Cron 로그 확인
-    - **용도**: 프로덕션 배포 가능 여부 판단
-    - **참고**: Compile, Lint는 필수, Deploy/Runtime은 선택적
+ - **정의**: 빌드 프로세스 각 단계의 성공 여부
+ - **구성**: 4가지 빌드 단계
+ • Compile (컴파일): 타입스크립트/컴파일 오류 검사
+ • Lint (린트): 코드 스타일 및 정적 분석
+ • Deploy (배포): 실제 배포 환경 테스트
+ • Runtime (실행): 런타임 동작 확인
+ - **데이터 타입**: 구조화된 텍스트 (각 단계별 Pass/Fail)
+ - **예시**:
+ • Compile (컴파일): TypeScript 오류 없음
+ • Lint (린트): ESLint 통과
+ • Deploy (배포): Vercel Production 정상
+ • Runtime (실행): Cron 로그 확인
+ - **용도**: 프로덕션 배포 가능 여부 판단
+ - **참고**: Compile, Lint는 필수, Deploy/Runtime은 선택적
 
 18. Integration Verification (연동검증)
-    - **정의**: 다른 Task 또는 시스템과의 연동 상태 검증
-    - **구성**: 3가지 연동 검증 항목
-      • Dependency Propagation (의존성전파): 선행 Task의 결과물이 올바르게 전달되는지
-      • Cross-Task Connection (Task간 연결): 관련 Task들과 정상 연동되는지
-      • Data Flow (데이터 흐름): 데이터가 올바르게 흐르는지
-    - **데이터 타입**: 구조화된 텍스트 (각 항목별 Pass/Fail)
-    - **예시**:
-      • Dependency Propagation (의존성전파): S4O2, S4O3 ✅
-      • Cross-Task Connection (Task간 연결): ✅ S4BA1 API 정상 호출
-      • Data Flow (데이터 흐름): ✅ DB → API → Frontend 데이터 전달
-    - **용도**: 시스템 통합 상태 확인
-    - **참고**: Dependencies가 있는 Task는 반드시 검증 필요
+ - **정의**: 다른 Task 또는 시스템과의 연동 상태 검증
+ - **구성**: 3가지 연동 검증 항목
+ • Dependency Propagation (의존성전파): 선행 Task의 결과물이 올바르게 전달되는지
+ • Cross-Task Connection (Task간 연결): 관련 Task들과 정상 연동되는지
+ • Data Flow (데이터 흐름): 데이터가 올바르게 흐르는지
+ - **데이터 타입**: 구조화된 텍스트 (각 항목별 Pass/Fail)
+ - **예시**:
+ • Dependency Propagation (의존성전파): S4O2, S4O3 
+ • Cross-Task Connection (Task간 연결): S4BA1 API 정상 호출
+ • Data Flow (데이터 흐름): DB → API → Frontend 데이터 전달
+ - **용도**: 시스템 통합 상태 확인
+ - **참고**: Dependencies가 있는 Task는 반드시 검증 필요
 
 19. Blockers (블로커)
-    - **정의**: 작업 완료를 방해하는 장애물 목록
-    - **구성**: 4가지 블로커 유형
-      • Dependency (의존성): 선행 Task 미완료
-      • Environment (환경설정): 환경변수, API 키 등 설정 문제
-      • External API (외부 API): 외부 서비스 장애 또는 제한
-      • Status (상태): 전체 블로커 상태 요약
-    - **데이터 타입**: 구조화된 텍스트 (각 유형별 블로커 내용)
-    - **예시**:
-      • Dependency (의존성): None
-      • Environment (환경설정): None
-      • External API (외부 API): None
-      • Status (상태): No Blockers ✅
-    - **예시 (블로커 있는 경우)**:
-      • Dependency (의존성): ⚠️ S4BA1 미완료 대기중
-      • Environment (환경설정): ⚠️ SUPABASE_URL 미설정
-      • External API (외부 API): ⚠️ OpenAI API 할당량 초과
-      • Status (상태): 3 Blockers 🚫 작업 중단
-    - **용도**: 작업 진행 장애물 추적 및 해결
-    - **참고**: 블로커 해결되면 즉시 Status 업데이트
+ - **정의**: 작업 완료를 방해하는 장애물 목록
+ - **구성**: 4가지 블로커 유형
+ • Dependency (의존성): 선행 Task 미완료
+ • Environment (환경설정): 환경변수, API 키 등 설정 문제
+ • External API (외부 API): 외부 서비스 장애 또는 제한
+ • Status (상태): 전체 블로커 상태 요약
+ - **데이터 타입**: 구조화된 텍스트 (각 유형별 블로커 내용)
+ - **예시**:
+ • Dependency (의존성): None
+ • Environment (환경설정): None
+ • External API (외부 API): None
+ • Status (상태): No Blockers 
+ - **예시 (블로커 있는 경우)**:
+ • Dependency (의존성): S4BA1 미완료 대기중
+ • Environment (환경설정): SUPABASE_URL 미설정
+ • External API (외부 API): OpenAI API 할당량 초과
+ • Status (상태): 3 Blockers 🚫 작업 중단
+ - **용도**: 작업 진행 장애물 추적 및 해결
+ - **참고**: 블로커 해결되면 즉시 Status 업데이트
 ```
 
 ---
@@ -829,111 +829,111 @@ S2F1_S1F6_login_component.tsx
 
 ```
 20. Comprehensive Verification (종합검증결과)
-    - **정의**: 모든 검증 항목을 종합한 최종 검증 결과 리포트
-    - **구성**: 6가지 검증 항목 + 최종 판정
-      • Task Instruction (작업지시서): 지시서 요구사항 충족 여부
-      • Test (테스트): #16 테스트 결과 요약
-      • Build (빌드): #17 빌드 결과 요약
-      • Integration (연동): #18 연동 검증 결과 요약
-      • Blockers (블로커): #19 블로커 상태 요약
-      • Final (최종): 전체 검증 통과/실패 판정
-    - **데이터 타입**: 구조화된 텍스트 (각 항목별 Pass/Fail + 최종 판정)
-    - **예시 (통과)**:
-      • [Task Instruction (작업지시서)] ✅ 모든 요구사항 충족
-      • [Test (테스트)] ✅ 4/4 통과
-      • [Build (빌드)] ✅ 4/4 통과
-      • [Integration (연동)] ✅ 3/3 통과
-      • [Blockers (블로커)] ✅ None
-      • [Final (최종)] ✅ Passed (검증 통과)
-    - **예시 (실패)**:
-      • [Task Instruction (작업지시서)] ✅ 모든 요구사항 충족
-      • [Test (테스트)] ❌ 2/4 실패 (Unit, Integration)
-      • [Build (빌드)] ❌ Compile 오류 발생
-      • [Integration (연동)] ⚠️ 검증 불가 (선행 Task 미완료)
-      • [Blockers (블로커)] ❌ 2 Blockers
-      • [Final (최종)] ❌ Failed (재작업 필요)
-    - **용도**: Verification Agent가 작성하는 최종 검증 리포트
-    - **참고**: 모든 항목 ✅ Pass 시에만 Verification Status가 "Passed"
+ - **정의**: 모든 검증 항목을 종합한 최종 검증 결과 리포트
+ - **구성**: 6가지 검증 항목 + 최종 판정
+ • Task Instruction (작업지시서): 지시서 요구사항 충족 여부
+ • Test (테스트): #16 테스트 결과 요약
+ • Build (빌드): #17 빌드 결과 요약
+ • Integration (연동): #18 연동 검증 결과 요약
+ • Blockers (블로커): #19 블로커 상태 요약
+ • Final (최종): 전체 검증 통과/실패 판정
+ - **데이터 타입**: 구조화된 텍스트 (각 항목별 Pass/Fail + 최종 판정)
+ - **예시 (통과)**:
+ • [Task Instruction (작업지시서)] 모든 요구사항 충족
+ • [Test (테스트)] 4/4 통과
+ • [Build (빌드)] 4/4 통과
+ • [Integration (연동)] 3/3 통과
+ • [Blockers (블로커)] None
+ • [Final (최종)] Passed (검증 통과)
+ - **예시 (실패)**:
+ • [Task Instruction (작업지시서)] 모든 요구사항 충족
+ • [Test (테스트)] 2/4 실패 (Unit, Integration)
+ • [Build (빌드)] Compile 오류 발생
+ • [Integration (연동)] 검증 불가 (선행 Task 미완료)
+ • [Blockers (블로커)] 2 Blockers
+ • [Final (최종)] Failed (재작업 필요)
+ - **용도**: Verification Agent가 작성하는 최종 검증 리포트
+ - **참고**: 모든 항목 Pass 시에만 Verification Status가 "Passed"
 
 21. Verification Status (검증상태)
-    - **정의**: 검증 완료 후 최종 판정 상태
-    - **값**: Not Verified | Passed | Failed
-    - **데이터 타입**: 텍스트 (고정값)
-    - **예시**:
-      • "Not Verified" (미검증 - 초기 상태)
-      • "Passed" (통과 - 검증 성공)
-      • "Failed" (실패 - 재작업 필요)
-    - **용도**: Task의 품질 승인 여부 추적
-    - **참고**:
-      • Passed → Task 완전 완료, 다음 Task 진행 가능
-      • Failed → Task Status를 "Fixing"으로 변경, 재작업
+ - **정의**: 검증 완료 후 최종 판정 상태
+ - **값**: Not Verified | Passed | Failed
+ - **데이터 타입**: 텍스트 (고정값)
+ - **예시**:
+ • "Not Verified" (미검증 - 초기 상태)
+ • "Passed" (통과 - 검증 성공)
+ • "Failed" (실패 - 재작업 필요)
+ - **용도**: Task의 품질 승인 여부 추적
+ - **참고**:
+ • Passed → Task 완전 완료, 다음 Task 진행 가능
+ • Failed → Task Status를 "Fixing"으로 변경, 재작업
 
 22. Remarks (참고사항)
-    - **정의**: 후속 작업자를 위한 참고사항, 주의사항, 제약사항
-    - **값**: 자유 형식 텍스트
-    - **데이터 타입**: 텍스트
-    - **예시**:
-      • "매일 6시 자동 실행됨"
-      • "CRON_SECRET 환경변수 필수"
-      • "S4O2 작업 시 이 Task의 로그 파일 경로 참조 필요"
-      • "향후 시간 변경 시 vercel.json 수정"
-      • "OpenAI API 할당량 주의 (월 100만 토큰 제한)"
-    - **용도**:
-      • 다음 세션 Agent가 작업 이어갈 때 참고
-      • 운영/유지보수 시 주의사항 전달
-      • 의존 Task에서 이 Task의 결과물 사용 시 필요한 정보
-    - **작성 원칙**:
-      • 구체적이고 실행 가능한 정보 기록
-      • 환경변수, 파일 경로, 설정값 등 명시
-      • "왜 이렇게 했는지" 맥락 제공
+ - **정의**: 후속 작업자를 위한 참고사항, 주의사항, 제약사항
+ - **값**: 자유 형식 텍스트
+ - **데이터 타입**: 텍스트
+ - **예시**:
+ • "매일 6시 자동 실행됨"
+ • "CRON_SECRET 환경변수 필수"
+ • "S4O2 작업 시 이 Task의 로그 파일 경로 참조 필요"
+ • "향후 시간 변경 시 vercel.json 수정"
+ • "OpenAI API 할당량 주의 (월 100만 토큰 제한)"
+ - **용도**:
+ • 다음 세션 Agent가 작업 이어갈 때 참고
+ • 운영/유지보수 시 주의사항 전달
+ • 의존 Task에서 이 Task의 결과물 사용 시 필요한 정보
+ - **작성 원칙**:
+ • 구체적이고 실행 가능한 정보 기록
+ • 환경변수, 파일 경로, 설정값 등 명시
+ • "왜 이렇게 했는지" 맥락 제공
 ```
 
 ---
 
-## 🔄 Task 작업 플로우
+## Task 작업 플로우
 
 ```
 [1-9] Task 정의 (AI가 Supabase에 생성)
-  ↓
+ ↓
 [10] Task Progress: 0% → 작업 시작
 [11] Task Status: Pending → In Progress
-  ↓
+ ↓
 [작업 에이전트 실행]
-  - [5] Task Instruction 읽기
-  - 코드 작성
-  ↓
+ - [5] Task Instruction 읽기
+ - 코드 작성
+ ↓
 [10] Task Progress: 100%
 [11] Task Status: Completed
 [12] Generated Files 기록
 [13] Modification History 기록
-  ↓
+ ↓
 [검증 에이전트 실행]
-  - [14] Verification Instruction 읽기
-  ↓
+ - [14] Verification Instruction 읽기
+ ↓
 [16] Test 수행
 [17] Build 수행
 [18] Integration Verification 수행
 [19] Blockers 확인
-  ↓
+ ↓
 [20] Comprehensive Verification 작성
 [21] Verification Status 판정
-  ↓
-  ✅ Passed → 완료!
-  ❌ Failed → [11] Task Status: Fixing → 10번부터 재작업
-  ↓
+ ↓
+ Passed → 완료!
+ Failed → [11] Task Status: Fixing → 10번부터 재작업
+ ↓
 [22] Remarks 작성 (후속 작업자를 위한 참고사항)
 ```
 
 ---
 
-## ✅ 검증 로직
+## 검증 로직
 
 ### **검증 통과 조건 (ALL 충족)**
 ```
-✅ Test (16번) - 모든 테스트 통과
-✅ Build (17번) - 모든 빌드 정상
-✅ Integration Verification (18번) - 모든 연동 확인
-✅ Blockers (19번) - 블로커 없음 (None)
+ Test (16번) - 모든 테스트 통과
+ Build (17번) - 모든 빌드 정상
+ Integration Verification (18번) - 모든 연동 확인
+ Blockers (19번) - 블로커 없음 (None)
 
 → Comprehensive Verification (20번): Passed
 → Verification Status (21번): Passed (통과)
@@ -941,10 +941,10 @@ S2F1_S1F6_login_component.tsx
 
 ### **검증 실패 조건 (ANY 해당)**
 ```
-❌ Test 실패
-❌ Build 실패
-❌ Integration 실패
-❌ Blockers 존재
+ Test 실패
+ Build 실패
+ Integration 실패
+ Blockers 존재
 
 → Comprehensive Verification (20번): Failed
 → Verification Status (21번): Failed (실패)
@@ -954,7 +954,7 @@ S2F1_S1F6_login_component.tsx
 
 ---
 
-## 🎯 핵심 원칙
+## 핵심 원칙
 
 ### **1. 하이브리드 자동화**
 - PROJECT SAL GRID: Task 자동 실행 (80%)
@@ -1009,29 +1009,29 @@ project-root/
 ├── PROJECT_STATUS.md
 ├── PROJECT_DIRECTORY_STRUCTURE.md
 │
-├── P1_사업계획/                        # Business Plan (GRID 범위 밖)
-├── P2_프로젝트_기획/                   # Project Planning (GRID 범위 밖)
-├── P3_프로토타입_제작/                 # Prototype (GRID 범위 밖)
-├── S1_개발_준비/                       # Development Setup (Stage 1)
-├── S2_개발-1차/                        # Core Development (Stage 2)
-├── S3_개발-2차/                        # Advanced Features (Stage 3)
-├── S4_개발-3차/                        # QA & Optimization (Stage 4)
-├── S5_운영/                            # Operations (Stage 5)
+├── P1_사업계획/ # Business Plan (GRID 범위 밖)
+├── P2_프로젝트_기획/ # Project Planning (GRID 범위 밖)
+├── P3_프로토타입_제작/ # Prototype (GRID 범위 밖)
+├── S1_개발_준비/ # Development Setup (Stage 1)
+├── S2_개발-1차/ # Core Development (Stage 2)
+├── S3_개발-2차/ # Advanced Features (Stage 3)
+├── S4_개발-3차/ # QA & Optimization (Stage 4)
+├── S5_운영/ # Operations (Stage 5)
 │
-├── .claude/                           # Claude Code 설정
-│   └── CLAUDE.md
+├── .claude/ # Claude Code 설정
+│ └── CLAUDE.md
 │
-├── Web_ClaudeCode_Bridge/            # Web ↔ Claude Code 브릿지
-│   ├── inbox/                        # 인간 → Claude
-│   └── outbox/                       # Claude → 인간
+├── Web_ClaudeCode_Bridge/ # Web ↔ Claude Code 브릿지
+│ ├── inbox/ # 인간 → Claude
+│ └── outbox/ # Claude → 인간
 │
-└── Project-SSAL-Grid/                # PROJECT SAL GRID 관리
-    ├── ssal-grid/                    # Task 기획 + Grid 데이터
-    │   ├── SSALWORKS_TASK_PLAN.md   # Task 기획서
-    │   └── SSALWORKS_5x11_MATRIX.md # 5×11 매트릭스
-    ├── manual/                       # 매뉴얼
-    ├── supabase/                     # 데이터베이스 스키마
-    └── viewer/                       # 뷰어
+└── Project-SSAL-Grid/ # PROJECT SAL GRID 관리
+ ├── ssal-grid/ # Task 기획 + Grid 데이터
+ │ ├── SSALWORKS_TASK_PLAN.md # Task 기획서
+ │ └── SSALWORKS_5x11_MATRIX.md # 5×11 매트릭스
+ ├── manual/ # 매뉴얼
+ ├── supabase/ # 데이터베이스 스키마
+ └── viewer/ # 뷰어
 ```
 
 ---
@@ -1060,14 +1060,14 @@ PROJECT_STATUS.md 참고
 - **Last Updated**: 2025-11-23
 
 ## Completed Stages
-- ✅ 프로젝트 기획 (2025-11-15 완료) ← GRID 범위 외
+- 프로젝트 기획 (2025-11-15 완료) ← GRID 범위 외
 
 ## Current Tasks
-- 🔄 S2F3: 로그인 페이지 (In Progress)
-- 🔄 S2B2: 인증 API (In Progress)
+- S2F3: 로그인 페이지 (In Progress)
+- S2B2: 인증 API (In Progress)
 
 ## Blocked Tasks
-- ⏸️ S2F5: 대시보드 (의존성: S2B3)
+- S2F5: 대시보드 (의존성: S2B3)
 ```
 
 #### **PROJECT_DIRECTORY_STRUCTURE.md**
@@ -1078,16 +1078,16 @@ PROJECT_STATUS.md 참고
 
 ### 4.4 작업 결과물 저장 2대 규칙 (2025-12-13 확정)
 
-> **⚠️ 이 규칙은 모든 Task 작업에 적용됩니다. 반드시 준수하세요!**
+> ** 이 규칙은 모든 Task 작업에 적용됩니다. 반드시 준수하세요!**
 
-#### 📌 제1 규칙: Stage + Area 폴더에 저장
+#### 제1 규칙: Stage + Area 폴더에 저장
 
 **모든 작업 결과물은 Task ID의 Stage와 Area에 해당하는 폴더에 저장합니다.**
 
 ```
 Task ID 구조: [Stage][Area][번호]
 예: S1S1 → Stage: S1, Area: S (Security)
-    S2F1 → Stage: S2, Area: F (Frontend)
+ S2F1 → Stage: S2, Area: F (Frontend)
 ```
 
 **Stage 폴더 매핑:**
@@ -1119,15 +1119,15 @@ Task ID 구조: [Stage][Area][번호]
 - S2F1 → `S2_개발-1차/Frontend/`
 - S3BA1 → `S3_개발-2차/Backend_APIs/`
 
-#### 📌 제2 규칙: Production 코드는 이중 저장
+#### 제2 규칙: Production 코드는 이중 저장
 
 **Frontend, Database, Backend_APIs 코드 파일은 Stage/Area 폴더 + Production 폴더 둘 다 저장합니다.**
 
 ```
-Production/                 ← 배포용 코드 (최신 상태 유지)
-├── Frontend/               # 프론트엔드 코드
-├── Backend_APIs/           # API 코드
-└── Database/               # DB 스키마
+Production/ ← 배포용 코드 (최신 상태 유지)
+├── Frontend/ # 프론트엔드 코드
+├── Backend_APIs/ # API 코드
+└── Database/ # DB 스키마
 ```
 
 **이중 저장 대상:**
@@ -1146,7 +1146,7 @@ Production/                 ← 배포용 코드 (최신 상태 유지)
 - Documentation, Security, Testing, DevOps 등 문서는 Production에 저장하지 않음
 - 예: S1S1 문서 → `S1_개발_준비/Security/` (Production에 저장 X)
 
-#### ❌ 금지 사항
+#### 금지 사항
 
 - 다른 Stage 폴더에 저장 금지 (예: S1 작업을 P3에 저장)
 - Area 무시하고 임의 폴더에 저장 금지 (예: Security 작업을 Documentation에 저장)
@@ -1164,10 +1164,10 @@ Production/                 ← 배포용 코드 (최신 상태 유지)
 #### **각 Stage 폴더 구조**
 ```
 1_기획/
-├── requirements.md           # 요구사항 문서
-├── mockups/                  # 디자인 목업
-├── erd.md                    # ERD 설계
-└── tech-stack.md            # 기술 스택 결정
+├── requirements.md # 요구사항 문서
+├── mockups/ # 디자인 목업
+├── erd.md # ERD 설계
+└── tech-stack.md # 기술 스택 결정
 ```
 
 **Stage별 주요 산출물:**
@@ -1240,21 +1240,21 @@ outbox/
 #### **구조**
 ```
 Project-SSAL-Grid/
-├── ssal-grid/                        # Task 기획 + Grid 데이터
-│   ├── SSALWORKS_TASK_PLAN.md       # Task 기획서 (v3.0)
-│   └── SSALWORKS_5x11_MATRIX.md     # 5×11 매트릭스 (v3.0)
+├── ssal-grid/ # Task 기획 + Grid 데이터
+│ ├── SSALWORKS_TASK_PLAN.md # Task 기획서 (v3.0)
+│ └── SSALWORKS_5x11_MATRIX.md # 5×11 매트릭스 (v3.0)
 │
 ├── manual/
-│   ├── PROJECT_SSAL_GRID_MANUAL.md  # 완전 매뉴얼
-│   └── references/                   # 참조 문서
+│ ├── PROJECT_SSAL_GRID_MANUAL.md # 완전 매뉴얼
+│ └── references/ # 참조 문서
 │
 ├── supabase/
-│   ├── schema.sql
-│   ├── migrations/
-│   └── rls_policies.sql
+│ ├── schema.sql
+│ ├── migrations/
+│ └── rls_policies.sql
 │
 └── viewer/
-    └── viewer.html                   # HTML 뷰어
+ └── viewer.html # HTML 뷰어
 ```
 
 #### **각 폴더 역할**
@@ -1312,10 +1312,10 @@ Project-SSAL-Grid/
 ### 4.9 주의사항
 
 **필수 파일:**
-- ✅ README.md (루트)
-- ✅ PROJECT_STATUS.md (루트)
-- ✅ PROJECT_DIRECTORY_STRUCTURE.md (루트)
-- ✅ claude.md (claude/ 폴더)
+- README.md (루트)
+- PROJECT_STATUS.md (루트)
+- PROJECT_DIRECTORY_STRUCTURE.md (루트)
+- claude.md (claude/ 폴더)
 
 **폴더 생성 시기:**
 - **0-5 Stage 폴더**: 프로젝트 시작 시 즉시 생성
@@ -1343,32 +1343,32 @@ Project-SSAL-Grid/
 ```
 [P1-P3: 예비단계 (GRID 범위 밖)]
 
-  P1 사업계획
-    ├─ Vision & Mission
-    ├─ Market Analysis
-    └─ Business Model
-         ↓
-  P2 프로젝트 기획
-    ├─ 요구사항 정의
-    ├─ 🎨 목업 디자인 완성 (필수!)
-    ├─ ERD 설계
-    └─ 기술 스택 결정
-         ↓
-  P3 프로토타입 제작
-    ├─ Frontend 프로토타입
-    ├─ Database 설정
-    └─ 기본 동작 확인
-         ↓
-  ✨ PROJECT SAL GRID 생성
-    ├─ AI가 S1~S5 모든 Task 도출
-    ├─ 의존성 체인 설정
-    └─ Task/Verification Instruction 작성
-         ↓
-  PROJECT SAL GRID 완성! ✅
-  (예비단계 종료, 실행단계 진입 대기)
+ P1 사업계획
+ ├─ Vision & Mission
+ ├─ Market Analysis
+ └─ Business Model
+ ↓
+ P2 프로젝트 기획
+ ├─ 요구사항 정의
+ ├─ 🎨 목업 디자인 완성 (필수!)
+ ├─ ERD 설계
+ └─ 기술 스택 결정
+ ↓
+ P3 프로토타입 제작
+ ├─ Frontend 프로토타입
+ ├─ Database 설정
+ └─ 기본 동작 확인
+ ↓
+ PROJECT SAL GRID 생성
+ ├─ AI가 S1~S5 모든 Task 도출
+ ├─ 의존성 체인 설정
+ └─ Task/Verification Instruction 작성
+ ↓
+ PROJECT SAL GRID 완성! 
+ (예비단계 종료, 실행단계 진입 대기)
 
 [S1-S5: 실행단계 (GRID 관리 범위)]
-  └─ Grid에 정의된 Task를 순서대로 실행
+ └─ Grid에 정의된 Task를 순서대로 실행
 ```
 
 **핵심:**
@@ -1382,44 +1382,44 @@ Project-SSAL-Grid/
 
 ```
 Step 1: 필수 초기 자료 확인
-  ├─ 요구사항 정의서 ✅
-  ├─ 목업 디자인 ✅
-  ├─ ERD ✅
-  └─ 기술 스택 ✅
-         ↓
+ ├─ 요구사항 정의서 
+ ├─ 목업 디자인 
+ ├─ ERD 
+ └─ 기술 스택 
+ ↓
 Step 2: 5×11 매트릭스 참고
-  ├─ 각 Stage별 필요 Area 확인
-  ├─ 일반적인 Task 예시 참고
-  └─ 프로젝트에 맞게 조정
-         ↓
+ ├─ 각 Stage별 필요 Area 확인
+ ├─ 일반적인 Task 예시 참고
+ └─ 프로젝트에 맞게 조정
+ ↓
 Step 3: Task 선정 (2대 원칙 적용)
-  ├─ 원칙 1: 파일 1개 = Task 1개
-  └─ 원칙 2: 유사 작업 통합
-         ↓
+ ├─ 원칙 1: 파일 1개 = Task 1개
+ └─ 원칙 2: 유사 작업 통합
+ ↓
 Step 4: 22개 속성 입력
-  ├─ 기본 정보 (Stage, Area, Task ID)
-  ├─ 작업 내용
-  ├─ 의존성
-  └─ 상태 관리
-         ↓
+ ├─ 기본 정보 (Stage, Area, Task ID)
+ ├─ 작업 내용
+ ├─ 의존성
+ └─ 상태 관리
+ ↓
 Step 5: Task Instruction 작성
-  ├─ 작업 목표
-  ├─ 구체적 지시사항
-  └─ 예상 출력물
-         ↓
+ ├─ 작업 목표
+ ├─ 구체적 지시사항
+ └─ 예상 출력물
+ ↓
 Step 6: Verification Instruction 작성
-  ├─ 검증 기준
-  ├─ 체크리스트
-  └─ 합격 조건
-         ↓
-PROJECT SAL GRID 완성! ✅
+ ├─ 검증 기준
+ ├─ 체크리스트
+ └─ 합격 조건
+ ↓
+PROJECT SAL GRID 완성! 
 ```
 
 ### 5.3 필수 초기 자료
 
 **AI가 정확한 Grid를 생성하려면 Project Owner가 다음 자료를 제공해야 합니다:**
 
-#### **✅ 필수 자료**
+#### ** 필수 자료**
 
 **1. 프로젝트 요구사항**
 - 명확한 최종 목표
@@ -1431,7 +1431,7 @@ PROJECT SAL GRID 완성! ✅
 - 기술 스택 (언어, 프레임워크)
 - API/UI 명세
 
-**3. 🔴 목업 디자인 (매우 중요!)**
+**3. 목업 디자인 (매우 중요!)**
 
 **모든 화면 디자인 필수:**
 - [ ] 전체 화면 목업
@@ -1458,17 +1458,17 @@ PROJECT SAL GRID 완성! ✅
 
 ---
 
-#### ⚠️ **경고: 목업 디자인 없이 시작하면 프로젝트 실패 확률 급증!**
+#### **경고: 목업 디자인 없이 시작하면 프로젝트 실패 확률 급증!**
 
 **목업 디자인이 없으면:**
-- ❌ AI가 UI를 상상으로 구현 → 완전히 다른 결과물
-- ❌ 불충분한 자료 → AI의 잘못된 그리드 구성 → 프로젝트 실패
-- ❌ 중간에 디자인 변경 → 전체 재작업 필요
+- AI가 UI를 상상으로 구현 → 완전히 다른 결과물
+- 불충분한 자료 → AI의 잘못된 그리드 구성 → 프로젝트 실패
+- 중간에 디자인 변경 → 전체 재작업 필요
 
 **목업 디자인이 있으면:**
-- ✅ AI가 정확한 UI 구현 → 기대한 결과물
-- ✅ 완전한 자료 → AI의 정확한 그리드 구성 → 프로젝트 성공
-- ✅ 초기 계획대로 진행 → 시간/비용 절감
+- AI가 정확한 UI 구현 → 기대한 결과물
+- 완전한 자료 → AI의 정확한 그리드 구성 → 프로젝트 성공
+- 초기 계획대로 진행 → 시간/비용 절감
 
 ---
 
@@ -1478,7 +1478,7 @@ PROJECT SAL GRID 완성! ✅
 
 **생성되는 파일 하나당 Task 하나를 만듭니다.**
 
-#### ✅ 올바른 예시
+#### 올바른 예시
 ```
 S4F1: src/app/page.tsx 생성
 S4F2: src/app/search/page.tsx 생성
@@ -1486,10 +1486,10 @@ S4F3: src/components/Header.tsx 생성
 S4F4: src/components/Footer.tsx 생성
 ```
 
-#### ❌ 잘못된 예시
+#### 잘못된 예시
 ```
 S4F1: 메인 페이지 전체 구현
-  - page.tsx, Hero.tsx, Features.tsx, Footer.tsx...
+ - page.tsx, Hero.tsx, Features.tsx, Footer.tsx...
 
 → 문제: 너무 크고 독립 작업 불가능
 ```
@@ -1498,17 +1498,17 @@ S4F1: 메인 페이지 전체 구현
 
 **같은 기능의 세부 파일들은 하나의 Task로 묶습니다.**
 
-#### ✅ 올바른 예시
+#### 올바른 예시
 ```
 S4F5: 사용자 프로필 관련 컴포넌트 (통합)
-  - src/components/ProfileCard.tsx
-  - src/components/ProfileEdit.tsx
-  - src/components/ProfileAvatar.tsx
+ - src/components/ProfileCard.tsx
+ - src/components/ProfileEdit.tsx
+ - src/components/ProfileAvatar.tsx
 
 → 이유: 같은 "프로필" 기능, 동시 작업 가능
 ```
 
-#### ❌ 잘못된 예시
+#### 잘못된 예시
 ```
 S4F5: ProfileCard.tsx
 S4F6: ProfileEdit.tsx
@@ -1520,18 +1520,18 @@ S4F7: ProfileAvatar.tsx
 ### 6.3 판단 기준
 
 #### **언제 분리?**
-- ✅ 독립적인 기능
-- ✅ 다른 개발자가 동시 작업 불가
-- ✅ 의존성이 복잡함
+- 독립적인 기능
+- 다른 개발자가 동시 작업 불가
+- 의존성이 복잡함
 
 **예시:**
 - 로그인 페이지 vs 회원가입 페이지 → **분리!**
 - Header vs Footer → **분리!**
 
 #### **언제 통합?**
-- ✅ 같은 기능의 세부 파일들
-- ✅ 함께 수정될 가능성 높음
-- ✅ 동시 작업 가능
+- 같은 기능의 세부 파일들
+- 함께 수정될 가능성 높음
+- 동시 작업 가능
 
 **예시:**
 - 버튼 컴포넌트 variants → **통합!**
@@ -1586,16 +1586,16 @@ S4F7: ProfileAvatar.tsx
 
 | 섹션 | 필수 여부 | 설명 |
 |------|----------|------|
-| 작업 ID | ✅ 필수 | Task ID (예: S4F5) |
-| 작업 제목 | ✅ 필수 | Task 이름 |
-| 작업 목표 | ✅ 필수 | 무엇을 만들 것인지 한 문장으로 |
-| 선행 조건 | ✅ 필수 | 의존하는 Task 목록 (depends_on) |
-| 구체적 지시사항 | ✅ 필수 | 단계별 작업 내용 |
-| 기술 스택 | ✅ 필수 | 사용할 언어, 프레임워크, 라이브러리 |
-| 예상 출력 파일 | ✅ 필수 | 생성/수정할 파일 목록 |
-| 완료 기준 | ✅ 필수 | 체크리스트 형태 |
-| 참고 자료 | ⭐ 권장 | 디자인 목업, API 문서 등 |
-| 주의사항 | ⭐ 권장 | 제약사항, 보안 이슈 등 |
+| 작업 ID | 필수 | Task ID (예: S4F5) |
+| 작업 제목 | 필수 | Task 이름 |
+| 작업 목표 | 필수 | 무엇을 만들 것인지 한 문장으로 |
+| 선행 조건 | 필수 | 의존하는 Task 목록 (depends_on) |
+| 구체적 지시사항 | 필수 | 단계별 작업 내용 |
+| 기술 스택 | 필수 | 사용할 언어, 프레임워크, 라이브러리 |
+| 예상 출력 파일 | 필수 | 생성/수정할 파일 목록 |
+| 완료 기준 | 필수 | 체크리스트 형태 |
+| 참고 자료 | 권장 | 디자인 목업, API 문서 등 |
+| 주의사항 | 권장 | 제약사항, 보안 이슈 등 |
 
 #### **작성 단계별 가이드**
 
@@ -1604,8 +1604,8 @@ S4F7: ProfileAvatar.tsx
 ## 작업 목표
 사용자가 자신의 프로필을 확인하고 수정할 수 있는 페이지 구현
 
-❌ 나쁜 예: "프로필 페이지 만들기"
-✅ 좋은 예: "사용자가 자신의 프로필을 확인하고 수정할 수 있는 페이지 구현"
+ 나쁜 예: "프로필 페이지 만들기"
+ 좋은 예: "사용자가 자신의 프로필을 확인하고 수정할 수 있는 페이지 구현"
 ```
 
 **Step 2: 선행 조건 명시**
@@ -1627,15 +1627,15 @@ S4F7: ProfileAvatar.tsx
 
 ### 2. 필수 구현 기능 (우선순위 순서)
 1. **프로필 정보 표시**
-   - 프로필 이미지 (기본 이미지: `/images/default-avatar.png`)
-   - 사용자 이름 (DB 필드: `users.display_name`)
-   - 이메일 (수정 불가, 읽기 전용)
-   - 가입일 (포맷: "YYYY년 MM월 DD일")
+ - 프로필 이미지 (기본 이미지: `/images/default-avatar.png`)
+ - 사용자 이름 (DB 필드: `users.display_name`)
+ - 이메일 (수정 불가, 읽기 전용)
+ - 가입일 (포맷: "YYYY년 MM월 DD일")
 
 2. **프로필 수정**
-   - 프로필 이미지 업로드 (Supabase Storage 사용)
-   - 사용자 이름 변경 (최소 2자, 최대 20자)
-   - 저장 버튼 (API: PUT /api/users/me)
+ - 프로필 이미지 업로드 (Supabase Storage 사용)
+ - 사용자 이름 변경 (최소 2자, 최대 20자)
+ - 저장 버튼 (API: PUT /api/users/me)
 ```
 
 **Step 4: 기술 스택 명시**
@@ -1716,19 +1716,19 @@ S4F5
 
 ### 2. 필수 구현 기능
 1. **프로필 정보 표시**
-   - 프로필 이미지
-   - 사용자 이름
-   - 이메일 (수정 불가)
-   - 가입일
+ - 프로필 이미지
+ - 사용자 이름
+ - 이메일 (수정 불가)
+ - 가입일
 
 2. **프로필 수정**
-   - 프로필 이미지 업로드
-   - 사용자 이름 변경
-   - 저장 버튼
+ - 프로필 이미지 업로드
+ - 사용자 이름 변경
+ - 저장 버튼
 
 3. **반응형 디자인**
-   - 모바일: 세로 레이아웃
-   - 데스크톱: 가로 레이아웃
+ - 모바일: 세로 레이아웃
+ - 데스크톱: 가로 레이아웃
 
 ### 3. 기술 스택
 - Next.js 14 App Router
@@ -1781,7 +1781,7 @@ src/components/ProfileAvatar.tsx
 
 ### 8.2 Verification Instruction 작성 가이드
 
-#### **⚠️ 🚨 CRITICAL: Task-Verification 일치 규칙 🚨 ⚠️**
+#### ** CRITICAL: Task-Verification 일치 규칙 **
 
 > **이 규칙은 Verification Instruction 작성의 가장 기본적이고 중요한 규칙입니다!**
 > **실제 검토 결과 42개 Task 중 11개(26%)가 불일치 상태였습니다!**
@@ -1807,7 +1807,7 @@ grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
 # 두 값이 정확히 일치해야 함!
 ```
 
-**❌ 발견된 불일치 사례 (실제 오류):**
+** 발견된 불일치 사례 (실제 오류):**
 
 | Task ID | Task Instruction | Verification Instruction (잘못됨) |
 |---------|-----------------|----------------------------------|
@@ -1816,33 +1816,33 @@ grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
 | S2BI2 | 에러 핸들링 시스템 | ~~구독 클라이언트 모듈~~ |
 
 **불일치 시 발생하는 문제:**
-- ❌ 잘못된 Task를 검증하게 됨
-- ❌ 실제 Task의 품질이 검증되지 않음
-- ❌ Grid 데이터 무결성 파괴
-- ❌ Stage Gate 통과 후 결함 발견
+- 잘못된 Task를 검증하게 됨
+- 실제 Task의 품질이 검증되지 않음
+- Grid 데이터 무결성 파괴
+- Stage Gate 통과 후 결함 발견
 
 **필수 점검 절차:**
 
 1. **Verification Instruction 작성 전**:
-   - 해당 Task Instruction 파일을 **반드시 먼저 읽기**
-   - Task ID, Task Name 정확히 복사
+ - 해당 Task Instruction 파일을 **반드시 먼저 읽기**
+ - Task ID, Task Name 정확히 복사
 
 2. **Verification Instruction 작성 후**:
-   - Task Name이 정확히 일치하는지 확인
-   - Checklist가 Task Instruction의 완료 기준을 검증하는지 확인
+ - Task Name이 정확히 일치하는지 확인
+ - Checklist가 Task Instruction의 완료 기준을 검증하는지 확인
 
 3. **일괄 검증 (권장)**:
-   ```bash
-   # 모든 Task-Verification 일치 여부 확인 스크립트
-   for f in task-instructions/*.md; do
-     id=$(basename "$f" _instruction.md)
-     task_name=$(grep -A1 "## Task Name" "$f" | tail -1)
-     verif_name=$(grep -A1 "## Task Name" "verification-instructions/${id}_verification.md" | tail -1)
-     if [ "$task_name" != "$verif_name" ]; then
-       echo "MISMATCH: $id - Task: $task_name vs Verif: $verif_name"
-     fi
-   done
-   ```
+ ```bash
+ # 모든 Task-Verification 일치 여부 확인 스크립트
+ for f in task-instructions/*.md; do
+ id=$(basename "$f" _instruction.md)
+ task_name=$(grep -A1 "## Task Name" "$f" | tail -1)
+ verif_name=$(grep -A1 "## Task Name" "verification-instructions/${id}_verification.md" | tail -1)
+ if [ "$task_name" != "$verif_name" ]; then
+ echo "MISMATCH: $id - Task: $task_name vs Verif: $verif_name"
+ fi
+ done
+ ```
 
 ---
 
@@ -1872,13 +1872,13 @@ grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
 
 | 섹션 | 필수 여부 | 설명 |
 |------|----------|------|
-| Verification Target | ✅ 필수 | Task ID 및 이름 |
-| Verifier | ✅ 필수 | 검증 담당 Sub-agent (속성 #15) |
-| 검증 체크리스트 | ✅ 필수 | 단계별 검증 항목 |
-| 합격 기준 | ✅ 필수 | 필수 조건 및 권장 조건 |
-| 검증 결과 | ✅ 필수 | Pass/Fail 및 지적사항 |
-| 검증 방법 | ⭐ 권장 | 구체적인 테스트 방법 |
-| 성능 기준 | ⭐ 권장 | 응답 시간, 처리량 등 |
+| Verification Target | 필수 | Task ID 및 이름 |
+| Verifier | 필수 | 검증 담당 Sub-agent (속성 #15) |
+| 검증 체크리스트 | 필수 | 단계별 검증 항목 |
+| 합격 기준 | 필수 | 필수 조건 및 권장 조건 |
+| 검증 결과 | 필수 | Pass/Fail 및 지적사항 |
+| 검증 방법 | 권장 | 구체적인 테스트 방법 |
+| 성능 기준 | 권장 | 응답 시간, 처리량 등 |
 
 #### **작성 단계별 가이드**
 
@@ -1887,8 +1887,8 @@ grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
 ## Verification Target (검증 대상)
 Task S4F5: 사용자 프로필 페이지
 
-❌ 나쁜 예: "프로필 페이지"
-✅ 좋은 예: "Task S4F5: 사용자 프로필 페이지 (프로필 정보 표시 및 수정 기능)"
+ 나쁜 예: "프로필 페이지"
+ 좋은 예: "Task S4F5: 사용자 프로필 페이지 (프로필 정보 표시 및 수정 기능)"
 ```
 
 **Step 2: 검증자 지정**
@@ -1897,8 +1897,8 @@ Task S4F5: 사용자 프로필 페이지
 **담당**: qa-specialist (속성 #15에 지정)
 **역할**: 기능 테스트, 코드 리뷰, 성능 검증
 
-❌ 나쁜 예: "QA 담당자"
-✅ 좋은 예: "qa-specialist (속성 #15에 지정)"
+ 나쁜 예: "QA 담당자"
+ 좋은 예: "qa-specialist (속성 #15에 지정)"
 ```
 
 **Step 3: 체크리스트 작성 (우선순위 순)**
@@ -1907,38 +1907,38 @@ Task S4F5: 사용자 프로필 페이지
 
 ### 1. 빌드 및 컴파일 (최우선)
 - [ ] TypeScript 빌드 성공
-  ```bash
-  npm run build
-  # 예상: Build completed in 15s
-  ```
+ ```bash
+ npm run build
+ # 예상: Build completed in 15s
+ ```
 - [ ] ESLint 통과 (경고 0개)
-  ```bash
-  npm run lint
-  # 예상: ✓ No ESLint warnings or errors
-  ```
+ ```bash
+ npm run lint
+ # 예상: ✓ No ESLint warnings or errors
+ ```
 - [ ] TypeScript 타입 에러 없음
-  ```bash
-  npm run type-check
-  # 예상: Found 0 errors
-  ```
+ ```bash
+ npm run type-check
+ # 예상: Found 0 errors
+ ```
 
 ### 2. 파일 생성 확인
 - [ ] 모든 예상 파일 존재
-  - [ ] src/app/profile/page.tsx (메인 페이지)
-  - [ ] src/components/ProfileCard.tsx (카드 컴포넌트)
-  - [ ] src/components/ProfileEdit.tsx (편집 컴포넌트)
-  - [ ] src/components/ProfileAvatar.tsx (아바타)
+ - [ ] src/app/profile/page.tsx (메인 페이지)
+ - [ ] src/components/ProfileCard.tsx (카드 컴포넌트)
+ - [ ] src/components/ProfileEdit.tsx (편집 컴포넌트)
+ - [ ] src/components/ProfileAvatar.tsx (아바타)
 
 ### 3. 핵심 기능 동작
 - [ ] 프로필 정보 표시
-  - 방법: 로그인 후 /profile 접속
-  - 예상: 이름, 이메일, 가입일 표시
+ - 방법: 로그인 후 /profile 접속
+ - 예상: 이름, 이메일, 가입일 표시
 - [ ] 프로필 이미지 업로드
-  - 방법: 이미지 파일 선택 및 업로드
-  - 예상: Supabase Storage에 저장, URL 업데이트
+ - 방법: 이미지 파일 선택 및 업로드
+ - 예상: Supabase Storage에 저장, URL 업데이트
 - [ ] 정보 수정 및 저장
-  - 방법: 이름 변경 후 저장 버튼 클릭
-  - 예상: DB 업데이트, 성공 메시지 표시
+ - 방법: 이름 변경 후 저장 버튼 클릭
+ - 예상: DB 업데이트, 성공 메시지 표시
 ```
 
 **Step 4: 합격 기준 정의**
@@ -1946,17 +1946,17 @@ Task S4F5: 사용자 프로필 페이지
 ## 합격 기준
 
 ### 필수 조건 (하나라도 실패 시 불합격)
-1. ✅ 빌드 성공 (TypeScript 에러 0개)
-2. ✅ 모든 예상 파일 생성
-3. ✅ 핵심 기능 동작 (정보 표시, 수정, 저장)
-4. ✅ 반응형 동작 확인
+1. 빌드 성공 (TypeScript 에러 0개)
+2. 모든 예상 파일 생성
+3. 핵심 기능 동작 (정보 표시, 수정, 저장)
+4. 반응형 동작 확인
 
 ### 권장 조건 (80% 이상 충족 권장)
-1. ⭐ 코드 품질 (타입 정의, 네이밍)
-2. ⭐ 테스트 커버리지 80%+
-3. ⭐ 성능 기준 충족 (로딩 2초 이내)
-4. ⭐ 접근성 (ARIA, 키보드 내비게이션)
-5. ⭐ 문서화 (JSDoc 주석)
+1. 코드 품질 (타입 정의, 네이밍)
+2. 테스트 커버리지 80%+
+3. 성능 기준 충족 (로딩 2초 이내)
+4. 접근성 (ARIA, 키보드 내비게이션)
+5. 문서화 (JSDoc 주석)
 
 **최종 합격 조건:**
 - 필수 조건: 4/4 충족
@@ -1968,8 +1968,8 @@ Task S4F5: 사용자 프로필 페이지
 ## 검증 결과
 
 ### 결과
-- ✅ Pass
-- ❌ Fail
+- Pass
+- Fail
 
 ### 검증 일시
 2025-11-25 14:30
@@ -1992,9 +1992,9 @@ qa-specialist
 
 ### 지적사항 (Pass여도 개선 권장)
 1. **접근성 개선 필요**
-   - 문제: 이미지 업로드 버튼에 aria-label 없음
-   - 수정: `<button aria-label="프로필 이미지 업로드">`
-   - 파일: src/components/ProfileAvatar.tsx:45
+ - 문제: 이미지 업로드 버튼에 aria-label 없음
+ - 수정: `<button aria-label="프로필 이미지 업로드">`
+ - 파일: src/components/ProfileAvatar.tsx:45
 
 ### 보고서 위치
 validation/results/S4F5_verification_2025-11-25.md
@@ -2028,14 +2028,14 @@ Task S4F5: 사용자 프로필 페이지
 
 ### 1. 파일 생성 확인
 - [ ] 모든 예상 파일 생성 완료
-  - page.tsx 존재
-  - 컴포넌트 파일 존재
+ - page.tsx 존재
+ - 컴포넌트 파일 존재
 
 ### 2. 빌드 및 컴파일
 - [ ] 빌드 성공
-  - TypeScript 에러 없음
-  - ESLint 통과
-  - 경고 없음
+ - TypeScript 에러 없음
+ - ESLint 통과
+ - 경고 없음
 
 ### 3. 핵심 기능 동작
 - [ ] 프로필 정보 표시
@@ -2077,8 +2077,8 @@ Task S4F5: 사용자 프로필 페이지
 ## 검증 결과
 
 ### 결과
-- ✅ Pass
-- ❌ Fail
+- Pass
+- Fail
 
 ### 검증 일시
 YYYY-MM-DD HH:MM
@@ -2126,26 +2126,26 @@ PROJECT SAL GRID는 **3단계 검증 시스템**으로 품질을 보증합니다
 
 ```
 [1단계: Task 검증]
-  각 Task 완료 시
-  ├─ 작성자: Sub-agent (예: frontend-developer)
-  └─ 검증자: 전문 검증 Sub-agent (예: qa-specialist)
-       ↓
+ 각 Task 완료 시
+ ├─ 작성자: Sub-agent (예: frontend-developer)
+ └─ 검증자: 전문 검증 Sub-agent (예: qa-specialist)
+ ↓
 [2단계: Stage Gate - AI 자동 검증]
-  Stage 전체 완료 후
-  └─ 검증자: Main Agent (해당 세션의 Claude Code)
-       ↓
+ Stage 전체 완료 후
+ └─ 검증자: Main Agent (해당 세션의 Claude Code)
+ ↓
 [3단계: Stage Gate - Project Owner 수동 검증]
-  AI 검증 통과 후
-  └─ 검증자: Project Owner
-       ↓
-  최종 승인 또는 거부
+ AI 검증 통과 후
+ └─ 검증자: Project Owner
+ ↓
+ 최종 승인 또는 거부
 ```
 
 ---
 
 ### 9.2 1단계: Task 검증 (Sub-agent)
 
-#### **⚠️ 핵심 원칙: 서브에이전트 투입 필수!**
+#### ** 핵심 원칙: 서브에이전트 투입 필수!**
 
 **Claude Code(Main Agent)가 직접 작업/검증하면 안 됨!**
 - Task 작업: 반드시 **Task Agent 서브에이전트 투입**
@@ -2176,64 +2176,64 @@ PROJECT SAL GRID는 **3단계 검증 시스템**으로 품질을 보증합니다
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  1단계: Task 작업 - 서브에이전트 수행, Main Agent 기록          │
+│ 1단계: Task 작업 - 서브에이전트 수행, Main Agent 기록 │
 └─────────────────────────────────────────────────────────────────┘
 
 [1. Main Agent → Task Agent 서브에이전트 투입]
 Main Agent가 Task tool로 서브에이전트 투입
-  └─ 예: Task tool (subagent_type="frontend-developer")
-       ↓
+ └─ 예: Task tool (subagent_type="frontend-developer")
+ ↓
 [2. Task Agent 서브에이전트 → 작업 수행]
 frontend-developer 서브에이전트가 작업
-  - 파일 생성
-  - 기능 구현
-  - 기본 테스트
-       ↓
+ - 파일 생성
+ - 기능 구현
+ - 기본 테스트
+ ↓
 [3. Task Agent 서브에이전트 → 결과 반환]
 서브에이전트가 작업 결과를 Main Agent에게 반환
-  - 생성된 파일 목록
-  - 수정 이력
-  - 작업 완료 상태
-       ↓
+ - 생성된 파일 목록
+ - 수정 이력
+ - 작업 완료 상태
+ ↓
 [4. Main Agent → Grid에 작업 결과 기록]
 Main Agent가 서브에이전트 결과를 받아 Grid에 기록:
-  - generated_files: 생성된 파일 목록
-  - modification_history: 수정 이력
-  - task_status: 'Completed'
-  - task_progress: 100
+ - generated_files: 생성된 파일 목록
+ - modification_history: 수정 이력
+ - task_status: 'Completed'
+ - task_progress: 100
 
 ┌─────────────────────────────────────────────────────────────────┐
-│  2단계: Task 검증 - 서브에이전트 수행, Main Agent 기록          │
+│ 2단계: Task 검증 - 서브에이전트 수행, Main Agent 기록 │
 └─────────────────────────────────────────────────────────────────┘
-       ↓
+ ↓
 [5. Main Agent → Verification Agent 서브에이전트 투입]
 Main Agent가 Task tool로 서브에이전트 투입
-  └─ 예: Task tool (subagent_type="code-reviewer")
-       ↓
+ └─ 예: Task tool (subagent_type="code-reviewer")
+ ↓
 [6. Verification Agent 서브에이전트 → 검증 수행]
 code-reviewer 서브에이전트가 검증
-  - 코드 리뷰
-  - 테스트 확인
-  - 빌드 확인
-       ↓
+ - 코드 리뷰
+ - 테스트 확인
+ - 빌드 확인
+ ↓
 [7. Verification Agent 서브에이전트 → 결과 반환]
 서브에이전트가 검증 결과를 Main Agent에게 반환
-  - 테스트 결과
-  - 빌드 결과
-  - 종합 검증 결과
-       ↓
+ - 테스트 결과
+ - 빌드 결과
+ - 종합 검증 결과
+ ↓
 [8. Main Agent → Grid에 검증 결과 기록]
 Main Agent가 서브에이전트 결과를 받아 Grid에 기록:
-  - test: 테스트 결과 JSON
-  - build: 빌드 결과 JSON
-  - integration_verification: 통합 검증 JSON
-  - blockers: 차단 요소 JSON
-  - comprehensive_verification: 종합 검증 JSON
-  - verification_status: 'Passed' 또는 'Failed'
-       ↓
+ - test: 테스트 결과 JSON
+ - build: 빌드 결과 JSON
+ - integration_verification: 통합 검증 JSON
+ - blockers: 차단 요소 JSON
+ - comprehensive_verification: 종합 검증 JSON
+ - verification_status: 'Passed' 또는 'Failed'
+ ↓
 [9. 결과]
-✅ Pass → Task 완료, 다음 Task 진행
-❌ Fail → Task Agent 재투입하여 재작업
+ Pass → Task 완료, 다음 Task 진행
+ Fail → Task Agent 재투입하여 재작업
 ```
 
 #### **왜 Main Agent가 대리 기록하는가?**
@@ -2246,23 +2246,23 @@ Main Agent가 서브에이전트 결과를 받아 Grid에 기록:
 └─ 서브에이전트 중간 종료 시 기록 누락 방지
 ```
 
-#### **❌ 금지 사항**
+#### ** 금지 사항**
 
 ```
-❌ Main Agent(Claude Code)가 직접 Task 작업 수행
-❌ Main Agent(Claude Code)가 직접 Task 검증 수행
-❌ Task Agent가 검증까지 수행 (작성자 ≠ 검증자)
-❌ 서브에이전트 투입 없이 작업/검증 완료 표시
-❌ 서브에이전트 결과 확인 없이 Grid에 기록
+ Main Agent(Claude Code)가 직접 Task 작업 수행
+ Main Agent(Claude Code)가 직접 Task 검증 수행
+ Task Agent가 검증까지 수행 (작성자 ≠ 검증자)
+ 서브에이전트 투입 없이 작업/검증 완료 표시
+ 서브에이전트 결과 확인 없이 Grid에 기록
 ```
 
-#### **✅ 올바른 방식**
+#### ** 올바른 방식**
 
 ```
-✅ Task 작업: Task Agent 서브에이전트 투입 → 작업 수행 → 결과 반환 → Main Agent가 Grid 기록
-✅ Task 검증: Verification Agent 서브에이전트 투입 → 검증 수행 → 결과 반환 → Main Agent가 Grid 기록
-✅ 작성자 ≠ 검증자 원칙 준수
-✅ Main Agent는 서브에이전트 투입/조율/기록 담당
+ Task 작업: Task Agent 서브에이전트 투입 → 작업 수행 → 결과 반환 → Main Agent가 Grid 기록
+ Task 검증: Verification Agent 서브에이전트 투입 → 검증 수행 → 결과 반환 → Main Agent가 Grid 기록
+ 작성자 ≠ 검증자 원칙 준수
+ Main Agent는 서브에이전트 투입/조율/기록 담당
 ```
 
 #### **Grid 기록 필드 구분**
@@ -2276,14 +2276,14 @@ Main Agent가 서브에이전트 결과를 받아 Grid에 기록:
 
 ```
 세션 A에서 작업 중 → 컨텍스트 한도 도달
-       ↓
+ ↓
 세션 종료
-       ↓
+ ↓
 새 세션 B 시작
-       ↓
+ ↓
 새 세션의 Main Agent가 서브에이전트 재투입
-  - 동일 Task Agent 서브에이전트로 작업 계속
-  - 동일 Verification Agent 서브에이전트로 검증
+ - 동일 Task Agent 서브에이전트로 작업 계속
+ - 동일 Verification Agent 서브에이전트로 검증
 ```
 
 ---
@@ -2309,17 +2309,17 @@ Main Agent가 서브에이전트 결과를 받아 Grid에 기록:
 └─ 자동 검증 리포트 생성 및 저장
 ```
 
-#### **⭐ Stage Gate 검증 리포트 저장 (필수!)**
+#### ** Stage Gate 검증 리포트 저장 (필수!)**
 
 **저장 위치:**
 ```
 S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/
-├── TEMPLATE_stage_gate_report.md    ← 템플릿
-├── S1GATE_verification_report.md    ← Stage 1 검증 리포트
-├── S2GATE_verification_report.md    ← Stage 2 검증 리포트
-├── S3GATE_verification_report.md    ← Stage 3 검증 리포트
-├── S4GATE_verification_report.md    ← Stage 4 검증 리포트
-└── S5GATE_verification_report.md    ← Stage 5 검증 리포트
+├── TEMPLATE_stage_gate_report.md ← 템플릿
+├── S1GATE_verification_report.md ← Stage 1 검증 리포트
+├── S2GATE_verification_report.md ← Stage 2 검증 리포트
+├── S3GATE_verification_report.md ← Stage 3 검증 리포트
+├── S4GATE_verification_report.md ← Stage 4 검증 리포트
+└── S5GATE_verification_report.md ← Stage 5 검증 리포트
 ```
 
 **파일명 규칙:**
@@ -2343,10 +2343,10 @@ S{N}GATE_verification_report.md
 **DB 기록 (stage_verification 테이블):**
 ```sql
 UPDATE stage_verification SET
-  verification_report_path = 'S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/S1GATE_verification_report.md',
-  ai_verification_note = '검증 의견',
-  ai_verification_date = NOW(),
-  stage_gate_status = 'AI Verified'
+ verification_report_path = 'S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/S1GATE_verification_report.md',
+ ai_verification_note = '검증 의견',
+ ai_verification_date = NOW(),
+ stage_gate_status = 'AI Verified'
 WHERE stage_name = 'Stage 1';
 ```
 
@@ -2355,36 +2355,36 @@ WHERE stage_name = 'Stage 1';
 ```
 [Stage 1의 모든 Task 완료]
 S1M1, S1M2, S1U1, S1D1... 완료
-       ↓
+ ↓
 [S1GATE 도달]
-       ↓
+ ↓
 [Main Agent 자동 검증]
 해당 세션의 Claude Code가:
-  - 모든 Task 상태 확인
-  - 빌드 실행
-  - 테스트 실행
-  - 리포트 작성
-       ↓
+ - 모든 Task 상태 확인
+ - 빌드 실행
+ - 테스트 실행
+ - 리포트 작성
+ ↓
 [결과]
-✅ Pass → 3단계로 진행
-❌ Fail → Task 재작업
+ Pass → 3단계로 진행
+ Fail → Task 재작업
 ```
 
 #### **세션 전환 시**
 
 ```
 세션 A에서 Stage 1 작업 중
-  - S1M1, S1M2, S1M3 완료
-       ↓
+ - S1M1, S1M2, S1M3 완료
+ ↓
 컨텍스트 한도로 세션 종료
-       ↓
+ ↓
 새 세션 B 시작
-  - S1M4, S1M5... 계속 진행
-  - S1GATE 도달
-       ↓
+ - S1M4, S1M5... 계속 진행
+ - S1GATE 도달
+ ↓
 새 세션 B의 Main Agent가 검증
-  - Stage 1 전체 검증
-  - 이전 세션 작업 포함
+ - Stage 1 전체 검증
+ - 이전 세션 작업 포함
 ```
 
 **핵심:**
@@ -2411,30 +2411,30 @@ S1M1, S1M2, S1U1, S1D1... 완료
 
 #### **판단 결과**
 
-**✅ 승인:**
+** 승인:**
 ```
 관리자 → SSALWorks UI에서 [승인] 버튼
 또는
 관리자 → Supabase 직접 수정
-  stage_gate_status = 'Approved'
-       ↓
-Stage 1 완료 ✅
-Stage 2 자동 시작 🚀
+ stage_gate_status = 'Approved'
+ ↓
+Stage 1 완료 
+Stage 2 자동 시작 
 ```
 
-**❌ 거부:**
+** 거부:**
 ```
 관리자 → Inbox로 Order Sheet 발행
-  - 문제점 지적
-  - 수정 지시
-  - 구체적 작업 요청
-       ↓
+ - 문제점 지적
+ - 수정 지시
+ - 구체적 작업 요청
+ ↓
 Claude → 지적사항 수정
-       ↓
+ ↓
 Claude → Outbox로 완료 보고
-       ↓
+ ↓
 관리자 → 재검증
-       ↓
+ ↓
 승인 또는 추가 수정
 ```
 
@@ -2464,25 +2464,25 @@ Claude → Outbox로 완료 보고
 
 ```
 Stage 1 Tasks → S1GATE → Stage 2 Tasks → S2GATE → ...
-                  ↑                        ↑
-               관문 승인                  관문 승인
+ ↑ ↑
+ 관문 승인 관문 승인
 ```
 
 ### 10.2 Gate 통과 조건
 
 #### **필수 조건:**
 ```
-✅ Stage 내 모든 핵심 Task 완료
-✅ 2단계 검증 통과 (Main Agent)
-✅ 3단계 검증 승인 (Project Owner)
+ Stage 내 모든 핵심 Task 완료
+ 2단계 검증 통과 (Main Agent)
+ 3단계 검증 승인 (Project Owner)
 ```
 
 #### **통과 효과:**
 ```
 Gate 승인 시:
-  ├─ 현재 Stage 완료 ✅
-  ├─ 다음 Stage 자동 시작
-  └─ 다음 Stage의 모든 Task 병렬 실행 가능
+ ├─ 현재 Stage 완료 
+ ├─ 다음 Stage 자동 시작
+ └─ 다음 Stage의 모든 Task 병렬 실행 가능
 ```
 
 ---
@@ -2491,13 +2491,13 @@ Gate 승인 시:
 
 ```json
 {
-  "task_id": "S1GATE",
-  "stage": "S1",
-  "area": "GATE",
-  "title": "Stage 1 Gate",
-  "dependencies": "S1M5,S1U3,S1D4",
-  "status": "Pending",
-  "stage_gate_status": "Pending"
+ "task_id": "S1GATE",
+ "stage": "S1",
+ "area": "GATE",
+ "title": "Stage 1 Gate",
+ "dependencies": "S1M5,S1U3,S1D4",
+ "status": "Pending",
+ "stage_gate_status": "Pending"
 }
 ```
 
@@ -2562,7 +2562,7 @@ Gate 승인 시:
 
 ### 10.4 승인/거부 처리
 
-#### **✅ 승인 시**
+#### ** 승인 시**
 
 **방법 1: SSALWorks UI**
 ```
@@ -2575,56 +2575,56 @@ Project Owner → [승인] 버튼 클릭
 ```sql
 UPDATE project_grid
 SET stage_gate_status = 'Approved',
-    updated_at = NOW()
+ updated_at = NOW()
 WHERE task_id = 'S1GATE';
 ```
 
 **결과:**
-- Stage 완료 ✅
-- 다음 Stage 자동 시작 🚀
+- Stage 완료 
+- 다음 Stage 자동 시작 
 - Order Sheet 불필요!
 
-#### **❌ 거부 시**
+#### ** 거부 시**
 
 **Inbox로 Order Sheet 발행:**
 ```json
 {
-  "type": "stage_gate_rejection",
-  "gate_id": "S1GATE",
-  "reason": "데이터베이스 스키마 미완성",
-  "required_tasks": [
-    {
-      "task_id": "S1D5",
-      "issue": "users 테이블에 profile 관계 누락",
-      "instruction": "users-profiles 1:1 관계 추가"
-    }
-  ]
+ "type": "stage_gate_rejection",
+ "gate_id": "S1GATE",
+ "reason": "데이터베이스 스키마 미완성",
+ "required_tasks": [
+ {
+ "task_id": "S1D5",
+ "issue": "users 테이블에 profile 관계 누락",
+ "instruction": "users-profiles 1:1 관계 추가"
+ }
+ ]
 }
 ```
 
 **처리 흐름:**
 ```
 Project Owner → Inbox에 Order Sheet 발행
-  ↓
+ ↓
 Claude → 지적사항 수정 작업
-  ↓
+ ↓
 Claude → Outbox로 완료 보고
-  ↓
+ ↓
 Project Owner → 재검증
-  ↓
+ ↓
 승인 또는 추가 수정
 ```
 
 **Gate 실패 시 Roll-back:**
 ```
 [Gate 거부 발생]
-       ↓
+ ↓
 현재 Stage로 복귀
-       ↓
+ ↓
 문제 Task 재작업
-       ↓
+ ↓
 재검증 요청
-       ↓
+ ↓
 Gate 재도전
 ```
 
@@ -2653,49 +2653,49 @@ Gate 재도전
 ```python
 # gate_automation.py
 def check_stage_gate(stage_id):
-    """
-    Stage Gate 자동 검증 스크립트
-    """
-    # 1. 모든 Task 완료 확인
-    incomplete_tasks = get_incomplete_tasks(stage_id)
-    if incomplete_tasks:
-        return {
-            "status": "fail",
-            "reason": "미완료 Task 존재",
-            "tasks": incomplete_tasks
-        }
+ """
+ Stage Gate 자동 검증 스크립트
+ """
+ # 1. 모든 Task 완료 확인
+ incomplete_tasks = get_incomplete_tasks(stage_id)
+ if incomplete_tasks:
+ return {
+ "status": "fail",
+ "reason": "미완료 Task 존재",
+ "tasks": incomplete_tasks
+ }
 
-    # 2. 빌드 실행
-    build_result = run_build()
-    if not build_result.success:
-        return {
-            "status": "fail",
-            "reason": "빌드 실패",
-            "error": build_result.error
-        }
+ # 2. 빌드 실행
+ build_result = run_build()
+ if not build_result.success:
+ return {
+ "status": "fail",
+ "reason": "빌드 실패",
+ "error": build_result.error
+ }
 
-    # 3. 테스트 실행
-    test_result = run_tests()
-    if not test_result.success:
-        return {
-            "status": "fail",
-            "reason": "테스트 실패",
-            "failed_tests": test_result.failures
-        }
+ # 3. 테스트 실행
+ test_result = run_tests()
+ if not test_result.success:
+ return {
+ "status": "fail",
+ "reason": "테스트 실패",
+ "failed_tests": test_result.failures
+ }
 
-    # 4. 의존성 체크
-    dependency_check = verify_dependencies(stage_id)
-    if not dependency_check.valid:
-        return {
-            "status": "fail",
-            "reason": "의존성 미충족",
-            "missing": dependency_check.missing
-        }
+ # 4. 의존성 체크
+ dependency_check = verify_dependencies(stage_id)
+ if not dependency_check.valid:
+ return {
+ "status": "fail",
+ "reason": "의존성 미충족",
+ "missing": dependency_check.missing
+ }
 
-    return {
-        "status": "pass",
-        "message": "모든 검증 통과"
-    }
+ return {
+ "status": "pass",
+ "message": "모든 검증 통과"
+ }
 ```
 
 ---
@@ -2714,16 +2714,16 @@ def check_stage_gate(stage_id):
 **핵심 구성:**
 ```
 Project Owner
-        ↓ Inbox
-   Order Sheet 발행
-        ↓
+ ↓ Inbox
+ Order Sheet 발행
+ ↓
 Claude (AI Agent)
-  작업 실행
-        ↓ Outbox
-   완료 보고
-        ↓
+ 작업 실행
+ ↓ Outbox
+ 완료 보고
+ ↓
 Human Manager
-  검토 및 승인
+ 검토 및 승인
 ```
 
 ---
@@ -2742,15 +2742,15 @@ Human Manager
 #### **JSON 구조:**
 ```json
 {
-  "id": "inbox_001",
-  "timestamp": "2025-11-23T14:30:00Z",
-  "from": "human_manager",
-  "to": "claude",
-  "type": "order_sheet",
-  "status": "unread",
-  "content": {
-    // Order Sheet 내용
-  }
+ "id": "inbox_001",
+ "timestamp": "2025-11-23T14:30:00Z",
+ "from": "human_manager",
+ "to": "claude",
+ "type": "order_sheet",
+ "status": "unread",
+ "content": {
+ // Order Sheet 내용
+ }
 }
 ```
 
@@ -2758,13 +2758,13 @@ Human Manager
 
 | 속성 | 타입 | 설명 | 필수 |
 |------|------|------|------|
-| `id` | string | 고유 식별자 | ✅ |
-| `timestamp` | ISO8601 | 생성 시간 | ✅ |
-| `from` | string | 발신자 (human_manager) | ✅ |
-| `to` | string | 수신자 (claude) | ✅ |
-| `type` | string | 메시지 타입 (order_sheet, instruction, query) | ✅ |
-| `status` | string | 상태 (unread, read, processing, completed) | ✅ |
-| `content` | object | 실제 내용 (Order Sheet 또는 지시사항) | ✅ |
+| `id` | string | 고유 식별자 | |
+| `timestamp` | ISO8601 | 생성 시간 | |
+| `from` | string | 발신자 (human_manager) | |
+| `to` | string | 수신자 (claude) | |
+| `type` | string | 메시지 타입 (order_sheet, instruction, query) | |
+| `status` | string | 상태 (unread, read, processing, completed) | |
+| `content` | object | 실제 내용 (Order Sheet 또는 지시사항) | |
 | `priority` | string | 우선순위 (low, normal, high, urgent) | optional |
 | `related_task_ids` | array | 관련 Task ID 목록 | optional |
 
@@ -2784,20 +2784,20 @@ Human Manager
 #### **JSON 구조:**
 ```json
 {
-  "id": "outbox_001",
-  "timestamp": "2025-11-23T16:00:00Z",
-  "from": "claude",
-  "to": "human_manager",
-  "type": "completion_report",
-  "content": {
-    "task_id": "S4F5",
-    "status": "completed",
-    "message": "사용자 프로필 페이지 구현 완료",
-    "output_files": [
-      "src/app/profile/page.tsx",
-      "src/components/ProfileCard.tsx"
-    ]
-  }
+ "id": "outbox_001",
+ "timestamp": "2025-11-23T16:00:00Z",
+ "from": "claude",
+ "to": "human_manager",
+ "type": "completion_report",
+ "content": {
+ "task_id": "S4F5",
+ "status": "completed",
+ "message": "사용자 프로필 페이지 구현 완료",
+ "output_files": [
+ "src/app/profile/page.tsx",
+ "src/components/ProfileCard.tsx"
+ ]
+ }
 }
 ```
 
@@ -2805,12 +2805,12 @@ Human Manager
 
 | 속성 | 타입 | 설명 | 필수 |
 |------|------|------|------|
-| `id` | string | 고유 식별자 | ✅ |
-| `timestamp` | ISO8601 | 생성 시간 | ✅ |
-| `from` | string | 발신자 (claude) | ✅ |
-| `to` | string | 수신자 (human_manager) | ✅ |
-| `type` | string | 메시지 타입 (completion_report, question, status_update) | ✅ |
-| `content` | object | 실제 내용 | ✅ |
+| `id` | string | 고유 식별자 | |
+| `timestamp` | ISO8601 | 생성 시간 | |
+| `from` | string | 발신자 (claude) | |
+| `to` | string | 수신자 (human_manager) | |
+| `type` | string | 메시지 타입 (completion_report, question, status_update) | |
+| `content` | object | 실제 내용 | |
 | `task_id` | string | 관련 Task ID | optional |
 | `status` | string | 작업 상태 | optional |
 | `output_files` | array | 생성된 파일 목록 | optional |
@@ -2828,37 +2828,37 @@ Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
 **1. Stage Start (단계 시작)**
 ```json
 {
-  "type": "order_sheet",
-  "subtype": "stage_start",
-  "stage": "S2",
-  "instructions": "프로토타입 단계 시작. 핵심 기능만 구현하고 세부사항은 생략."
+ "type": "order_sheet",
+ "subtype": "stage_start",
+ "stage": "S2",
+ "instructions": "프로토타입 단계 시작. 핵심 기능만 구현하고 세부사항은 생략."
 }
 ```
 
 **2. Stage Gate Rejection (관문 거부)**
 ```json
 {
-  "type": "order_sheet",
-  "subtype": "stage_gate_rejection",
-  "gate_id": "S1GATE",
-  "issues": [
-    {
-      "task_id": "S1D3",
-      "problem": "RLS 정책 누락",
-      "instruction": "모든 테이블에 RLS 정책 추가"
-    }
-  ]
+ "type": "order_sheet",
+ "subtype": "stage_gate_rejection",
+ "gate_id": "S1GATE",
+ "issues": [
+ {
+ "task_id": "S1D3",
+ "problem": "RLS 정책 누락",
+ "instruction": "모든 테이블에 RLS 정책 추가"
+ }
+ ]
 }
 ```
 
 **3. Ad-hoc Instruction (수시 지시)**
 ```json
 {
-  "type": "order_sheet",
-  "subtype": "ad_hoc",
-  "target_tasks": ["S4F5", "S4F6"],
-  "instruction": "반응형 디자인 우선순위 상향. 모바일 먼저 완성.",
-  "priority": "high"
+ "type": "order_sheet",
+ "subtype": "ad_hoc",
+ "target_tasks": ["S4F5", "S4F6"],
+ "instruction": "반응형 디자인 우선순위 상향. 모바일 먼저 완성.",
+ "priority": "high"
 }
 ```
 
@@ -2869,39 +2869,39 @@ Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
 **S1M1의 Outbox:**
 ```json
 {
-  "id": "outbox_s1m1",
-  "task_id": "S1M1",
-  "type": "completion_report",
-  "content": {
-    "status": "completed",
-    "output_files": ["docs/requirements.md"],
-    "shared_data": {
-      "key_features": [
-        "사용자 인증",
-        "정치인 검색",
-        "투표 기록"
-      ],
-      "target_users": "20-40대 정치 관심층"
-    }
-  }
+ "id": "outbox_s1m1",
+ "task_id": "S1M1",
+ "type": "completion_report",
+ "content": {
+ "status": "completed",
+ "output_files": ["docs/requirements.md"],
+ "shared_data": {
+ "key_features": [
+ "사용자 인증",
+ "정치인 검색",
+ "투표 기록"
+ ],
+ "target_users": "20-40대 정치 관심층"
+ }
+ }
 }
 ```
 
 **S1U1의 Inbox (자동 생성):**
 ```json
 {
-  "id": "inbox_s1u1",
-  "task_id": "S1U1",
-  "type": "dependency_data",
-  "from_task": "S1M1",
-  "content": {
-    "requirements": "docs/requirements.md 참조",
-    "key_features": [
-      "사용자 인증",
-      "정치인 검색",
-      "투표 기록"
-    ]
-  }
+ "id": "inbox_s1u1",
+ "task_id": "S1U1",
+ "type": "dependency_data",
+ "from_task": "S1M1",
+ "content": {
+ "requirements": "docs/requirements.md 참조",
+ "key_features": [
+ "사용자 인증",
+ "정치인 검색",
+ "투표 기록"
+ ]
+ }
 }
 ```
 
@@ -2913,41 +2913,41 @@ Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
 
 ```
 [Project Owner]
-  Stage 1 시작 결정
-        ↓
-  Inbox에 Order Sheet 발행
-  {
-    "type": "stage_start",
-    "stage": "S1",
-    "instructions": "..."
-  }
-        ↓
+ Stage 1 시작 결정
+ ↓
+ Inbox에 Order Sheet 발행
+ {
+ "type": "stage_start",
+ "stage": "S1",
+ "instructions": "..."
+ }
+ ↓
 [Claude 세션 A]
-  Inbox 확인
-  Order Sheet 읽기
-  S1M1, S1M2... 작업 시작
-        ↓
-  컨텍스트 한도 도달
-  Outbox에 중간 보고
-  {
-    "status": "in_progress",
-    "completed": ["S1M1", "S1M2"],
-    "next": "S1M3"
-  }
-        ↓
-  세션 종료
-        ↓
+ Inbox 확인
+ Order Sheet 읽기
+ S1M1, S1M2... 작업 시작
+ ↓
+ 컨텍스트 한도 도달
+ Outbox에 중간 보고
+ {
+ "status": "in_progress",
+ "completed": ["S1M1", "S1M2"],
+ "next": "S1M3"
+ }
+ ↓
+ 세션 종료
+ ↓
 [Claude 세션 B]
-  Inbox 확인 (새 지시 있나?)
-  Outbox 확인 (이전 진행 상황)
-  S1M3부터 계속...
-        ↓
-  Stage 1 완료
-  Outbox에 완료 보고
-        ↓
+ Inbox 확인 (새 지시 있나?)
+ Outbox 확인 (이전 진행 상황)
+ S1M3부터 계속...
+ ↓
+ Stage 1 완료
+ Outbox에 완료 보고
+ ↓
 [Project Owner]
-  Outbox 확인
-  Stage Gate 승인/거부 결정
+ Outbox 확인
+ Stage Gate 승인/거부 결정
 ```
 
 #### **핵심 원칙**
@@ -2971,17 +2971,17 @@ Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
 #### **Inbox/Outbox 사용 가이드라인:**
 
 ```
-✅ DO:
-  - 모든 메시지에 타임스탬프 포함
-  - Task ID 명시로 추적성 확보
-  - 명확한 메시지 타입 사용
-  - 읽은 후 status 업데이트
+ DO:
+ - 모든 메시지에 타임스탬프 포함
+ - Task ID 명시로 추적성 확보
+ - 명확한 메시지 타입 사용
+ - 읽은 후 status 업데이트
 
-❌ DON'T:
-  - 중요 정보 누락
-  - 타임스탬프 없이 생성
-  - 모호한 메시지 작성
-  - status 업데이트 생략
+ DON'T:
+ - 중요 정보 누락
+ - 타임스탬프 없이 생성
+ - 모호한 메시지 작성
+ - status 업데이트 생략
 ```
 
 ---
@@ -3022,7 +3022,7 @@ Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
  */
 
 export default function SignupPage() {
-  // 코드...
+ // 코드...
 }
 ```
 
@@ -3051,8 +3051,8 @@ from fastapi import APIRouter
 -- 설명: 정치인 정보 저장을 위한 테이블 생성
 
 CREATE TABLE politicians (
-  id UUID PRIMARY KEY,
-  -- ...
+ id UUID PRIMARY KEY,
+ -- ...
 );
 ```
 
@@ -3184,21 +3184,21 @@ PROJECT SAL GRID의 각 Task에는 `git_commits` 속성(선택적)이 있으며,
 
 ```json
 {
-  "task_id": "S2B3",
-  "title": "정치인 검색 API 구현",
-  "git_commits": [
-    "a3f9c2d",
-    "b7e4f1a",
-    "c9d2e8b"
-  ],
-  "status": "Completed"
+ "task_id": "S2B3",
+ "title": "정치인 검색 API 구현",
+ "git_commits": [
+ "a3f9c2d",
+ "b7e4f1a",
+ "c9d2e8b"
+ ],
+ "status": "Completed"
 }
 ```
 
 **양방향 추적:**
 ```
 Task (S2B3) → Git Commits (a3f9c2d, b7e4f1a)
-       ↕
+ ↕
 Git Commit (a3f9c2d) → Task ID [S2B3]
 ```
 
@@ -3248,11 +3248,11 @@ main
 ```
 main
  ├── stage/s1-planning
- │   ├── grid/S1M1/project-planning
- │   └── grid/S1U1/erd-design
+ │ ├── grid/S1M1/project-planning
+ │ └── grid/S1U1/erd-design
  └── stage/s2-prototype
-     ├── grid/S2F1/homepage
-     └── grid/S2B1/api-setup
+ ├── grid/S2F1/homepage
+ └── grid/S2B1/api-setup
 ```
 
 #### **Task-Commit 매핑:**
@@ -3261,26 +3261,26 @@ main
 
 ```
 PROJECT GRID (작업 관리)
-    ↓ 작업 할당
+ ↓ 작업 할당
 Task ID 헤더 (소스 코드)
-    ↓ 파일 생성
+ ↓ 파일 생성
 Git Commit (버전 관리)
-    ↓ 커밋
+ ↓ 커밋
 GitHub Repository (원격 저장소)
-    ↓ 푸시
+ ↓ 푸시
 작업 완료 기록 → PROJECT GRID 업데이트
-    ↓ 역추적
+ ↓ 역추적
 코드 → Task ID → 작업 지시서
 ```
 
 **양방향 추적 흐름:**
 ```
 [Task] S2B3: 정치인 검색 API
-   ↓ 파일 생성
+ ↓ 파일 생성
 [File] S2B3_politician_search.py
-   ↓ Git 추가
+ ↓ Git 추가
 [Commit] a3f9c2d: [S2B3] feat: 정치인 검색 API 구현
-   ↓ Grid 업데이트
+ ↓ Grid 업데이트
 [Task] S2B3: status="Completed", git_commits=["a3f9c2d"]
 ```
 
@@ -3300,35 +3300,35 @@ import json
 import re
 
 def get_recent_commits(task_id):
-    """특정 Task ID의 최근 커밋 가져오기"""
-    cmd = f'git log --all --grep="\\[{task_id}\\]" --format="%H"'
-    result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-    return result.stdout.strip().split('\n')
+ """특정 Task ID의 최근 커밋 가져오기"""
+ cmd = f'git log --all --grep="\\[{task_id}\\]" --format="%H"'
+ result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+ return result.stdout.strip().split('\n')
 
 def update_task_commits(task_id, commits):
-    """Supabase에 git_commits 업데이트"""
-    # Supabase 업데이트 로직
-    pass
+ """Supabase에 git_commits 업데이트"""
+ # Supabase 업데이트 로직
+ pass
 
 def main():
-    # 최근 커밋 분석
-    recent_commit = subprocess.run(
-        'git log -1 --format="%s"',
-        shell=True,
-        capture_output=True,
-        text=True
-    ).stdout.strip()
+ # 최근 커밋 분석
+ recent_commit = subprocess.run(
+ 'git log -1 --format="%s"',
+ shell=True,
+ capture_output=True,
+ text=True
+ ).stdout.strip()
 
-    # Task ID 추출
-    match = re.match(r'\[(\w+)\]', recent_commit)
-    if match:
-        task_id = match.group(1)
-        commits = get_recent_commits(task_id)
-        update_task_commits(task_id, commits)
-        print(f"✅ Task {task_id} updated with {len(commits)} commits")
+ # Task ID 추출
+ match = re.match(r'\[(\w+)\]', recent_commit)
+ if match:
+ task_id = match.group(1)
+ commits = get_recent_commits(task_id)
+ update_task_commits(task_id, commits)
+ print(f" Task {task_id} updated with {len(commits)} commits")
 
 if __name__ == "__main__":
-    main()
+ main()
 ```
 
 #### **Git Hook 설정:**
@@ -3365,16 +3365,16 @@ python3 scripts/update_git_commits.py
 
 ### 12.8 필수 규칙
 
-✅ **모든 파일**에 Task ID 헤더 포함
-✅ **모든 커밋**에 Task ID 포함
-✅ **파일명**에 Task ID 포함
-✅ **실제 소요시간만** 기록
-✅ **생성자 정보** 명시 (AI 모델명)
+ **모든 파일**에 Task ID 헤더 포함
+ **모든 커밋**에 Task ID 포함
+ **파일명**에 Task ID 포함
+ **실제 소요시간만** 기록
+ **생성자 정보** 명시 (AI 모델명)
 
-❌ 헤더 없는 파일 생성 금지
-❌ Task ID 없는 커밋 금지
-❌ 시간 예측 금지
-❌ 애매한 파일명 금지
+ 헤더 없는 파일 생성 금지
+ Task ID 없는 커밋 금지
+ 시간 예측 금지
+ 애매한 파일명 금지
 
 ---
 
@@ -3492,22 +3492,22 @@ PART 3에서는 PROJECT SAL GRID의 품질 보증과 추적 시스템을 다루�
 
 ## 13. 5분 만에 시작하기
 
-> ⏱️ **목표**: 5분 안에 Supabase 프로젝트 만들고 테이블 생성하기
+> **목표**: 5분 안에 Supabase 프로젝트 만들고 테이블 생성하기
 
 ### 13-1. 준비물 체크
 
 - [ ] 인터넷 연결
 - [ ] 구글 또는 GitHub 계정 (로그인용)
 - [ ] 2개 SQL 파일:
-  - `template/supabase/schema.sql`
-  - `STANDARD_PROJECT_SAL_GRID_FINAL.sql`
+ - `template/supabase/schema.sql`
+ - `STANDARD_PROJECT_SAL_GRID_FINAL.sql`
 
 **파일 위치:**
 ```
 G:\내 드라이브\Project_SSAL_Grid\
 ├── template\
-│   └── supabase\
-│       └── schema.sql (테이블 생성용)
+│ └── supabase\
+│ └── schema.sql (테이블 생성용)
 └── STANDARD_PROJECT_SAL_GRID_FINAL.sql (표준 Task 데이터)
 ```
 
@@ -3531,31 +3531,31 @@ G:\내 드라이브\Project_SSAL_Grid\
 **Step 3: 프로젝트 정보 입력**
 
 ```
-📝 입력 항목 (초보자 추천값)
+ 입력 항목 (초보자 추천값)
 
 Name (프로젝트 이름):
 → My_SSAL_Grid
-   (영문, 숫자, 언더스코어만 사용)
+ (영문, 숫자, 언더스코어만 사용)
 
 Database Password (비밀번호):
 → "Generate a password" 버튼 클릭
 → 자동 생성된 비밀번호 복사
-→ ⚠️ 메모장에 안전하게 저장!
+→ 메모장에 안전하게 저장!
 
 Region (지역):
 → Northeast Asia (Seoul) 선택
-   (한국이면 서울이 가장 빠름)
+ (한국이면 서울이 가장 빠름)
 
 Pricing Plan (요금제):
 → Free 선택
-   (무료로 충분합니다)
+ (무료로 충분합니다)
 ```
 
 4. "Create new project" 버튼 클릭
-5. ⏱️ 약 2분 대기 (프로젝트 생성 중...)
+5. 약 2분 대기 (프로젝트 생성 중...)
 6. 완료되면 Dashboard 화면으로 이동
 
-**✅ 성공!** 이제 나만의 Supabase 프로젝트가 생겼습니다.
+** 성공!** 이제 나만의 Supabase 프로젝트가 생겼습니다.
 
 ---
 
@@ -3568,11 +3568,11 @@ Pricing Plan (요금제):
 3. 다음 2가지 정보를 메모장에 복사:
 
 ```
-📍 Project URL (프로젝트 주소)
+ Project URL (프로젝트 주소)
 https://abcdefghijk.supabase.co
 👆 이 주소를 복사하세요
 
-🔑 anon public (API 키)
+ anon public (API 키)
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdX...
 👆 이 긴 키를 복사하세요
 ```
@@ -3587,7 +3587,7 @@ Anon Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 비밀번호: (자동생성된 비밀번호)
 ```
 
-**⚠️ 주의:**
+** 주의:**
 - `anon public` 키는 안전 (공개해도 괜찮음)
 - `service_role` 키는 **절대 공개 금지!** (우리는 사용 안 함)
 
@@ -3600,16 +3600,16 @@ Anon Key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 **역할 분담:**
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│  [Project Owner가 해야 할 일]                                │
-│  1. Supabase 프로젝트 생성 (초기 셋업)                        │
-│  2. SQL Editor에서 schema.sql 실행 (테이블 생성)              │
-│  3. .env 파일 생성 및 API 키 저장                            │
+│ [Project Owner가 해야 할 일] │
+│ 1. Supabase 프로젝트 생성 (초기 셋업) │
+│ 2. SQL Editor에서 schema.sql 실행 (테이블 생성) │
+│ 3. .env 파일 생성 및 API 키 저장 │
 ├─────────────────────────────────────────────────────────────┤
-│  [AI가 할 수 있는 일] (.env 파일 설정 후)                     │
-│  1. REST API로 데이터 조회 (SELECT)                          │
-│  2. REST API로 데이터 삽입 (INSERT)                          │
-│  3. REST API로 데이터 수정 (UPDATE)                          │
-│  4. REST API로 데이터 삭제 (DELETE)                          │
+│ [AI가 할 수 있는 일] (.env 파일 설정 후) │
+│ 1. REST API로 데이터 조회 (SELECT) │
+│ 2. REST API로 데이터 삽입 (INSERT) │
+│ 3. REST API로 데이터 수정 (UPDATE) │
+│ 4. REST API로 데이터 삭제 (DELETE) │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -3630,7 +3630,7 @@ SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-**⚠️ 중요:**
+** 중요:**
 - `.env` 파일이 있어야 AI가 Supabase에 접근 가능
 - `.gitignore`에 `.env` 추가하여 Git에 커밋되지 않도록 설정
 - `SUPABASE_URL`과 `SUPABASE_ANON_KEY`는 필수
@@ -3640,7 +3640,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ### 13-5. 다음 단계
 
-✅ Supabase 프로젝트 생성 완료!
+ Supabase 프로젝트 생성 완료!
 
 **이제 다음 중 선택:**
 
@@ -3651,7 +3651,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 ## 14. 표준 Grid 설치
 
-> ⏱️ **목표**: 표준 Task들을 내 Supabase에 설치하기
+> **목표**: 표준 Task들을 내 Supabase에 설치하기
 
 ### 14-1. 설치 순서 (중요!)
 
@@ -3659,7 +3659,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 순서를 꼭 지켜주세요!
 
 1단계: schema.sql 실행 (테이블 생성)
-   ↓
+ ↓
 2단계: STANDARD_PROJECT_SAL_GRID_FINAL.sql 실행 (데이터 입력)
 
 순서 바꾸면 에러 발생!
@@ -3698,20 +3698,20 @@ G:\내 드라이브\Project_SSAL_Grid\template\supabase\schema.sql
 **4. 실행!**
 
 1. 우측 하단 "Run" 버튼 클릭
-   - 또는 키보드: `Ctrl + Enter` (Windows)
-   - Mac: `Cmd + Enter`
-2. ⏱️ 3-5초 대기
+ - 또는 키보드: `Ctrl + Enter` (Windows)
+ - Mac: `Cmd + Enter`
+2. 3-5초 대기
 
 **5. 성공 확인**
 
-✅ 성공하면 이런 메시지가 보입니다:
+ 성공하면 이런 메시지가 보입니다:
 ```
 Success. No rows returned
 ```
 
 또는 초록색 체크 표시 ✓
 
-❌ 에러가 나면:
+ 에러가 나면:
 - [15-2. 자주 나는 에러](#15-2-자주-나는-에러) 참고
 
 **6. 테이블 확인**
@@ -3729,7 +3729,7 @@ Success. No rows returned
 **1. 새 SQL 쿼리 생성**
 
 1. SQL Editor → "+ New query" 버튼 클릭
-   (또는 기존 내용 전체 삭제 `Ctrl+A` → `Delete`)
+ (또는 기존 내용 전체 삭제 `Ctrl+A` → `Delete`)
 
 **2. 데이터 파일 열기**
 
@@ -3751,16 +3751,16 @@ G:\내 드라이브\Project_SSAL_Grid\STANDARD_PROJECT_SAL_GRID_FINAL.sql
 
 1. Supabase SQL Editor에 붙여넣기 (Ctrl+V)
 2. 스크롤해서 파일 끝까지 잘 붙여넣어졌는지 확인
-3. 마지막 줄이 `);  -- S5C2` 이면 정상
+3. 마지막 줄이 `); -- S5C2` 이면 정상
 
 **4. 실행!**
 
 1. "Run" 버튼 클릭 (또는 Ctrl+Enter)
-2. ⏱️ 10-20초 대기 (Task 입력 중...)
+2. 10-20초 대기 (Task 입력 중...)
 
 **5. 성공 확인**
 
-✅ 성공하면:
+ 성공하면:
 ```
 Success. No rows returned
 ```
@@ -3814,14 +3814,14 @@ LIMIT 10;
 
 ---
 
-### 14-5. 설치 완료! 🎉
+### 14-5. 설치 완료! 
 
 **축하합니다!** 이제 다음을 완료했습니다:
 
-- ✅ Supabase 프로젝트 생성
-- ✅ `project_ssal_grid_tasks` 테이블 생성
-- ✅ 표준 Task 입력
-- ✅ 5×11 매트릭스 완성
+- Supabase 프로젝트 생성
+- `project_ssal_grid_tasks` 테이블 생성
+- 표준 Task 입력
+- 5×11 매트릭스 완성
 
 **다음 단계:**
 
@@ -3887,13 +3887,13 @@ Step 2 (데이터):
 **엑셀과 비교:**
 
 ```
-엑셀 파일          →  Supabase 프로젝트
-엑셀 시트          →  테이블 (project_ssal_grid_tasks)
-행(Row)            →  Task 1개
-열(Column)         →  속성 (task_id, task_name, stage 등)
-필터 기능          →  SQL WHERE 절
-정렬 기능          →  SQL ORDER BY
-자동 저장          →  자동으로 클라우드에 저장됨
+엑셀 파일 → Supabase 프로젝트
+엑셀 시트 → 테이블 (project_ssal_grid_tasks)
+행(Row) → Task 1개
+열(Column) → 속성 (task_id, task_name, stage 등)
+필터 기능 → SQL WHERE 절
+정렬 기능 → SQL ORDER BY
+자동 저장 → 자동으로 클라우드에 저장됨
 ```
 
 **차이점:**
@@ -3913,38 +3913,38 @@ Step 2 (데이터):
 **장점:**
 
 1. **무료로 시작 가능**
-   - 소규모 프로젝트는 평생 무료
-   - 신용카드 등록 불필요
+ - 소규모 프로젝트는 평생 무료
+ - 신용카드 등록 불필요
 
 2. **프로그래밍 몰라도 사용 가능**
-   - 웹 브라우저에서 모든 작업
-   - SQL도 복사 붙여넣기면 됨
+ - 웹 브라우저에서 모든 작업
+ - SQL도 복사 붙여넣기면 됨
 
 3. **어디서나 접근 가능**
-   - 인터넷만 있으면 OK
-   - 스마트폰에서도 가능
+ - 인터넷만 있으면 OK
+ - 스마트폰에서도 가능
 
 4. **자동 백업**
-   - 데이터 손실 걱정 없음
-   - 클라우드에 안전하게 저장
+ - 데이터 손실 걱정 없음
+ - 클라우드에 안전하게 저장
 
 5. **팀 협업 가능**
-   - URL과 Key만 공유하면 됨
-   - 동시에 여러 명이 작업 가능
+ - URL과 Key만 공유하면 됨
+ - 동시에 여러 명이 작업 가능
 
 **단점:**
 
 1. **인터넷 필요**
-   - 오프라인에서는 작동 안 함
+ - 오프라인에서는 작동 안 함
 
 2. **무료 한도**
-   - 500MB 데이터베이스
-   - 월 2GB 전송량
-   - (우리 프로젝트는 충분함)
+ - 500MB 데이터베이스
+ - 월 2GB 전송량
+ - (우리 프로젝트는 충분함)
 
 3. **학습 필요**
-   - SQL 기본 문법 알면 좋음
-   - (하지만 복사 붙여넣기로도 가능)
+ - SQL 기본 문법 알면 좋음
+ - (하지만 복사 붙여넣기로도 가능)
 
 ---
 
@@ -3954,13 +3954,13 @@ Step 2 (데이터):
 
 ```
 1. PROJECT SAL GRID 정의
-   ↓
+ ↓
 2. Supabase에 저장 (클라우드 데이터베이스)
-   ↓
+ ↓
 3. 언제 어디서나 접근 가능
-   ↓
+ ↓
 4. HTML Viewer로 시각화
-   ↓
+ ↓
 5. Claude Code가 자동으로 업데이트
 ```
 
@@ -3968,17 +3968,17 @@ Step 2 (데이터):
 
 ```
 ┌─────────────────────────────────┐
-│   Supabase Cloud (클라우드)      │
-│                                 │
-│  project_ssal_grid_tasks        │
-│  (Task 저장됨)             │
-│                                 │
+│ Supabase Cloud (클라우드) │
+│ │
+│ project_ssal_grid_tasks │
+│ (Task 저장됨) │
+│ │
 └─────────────────────────────────┘
-         ↓         ↓         ↓
-    ┌──────┐  ┌──────┐  ┌──────┐
-    │ 내PC │  │Viewer│  │Claude│
-    │(SQL) │  │(HTML)│  │(API) │
-    └──────┘  └──────┘  └──────┘
+ ↓ ↓ ↓
+ ┌──────┐ ┌──────┐ ┌──────┐
+ │ 내PC │ │Viewer│ │Claude│
+ │(SQL) │ │(HTML)│ │(API) │
+ └──────┘ └──────┘ └──────┘
 ```
 
 ---
@@ -4010,9 +4010,9 @@ Step 2 (데이터):
 ```sql
 -- CREATE (생성): 새 Task 추가
 INSERT INTO project_ssal_grid_tasks (
-  task_id, task_name, stage, area
+ task_id, task_name, stage, area
 ) VALUES (
-  'S1M1', '프로젝트 기획서 작성', 1, 'M'
+ 'S1M1', '프로젝트 기획서 작성', 1, 'M'
 );
 
 -- READ (읽기): Task 보기
@@ -4068,7 +4068,7 @@ G:\내 드라이브\Project_SSAL_Grid\template\viewer\
 2. 15-20번째 줄 근처에서 다음 찾기:
 
 ```javascript
-// ⚠️ 본인의 Supabase 정보로 교체!
+// 본인의 Supabase 정보로 교체!
 const SUPABASE_URL = 'https://xxxxx.supabase.co'
 const SUPABASE_ANON_KEY = 'eyJhb...'
 ```
@@ -4130,32 +4130,32 @@ python -m http.server 8080
 
 ```
 ┌────────────────────────────────────┐
-│  PROJECT SAL GRID Viewer          │
+│ PROJECT SAL GRID Viewer │
 ├────────────────────────────────────┤
-│ [모든 Stage ▼] [모든 상태 ▼] [🔄] │  ← 필터
+│ [모든 Stage ▼] [모든 상태 ▼] [] │ ← 필터
 ├────────────────────────────────────┤
-│ Task ID │ 작업명 │ Stage │ Area │  │  ← 테이블
-│ S1M1    │ 프로.. │   1   │  M   │  │
-│ S1M2    │ 요구.. │   1   │  M   │  │
-│ ...     │ ...    │  ...  │ ...  │  │
+│ Task ID │ 작업명 │ Stage │ Area │ │ ← 테이블
+│ S1M1 │ 프로.. │ 1 │ M │ │
+│ S1M2 │ 요구.. │ 1 │ M │ │
+│ ... │ ... │ ... │ ... │ │
 └────────────────────────────────────┘
 ```
 
 **필터 사용:**
 
 1. **Stage별 필터**
-   - "모든 Stage" 드롭다운 클릭
-   - "Stage 1: 프로토타입" 선택
-   - → Stage 1 Task만 보임
+ - "모든 Stage" 드롭다운 클릭
+ - "Stage 1: 프로토타입" 선택
+ - → Stage 1 Task만 보임
 
 2. **Status별 필터**
-   - "모든 상태" 드롭다운 클릭
-   - "대기" 선택
-   - → Pending Task만 보임
+ - "모든 상태" 드롭다운 클릭
+ - "대기" 선택
+ - → Pending Task만 보임
 
 3. **새로고침**
-   - 🔄 버튼 클릭
-   - → 최신 데이터 다시 불러오기
+ - 버튼 클릭
+ - → 최신 데이터 다시 불러오기
 
 **실시간 업데이트:**
 - Supabase에서 데이터 변경 시 자동 반영
@@ -4204,7 +4204,7 @@ Access to fetch at 'https://...' has been blocked by CORS policy
 
 ## 19. Task 추가/수정/삭제 방법
 
-> 🛠️ **목표**: SQL로 직접 Task 관리하기
+> **목표**: SQL로 직접 Task 관리하기
 
 ### 19-1. 새 Task 추가 (CREATE)
 
@@ -4213,27 +4213,27 @@ Access to fetch at 'https://...' has been blocked by CORS policy
 **SQL:**
 ```sql
 INSERT INTO project_ssal_grid_tasks (
-  task_id,
-  task_name,
-  stage,
-  area,
-  priority,
-  task_description,
-  execution_type,
-  estimated_complexity,
-  status,
-  progress
+ task_id,
+ task_name,
+ stage,
+ area,
+ priority,
+ task_description,
+ execution_type,
+ estimated_complexity,
+ status,
+ progress
 ) VALUES (
-  'S4F99',                          -- Task ID (고유해야 함)
-  '긴급 버그 수정',                 -- Task 이름
-  4,                                -- Stage (1-5)
-  'F',                              -- Area (M, U, F, BI, BA, D, S, T, O, E, C)
-  'Critical',                       -- 우선순위
-  '로그인 버그 긴급 수정 필요',      -- 설명
-  'AI-Only',                        -- 실행 방식
-  'Low',                            -- 복잡도
-  'Pending',                        -- 상태
-  0                                 -- 진행률 (0-100)
+ 'S4F99', -- Task ID (고유해야 함)
+ '긴급 버그 수정', -- Task 이름
+ 4, -- Stage (1-5)
+ 'F', -- Area (M, U, F, BI, BA, D, S, T, O, E, C)
+ 'Critical', -- 우선순위
+ '로그인 버그 긴급 수정 필요', -- 설명
+ 'AI-Only', -- 실행 방식
+ 'Low', -- 복잡도
+ 'Pending', -- 상태
+ 0 -- 진행률 (0-100)
 );
 ```
 
@@ -4259,9 +4259,9 @@ WHERE task_id = 'S4F99';
 -- Task S1M1의 진행률을 50%로 변경
 UPDATE project_ssal_grid_tasks
 SET
-  progress = 50,
-  status = 'In Progress',
-  updated_at = NOW()
+ progress = 50,
+ status = 'In Progress',
+ updated_at = NOW()
 WHERE task_id = 'S1M1';
 ```
 
@@ -4271,10 +4271,10 @@ WHERE task_id = 'S1M1';
 -- Task S1M1 완료 처리
 UPDATE project_ssal_grid_tasks
 SET
-  progress = 100,
-  status = 'Completed',
-  completion_date = NOW(),
-  updated_at = NOW()
+ progress = 100,
+ status = 'Completed',
+ completion_date = NOW(),
+ updated_at = NOW()
 WHERE task_id = 'S1M1';
 ```
 
@@ -4284,11 +4284,11 @@ WHERE task_id = 'S1M1';
 -- Task 정보 대폭 수정
 UPDATE project_ssal_grid_tasks
 SET
-  task_name = '프로젝트 기획서 작성 (수정)',
-  priority = 'High',
-  task_description = '업데이트된 설명',
-  notes = '기획서 양식 변경됨',
-  updated_at = NOW()
+ task_name = '프로젝트 기획서 작성 (수정)',
+ priority = 'High',
+ task_description = '업데이트된 설명',
+ notes = '기획서 양식 변경됨',
+ updated_at = NOW()
 WHERE task_id = 'S1M1';
 ```
 
@@ -4296,16 +4296,16 @@ WHERE task_id = 'S1M1';
 - `WHERE task_id = 'S1M1'` 부분은 필수!
 - 없으면 모든 Task가 수정됨 (위험!)
 - 실행 전에 꼭 `SELECT`로 확인:
-  ```sql
-  SELECT * FROM project_ssal_grid_tasks
-  WHERE task_id = 'S1M1';
-  ```
+ ```sql
+ SELECT * FROM project_ssal_grid_tasks
+ WHERE task_id = 'S1M1';
+ ```
 
 ---
 
 ### 19-3. Task 삭제 (DELETE)
 
-**⚠️ 주의: 삭제는 되돌릴 수 없습니다!**
+** 주의: 삭제는 되돌릴 수 없습니다!**
 
 **상황 1: 특정 Task 삭제**
 
@@ -4334,7 +4334,7 @@ WHERE stage = 5;
 **상황 3: 전체 삭제 (초기화)**
 
 ```sql
--- ⚠️ 모든 데이터 삭제!
+-- 모든 데이터 삭제!
 DELETE FROM project_ssal_grid_tasks;
 
 -- 확인
@@ -4345,23 +4345,23 @@ SELECT COUNT(*) FROM project_ssal_grid_tasks;
 **안전한 삭제 순서:**
 
 1. **먼저 SELECT로 확인**
-   ```sql
-   SELECT * FROM project_ssal_grid_tasks
-   WHERE task_id = 'S4F99';
-   ```
+ ```sql
+ SELECT * FROM project_ssal_grid_tasks
+ WHERE task_id = 'S4F99';
+ ```
 
 2. **맞으면 DELETE 실행**
-   ```sql
-   DELETE FROM project_ssal_grid_tasks
-   WHERE task_id = 'S4F99';
-   ```
+ ```sql
+ DELETE FROM project_ssal_grid_tasks
+ WHERE task_id = 'S4F99';
+ ```
 
 3. **삭제 확인**
-   ```sql
-   SELECT * FROM project_ssal_grid_tasks
-   WHERE task_id = 'S4F99';
-   -- 결과: 0 rows (삭제됨)
-   ```
+ ```sql
+ SELECT * FROM project_ssal_grid_tasks
+ WHERE task_id = 'S4F99';
+ -- 결과: 0 rows (삭제됨)
+ ```
 
 ---
 
@@ -4459,9 +4459,9 @@ WHERE task_id = 'S1M1';
 -- 3. 완료 처리
 UPDATE project_ssal_grid_tasks
 SET
-  status = 'Completed',
-  progress = 100,
-  completion_date = NOW()
+ status = 'Completed',
+ progress = 100,
+ completion_date = NOW()
 WHERE task_id = 'S1M1';
 ```
 
@@ -4470,10 +4470,10 @@ WHERE task_id = 'S1M1';
 ```sql
 -- 전체 진행률 확인
 SELECT
-  stage,
-  COUNT(*) as total,
-  SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) as completed,
-  ROUND(AVG(progress), 1) as avg_progress
+ stage,
+ COUNT(*) as total,
+ SUM(CASE WHEN status = 'Completed' THEN 1 ELSE 0 END) as completed,
+ ROUND(AVG(progress), 1) as avg_progress
 FROM project_ssal_grid_tasks
 GROUP BY stage
 ORDER BY stage;
@@ -4484,9 +4484,9 @@ ORDER BY stage;
 ```sql
 -- 1. 긴급 Task 추가
 INSERT INTO project_ssal_grid_tasks (
-  task_id, task_name, stage, area, priority, status
+ task_id, task_name, stage, area, priority, status
 ) VALUES (
-  'S4F99', '긴급 버그 수정', 4, 'F', 'Critical', 'Pending'
+ 'S4F99', '긴급 버그 수정', 4, 'F', 'Critical', 'Pending'
 );
 
 -- 2. 바로 시작
@@ -4499,7 +4499,7 @@ WHERE task_id = 'S4F99';
 
 ## 20. Claude Code로 자동화
 
-> 🤖 **대상**: 개발자 또는 자동화에 관심 있는 사용자
+> **대상**: 개발자 또는 자동화에 관심 있는 사용자
 
 ### 20-1. 자동화가 필요한 이유
 
@@ -4539,7 +4539,7 @@ SUPABASE_URL=https://abcdefghijk.supabase.co
 SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 ```
 
-**⚠️ .gitignore에 추가:**
+** .gitignore에 추가:**
 ```bash
 # .gitignore
 .env
@@ -4558,8 +4558,8 @@ const { createClient } = require('@supabase/supabase-js')
 require('dotenv').config()
 
 const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_KEY
+ process.env.SUPABASE_URL,
+ process.env.SUPABASE_KEY
 )
 
 module.exports = supabase
@@ -4590,88 +4590,88 @@ const supabase = require('./supabase-client')
 
 // CREATE: 새 Task 추가
 async function createTask(taskData) {
-  const { data, error } = await supabase
-    .from('project_ssal_grid_tasks')
-    .insert(taskData)
+ const { data, error } = await supabase
+ .from('project_ssal_grid_tasks')
+ .insert(taskData)
 
-  if (error) {
-    console.error('❌ Task 생성 실패:', error)
-    return null
-  }
-  console.log('✅ Task 생성 완료:', data)
-  return data
+ if (error) {
+ console.error(' Task 생성 실패:', error)
+ return null
+ }
+ console.log(' Task 생성 완료:', data)
+ return data
 }
 
 // READ: Task 조회
 async function getTask(taskId) {
-  const { data, error } = await supabase
-    .from('project_ssal_grid_tasks')
-    .select('*')
-    .eq('task_id', taskId)
-    .single()
+ const { data, error } = await supabase
+ .from('project_ssal_grid_tasks')
+ .select('*')
+ .eq('task_id', taskId)
+ .single()
 
-  if (error) {
-    console.error('❌ 조회 실패:', error)
-    return null
-  }
-  return data
+ if (error) {
+ console.error(' 조회 실패:', error)
+ return null
+ }
+ return data
 }
 
 // UPDATE: Task 수정
 async function updateTask(taskId, updates) {
-  const { data, error } = await supabase
-    .from('project_ssal_grid_tasks')
-    .update(updates)
-    .eq('task_id', taskId)
+ const { data, error } = await supabase
+ .from('project_ssal_grid_tasks')
+ .update(updates)
+ .eq('task_id', taskId)
 
-  if (error) {
-    console.error('❌ 업데이트 실패:', error)
-    return null
-  }
-  console.log('✅ 업데이트 완료:', taskId)
-  return data
+ if (error) {
+ console.error(' 업데이트 실패:', error)
+ return null
+ }
+ console.log(' 업데이트 완료:', taskId)
+ return data
 }
 
 // DELETE: Task 삭제
 async function deleteTask(taskId) {
-  const { data, error } = await supabase
-    .from('project_ssal_grid_tasks')
-    .delete()
-    .eq('task_id', taskId)
+ const { data, error } = await supabase
+ .from('project_ssal_grid_tasks')
+ .delete()
+ .eq('task_id', taskId)
 
-  if (error) {
-    console.error('❌ 삭제 실패:', error)
-    return null
-  }
-  console.log('✅ 삭제 완료:', taskId)
-  return data
+ if (error) {
+ console.error(' 삭제 실패:', error)
+ return null
+ }
+ console.log(' 삭제 완료:', taskId)
+ return data
 }
 
 // 사용 예시
 async function main() {
-  // 새 Task 추가
-  await createTask({
-    task_id: 'S4F99',
-    task_name: '긴급 버그 수정',
-    stage: 4,
-    area: 'F',
-    priority: 'Critical',
-    status: 'Pending',
-    progress: 0
-  })
+ // 새 Task 추가
+ await createTask({
+ task_id: 'S4F99',
+ task_name: '긴급 버그 수정',
+ stage: 4,
+ area: 'F',
+ priority: 'Critical',
+ status: 'Pending',
+ progress: 0
+ })
 
-  // Task 조회
-  const task = await getTask('S4F99')
-  console.log('Task:', task)
+ // Task 조회
+ const task = await getTask('S4F99')
+ console.log('Task:', task)
 
-  // Task 업데이트
-  await updateTask('S4F99', {
-    progress: 50,
-    status: 'In Progress'
-  })
+ // Task 업데이트
+ await updateTask('S4F99', {
+ progress: 50,
+ status: 'In Progress'
+ })
 
-  // Task 삭제
-  // await deleteTask('S4F99')
+ // Task 삭제
+ // await deleteTask('S4F99')
 }
 
 main()
@@ -4684,58 +4684,58 @@ from supabase_client import supabase
 
 # CREATE
 def create_task(task_data):
-    response = supabase.table('project_ssal_grid_tasks').insert(task_data).execute()
-    print('✅ Task 생성 완료:', response.data)
-    return response.data
+ response = supabase.table('project_ssal_grid_tasks').insert(task_data).execute()
+ print(' Task 생성 완료:', response.data)
+ return response.data
 
 # READ
 def get_task(task_id):
-    response = supabase.table('project_ssal_grid_tasks')\
-        .select('*')\
-        .eq('task_id', task_id)\
-        .execute()
-    return response.data[0] if response.data else None
+ response = supabase.table('project_ssal_grid_tasks')\
+ .select('*')\
+ .eq('task_id', task_id)\
+ .execute()
+ return response.data[0] if response.data else None
 
 # UPDATE
 def update_task(task_id, updates):
-    response = supabase.table('project_ssal_grid_tasks')\
-        .update(updates)\
-        .eq('task_id', task_id)\
-        .execute()
-    print('✅ 업데이트 완료:', task_id)
-    return response.data
+ response = supabase.table('project_ssal_grid_tasks')\
+ .update(updates)\
+ .eq('task_id', task_id)\
+ .execute()
+ print(' 업데이트 완료:', task_id)
+ return response.data
 
 # DELETE
 def delete_task(task_id):
-    response = supabase.table('project_ssal_grid_tasks')\
-        .delete()\
-        .eq('task_id', task_id)\
-        .execute()
-    print('✅ 삭제 완료:', task_id)
-    return response.data
+ response = supabase.table('project_ssal_grid_tasks')\
+ .delete()\
+ .eq('task_id', task_id)\
+ .execute()
+ print(' 삭제 완료:', task_id)
+ return response.data
 
 # 사용 예시
 if __name__ == '__main__':
-    # 새 Task 추가
-    create_task({
-        'task_id': 'S4F99',
-        'task_name': '긴급 버그 수정',
-        'stage': 4,
-        'area': 'F',
-        'priority': 'Critical',
-        'status': 'Pending',
-        'progress': 0
-    })
+ # 새 Task 추가
+ create_task({
+ 'task_id': 'S4F99',
+ 'task_name': '긴급 버그 수정',
+ 'stage': 4,
+ 'area': 'F',
+ 'priority': 'Critical',
+ 'status': 'Pending',
+ 'progress': 0
+ })
 
-    # Task 조회
-    task = get_task('S4F99')
-    print('Task:', task)
+ # Task 조회
+ task = get_task('S4F99')
+ print('Task:', task)
 
-    # Task 업데이트
-    update_task('S4F99', {
-        'progress': 50,
-        'status': 'In Progress'
-    })
+ # Task 업데이트
+ update_task('S4F99', {
+ 'progress': 50,
+ 'status': 'In Progress'
+ })
 ```
 
 ---
@@ -4754,60 +4754,60 @@ if __name__ == '__main__':
 const supabase = require('./supabase-client')
 
 async function processNextTask() {
-  console.log('🔍 대기 중인 Task 검색...')
+ console.log(' 대기 중인 Task 검색...')
 
-  // 1. Pending Task 찾기
-  const { data: tasks } = await supabase
-    .from('project_ssal_grid_tasks')
-    .select('*')
-    .eq('status', 'Pending')
-    .order('stage', { ascending: true })
-    .limit(1)
+ // 1. Pending Task 찾기
+ const { data: tasks } = await supabase
+ .from('project_ssal_grid_tasks')
+ .select('*')
+ .eq('status', 'Pending')
+ .order('stage', { ascending: true })
+ .limit(1)
 
-  if (!tasks || tasks.length === 0) {
-    console.log('✅ 처리할 Task 없음')
-    return
-  }
+ if (!tasks || tasks.length === 0) {
+ console.log(' 처리할 Task 없음')
+ return
+ }
 
-  const task = tasks[0]
-  console.log(`📋 Task 시작: ${task.task_id} - ${task.task_name}`)
+ const task = tasks[0]
+ console.log(` Task 시작: ${task.task_id} - ${task.task_name}`)
 
-  // 2. 작업 시작 표시
-  await supabase
-    .from('project_ssal_grid_tasks')
-    .update({
-      status: 'In Progress',
-      start_date: new Date().toISOString(),
-      progress: 0
-    })
-    .eq('task_id', task.task_id)
+ // 2. 작업 시작 표시
+ await supabase
+ .from('project_ssal_grid_tasks')
+ .update({
+ status: 'In Progress',
+ start_date: new Date().toISOString(),
+ progress: 0
+ })
+ .eq('task_id', task.task_id)
 
-  // 3. 실제 작업 수행 (여기서는 시뮬레이션)
-  console.log('💻 작업 수행 중...')
+ // 3. 실제 작업 수행 (여기서는 시뮬레이션)
+ console.log(' 작업 수행 중...')
 
-  // Task Instruction 파일 읽기 (실제 구현 필요)
-  // const instruction = await readTaskInstruction(task.task_id)
-  // await executeTask(instruction)
+ // Task Instruction 파일 읽기 (실제 구현 필요)
+ // const instruction = await readTaskInstruction(task.task_id)
+ // await executeTask(instruction)
 
-  // 시뮬레이션 (2초 대기)
-  await new Promise(resolve => setTimeout(resolve, 2000))
+ // 시뮬레이션 (2초 대기)
+ await new Promise(resolve => setTimeout(resolve, 2000))
 
-  // 4. 작업 완료 기록
-  await supabase
-    .from('project_ssal_grid_tasks')
-    .update({
-      status: 'Completed',
-      progress: 100,
-      completion_date: new Date().toISOString(),
-      generated_files: 'example.ts, test.spec.ts',
-      notes: '자동 완료'
-    })
-    .eq('task_id', task.task_id)
+ // 4. 작업 완료 기록
+ await supabase
+ .from('project_ssal_grid_tasks')
+ .update({
+ status: 'Completed',
+ progress: 100,
+ completion_date: new Date().toISOString(),
+ generated_files: 'example.ts, test.spec.ts',
+ notes: '자동 완료'
+ })
+ .eq('task_id', task.task_id)
 
-  console.log('✅ 작업 완료!')
+ console.log(' 작업 완료!')
 
-  // 5. 다음 Task 처리 (재귀)
-  await processNextTask()
+ // 5. 다음 Task 처리 (재귀)
+ await processNextTask()
 }
 
 // 실행
@@ -4818,7 +4818,7 @@ processNextTask()
 
 ## 21. API 직접 활용
 
-> 🌐 **대상**: REST API를 사용하고 싶은 개발자
+> **대상**: REST API를 사용하고 싶은 개발자
 
 ### 21-1. Supabase REST API
 
@@ -4842,49 +4842,49 @@ Authorization: Bearer YOUR_ANON_KEY
 **1. 모든 Task 조회:**
 ```bash
 curl "https://abcdefghijk.supabase.co/rest/v1/project_ssal_grid_tasks" \
-  -H "apikey: eyJhbGci..." \
-  -H "Authorization: Bearer eyJhbGci..."
+ -H "apikey: eyJhbGci..." \
+ -H "Authorization: Bearer eyJhbGci..."
 ```
 
 **2. 특정 Task 조회:**
 ```bash
 curl "https://abcdefghijk.supabase.co/rest/v1/project_ssal_grid_tasks?task_id=eq.S1M1" \
-  -H "apikey: YOUR_KEY" \
-  -H "Authorization: Bearer YOUR_KEY"
+ -H "apikey: YOUR_KEY" \
+ -H "Authorization: Bearer YOUR_KEY"
 ```
 
 **3. Task 생성:**
 ```bash
 curl -X POST "https://abcdefghijk.supabase.co/rest/v1/project_ssal_grid_tasks" \
-  -H "apikey: YOUR_KEY" \
-  -H "Authorization: Bearer YOUR_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "task_id": "S4F99",
-    "task_name": "긴급 버그 수정",
-    "stage": 4,
-    "area": "F",
-    "priority": "Critical"
-  }'
+ -H "apikey: YOUR_KEY" \
+ -H "Authorization: Bearer YOUR_KEY" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "task_id": "S4F99",
+ "task_name": "긴급 버그 수정",
+ "stage": 4,
+ "area": "F",
+ "priority": "Critical"
+ }'
 ```
 
 **4. Task 업데이트:**
 ```bash
 curl -X PATCH "https://abcdefghijk.supabase.co/rest/v1/project_ssal_grid_tasks?task_id=eq.S4F99" \
-  -H "apikey: YOUR_KEY" \
-  -H "Authorization: Bearer YOUR_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "progress": 50,
-    "status": "In Progress"
-  }'
+ -H "apikey: YOUR_KEY" \
+ -H "Authorization: Bearer YOUR_KEY" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "progress": 50,
+ "status": "In Progress"
+ }'
 ```
 
 **5. Task 삭제:**
 ```bash
 curl -X DELETE "https://abcdefghijk.supabase.co/rest/v1/project_ssal_grid_tasks?task_id=eq.S4F99" \
-  -H "apikey: YOUR_KEY" \
-  -H "Authorization: Bearer YOUR_KEY"
+ -H "apikey: YOUR_KEY" \
+ -H "Authorization: Bearer YOUR_KEY"
 ```
 
 ---
@@ -4925,29 +4925,29 @@ curl "https://[project].supabase.co/rest/v1/project_ssal_grid_tasks?offset=5&lim
 
 ## 마무리
 
-**축하합니다!** 🎉
+**축하합니다!** 
 
 이제 여러분은:
-- ✅ Supabase 프로젝트를 생성할 수 있습니다
-- ✅ 표준 Grid를 설치할 수 있습니다
-- ✅ SQL로 Task를 관리할 수 있습니다
-- ✅ Viewer로 Grid를 시각화할 수 있습니다
-- ✅ Claude Code로 자동화할 수 있습니다
-- ✅ REST API를 활용할 수 있습니다
+- Supabase 프로젝트를 생성할 수 있습니다
+- 표준 Grid를 설치할 수 있습니다
+- SQL로 Task를 관리할 수 있습니다
+- Viewer로 Grid를 시각화할 수 있습니다
+- Claude Code로 자동화할 수 있습니다
+- REST API를 활용할 수 있습니다
 
 **PROJECT SAL GRID + Supabase = 완벽한 조합**
 
 ```
 ┌─────────────────────────────────┐
-│   당신의 프로젝트 관리 시스템    │
-│                                 │
-│  Supabase (데이터)              │
-│     +                           │
-│  Grid Viewer (시각화)           │
-│     +                           │
-│  Claude Code (자동화)           │
-│     =                           │
-│  🚀 생산성 10배 향상            │
+│ 당신의 프로젝트 관리 시스템 │
+│ │
+│ Supabase (데이터) │
+│ + │
+│ Grid Viewer (시각화) │
+│ + │
+│ Claude Code (자동화) │
+│ = │
+│ 생산성 10배 향상 │
 └─────────────────────────────────┘
 ```
 
@@ -4957,7 +4957,7 @@ curl "https://[project].supabase.co/rest/v1/project_ssal_grid_tasks?offset=5&lim
 
 ## 22. 문제 해결 A to Z
 
-> 🔧 **모든 문제의 해결 방법**
+> **모든 문제의 해결 방법**
 
 ### 22-1. 일반적인 에러
 
@@ -4974,7 +4974,7 @@ ERROR: relation "project_ssal_grid_tasks" already exists
 
 **해결 방법 A (테이블 삭제 후 재생성):**
 ```sql
--- ⚠️ 주의: 기존 데이터가 모두 삭제됩니다!
+-- 주의: 기존 데이터가 모두 삭제됩니다!
 
 DROP TABLE IF EXISTS project_ssal_grid_tasks CASCADE;
 
@@ -5103,8 +5103,8 @@ ALTER TABLE project_ssal_grid_tasks ENABLE ROW LEVEL SECURITY;
 **해결:**
 ```javascript
 // viewer.html 수정
-const SUPABASE_URL = 'https://correct-url.supabase.co'  // 끝에 / 없음
-const SUPABASE_ANON_KEY = 'eyJ...'  // 전체 키
+const SUPABASE_URL = 'https://correct-url.supabase.co' // 끝에 / 없음
+const SUPABASE_ANON_KEY = 'eyJ...' // 전체 키
 ```
 
 ---
@@ -5213,9 +5213,9 @@ SELECT * FROM project_ssal_grid_tasks LIMIT 5;
 
 -- 통계
 SELECT
-  COUNT(*) as total,
-  COUNT(DISTINCT stage) as stages,
-  COUNT(DISTINCT area) as areas
+ COUNT(*) as total,
+ COUNT(DISTINCT stage) as stages,
+ COUNT(DISTINCT area) as areas
 FROM project_ssal_grid_tasks;
 ```
 
@@ -5261,73 +5261,73 @@ SELECT COUNT(*) FROM project_ssal_grid_tasks;
 **순서대로 시도해보세요:**
 
 1. **브라우저 콘솔 확인**
-   - F12 → Console 탭
-   - 빨간 에러 메시지 복사
-   - 구글 검색: "supabase [에러 메시지]"
+ - F12 → Console 탭
+ - 빨간 에러 메시지 복사
+ - 구글 검색: "supabase [에러 메시지]"
 
 2. **SQL 직접 확인**
-   ```sql
-   -- 테이블 존재 여부
-   SELECT table_name
-   FROM information_schema.tables
-   WHERE table_name = 'project_ssal_grid_tasks';
+ ```sql
+ -- 테이블 존재 여부
+ SELECT table_name
+ FROM information_schema.tables
+ WHERE table_name = 'project_ssal_grid_tasks';
 
-   -- 데이터 개수
-   SELECT COUNT(*) FROM project_ssal_grid_tasks;
+ -- 데이터 개수
+ SELECT COUNT(*) FROM project_ssal_grid_tasks;
 
-   -- 샘플 데이터
-   SELECT * FROM project_ssal_grid_tasks LIMIT 5;
-   ```
+ -- 샘플 데이터
+ SELECT * FROM project_ssal_grid_tasks LIMIT 5;
+ ```
 
 3. **처음부터 다시 시작**
-   ```sql
-   -- 완전히 삭제
-   DROP TABLE IF EXISTS project_ssal_grid_tasks CASCADE;
+ ```sql
+ -- 완전히 삭제
+ DROP TABLE IF EXISTS project_ssal_grid_tasks CASCADE;
 
-   -- schema.sql 실행
-   -- STANDARD_PROJECT_SAL_GRID_FINAL.sql 실행
-   ```
+ -- schema.sql 실행
+ -- STANDARD_PROJECT_SAL_GRID_FINAL.sql 실행
+ ```
 
 4. **Supabase 공식 문서**
-   - https://supabase.com/docs
-   - 검색: "sql error [에러 메시지]"
+ - https://supabase.com/docs
+ - 검색: "sql error [에러 메시지]"
 
 ---
 
 ## 23. 보안 및 백업
 
-> 🔒 **중요**: 데이터 안전하게 지키기
+> **중요**: 데이터 안전하게 지키기
 
 ### 23-1. 보안 체크리스트
 
 #### 필수 (꼭 해야 함)
 
-- ✅ `.env` 파일을 `.gitignore`에 추가
-  ```bash
-  # .gitignore
-  .env
-  .env.local
-  .env.*.local
-  ```
+- `.env` 파일을 `.gitignore`에 추가
+ ```bash
+ # .gitignore
+ .env
+ .env.local
+ .env.*.local
+ ```
 
-- ✅ `service_role` 키는 절대 공개 금지
-  - GitHub에 올리지 말 것
-  - 클라이언트 코드에 넣지 말 것
+- `service_role` 키는 절대 공개 금지
+ - GitHub에 올리지 말 것
+ - 클라이언트 코드에 넣지 말 것
 
-- ✅ `anon public` 키만 클라이언트에서 사용
-  - 브라우저, HTML Viewer에 사용 가능
-  - 공개되어도 RLS로 보호됨
+- `anon public` 키만 클라이언트에서 사용
+ - 브라우저, HTML Viewer에 사용 가능
+ - 공개되어도 RLS로 보호됨
 
 #### 권장 (하면 좋음)
 
-- ✅ Supabase 계정에 2FA 활성화
-  - Settings → Account → Two-Factor Authentication
+- Supabase 계정에 2FA 활성화
+ - Settings → Account → Two-Factor Authentication
 
-- ✅ API Key 주기적 재발급 (6개월마다)
-  - Settings → API → "Regenerate" 버튼
+- API Key 주기적 재발급 (6개월마다)
+ - Settings → API → "Regenerate" 버튼
 
-- ✅ 데이터베이스 백업 (주 1회)
-  - 아래 백업 방법 참고
+- 데이터베이스 백업 (주 1회)
+ - 아래 백업 방법 참고
 
 ---
 
@@ -5338,17 +5338,17 @@ SELECT COUNT(*) FROM project_ssal_grid_tasks;
 ```sql
 -- 모든 사람이 접근 가능 (개발/테스트용)
 CREATE POLICY "Allow public read access"
-    ON project_ssal_grid_tasks
-    FOR SELECT
-    TO public
-    USING (true);
+ ON project_ssal_grid_tasks
+ FOR SELECT
+ TO public
+ USING (true);
 
 CREATE POLICY "Allow public write access"
-    ON project_ssal_grid_tasks
-    FOR ALL
-    TO public
-    USING (true)
-    WITH CHECK (true);
+ ON project_ssal_grid_tasks
+ FOR ALL
+ TO public
+ USING (true)
+ WITH CHECK (true);
 ```
 
 #### 프로덕션 (실제 서비스)
@@ -5360,11 +5360,11 @@ DROP POLICY IF EXISTS "Allow public write access" ON project_ssal_grid_tasks;
 
 -- 인증된 사용자만 접근
 CREATE POLICY "Authenticated users only"
-    ON project_ssal_grid_tasks
-    FOR ALL
-    TO authenticated
-    USING (true)
-    WITH CHECK (true);
+ ON project_ssal_grid_tasks
+ FOR ALL
+ TO authenticated
+ USING (true)
+ WITH CHECK (true);
 ```
 
 ---
@@ -5407,18 +5407,18 @@ const supabase = require('./supabase-client')
 const fs = require('fs')
 
 async function backup() {
-  const { data, error } = await supabase
-    .from('project_ssal_grid_tasks')
-    .select('*')
+ const { data, error } = await supabase
+ .from('project_ssal_grid_tasks')
+ .select('*')
 
-  if (error) {
-    console.error('백업 실패:', error)
-    return
-  }
+ if (error) {
+ console.error('백업 실패:', error)
+ return
+ }
 
-  const filename = `backup_${new Date().toISOString().split('T')[0]}.json`
-  fs.writeFileSync(filename, JSON.stringify(data, null, 2))
-  console.log(`✅ 백업 완료: ${filename}`)
+ const filename = `backup_${new Date().toISOString().split('T')[0]}.json`
+ fs.writeFileSync(filename, JSON.stringify(data, null, 2))
+ console.log(` 백업 완료: ${filename}`)
 }
 
 backup()
@@ -5458,17 +5458,17 @@ const supabase = require('./supabase-client')
 const fs = require('fs')
 
 async function restore(filename) {
-  const data = JSON.parse(fs.readFileSync(filename, 'utf8'))
+ const data = JSON.parse(fs.readFileSync(filename, 'utf8'))
 
-  const { error } = await supabase
-    .from('project_ssal_grid_tasks')
-    .insert(data)
+ const { error } = await supabase
+ .from('project_ssal_grid_tasks')
+ .insert(data)
 
-  if (error) {
-    console.error('복원 실패:', error)
-  } else {
-    console.log(`✅ 복원 완료: ${data.length}개 Task`)
-  }
+ if (error) {
+ console.error('복원 실패:', error)
+ } else {
+ console.log(` 복원 완료: ${data.length}개 Task`)
+ }
 }
 
 restore('backup_2025-11-25.json')
@@ -5493,18 +5493,18 @@ CREATE INDEX IF NOT EXISTS idx_priority ON project_ssal_grid_tasks(priority);
 #### 쿼리 최적화
 
 ```javascript
-// ❌ 나쁜 예: 모든 데이터 가져온 후 JavaScript로 필터링
+// 나쁜 예: 모든 데이터 가져온 후 JavaScript로 필터링
 const { data } = await supabase
-  .from('project_ssal_grid_tasks')
-  .select('*')
+ .from('project_ssal_grid_tasks')
+ .select('*')
 
 const pending = data.filter(t => t.status === 'Pending')
 
-// ✅ 좋은 예: DB에서 바로 필터링
+// 좋은 예: DB에서 바로 필터링
 const { data } = await supabase
-  .from('project_ssal_grid_tasks')
-  .select('*')
-  .eq('status', 'Pending')
+ .from('project_ssal_grid_tasks')
+ .select('*')
+ .eq('status', 'Pending')
 ```
 
 ---
@@ -5642,13 +5642,13 @@ A:
 **PROJECT SAL GRID → Supabase 흐름:**
 ```
 1. 표준 Grid 정의
-   ↓
+ ↓
 2. Supabase에 저장 (클라우드)
-   ↓
+ ↓
 3. 어디서나 접근 가능
-   ↓
+ ↓
 4. HTML Viewer로 시각화
-   ↓
+ ↓
 5. Claude Code가 자동 관리
 ```
 
@@ -5716,28 +5716,28 @@ A:
 
 ## 26. 마무리
 
-**축하합니다!** 🎉
+**축하합니다!** 
 
 이제 여러분은:
-- ✅ Supabase 프로젝트를 생성할 수 있습니다
-- ✅ 표준 Grid를 설치할 수 있습니다
-- ✅ SQL로 Task를 관리할 수 있습니다
-- ✅ Viewer로 Grid를 시각화할 수 있습니다
-- ✅ 문제를 스스로 해결할 수 있습니다
+- Supabase 프로젝트를 생성할 수 있습니다
+- 표준 Grid를 설치할 수 있습니다
+- SQL로 Task를 관리할 수 있습니다
+- Viewer로 Grid를 시각화할 수 있습니다
+- 문제를 스스로 해결할 수 있습니다
 
 **PROJECT SAL GRID + Supabase = 완벽한 조합**
 
 ```
 ┌─────────────────────────────────┐
-│   당신의 프로젝트 관리 시스템    │
-│                                 │
-│  Supabase (데이터)              │
-│     +                           │
-│  Grid Viewer (시각화)           │
-│     +                           │
-│  Claude Code (자동화)           │
-│     =                           │
-│  🚀 생산성 10배 향상            │
+│ 당신의 프로젝트 관리 시스템 │
+│ │
+│ Supabase (데이터) │
+│ + │
+│ Grid Viewer (시각화) │
+│ + │
+│ Claude Code (자동화) │
+│ = │
+│ 생산성 10배 향상 │
 └─────────────────────────────────┘
 ```
 
@@ -5748,71 +5748,71 @@ A:
 ### PROJECT SAL GRID 생성 가이드 버전 이력
 
 - **V2.0 (2025-11-23)**: 섹션 5를 22개 속성 최종 정의로 교체
-  - **섹션 5 완전 교체**:
-    - 기존 간단한 속성 정의 삭제
-    - PROJECT_GRID_22_ATTRIBUTES_FINAL.md의 상세 내용으로 대체
-    - 22개 속성을 5개 그룹으로 재구성
-    - Task 작업 플로우, 검증 로직, 핵심 원칙 포함
-    - P → S 변경 완료 (Task ID 통일)
+ - **섹션 5 완전 교체**:
+ - 기존 간단한 속성 정의 삭제
+ - PROJECT_GRID_22_ATTRIBUTES_FINAL.md의 상세 내용으로 대체
+ - 22개 속성을 5개 그룹으로 재구성
+ - Task 작업 플로우, 검증 로직, 핵심 원칙 포함
+ - P → S 변경 완료 (Task ID 통일)
 
 - **V1.3 (2025-11-23)**: 용어 통일 및 표준 디렉토리 구조 추가
-  - **용어 통일**:
-    - Order Sheet → Task Instruction (Inbox/Outbox 외 모든 곳)
-    - Verification Sheet → Verification Instruction (전체)
-    - 속성 #20 이름 변경: verification_sheet → verification_instruction
-  - **표준 디렉토리 구조 추가** (신규 섹션 12):
-    - 6개 Stage 폴더 (P1_사업계획 ~ 5_운영)
-    - claude/ 폴더
-    - web_claude-code_bridge/ (Inbox/Outbox)
-    - Project-SSAL-Grid/ (매뉴얼, DB, 뷰어, ssal-grid)
-    - 파일 명명 규칙
-    - 폴더별 역할 상세 설명
+ - **용어 통일**:
+ - Order Sheet → Task Instruction (Inbox/Outbox 외 모든 곳)
+ - Verification Sheet → Verification Instruction (전체)
+ - 속성 #20 이름 변경: verification_sheet → verification_instruction
+ - **표준 디렉토리 구조 추가** (신규 섹션 12):
+ - 6개 Stage 폴더 (P1_사업계획 ~ 5_운영)
+ - claude/ 폴더
+ - web_claude-code_bridge/ (Inbox/Outbox)
+ - Project-SSAL-Grid/ (매뉴얼, DB, 뷰어, ssal-grid)
+ - 파일 명명 규칙
+ - 폴더별 역할 상세 설명
 
 - **V1.2 (2025-11-23)**: 대규모 구조 개선
-  - **Task Instruction (작업 지시서)**: order_sheet → task_instruction 명칭 변경
-  - **22개 속성 영어/한글 병기**: 모든 속성에 영문명 추가
-  - **Inbox/Outbox JSON System 추가** (섹션 10)
-  - **섹션 재배치**: Git 시스템 → 섹션 11로 이동
+ - **Task Instruction (작업 지시서)**: order_sheet → task_instruction 명칭 변경
+ - **22개 속성 영어/한글 병기**: 모든 속성에 영문명 추가
+ - **Inbox/Outbox JSON System 추가** (섹션 10)
+ - **섹션 재배치**: Git 시스템 → 섹션 11로 이동
 
 - **V1.1 (2025-11-23)**: 주요 개선
-  - **Task ID 통일**: P → S 변경
-  - **Verification Sheet 간소화**: verification_agent 1번 검증
-  - **Git 통합 추적 시스템 추가**
+ - **Task ID 통일**: P → S 변경
+ - **Verification Sheet 간소화**: verification_agent 1번 검증
+ - **Git 통합 추적 시스템 추가**
 
 - **V1.0 (2025-11-23)**: 초기 버전
-  - SSALWorks 5×11 매트릭스 반영
-  - Task 선정 2대 원칙
-  - 22개 속성 체계
-  - 3단계 검증 시스템
-  - Stage Gate 시스템
+ - SSALWorks 5×11 매트릭스 반영
+ - Task 선정 2대 원칙
+ - 22개 속성 체계
+ - 3단계 검증 시스템
+ - Stage Gate 시스템
 
 ---
 
 ### PROJECT SAL GRID MANUAL 버전 이력
 
 - **v3.2 (2025-12-12)**: 유연성 확보 및 현행화
-  - 섹션 5.1 Grid 생성 시점: P1-P3 + S1-S5 구조에 맞게 수정
-  - 섹션 14: Task 개수 일반화 (66개/93개 → 프로젝트별 Task)
-  - 구체적인 Task 개수는 SSALWORKS_TASK_PLAN.md 참조하도록 안내
-  - 매뉴얼은 기준과 원칙 제시, Task 기획서에서 개수 관리
+ - 섹션 5.1 Grid 생성 시점: P1-P3 + S1-S5 구조에 맞게 수정
+ - 섹션 14: Task 개수 일반화 (66개/93개 → 프로젝트별 Task)
+ - 구체적인 Task 개수는 SSALWORKS_TASK_PLAN.md 참조하도록 안내
+ - 매뉴얼은 기준과 원칙 제시, Task 기획서에서 개수 관리
 
 - **v3.1 (2025-12-12)**: 폴더 구조 정리 및 매뉴얼 현행화
-  - `Project-SSAL-Grid/ssal-grid/` 폴더로 Task 기획 파일 통합
-  - 섹션 4.2 전체 구조 업데이트 (P1-P3, S1-S5 표기 통일)
-  - 섹션 4.7 Project-SSAL-Grid 폴더 구조 업데이트
-  - task-instructions, verification-instructions 폴더 제거 (별도 관리)
-  - SSALWORKS_TASK_PLAN.md (v3.0), SSALWORKS_5x11_MATRIX.md (v3.0) 참조
+ - `Project-SSAL-Grid/ssal-grid/` 폴더로 Task 기획 파일 통합
+ - 섹션 4.2 전체 구조 업데이트 (P1-P3, S1-S5 표기 통일)
+ - 섹션 4.7 Project-SSAL-Grid 폴더 구조 업데이트
+ - task-instructions, verification-instructions 폴더 제거 (별도 관리)
+ - SSALWORKS_TASK_PLAN.md (v3.0), SSALWORKS_5x11_MATRIX.md (v3.0) 참조
 
 - **v3.0 (2025-11-25)**: 생성 가이드와 Supabase 가이드를 통합한 완전 매뉴얼 제작
-  - PART 1: 프로젝트 개요 및 핵심 개념
-  - PART 2: Grid 생성 및 설정
-  - PART 3: 개발 워크플로우
-  - PART 4: Supabase 통합
-  - PART 5: 실전 활용
-  - PART 6: 문제 해결 및 운영
-  - PART 7: 정리 및 부록
-  - 총 7개 Part, 27개 섹션으로 구성
-  - 초보자부터 개발자까지 모두 사용 가능한 완전한 매뉴얼
+ - PART 1: 프로젝트 개요 및 핵심 개념
+ - PART 2: Grid 생성 및 설정
+ - PART 3: 개발 워크플로우
+ - PART 4: Supabase 통합
+ - PART 5: 실전 활용
+ - PART 6: 문제 해결 및 운영
+ - PART 7: 정리 및 부록
+ - 총 7개 Part, 27개 섹션으로 구성
+ - 초보자부터 개발자까지 모두 사용 가능한 완전한 매뉴얼
 
 ---
 
@@ -5830,4 +5830,4 @@ A:
 > **최종 수정**: 2025-12-12
 > **문의**: PROJECT_SAL_GRID 관련 문서 참고
 
-**Happy Coding!** 💻✨
+**Happy Coding!** 
