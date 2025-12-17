@@ -58,6 +58,26 @@
     - Center: Flex (Fluid)
     - Right: 280px (Fixed)
 
+**Margin-Bottom 4단계 규칙** (2025-12-17 확정):
+| 단계 | 용도 | 간격 | 적용 대상 |
+| :--- | :--- | :--- | :--- |
+| **1단계** | Section (섹션 제목) | `13px` | h2, stats-bar, grid-area, sidebar-title 등 |
+| **2단계** | Group (그룹/카테고리) | `10px` | h3, project-list, area-header, search-area 등 |
+| **3단계** | Item (개별 항목) | `6px` | h4, task-title 등 |
+| **4단계** | Detail (세부 요소) | `4px` | h5 등 |
+
+**사이드바 섹션 간격** (좌우 동일):
+| 속성 | 값 | 설명 |
+| :--- | :--- | :--- |
+| `margin-bottom` | `12px` | 섹션 아래 여백 |
+| `padding-bottom` | `12px` | 섹션 내부 하단 패딩 |
+| `border-bottom` | `1px solid` | 구분선 |
+| **총 간격** | **25px** | 12 + 12 + 1 = 25px |
+
+**섹션 내부 h3 아래 간격**:
+- `.sidebar-section h3`: `margin-bottom: 8px`
+- h3 다음 요소에 추가 margin-top 없음 (일관성 유지)
+
 **Radius**:
 - **Small**: 4px (Buttons)
 - **Medium**: 8px (Cards)
@@ -316,6 +336,7 @@
 | :--- | :--- | :--- |
 | v1.0 | 2025-11-10 | Initial Design System |
 | v2.0 | 2025-12-01 | Components Section Complete (Based on Prototype Analysis) |
+| v2.1 | 2025-12-17 | Spacing 4단계 규칙 추가, 사이드바 섹션 간격 표준화 (좌우 25px 통일) |
 
 ---
 
