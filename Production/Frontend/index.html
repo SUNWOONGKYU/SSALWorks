@@ -729,8 +729,8 @@
         }
         .process-special-major .process-icon {
             font-size: 11px;
-            color: #2563eb;
-            font-weight: bold;
+            color: #212529;
+            font-weight: 400;
             min-width: 18px;
             text-align: center;
         }
@@ -2368,7 +2368,8 @@
                     <div class="process-item">
                         <div class="process-special-major" onclick="toggleProcess(this)" data-progress="100">
                             <div class="process-header">
-                                <span class="process-name">S0. Project SAL Grid 생성</span>
+                                <span class="process-icon">S0.</span>
+                                <span class="process-name">Project SAL Grid 생성</span>
                                 <span class="process-arrow">▶</span>
                             </div>
                             <div class="process-progress-container">
@@ -2469,7 +2470,7 @@
 
                     <!-- S2. 개발 1차 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s3_dev_1', 'S2. 개발 1차', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div id="process-s2" class="process-major" onclick="loadProcessStage('s3_dev_1', 'S2. 개발 1차', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">S2.</span>
                                 <span class="process-name">개발 1차</span>
@@ -8367,10 +8368,74 @@ ${result.answer}`;
                 loadAndRenderLearningContents(); // 학습 콘텐츠도 로드
                 // FAQ는 로컬 배열 사용 (Supabase 로드 제거)
                 checkAuthStatus(); // 로그인 상태 확인
+                loadStageGateStatus(); // Stage Gate 상태 확인 및 진행률 업데이트
             } else {
                 console.warn('⚠️ Supabase 라이브러리가 로드되지 않았습니다.');
                 setTimeout(initSupabase, 1000); // 1초 후 재시도
             }
+        }
+
+        // Stage Gate 상태 확인 및 진행 프로세스 업데이트
+        async function loadStageGateStatus() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('stage_verification')
+                    .select('stage_id, stage_gate_status')
+                    .eq('stage_gate_status', 'Approved');
+
+                if (error) {
+                    console.warn('Stage Gate 조회 오류:', error);
+                    return;
+                }
+
+                if (data && data.length > 0) {
+                    data.forEach(stage => {
+                        updateProcessProgress(stage.stage_id);
+                    });
+                    console.log('✅ Stage Gate 상태 반영 완료:', data.map(s => s.stage_id));
+                }
+            } catch (e) {
+                console.warn('Stage Gate 로드 실패:', e);
+            }
+        }
+
+        // 특정 Stage의 진행률을 100%로 업데이트하고 completed 클래스 추가
+        function updateProcessProgress(stageId) {
+            // Stage ID를 HTML 요소 ID로 매핑
+            const stageMapping = {
+                'S1': 'process-s1',
+                'S2': 'process-s2',
+                'S3': 'process-s3',
+                'S4': 'process-s4',
+                'S5': 'process-s5'
+            };
+
+            const elementId = stageMapping[stageId];
+            if (!elementId) return;
+
+            const processElement = document.getElementById(elementId);
+            if (!processElement) return;
+
+            // 이미 completed면 스킵
+            if (processElement.classList.contains('completed')) return;
+
+            // completed 클래스 추가
+            processElement.classList.add('completed');
+            processElement.setAttribute('data-progress', '100');
+
+            // 진행률 바 업데이트
+            const progressFill = processElement.querySelector('.process-progress-fill');
+            if (progressFill) {
+                progressFill.style.width = '100%';
+            }
+
+            // 퍼센트 텍스트 업데이트
+            const percentText = processElement.querySelector('.process-percent');
+            if (percentText) {
+                percentText.textContent = '100%';
+            }
+
+            console.log(`✅ ${stageId} 진행률 100%로 업데이트 완료`);
         }
 
         // ========================================
