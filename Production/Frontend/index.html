@@ -5639,10 +5639,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             return result.join('\n');
         }
 
-        // Inbox 폴더 핸들 저장 (세션 동안 유지)
-        let inboxFolderHandle = null;
-
-        // Download to inbox functionality (자동 저장)
+        // Download to inbox functionality (폴더 선택 후 직접 저장)
         async function downloadToInbox() {
             const content = document.getElementById('textEditor').value;
 
@@ -5659,8 +5656,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             const projectConfig = PROJECT_CONFIGS[currentSelectedProject];
             const targetInboxPath = projectConfig.inboxPath;
-
-            showStatus('📤 Order Sheet 생성 중...', 'info');
 
             // 한글이 있어도 번역 없이 원문 사용
             let translatedContent = content;
@@ -5714,47 +5709,37 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 }
             }
 
-            // 2순위: File System Access API (Inbox 폴더에 직접 저장)
+            // 2순위: File System Access API (매번 폴더 선택 - 확실하게)
             if ('showDirectoryPicker' in window) {
                 try {
-                    // 폴더 핸들이 없으면 사용자에게 Inbox 폴더 선택 요청
-                    if (!inboxFolderHandle) {
-                        alert(`Inbox 폴더를 선택해주세요.\n\n경로: ${targetInboxPath}`);
-                        inboxFolderHandle = await window.showDirectoryPicker({
-                            mode: 'readwrite'
-                        });
-                    }
+                    // 매번 Inbox 폴더 선택
+                    const folderHandle = await window.showDirectoryPicker({
+                        mode: 'readwrite'
+                    });
 
                     // 파일 생성 및 저장
-                    const fileHandle = await inboxFolderHandle.getFileHandle(filename, { create: true });
+                    const fileHandle = await folderHandle.getFileHandle(filename, { create: true });
                     const writable = await fileHandle.createWritable();
                     await writable.write(finalContent);
                     await writable.close();
 
                     showStatus('✅ Order Sheet 저장 완료', 'success');
-                    alert(`Order Sheet가 Inbox에 저장되었습니다!\n\nOrder ID: ${orderId}\n파일명: ${filename}`);
+                    alert(`Order Sheet가 저장되었습니다!\n\nOrder ID: ${orderId}\n파일명: ${filename}`);
                     return;
 
                 } catch (e) {
                     if (e.name === 'AbortError') {
-                        showStatus('❌ 폴더 선택 취소됨', 'error');
+                        showStatus('❌ 저장 취소됨', 'error');
                         return;
                     }
                     console.error('File System API 실패:', e);
-                    inboxFolderHandle = null; // 핸들 초기화
                 }
             }
 
-            // 3순위: 일반 다운로드 (fallback)
+            // 3순위: 일반 다운로드 (fallback - File System API 미지원 브라우저)
             manualDownload(finalContent, filename);
             showStatus('✅ Order Sheet 다운로드 완료', 'success');
-            alert(`Order Sheet가 다운로드되었습니다.\n\nOrder ID: ${orderId}\n\n⚠️ 다운로드 폴더에서 파일을 찾아 Inbox로 이동해주세요.`);
-        }
-
-        // Inbox 폴더 재선택
-        async function resetInboxFolder() {
-            inboxFolderHandle = null;
-            alert('다음 저장 시 Inbox 폴더를 다시 선택합니다.');
+            alert(`Order Sheet가 다운로드되었습니다.\n\nOrder ID: ${orderId}`);
         }
 
         // 수동 다운로드 (fallback)
