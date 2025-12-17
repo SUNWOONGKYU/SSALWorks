@@ -8380,7 +8380,7 @@ ${result.answer}`;
             try {
                 const { data, error } = await supabaseClient
                     .from('stage_verification')
-                    .select('stage_id, stage_gate_status')
+                    .select('stage_name, stage_gate_status')
                     .eq('stage_gate_status', 'Approved');
 
                 if (error) {
@@ -8390,9 +8390,9 @@ ${result.answer}`;
 
                 if (data && data.length > 0) {
                     data.forEach(stage => {
-                        updateProcessProgress(stage.stage_id);
+                        updateProcessProgress(stage.stage_name);
                     });
-                    console.log('✅ Stage Gate 상태 반영 완료:', data.map(s => s.stage_id));
+                    console.log('✅ Stage Gate 상태 반영 완료:', data.map(s => s.stage_name));
                 }
             } catch (e) {
                 console.warn('Stage Gate 로드 실패:', e);
@@ -8400,17 +8400,17 @@ ${result.answer}`;
         }
 
         // 특정 Stage의 진행률을 100%로 업데이트하고 completed 클래스 추가
-        function updateProcessProgress(stageId) {
-            // Stage ID를 HTML 요소 ID로 매핑
+        function updateProcessProgress(stageName) {
+            // Stage Name을 HTML 요소 ID로 매핑
             const stageMapping = {
-                'S1': 'process-s1',
-                'S2': 'process-s2',
-                'S3': 'process-s3',
-                'S4': 'process-s4',
-                'S5': 'process-s5'
+                'Stage 1': 'process-s1',
+                'Stage 2': 'process-s2',
+                'Stage 3': 'process-s3',
+                'Stage 4': 'process-s4',
+                'Stage 5': 'process-s5'
             };
 
-            const elementId = stageMapping[stageId];
+            const elementId = stageMapping[stageName];
             if (!elementId) return;
 
             const processElement = document.getElementById(elementId);
@@ -8435,7 +8435,7 @@ ${result.answer}`;
                 percentText.textContent = '100%';
             }
 
-            console.log(`✅ ${stageId} 진행률 100%로 업데이트 완료`);
+            console.log(`✅ ${stageName} 진행률 100%로 업데이트 완료`);
         }
 
         // ========================================
