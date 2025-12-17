@@ -8419,9 +8419,13 @@ ${result.answer}`;
             // 이미 completed면 스킵
             if (processElement.classList.contains('completed')) return;
 
-            // completed 클래스 추가
+            // completed 클래스 추가 및 스타일 직접 적용
             processElement.classList.add('completed');
             processElement.setAttribute('data-progress', '100');
+
+            // CSS specificity 문제로 인라인 스타일로 직접 적용
+            processElement.style.background = 'rgba(16, 185, 129, 0.25)';
+            processElement.style.border = '1px solid rgba(16, 185, 129, 0.5)';
 
             // 진행률 바 업데이트
             const progressFill = processElement.querySelector('.process-progress-fill');
