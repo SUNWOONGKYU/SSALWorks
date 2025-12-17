@@ -301,17 +301,28 @@
         const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
 
-        // Supabase 클라이언트 초기화 (에러 핸들링 포함)
-        let supabase;
-        try {
-            if (typeof window.supabase === 'undefined') {
-                throw new Error('Supabase 라이브러리가 로드되지 않았습니다. 페이지를 새로고침 해주세요.');
+        // Supabase 클라이언트 (나중에 초기화)
+        let supabase = null;
+
+        // Supabase 초기화 함수
+        function initSupabase() {
+            if (supabase) return true;
+
+            try {
+                if (typeof window.supabase === 'undefined') {
+                    throw new Error('Supabase 라이브러리가 로드되지 않았습니다.');
+                }
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                console.log('Supabase 초기화 성공');
+                return true;
+            } catch (e) {
+                console.error('Supabase 초기화 실패:', e);
+                const statusEl = document.getElementById('connectionStatus');
+                const statusBox = document.querySelector('.connection-status');
+                if (statusEl) statusEl.textContent = 'Supabase 연결 실패: ' + e.message;
+                if (statusBox) statusBox.style.background = '#dc3545';
+                return false;
             }
-            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        } catch (e) {
-            console.error('Supabase 초기화 실패:', e);
-            document.getElementById('connectionStatus').textContent = 'Supabase 연결 실패: ' + e.message;
-            document.querySelector('.connection-status').style.background = '#dc3545';
         }
 
         // Area Names (매뉴얼 정의대로)
@@ -358,10 +369,17 @@
         }
 
         async function loadTasks() {
-            // Supabase 초기화 체크
-            if (!supabase) {
-                document.getElementById('connectionStatus').textContent = 'Supabase 연결 실패 - 페이지를 새로고침 해주세요';
-                document.querySelector('.connection-status').style.background = '#dc3545';
+            // Supabase 초기화
+            if (!initSupabase()) {
+                // 1초 후 재시도
+                setTimeout(() => {
+                    if (initSupabase()) {
+                        loadTasks();
+                    } else {
+                        document.getElementById('connectionStatus').textContent = 'Supabase 연결 실패 - 페이지를 새로고침 해주세요';
+                        document.querySelector('.connection-status').style.background = '#dc3545';
+                    }
+                }, 1000);
                 return;
             }
 

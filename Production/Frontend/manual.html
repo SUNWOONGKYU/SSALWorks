@@ -459,8 +459,8 @@
                 markdown = markdown.replace(/^(> .+\n)+/m, '');
                 // 첫 번째 --- 제거
                 markdown = markdown.replace(/^---\n/m, '');
-                // 목차 섹션 제거 (## 📋 목차 부터 다음 --- 까지)
-                markdown = markdown.replace(/## 📋 목차[\s\S]*?---\n/m, '');
+                // 목차 섹션 제거 (## 목차 부터 다음 --- 까지)
+                markdown = markdown.replace(/## 목차[\s\S]*?---\n/m, '');
 
                 // Marked.js 설정
                 marked.setOptions({
