@@ -5658,43 +5658,14 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             const targetInboxPath = projectConfig.inboxPath;
 
             // 저장 확인
-            if (!confirm(`Order Sheet를 Inbox로 보내시겠습니까?`)) {
+            if (!confirm(`Order Sheet를 다운로드하시겠습니까?\n\n다운로드 후 Inbox 폴더에 직접 넣어주세요.`)) {
                 return;
             }
 
-            showStatus('📤 번역 및 저장 중...', 'info');
+            showStatus('📤 Order Sheet 생성 중...', 'info');
 
-            // 한글이 있으면 번역 수행
-            const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(content);
-            let translatedContent = '';
-
-            if (hasKorean) {
-                try {
-                    // 서버의 실제 번역 API 사용
-                    const translateResponse = await fetch('http://localhost:3030/translate', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            text: content,
-                            targetLanguage: 'en'
-                        })
-                    });
-
-                    if (translateResponse.ok) {
-                        const translateResult = await translateResponse.json();
-                        translatedContent = translateResult.translated;
-                        console.log('✅ 번역 성공:', translatedContent);
-                    } else {
-                        throw new Error('Translation API failed');
-                    }
-                } catch (error) {
-                    console.error('번역 실패:', error);
-                    console.log('⚠️  영어 번역을 건너뛰고 원문 그대로 저장합니다.');
-                    translatedContent = content; // Fallback: 원문 사용
-                }
-            }
+            // 한글이 있어도 번역 없이 원문 사용 (배포 환경에서는 번역 서버 없음)
+            let translatedContent = content;
 
             // Generate timestamp and Order ID
             const now = new Date();
@@ -5713,23 +5684,31 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 order_id: orderId,
                 order_name: "Dashboard에서 생성된 작업",
                 content_korean: content,
-                content_english: translatedContent || content,
+                content_english: translatedContent,
                 priority: "medium",
                 status: "pending",
                 created_at: now.toISOString(),
                 project: currentSelectedProject,
                 metadata: {
-                    source: "dashboard-mockup",
-                    has_translation: hasKorean && translatedContent !== ''
+                    source: "dashboard",
+                    target_inbox: targetInboxPath
                 }
             };
 
             // JSON 문자열로 변환 (pretty print)
             const finalContent = JSON.stringify(orderData, null, 2);
-            const filename = `order_${timestamp}.json`;
+            const filename = `${orderId}.json`;
 
+            // 배포 환경: 바로 다운로드
+            if (IS_PRODUCTION) {
+                manualDownload(finalContent, filename);
+                showStatus('✅ Order Sheet 다운로드 완료', 'success');
+                alert(`Order Sheet가 다운로드되었습니다.\n\nOrder ID: ${orderId}\n\n📁 다운로드된 파일을 Inbox 폴더에 넣어주세요:\n${targetInboxPath}`);
+                return;
+            }
+
+            // 로컬 환경: 서버로 자동 저장 시도
             try {
-                // 서버로 자동 저장 요청 (프로젝트 경로 포함)
                 const response = await fetch('http://localhost:3030/save', {
                     method: 'POST',
                     headers: {
@@ -5738,7 +5717,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     body: JSON.stringify({
                         content: finalContent,
                         filename: filename,
-                        targetPath: targetInboxPath  // 선택된 프로젝트의 Inbox 경로
+                        targetPath: targetInboxPath
                     })
                 });
 
@@ -5746,37 +5725,24 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
                 if (result.success) {
                     console.log('전송 완료:', result);
-
-                    alert(`Order Sheet가 보내졌습니다.\n\nOrder ID: ${orderId}\n\n상태: 📤 전송됨`);
+                    showStatus('✅ Order Sheet 전송 완료', 'success');
+                    alert(`Order Sheet가 Inbox로 전송되었습니다.\n\nOrder ID: ${orderId}`);
                 } else {
                     throw new Error(result.error || '전송 실패');
                 }
 
             } catch (error) {
-                console.error('전송 실패:', error);
-
-                // 서버가 실행 중이 아닌 경우
-                showStatus('❌ 전송 실패', 'error');
-
-                const errorMsg = `❌ Inbox 서버가 실행되지 않았습니다!
-
-다음 명령어로 서버를 실행하세요:
-1. 터미널 열기
-2. cd Web_ClaudeCode_Bridge
-3. node inbox_server.js
-
-또는 수동 다운로드를 원하시면 확인을 클릭하세요.`;
-
-                const fallback = confirm(errorMsg);
-                if (fallback) {
-                    manualDownload(content, filename);
-                }
+                console.error('서버 전송 실패, 다운로드로 전환:', error);
+                // 로컬에서 서버 연결 실패 시 다운로드로 전환
+                manualDownload(finalContent, filename);
+                showStatus('✅ Order Sheet 다운로드 완료', 'success');
+                alert(`Order Sheet가 다운로드되었습니다.\n\nOrder ID: ${orderId}\n\n📁 다운로드된 파일을 Inbox 폴더에 넣어주세요:\n${targetInboxPath}`);
             }
         }
 
         // 수동 다운로드 (fallback)
         function manualDownload(content, filename) {
-            const blob = new Blob([content], { type: 'text/markdown' });
+            const blob = new Blob([content], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
 
@@ -5787,8 +5753,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-
-            alert('✅ Order Sheet가 보내졌습니다!');
+            // alert은 호출하는 쪽에서 처리
         }
 
         // Load from Outbox (Claude Code 작업 결과 가져오기)
