@@ -46,10 +46,10 @@ C:\!SSAL_Works_Private\
 # ========== 부수적 고유기능 (SSALWorks 전용) ==========
 ├── 부수적_고유기능/              # SSALWorks에만 필요한 고유 기능 모음
 │   ├── AI_Link/                 # AI 서비스 연동 (ChatGPT, Gemini, Perplexity)
-│   ├── Tips/                    # 개발 팁 및 노하우
-│   ├── 외부_연동_설정_Guide/     # 외부 서비스 연동 설정 가이드
-│   ├── 학습용_Books/            # 학습용 콘텐츠 (Books)
-│   └── 콘텐츠_변환_자동화_scripts/  # MD→HTML 변환, JS 생성 자동화
+│   ├── 콘텐츠/                  # 사용자 제공 콘텐츠 통합 폴더
+│   │   ├── Tips/                # 개발 팁 및 노하우
+│   │   ├── 서비스_연동_설정_Guide/  # 외부 서비스 연동 설정 가이드
+│   │   └── 학습용_Books/        # 학습용 콘텐츠 (Books)
 │
 # ========== 독립 폴더 ==========
 ├── Web_ClaudeCode_Bridge/       # AI ↔ 웹 플랫폼 브릿지
@@ -444,12 +444,12 @@ Sidebar-Process-Tools/
 
 ---
 
-### 부수적_고유기능/Tips/
+### 부수적_고유기능/콘텐츠/Tips/
 
 **용도:** 개발 팁 및 노하우 모음
 
 ```
-부수적_고유기능/Tips/
+부수적_고유기능/콘텐츠/Tips/
 ├── Claude_Code_활용/           # Claude Code 활용 팁
 ├── SAL_Grid_활용/              # SAL Grid 활용 팁
 ├── 개발_생산성/                # 개발 생산성 향상 팁
@@ -458,12 +458,12 @@ Sidebar-Process-Tools/
 
 ---
 
-### 부수적_고유기능/외부_연동_설정_Guide/
+### 부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/
 
 **용도:** 외부 서비스 연동 설정 가이드 (기능별 통합)
 
 ```
-부수적_고유기능/외부_연동_설정_Guide/
+부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/
 ├── 01_데이터베이스_설정.md     # Supabase 프로젝트 + DB + RLS
 ├── 02_회원인증_설정.md         # Google OAuth + Supabase Auth
 ├── 03_이메일_시스템_설정.md    # Resend + SMTP + 템플릿
@@ -478,12 +478,12 @@ Sidebar-Process-Tools/
 
 ---
 
-### 부수적_고유기능/학습용_Books/
+### 부수적_고유기능/콘텐츠/학습용_Books/
 
 **용도:** 학습 자료 및 개발 지식 저장소
 
 ```
-부수적_고유기능/학습용_Books/
+부수적_고유기능/콘텐츠/학습용_Books/
 ├── 1. Claude&ClaudeCode사용법/         # Claude & Claude Code 가이드
 ├── 2. 웹개발 기초지식/                 # 웹 개발 기초 지식
 ├── 3_SAL Grid/                        # SAL Grid 관련
@@ -550,22 +550,22 @@ Sidebar-Process-Tools/
 | 테스트 코드 | 해당 Stage `Testing/` |
 | 배포 설정 | 해당 Stage `DevOps/` |
 | 배포용 코드 | `Production/` (종합집결지) |
-| 학습 자료 | `부수적_고유기능/학습용_Books/` |
-| 개발 팁 | `부수적_고유기능/Tips/` |
-| 외부 연동 설정 | `부수적_고유기능/외부_연동_설정_Guide/` |
+| 학습 자료 | `부수적_고유기능/콘텐츠/학습용_Books/` |
+| 개발 팁 | `부수적_고유기능/콘텐츠/Tips/` |
+| 외부 연동 설정 | `부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/` |
 | Order Sheet | `Web_ClaudeCode_Bridge/Inbox/` |
 | 작업 결과 보고 | `Web_ClaudeCode_Bridge/Outbox/` |
 
 ### 체크리스트
 
 **Q: 학습용 문서를 작성했어요**
-→ `부수적_고유기능/학습용_Books/`
+→ `부수적_고유기능/콘텐츠/학습용_Books/`
 
 **Q: 개발 팁을 정리했어요**
-→ `부수적_고유기능/Tips/`
+→ `부수적_고유기능/콘텐츠/Tips/`
 
 **Q: 외부 서비스 연동 가이드를 작성했어요**
-→ `부수적_고유기능/외부_연동_설정_Guide/`
+→ `부수적_고유기능/콘텐츠/서비스_연동_설정_Guide/`
 
 **Q: HTML 페이지를 만들었어요**
 → 해당 Stage의 `Frontend/` + `Production/Frontend/`에 반영
