@@ -121,6 +121,12 @@
             .attr-row { grid-template-columns: 1fr; }
             .stage-tabs { flex-wrap: wrap; }
         }
+
+        /* Stage Gate Status Styles */
+        .gate-status { display: inline-block; }
+        .gate-status.approved { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .gate-status.rejected { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .gate-status.pending { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
     </style>
 </head>
 <body>
@@ -168,7 +174,10 @@
 
             <!-- Stage Gate Panel (Stage 탭 바로 밑에 배치) -->
             <div id="stageGatePanel" style="display: none; background: linear-gradient(135deg, #fff9e6 0%, #ffe5b4 100%); border: 2px solid #FFD700; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);">
-                <h3 id="gateTitle" style="color: #FF8C00; font-size: 1.2em; margin-bottom: 15px;">🔐 Stage Gate</h3>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <h3 id="gateTitle" style="color: #FF8C00; font-size: 1.2em; margin: 0;">🔐 Stage Gate</h3>
+                    <span id="gateStatusDisplay" class="gate-status pending" style="padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85em;">Not Started</span>
+                </div>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                     <!-- AI 검증 영역 (왼쪽) -->
                     <div style="flex: 1; min-width: 280px; background: white; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
@@ -182,6 +191,10 @@
                             <div style="display: flex; gap: 8px; align-items: center;">
                                 <input id="aiReportPath" type="text" style="flex: 1; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em;" placeholder="예: docs/STAGE1_VERIFICATION_REPORT.md" />
                             </div>
+                        </div>
+                        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.85em; color: #666;">📅 검증 날짜:</span>
+                            <span id="aiVerificationDate" style="font-size: 0.9em; font-weight: 600; color: var(--secondary);">-</span>
                         </div>
                         <button onclick="saveAIVerification()" style="width: 100%; padding: 10px; background: var(--secondary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">💾 AI 검증 결과 저장</button>
                     </div>
@@ -206,6 +219,10 @@
                         <div style="margin-bottom: 12px;">
                             <label style="font-size: 0.85em; font-weight: 600; color: #333;">승인 여부 의견</label>
                             <textarea id="gateApprovalNote" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; resize: vertical; min-height: 80px;" placeholder="승인/거부 사유..."></textarea>
+                        </div>
+                        <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 0.85em; color: #666;">📅 승인 날짜:</span>
+                            <span id="poApprovalDate" style="font-size: 0.9em; font-weight: 600; color: #FF8C00;">-</span>
                         </div>
                         <button onclick="submitGateApproval()" style="width: 100%; padding: 10px; background: #FF8C00; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">💾 승인 여부 의견 저장</button>
                     </div>
@@ -390,31 +407,43 @@
             const panel = document.getElementById('stageGatePanel');
             currentGateStage = stageNum;
 
-            // Gate 정보 찾기
-            const gate = stageGates.find((g, i) => i + 1 === stageNum) || {};
+            // Gate 정보 찾기 - stage_name으로 정확히 매칭
+            const gate = stageGates.find(g => g.stage_name === `Stage ${stageNum}`) || {};
 
             document.getElementById('gateTitle').innerHTML = `🔐 Stage ${stageNum} Gate - ${STAGE_NAMES[stageNum]}`;
 
             // AI 검증 정보 로드
-            if (gate.ai_verification_note) {
-                document.getElementById('aiVerificationNote').value = gate.ai_verification_note;
-            } else {
-                document.getElementById('aiVerificationNote').value = '';
-            }
-            if (gate.verification_report_path) {
-                document.getElementById('aiReportPath').value = gate.verification_report_path;
-            } else {
-                document.getElementById('aiReportPath').value = `S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/S${stageNum}GATE_verification_report.md`;
+            document.getElementById('aiVerificationNote').value = gate.ai_verification_note || '';
+            document.getElementById('aiReportPath').value = gate.verification_report_path || `S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/S${stageNum}GATE_verification_report.md`;
+
+            // AI 검증 날짜 표시
+            const aiDateEl = document.getElementById('aiVerificationDate');
+            if (aiDateEl) {
+                aiDateEl.textContent = gate.ai_verification_date ? new Date(gate.ai_verification_date).toLocaleDateString('ko-KR') : '-';
             }
 
             // PO 승인 정보 로드
             if (gate.po_approval_status) {
-                document.getElementById('gateApprovalStatus').value = gate.po_approval_status === 'Approved' ? '승인' : '거부';
+                document.getElementById('gateApprovalStatus').value = gate.po_approval_status === 'Approved' ? '승인' : gate.po_approval_status === 'Rejected' ? '거부' : '';
             } else {
                 document.getElementById('gateApprovalStatus').value = '';
             }
             document.getElementById('gateApprovalUser').value = gate.po_approval_user || '';
             document.getElementById('gateApprovalNote').value = gate.po_approval_note || '';
+
+            // PO 승인 날짜 표시
+            const poDateEl = document.getElementById('poApprovalDate');
+            if (poDateEl) {
+                poDateEl.textContent = gate.po_approval_date ? new Date(gate.po_approval_date).toLocaleDateString('ko-KR') : '-';
+            }
+
+            // Stage Gate 상태 표시
+            const statusEl = document.getElementById('gateStatusDisplay');
+            if (statusEl) {
+                const status = gate.stage_gate_status || 'Not Started';
+                statusEl.textContent = status;
+                statusEl.className = status === 'Approved' ? 'gate-status approved' : status === 'Rejected' ? 'gate-status rejected' : 'gate-status pending';
+            }
 
             panel.style.display = 'block';
         }
