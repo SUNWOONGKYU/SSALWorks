@@ -1359,10 +1359,10 @@
             padding-bottom: 0;
         }
 
-        /* 좌측 사이드바 섹션 간격 (우측과 동일) */
+        /* 좌측 사이드바 섹션 간격 */
         .left-sidebar-section {
-            margin-top: 8px;   /* 2단계 Group spacing (10px 기준, border 고려) */
-            padding-top: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
             border-top: 1px solid var(--border-color);
         }
 
@@ -2924,7 +2924,7 @@ The content you enter in the workspace will be displayed here.</pre>
                     <span id="mypageMoreBtn" onclick="toggleMypageMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
                 </h3>
                 <!-- 기본 노출: 내 프로필 -->
-                <div style="margin-top: 8px;">
+                <div>
                     <a href="pages/mypage/profile.html" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                         내 프로필
                     </a>
@@ -3505,7 +3505,7 @@ The content you enter in the workspace will be displayed here.</pre>
                     <span id="serviceGuideMoreBtn" onclick="toggleServiceGuideMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
                 </h3>
                 <!-- 기본 노출: 데이터베이스 설정 (클릭 시 펼침 + 가이드 열기) -->
-                <div style="margin-top: 8px;">
+                <div>
                     <a onclick="toggleServiceGuideMenu(); openServiceGuide('database')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                         데이터베이스 설정
                     </a>
@@ -3554,7 +3554,7 @@ The content you enter in the workspace will be displayed here.</pre>
                     <span id="claudeCodeMoreBtn" onclick="toggleClaudeCodeMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
                 </h3>
                 <!-- 기본 노출: Anthropic 공식 문서 -->
-                <div style="margin-top: 8px;">
+                <div>
                     <a onclick="window.open('https://docs.anthropic.com/en/docs/claude-code', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                         Anthropic 공식 문서
                     </a>
