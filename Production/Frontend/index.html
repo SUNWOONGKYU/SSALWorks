@@ -5766,7 +5766,13 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         await writable.close();
 
                         showStatus('✅ Order Sheet 저장 완료', 'success');
-                        alert(`✅ Order Sheet 저장 완료!\n\n📁 저장 경로:\n[프로젝트폴더]/Human_ClaudeCode_Bridge/Orders/\n\n다음부터 같은 폴더가 기본으로 열립니다.`);
+
+                        // Claude Code에게 전달할 메시지 생성 및 클립보드 복사
+                        const claudeMessage = `Order Sheet 보냈어. Human_ClaudeCode_Bridge/Orders/${suggestedName} 파일 확인하고 작업 시작해.`;
+                        await navigator.clipboard.writeText(claudeMessage);
+
+                        // 복사된 메시지를 모달로 표시
+                        showCopiedContentModal(claudeMessage);
                     } catch (err) {
                         // 사용자가 취소한 경우
                         if (err.name === 'AbortError') {
@@ -5788,7 +5794,13 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     URL.revokeObjectURL(url);
 
                     showStatus('✅ Order Sheet 다운로드 완료', 'success');
-                    alert(`Order Sheet 다운로드 완료!\n\n파일명: ${suggestedName}\n\n📁 저장 경로:\n[프로젝트폴더]/Human_ClaudeCode_Bridge/Orders/\n\n⚠️ 다운로드된 파일을 위 경로로 이동해주세요.`);
+
+                    // Claude Code에게 전달할 메시지 생성 및 클립보드 복사
+                    const claudeMessage = `Order Sheet 보냈어. Human_ClaudeCode_Bridge/Orders/${suggestedName} 파일 확인하고 작업 시작해.\n\n⚠️ 참고: 다운로드된 파일을 Human_ClaudeCode_Bridge/Orders/ 폴더로 이동해주세요.`;
+                    await navigator.clipboard.writeText(claudeMessage);
+
+                    // 복사된 메시지를 모달로 표시
+                    showCopiedContentModal(claudeMessage);
                 }
             } catch (e) {
                 console.error('저장 실패:', e);
