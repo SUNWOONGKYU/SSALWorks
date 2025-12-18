@@ -7854,18 +7854,15 @@ Claude Code가 작업을 완료하면:
             const aiName = aiNames[selectedAI];
             const aiIcon = aiIcons[selectedAI];
 
-            // 버튼 비활성화 및 로딩 표시
-            const originalButtonText = button.textContent;
-            button.disabled = true;
-            button.textContent = '⏳ 질문 중...';
-            button.style.opacity = '0.6';
-            button.style.cursor = 'not-allowed';
-
-            // 로딩 메시지 표시 (제거됨 - 버튼에만 표시)
-            // loadingText.textContent = `${aiName}에게 질문 중...`;
-            // loadingDiv.style.display = "block";
-
-            // showStatus(`${aiIcon} ${aiName}에게 질문 중...`, "info");
+            // 버튼 비활성화 및 로딩 표시 (null 체크 포함)
+            let originalButtonText = '질문하기';
+            if (button) {
+                originalButtonText = button.textContent;
+                button.disabled = true;
+                button.textContent = '⏳ 질문 중...';
+                button.style.opacity = '0.6';
+                button.style.cursor = 'not-allowed';
+            }
 
             try {
                 // Vercel API 엔드포인트 사용
@@ -7883,34 +7880,33 @@ Claude Code가 작업을 완료하면:
                 if (result.success) {
                     // Workspace에 질문과 답변 표시
                     const workspace = document.getElementById('textEditor');
-                    workspace.value = `${aiIcon} ${aiName}에게 질문:
+                    if (workspace) {
+                        workspace.value = `${aiIcon} ${aiName}에게 질문:
 ${question}
 
 ✅ ${aiName}의 답변:
 ${result.answer}`;
+                    }
 
                     // 질문 이력 저장 (localStorage)
                     saveQuestionHistory(aiName, aiIcon, question, result.answer);
 
-                    // showStatus(`✅ ${aiName} 응답 완료!`, "success");
-                    questionInput.value = '';
+                    // 입력창 초기화
+                    if (questionInput) questionInput.value = '';
                 } else {
                     alert(`❌ 오류: ${result.error || result.details || '알 수 없는 오류'}`);
-                    // showStatus(`❌ ${aiName} 질문 실패`, "error");
                 }
             } catch (error) {
                 console.error('AI API Error:', error);
-                alert(`❌ ${aiName} 서버에 연결할 수 없습니다.\n\n오류: ${error.message}`);
-                // showStatus(`❌ ${aiName} 서버 연결 실패`, "error");
+                alert(`❌ ${aiName} API 오류가 발생했습니다.\n\n다시 시도해주세요.`);
             } finally {
-                // 로딩 메시지 숨기기 (제거됨)
-                // loadingDiv.style.display = "none";
-
-                // 버튼 복원
-                button.disabled = false;
-                button.textContent = originalButtonText;
-                button.style.opacity = '1';
-                button.style.cursor = 'pointer';
+                // 버튼 복원 (null 체크 포함)
+                if (button) {
+                    button.disabled = false;
+                    button.textContent = originalButtonText;
+                    button.style.opacity = '1';
+                    button.style.cursor = 'pointer';
+                }
             }
         }
 
