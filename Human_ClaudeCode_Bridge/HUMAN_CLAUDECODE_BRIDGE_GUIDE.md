@@ -316,41 +316,85 @@ Claude Code 작업 순서:
 
 ## 4. 파일 저장 규칙
 
-### 4.1 Orders 폴더 (요청)
+### 4.1 파일 형식 규칙 (중요!)
 
-**Claude Code가 Order Sheet를 받으면 반드시 저장:**
+| 파일 종류 | 형식 | 이유 |
+|----------|------|------|
+| **Order Sheet** | `.json` | 구조화된 데이터 (Task ID, 의존성, 작업 내용 등) |
+| **작업 완료 보고서** | `.json` | AI가 다음 세션에서 파싱하여 이전 작업 파악 |
+| **검증 리포트** | `.json` | 테스트 결과, 점수, 체크리스트 등 구조화된 데이터 |
+| **요약 문서 (선택)** | `.md` | 사람이 읽기 편한 설명 (필요시만 추가) |
+
+```
+⚠️ 기본 원칙: JSON을 기본으로 사용
+
+이유:
+1. AI 메모리 활용 - 다음 세션에서 파싱하여 이전 작업 파악
+2. 구조화된 데이터 - 상태, 파일 목록, 검증 결과 등 명확히 구분
+3. 일관성 - Order(JSON) → Report(JSON) 동일한 형식
+4. 자동화 - 프로그래밍으로 처리 가능
+```
+
+### 4.2 Orders 폴더 (요청)
+
+**Claude Code가 Order Sheet를 받으면 반드시 JSON으로 저장:**
 
 ```
 Human_ClaudeCode_Bridge/Orders/
-├── S2F1_order.json          ← Task ID 기반 파일명
+├── S2F1_order.json          ← Task ID 기반 파일명 (권장)
 ├── S2BA1_order.json
 ├── ORDER-GE-251218-01.json  ← Order ID 기반 파일명
 └── ...
 ```
 
-**저장 내용:**
-- Order Sheet 원본 내용
-- 접수 시간
-- 상태 정보
+**Order Sheet JSON 구조:**
+```json
+{
+  "order_id": "ORDER-S2F1-251218",
+  "task_id": "S2F1",
+  "task_name": "로그인 페이지 UI",
+  "priority": "높음",
+  "created_at": "2025-12-18T10:00:00Z",
+  "instructions": "...",
+  "expected_output": ["Production/Frontend/pages/auth/login.html"],
+  "dependencies": ["S1D1"]
+}
+```
 
-### 4.2 Reports 폴더 (결과)
+### 4.3 Reports 폴더 (결과)
 
-**Claude Code가 작업 완료 후 저장:**
+**Claude Code가 작업 완료 후 JSON으로 저장:**
 
 ```
 Human_ClaudeCode_Bridge/Reports/
-├── S2F1_report.json         ← 작업 결과 JSON
-├── S2F1_summary.md          ← 작업 요약 MD
-├── S2BA1_completed.json
+├── S2F1_completed.json      ← 작업 완료 보고서 (필수)
+├── S2F1_verification.json   ← 검증 결과 (필수)
+├── S2F1_summary.md          ← 요약 문서 (선택, 필요시만)
 └── ...
 ```
 
-**저장 내용:**
-- task_id, task_name
-- status (완료/실패/진행중)
-- 생성/수정된 파일 목록
-- 검증 결과
-- 완료 시간
+**작업 완료 보고서 JSON 구조:**
+```json
+{
+  "order_id": "ORDER-S2F1-251218",
+  "task_id": "S2F1",
+  "task_name": "로그인 페이지 UI",
+  "status": "completed",
+  "files_created": [
+    "Production/Frontend/pages/auth/login.html"
+  ],
+  "verification": {
+    "test": "✅ 10/10 통과",
+    "build": "✅ 성공"
+  },
+  "completed_at": "2025-12-18T11:30:00Z"
+}
+```
+
+**MD 파일은 언제 사용?**
+- 사람이 읽기 편한 상세 설명이 필요할 때
+- 긴 설명, 스크린샷 링크, 상세 가이드 등
+- 기본 JSON 보고서의 **보충 자료**로만 사용
 
 ---
 

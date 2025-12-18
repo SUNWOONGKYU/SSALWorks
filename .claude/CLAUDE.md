@@ -287,6 +287,16 @@ Human_ClaudeCode_Bridge/
 └── Reports/    # 작업 결과 보고서 저장
 ```
 
+**파일 형식 규칙:**
+| 파일 종류 | 형식 | 비고 |
+|----------|------|------|
+| Order Sheet | `.json` | 구조화된 요청 데이터 |
+| 작업 완료 보고서 | `.json` | AI 메모리 활용을 위해 필수 |
+| 검증 리포트 | `.json` | 구조화된 검증 결과 |
+| 요약 문서 | `.md` | 선택 (필요시만 추가) |
+
+> **상세 가이드**: `Human_ClaudeCode_Bridge/HUMAN_CLAUDECODE_BRIDGE_GUIDE.md` 참조
+
 **금지 사항:**
 - ❌ 세션 시작 시 자동 Orders 폴더 확인 금지
 - ❌ Order Sheet를 받았는데 Orders 폴더에 저장하지 않고 바로 작업 시작 금지
