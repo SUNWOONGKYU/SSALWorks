@@ -7,7 +7,14 @@ const { sendMessage, VALID_PROVIDERS, UsageLimiter } = require('../Backend_Infra
 const { withSubscription } = require('../Security/lib/subscription');
 const { createClient } = require('@supabase/supabase-js');
 
-const usageLimiter = new UsageLimiter();
+// 지연 초기화 (Lazy initialization)
+let usageLimiter = null;
+function getUsageLimiter() {
+  if (!usageLimiter) {
+    usageLimiter = new UsageLimiter();
+  }
+  return usageLimiter;
+}
 
 async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -31,7 +38,7 @@ async function handler(req, res) {
   const userId = req.user.id;
   const userTier = req.subscription?.plan || 'free';
 
-  const limitCheck = await usageLimiter.checkLimit(userId, userTier);
+  const limitCheck = await getUsageLimiter().checkLimit(userId, userTier);
   if (!limitCheck.allowed) {
     return res.status(429).json({
       error: 'Rate limit exceeded',
@@ -69,7 +76,7 @@ ${learningContext ? '\n참고 콘텐츠:\n' + learningContext : ''}`;
       return res.status(500).json({ error: 'AI service error', details: result.error, provider });
     }
     const totalTokens = result.usage?.total_tokens || 0;
-    await usageLimiter.logUsage(userId, totalTokens, result.model);
+    await getUsageLimiter().logUsage(userId, totalTokens, result.model);
     return res.status(200).json({
       success: true,
       answer: result.content,

@@ -178,3 +178,36 @@ Tools는 실제 개발 도구를 의미합니다:
 - 문서(Documentation, Security, Testing, DevOps)는 Stage 폴더에만 저장
 
 **Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
+---
+
+## 📝 파일 명명 규칙 (2025-12-18 확정)
+
+> **비개발자도 직관적으로 이해할 수 있는 파일명!**
+
+### 1. 파일명: 직관적인 이름 사용
+```
+✅ 좋은 예:
+- google-login.js      (뭐하는 파일인지 바로 앎)
+- subscription-cancel.js
+- email-send.js
+
+❌ 나쁜 예:
+- auth.js             (뭐하는 건지 모름)
+- handler.js
+- utils.js
+```
+
+### 2. 파일 상단: Task ID 주석 필수
+```javascript
+/**
+ * @task S2BA1
+ */
+export default async function handler(req, res) {
+  // ...
+}
+```
+
+### 3. Task ID의 힘 (3차원 구조)
+- `S2BA1` = Stage(S2) + Area(BA) + 순서(1)
+- Task ID 하나로 Stage, Area, 순서 모두 파악!
+- **1 파일 = 1 Task 원칙** (파일이 여러 Task에 걸치면 안 됨)

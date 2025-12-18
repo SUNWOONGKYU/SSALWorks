@@ -7,156 +7,58 @@ S3E1
 AI API 키 설정
 
 ## Task Goal
-Anthropic API 키 등록 및 Vercel 환경 변수 설정
+Gemini, ChatGPT, Perplexity API 키 등록 및 Vercel 환경 변수 설정
 
 ## Prerequisites (Dependencies)
-- S1O1 (Vercel 프로젝트 설정) 완료
+- S1BI1 (환경변수 설정) 완료
 
 ## Specific Instructions
 
-### 1. Anthropic API 키 발급
-- Anthropic Console: https://console.anthropic.com/
+### 1. API 키 발급
+
+#### 1-1. Google Gemini API 키
+- Google AI Studio: https://aistudio.google.com/
 - API Keys 메뉴에서 새 키 생성
-- 키 이름: `ssalworks-production` 또는 `ssalworks-development`
+
+#### 1-2. OpenAI ChatGPT API 키
+- OpenAI Platform: https://platform.openai.com/
+- API Keys에서 새 키 생성
+
+#### 1-3. Perplexity API 키
+- Perplexity API: https://www.perplexity.ai/settings/api
+- API Keys에서 새 키 생성
 
 ### 2. Vercel 환경 변수 설정
-```bash
-# Vercel CLI로 설정
-vercel env add ANTHROPIC_API_KEY
-
-# 또는 Vercel 대시보드에서 설정
-# Settings > Environment Variables
-```
+- Vercel 대시보드 > Settings > Environment Variables
+- GEMINI_API_KEY, OPENAI_API_KEY, PERPLEXITY_API_KEY 등록
 
 ### 3. 환경 변수 목록
-```
-ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
-```
-
-### 4. 로컬 개발 환경 설정
-- 위치: `.env.local` (gitignore에 포함)
-
-```env
-# .env.local
-ANTHROPIC_API_KEY=sk-ant-api03-xxxxx
-
-# Supabase (기존)
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_ANON_KEY=eyJxxxxx
-SUPABASE_SERVICE_ROLE_KEY=eyJxxxxx
-```
-
-### 5. API 키 유효성 검증 스크립트
-- 위치: `scripts/verify-api-key.js`
-
-```javascript
-// scripts/verify-api-key.js
-const Anthropic = require('@anthropic-ai/sdk');
-
-async function verifyApiKey() {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-
-  if (!apiKey) {
-    console.error('❌ ANTHROPIC_API_KEY not found');
-    process.exit(1);
-  }
-
-  const anthropic = new Anthropic({ apiKey });
-
-  try {
-    const response = await anthropic.messages.create({
-      model: 'claude-3-haiku-20240307',
-      max_tokens: 10,
-      messages: [{ role: 'user', content: 'Hello' }]
-    });
-
-    console.log('✅ API Key is valid');
-    console.log('Model:', response.model);
-    console.log('Usage:', response.usage);
-    return true;
-  } catch (error) {
-    console.error('❌ API Key verification failed:', error.message);
-    process.exit(1);
-  }
-}
-
-verifyApiKey();
-```
-
-### 6. package.json 스크립트 추가
-```json
-{
-  "scripts": {
-    "verify:api-key": "node scripts/verify-api-key.js"
-  }
-}
-```
-
-### 7. 환경별 설정
-```
-Production:
-- Vercel Environment Variables에 등록
-- Environment: Production
-
-Preview:
-- Vercel Environment Variables에 등록
-- Environment: Preview
-
-Development:
-- .env.local 파일 사용
-- gitignore에 포함되어 있어야 함
-```
-
-### 8. 보안 체크리스트
-- [ ] API 키가 코드에 하드코딩되어 있지 않은지 확인
-- [ ] .env 파일이 gitignore에 포함되어 있는지 확인
-- [ ] Vercel 환경 변수가 올바르게 설정되었는지 확인
-- [ ] API 키 접근 권한이 필요한 팀원에게만 제한되어 있는지 확인
+- GEMINI_API_KEY=AIzaSy...
+- OPENAI_API_KEY=sk-proj-...
+- PERPLEXITY_API_KEY=pplx-...
 
 ## Expected Output Files
-- `.env.local` (로컬 개발용, git에 포함 안 됨)
-- `scripts/verify-api-key.js`
+- .env.local (로컬 개발용)
+- scripts/verify-ai-keys.js
 - Vercel 환경 변수 설정 완료
 
 ## Completion Criteria
-- [ ] Anthropic API 키 발급
-- [ ] Vercel 환경 변수 등록
-- [ ] 로컬 환경 변수 설정
+- [ ] Gemini API 키 발급 및 등록
+- [ ] ChatGPT (OpenAI) API 키 발급 및 등록
+- [ ] Perplexity API 키 발급 및 등록
+- [ ] Vercel 환경 변수 등록 (3개)
 - [ ] API 키 검증 스크립트 실행 성공
-- [ ] 보안 체크리스트 확인
 
 ## Tech Stack
-- Anthropic API
+- Google Gemini API
+- OpenAI ChatGPT API
+- Perplexity API
 - Vercel
 - Node.js
-
-## Tools
-- Bash (vercel env, npm run)
-- Write
 
 ## Execution Type
 Human-Assisted
 
 ## Remarks
 - API 키는 절대 코드에 직접 입력하지 않음
-- 개발/프로덕션 키 분리 권장
-- 키 로테이션 정책 수립 권장
-- 사용량 모니터링을 위해 Anthropic Console 정기 확인
-
----
-
-## ⚠️ 작업 결과물 저장 2대 규칙
-
-> **이 규칙은 반드시 준수하세요!**
-
-### 제1 규칙: Stage + Area 폴더에 저장
-- Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S1S1 → `S1_개발_준비/Security/`
-- 예: S2F1 → `S2_개발-1차/Frontend/`
-
-### 제2 규칙: Production 코드는 이중 저장
-- Frontend, Database, Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장
-- 문서(Documentation, Security, Testing, DevOps)는 Stage 폴더에만 저장
-
-**Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
-
+- 각 서비스 콘솔에서 사용량 모니터링

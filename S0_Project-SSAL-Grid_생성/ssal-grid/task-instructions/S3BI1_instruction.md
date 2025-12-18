@@ -7,174 +7,174 @@ S3BI1
 AI API 클라이언트 통합
 
 ## Task Goal
-Anthropic Claude API 클라이언트 통합 및 사용량 추적 시스템 구현
+Gemini, ChatGPT, Perplexity 3개 AI 서비스 클라이언트 통합 및 사용량 추적 시스템 구현
 
 ## Prerequisites (Dependencies)
 - S2BA3 (구독 관리 API) 완료
 - S2S1 (인증 미들웨어) 완료
+- S3E1 (AI API 키 설정) 완료
 
 ## Specific Instructions
 
-### 1. Anthropic SDK 설치
+### 1. SDK 설치
 ```bash
-npm install @anthropic-ai/sdk
+npm install @google/generative-ai openai
 ```
 
-### 2. API 클라이언트 래퍼 생성
-- 위치: `api/lib/ai/anthropic-client.js`
+### 2. AI 클라이언트 래퍼 생성
+- 위치: api/lib/ai/
 
+#### 2-1. Gemini 클라이언트
 ```javascript
-// api/lib/ai/anthropic-client.js
-const Anthropic = require('@anthropic-ai/sdk');
-const { createClient } = require('@supabase/supabase-js');
+// api/lib/ai/gemini-client.js
+const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+async function sendGeminiMessage(message, options = {}) {
+  const model = genAI.getGenerativeModel({ 
+    model: options.model || 'gemini-pro' 
+  });
+  
+  const result = await model.generateContent(message);
+  const response = await result.response;
+  
+  return {
+    success: true,
+    content: response.text(),
+    provider: 'gemini'
+  };
+}
 
-async function sendMessage(userId, message, options = {}) {
-  const startTime = Date.now();
+module.exports = { sendGeminiMessage };
+```
 
-  try {
-    const response = await anthropic.messages.create({
-      model: options.model || 'claude-3-haiku-20240307',
-      max_tokens: options.maxTokens || 1024,
+#### 2-2. ChatGPT 클라이언트
+```javascript
+// api/lib/ai/chatgpt-client.js
+const OpenAI = require('openai');
+
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+async function sendChatGPTMessage(message, options = {}) {
+  const response = await openai.chat.completions.create({
+    model: options.model || 'gpt-3.5-turbo',
+    messages: [{ role: 'user', content: message }],
+    max_tokens: options.maxTokens || 1024
+  });
+  
+  return {
+    success: true,
+    content: response.choices[0].message.content,
+    usage: response.usage,
+    provider: 'chatgpt'
+  };
+}
+
+module.exports = { sendChatGPTMessage };
+```
+
+#### 2-3. Perplexity 클라이언트
+```javascript
+// api/lib/ai/perplexity-client.js
+async function sendPerplexityMessage(message, options = {}) {
+  const response = await fetch('https://api.perplexity.ai/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      model: options.model || 'llama-3.1-sonar-small-128k-online',
       messages: [{ role: 'user', content: message }],
-      system: options.systemPrompt || ''
-    });
+      max_tokens: options.maxTokens || 1024
+    })
+  });
+  
+  const data = await response.json();
+  
+  return {
+    success: true,
+    content: data.choices[0].message.content,
+    usage: data.usage,
+    provider: 'perplexity'
+  };
+}
 
-    const endTime = Date.now();
-    const inputTokens = response.usage.input_tokens;
-    const outputTokens = response.usage.output_tokens;
+module.exports = { sendPerplexityMessage };
+```
 
-    // 사용량 로깅
-    await logUsage(userId, {
-      inputTokens,
-      outputTokens,
-      model: options.model || 'claude-3-haiku-20240307',
-      responseTime: endTime - startTime
-    });
+#### 2-4. 통합 클라이언트
+```javascript
+// api/lib/ai/index.js
+const { sendGeminiMessage } = require('./gemini-client');
+const { sendChatGPTMessage } = require('./chatgpt-client');
+const { sendPerplexityMessage } = require('./perplexity-client');
 
-    return {
-      success: true,
-      content: response.content[0].text,
-      usage: { inputTokens, outputTokens }
-    };
-  } catch (error) {
-    return {
-      success: false,
-      error: error.message
-    };
+async function sendMessage(provider, message, options = {}) {
+  switch (provider) {
+    case 'gemini':
+      return sendGeminiMessage(message, options);
+    case 'chatgpt':
+      return sendChatGPTMessage(message, options);
+    case 'perplexity':
+      return sendPerplexityMessage(message, options);
+    default:
+      throw new Error(`Unknown provider: ${provider}`);
   }
 }
 
-async function logUsage(userId, usage) {
-  await supabase.from('ai_usage_logs').insert({
-    user_id: userId,
-    tokens_used: usage.inputTokens + usage.outputTokens,
-    model: usage.model,
-    response_time_ms: usage.responseTime,
-    created_at: new Date().toISOString()
-  });
-}
-
-module.exports = { sendMessage, logUsage };
+module.exports = { 
+  sendMessage,
+  sendGeminiMessage,
+  sendChatGPTMessage,
+  sendPerplexityMessage
+};
 ```
 
 ### 3. 사용량 제한 체크
 ```javascript
 // api/lib/ai/usage-limiter.js
-async function checkUsageLimit(userId, planType) {
-  const limits = {
-    free: 1000,      // 일일 토큰
-    basic: 50000,    // 일일 토큰
-    premium: 200000  // 일일 토큰
-  };
-
-  const today = new Date().toISOString().split('T')[0];
-
-  const { data, error } = await supabase
-    .from('ai_usage_logs')
-    .select('tokens_used')
-    .eq('user_id', userId)
-    .gte('created_at', today);
-
-  const totalUsed = data?.reduce((sum, log) => sum + log.tokens_used, 0) || 0;
-  const limit = limits[planType] || limits.free;
-
-  return {
-    used: totalUsed,
-    limit,
-    remaining: limit - totalUsed,
-    exceeded: totalUsed >= limit
-  };
-}
-
-module.exports = { checkUsageLimit };
-```
-
-### 4. 에러 핸들링
-```javascript
-// api/lib/ai/errors.js
-const AI_ERRORS = {
-  RATE_LIMITED: { code: 'AI_001', message: 'Rate limit exceeded' },
-  INVALID_REQUEST: { code: 'AI_002', message: 'Invalid request' },
-  API_ERROR: { code: 'AI_003', message: 'AI service error' },
-  USAGE_EXCEEDED: { code: 'AI_004', message: 'Daily usage limit exceeded' }
+const DAILY_LIMITS = {
+  free: 0,        // AI 사용 불가
+  basic: 20,      // 일일 20회
+  premium: 100    // 일일 100회
 };
 
-module.exports = { AI_ERRORS };
+async function checkUsageLimit(userId, planType) {
+  // 구현...
+}
+
+module.exports = { checkUsageLimit, DAILY_LIMITS };
 ```
 
 ## Expected Output Files
-- `api/lib/ai/anthropic-client.js`
-- `api/lib/ai/usage-limiter.js`
-- `api/lib/ai/errors.js`
+- api/lib/ai/gemini-client.js
+- api/lib/ai/chatgpt-client.js
+- api/lib/ai/perplexity-client.js
+- api/lib/ai/index.js
+- api/lib/ai/usage-limiter.js
+- api/lib/ai/errors.js
 
 ## Completion Criteria
-- [ ] Anthropic SDK 통합
-- [ ] 메시지 전송 함수 구현
-- [ ] 사용량 로깅 구현
+- [ ] Gemini 클라이언트 구현
+- [ ] ChatGPT 클라이언트 구현
+- [ ] Perplexity 클라이언트 구현
+- [ ] 통합 인터페이스 구현
 - [ ] 사용량 제한 체크 구현
 - [ ] 에러 핸들링 구현
-- [ ] 단위 테스트 통과
 
 ## Tech Stack
-- Anthropic Claude API
+- Google Gemini API
+- OpenAI ChatGPT API
+- Perplexity API
 - Supabase
 - Node.js
-
-## Tools
-- Write, Read
-- Bash (npm install, 테스트)
 
 ## Execution Type
 AI-Only
 
 ## Remarks
-- API 키는 환경 변수로 관리
-- 모델 선택은 구독 등급에 따라 다르게 적용
-- 토큰 비용 계산 로직 추후 추가
-
----
-
-## ⚠️ 작업 결과물 저장 2대 규칙
-
-> **이 규칙은 반드시 준수하세요!**
-
-### 제1 규칙: Stage + Area 폴더에 저장
-- Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S1S1 → `S1_개발_준비/Security/`
-- 예: S2F1 → `S2_개발-1차/Frontend/`
-
-### 제2 규칙: Production 코드는 이중 저장
-- Frontend, Database, Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장
-- 문서(Documentation, Security, Testing, DevOps)는 Stage 폴더에만 저장
-
-**Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
-
+- 3개 AI 서비스를 동일 인터페이스로 사용 가능하게 구현
+- 프론트엔드에서 사용자가 AI 선택 가능
+- 사용량은 구독 등급별로 제한

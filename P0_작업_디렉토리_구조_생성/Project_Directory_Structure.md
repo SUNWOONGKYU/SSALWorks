@@ -1,6 +1,6 @@
 # SSALWorks 프로젝트 디렉토리 구조 가이드
 
-> **버전**: v11.0
+> **버전**: v12.0
 > **최종 업데이트**: 2025-12-18
 > **프로젝트**: SaaS 구독형 학습 + 프로젝트 관리 통합 플랫폼
 
@@ -98,6 +98,38 @@ C:\!SSAL_Works_Private\
 ✅ S2_개발-1차/Backend_API/
 ❌ S2_개발-1차/백엔드_API/  (한글 사용 X)
 ```
+
+### 규칙 5: 파일 명명 규칙 (2025-12-18 확정)
+
+> **비개발자도 직관적으로 이해할 수 있는 파일명!**
+
+**파일명: 직관적인 이름 사용**
+```
+✅ 좋은 예:
+- google-login.js      (뭐하는 파일인지 바로 앎)
+- subscription-cancel.js
+- email-send.js
+
+❌ 나쁜 예:
+- auth.js             (뭐하는 건지 모름)
+- handler.js
+- utils.js
+```
+
+**파일 상단: Task ID 주석 필수**
+```javascript
+/**
+ * @task S2BA1
+ */
+export default async function handler(req, res) {
+  // ...
+}
+```
+
+**Task ID의 힘 (3차원 구조):**
+- `S2BA1` = Stage(S2) + Area(BA) + 순서(1)
+- Task ID 하나로 Stage, Area, 순서 모두 파악!
+- **1 파일 = 1 Task 원칙** (파일이 여러 Task에 걸치면 안 됨)
 
 ---
 
@@ -348,26 +380,54 @@ S5_운영/
 
 ---
 
-## 📦 Production/ (종합집결지)
+## 📦 Production/ (종합집결지 - Vercel 배포)
 
-**용도:** S1-S5 작업 결과가 모이는 실제 배포용 코드
+**용도:** S1-S5 작업 결과가 모이는 실제 배포용 코드 (Vercel Root Directory)
 
 ```
-Production/
-├── Frontend/               # 프론트엔드 코드 (HTML, CSS, JS)
-├── Backend_API/            # API 코드 (Serverless Functions)
-└── Database/               # DB 스키마 (SQL 파일)
+Production/                    ← Vercel 루트 디렉토리
+├── Frontend/                  ← 화면 (F Area)
+│   ├── Pages/                 # HTML 페이지
+│   └── Assets/                # CSS, JS, 이미지
+│
+├── API/                       ← 서버 (Area별 분류)
+│   ├── Backend_APIs/          # BA Area (구독, 이메일 등)
+│   ├── Security/              # S Area (인증, 권한)
+│   ├── Backend_Infrastructure/# BI Area (공통 라이브러리)
+│   └── External/              # E Area (외부 연동)
+│
+└── Config/                    ← 설정 (O Area)
+    ├── vercel.json
+    └── package.json
 ```
+
+**Area별 API 분류:**
+| Area | Production 폴더 | 예시 |
+|------|----------------|------|
+| BA (Backend_APIs) | `API/Backend_APIs/` | 구독, 이메일 API |
+| S (Security) | `API/Security/` | 로그인, 인증 |
+| BI (Backend_Infrastructure) | `API/Backend_Infrastructure/` | 공통 라이브러리 |
+| E (External) | `API/External/` | 외부 서비스 연동 |
+
+**Stage → Production 복사 규칙:**
+| Stage 폴더 | Production 위치 |
+|------------|-----------------|
+| `S?_*/Frontend/` | `Production/Frontend/` |
+| `S?_*/Backend_APIs/` | `Production/API/Backend_APIs/` |
+| `S?_*/Security/` (API) | `Production/API/Security/` |
+| `S?_*/Backend_Infra/` (API) | `Production/API/Backend_Infrastructure/` |
+| `S?_*/External/` (API) | `Production/API/External/` |
+
+**Production에 넣지 않는 것:**
+- `Testing/` - 테스트 코드 (개발용)
+- `Documentation/` - 문서 (개발용)
+- `Database/` - SQL 파일 (Supabase에서 실행)
 
 **워크플로우:**
 1. 각 Stage(S1-S5)에서 작업 수행
-2. 작업 완료 후 Production/에 반영
+2. 작업 완료 후 Production/에 Area별로 복사
 3. Production/은 항상 배포 가능한 최신 상태 유지
 
-**장점:**
-- 버전 관리: 각 Stage에 작업 이력 남음
-- 추적 가능: 언제, 어디서 변경됐는지 파악
-- 배포 기준점 명확: Production/ = 배포 대상
 
 ---
 
@@ -692,10 +752,11 @@ Sidebar-Process-Tools/
 | v8.0 | 2025-12-13 | Production/ 종합집결지 추가, 체크리스트 개선 | Claude Code |
 | v9.0 | 2025-12-14 | 실제 폴더와 문서 일치화: AI_Link/학습용_콘텐츠 경로 수정, Project-SSAL-Grid→S0_Project-SSAL-Grid_생성, 누락 파일 추가 | Claude Code |
 | v10.0 | 2025-12-17 | 부수적_고유기능 폴더 구조 업데이트: 학습용_콘텐츠→학습용_Books, Tips/외부_연동_설정_Guide 추가 | Claude Code |
-| **v11.0** | **2025-12-18** | **Web_ClaudeCode_Bridge → Human_ClaudeCode_Bridge 변경, Inbox/Outbox → Orders/Reports 변경, 파일 형식 규칙 추가** | Claude Code |
+| v11.0 | 2025-12-18 | Web_ClaudeCode_Bridge → Human_ClaudeCode_Bridge 변경, Inbox/Outbox → Orders/Reports 변경, 파일 형식 규칙 추가 | Claude Code |
+| **v12.0** | **2025-12-18** | **파일 명명 규칙 추가 (규칙 5), Production 폴더 구조 재설계 (Area별 분류)** | Claude Code |
 
 ---
 
-**현재 버전:** v11.0
+**현재 버전:** v12.0
 **작성자:** SSALWorks Team
 **마지막 업데이트:** 2025-12-18

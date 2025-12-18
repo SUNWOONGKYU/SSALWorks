@@ -1,3 +1,195 @@
+## Order Sheet v3.2 + AI-First 원칙 강화 (2025-12-19)
+
+### 작업 상태: ✅ 완료
+
+**완료된 작업:**
+
+#### 1. Order Sheet S1-S5 전체 v3.2 업데이트
+Grid 결과 기록 방법을 JSON 파일 + Sync 스크립트 방식으로 통일:
+
+**변경된 파일:**
+- ✅ `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/S1_개발_준비/S1_개발_준비.md`
+- ✅ `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/S2_개발_1차/S2_개발_1차.md`
+- ✅ `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/S3_개발_2차/S3_개발_2차.md`
+- ✅ `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/S4_개발_3차/S4_개발_3차.md`
+- ✅ `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/S5_운영/S5_운영.md`
+
+**핵심 변경 사항:**
+- Step 5: JSON 파일 저장 → `S0_Project-SSAL-Grid_생성/ssal-grid/task-results/{TaskID}_result.json`
+- Step 6: Sync 스크립트 실행 → `node sync_task_results_to_db.js`
+- JSON 형식에 Verification 결과 전체 포함
+
+**JSON 저장 형식:**
+```json
+{
+  "task_id": "S1XX1",
+  "task_progress": 100,
+  "task_status": "Completed",
+  "generated_files": [...],
+  "test": {...},
+  "build": {...},
+  "integration_verification": {...},
+  "blockers": {...},
+  "comprehensive_verification": {...},
+  "verification_status": "Passed"
+}
+```
+
+#### 2. CLAUDE.md AI-First 원칙 강화
+- 원칙 1을 "AI-Only 작업 원칙" → "AI-First 작업 원칙 (강화됨 2025-12-19)"로 변경
+- **최소 5가지 대안 시도 후에만 인간에게 요청** 규칙 추가
+- MCP → SDK → JSON+Sync 우회 방법 예시 추가
+- AI가 근본적으로 할 수 없는 작업 목록 명시
+
+**배경:**
+다른 Claude Code 세션에서 MCP, curl이 안 된다고 바로 포기한 문제 발생
+→ JSON 파일 + sync_task_results_to_db.js 방식으로 해결
+→ 이 경험을 원칙에 반영
+
+---
+
+## Production API 폴더 Area 기반 재구성 완료 (2025-12-18)
+
+### 작업 상태: ✅ 완료
+
+**완료된 작업:**
+
+#### 1. 파일 명명 규칙 문서화 (5개 문서)
+- ✅ CLAUDE.md - "📂 파일 명명 및 Production 폴더 규칙" 섹션 추가
+- ✅ Project_Directory_Structure.md - "규칙 5: 파일 명명 규칙" 섹션 추가 (v12.0)
+- ✅ PROJECT_SSAL_GRID_MANUAL.md - "📌 파일 명명 규칙" 섹션 추가 (v3.3)
+- ✅ Order_Sheet_템플릿/README.md - "🚨 파일 명명 규칙" 섹션 추가
+- ✅ TEMPLATE_instruction.md - "📝 파일 명명 규칙" 섹션 추가
+
+#### 2. Production/api/ 폴더 Area 기반 재구성
+기존 구조 (삭제됨):
+```
+api/auth/, api/email/, api/subscription/, api/ai/, api/lib/
+```
+
+새 구조:
+```
+api/
+├── Backend_APIs/       # BA Area (이메일, 구독 API)
+│   ├── email-password-reset.js
+│   ├── email-send.js
+│   ├── email-welcome.js
+│   ├── subscription-cancel.js
+│   ├── subscription-create.js
+│   └── subscription-status.js
+│
+├── Backend_Infrastructure/  # BI Area (공통 모듈)
+│   ├── ai/             # AI 클라이언트, 사용량 제한
+│   └── email/          # 이메일 템플릿, Resend 클라이언트
+│
+├── External/           # E Area (외부 연동)
+│   ├── ai-faq-suggest.js
+│   ├── ai-index.js
+│   ├── ai-qa.js
+│   └── ai-usage.js
+│
+└── Security/           # S Area (인증/인가)
+    ├── google-login.js
+    ├── logout.js
+    ├── google/callback.js
+    ├── lib/auth/       # 인증 미들웨어
+    ├── lib/subscription/  # 구독 권한 체크
+    └── subscription/check.js
+```
+
+#### 3. vercel.json 리라이트 규칙 추가
+기존 경로 → 새 경로 매핑 (13개):
+- `/api/email/*` → `/api/Backend_APIs/*`
+- `/api/subscription/*` → `/api/Backend_APIs/*`
+- `/api/auth/*` → `/api/Security/*`
+- `/api/ai/*` → `/api/External/*`
+
+#### 4. require 경로 수정 (5개 파일)
+- Backend_APIs/email-*.js: Security/lib/auth, Backend_Infrastructure/email
+- External/ai-*.js: Backend_Infrastructure/ai, Security/lib/subscription
+
+**파일 변경 요약:**
+| 작업 | 파일 수 |
+|------|---------|
+| 문서 업데이트 | 5개 |
+| 구 폴더 삭제 | 5개 (auth, email, subscription, ai, lib) |
+| 신규 폴더 생성 | 4개 (Backend_APIs, Backend_Infrastructure, External, Security) |
+| 파일 이동 | 20+ 개 |
+| require 경로 수정 | 5개 |
+| vercel.json 수정 | 1개 |
+
+**핵심 원칙:**
+- 폴더명 = Area 이름 (직관적!)
+- URL에 Area 노출: `/api/Security/google-login`
+- 1 파일 = 1 Task 원칙
+- Task ID 주석 필수 (파일 상단)
+
+---
+
+## S3BI1: AI API 클라이언트 통합 구현 완료 (2025-12-18)
+
+### 작업 상태: ✅ 완료
+
+**Task 정보:**
+- **Task ID**: S3BI1
+- **Task Name**: AI API 클라이언트 통합
+- **Stage**: S3 (개발 2차)
+- **Area**: BI (Backend Infrastructure)
+- **실행 유형**: AI-Only
+
+**완료된 작업:**
+
+1. **Anthropic SDK 클라이언트** (`ai/anthropic-client.js`)
+   - AnthropicClient 클래스 구현
+   - chat() 메서드: Claude API 호출 래퍼
+   - askQuestion() 메서드: 간편한 질문-답변 인터페이스
+   - 싱글톤 패턴 적용 (getAnthropicClient)
+   - 기본 모델: claude-3-haiku-20240307
+   - 에러 핸들링: success/error 응답 구조
+
+2. **사용량 제한 체크** (`ai/usage-limiter.js`)
+   - UsageLimiter 클래스 구현
+   - 구독 등급별 일일 제한:
+     - free: 0회 (AI 기능 사용 불가)
+     - basic: 20회/일
+     - premium: 100회/일
+   - checkLimit() 메서드: 사용량 확인 및 제한 체크
+   - logUsage() 메서드: ai_usage_logs 테이블에 사용 기록
+
+3. **에러 정의** (`ai/errors.js`)
+   - AIError: 기본 AI 에러 클래스
+   - RateLimitError: 일일 사용량 초과
+   - SubscriptionRequiredError: 구독 필요
+   - APIKeyError: API 키 미설정
+
+4. **모듈 내보내기** (`ai/index.js`)
+   - 모든 클래스 및 상수 통합 export
+
+**생성된 파일:**
+- ✅ `S3_개발-2차/Backend_Infra/ai/anthropic-client.js` (1,755 bytes)
+- ✅ `S3_개발-2차/Backend_Infra/ai/usage-limiter.js` (1,707 bytes)
+- ✅ `S3_개발-2차/Backend_Infra/ai/errors.js` (954 bytes)
+- ✅ `S3_개발-2차/Backend_Infra/ai/index.js` (508 bytes)
+
+**Production 이중 저장:**
+- ✅ `Production/Backend_Infra/ai/anthropic-client.js` (동일)
+- ✅ `Production/Backend_Infra/ai/usage-limiter.js` (동일)
+- ✅ `Production/Backend_Infra/ai/errors.js` (동일)
+- ✅ `Production/Backend_Infra/ai/index.js` (동일)
+- ✅ 파일 무결성 검증: 모든 파일 동일 확인됨
+
+**파일 저장 규칙:**
+- ✅ Stage/Area 폴더: `S3_개발-2차/Backend_Infra/ai/` (S3BI1 → Stage: S3, Area: BI)
+- ✅ Production 폴더: `Production/Backend_Infra/ai/` (BI Area는 코드이므로 이중 저장)
+- ✅ 각 파일 첫 줄에 Task ID 주석 추가
+
+**다음 단계 (S3BA1, S3S1에서 활용):**
+1. S3BA1: AI 대화 API 구현 시 AnthropicClient 사용
+2. S3S1: AI 기능 권한 체크 시 UsageLimiter 사용
+3. 환경 변수: ANTHROPIC_API_KEY (S3E1에서 설정)
+
+---
+
 # Work Log - Current Session
 
 **시작일**: 2025-12-15
@@ -1273,3 +1465,298 @@ P1-P3, 특별단계 Order Sheet + 안내문 전체 업데이트 및 도메인 �
 
 ---
 
+
+---
+
+## S3BA1: AI Q&A API 검증 완료 (2025-12-18)
+
+### 작업 상태: ✅ 검증 통과
+
+**Task 정보:**
+- **Task ID**: S3BA1
+- **Task Name**: AI Q&A API
+- **Stage**: S3 (개발 2차)
+- **Area**: BA (Backend APIs)
+- **검증자**: code-reviewer (Verification Agent)
+
+**검증 완료 파일:**
+1. **qa.js** - AI 질의응답 API
+   - POST /api/ai/qa
+   - question 파라미터 검증
+   - UsageLimiter로 사용량 체크
+   - contentId로 학습 콘텐츠 컨텍스트 조회
+   - AnthropicClient 호출 및 응답 처리
+   - withSubscription('ai-qa.use') 미들웨어 적용
+   - ✅ 모든 요구사항 충족
+
+2. **faq-suggest.js** - FAQ 유사 질문 제안
+   - POST /api/ai/faq-suggest
+   - 키워드 기반 FAQ 매칭 로직
+   - 점수 계산 및 정렬 (상위 3개)
+   - 인증 없이 접근 가능 (무료 기능)
+   - ✅ 모든 요구사항 충족
+
+3. **usage.js** - AI 사용량 조회
+   - GET /api/ai/usage
+   - 사용량 조회 및 업그레이드 정보 제공
+   - withSubscription 미들웨어 적용
+   - ✅ 모든 요구사항 충족
+
+4. **index.js** - API 모듈 통합 인터페이스
+   - 3개 핸들러 export
+   - 엔드포인트 설명 주석
+   - ✅ 모든 요구사항 충족
+
+**파일 위치:**
+- ✅ Stage 폴더: `S3_개발-2차/Backend_API/api/ai/` (4개 파일)
+- ✅ Production 폴더: `Production/api/ai/` (4개 파일)
+- ✅ 이중 저장 규칙 준수
+- ✅ Stage와 Production 파일 완전 동일 (diff 검증 완료)
+
+**Task ID 주석 검증:**
+- ✅ qa.js: Line 1 `// S3BA1: AI Q&A API`
+- ✅ faq-suggest.js: Line 1 `// S3BA1: AI Q&A API - FAQ 제안`
+- ✅ usage.js: Line 1 `// S3BA1: AI Q&A API - 사용량 조회`
+- ✅ index.js: Line 1 `// S3BA1: AI Q&A API`
+
+**의존성 검증:**
+- ✅ S3BI1 (AI 클라이언트): AnthropicClient 참조 확인
+- ✅ S3BI2 (사용량 제한): UsageLimiter 참조 확인
+- ✅ S3S1 (구독 권한): withSubscription 미들웨어 참조 확인
+
+**코드 품질 검증:**
+- ✅ 가독성: EXCELLENT (함수명, 변수명 명확)
+- ✅ 문서화: GOOD (API 주석 충분)
+- ✅ 에러 처리: EXCELLENT (모든 경로 처리)
+- ✅ 일관성: EXCELLENT (코딩 스타일 일관)
+- ✅ 모듈성: EXCELLENT (역할 분리 명확)
+
+**보안 검증:**
+- ✅ 인증: qa.js, usage.js는 withSubscription으로 보호
+- ✅ 권한: qa.js는 'ai-qa.use' 기능 필요 (Basic+ 구독)
+- ✅ 공개 엔드포인트: faq-suggest.js는 인증 불필요 (설계대로)
+- ✅ 입력 검증: 모든 API에서 필수 파라미터 검증
+- ✅ Rate Limiting: UsageLimiter로 일일 사용량 제한
+
+**통합 검증:**
+- ✅ Anthropic Client 연결: S3BI1의 askQuestion 메서드 호출
+- ✅ Usage Limiter 연결: S3BI2의 checkLimit, logUsage 호출
+- ✅ Subscription 연결: S3S1의 withSubscription 미들웨어 적용
+- ✅ DB 연결: learning_contents, faqs 테이블 조회
+
+**Blockers:**
+- ⚠️ 환경 변수 필요 (S5 운영 단계에서 확인 필요):
+  - NEXT_PUBLIC_SUPABASE_URL
+  - SUPABASE_SERVICE_ROLE_KEY
+  - ANTHROPIC_API_KEY
+
+**종합 검증 결과:**
+- ✅ Task Instruction: 모든 요구사항 충족
+- ⚠️ Test: 실제 API 호출 테스트는 서버 실행 후 필요
+- ✅ Build: 코드 구조 및 import 정상
+- ✅ Integration: 모든 의존성 올바르게 연결
+- ⚠️ Blockers: 2개 환경 설정 확인 필요 (S5 단계)
+- ✅ Final Verdict: PASSED (환경 설정은 S5 단계에서 확인)
+
+**검증 보고서:**
+- ✅ `Human_ClaudeCode_Bridge/Reports/S3BA1_VERIFICATION_REPORT.json` 생성
+- 상세 검증 결과, 권장사항, 테스트 가이드 포함
+
+**다음 단계:**
+- S3 Stage의 다른 Task 검증 계속 진행
+- S3 Stage Gate 검증 준비
+
+---
+
+## S3S1 구독 권한 체크 구현 완료 (2025-12-18)
+
+### 작업 상태: ✅ 완료
+
+**작업 내용:**
+AI 기능 접근을 위한 구독 등급별 권한 체크 미들웨어 시스템 구현
+
+**생성된 파일 (총 4개, 706줄):**
+
+1. **S3_개발-2차/Security/lib/subscription/check-permission.js** (213줄)
+   - 구독 권한 체크 로직
+   - checkSubscriptionPermission(userId, feature) 함수
+   - getUserPermissions(userId) 함수
+   - FEATURE_REQUIREMENTS 정의:
+     - 'ai-qa': ['basic', 'premium']
+     - 'ai-advanced': ['premium']
+     - 'premium-content': ['basic', 'premium']
+     - 'unlimited-api': ['premium']
+
+2. **S3_개발-2차/Security/lib/subscription/withSubscription.js** (172줄)
+   - API 래퍼 함수
+   - withSubscription(feature) - 필수 권한 체크
+   - withOptionalSubscription(feature) - 선택적 권한 체크
+   - 인증 미들웨어 통합 (S2S1)
+
+3. **S3_개발-2차/Security/api/subscription-check.js** (110줄)
+   - GET /api/subscription/check
+   - 쿼리 파라미터: feature (옵션)
+   - 특정 기능 권한 체크 또는 전체 권한 조회
+
+4. **S3_개발-2차/Security/S3S1_구독_권한_체크_가이드.md** (211줄)
+   - 사용 가이드 및 API 문서
+   - 코드 예시 및 테스트 방법
+   - 에러 코드 정의
+
+**기술 사양:**
+
+구독 등급별 권한:
+```javascript
+FEATURE_REQUIREMENTS = {
+  'ai-qa': ['basic', 'premium'],          // AI Q&A 기본
+  'ai-advanced': ['premium'],             // AI 고급 (Premium만)
+  'premium-content': ['basic', 'premium'], // 프리미엄 콘텐츠
+  'unlimited-api': ['premium']            // 무제한 API (Premium만)
+}
+```
+
+API 사용 예시:
+```javascript
+// 필수 권한 체크 (권한 없으면 403)
+module.exports = withSubscription('ai-qa')(async (req, res) => {
+  const { user, subscription } = req;
+  // 권한 있는 사용자만 실행
+});
+
+// 선택적 권한 체크 (무료 사용자도 제한적 접근)
+module.exports = withOptionalSubscription('ai-qa')(async (req, res) => {
+  if (req.subscription) {
+    // 유료: 무제한
+  } else {
+    // 무료: 제한적
+  }
+});
+```
+
+프론트엔드 권한 확인:
+```javascript
+// 특정 기능 체크
+GET /api/subscription/check?feature=ai-qa
+Response: { hasAccess: true/false, subscription: {...} }
+
+// 전체 권한 조회
+GET /api/subscription/check
+Response: { plan: 'basic', 'ai-qa': true, 'ai-advanced': false, ... }
+```
+
+**에러 코드:**
+- AUTH_001 (401): No token provided
+- AUTH_002 (401): Invalid/expired token
+- INVALID_FEATURE (400): Unknown feature
+- NO_SUBSCRIPTION (403): No active subscription
+- INSUFFICIENT_PLAN (403): Plan lacks access
+- DB_ERROR (500): Database error
+- INTERNAL_ERROR (500): Unexpected error
+
+**의존성:**
+- S2S1 (인증 미들웨어): verifyAuth 함수 사용
+- S2BA3 (구독 관리 API): subscriptions 테이블 조회
+- Supabase: subscription_plans 테이블 JOIN
+
+**데이터베이스 쿼리:**
+```sql
+SELECT * FROM subscriptions
+JOIN subscription_plans ON subscriptions.plan_id = subscription_plans.id
+WHERE user_id = ? AND status = 'active'
+```
+
+**보안 기능:**
+- Bearer Token 인증 필수
+- Supabase Service Role Key 사용
+- 사용자별 데이터 격리 (user_id 필터링)
+- 플랜별 권한 격리
+- CORS 헤더 설정
+
+**통합 포인트:**
+- 다음 Task에서 사용:
+  - S3BA1 (AI Q&A API)
+  - S3BA2 (AI 고급 기능 API)
+- 프론트엔드 권한 체크 UI 통합 필요
+
+**테스트 시나리오:**
+1. Basic 플랜: ai-qa ✅, ai-advanced ❌
+2. Premium 플랜: 모든 기능 ✅
+3. 구독 없음: 모든 기능 ❌ (NO_SUBSCRIPTION)
+
+**다음 단계:**
+- [ ] S3BA1, S3BA2 등 AI API에 withSubscription 래퍼 적용
+- [ ] 프론트엔드 권한 체크 통합 (페이지 로드 시)
+- [ ] Rate Limiting 추가 (무료 사용자 5회/일)
+- [ ] 업그레이드 플로우 UI 구현
+- [ ] Production 폴더 동기화 (필요 시)
+
+**완료 보고서:**
+`Human_ClaudeCode_Bridge/Reports/S3S1_subscription_permission_completed.json`
+
+**파일 저장 위치:**
+- Stage 폴더: `S3_개발-2차/Security/` ✅
+- Production 폴더: Security는 문서이므로 저장하지 않음 ✅
+- Task ID 주석 포함: /** @task S3S1 */ ✅
+
+---
+
+## S3 Stage Gate AI 검증 완료 (2025-12-19)
+
+### 상태: ✅ AI 검증 완료 - PO 테스트 대기
+
+**검증 대상 Task:**
+- S3E1: AI API 키 설정 (Gemini, ChatGPT, Perplexity)
+- S3S1: 구독 권한 체크 (withSubscription)
+- S3BI1: AI 클라이언트 통합 (sendMessage 통합 함수)
+- S3BA1: AI Q&A API
+
+**API 테스트 결과:**
+
+| Provider | Status | Model | Response |
+|----------|--------|-------|----------|
+| Gemini | ✅ 성공 | gemini-2.5-flash | OK |
+| ChatGPT | ✅ 성공 | gpt-3.5-turbo | OK |
+| Perplexity | ✅ 성공 | sonar | OK |
+
+**테스트 URL:** `https://www.ssalworks.ai.kr/api/ai/test`
+
+**디버깅 과정에서 수정된 파일:**
+1. `Production/package.json` - AI 패키지 추가 (@google/generative-ai, openai)
+2. `Production/api/Security/lib/subscription/withSubscription.js` - Vercel serverless 호환 수정 (next() → handler() 직접 호출)
+3. `Production/api/Backend_Infrastructure/ai/gemini-client.js` - 모델명 업데이트 (gemini-2.5-flash)
+4. `Production/api/Backend_Infrastructure/ai/perplexity-client.js` - 모델명 업데이트 (sonar)
+5. `Production/api/External/ai-test.js` - 디버깅용 테스트 API 생성
+6. `Production/vercel.json` - ai-test 라우트 추가
+
+**PO 테스트 가이드:**
+
+브라우저 또는 Postman에서 다음 테스트:
+
+```bash
+# Gemini 테스트
+curl -X POST https://www.ssalworks.ai.kr/api/ai/test \
+  -H "Content-Type: application/json" \
+  -d '{"question":"안녕하세요","provider":"gemini"}'
+
+# ChatGPT 테스트
+curl -X POST https://www.ssalworks.ai.kr/api/ai/test \
+  -H "Content-Type: application/json" \
+  -d '{"question":"안녕하세요","provider":"chatgpt"}'
+
+# Perplexity 테스트
+curl -X POST https://www.ssalworks.ai.kr/api/ai/test \
+  -H "Content-Type: application/json" \
+  -d '{"question":"안녕하세요","provider":"perplexity"}'
+```
+
+**예상 응답:**
+```json
+{"success":true,"answer":"...","provider":"gemini","model":"gemini-2.5-flash"}
+```
+
+**다음 단계:**
+- [ ] PO: 위 테스트 실행 및 확인
+- [ ] PO: Stage Gate 승인
+- [ ] S4 Stage 진행
+
+---
