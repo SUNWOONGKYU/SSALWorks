@@ -34,7 +34,7 @@ async function sendPerplexityMessage(message, options = {}) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: options.model || 'llama-3.1-sonar-small-128k-online',
+        model: options.model || 'sonar',
         messages: messages,
         max_tokens: options.maxTokens || 1024
       })
@@ -51,7 +51,7 @@ async function sendPerplexityMessage(message, options = {}) {
       success: true,
       content: data.choices[0].message.content,
       provider: 'perplexity',
-      model: options.model || 'llama-3.1-sonar-small-128k-online',
+      model: options.model || 'sonar',
       usage: {
         prompt_tokens: data.usage?.prompt_tokens,
         completion_tokens: data.usage?.completion_tokens,
