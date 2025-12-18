@@ -5497,7 +5497,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         // Call this when page loads
         window.addEventListener('DOMContentLoaded', () => {
             loadOrderSheetTemplates();
-            loadWelcomeMessage();
+            // loadWelcomeMessage(); // 제거 - checkAuthStatus에서 로그인 상태에 따른 안내문 로드
         });
 
         // Translation functionality
@@ -8650,26 +8650,32 @@ ${result.answer}`;
     <!-- Socket.io for real-time Order Sheet notifications -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
-        // Socket.io 연결
-        const notificationSocket = io('http://localhost:3030', {
-            reconnection: true,
-            reconnectionDelay: 1000,
-            reconnectionAttempts: 10
-        });
+        // Socket.io 연결 (로컬 개발 환경에서만)
+        let notificationSocket = null;
 
-        notificationSocket.on('connect', () => {
-            console.log('✅ Notification server connected');
-        });
+        if (!IS_PRODUCTION) {
+            notificationSocket = io('http://localhost:3030', {
+                reconnection: true,
+                reconnectionDelay: 1000,
+                reconnectionAttempts: 10
+            });
 
-        notificationSocket.on('disconnect', () => {
-            console.log('❌ Notification server disconnected');
-        });
+            notificationSocket.on('connect', () => {
+                console.log('✅ Notification server connected');
+            });
 
-        // 새 Order 알림 수신
-        notificationSocket.on('new-order-alert', (data) => {
-            console.log('📩 New order notification:', data);
-            showOrderNotification(data);
-        });
+            notificationSocket.on('disconnect', () => {
+                console.log('❌ Notification server disconnected');
+            });
+
+            // 새 Order 알림 수신
+            notificationSocket.on('new-order-alert', (data) => {
+                console.log('📩 New order notification:', data);
+                showOrderNotification(data);
+            });
+        } else {
+            console.log('ℹ️ Production mode: Bridge server connection skipped');
+        }
 
         // 팝업 알림 표시 (중앙 모달 스타일)
         function showOrderNotification(data) {
@@ -9009,13 +9015,36 @@ ${result.answer}`;
                     }
 
                     showLoggedInUI(nickname);
+                    // 로그인 상태 - Default 안내문 로드
+                    loadGuideToWorkspace('Default');
                 } else {
                     console.log('ℹ️ 로그인되지 않은 상태');
                     showLoggedOutUI();
+                    // 비로그인 상태 - BeforeSignup 안내문 로드
+                    loadGuideToWorkspace('BeforeSignup');
                 }
             } catch (error) {
                 console.error('❌ 인증 상태 확인 실패:', error);
                 showLoggedOutUI();
+                // 오류 시에도 BeforeSignup 안내문 로드
+                loadGuideToWorkspace('BeforeSignup');
+            }
+        }
+
+        // 워크스페이스에 안내문 로드 (GUIDE_CONTENTS에서)
+        function loadGuideToWorkspace(guideName) {
+            const editor = document.getElementById('textEditor');
+            if (!editor) return;
+
+            if (typeof GUIDE_CONTENTS !== 'undefined' && GUIDE_CONTENTS[guideName]) {
+                // HTML을 텍스트로 변환하여 표시 (태그 제거)
+                const htmlContent = GUIDE_CONTENTS[guideName];
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                editor.value = tempDiv.textContent || tempDiv.innerText || '';
+                console.log(`✅ ${guideName} 안내문 로드 완료`);
+            } else {
+                console.warn(`⚠️ ${guideName} 안내문을 찾을 수 없습니다.`);
             }
         }
 
