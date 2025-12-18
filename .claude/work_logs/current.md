@@ -4,6 +4,52 @@
 
 ---
 
+## .claude/rules/ 폴더 생성 - 작업 규칙 체계화 (2025-12-19)
+
+### 작업 상태: ✅ 완료
+
+**완료된 작업:**
+
+#### 1. 6개 규칙 파일 생성
+
+**저장 위치**: `.claude/rules/`
+
+| # | 파일명 | 내용 | 상태 |
+|---|--------|------|------|
+| 1 | 01_file-naming.md | 파일 명명 규칙 (kebab-case, Task ID 주석) | ✅ |
+| 2 | 02_save-location.md | 저장 위치 규칙 (5개 Area 이중 저장) | ✅ |
+| 3 | 03_area-stage.md | 11개 Area, 5개 Stage 매핑 | ✅ |
+| 4 | 04_grid-writing.md | Grid 22개 속성 작성 규칙 | ✅ |
+| 5 | 05_execution-process.md | 6단계 실행 프로세스 (PO 협력 포함) | ✅ |
+| 6 | 06_verification.md | Task/Stage Gate/PO 검증 기준 | ✅ |
+
+#### 2. CLAUDE.md 업데이트
+
+- 상세 작업 규칙 참조 섹션 추가
+- 규칙 파일 목록 및 설명 테이블
+- 규칙 참조 우선순위 명시:
+  1. 절대 불변 규칙 (ABSOLUTE RULES)
+  2. .claude/rules/ 상세 규칙
+  3. Order Sheet 지시사항
+  4. PROJECT_SSAL_GRID_MANUAL.md
+
+#### 3. Git 커밋
+
+- `8c1d240`: docs: .claude/rules/ 폴더 생성 - 6개 작업 규칙 파일 분리
+- `0cc5516`: docs: CLAUDE.md에 .claude/rules/ 참조 섹션 추가
+
+**배경:**
+- CLAUDE.md가 너무 길어짐 (2000줄 이상)
+- 작업 규칙을 별도 파일로 분리하여 관리성 향상
+- 규칙 저장 위치 체계화:
+  - CLAUDE.md: 기본 원칙 + 참조
+  - .claude/rules/: 상세 작업 규칙
+  - Order Sheet: 작업별 지시사항
+  - DB (ssal_grid): task_instruction, verification_instruction
+  - DB (stage_verification): 검증 리포트 경로
+
+---
+
 ## 특별 안내문 생성 및 Welcome.html 업데이트 (2025-12-19)
 
 ### 작업 상태: ✅ 완료
@@ -180,5 +226,40 @@ GET /api/ai/health
 **Git 커밋:**
 - `9f11996` - feat(S3S1): AI 서비스 구독 상태 헬스체크 API 구현
 - `d924c99` - docs: S3S1 Task Result 및 Stage Verification Report 업데이트
+
+---
+
+## 프론트엔드 AI Q&A 오류 수정 (2025-12-19)
+
+### 작업 상태: ✅ 완료
+
+**해결된 문제들:**
+
+#### 1. API 엔드포인트 오류
+- **문제**: 프론트엔드가 `localhost:3031/ask-${selectedAI}` 호출
+- **해결**: `/api/ai/qa` Vercel API로 변경
+
+#### 2. Null Reference 오류
+- **문제**: `Cannot read properties of null (reading 'style')`
+- **원인**: `event.target` undefined
+- **해결**: `id="askAIButton"` 추가 + `getElementById` 사용
+
+#### 3. Socket.IO CORS 오류
+- **문제**: Production에서 localhost:3030 연결 시도
+- **해결**: `IS_PRODUCTION` 체크로 localhost 연결 스킵
+
+#### 4. 거짓 에러 알림
+- **문제**: AI 응답 성공해도 에러 메시지 표시
+- **원인**: `saveQuestionHistory()` 에러가 외부 catch로 전파
+- **해결**: `saveQuestionHistory()` 자체 try-catch로 에러 격리
+
+#### 5. 삭제 버튼 UI 개선
+- **변경**: 빨간색(`#dc3545`) → 회색(`#6c757d`)
+
+**수정된 파일:**
+- `Production/index.html` (AI Q&A 함수 전반 수정)
+
+**Git 커밋:**
+- `42033c8` - fix: AI 질문 응답 성공 시에도 에러 메시지 표시되는 버그 수정
 
 ---
