@@ -4022,7 +4022,7 @@ Bridge 서버에 연결할 수 없습니다.
 
 **서버 시작 방법:**
 \`\`\`bash
-cd Web_ClaudeCode_Bridge
+cd Human_ClaudeCode_Bridge
 node inbox_server.js
 \`\`\`
 
@@ -4039,7 +4039,7 @@ node inbox_server.js
 Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
 **해결 방법:**
-1. Web_ClaudeCode_Bridge 폴더로 이동
+1. Human_ClaudeCode_Bridge 폴더로 이동
 2. \`node inbox_server.js\` 실행
 3. 페이지 새로고침
 `;
@@ -4247,7 +4247,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [x] 개발_준비 폴더
 - [x] 개발_1차~3차 폴더
 - [x] 운영 폴더
-- [x] Web_ClaudeCode_Bridge 폴더
+- [x] Human_ClaudeCode_Bridge 폴더
 
 ---
 
@@ -4278,7 +4278,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [ ] 개발_준비 폴더
 - [ ] 개발_1차~3차 폴더
 - [ ] 운영 폴더
-- [ ] Web_ClaudeCode_Bridge 폴더
+- [ ] Human_ClaudeCode_Bridge 폴더
 
 ---
 
@@ -6395,7 +6395,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             } catch (error) {
                 console.error('Outbox 로드 실패:', error);
                 showStatus('❌ Outbox 로드 실패', 'error');
-                alert(`❌ Outbox 서버에 연결할 수 없습니다.\n\n서버가 실행 중인지 확인하세요:\ncd Web_ClaudeCode_Bridge\nnode inbox_server.js`);
+                alert(`❌ Outbox 서버에 연결할 수 없습니다.\n\n서버가 실행 중인지 확인하세요:\ncd Human_ClaudeCode_Bridge\nnode inbox_server.js`);
             }
         }
 
@@ -7647,7 +7647,7 @@ ${name}/
 │   ├── 4-3_Backup/
 │   └── 4-4_Security/
 │
-├── Web_ClaudeCode_Bridge/
+├── Human_ClaudeCode_Bridge/
 │   ├── Inbox/                  (대시보드 → Claude Code)
 │   ├── Outbox/                 (Claude Code → 대시보드)
 │   ├── inbox_server.js
@@ -7682,9 +7682,9 @@ ${name}/
 cd "${result.projectPath}"
 \`\`\`
 
-### 2. Web_ClaudeCode_Bridge 설정
+### 2. Human_ClaudeCode_Bridge 설정
 \`\`\`bash
-cd Web_ClaudeCode_Bridge
+cd Human_ClaudeCode_Bridge
 npm install
 \`\`\`
 

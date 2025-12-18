@@ -293,7 +293,7 @@ P3_프로토타입_제작/Frontend/Prototype/
 | `S5_운영/` | 서비스 운영 | ⏳ 대기 |
 | `Production/` | 프로덕션 배포용 | ✅ 준비됨 |
 | `부수적_고유기능/` | 학습 콘텐츠, AI_Link 등 | ✅ 활성 |
-| `Web_ClaudeCode_Bridge/` | AI-사용자 연동 | ✅ 활성 |
+| `Human_ClaudeCode_Bridge/` | AI-사용자 연동 | ✅ 활성 |
 | `.claude/` | Claude Code 설정 | ✅ 설정 완료 |
 
 ---
