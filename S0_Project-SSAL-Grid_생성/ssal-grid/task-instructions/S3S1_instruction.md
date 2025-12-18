@@ -4,171 +4,179 @@
 S3S1
 
 ## Task Name
-구독 권한 체크
+AI 서비스 구독 상태 확인 (PO's AI Service Subscription Health Check)
 
 ## Task Goal
-AI 기능 접근을 위한 구독 등급별 권한 체크 미들웨어 구현
+Project Owner(PO)의 AI 서비스(Gemini, ChatGPT, Perplexity) 구독 상태가 사용 가능한지 확인하는 헬스체크 기능 구현
+
+## Background
+- PO가 AI API 비용을 지불 (도매)
+- 사용자들은 PO의 API를 통해 AI 기능 사용 (소매)
+- API 키가 있어도 요금 미납, 쿼터 초과, 구독 만료 등으로 사용 불가할 수 있음
+- **실제 사용 가능한 상태인지** 주기적으로 확인 필요
 
 ## Prerequisites (Dependencies)
-- S2BA3 (구독 관리 API) 완료
-- S2S1 (인증 미들웨어) 완료
+- S3E1 (AI API 키 설정) 완료
+- S3BI1 (AI 클라이언트 통합) 완료
 
 ## Specific Instructions
 
-### 1. 구독 권한 미들웨어 생성
-- 위치: `api/lib/subscription/check-permission.js`
+### 1. AI 서비스 헬스체크 API 생성
+- 위치: `api/External/ai-health.js`
 
 ```javascript
-// api/lib/subscription/check-permission.js
-const { createClient } = require('@supabase/supabase-js');
+/**
+ * @task S3S1
+ * @description AI 서비스 구독 상태 헬스체크
+ * PO의 AI 서비스(Gemini, ChatGPT, Perplexity)가 사용 가능한지 확인
+ */
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infrastructure/ai');
 
-// 기능별 필요 구독 등급
-const FEATURE_REQUIREMENTS = {
-  'ai-qa': ['basic', 'premium'],           // AI Q&A
-  'ai-advanced': ['premium'],              // 고급 AI 기능
-  'premium-content': ['basic', 'premium'], // 프리미엄 콘텐츠
-  'unlimited-api': ['premium']             // 무제한 API
-};
-
-async function checkSubscriptionPermission(userId, feature) {
-  // 사용자의 현재 구독 조회
-  const { data: subscription, error } = await supabase
-    .from('subscriptions')
-    .select('*, subscription_plans(*)')
-    .eq('user_id', userId)
-    .eq('status', 'active')
-    .single();
-
-  if (error || !subscription) {
-    return {
-      hasPermission: false,
-      currentPlan: 'free',
-      requiredPlans: FEATURE_REQUIREMENTS[feature] || [],
-      message: 'No active subscription'
-    };
+module.exports = async function handler(req, res) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const planType = subscription.subscription_plans?.plan_type || 'free';
-  const requiredPlans = FEATURE_REQUIREMENTS[feature] || [];
-  const hasPermission = requiredPlans.includes(planType);
+  const results = {};
+  const testMessage = 'Health check. Reply with OK only.';
 
-  return {
-    hasPermission,
-    currentPlan: planType,
-    requiredPlans,
-    subscription,
-    message: hasPermission ? 'Access granted' : 'Upgrade required'
-  };
-}
+  // 모든 AI 프로바이더 병렬 테스트
+  const checks = VALID_PROVIDERS.map(async (provider) => {
+    try {
+      const startTime = Date.now();
+      const result = await sendMessage(provider, testMessage, { maxTokens: 10 });
+      const latency = Date.now() - startTime;
 
-module.exports = { checkSubscriptionPermission, FEATURE_REQUIREMENTS };
-```
-
-### 2. 권한 체크 래퍼 함수
-```javascript
-// api/lib/subscription/withSubscription.js
-const { verifyAuth } = require('../auth/middleware');
-const { checkSubscriptionPermission } = require('./check-permission');
-
-function withSubscription(feature) {
-  return function(handler) {
-    return async (req, res) => {
-      // 1. 인증 체크
-      const { user, error: authError } = await verifyAuth(req);
-      if (authError) {
-        return res.status(401).json({ error: authError });
-      }
-
-      // 2. 구독 권한 체크
-      const permission = await checkSubscriptionPermission(user.id, feature);
-      if (!permission.hasPermission) {
-        return res.status(403).json({
-          error: 'Subscription required',
-          currentPlan: permission.currentPlan,
-          requiredPlans: permission.requiredPlans,
-          upgradeUrl: '/pricing'
-        });
-      }
-
-      // 3. req에 구독 정보 추가
-      req.user = user;
-      req.subscription = permission.subscription;
-
-      return handler(req, res);
-    };
-  };
-}
-
-module.exports = { withSubscription };
-```
-
-### 3. 사용 예시
-```javascript
-// api/ai/advanced.js
-const { withSubscription } = require('../lib/subscription/withSubscription');
-
-// 프리미엄 전용 API
-module.exports = withSubscription('ai-advanced')(async (req, res) => {
-  const { user, subscription } = req;
-  // 프리미엄 기능 로직
-  res.status(200).json({ message: 'Premium feature accessed' });
-});
-```
-
-### 4. 클라이언트 측 권한 체크
-```javascript
-// 클라이언트 측 유틸
-async function checkFeatureAccess(feature) {
-  const response = await fetch(`/api/subscription/check?feature=${feature}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
+      results[provider] = {
+        status: result.success ? 'active' : 'error',
+        usable: result.success,
+        latency: `${latency}ms`,
+        model: result.model,
+        error: result.error || null
+      };
+    } catch (error) {
+      results[provider] = {
+        status: 'error',
+        usable: false,
+        error: error.message
+      };
     }
   });
-  return response.json();
+
+  await Promise.all(checks);
+
+  // 전체 상태 요약
+  const allActive = Object.values(results).every(r => r.usable);
+  const activeCount = Object.values(results).filter(r => r.usable).length;
+
+  return res.status(200).json({
+    timestamp: new Date().toISOString(),
+    overall: allActive ? 'healthy' : 'degraded',
+    summary: `${activeCount}/${VALID_PROVIDERS.length} services active`,
+    services: results
+  });
+};
+```
+
+### 2. vercel.json에 라우트 추가
+```json
+{
+  "source": "/api/ai/health",
+  "destination": "/api/External/ai-health"
 }
 ```
 
-### 5. 권한 체크 API
-- 위치: `api/subscription/check.js`
+### 3. 헬스체크 응답 예시
+
+**모든 서비스 정상:**
+```json
+{
+  "timestamp": "2025-12-19T10:00:00.000Z",
+  "overall": "healthy",
+  "summary": "3/3 services active",
+  "services": {
+    "gemini": {
+      "status": "active",
+      "usable": true,
+      "latency": "450ms",
+      "model": "gemini-2.5-flash"
+    },
+    "chatgpt": {
+      "status": "active",
+      "usable": true,
+      "latency": "380ms",
+      "model": "gpt-3.5-turbo"
+    },
+    "perplexity": {
+      "status": "active",
+      "usable": true,
+      "latency": "520ms",
+      "model": "sonar"
+    }
+  }
+}
+```
+
+**일부 서비스 문제:**
+```json
+{
+  "timestamp": "2025-12-19T10:00:00.000Z",
+  "overall": "degraded",
+  "summary": "2/3 services active",
+  "services": {
+    "gemini": { "status": "active", "usable": true },
+    "chatgpt": {
+      "status": "error",
+      "usable": false,
+      "error": "Insufficient quota"
+    },
+    "perplexity": { "status": "active", "usable": true }
+  }
+}
+```
+
+### 4. 구독 상태 문제 시 가능한 원인
+
+| Provider | 가능한 오류 원인 |
+|----------|-----------------|
+| Gemini | 쿼터 초과, 결제 실패, API 비활성화 |
+| ChatGPT | 크레딧 소진, 결제 실패, Rate limit |
+| Perplexity | 구독 만료, 결제 실패 |
+
+### 5. 프론트엔드 활용 (선택적)
 
 ```javascript
-// api/subscription/check.js
-const { withAuth } = require('../lib/auth/withAuth');
-const { checkSubscriptionPermission } = require('../lib/subscription/check-permission');
+// Admin 대시보드에서 AI 서비스 상태 표시
+async function checkAIHealth() {
+  const response = await fetch('/api/ai/health');
+  const data = await response.json();
 
-module.exports = withAuth(async (req, res) => {
-  const { feature } = req.query;
-  const user = req.user;
-
-  if (!feature) {
-    return res.status(400).json({ error: 'Feature parameter required' });
+  if (data.overall === 'degraded') {
+    alert('일부 AI 서비스에 문제가 있습니다. 관리자에게 문의하세요.');
   }
 
-  const permission = await checkSubscriptionPermission(user.id, feature);
-  res.status(200).json(permission);
-});
+  return data;
+}
 ```
 
 ## Expected Output Files
-- `api/lib/subscription/check-permission.js`
-- `api/lib/subscription/withSubscription.js`
-- `api/subscription/check.js`
+- `Production/api/External/ai-health.js`
+- `Production/vercel.json` (라우트 추가)
 
 ## Completion Criteria
-- [ ] 구독 권한 체크 함수 구현
-- [ ] withSubscription 래퍼 구현
-- [ ] 기능별 권한 매핑 정의
-- [ ] 권한 체크 API 구현
-- [ ] 테스트 완료
+- [ ] AI 헬스체크 API 구현 (`/api/ai/health`)
+- [ ] 3개 AI 프로바이더 모두 테스트
+- [ ] 응답 지연시간(latency) 측정
+- [ ] 오류 시 원인 메시지 반환
+- [ ] vercel.json 라우트 추가
+- [ ] 실제 배포 후 테스트 완료
 
 ## Tech Stack
 - Vercel Serverless Functions
-- Supabase
+- @google/generative-ai
+- openai
+- fetch (Perplexity)
 
 ## Tools
 - Write, Read
@@ -178,9 +186,9 @@ module.exports = withAuth(async (req, res) => {
 AI-Only
 
 ## Remarks
-- Free 사용자도 일부 기능 제한적 접근 가능
-- 구독 만료 시 자동으로 권한 해제
-- 업그레이드 유도 메시지 포함
+- 이 API는 **PO(관리자) 전용**으로, AI 서비스 구독 상태 모니터링에 사용
+- 주기적 호출로 서비스 상태 감시 가능 (Vercel Cron 등)
+- 문제 발견 시 PO에게 알림 전송 가능 (추후 확장)
 
 ---
 
@@ -190,12 +198,9 @@ AI-Only
 
 ### 제1 규칙: Stage + Area 폴더에 저장
 - Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S1S1 → `S1_개발_준비/Security/`
-- 예: S2F1 → `S2_개발-1차/Frontend/`
+- S3S1 → `S3_개발-2차/Security/` (문서)
+- S3S1 → `Production/api/External/` (코드)
 
 ### 제2 규칙: Production 코드는 이중 저장
-- Frontend, Database, Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장
-- 문서(Documentation, Security, Testing, DevOps)는 Stage 폴더에만 저장
-
-**Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
-
+- API 코드는 Production 폴더에 저장
+- 문서는 Stage 폴더에만 저장

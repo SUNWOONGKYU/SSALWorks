@@ -62,6 +62,10 @@
       "destination": "/api/External/ai-test"
     },
     {
+      "source": "/api/ai/health",
+      "destination": "/api/External/ai-health"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/:path*"
     }
