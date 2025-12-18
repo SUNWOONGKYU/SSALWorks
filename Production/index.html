@@ -6794,19 +6794,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             showStatus('☀️ 써니님의 답변이 도착했습니다!', 'success', 3000);
         }
 
-        // 페이지 로드 시 서버 상태 체크
-        window.addEventListener('load', async () => {
-            try {
-                const response = await fetch('http://localhost:3030/ping');
-                const result = await response.json();
-                if (result.status === 'ok') {
-                    showStatus('🟢 Inbox 서버 연결됨', 'success', 2000);
-                }
-            } catch (error) {
-                showStatus('🔴 Inbox 서버 미실행', 'error', 2000);
-            }
-        });
-
         // ESC 키로 모달 닫기
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
