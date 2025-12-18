@@ -235,6 +235,34 @@ Main Agent → 사용자에게 작업 및 검증 결과 보고
 
 ---
 
+## 📋 상세 작업 규칙 참조 (2025-12-19)
+
+> **상세 규칙은 `.claude/rules/` 폴더에 별도 파일로 분리되어 있습니다.**
+
+### 규칙 파일 목록
+
+| 파일 | 내용 |
+|------|------|
+| `01_file-naming.md` | 파일 명명 규칙 (kebab-case, Task ID 주석) |
+| `02_save-location.md` | 저장 위치 규칙 (5개 Area 이중 저장) |
+| `03_area-stage.md` | 11개 Area, 5개 Stage 매핑 |
+| `04_grid-writing.md` | Grid 22개 속성 작성 규칙 |
+| `05_execution-process.md` | 6단계 실행 프로세스 (PO 협력 포함) |
+| `06_verification.md` | Task/Stage Gate/PO 검증 기준 |
+
+### 규칙 참조 우선순위
+
+```
+1순위: 절대 불변 규칙 (위 ABSOLUTE RULES)
+2순위: .claude/rules/ 상세 규칙
+3순위: Order Sheet 지시사항
+4순위: PROJECT_SSAL_GRID_MANUAL.md
+```
+
+**⚠️ Task 작업 전 반드시 해당 규칙 파일을 읽으세요!**
+
+---
+
 ## 🌾 SSALWorks Project - FIRST THINGS FIRST
 
 **🚨 새 세션 시작 시 필수 확인 사항 (반드시 순서대로!)**
