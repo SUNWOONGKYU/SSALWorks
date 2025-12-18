@@ -57,10 +57,55 @@
 
 ---
 
+---
+
+## 대시보드 안내문 연결 (2025-12-19)
+
+### 작업 상태: ✅ 완료
+
+**완료된 작업:**
+
+#### 1. 불필요한 Inbox 서버 체크 제거
+- `Production/index.html`에서 localhost:3030 서버 상태 체크 코드 제거
+- 새로고침 시 "🔴 Inbox 서버 미실행" 빨간 알림 제거
+
+#### 2. guides.js 재생성
+- 새로운 안내문 파일들 포함 (총 29개)
+- `Production/guides.js`에 BeforeSignup, Default 등 모든 안내문 포함 확인
+
+#### 3. 인증 상태 기반 안내문 로드 시스템 추가
+- `loadGuideToWorkspace()` 함수 추가
+- 비로그인 상태: BeforeSignup 안내문 팝업 자동 표시
+- 로그인 상태: Default 안내문 준비 (자동 표시 안함)
+- Supabase 세션 확인 기반 동작
+
+#### 4. 중복 호출 제거
+- `loadWelcomeMessage()` 호출 주석 처리 (line 5500)
+- 새 인증 기반 로딩 시스템으로 대체
+
+**수정된 파일:**
+- `Production/index.html`
+  - Inbox 서버 체크 코드 제거
+  - `loadWelcomeMessage()` 중복 호출 제거
+  - `loadGuideToWorkspace()` 함수 추가
+  - 인증 상태 확인 및 안내문 로드 로직 추가
+
+**동작 방식:**
+```
+페이지 로드
+    ↓
+Supabase 세션 확인
+    ↓
+로그인됨? → Default 안내문 준비 (팝업 안함)
+로그인 안됨? → BeforeSignup 안내문 팝업 표시
+```
+
+---
+
 ### 다음 작업 예정
 
-- 워크스페이스 명칭 변경 논의 중 (브릿지? 컨트롤 데스크?)
-- Git 커밋 & 푸시 필요
+- 워크스페이스 → 컨트롤 스페이스 명칭 변경 (추가 논의 필요)
+- Git 커밋 & 푸시
 
 ---
 

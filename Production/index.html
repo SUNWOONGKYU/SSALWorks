@@ -8224,6 +8224,79 @@ ${result.answer}`;
             Notification.requestPermission();
         }
 
+        // ============================================
+        // 인증 상태에 따른 안내문 로드 시스템
+        // ============================================
+
+        // 워크스페이스에 안내문 로드 (GUIDE_CONTENTS에서)
+        function loadGuideToWorkspace(guideName) {
+            const popup = document.getElementById('guidePopup');
+            const title = document.getElementById('guidePopupTitle');
+            const content = document.getElementById('guidePopupContent');
+
+            if (!popup || !title || !content) {
+                console.warn('안내문 팝업 요소를 찾을 수 없습니다');
+                return;
+            }
+
+            if (typeof GUIDE_CONTENTS !== 'undefined' && GUIDE_CONTENTS[guideName]) {
+                const htmlContent = GUIDE_CONTENTS[guideName];
+
+                // 안내문 제목 설정
+                const titleMap = {
+                    'BeforeSignup': '🌾 SSAL Works 소개',
+                    'Default': '🌾 SSAL Works 대시보드',
+                    'Welcome': '🌾 환영합니다!',
+                    'Project_First': '🎉 첫 프로젝트 등록',
+                    'Project_Add': '➕ 프로젝트 추가',
+                    'Project_Work': '🔧 프로젝트 작업',
+                    'Project_Completed': '✅ 완료된 프로젝트',
+                    'Project_Example': '📚 예시 프로젝트'
+                };
+
+                title.textContent = titleMap[guideName] || `📖 ${guideName}`;
+                content.innerHTML = htmlContent;
+
+                // 팝업을 자동으로 표시하지 않음 - 워크스페이스에만 표시할 수 있음
+                // 비로그인 상태에서는 팝업으로, 로그인 상태에서는 워크스페이스만
+                if (guideName === 'BeforeSignup') {
+                    // 비로그인 상태 - 팝업으로 표시
+                    popup.style.display = 'block';
+                }
+
+                console.log(`✅ ${guideName} 안내문 로드 완료`);
+            } else {
+                console.warn(`안내문을 찾을 수 없습니다: ${guideName}`);
+            }
+        }
+
+        // 페이지 로드 시 인증 상태 확인 및 적절한 안내문 로드
+        window.addEventListener('DOMContentLoaded', async () => {
+            // Supabase 클라이언트가 있는지 확인
+            if (typeof supabase !== 'undefined') {
+                try {
+                    const { data: { session } } = await supabase.auth.getSession();
+
+                    if (session) {
+                        // 로그인 상태 - Default 안내문 로드 (워크스페이스에만)
+                        console.log('ℹ️ 로그인 상태 - Default 안내문 준비됨');
+                        // loadGuideToWorkspace('Default'); // 필요 시 활성화
+                    } else {
+                        // 비로그인 상태 - BeforeSignup 안내문 팝업 표시
+                        console.log('ℹ️ 비로그인 상태 - BeforeSignup 안내문 표시');
+                        loadGuideToWorkspace('BeforeSignup');
+                    }
+                } catch (error) {
+                    console.log('인증 상태 확인 실패:', error);
+                    // 인증 확인 실패 시 비로그인으로 간주
+                    loadGuideToWorkspace('BeforeSignup');
+                }
+            } else {
+                // Supabase 미설정 시 비로그인으로 간주
+                loadGuideToWorkspace('BeforeSignup');
+            }
+        });
+
     </script>
 
     <!-- Project SAL Grid Fullscreen Modal -->
