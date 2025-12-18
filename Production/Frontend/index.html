@@ -5679,8 +5679,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         <button id="deliverCopyBtn" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
                             <span style="font-size: 32px;">📋</span>
                             <div>
-                                <div style="font-weight: 600; font-size: 15px; color: #1e40af;">클립보드에 복사</div>
-                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">복사 후 Claude Code CLI 창에 직접 붙여넣기 하세요</div>
+                                <div style="font-weight: 600; font-size: 15px; color: #1e40af;">복사 후 Claude Code CLI 대화창에 붙여넣기</div>
+                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">Order Sheet 내용을 클립보드에 복사합니다</div>
                             </div>
                         </button>
                     </div>
@@ -5772,7 +5772,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         await navigator.clipboard.writeText(claudeMessage);
 
                         // 복사된 메시지를 모달로 표시
-                        showCopiedContentModal(claudeMessage);
+                        showCopiedContentModal(claudeMessage, { type: 'claudeMessage' });
                     } catch (err) {
                         // 사용자가 취소한 경우
                         if (err.name === 'AbortError') {
@@ -5800,7 +5800,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     await navigator.clipboard.writeText(claudeMessage);
 
                     // 복사된 메시지를 모달로 표시
-                    showCopiedContentModal(claudeMessage);
+                    showCopiedContentModal(claudeMessage, { type: 'claudeMessage' });
                 }
             } catch (e) {
                 console.error('저장 실패:', e);
@@ -5816,26 +5816,51 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 showStatus('✅ Order Sheet 복사 완료', 'success');
 
                 // 복사된 내용을 보여주는 모달 표시
-                showCopiedContentModal(content);
+                showCopiedContentModal(content, { type: 'orderSheet' });
             } catch (e) {
                 console.error('복사 실패:', e);
                 showStatus('❌ 복사 실패', 'error');
                 // 복사 실패 시에도 내용을 표시해서 수동 복사 가능하게
-                showCopiedContentModal(content, true);
+                showCopiedContentModal(content, { type: 'orderSheet', copyFailed: true });
             }
         }
 
         // 복사된 내용을 보여주는 모달
-        function showCopiedContentModal(content, copyFailed = false) {
+        // type: 'orderSheet' (Order Sheet 내용), 'claudeMessage' (Claude Code 전달 메시지)
+        function showCopiedContentModal(content, options = {}) {
+            const { type = 'orderSheet', copyFailed = false } = options;
+
             const overlay = document.createElement('div');
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10002;';
 
             const modal = document.createElement('div');
             modal.style.cssText = 'background: white; border-radius: 16px; max-width: 700px; width: 95%; max-height: 85vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
 
-            const headerColor = copyFailed ? '#dc2626' : '#22c55e';
-            const headerIcon = copyFailed ? '⚠️' : '✅';
-            const headerText = copyFailed ? '복사 실패 - 아래 내용을 직접 복사하세요' : '클립보드에 복사 완료!';
+            let headerColor, headerIcon, headerText, subText, contentLabel;
+
+            if (type === 'claudeMessage') {
+                // Orders 폴더 저장 후 Claude Code 전달 메시지
+                headerColor = '#22c55e';
+                headerIcon = '✅';
+                headerText = '저장 완료! Claude Code 전달 메시지가 복사되었습니다';
+                subText = 'Claude Code CLI 대화창에 붙여넣기 하세요';
+                contentLabel = '📋 복사해서 붙여넣기 할 내용 (이미 복사됨)';
+            } else {
+                // 클립보드 복사 (Order Sheet 내용)
+                if (copyFailed) {
+                    headerColor = '#dc2626';
+                    headerIcon = '⚠️';
+                    headerText = '복사 실패 - 아래 내용을 직접 복사하세요';
+                } else {
+                    headerColor = '#22c55e';
+                    headerIcon = '✅';
+                    headerText = '클립보드에 복사 완료!';
+                }
+                subText = 'Claude Code CLI 대화창에 붙여넣기 하세요';
+                contentLabel = '📋 복사해서 붙여넣기 할 내용 (이미 복사됨)';
+            }
+
+            const textareaHeight = type === 'claudeMessage' ? '100px' : '300px';
 
             modal.innerHTML = `
                 <div style="padding: 20px 24px; background: ${headerColor}; color: white;">
@@ -5843,18 +5868,18 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         <span style="font-size: 28px;">${headerIcon}</span>
                         <div>
                             <h3 style="margin: 0; font-size: 18px; font-weight: 600;">${headerText}</h3>
-                            <p style="margin: 4px 0 0 0; font-size: 13px; opacity: 0.9;">아래 내용을 Claude Code CLI 창에 붙여넣기 하세요</p>
+                            <p style="margin: 4px 0 0 0; font-size: 13px; opacity: 0.9;">${subText}</p>
                         </div>
                     </div>
                 </div>
                 <div style="padding: 20px 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                        <span style="font-size: 13px; color: #6b7280; font-weight: 500;">📋 Order Sheet 내용</span>
+                        <span style="font-size: 13px; color: #6b7280; font-weight: 500;">${contentLabel}</span>
                         <button id="reCopyBtn" style="padding: 6px 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500;">
                             다시 복사
                         </button>
                     </div>
-                    <textarea id="copiedContent" readonly style="width: 100%; height: 300px; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-family: 'D2Coding', 'Consolas', monospace; font-size: 12px; line-height: 1.5; resize: none; background: #f9fafb; color: #374151;">${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
+                    <textarea id="copiedContent" readonly style="width: 100%; height: ${textareaHeight}; padding: 16px; border: 2px solid #e5e7eb; border-radius: 8px; font-family: 'D2Coding', 'Consolas', monospace; font-size: 12px; line-height: 1.5; resize: none; background: #f9fafb; color: #374151;">${content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</textarea>
                 </div>
                 <div style="padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 12px;">
                     <button id="closeModalBtn" style="padding: 10px 24px; background: #6b7280; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500;">
