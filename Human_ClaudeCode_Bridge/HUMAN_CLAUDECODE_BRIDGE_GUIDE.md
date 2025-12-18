@@ -178,6 +178,11 @@ Human_ClaudeCode_Bridge/
 ## 참고사항
 - 기존 디자인 시스템 준수
 - 반응형 디자인 적용
+
+## 필수 참조 규칙
+- `.claude/rules/01_file-naming.md` - 파일 명명 규칙
+- `.claude/rules/02_save-location.md` - 저장 위치 규칙
+- `.claude/rules/05_execution-process.md` - 실행 프로세스
 ```
 
 ### 2.2 Step 2: Order Sheet 전달하기
@@ -407,9 +412,40 @@ Human_ClaudeCode_Bridge/Orders/
   "created_at": "2025-12-18T10:00:00Z",
   "instructions": "...",
   "expected_output": ["Production/Frontend/pages/auth/login.html"],
-  "dependencies": ["S1D1"]
+  "dependencies": ["S1D1"],
+  "rules_reference": [
+    ".claude/rules/01_file-naming.md",
+    ".claude/rules/02_save-location.md",
+    ".claude/rules/05_execution-process.md"
+  ]
 }
 ```
+
+**Order Sheet JSON 필드 설명:**
+
+| 필드 | 설명 | 필수 여부 |
+|------|------|----------|
+| `order_id` | Order 고유 ID | ✅ |
+| `task_id` | Grid Task ID (S2F1 등) | ✅ |
+| `task_name` | Task 이름 | ✅ |
+| `priority` | 우선순위 (높음/중간/낮음) | ⭕ 선택 |
+| `created_at` | 생성 시간 (ISO 8601) | ✅ |
+| `instructions` | 작업 지시사항 | ✅ |
+| `expected_output` | 예상 결과물 파일 목록 | ✅ |
+| `dependencies` | 선행 Task ID 목록 | ⭕ 선택 |
+| `rules_reference` | **필수 참조 규칙 파일 목록** | ✅ |
+
+**rules_reference 필드 (2025-12-19 추가):**
+
+> **⚠️ 중요: 모든 Order Sheet에 반드시 포함해야 합니다!**
+
+Task 유형에 따라 적절한 규칙 파일을 참조합니다:
+
+| Task Area | 필수 규칙 파일 |
+|-----------|---------------|
+| **모든 Task** | `01_file-naming.md`, `02_save-location.md`, `05_execution-process.md` |
+| **F, BA, D** | + `03_area-stage.md` (Production 이중 저장) |
+| **검증 관련** | + `04_grid-writing.md`, `06_verification.md` |
 
 ### 4.3 Reports 폴더 (결과)
 
@@ -588,6 +624,7 @@ node inbox_server.js
 | 1.0 | 2025-11-18 | 최초 작성 (Inbox/Outbox 시스템) |
 | 2.0 | 2025-12-18 | 전면 개편 - Orders/Reports 체계, HTML 렌더링 기능 추가 |
 | 2.1 | 2025-12-18 | Order Sheet 전달하기 기능 추가 (저장/복사 옵션 선택) |
+| 2.2 | 2025-12-19 | Order Sheet 규칙 참조 필드 추가 (`.claude/rules/` 연동) |
 
 ---
 
