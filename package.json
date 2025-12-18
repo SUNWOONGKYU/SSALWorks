@@ -1,7 +1,9 @@
 {
   "dependencies": {
+    "@google/generative-ai": "^0.21.0",
     "@google-cloud/translate": "^9.3.0",
     "@supabase/supabase-js": "^2.81.1",
+    "openai": "^4.70.0",
     "chokidar": "^4.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
