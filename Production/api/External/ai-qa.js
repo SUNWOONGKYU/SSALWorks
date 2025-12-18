@@ -50,12 +50,13 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  const systemPrompt = `당신은 SSALWorks의 AI 튜터입니다.
-사용자가 학습 콘텐츠에 대해 질문하면 친절하고 정확하게 답변해주세요.
-${learningContext ? '\n참고 콘텐츠:\n' + learningContext : ''}`;
+  // 학습 콘텐츠가 있으면 질문에 포함
+  const fullQuestion = learningContext
+    ? `${question}\n\n[참고 콘텐츠]\n${learningContext}`
+    : question;
 
   try {
-    const result = await sendMessage(provider, question, { systemPrompt, maxTokens: 2048 });
+    const result = await sendMessage(provider, fullQuestion, { maxTokens: 2048 });
 
     if (!result.success) {
       return res.status(500).json({
