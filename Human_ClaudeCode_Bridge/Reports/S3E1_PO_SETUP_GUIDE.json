@@ -1,0 +1,266 @@
+{
+  "task_id": "S3E1",
+  "task_name": "AI API 키 설정",
+  "execution_type": "Human-Assisted",
+  "report_type": "PO Setup Guide",
+  "generated_at": "2025-12-18T00:00:00Z",
+  "generator": "Claude Code Main Agent",
+
+  "overview": {
+    "purpose": "Anthropic Claude API를 사용하기 위한 API 키 발급 및 설정",
+    "target_audience": "Project Owner (PO)",
+    "estimated_time": "10-15분",
+    "difficulty": "쉬움"
+  },
+
+  "prerequisites": {
+    "accounts": [
+      {
+        "service": "Anthropic Console",
+        "url": "https://console.anthropic.com/",
+        "required": true,
+        "note": "API 키 발급을 위해 Anthropic 계정 필요"
+      }
+    ],
+    "tools": [
+      {
+        "name": "Vercel Dashboard",
+        "url": "https://vercel.com/",
+        "required": true,
+        "note": "환경 변수 설정을 위해 필요"
+      }
+    ]
+  },
+
+  "step_by_step_guide": {
+    "step_1_anthropic_api_key": {
+      "title": "1단계: Anthropic API 키 발급",
+      "substeps": [
+        {
+          "order": 1,
+          "action": "Anthropic Console 접속",
+          "url": "https://console.anthropic.com/",
+          "details": "Google 계정 또는 이메일로 로그인"
+        },
+        {
+          "order": 2,
+          "action": "API Keys 메뉴 클릭",
+          "navigation": "왼쪽 사이드바 > API Keys",
+          "details": "API 키 관리 페이지로 이동"
+        },
+        {
+          "order": 3,
+          "action": "Create Key 버튼 클릭",
+          "details": "새 API 키 생성 다이얼로그 열림"
+        },
+        {
+          "order": 4,
+          "action": "키 이름 입력",
+          "example": "SSALWorks Production API Key",
+          "note": "나중에 식별 가능한 이름 사용"
+        },
+        {
+          "order": 5,
+          "action": "키 생성 및 복사",
+          "warning": "⚠️ API 키는 한 번만 표시됩니다. 반드시 안전한 곳에 저장하세요!",
+          "key_format": "sk-ant-api03-...",
+          "clipboard_action": "복사 버튼 클릭하여 클립보드에 저장"
+        }
+      ],
+      "screenshot_guide": "Anthropic Console > API Keys > Create Key > 키 생성 > 복사"
+    },
+
+    "step_2_vercel_env_setup": {
+      "title": "2단계: Vercel 환경 변수 설정",
+      "substeps": [
+        {
+          "order": 1,
+          "action": "Vercel Dashboard 접속",
+          "url": "https://vercel.com/dashboard",
+          "details": "SSALWorks 프로젝트 선택"
+        },
+        {
+          "order": 2,
+          "action": "Settings 메뉴 클릭",
+          "navigation": "상단 탭 > Settings",
+          "details": "프로젝트 설정 페이지로 이동"
+        },
+        {
+          "order": 3,
+          "action": "Environment Variables 메뉴 선택",
+          "navigation": "왼쪽 사이드바 > Environment Variables",
+          "details": "환경 변수 관리 페이지"
+        },
+        {
+          "order": 4,
+          "action": "새 환경 변수 추가",
+          "variable_name": "ANTHROPIC_API_KEY",
+          "variable_value": "1단계에서 복사한 API 키 붙여넣기",
+          "environment": ["Production", "Preview", "Development"],
+          "note": "모든 환경에 적용 권장"
+        },
+        {
+          "order": 5,
+          "action": "Save 버튼 클릭",
+          "confirmation": "환경 변수가 저장되었습니다",
+          "next_action": "배포 시 자동 적용됨"
+        }
+      ],
+      "screenshot_guide": "Vercel > Project > Settings > Environment Variables > Add"
+    },
+
+    "step_3_local_env_setup": {
+      "title": "3단계: 로컬 환경 변수 설정 (선택)",
+      "substeps": [
+        {
+          "order": 1,
+          "action": "프로젝트 루트에 .env.local 파일 생성",
+          "file_path": "C:\\!SSAL_Works_Private\\.env.local",
+          "note": "이미 파일이 있다면 기존 파일에 추가"
+        },
+        {
+          "order": 2,
+          "action": "API 키 추가",
+          "example_content": "ANTHROPIC_API_KEY=sk-ant-api03-...",
+          "warning": "⚠️ .env.local 파일은 절대 Git에 올리지 마세요! (.gitignore 확인)"
+        },
+        {
+          "order": 3,
+          "action": ".env.example 파일 참고",
+          "file_path": "S3_개발-2차/External/.env.example",
+          "note": "필요한 환경 변수 목록 확인 가능"
+        }
+      ]
+    },
+
+    "step_4_verification": {
+      "title": "4단계: API 키 검증",
+      "substeps": [
+        {
+          "order": 1,
+          "action": "검증 스크립트 실행",
+          "command": "node S3_개발-2차/External/scripts/verify-api-key.js",
+          "working_directory": "C:\\!SSAL_Works_Private\\",
+          "note": "로컬 환경 변수가 설정된 경우에만 실행 가능"
+        },
+        {
+          "order": 2,
+          "action": "성공 메시지 확인",
+          "expected_output": {
+            "status": "✅ API Key is valid",
+            "model": "claude-3-haiku-20240307",
+            "usage": "{ input_tokens: X, output_tokens: Y }"
+          }
+        },
+        {
+          "order": 3,
+          "action": "실패 시 확인 사항",
+          "checklist": [
+            "API 키가 올바르게 복사되었는가?",
+            "환경 변수 이름이 ANTHROPIC_API_KEY인가?",
+            ".env.local 파일이 프로젝트 루트에 있는가?",
+            "Anthropic Console에서 API 키가 활성화되어 있는가?"
+          ]
+        }
+      ]
+    }
+  },
+
+  "security_notes": {
+    "critical": [
+      "⚠️ API 키는 절대 Git에 올리지 마세요",
+      "⚠️ API 키는 안전한 곳에만 저장하세요 (비밀번호 관리자 권장)",
+      "⚠️ API 키가 유출되면 즉시 Anthropic Console에서 무효화하세요"
+    ],
+    "best_practices": [
+      "프로덕션과 개발 환경에 각각 다른 API 키 사용",
+      "팀원과 API 키를 공유하지 말고 각자 발급",
+      "정기적으로 API 키 갱신 (3-6개월마다)",
+      "API 사용량 모니터링 (Anthropic Console > Usage)"
+    ]
+  },
+
+  "troubleshooting": {
+    "issue_1": {
+      "symptom": "❌ ANTHROPIC_API_KEY not found",
+      "cause": "환경 변수가 설정되지 않음",
+      "solution": [
+        ".env.local 파일에 ANTHROPIC_API_KEY 추가",
+        "파일이 프로젝트 루트에 있는지 확인",
+        "터미널을 재시작하고 다시 실행"
+      ]
+    },
+    "issue_2": {
+      "symptom": "❌ API Key verification failed: 401 Unauthorized",
+      "cause": "API 키가 유효하지 않음",
+      "solution": [
+        "API 키를 다시 복사했는지 확인",
+        "공백이나 개행 문자가 포함되지 않았는지 확인",
+        "Anthropic Console에서 키가 활성화되어 있는지 확인"
+      ]
+    },
+    "issue_3": {
+      "symptom": "❌ module 'Anthropic' not found",
+      "cause": "@anthropic-ai/sdk 패키지가 설치되지 않음",
+      "solution": [
+        "npm install 실행",
+        "package.json에 @anthropic-ai/sdk 의존성 확인"
+      ]
+    }
+  },
+
+  "next_steps": {
+    "after_setup": [
+      "S3BA1 (AI Q&A API) 작업 진행",
+      "AI Q&A 기능 테스트",
+      "프로덕션 배포 후 실제 사용 확인"
+    ]
+  },
+
+  "resources": {
+    "documentation": [
+      {
+        "title": "Anthropic API Documentation",
+        "url": "https://docs.anthropic.com/",
+        "description": "공식 API 문서"
+      },
+      {
+        "title": "Anthropic Pricing",
+        "url": "https://www.anthropic.com/pricing",
+        "description": "요금제 및 사용량 정보"
+      },
+      {
+        "title": "Vercel Environment Variables",
+        "url": "https://vercel.com/docs/concepts/projects/environment-variables",
+        "description": "Vercel 환경 변수 설정 가이드"
+      }
+    ]
+  },
+
+  "completion_checklist": [
+    {
+      "task": "Anthropic Console에서 API 키 발급",
+      "status": "pending",
+      "required": true
+    },
+    {
+      "task": "Vercel에 ANTHROPIC_API_KEY 환경 변수 설정",
+      "status": "pending",
+      "required": true
+    },
+    {
+      "task": "로컬 .env.local 파일에 API 키 추가",
+      "status": "pending",
+      "required": false,
+      "note": "로컬 테스트 시에만 필요"
+    },
+    {
+      "task": "검증 스크립트로 API 키 테스트",
+      "status": "pending",
+      "required": false,
+      "note": "로컬 환경에서만 가능"
+    }
+  ],
+
+  "ai_note": "이 가이드는 AI가 직접 수행할 수 없는 외부 서비스 설정을 PO가 수행할 수 있도록 작성되었습니다. 설정 완료 후 AI에게 알려주시면 다음 Task(S3BA1)를 진행하겠습니다."
+}
