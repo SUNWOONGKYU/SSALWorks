@@ -1,22 +1,13 @@
 /**
  * @task S3BA1
  * @description AI Q&A API - Gemini, ChatGPT, Perplexity 지원
+ * 로그인한 사용자는 모두 AI 기능 사용 가능 (구독 체크 없음)
  */
 
-const { sendMessage, VALID_PROVIDERS, UsageLimiter } = require('../Backend_Infrastructure/ai');
-const { withSubscription } = require('../Security/lib/subscription');
+const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infrastructure/ai');
 const { createClient } = require('@supabase/supabase-js');
 
-// 지연 초기화 (Lazy initialization)
-let usageLimiter = null;
-function getUsageLimiter() {
-  if (!usageLimiter) {
-    usageLimiter = new UsageLimiter();
-  }
-  return usageLimiter;
-}
-
-async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -35,34 +26,27 @@ async function handler(req, res) {
     });
   }
 
-  const userId = req.user.id;
-  const userTier = req.subscription?.plan || 'free';
-
-  const limitCheck = await getUsageLimiter().checkLimit(userId, userTier);
-  if (!limitCheck.allowed) {
-    return res.status(429).json({
-      error: 'Rate limit exceeded',
-      message: limitCheck.reason,
-      remaining: limitCheck.remaining,
-      limit: limitCheck.limit
-    });
-  }
-
+  // 학습 콘텐츠 컨텍스트 (선택적)
   let learningContext = context || '';
   if (contentId) {
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
-    );
-    const { data: content } = await supabase
-      .from('learning_contents')
-      .select('title, content, description')
-      .eq('id', contentId)
-      .single();
-    if (content) {
-      learningContext = `학습 콘텐츠: ${content.title}
+    try {
+      const supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      );
+      const { data: content } = await supabase
+        .from('learning_contents')
+        .select('title, content, description')
+        .eq('id', contentId)
+        .single();
+      if (content) {
+        learningContext = `학습 콘텐츠: ${content.title}
 설명: ${content.description || ''}
 내용: ${content.content || ''}`;
+      }
+    } catch (e) {
+      // 콘텐츠 로드 실패해도 계속 진행
+      console.error('Failed to load learning content:', e);
     }
   }
 
@@ -72,23 +56,27 @@ ${learningContext ? '\n참고 콘텐츠:\n' + learningContext : ''}`;
 
   try {
     const result = await sendMessage(provider, question, { systemPrompt, maxTokens: 2048 });
+
     if (!result.success) {
-      return res.status(500).json({ error: 'AI service error', details: result.error, provider });
+      return res.status(500).json({
+        error: 'AI service error',
+        details: result.error,
+        provider
+      });
     }
-    const totalTokens = result.usage?.total_tokens || 0;
-    await getUsageLimiter().logUsage(userId, totalTokens, result.model);
+
     return res.status(200).json({
       success: true,
       answer: result.content,
       provider: result.provider,
       model: result.model,
-      usage: result.usage,
-      remaining: limitCheck.remaining - 1
+      usage: result.usage
     });
   } catch (error) {
     console.error('AI Q&A Error:', error);
-    return res.status(500).json({ error: 'Internal server error', message: error.message });
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: error.message
+    });
   }
-}
-
-module.exports = withSubscription('ai-qa.use')(handler);
+};
