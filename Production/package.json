@@ -15,7 +15,9 @@
     "format": "prettier --write \"**/*.{js,json,css,html}\""
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.0"
+    "@google/generative-ai": "^0.21.0",
+    "@supabase/supabase-js": "^2.39.0",
+    "openai": "^4.70.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",
