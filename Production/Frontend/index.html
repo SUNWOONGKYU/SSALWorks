@@ -5673,14 +5673,14 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                             <span style="font-size: 32px;">💾</span>
                             <div>
                                 <div style="font-weight: 600; font-size: 15px; color: #166534;">Orders 폴더에 저장</div>
-                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">Human_ClaudeCode_Bridge/Orders/에 JSON 파일로 저장됩니다</div>
+                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">처음: 경로를 찾아 저장 | 이후: 자동으로 폴더 열림</div>
                             </div>
                         </button>
                         <button id="deliverCopyBtn" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
                             <span style="font-size: 32px;">📋</span>
                             <div>
                                 <div style="font-weight: 600; font-size: 15px; color: #1e40af;">클립보드에 복사</div>
-                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">복사 후 Claude Code에 직접 붙여넣기 하세요</div>
+                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">복사 후 Claude Code CLI 창에 직접 붙여넣기 하세요</div>
                             </div>
                         </button>
                     </div>
@@ -5758,7 +5758,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 URL.revokeObjectURL(url);
 
                 showStatus('✅ Order Sheet 다운로드 완료', 'success');
-                alert(`Order Sheet가 다운로드되었습니다!\n\n파일명: ${filename}\n\n📁 다운로드된 파일을 Human_ClaudeCode_Bridge/Orders/ 폴더로 이동해주세요.\n\n또는 Claude Code에게 "Orders 폴더 확인해줘"라고 말씀하세요.`);
+                alert(`Order Sheet 다운로드 완료!\n\n파일명: ${filename}\n\n📁 저장 경로:\n[프로젝트폴더]/Human_ClaudeCode_Bridge/Orders/\n\n⭐ 처음: 위 경로를 찾아서 저장해주세요\n⭐ 이후: 자동으로 지정된 폴더가 열립니다`);
             } catch (e) {
                 console.error('저장 실패:', e);
                 showStatus('❌ 저장 실패', 'error');
@@ -5771,7 +5771,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             try {
                 await navigator.clipboard.writeText(content);
                 showStatus('✅ Order Sheet 복사 완료', 'success');
-                alert('Order Sheet가 클립보드에 복사되었습니다!\n\nClaude Code에 붙여넣기 하세요.');
+                alert('Order Sheet가 클립보드에 복사되었습니다!\n\nClaude Code CLI 창에 붙여넣기 하세요.');
             } catch (e) {
                 console.error('복사 실패:', e);
                 showStatus('❌ 복사 실패', 'error');

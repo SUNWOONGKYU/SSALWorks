@@ -659,12 +659,88 @@ SELECT tablename, indexname FROM pg_indexes WHERE schemaname = 'public' ORDER BY
 
 ---
 
+## S3E1: AI API 키 설정 (AI 파트) 완료 (2025-12-18)
+
+### 작업 상태: ✅ 완료
+
+**Task 정보:**
+- **Task ID**: S3E1
+- **Task Name**: AI API 키 설정
+- **Execution Type**: Human-Assisted (AI 파트만 수행)
+- **Stage**: S3 (개발 2차)
+- **Area**: E (External)
+
+**완료된 작업:**
+
+1. **API 키 검증 스크립트 생성**
+   - 파일: `S3_개발-2차/External/scripts/verify-api-key.js`
+   - 기능: Anthropic SDK로 API 키 유효성 확인
+   - 출력: 성공/실패 메시지 + 사용량 정보
+
+2. **환경 변수 템플릿 생성**
+   - 파일: `S3_개발-2차/External/.env.example`
+   - 내용: ANTHROPIC_API_KEY + 기존 Supabase 환경 변수
+
+3. **PO 설정 가이드 생성**
+   - 파일: `Human_ClaudeCode_Bridge/Reports/S3E1_PO_SETUP_GUIDE.json`
+   - 내용:
+     - Anthropic API 키 발급 방법 (4단계)
+     - Vercel 환경 변수 설정 방법 (5단계)
+     - 로컬 환경 설정 (선택)
+     - 검증 방법
+     - 보안 주의사항
+     - 트러블슈팅
+
+**생성된 파일:**
+- ✅ `S3_개발-2차/External/scripts/verify-api-key.js` (36 lines)
+- ✅ `S3_개발-2차/External/.env.example` (7 lines)
+- ✅ `Human_ClaudeCode_Bridge/Reports/S3E1_PO_SETUP_GUIDE.json` (322 lines)
+
+**파일 저장 규칙:**
+- ✅ Stage/Area 폴더: `S3_개발-2차/External/` (S3E1 → Stage: S3, Area: E)
+- ✅ Production 폴더: 저장하지 않음 (External Area는 문서/스크립트만)
+
+**다음 단계 (PO 작업 필요):**
+
+⚠️ **Human-AI Task이므로 PO의 외부 설정이 필수입니다!**
+
+1. **Anthropic API 키 발급**
+   - Anthropic Console (https://console.anthropic.com/) 접속
+   - API Keys > Create Key
+   - 키 생성 및 안전한 곳에 저장
+
+2. **Vercel 환경 변수 설정**
+   - Vercel Dashboard > SSALWorks 프로젝트 > Settings > Environment Variables
+   - ANTHROPIC_API_KEY 추가 (모든 환경에 적용)
+
+3. **로컬 환경 설정 (선택)**
+   - `.env.local` 파일 생성
+   - ANTHROPIC_API_KEY 추가
+
+4. **검증**
+   - `node S3_개발-2차/External/scripts/verify-api-key.js` 실행
+   - "✅ API Key is valid" 메시지 확인
+
+**상세 가이드:**
+- `Human_ClaudeCode_Bridge/Reports/S3E1_PO_SETUP_GUIDE.json` 참조
+
+**블로커:**
+- ⚠️ **Environment**: Anthropic API 키 미발급
+- ⚠️ **Environment**: Vercel 환경 변수 미설정
+
+**완료 기준:**
+- ✅ AI 작업: 코드/문서 생성 완료
+- ⏳ PO 작업: API 키 발급 및 설정 대기
+- ⏳ 테스트: API 키 검증 스크립트 실행 대기
+
+---
+
 ## 다음 세션에서 할 일
 
-1. **S2BI3 완료**: Resend 도메인 인증 확인 및 테스트 이메일 발송
-2. **PO 테스트 지원**: 외부 설정 완료 후 기능 테스트 지원
-3. **S2 Stage Gate PO 승인**: AI Verified → Approved
-4. **S3 Stage 시작 준비**
+1. **S3E1 PO 설정 완료 대기**: Anthropic API 키 발급 및 Vercel 환경 변수 설정
+2. **S3E1 검증**: API 키 테스트 완료 후 Task 완료 처리
+3. **S3BI1, S3BA1, S3S1**: S3E1 완료 후 다음 Task 진행
+4. **S2 Stage Gate PO 승인**: AI Verified → Approved
 
 ---
 
