@@ -102,10 +102,37 @@ Supabase 세션 확인
 
 ---
 
-### 다음 작업 예정
+---
 
-- 워크스페이스 → 컨트롤 스페이스 명칭 변경 (추가 논의 필요)
-- Git 커밋 & 푸시
+## Control Space Naming Change (2025-12-19)
+
+### Status: ✅ Completed
+
+**Modified File:** `Production/index.html`
+
+**Changes:** "Workspace" → "Control Space" (all user-visible UI text in English)
+
+| # | Line | Change |
+|---|------|--------|
+| 1 | 2792 | Header title `<span>Control Space</span>` |
+| 2 | 2798 | Button text `Control Space` |
+| 3 | 2850-2852 | Translation preview (English only) |
+| 4 | 3937 | `Clear Control Space content?` |
+| 5 | 3987 | `Replace current Control Space content with this template?` |
+| 6 | 4088 | `Replace Control Space content with template?` |
+| 7 | 5347 | `Load Order Sheet to Control Space?` |
+| 8 | 8407 | `② Control Space (Center)` |
+
+**Code Internal (unchanged):**
+- CSS comments: `/* Center Workspace */`
+- HTML comments: `<!-- Center Workspace -->`
+- Function names: `loadOrderSheetToWorkspace()`, `loadGuideToWorkspace()`
+
+---
+
+### Next Tasks
+
+- Git commit & push
 
 ---
 
