@@ -30,7 +30,7 @@ async function sendGeminiMessage(message, options = {}) {
   try {
     const ai = getGenAI();
     const model = ai.getGenerativeModel({
-      model: options.model || 'gemini-1.5-flash'
+      model: options.model || 'gemini-1.5-flash-latest'
     });
 
     // 시스템 프롬프트가 있으면 메시지에 포함
@@ -45,7 +45,7 @@ async function sendGeminiMessage(message, options = {}) {
       success: true,
       content: response.text(),
       provider: 'gemini',
-      model: options.model || 'gemini-1.5-flash',
+      model: options.model || 'gemini-1.5-flash-latest',
       usage: {
         // Gemini API는 토큰 수를 직접 제공하지 않음
         estimated: true
