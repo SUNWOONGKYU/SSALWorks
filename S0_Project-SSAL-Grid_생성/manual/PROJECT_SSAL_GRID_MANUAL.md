@@ -1,7 +1,7 @@
-# PROJECT SAL GRID MANUAL v3.3
+# PROJECT SAL GRID MANUAL v3.4
 
 > **작성일**: 2025-11-25
-> **최종 수정**: 2025-12-18 (v3.3)
+> **최종 수정**: 2025-12-19 (v3.4 - .claude/rules/ 참조 추가)
 > **기반**: PROJECT_SAL_GRID_생성_가이드_V2.0.md
 > **용도**: PROJECT SAL GRID 완전 매뉴얼
 
@@ -211,6 +211,44 @@ Task Agent 작업 완료 ──▶ Grid 지정 Verification Agent 투입 ──�
 - [ ] Verification Agent가 Task Agent와 다른가?
 - [ ] Tools에 Skills/Commands/MCP가 있는가?
 - [ ] Verification 필드가 JSON 형식인가?
+
+### 📌 상세 규칙 참조 (2025-12-19)
+
+> **상세 작업 규칙은 `.claude/rules/` 폴더에 별도 파일로 분리되어 있습니다.**
+
+**규칙 파일 목록:**
+
+| 파일 | 내용 | Task/Verification에서 참조 |
+|------|------|---------------------------|
+| `01_file-naming.md` | 파일 명명 규칙 | task_instruction |
+| `02_save-location.md` | 저장 위치 규칙 | task_instruction |
+| `03_area-stage.md` | Area/Stage 매핑 | task_instruction |
+| `04_grid-writing.md` | Grid 22개 속성 | task_instruction, verification_instruction |
+| `05_execution-process.md` | 6단계 실행 프로세스 | task_instruction, verification_instruction |
+| `06_verification.md` | 검증 기준 | verification_instruction |
+
+**규칙 참조 우선순위:**
+```
+1순위: CLAUDE.md 절대 불변 규칙
+2순위: .claude/rules/ 상세 규칙
+3순위: Order Sheet 지시사항
+4순위: 본 매뉴얼 (PROJECT_SSAL_GRID_MANUAL)
+```
+
+**Task Instruction에서 규칙 참조 방법:**
+```
+task_instruction:
+  "1. .claude/rules/01_file-naming.md 참조하여 파일명 작성
+   2. .claude/rules/02_save-location.md 참조하여 저장 위치 결정
+   3. 구체적인 작업 내용..."
+```
+
+**Verification Instruction에서 규칙 참조 방법:**
+```
+verification_instruction:
+  "1. .claude/rules/06_verification.md 기준으로 검증
+   2. 구체적인 검증 항목..."
+```
 
 ---
 
@@ -1591,6 +1629,25 @@ S4F7: ProfileAvatar.tsx
 - Claude가 Task를 실행할 때 참고하는 기본 지침
 - 무엇을 만들지 명확히 정의
 
+### 🔗 필수 참조 규칙 파일 (2025-12-19)
+
+> **Task Instruction 작성 및 실행 시 반드시 참조해야 할 규칙 파일들:**
+
+| 규칙 파일 | 용도 | 참조 시점 |
+|----------|------|----------|
+| `.claude/rules/01_file-naming.md` | 파일 명명 규칙 | 파일 생성 시 |
+| `.claude/rules/02_save-location.md` | 저장 위치 규칙 | 파일 저장 시 |
+| `.claude/rules/03_area-stage.md` | Area/Stage 매핑 | Task 구조 파악 시 |
+| `.claude/rules/05_execution-process.md` | 실행 프로세스 | 작업 수행 순서 |
+
+**Task Instruction에 규칙 참조 포함:**
+```markdown
+## 작업 규칙
+- 파일 명명: `.claude/rules/01_file-naming.md` 참조
+- 저장 위치: `.claude/rules/02_save-location.md` 참조
+- 실행 프로세스: `.claude/rules/05_execution-process.md` 참조
+```
+
 ---
 
 ### 7.2 Task Instruction 작성 가이드
@@ -1810,6 +1867,30 @@ src/components/ProfileAvatar.tsx
 **언제 사용하나?**
 - Task 완료 직후
 - **1번만 검증** (1단계 검증 시스템의 일부)
+
+### 🔗 필수 참조 규칙 파일 (2025-12-19)
+
+> **Verification Instruction 작성 및 실행 시 반드시 참조해야 할 규칙 파일들:**
+
+| 규칙 파일 | 용도 | 참조 시점 |
+|----------|------|----------|
+| `.claude/rules/04_grid-writing.md` | Grid 속성 검증 | 결과 기록 시 |
+| `.claude/rules/05_execution-process.md` | 검증 프로세스 | 검증 수행 순서 |
+| `.claude/rules/06_verification.md` | 검증 기준 | **핵심 참조** |
+
+**Verification Instruction에 규칙 참조 포함:**
+```markdown
+## 검증 규칙
+- 검증 기준: `.claude/rules/06_verification.md` 참조
+- 결과 기록: `.claude/rules/04_grid-writing.md` 참조
+- 검증 프로세스: `.claude/rules/05_execution-process.md` 참조
+```
+
+**검증 항목 참조 (`06_verification.md` 기준):**
+- Test Result: unit_test, integration_test, edge_cases, manual_test
+- Build Verification: compile, lint, deploy, runtime
+- Integration Verification: dependency_propagation, cross_task_connection, data_flow
+- Blockers: dependency, environment, external_api
 
 ---
 
