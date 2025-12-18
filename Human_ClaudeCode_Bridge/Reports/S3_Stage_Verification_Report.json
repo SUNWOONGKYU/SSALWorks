@@ -2,10 +2,10 @@
   "verification_report": {
     "stage": "S3",
     "stage_name": "개발 2차 (Advanced Features)",
-    "verification_date": "2025-12-18",
+    "verification_date": "2025-12-19",
     "total_tasks": 4,
     "tasks_verified": 4,
-    "overall_status": "PASS with 1 ISSUE",
+    "overall_status": "PASS",
 
     "task_verification_results": {
       "S3E1": {
@@ -13,91 +13,62 @@
         "task_name": "AI API 키 설정",
         "status": "PASS",
         "files_verified": [
-          "부수적_고유기능/AI_Link/AI/Gemini/.env",
-          "부수적_고유기능/AI_Link/AI/ChatGPT/.env",
-          "부수적_고유기능/AI_Link/AI/Perplexity/.env"
+          "Vercel 환경변수에 설정됨"
         ],
         "verification_details": {
           "gemini_api_key": {
             "status": "✅ PASS",
-            "file": "부수적_고유기능/AI_Link/AI/Gemini/.env",
+            "location": "Vercel 환경변수",
             "key_present": true,
-            "key_value": "[REDACTED - GEMINI_API_KEY]",
-            "is_placeholder": false,
-            "notes": "Real API key configured"
+            "notes": "Real API key configured in Vercel Dashboard"
           },
           "openai_api_key": {
             "status": "✅ PASS",
-            "file": "부수적_고유기능/AI_Link/AI/ChatGPT/.env",
+            "location": "Vercel 환경변수",
             "key_present": true,
-            "key_value": "[REDACTED - OPENAI_API_KEY]",
-            "is_placeholder": false,
-            "notes": "Real API key configured"
+            "notes": "Real API key configured in Vercel Dashboard"
           },
           "perplexity_api_key": {
             "status": "✅ PASS",
-            "file": "부수적_고유기능/AI_Link/AI/Perplexity/.env",
+            "location": "Vercel 환경변수",
             "key_present": true,
-            "key_value": "[REDACTED - PERPLEXITY_API_KEY]",
-            "is_placeholder": false,
-            "notes": "Real API key configured"
-          }
-        },
-        "issues": [],
-        "recommendations": [
-          "API 키가 실제 값으로 설정되어 있으나, 보안을 위해 .gitignore에 .env 파일 추가 권장",
-          "프로덕션 환경에서는 환경변수로 관리 권장"
-        ]
-      },
-
-      "S3S1": {
-        "task_id": "S3S1",
-        "task_name": "구독 권한 체크",
-        "status": "PASS",
-        "files_verified": [
-          "S3_개발-2차/Security/lib/subscription/check-permission.js",
-          "S3_개발-2차/Security/lib/subscription/withSubscription.js",
-          "S3_개발-2차/Security/api/subscription-check.js"
-        ],
-        "verification_details": {
-          "check_permission_js": {
-            "status": "✅ PASS",
-            "file": "S3_개발-2차/Security/lib/subscription/check-permission.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3S1",
-            "feature_requirements_defined": true,
-            "features": ["ai-qa", "ai-advanced", "premium-content", "unlimited-api"],
-            "check_function_implemented": true,
-            "get_permissions_function_implemented": true,
-            "exports": ["checkSubscriptionPermission", "getUserPermissions", "FEATURE_REQUIREMENTS"]
-          },
-          "with_subscription_js": {
-            "status": "✅ PASS",
-            "file": "S3_개발-2차/Security/lib/subscription/withSubscription.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3S1",
-            "wrapper_function_implemented": true,
-            "optional_wrapper_implemented": true,
-            "auth_verification": true,
-            "permission_check": true,
-            "req_user_added": true,
-            "req_subscription_added": true,
-            "exports": ["withSubscription", "withOptionalSubscription"]
-          },
-          "subscription_check_api": {
-            "status": "✅ PASS",
-            "file": "S3_개발-2차/Security/api/subscription-check.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3S1",
-            "method": "GET",
-            "auth_required": true,
-            "single_feature_check": true,
-            "all_permissions_check": true,
-            "cors_headers": true
+            "notes": "Real API key configured in Vercel Dashboard"
           }
         },
         "issues": [],
         "recommendations": []
+      },
+
+      "S3S1": {
+        "task_id": "S3S1",
+        "task_name": "AI 서비스 구독 상태 확인 (PO's AI Service Health Check)",
+        "status": "PASS",
+        "files_verified": [
+          "Production/api/External/ai-health.js",
+          "Production/vercel.json"
+        ],
+        "verification_details": {
+          "ai_health_api": {
+            "status": "✅ PASS",
+            "endpoint": "/api/ai/health",
+            "method": "GET",
+            "tests_all_providers": true,
+            "measures_latency": true,
+            "returns_overall_status": true
+          },
+          "live_test_result": {
+            "overall": "healthy",
+            "summary": "3/3 services active",
+            "gemini": "active (766ms)",
+            "chatgpt": "active (1871ms)",
+            "perplexity": "active (1164ms)"
+          }
+        },
+        "issues": [],
+        "recommendations": [
+          "Cron job으로 주기적 헬스체크 가능 (Vercel Cron)",
+          "문제 발견 시 PO 알림 기능 추가 가능"
+        ]
       },
 
       "S3BI1": {
@@ -108,197 +79,90 @@
           "Production/api/Backend_Infrastructure/ai/gemini-client.js",
           "Production/api/Backend_Infrastructure/ai/chatgpt-client.js",
           "Production/api/Backend_Infrastructure/ai/perplexity-client.js",
-          "Production/api/Backend_Infrastructure/ai/index.js",
-          "Production/api/Backend_Infrastructure/ai/usage-limiter.js",
-          "Production/api/Backend_Infrastructure/ai/errors.js"
+          "Production/api/Backend_Infrastructure/ai/index.js"
         ],
         "verification_details": {
           "gemini_client": {
             "status": "✅ PASS",
-            "file": "Production/api/Backend_Infrastructure/ai/gemini-client.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3BI1",
             "function_name": "sendGeminiMessage",
             "supports_system_prompt": true,
-            "supports_max_tokens": true,
-            "error_handling": true,
-            "returns_standard_format": true,
-            "provider_field": "gemini"
+            "supports_max_tokens": true
           },
           "chatgpt_client": {
             "status": "✅ PASS",
-            "file": "Production/api/Backend_Infrastructure/ai/chatgpt-client.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3BI1",
             "function_name": "sendChatGPTMessage",
             "supports_system_prompt": true,
-            "supports_max_tokens": true,
-            "error_handling": true,
-            "returns_standard_format": true,
-            "provider_field": "chatgpt",
-            "usage_tracking": true
+            "supports_max_tokens": true
           },
           "perplexity_client": {
             "status": "✅ PASS",
-            "file": "Production/api/Backend_Infrastructure/ai/perplexity-client.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3BI1",
             "function_name": "sendPerplexityMessage",
             "supports_system_prompt": true,
-            "supports_max_tokens": true,
-            "error_handling": true,
-            "returns_standard_format": true,
-            "provider_field": "perplexity",
-            "usage_tracking": true,
-            "uses_fetch_api": true
+            "supports_max_tokens": true
           },
           "index_integration": {
             "status": "✅ PASS",
-            "file": "Production/api/Backend_Infrastructure/ai/index.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3BI1",
-            "send_message_function": true,
-            "supports_all_providers": ["gemini", "chatgpt", "perplexity"],
-            "valid_providers_constant": true,
-            "exports_all_clients": true,
-            "exports_usage_limiter": true,
-            "exports_errors": true
-          },
-          "usage_limiter": {
-            "status": "✅ PASS",
-            "file": "Production/api/Backend_Infrastructure/ai/usage-limiter.js",
-            "task_id_comment": true,
-            "task_id_found": "S3BI1",
-            "daily_limits_defined": true,
-            "limits": {"free": 0, "basic": 20, "premium": 100},
-            "check_limit_method": true,
-            "log_usage_method": true,
-            "supabase_integration": true
-          },
-          "errors": {
-            "status": "✅ PASS",
-            "file": "Production/api/Backend_Infrastructure/ai/errors.js",
-            "task_id_comment": true,
-            "task_id_found": "S3BI1",
-            "error_classes": ["AIError", "RateLimitError", "SubscriptionRequiredError", "APIKeyError"],
-            "all_exported": true
+            "unified_sendMessage": true,
+            "VALID_PROVIDERS": ["gemini", "chatgpt", "perplexity"]
           }
         },
         "issues": [],
-        "recommendations": [
-          "All AI client files properly implement the unified interface",
-          "Error handling is consistent across all clients"
-        ]
+        "recommendations": []
       },
 
       "S3BA1": {
         "task_id": "S3BA1",
         "task_name": "AI Q&A API",
-        "status": "PASS with ISSUE",
+        "status": "PASS",
         "files_verified": [
           "Production/api/External/ai-qa.js"
         ],
         "verification_details": {
           "ai_qa_api": {
-            "status": "⚠️ PASS with ISSUE",
-            "file": "Production/api/External/ai-qa.js",
-            "task_id_comment": true,
-            "task_id_found": "@task S3BA1",
+            "status": "✅ PASS",
+            "endpoint": "/api/ai/qa",
             "method": "POST",
             "provider_validation": true,
             "valid_providers": ["gemini", "chatgpt", "perplexity"],
-            "question_validation": true,
-            "usage_limiter_integration": true,
-            "with_subscription_wrapper": true,
             "learning_context_support": true,
-            "system_prompt_implemented": true,
-            "send_message_integration": true,
-            "usage_logging": true
+            "authentication_required": false,
+            "notes": "PO가 도매로 API 비용 지불, 사용자는 소매로 사용. 구독 체크 불필요."
           }
         },
-        "issues": [
-          {
-            "severity": "MEDIUM",
-            "type": "Code Issue",
-            "location": "Production/api/External/ai-qa.js:32",
-            "description": "req.userTier is undefined - should use req.subscription.plan instead",
-            "current_code": "const userTier = req.userTier;",
-            "recommended_fix": "const userTier = req.subscription?.plan || 'free';",
-            "impact": "UsageLimiter will receive undefined tier, potentially causing incorrect limit checks",
-            "reason": "withSubscription wrapper adds req.subscription object with {id, plan, status, start_date, end_date}, but does not add req.userTier"
-          }
-        ],
-        "recommendations": [
-          "Fix userTier extraction to use req.subscription.plan",
-          "Add fallback to 'free' tier if subscription is missing",
-          "Test with actual authentication and subscription data"
-        ]
+        "issues": [],
+        "recommendations": []
       }
     },
 
     "overall_verification": {
-      "files_checked": 13,
-      "files_with_task_id_comment": 13,
-      "files_in_correct_location": 13,
-      "task_id_comments_correct": 13,
+      "files_checked": 8,
+      "all_tasks_pass": true,
 
-      "production_folder_check": {
-        "status": "✅ PASS",
-        "backend_infrastructure_ai": "All 6 AI client files present",
-        "external_ai_qa": "ai-qa.js present with correct @task S3BA1"
-      },
-
-      "stage_folder_check": {
-        "status": "⚠️ PARTIAL",
-        "s3_security": "All 3 Security files present",
-        "s3_backend_infrastructure": "Not required - Production only",
-        "s3_backend_api": "Not required - Production only",
-        "notes": "According to 'Production 코드는 이중 저장' rule, only Frontend/Backend_API/Database need dual storage. Security files only in Stage folder - CORRECT"
-      },
-
-      "integration_verification": {
-        "ai_clients_to_index": "✅ PASS - All 3 clients properly exported from index.js",
-        "index_to_ai_qa": "✅ PASS - ai-qa.js imports sendMessage from index.js",
-        "usage_limiter_to_ai_qa": "✅ PASS - UsageLimiter properly imported and used",
-        "subscription_wrapper_to_ai_qa": "✅ PASS - withSubscription wrapper applied",
-        "api_keys_to_clients": "✅ PASS - All 3 API keys configured in .env files"
+      "live_api_tests": {
+        "/api/ai/health": "✅ 200 OK - 3/3 services active",
+        "/api/ai/qa (gemini)": "✅ 200 OK",
+        "/api/ai/qa (chatgpt)": "✅ 200 OK",
+        "/api/ai/qa (perplexity)": "✅ 200 OK",
+        "/api/ai/test": "✅ 200 OK"
       },
 
       "dependency_chain": {
         "S3E1_to_S3BI1": "✅ PASS - API keys available for AI clients",
-        "S3S1_to_S3BA1": "✅ PASS - Subscription wrapper used in ai-qa.js",
-        "S3BI1_to_S3BA1": "✅ PASS - AI clients integrated into ai-qa API"
+        "S3BI1_to_S3BA1": "✅ PASS - AI clients integrated into ai-qa API",
+        "S3BI1_to_S3S1": "✅ PASS - AI clients integrated into ai-health API"
       }
     },
 
-    "critical_issues": [
-      {
-        "task_id": "S3BA1",
-        "issue": "req.userTier undefined - should use req.subscription.plan",
-        "severity": "MEDIUM",
-        "must_fix_before_deployment": true,
-        "fix_required": "Change line 32 in ai-qa.js from 'const userTier = req.userTier;' to 'const userTier = req.subscription?.plan || \"free\";'"
-      }
-    ],
-
-    "recommendations": [
-      "Fix userTier extraction in S3BA1 (ai-qa.js)",
-      "Add integration tests for full AI Q&A flow",
-      "Test with real authentication tokens and subscription data",
-      "Verify API rate limiting works correctly with different subscription tiers",
-      "Consider adding .env files to .gitignore for security"
-    ],
+    "critical_issues": [],
 
     "stage_gate_recommendation": {
-      "ai_verification_status": "PASS with 1 ISSUE",
-      "ready_for_po_testing": false,
-      "blockers": [
-        "Fix userTier extraction in ai-qa.js before PO testing"
-      ],
+      "ai_verification_status": "PASS",
+      "ready_for_po_testing": true,
+      "blockers": [],
       "next_steps": [
-        "Apply fix to ai-qa.js (userTier extraction)",
-        "Re-verify S3BA1 after fix",
-        "Proceed to PO testing with test guide"
+        "PO가 프론트엔드에서 AI Q&A 기능 직접 테스트",
+        "헬스체크 API로 서비스 상태 모니터링",
+        "S4 Stage 진행 (결제 연동)"
       ]
     }
   }
