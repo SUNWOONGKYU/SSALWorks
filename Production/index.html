@@ -7881,10 +7881,14 @@ Claude Code가 작업을 완료하면:
             // showStatus(`${aiIcon} ${aiName}에게 질문 중...`, "info");
 
             try {
-                const response = await fetch(`http://localhost:3031/ask-${selectedAI}`, {
+                // Vercel API 엔드포인트 사용
+                const response = await fetch('/api/ai/qa', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ question })
+                    body: JSON.stringify({
+                        question: question,
+                        provider: selectedAI
+                    })
                 });
 
                 const result = await response.json();
@@ -7893,22 +7897,23 @@ Claude Code가 작업을 완료하면:
                     // Workspace에 질문과 답변 표시
                     const workspace = document.getElementById('textEditor');
                     workspace.value = `${aiIcon} ${aiName}에게 질문:
-${result.question}
+${question}
 
 ✅ ${aiName}의 답변:
 ${result.answer}`;
 
                     // 질문 이력 저장 (localStorage)
-                    saveQuestionHistory(aiName, aiIcon, result.question, result.answer);
+                    saveQuestionHistory(aiName, aiIcon, question, result.answer);
 
                     // showStatus(`✅ ${aiName} 응답 완료!`, "success");
                     questionInput.value = '';
                 } else {
-                    alert(`❌ 오류: ${result.error}`);
+                    alert(`❌ 오류: ${result.error || result.details || '알 수 없는 오류'}`);
                     // showStatus(`❌ ${aiName} 질문 실패`, "error");
                 }
             } catch (error) {
-                alert(`❌ ${aiName} 서버에 연결할 수 없습니다.\n\n${aiName} API 키를 설정했는지 확인하세요.`);
+                console.error('AI API Error:', error);
+                alert(`❌ ${aiName} 서버에 연결할 수 없습니다.\n\n오류: ${error.message}`);
                 // showStatus(`❌ ${aiName} 서버 연결 실패`, "error");
             } finally {
                 // 로딩 메시지 숨기기 (제거됨)
