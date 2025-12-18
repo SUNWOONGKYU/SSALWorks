@@ -2789,13 +2789,13 @@
             <div class="workspace-top">
                 <div class="workspace-header">
                     <div class="workspace-title">
-                        <span>Workspace</span>
+                        <span>Control Space</span>
                     </div>
                     <!-- Outbox 알림 박스 제거됨 -->
                     <div class="workspace-actions">
                         <button class="action-btn secondary" onclick="clearEditor()">
                             <span style="display: flex; flex-direction: column; line-height: 1.3;">
-                                <span>Workspace</span>
+                                <span>Control Space</span>
                                 <span>지우기</span>
                             </span>
                         </button>
@@ -2847,10 +2847,10 @@
                         </div>
                         <div class="translation-preview" id="translationPreview" style="display: block; max-height: 65px; overflow: hidden;">
                             <pre id="translatedText" style="margin: 0; font-size: 11px; color: #868e96;">[Claude Code Only] This English translation section is for Claude Code.
-The Korean content from the workspace above is translated here for Claude Code to read.
+The Korean content from the Control Space above is translated here for Claude Code to read.
 ────────────────────────────────────────
-Workspace에 입력한 내용이 여기에 표시됩니다.
-The content you enter in the workspace will be displayed here.</pre>
+Control Space에 입력한 내용이 여기에 표시됩니다.
+The content you enter in the Control Space will be displayed here.</pre>
                         </div>
                     </div>
                 </div>
@@ -3935,7 +3935,7 @@ The content you enter in the workspace will be displayed here.</pre>
 
         // Clear editor
         function clearEditor() {
-            if (confirm('Workspace에 작성 중인 내용을 지우시겠습니까?')) {
+            if (confirm('Control Space에 작성 중인 내용을 지우시겠습니까?')) {
                 document.getElementById('textEditor').value = '';
             }
         }
@@ -3985,7 +3985,7 @@ The content you enter in the workspace will be displayed here.</pre>
             const editor = document.getElementById('textEditor');
 
             // Ask user if they want to replace current content
-            if (editor.value.trim() && !(await customConfirm('현재 Workspace에서 작성 중인 내용을 지우고 해당 항목에 대한 템플릿으로 바꾸시겠습니까?'))) {
+            if (editor.value.trim() && !(await customConfirm('현재 Control Space에서 작성 중인 내용을 지우고 해당 항목에 대한 템플릿으로 바꾸시겠습니까?'))) {
                 return;
             }
 
@@ -4086,7 +4086,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     const data = await response.json();
                     if (data.success && data.markdown) {
                         // 현재 내용이 있으면 확인
-                        if (editor.value.trim() && !(await customConfirm('현재 Workspace 내용을 템플릿으로 교체하시겠습니까?'))) {
+                        if (editor.value.trim() && !(await customConfirm('현재 Control Space 내용을 템플릿으로 교체하시겠습니까?'))) {
                             return false;
                         }
 
@@ -5345,7 +5345,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 if (hasAction) {
                     buttonSection = `
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                        <p style="font-weight: 600; color: #333; margin-bottom: 10px;">Order Sheet를 Workspace에 로드하시겠습니까?</p>
+                        <p style="font-weight: 600; color: #333; margin-bottom: 10px;">Order Sheet를 Control Space에 로드하시겠습니까?</p>
                         <div style="display: flex; gap: 12px;">
                             <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
                             <button onclick="closeGuidePopup()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
@@ -7975,7 +7975,7 @@ ${result.answer}`;
                                     <div class="outbox-file-meta" style="font-size: 11px; color: #6c757d;">${dateStr}</div>
                                 </div>
                                 <button onclick="deleteHistoryItem(${index})"
-                                    style="padding: 8px 16px; background: #dc3545; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                    style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                                     삭제
                                 </button>
                             </div>
