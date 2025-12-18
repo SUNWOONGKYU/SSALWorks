@@ -2883,19 +2883,19 @@ The content you enter in the Control Space will be displayed here.</pre>
                         <div style="font-weight: 700; font-size: 13px; color: #495057; min-width: 100px; display: flex; align-items: center;">실행 상태</div>
                         <div class="stat-item">
                             <span class="stat-label">○ Pending</span>
-                            <span class="stat-value pending">31</span>
+                            <span class="stat-value pending" id="grid-stat-pending">-</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">● In Progress</span>
-                            <span class="stat-value in-progress">0</span>
+                            <span class="stat-value in-progress" id="grid-stat-inprogress">-</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">✓ Completed</span>
-                            <span class="stat-value completed">12</span>
+                            <span class="stat-value completed" id="grid-stat-completed">-</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">⚠ Fixing</span>
-                            <span class="stat-value" style="color: #f59e0b;">0</span>
+                            <span class="stat-value" style="color: #f59e0b;" id="grid-stat-fixing">-</span>
                         </div>
                     </div>
                     <!-- Verification Status -->
@@ -2903,15 +2903,15 @@ The content you enter in the Control Space will be displayed here.</pre>
                         <div style="font-weight: 700; font-size: 13px; color: #495057; min-width: 100px; display: flex; align-items: center;">검증 상태</div>
                         <div class="stat-item">
                             <span class="stat-label">○ Not Verified</span>
-                            <span class="stat-value pending">31</span>
+                            <span class="stat-value pending" id="grid-stat-notverified">-</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">✓ Passed</span>
-                            <span class="stat-value completed">12</span>
+                            <span class="stat-value completed" id="grid-stat-passed">-</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">✗ Failed</span>
-                            <span class="stat-value" style="color: #ef4444;">0</span>
+                            <span class="stat-value" style="color: #ef4444;" id="grid-stat-failed">-</span>
                         </div>
                     </div>
                 </div>
@@ -8947,6 +8947,7 @@ ${result.answer}`;
                 // FAQ는 로컬 배열 사용 (Supabase 로드 제거)
                 checkAuthStatus(); // 로그인 상태 확인
                 loadStageGateStatus(); // Stage Gate 상태 확인 및 진행률 업데이트
+                loadGridStats(); // SSAL Grid 통계 로드
             } else {
                 console.warn('⚠️ Supabase 라이브러리가 로드되지 않았습니다.');
                 setTimeout(initSupabase, 1000); // 1초 후 재시도
@@ -8974,6 +8975,51 @@ ${result.answer}`;
                 }
             } catch (e) {
                 console.warn('Stage Gate 로드 실패:', e);
+            }
+        }
+
+        // SSAL Grid 통계 로드 (Supabase에서 실시간 조회)
+        async function loadGridStats() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('ssalworks_tasks')
+                    .select('task_status, verification_status');
+
+                if (error) {
+                    console.warn('Grid 통계 조회 오류:', error);
+                    return;
+                }
+
+                // 실행 상태 집계
+                const taskStatus = { Pending: 0, 'In Progress': 0, Completed: 0, Fixing: 0 };
+                // 검증 상태 집계
+                const verifyStatus = { 'Not Verified': 0, Passed: 0, Failed: 0 };
+
+                data.forEach(t => {
+                    // 실행 상태
+                    if (t.task_status === 'Completed') taskStatus['Completed']++;
+                    else if (t.task_status === 'In Progress') taskStatus['In Progress']++;
+                    else if (t.task_status === 'Fixing') taskStatus['Fixing']++;
+                    else taskStatus['Pending']++;
+
+                    // 검증 상태
+                    if (t.verification_status === 'Passed') verifyStatus['Passed']++;
+                    else if (t.verification_status === 'Failed') verifyStatus['Failed']++;
+                    else verifyStatus['Not Verified']++;
+                });
+
+                // DOM 업데이트
+                document.getElementById('grid-stat-pending').textContent = taskStatus['Pending'];
+                document.getElementById('grid-stat-inprogress').textContent = taskStatus['In Progress'];
+                document.getElementById('grid-stat-completed').textContent = taskStatus['Completed'];
+                document.getElementById('grid-stat-fixing').textContent = taskStatus['Fixing'];
+                document.getElementById('grid-stat-notverified').textContent = verifyStatus['Not Verified'];
+                document.getElementById('grid-stat-passed').textContent = verifyStatus['Passed'];
+                document.getElementById('grid-stat-failed').textContent = verifyStatus['Failed'];
+
+                console.log('✅ Grid 통계 로드 완료:', { taskStatus, verifyStatus });
+            } catch (e) {
+                console.warn('Grid 통계 로드 실패:', e);
             }
         }
 
