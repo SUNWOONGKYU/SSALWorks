@@ -37,6 +37,25 @@
 
 - `8c1d240`: docs: .claude/rules/ 폴더 생성 - 6개 작업 규칙 파일 분리
 - `0cc5516`: docs: CLAUDE.md에 .claude/rules/ 참조 섹션 추가
+- `f420812`: docs: PROJECT_SSAL_GRID_MANUAL v3.4 - .claude/rules/ 참조 통합
+
+#### 4. PROJECT_SSAL_GRID_MANUAL 업데이트 (v3.3 → v3.4)
+
+**업데이트된 섹션:**
+- AI 필수 준수 규칙 섹션: 상세 규칙 참조 추가
+- Task Instruction 섹션 (7.1): 필수 참조 규칙 파일 테이블 추가
+- Verification Instruction 섹션 (8.1): 필수 참조 규칙 파일 테이블 추가
+
+**규칙 연결 구조:**
+```
+CLAUDE.md (절대 규칙)
+    ↓
+.claude/rules/ (상세 규칙 6개 파일)
+    ↓
+PROJECT_SSAL_GRID_MANUAL (Task/Verification에서 참조)
+    ↓
+DB ssal_grid (task_instruction, verification_instruction)
+```
 
 **배경:**
 - CLAUDE.md가 너무 길어짐 (2000줄 이상)
@@ -44,7 +63,7 @@
 - 규칙 저장 위치 체계화:
   - CLAUDE.md: 기본 원칙 + 참조
   - .claude/rules/: 상세 작업 규칙
-  - Order Sheet: 작업별 지시사항
+  - PROJECT_SSAL_GRID_MANUAL: Task/Verification 템플릿
   - DB (ssal_grid): task_instruction, verification_instruction
   - DB (stage_verification): 검증 리포트 경로
 
