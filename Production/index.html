@@ -3610,7 +3610,7 @@ The content you enter in the workspace will be displayed here.</pre>
 
                 <div class="ai-input-area">
                     <textarea id="aiQuestion" placeholder="질문을 입력하세요..." rows="4"></textarea>
-                    <button onclick="askAI()">질문하기</button>
+                    <button id="askAIButton" onclick="askAI()">질문하기</button>
                     <div class="perplexity-credit-display"
                         style="margin-top: 8px; font-size: 11px; color: #666; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <span>크레딧 잔액: <span style="color: #333;">₩<span
@@ -7828,7 +7828,7 @@ Claude Code가 작업을 완료하면:
         async function askAI() {
             const questionInput = document.getElementById('aiQuestion');
             const question = questionInput.value.trim();
-            const button = event.target;
+            const button = document.getElementById('askAIButton');
             const loadingDiv = document.getElementById('aiLoading');
             const loadingText = document.getElementById('aiLoadingText');
 
