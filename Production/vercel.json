@@ -58,6 +58,10 @@
       "destination": "/api/External/ai-faq-suggest"
     },
     {
+      "source": "/api/ai/test",
+      "destination": "/api/External/ai-test"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/:path*"
     }
