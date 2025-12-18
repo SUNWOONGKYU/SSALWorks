@@ -5130,7 +5130,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             's3_dev_1': {
                 stageId: 's3_dev_1',
-                stageName: 'S3. 개발 1차',
+                stageName: 'S2. 개발 1차',
                 hasAction: true,
                 confirmMessage: '개발 1차를 위와 같이 진행하시겠습니까?',
                 orderSheetAfterExecute: `# 추가 Order Sheet - 개발 1차
@@ -5147,10 +5147,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [추가 요청사항을 작성하세요]
 
 `,
-                orderSheet: `# Order Sheet - S3. 개발 1차
+                orderSheet: `# Order Sheet - S2. 개발 1차
 
 ## 기본 정보
-- **Order ID**: OS-S3-A-001
+- **Order ID**: OS-S2-A-001
 - **작성일**: ${new Date().toISOString().split('T')[0]}
 
 ---
@@ -5173,7 +5173,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             's4_dev_2': {
                 stageId: 's4_dev_2',
-                stageName: 'S4. 개발 2차',
+                stageName: 'S3. 개발 2차',
                 hasAction: true,
                 confirmMessage: '개발 2차를 위와 같이 진행하시겠습니까?',
                 orderSheetAfterExecute: `# 추가 Order Sheet - 개발 2차
@@ -5190,10 +5190,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [추가 요청사항을 작성하세요]
 
 `,
-                orderSheet: `# Order Sheet - S4. 개발 2차
+                orderSheet: `# Order Sheet - S3. 개발 2차
 
 ## 기본 정보
-- **Order ID**: OS-S4-A-001
+- **Order ID**: OS-S3-A-001
 - **작성일**: ${new Date().toISOString().split('T')[0]}
 
 ---
@@ -5216,7 +5216,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             's5_dev_3': {
                 stageId: 's5_dev_3',
-                stageName: 'S5. 개발 3차',
+                stageName: 'S4. 개발 3차',
                 hasAction: true,
                 confirmMessage: '개발 3차를 위와 같이 진행하시겠습니까?',
                 orderSheetAfterExecute: `# 추가 Order Sheet - 개발 3차
@@ -5233,10 +5233,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [추가 요청사항을 작성하세요]
 
 `,
-                orderSheet: `# Order Sheet - S5. 개발 3차
+                orderSheet: `# Order Sheet - S4. 개발 3차
 
 ## 기본 정보
-- **Order ID**: OS-S5-A-001
+- **Order ID**: OS-S4-A-001
 - **작성일**: ${new Date().toISOString().split('T')[0]}
 
 ---
@@ -5259,7 +5259,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             's6_operation': {
                 stageId: 's6_operation',
-                stageName: 'S6. 운영',
+                stageName: 'S5. 운영',
                 hasAction: true,
                 confirmMessage: '운영 단계를 위와 같이 진행하시겠습니까?',
                 orderSheetAfterExecute: `# 추가 Order Sheet - 운영
@@ -5276,10 +5276,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [추가 요청사항을 작성하세요]
 
 `,
-                orderSheet: `# Order Sheet - S6. 운영
+                orderSheet: `# Order Sheet - S5. 운영
 
 ## 기본 정보
-- **Order ID**: OS-S6-A-001
+- **Order ID**: OS-S5-A-001
 - **작성일**: ${new Date().toISOString().split('T')[0]}
 
 ---
@@ -5642,7 +5642,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             return result.join('\n');
         }
 
-        // Order Sheet 전달하기 (옵션 선택 모달)
+        // Order Sheet 전달하기 (안내 모달 후 저장)
         function deliverOrderSheet() {
             const content = document.getElementById('textEditor').value;
 
@@ -5651,13 +5651,13 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 return;
             }
 
-            // 옵션 선택 모달 생성
+            // 안내 모달 생성
             const overlay = document.createElement('div');
             overlay.className = 'deliver-modal-overlay';
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10001;';
 
             const modal = document.createElement('div');
-            modal.style.cssText = 'background: white; border-radius: 16px; max-width: 450px; width: 90%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); overflow: hidden;';
+            modal.style.cssText = 'background: white; border-radius: 16px; max-width: 500px; width: 90%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); overflow: hidden;';
 
             modal.innerHTML = `
                 <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 20px 24px;">
@@ -5665,29 +5665,34 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         <span style="font-size: 24px;">📤</span>
                         Order Sheet 전달하기
                     </h3>
-                    <p style="margin: 8px 0 0 0; font-size: 13px; opacity: 0.9;">전달 방식을 선택하세요</p>
                 </div>
                 <div style="padding: 24px;">
-                    <div style="display: flex; flex-direction: column; gap: 12px;">
-                        <button id="deliverSaveBtn" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: #f0fdf4; border: 2px solid #86efac; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                            <span style="font-size: 32px;">💾</span>
-                            <div>
-                                <div style="font-weight: 600; font-size: 15px; color: #166534;">Orders 폴더에 저장</div>
-                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">처음: 경로를 찾아 저장 | 이후: 자동으로 폴더 열림</div>
+                    <div style="background: #f0fdf4; border: 1px solid #86efac; border-radius: 12px; padding: 16px;">
+                        <div style="display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px;">
+                            <span style="font-size: 20px;">1️⃣</span>
+                            <div style="flex: 1;">
+                                <div style="font-weight: 600; font-size: 14px; color: #166534;">처음 저장 시</div>
+                                <div style="font-size: 13px; color: #4b5563; margin-top: 4px;">아래 경로를 따라 Orders 폴더에 저장하세요:</div>
+                                <div style="font-size: 12px; color: #059669; margin-top: 8px; font-family: 'D2Coding', Consolas, monospace; background: #dcfce7; padding: 10px 12px; border-radius: 6px; border: 1px solid #86efac; line-height: 1.8;">
+                                    <span style="color: #f59e0b; font-weight: 600;">[프로젝트 폴더]</span> > <span style="color: #166534;">Human_ClaudeCode_Bridge</span> > <span style="color: #166534; font-weight: 600;">Orders</span>
+                                </div>
                             </div>
-                        </button>
-                        <button id="deliverCopyBtn" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: #eff6ff; border: 2px solid #93c5fd; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.2s;">
-                            <span style="font-size: 32px;">📋</span>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; gap: 12px;">
+                            <span style="font-size: 20px;">2️⃣</span>
                             <div>
-                                <div style="font-weight: 600; font-size: 15px; color: #1e40af;">복사 후 Claude Code CLI 대화창에 붙여넣기</div>
-                                <div style="font-size: 12px; color: #4b5563; margin-top: 4px;">Order Sheet 내용을 클립보드에 복사합니다</div>
+                                <div style="font-weight: 600; font-size: 14px; color: #166534;">다음부터</div>
+                                <div style="font-size: 13px; color: #4b5563; margin-top: 4px;">지정 폴더가 바로 열립니다.</div>
                             </div>
-                        </button>
+                        </div>
                     </div>
                 </div>
-                <div style="padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end;">
+                <div style="padding: 16px 24px; border-top: 1px solid #e5e7eb; display: flex; justify-content: flex-end; gap: 12px;">
                     <button id="deliverCancelBtn" style="padding: 10px 20px; background: #f3f4f6; border: 1px solid #d1d5db; border-radius: 8px; cursor: pointer; font-size: 14px; color: #4b5563;">
                         취소
+                    </button>
+                    <button id="deliverSaveBtn" style="padding: 10px 20px; background: #10b981; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; color: white; font-weight: 600;">
+                        💾 저장하기
                     </button>
                 </div>
             `;
@@ -5695,25 +5700,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             overlay.appendChild(modal);
             document.body.appendChild(overlay);
 
-            // 호버 효과
-            const saveBtn = document.getElementById('deliverSaveBtn');
-            const copyBtn = document.getElementById('deliverCopyBtn');
-
-            saveBtn.onmouseenter = () => { saveBtn.style.borderColor = '#22c55e'; saveBtn.style.background = '#dcfce7'; };
-            saveBtn.onmouseleave = () => { saveBtn.style.borderColor = '#86efac'; saveBtn.style.background = '#f0fdf4'; };
-            copyBtn.onmouseenter = () => { copyBtn.style.borderColor = '#3b82f6'; copyBtn.style.background = '#dbeafe'; };
-            copyBtn.onmouseleave = () => { copyBtn.style.borderColor = '#93c5fd'; copyBtn.style.background = '#eff6ff'; };
-
             // 저장 버튼 클릭
-            saveBtn.onclick = async () => {
+            document.getElementById('deliverSaveBtn').onclick = async () => {
                 overlay.remove();
                 await saveToOrders(content);
-            };
-
-            // 복사 버튼 클릭
-            copyBtn.onclick = async () => {
-                overlay.remove();
-                await copyToClipboard(content);
             };
 
             // 취소 버튼 클릭
