@@ -2849,7 +2849,6 @@
                             <pre id="translatedText" style="margin: 0; font-size: 11px; color: #868e96;">[Claude Code Only] This English translation section is for Claude Code.
 The Korean content from the Control Space above is translated here for Claude Code to read.
 ────────────────────────────────────────
-Control Space에 입력한 내용이 여기에 표시됩니다.
 The content you enter in the Control Space will be displayed here.</pre>
                         </div>
                     </div>
@@ -3935,7 +3934,7 @@ The content you enter in the Control Space will be displayed here.</pre>
 
         // Clear editor
         function clearEditor() {
-            if (confirm('Control Space에 작성 중인 내용을 지우시겠습니까?')) {
+            if (confirm('Clear Control Space content?')) {
                 document.getElementById('textEditor').value = '';
             }
         }
@@ -3985,7 +3984,7 @@ The content you enter in the Control Space will be displayed here.</pre>
             const editor = document.getElementById('textEditor');
 
             // Ask user if they want to replace current content
-            if (editor.value.trim() && !(await customConfirm('현재 Control Space에서 작성 중인 내용을 지우고 해당 항목에 대한 템플릿으로 바꾸시겠습니까?'))) {
+            if (editor.value.trim() && !(await customConfirm('Replace current Control Space content with this template?'))) {
                 return;
             }
 
@@ -4086,7 +4085,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     const data = await response.json();
                     if (data.success && data.markdown) {
                         // 현재 내용이 있으면 확인
-                        if (editor.value.trim() && !(await customConfirm('현재 Control Space 내용을 템플릿으로 교체하시겠습니까?'))) {
+                        if (editor.value.trim() && !(await customConfirm('Replace Control Space content with template?'))) {
                             return false;
                         }
 
@@ -5345,7 +5344,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 if (hasAction) {
                     buttonSection = `
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                        <p style="font-weight: 600; color: #333; margin-bottom: 10px;">Order Sheet를 Control Space에 로드하시겠습니까?</p>
+                        <p style="font-weight: 600; color: #333; margin-bottom: 10px;">Load Order Sheet to Control Space?</p>
                         <div style="display: flex; gap: 12px;">
                             <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
                             <button onclick="closeGuidePopup()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
@@ -7888,8 +7887,12 @@ ${question}
 ${result.answer}`;
                     }
 
-                    // 질문 이력 저장 (localStorage)
-                    saveQuestionHistory(aiName, aiIcon, question, result.answer);
+                    // 질문 이력 저장 (localStorage) - 에러가 나도 무시
+                    try {
+                        saveQuestionHistory(aiName, aiIcon, question, result.answer);
+                    } catch (historyError) {
+                        console.warn('질문 이력 저장 실패:', historyError);
+                    }
 
                     // 입력창 초기화
                     if (questionInput) questionInput.value = '';
@@ -7898,7 +7901,6 @@ ${result.answer}`;
                 }
             } catch (error) {
                 console.error('AI API Error:', error);
-                alert(`❌ ${aiName} API 오류가 발생했습니다.\n\n다시 시도해주세요.`);
             } finally {
                 // 버튼 복원 (null 체크 포함)
                 if (button) {
@@ -8402,7 +8404,7 @@ ${result.answer}`;
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
                     <div style="border: 2px solid #2C4A8A; padding: 15px; border-radius: 8px; background: #EEF2F7;">
                         <h3 style="font-size: 16px; margin-bottom: 8px; color: #1F3563;">1. 실행 (Execution) 🛠️</h3>
-                        <p style="font-size: 13px; color: #666; margin-bottom: 8px;"><strong>② 중앙 Workspace "작업대"</strong></p>
+                        <p style="font-size: 13px; color: #666; margin-bottom: 8px;"><strong>② Control Space (Center)</strong></p>
                         <p style="font-size: 13px; color: #666;">
                             <strong>SSAL Works의 가장 핵심 기능입니다.</strong><br>
                             Order Sheet로 Claude Code에게 작업 지시 → AI가 실제 코드 작성/수정.<br>
