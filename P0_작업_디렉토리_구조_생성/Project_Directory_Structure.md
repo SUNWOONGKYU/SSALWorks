@@ -1,7 +1,7 @@
 # SSALWorks 프로젝트 디렉토리 구조 가이드
 
-> **버전**: v10.0
-> **최종 업데이트**: 2025-12-17
+> **버전**: v11.0
+> **최종 업데이트**: 2025-12-18
 > **프로젝트**: SaaS 구독형 학습 + 프로젝트 관리 통합 플랫폼
 
 ---
@@ -52,7 +52,7 @@ C:\!SSAL_Works_Private\
 │   │   └── 학습용_Books/        # 학습용 콘텐츠 (Books)
 │
 # ========== 독립 폴더 ==========
-├── Web_ClaudeCode_Bridge/       # AI ↔ 웹 플랫폼 브릿지
+├── Human_ClaudeCode_Bridge/     # 사람 ↔ Claude Code 브릿지
 ├── Sidebar-Process-Tools/       # 사이드바 프로세스 관리 도구
 ├── 참고자료/                    # 참고용 파일들
 │
@@ -398,21 +398,31 @@ S0_Project-SSAL-Grid_생성/
 
 ---
 
-### Web_ClaudeCode_Bridge/
+### Human_ClaudeCode_Bridge/
 
-**용도:** 웹사이트 ↔ Claude Code 정보 교환 브릿지
+**용도:** 사람 ↔ Claude Code 작업 요청/결과 교환 브릿지
 
 ```
-Web_ClaudeCode_Bridge/
-├── Inbox/                  # 웹사이트 → Claude Code (입력)
-└── Outbox/                 # Claude Code → 웹사이트 (출력)
+Human_ClaudeCode_Bridge/
+├── Orders/                 # Order Sheet 저장 (사람 → Claude Code)
+├── Reports/                # 작업 결과 저장 (Claude Code → 사람)
+└── HUMAN_CLAUDECODE_BRIDGE_GUIDE.md  # 시스템 가이드
 ```
+
+**파일 형식 규칙:**
+| 파일 종류 | 형식 |
+|----------|------|
+| Order Sheet | `.json` |
+| 작업 완료 보고서 | `.json` |
+| 검증 리포트 | `.json` |
+| 요약 문서 | `.md` (선택) |
 
 **작업 흐름:**
-1. 웹사이트에서 Order Sheet를 `Inbox/`에 저장
-2. Claude Code가 읽고 작업 수행
-3. 결과 보고서를 `Outbox/`에 생성
-4. 웹사이트에서 결과 확인
+1. 대시보드에서 Order Sheet 작성 → 클립보드 복사
+2. Claude Code에 붙여넣기
+3. Claude Code가 `Orders/`에 저장 후 작업 수행
+4. 결과 보고서를 `Reports/`에 JSON으로 저장
+5. 대시보드에서 "Reports 불러오기"로 결과 확인
 
 ---
 
@@ -553,8 +563,8 @@ Sidebar-Process-Tools/
 | 학습 자료 | `부수적_고유기능/콘텐츠/학습용_Books/` |
 | 개발 팁 | `부수적_고유기능/콘텐츠/Tips/` |
 | 외부 연동 설정 | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/` |
-| Order Sheet | `Web_ClaudeCode_Bridge/Inbox/` |
-| 작업 결과 보고 | `Web_ClaudeCode_Bridge/Outbox/` |
+| Order Sheet | `Human_ClaudeCode_Bridge/Orders/` |
+| 작업 결과 보고 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ### 체크리스트
 
@@ -681,10 +691,11 @@ Sidebar-Process-Tools/
 | v7.0 | 2025-12-13 | S1-S5 구조를 SSALWORKS_TASK_PLAN.md와 완전 일치하도록 수정 | Claude Code |
 | v8.0 | 2025-12-13 | Production/ 종합집결지 추가, 체크리스트 개선 | Claude Code |
 | v9.0 | 2025-12-14 | 실제 폴더와 문서 일치화: AI_Link/학습용_콘텐츠 경로 수정, Project-SSAL-Grid→S0_Project-SSAL-Grid_생성, 누락 파일 추가 | Claude Code |
-| **v10.0** | **2025-12-17** | **부수적_고유기능 폴더 구조 업데이트: 학습용_콘텐츠→학습용_Books, Tips/외부_연동_설정_Guide 추가** | Claude Code |
+| v10.0 | 2025-12-17 | 부수적_고유기능 폴더 구조 업데이트: 학습용_콘텐츠→학습용_Books, Tips/외부_연동_설정_Guide 추가 | Claude Code |
+| **v11.0** | **2025-12-18** | **Web_ClaudeCode_Bridge → Human_ClaudeCode_Bridge 변경, Inbox/Outbox → Orders/Reports 변경, 파일 형식 규칙 추가** | Claude Code |
 
 ---
 
-**현재 버전:** v10.0
+**현재 버전:** v11.0
 **작성자:** SSALWorks Team
-**마지막 업데이트:** 2025-12-17
+**마지막 업데이트:** 2025-12-18

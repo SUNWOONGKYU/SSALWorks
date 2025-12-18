@@ -1030,6 +1030,38 @@ P1-P3, 특별단계 Order Sheet + 안내문 전체 업데이트 및 도메인 �
 
 ---
 
+## Human_ClaudeCode_Bridge 시스템 정비 (2025-12-18)
+
+### 작업 내용: ✅ 완료
+
+**1. Reports 불러오기 기능 개선**
+- JSON/MD 파일을 HTML로 렌더링하는 모달 추가
+- `showReportModal()`, `renderJsonAsHtml()` 함수 구현
+- marked.js CDN 추가 (Markdown→HTML 변환)
+- Reports 버튼 색상을 process-special-major와 동일하게 변경 (#bfdbfe, #60a5fa border, 검정 글자)
+
+**2. 문서 정비**
+- `HUMAN_CLAUDECODE_BRIDGE_GUIDE.md` 신규 생성 (전체 플로우 문서화)
+  - Orders/Reports 시스템 상세 설명
+  - 메모리 관리 이점 섹션 추가 (세션 간 연속성, AI 기억 100%)
+  - 채팅/work_log/JSON 시스템 비교표 포함
+
+**3. 불필요한 파일 정리 (10개 삭제)**
+- INBOX_OUTBOX_GUIDE.md, README.md, SYSTEM_READY.md
+- WORK_REPORT_2025-11-28.md
+- inbox_server_with_endpoints.js, inbox_watcher.js
+- ai_endpoints_addition.txt, perplexity_proxy.txt
+- welcome_templates.json, .new_order_notification
+
+**커밋 기록:**
+- `b59091e` - fix: marked.js CDN 추가
+- `0e44b64` - docs: Reports 불러오기 안내문 상세화
+- `f4561a6` - style: Reports 버튼 글자색을 검정색으로 변경
+- `eb434e8` - style: Reports 버튼 스타일 변경
+- `40e9da6` - docs: Human_ClaudeCode_Bridge 시스템 문서 정비
+
+---
+
 ## Stage Gate Viewer 버그 수정 (2025-12-17)
 
 ### 문제점
