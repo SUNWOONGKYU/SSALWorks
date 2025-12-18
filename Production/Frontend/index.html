@@ -5659,12 +5659,72 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             }
         }
 
+        // File System Access API로 Reports 불러오기 (프로덕션용)
+        async function loadFromReportsWithFileAPI() {
+            try {
+                // File System Access API 지원 확인
+                if (!('showOpenFilePicker' in window)) {
+                    alert('이 브라우저는 파일 선택 기능을 지원하지 않습니다.\n\nChrome, Edge 등 최신 브라우저를 사용해주세요.');
+                    return;
+                }
+
+                alert('📂 Human_ClaudeCode_Bridge/Reports/ 폴더에서\nReport 파일(.json 또는 .md)을 선택해주세요.');
+
+                // 파일 선택 다이얼로그 열기
+                const [fileHandle] = await window.showOpenFilePicker({
+                    types: [
+                        {
+                            description: 'Report 파일',
+                            accept: {
+                                'application/json': ['.json'],
+                                'text/markdown': ['.md']
+                            }
+                        }
+                    ],
+                    multiple: false
+                });
+
+                showStatus(`📄 ${fileHandle.name} 로딩 중...`, 'info');
+
+                // 파일 내용 읽기
+                const file = await fileHandle.getFile();
+                const content = await file.text();
+                const editor = document.getElementById('textEditor');
+
+                if (fileHandle.name.endsWith('.json')) {
+                    // JSON 파일: 보기 좋게 포맷팅
+                    try {
+                        const data = JSON.parse(content);
+                        editor.value = JSON.stringify(data, null, 2);
+                    } catch (e) {
+                        editor.value = content;
+                    }
+                } else {
+                    // MD 파일: 그대로 표시
+                    editor.value = content;
+                }
+
+                showStatus(`✅ ${fileHandle.name} 로드 완료`, 'success');
+
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    // 사용자가 취소함
+                    showStatus('파일 선택 취소됨', 'info');
+                    return;
+                }
+                console.error('파일 로드 실패:', error);
+                showStatus(`❌ 파일 로드 실패: ${error.message}`, 'error');
+                alert(`❌ 파일 로드에 실패했습니다.\n\n${error.message}`);
+            }
+        }
+
         // Load from Reports (Claude Code 작업 결과 가져오기)
-        // 참고: 백엔드 엔드포인트는 /outbox/files 유지 (호환성)
+        // 프로덕션: File System Access API 사용
+        // 로컬: Bridge 서버 사용
         async function loadFromReports() {
-            // 배포 환경에서는 로컬 서버 기능 비활성화
+            // 프로덕션 환경에서는 File System Access API 사용
             if (IS_PRODUCTION) {
-                alert('이 기능은 로컬 개발 환경에서만 사용 가능합니다.\n\n로컬에서 Bridge 서버를 실행한 후 사용해주세요:\ncd Human_ClaudeCode_Bridge\nnode inbox_server.js');
+                await loadFromReportsWithFileAPI();
                 return;
             }
 
