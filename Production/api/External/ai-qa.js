@@ -84,4 +84,4 @@ ${learningContext ? '\n참고 콘텐츠:\n' + learningContext : ''}`;
   }
 }
 
-module.exports = withSubscription('ai-qa')(handler);
+module.exports = withSubscription('ai-qa.use')(handler);
