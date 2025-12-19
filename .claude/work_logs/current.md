@@ -475,10 +475,86 @@ GET /api/ai/health
 
 ---
 
+## Order Sheet SSAL→SAL 경로 수정 (2025-12-19)
+
+### 작업 상태: ✅ 완료
+
+**문제 발견:**
+- Order Sheet 파일들에 `S0_Project-SSAL-Grid_생성` 경로 참조 존재
+- 실제 폴더명은 `S0_Project-SAL-Grid_생성` (SSAL→SAL 변경됨)
+
+**수정된 파일:**
+
+#### Order_Sheet_템플릿 (8개 MD 파일)
+- S0_Grid_생성/S0_Grid_생성.md
+- S1_개발_준비/S1_개발_준비.md
+- S2_개발_1차/S2_개발_1차.md
+- S3_개발_2차/S3_개발_2차.md
+- S4_개발_3차/S4_개발_3차.md
+- S5_운영/S5_운영.md
+- P2-4_DB_Design/P2-4_DB_Design.md
+- P3-1-1_Frontend_Prototype/P3-1-1_Frontend_Prototype.md
+
+#### 상황별_안내문 (16개 HTML 파일)
+- S0 Grid 관련: S0-1~S0-4_*.html (4개)
+- S1~S5 Stage 관련: S1~S5_*.html (5개)
+- P1~P3 Stage 관련: P1~P3 *.html (7개)
+
+**변경 내용:**
+- `S0_Project-SSAL-Grid_생성` → `S0_Project-SAL-Grid_생성`
+- `ssal-grid` → `sal-grid`
+- `PROJECT_SSAL_GRID_MANUAL.md` → `PROJECT_SAL_GRID_MANUAL.md`
+- `Backend_APIs` → `Backend_API`
+
+---
+
+## 웹 배포 파일 재생성 (2025-12-19)
+
+### 작업 상태: ✅ 완료
+
+**재생성된 파일:**
+
+| 파일 | 항목 수 | 배포 위치 |
+|------|---------|-----------|
+| ordersheets.js | 53개 템플릿 | Production/, Production/Frontend/, P3_프로토타입_제작/Frontend/Prototype/ |
+| guides.js | 29개 안내문 | Production/, Production/Frontend/, P3_프로토타입_제작/Frontend/Prototype/ |
+
+**실행 명령:**
+- `node Production/Frontend/build/generate-ordersheets-js.js`
+- `node Production/Frontend/build/generate-guides-js.js`
+
+---
+
+## S4BA6 SAL Grid 파일 확인 (2025-12-19)
+
+### 작업 상태: ✅ 확인 완료 (이미 존재)
+
+**확인된 파일:**
+- `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/S4BA6_instruction.md` ✅
+- `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/S4BA6_verification.md` ✅
+
+**Task 내용:**
+- Task Name: 결제/알림 이메일 템플릿
+- Task Goal: 결제 및 자동화 시스템에서 사용할 이메일 템플릿 구현 (총 13종)
+- Dependencies: S2BA2, S4BA1, S4BA2
+
+**13종 이메일 템플릿:**
+| 카테고리 | 템플릿 ID |
+|----------|-----------|
+| 결제 | receipt, billing-success, payment-failure, payment-rejected, refund-complete |
+| 크레딧 | low-credit |
+| 리텐션 | feature-intro, recharge |
+| 구독 | subscription-suspended |
+| 온보딩 | verify-email-reminder, project-registration-reminder, day7-reminder |
+| 챌린지 | challenge-expiry |
+
+---
+
 ## 다음 작업 예정
 
-- **S4 Stage**: 내일 진행 예정 (PO 지시)
+- **S4 Stage**: 진행 예정 (PO 지시)
   - S4: 개발 3차 (QA & Optimization)
   - 주요 내용: 결제 연동, 성능 최적화, QA
+  - S4BA6 (결제/알림 이메일 템플릿) SAL Grid 파일 준비 완료
 
 ---

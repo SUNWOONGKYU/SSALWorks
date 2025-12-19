@@ -98,7 +98,7 @@
 ## 참고 문서
 
 - `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
-- `S0_Project-SSAL-Grid_생성/ssal-grid/` (Grid 데이터)
+- `S0_Project-SAL-Grid_생성/sal-grid/` (Grid 데이터)
 - `.claude/work_logs/current.md` (작업 로그)
 
 ---

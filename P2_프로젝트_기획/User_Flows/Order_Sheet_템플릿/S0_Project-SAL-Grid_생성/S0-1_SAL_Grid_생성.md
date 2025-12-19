@@ -1,8 +1,8 @@
-# Order Sheet - S0-1 Project SSAL Grid 생성
+# Order Sheet - S0-1 Project SAL Grid 생성
 
 > **작성일**: 2025-12-19
 > **버전**: 3.0
-> **Stage**: S0 (Project SSAL Grid 생성)
+> **Stage**: S0 (Project SAL Grid 생성)
 > **Task ID**: S0-1
 
 ---
@@ -10,15 +10,15 @@
 ## 1. Task 개요
 
 ### 1.1 목표
-Task 기반 개발을 위한 Project SSAL Grid 시스템을 생성합니다.
+Task 기반 개발을 위한 Project SAL Grid 시스템을 생성합니다.
 
 ### 1.2 Task 정보
 
 | 항목 | 값 |
 |------|-----|
 | Task ID | S0-1 |
-| Task Name | Project SSAL Grid 생성 |
-| Stage | S0 (Project SSAL Grid 생성) |
+| Task Name | Project SAL Grid 생성 |
+| Stage | S0 (Project SAL Grid 생성) |
 | Area | Setup |
 | 실행 유형 | AI-Only |
 | 의존성 | P0-1 완료 |
@@ -40,7 +40,7 @@ Task 기반 개발을 위한 Project SSAL Grid 시스템을 생성합니다.
 - 의존성 관계
 
 ### 2.3 문서 및 시스템 생성
-- PROJECT_SSAL_GRID_MANUAL.md
+- PROJECT_SAL_GRID_MANUAL.md
 - ssal-grid/ 폴더 구조
 - Stage Gate 검증 체크리스트
 
@@ -51,15 +51,15 @@ Task 기반 개발을 위한 Project SSAL Grid 시스템을 생성합니다.
 ```json
 {
   "task_id": "S0-1",
-  "task_name": "Project SSAL Grid 생성",
+  "task_name": "Project SAL Grid 생성",
   "stage": "S0",
   "area": "Setup",
   "execution_type": "AI-Only",
 
   "task_instruction": {
-    "목표": "Task 기반 개발을 위한 SSAL Grid 시스템 생성",
+    "목표": "Task 기반 개발을 위한 SAL Grid 시스템 생성",
     "산출물": [
-      "PROJECT_SSAL_GRID_MANUAL.md",
+      "PROJECT_SAL_GRID_MANUAL.md",
       "ssal-grid/ 폴더 구조",
       "Stage별 Task 목록",
       "Stage Gate 체크리스트"
@@ -73,7 +73,7 @@ Task 기반 개발을 위한 Project SSAL Grid 시스템을 생성합니다.
   },
 
   "output": {
-    "파일_저장": "S0_Project-SSAL-Grid_생성/"
+    "파일_저장": "S0_Project-SAL-Grid_생성/"
   },
 
   "task_agent": "devops-troubleshooter",

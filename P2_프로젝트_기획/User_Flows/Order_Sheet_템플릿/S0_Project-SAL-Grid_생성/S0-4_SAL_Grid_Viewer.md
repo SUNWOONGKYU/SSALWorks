@@ -1,8 +1,8 @@
 # Order Sheet - SAL Grid Viewer 작업
 
 ## 기본 정보
-- **Order ID**: OS-SSAL-VIEWER-001
-- **단계 유형**: Project SSAL Grid > Viewer
+- **Order ID**: OS-SAL-VIEWER-001
+- **단계 유형**: Project SAL Grid > Viewer
 - **작성일**: [자동입력]
 
 ---
@@ -32,7 +32,7 @@
 
 ## Viewer 파일 위치
 ```
-Project-SSAL-Grid/viewer/
+Project-SAL-Grid/viewer/
 └── viewer.html
 ```
 

@@ -1,8 +1,8 @@
 # Order Sheet - SAL Grid Supabase 작업
 
 ## 기본 정보
-- **Order ID**: OS-SSAL-SUPABASE-001
-- **단계 유형**: Project SSAL Grid > Supabase
+- **Order ID**: OS-SAL-SUPABASE-001
+- **단계 유형**: Project SAL Grid > Supabase
 - **작성일**: [자동입력]
 
 ---
@@ -38,7 +38,7 @@
 
 ## SQL 파일 위치
 ```
-Project-SSAL-Grid/supabase/
+Project-SAL-Grid/supabase/
 ├── schema.sql                    (테이블 생성)
 ├── seed_ssalworks_tasks.sql      (42개 Task 데이터)
 └── TEMPLATE_STANDARD_...sql      (참고용 템플릿)

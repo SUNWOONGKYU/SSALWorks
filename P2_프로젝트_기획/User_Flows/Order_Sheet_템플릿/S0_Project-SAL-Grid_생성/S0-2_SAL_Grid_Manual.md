@@ -1,8 +1,8 @@
 # Order Sheet - SAL Grid Manual 작업
 
 ## 기본 정보
-- **Order ID**: OS-SSAL-MANUAL-001
-- **단계 유형**: Project SSAL Grid > Manual
+- **Order ID**: OS-SAL-MANUAL-001
+- **단계 유형**: Project SAL Grid > Manual
 - **작성일**: [자동입력]
 
 ---
@@ -26,7 +26,7 @@
 ## 수정 대상 파일
 
 ### 메인 매뉴얼
-- [ ] `Project-SSAL-Grid/manual/PROJECT_SSAL_GRID_MANUAL.md`
+- [ ] `Project-SAL-Grid/manual/PROJECT_SAL_GRID_MANUAL.md`
 
 ### 참고 문서 (references/)
 - [ ] `PROJECT_GRID_22_ATTRIBUTES_FINAL.md`
