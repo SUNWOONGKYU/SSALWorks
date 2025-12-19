@@ -275,7 +275,7 @@ Main Agent → 사용자에게 작업 및 검증 결과 보고
 | 3 | 시간 금지 | 시간 추정 절대 금지 |
 | 4 | 대안 제시 | 3개 이상 대안 + 1개 추천 + 추천 이유 |
 | 5 | 필수 검증 | 작업 완료 후 검증 도구 실행 |
-| 6 | 작업 로그 | 작업 완료 시 지정된 작업 로그에 기록 |
+| 6 | work_log | 작업 완료 시 `.claude/work_logs/current.md` 기록 |
 | 7 | 문서 승인 | MD 파일 생성 전 승인 필수 |
 | 8 | 폴더 승인 | 새 폴더 생성 전 반드시 사전 승인 |
 | 9 | 도구 활용 | Skills/Subagents/Commands 적극 활용 |
@@ -868,7 +868,7 @@ Production: Production/API/Backend_APIs/google-login.js
 | 3 | 시간 금지 | 시간 추정 절대 금지 |
 | 4 | 대안 제시 | 3개 이상 대안 + 1개 추천 + 추천 이유 |
 | 5 | 필수 검증 | 작업 완료 후 검증 도구 실행 |
-| 6 | 작업 로그 | 작업 완료 시 지정된 작업 로그에 기록 |
+| 6 | work_log | 작업 완료 시 `.claude/work_logs/current.md` 기록 |
 | 7 | 문서 승인 | MD 파일 생성 전 승인 필수 |
 | 8 | 폴더 승인 | 새 폴더 생성 전 반드시 사전 승인 |
 | 9 | 도구 활용 | Skills/Subagents/Commands 적극 활용 |
