@@ -254,12 +254,34 @@ Main Agent → 사용자에게 작업 및 검증 결과 보고
 
 ```
 1순위: 절대 불변 규칙 (위 ABSOLUTE RULES)
-2순위: .claude/rules/ 상세 규칙
-3순위: Order Sheet 지시사항
-4순위: PROJECT_SSAL_GRID_MANUAL.md
+2순위: AI 12대 준수사항 (.claude/compliance/)
+3순위: .claude/rules/ 상세 규칙
+4순위: Order Sheet 지시사항
+5순위: PROJECT_SSAL_GRID_MANUAL.md
 ```
 
 **⚠️ Task 작업 전 반드시 해당 규칙 파일을 읽으세요!**
+
+---
+
+## 📋 AI 12대 준수사항 (2025-12-19)
+
+> **상세 내용은 `.claude/compliance/AI_12_COMPLIANCE.md` 참조**
+
+| # | 항목 | 핵심 |
+|---|------|------|
+| 1 | AI-First | 5가지 이상 시도 후에만 인간 요청 |
+| 2 | 거짓 금지 | 정확성 > 속도, 거짓 보고 절대 금지 |
+| 3 | 시간 금지 | 시간 추정 절대 금지 |
+| 4 | 대안 제시 | 3개 이상 대안 + 1개 추천 + 추천 이유 |
+| 5 | 필수 검증 | 작업 완료 후 검증 도구 실행 |
+| 6 | work_log | 작업 완료 시 `.claude/work_logs/current.md` 기록 |
+| 7 | 문서 승인 | MD 파일 생성 전 승인 필수 |
+| 8 | 폴더 승인 | 새 폴더 생성 전 반드시 사전 승인 |
+| 9 | 도구 활용 | Skills/Subagents/Commands 적극 활용 |
+| 10 | 모르면 질문 | 불확실하면 즉시 사용자에게 질문 |
+| 11 | 계획 먼저 | 복잡한 작업은 계획 수립 후 진행 |
+| 12 | 과잉 금지 | over-engineering 금지, 과다한 낙관적 표현 금지 |
 
 ---
 
@@ -837,19 +859,38 @@ Production: Production/API/Backend_APIs/google-login.js
 ---
 
 
-## 📋 추가 참조 문서
+## 📋 준수사항 (AI 행동 원칙)
 
-### 작업 6대 원칙
-> `.claude/rules/` 폴더의 상세 규칙 참조
+| # | 항목 | 핵심 |
+|---|------|------|
+| 1 | AI-First | 5가지 이상 시도 후에만 인간 요청 |
+| 2 | 거짓 금지 | 정확성 > 속도, 거짓 보고 절대 금지 |
+| 3 | 시간 금지 | 시간 추정 절대 금지 |
+| 4 | 대안 제시 | 3개 이상 대안 + 1개 추천 + 추천 이유 |
+| 5 | 필수 검증 | 작업 완료 후 검증 도구 실행 |
+| 6 | work_log | 작업 완료 시 `.claude/work_logs/current.md` 기록 |
+| 7 | 문서 승인 | MD 파일 생성 전 승인 필수 |
+| 8 | 폴더 승인 | 새 폴더 생성 전 반드시 사전 승인 |
+| 9 | 도구 활용 | Skills/Subagents/Commands 적극 활용 |
 
-| 원칙 | 핵심 |
+---
+
+## 📋 작업 규칙 (6대 규칙)
+
+> `.claude/rules/` 폴더 참조
+
+| 파일 | 내용 |
 |------|------|
-| AI-First | 5가지 이상 시도 후에만 인간 요청 |
-| 시간 금지 | 시간 추정 절대 금지 |
-| 문서 승인 | MD 파일 생성 전 승인 필수 |
-| 도구 활용 | Skills/Subagents/Commands 적극 활용 |
-| 필수 검증 | 작업 완료 후 검증 도구 실행 |
-| 거짓 금지 | 정확성 > 속도 |
+| `01_file-naming.md` | 파일 명명 규칙 (kebab-case, Task ID 주석) |
+| `02_save-location.md` | 저장 위치 규칙 (이중 저장) |
+| `03_area-stage.md` | 11개 Area, 5개 Stage 매핑 |
+| `04_grid-writing.md` | Grid 22개 속성 작성 규칙 |
+| `05_execution-process.md` | 6단계 실행 프로세스 |
+| `06_verification.md` | Task/Stage Gate/PO 검증 기준 |
+
+---
+
+## 📋 기타 참고사항
 
 ### PROJECT SAL GRID
 > `S0_Project-SAL-Grid_생성/manual/PROJECT_SSAL_GRID_MANUAL.md` 참조

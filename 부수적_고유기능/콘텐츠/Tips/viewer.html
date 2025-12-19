@@ -478,7 +478,7 @@
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="Tips 검색..." id="searchInput">
             </div>
-            <div class="sidebar-title">Tips 카테고리 (48개)</div>
+            <div class="sidebar-title">Tips 카테고리 (49개)</div>
             <div id="categoryList">
                 <!-- Categories will be generated dynamically -->
             </div>
@@ -504,6 +504,14 @@
 
         // Tips 콘텐츠 목록 (카테고리별)
         const TIPS_CONTENTS = {
+            'AI_준수사항': {
+                name: 'AI 준수사항',
+                icon: '📋',
+                description: 'AI 협업 시 반드시 지켜야 할 원칙',
+                files: [
+                    { name: 'AI 12대 준수사항', path: 'Tips/AI_준수사항/AI_12대_준수사항.md' }
+                ]
+            },
             '프로젝트_시작': {
                 name: '프로젝트 시작',
                 icon: '🚀',
