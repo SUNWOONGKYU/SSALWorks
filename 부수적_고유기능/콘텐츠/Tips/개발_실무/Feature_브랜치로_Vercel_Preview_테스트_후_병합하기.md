@@ -5,6 +5,17 @@
 
 ## 상세
 
+### Git 브랜치란?
+
+코드의 복사본을 만들어 독립적으로 작업하는 것. main 브랜치는 실서비스용, feature 브랜치는 새 기능 개발용.
+
+```
+main (실서비스) ─────────────────────────────→
+                 \                      /
+                  └── feature/기능명 ──┘
+                      (여기서 개발 후 합침)
+```
+
 ### 워크플로우
 
 ```
@@ -33,13 +44,21 @@
 "Preview 테스트 완료됐으니 main에 병합하고 Push해줘"
 ```
 
-### Preview 환경 변수 주의
+### Preview 환경 변수 설정
 
-Preview에서 데이터가 안 보이면 환경 변수가 Production에만 설정된 것. Vercel 대시보드에서 Preview 환경에도 변수 추가 필요.
+Preview에서 데이터가 안 보이면 환경 변수가 Production에만 설정된 것.
+
+**설정 경로:**
+1. Vercel 대시보드 접속
+2. 프로젝트 선택
+3. **Settings** 탭 클릭
+4. 왼쪽 메뉴에서 **Environment Variables**
+5. 변수 추가 시 **Preview** 체크박스 선택
 
 ### 주의
-- Preview 배포 실패 시 Vercel 대시보드 → Deployments → 로그 확인
+- Preview 배포 실패 시: Vercel 대시보드 → Deployments → 해당 배포 클릭 → 로그 확인
 - 병합 후 Feature 브랜치는 삭제: `git branch -d feature/기능명`
+- 충돌 발생 시: Claude Code에게 "merge conflict 해결해줘" 요청
 
 ---
 📚 더 자세히: Vercel 공식 문서
