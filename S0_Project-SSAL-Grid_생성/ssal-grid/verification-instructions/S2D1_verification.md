@@ -1,5 +1,19 @@
 # Verification Instruction - S2D1
 
+---
+
+## 📌 필수 참조 규칙 파일 (2025-12-19)
+
+> **⚠️ 검증 전 반드시 아래 규칙 파일을 확인하세요!**
+
+| 규칙 파일 | 내용 | 참조 시점 |
+|----------|------|----------|
+| `.claude/rules/04_grid-writing.md` | Grid 속성 검증 | 결과 기록 시 |
+| `.claude/rules/05_execution-process.md` | 검증 프로세스 | 검증 수행 순서 |
+| `.claude/rules/06_verification.md` | 검증 기준 | **핵심 참조** |
+
+
+
 ## Task ID
 S2D1
 

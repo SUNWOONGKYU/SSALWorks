@@ -2,6 +2,19 @@
 
 ---
 
+## 📌 필수 참조 규칙 파일 (2025-12-19)
+
+> **⚠️ 작업 전 반드시 아래 규칙 파일을 확인하세요!**
+
+| 규칙 파일 | 내용 | 참조 시점 |
+|----------|------|----------|
+| `.claude/rules/01_file-naming.md` | 파일 명명 규칙 | 파일 생성 시 |
+| `.claude/rules/02_save-location.md` | 저장 위치 규칙 | 파일 저장 시 |
+| `.claude/rules/03_area-stage.md` | Area/Stage 매핑 | 폴더 선택 시 |
+| `.claude/rules/05_execution-process.md` | 6단계 실행 프로세스 | 작업 전체 |
+
+---
+
 ## ⚠️ SSAL GRID 데이터 작성 필수 규칙
 
 > **이 규칙을 반드시 준수하세요! Grid 데이터 품질 보장을 위한 필수 사항입니다.**

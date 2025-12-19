@@ -90,6 +90,14 @@
 --   - SSALWORKS_TASK_PLAN.md (Task 계획)
 --   - SSALWORKS_5x11_MATRIX.md (매트릭스)
 --
+-- 📌 상세 규칙 파일 (.claude/rules/) - 2025-12-19 추가:
+--   - 01_file-naming.md     : 파일 명명 규칙 (kebab-case, Task ID 주석)
+--   - 02_save-location.md   : 저장 위치 규칙 (5개 Area 이중 저장)
+--   - 03_area-stage.md      : 11개 Area, 5개 Stage 매핑
+--   - 04_grid-writing.md    : Grid 22개 속성 작성 규칙
+--   - 05_execution-process.md : 6단계 실행 프로세스 (PO 협력 포함)
+--   - 06_verification.md    : Task/Stage Gate/PO 검증 기준
+--
 -- ================================================================
 
 -- 기존 데이터 삭제 (선택)
