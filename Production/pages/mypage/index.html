@@ -767,7 +767,7 @@
                         <li class="menu-item">
                             <a href="#subscription" class="menu-link" data-section="subscription">
                                 <span class="menu-icon">📋</span>
-                                구독 정보
+                                서비스 이용 현황
                             </a>
                         </li>
                         <li class="menu-item">
@@ -794,7 +794,7 @@
                             <div class="info-value" style="color: var(--secondary);" id="quickCredit">₩0</div>
                         </div>
                         <div class="info-item">
-                            <div class="info-label">구독 상태</div>
+                            <div class="info-label">서비스 상태</div>
                             <div id="quickStatus">-</div>
                         </div>
                     </div>
@@ -935,60 +935,133 @@
                     </div>
                 </section>
 
-                <!-- Subscription Section -->
+                <!-- Subscription Section (서비스 이용 현황) -->
                 <section class="section" id="subscriptionSection">
-                    <div class="stats-grid" style="margin-bottom: 24px; grid-template-columns: repeat(4, 1fr);">
-                        <div class="stat-card">
-                            <div class="stat-icon">📋</div>
-                            <div class="stat-value" id="subStatus">무료</div>
-                            <div class="stat-label">구독 상태</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">💳</div>
-                            <div class="stat-value" id="installFee">미납</div>
-                            <div class="stat-label">설치비</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">💵</div>
-                            <div class="stat-value" id="monthlyFee">₩50,000</div>
-                            <div class="stat-label">월 이용료</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">📅</div>
-                            <div class="stat-value" id="nextPayDate">-</div>
-                            <div class="stat-label">다음 결제일</div>
-                        </div>
-                    </div>
-
-                    <!-- Subscription Info -->
+                    <!-- 서비스 이용 현황 메인 카드 -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">구독 정보</h3>
+                            <h3 class="card-title">서비스 이용 현황</h3>
                         </div>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <div class="info-label">현재 구독 상태</div>
-                                <div class="info-value" id="subStatusDetail">무료</div>
+
+                        <!-- 1. 서비스 상태 -->
+                        <div style="display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--gray-50); border-radius: 8px; margin-bottom: 20px;">
+                            <div style="font-size: 28px;">📋</div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 14px; color: var(--gray-500); margin-bottom: 4px;">서비스 상태</div>
+                                <div style="font-weight: 600; font-size: 18px;">
+                                    <span class="profile-badge" id="serviceStatusBadge" style="font-size: 14px;">-</span>
+                                </div>
                             </div>
-                            <div class="info-item">
-                                <div class="info-label">설치비 납부</div>
-                                <div class="info-value" id="subInstallDetail">미납</div>
+                        </div>
+
+                        <!-- 2. 설치비 섹션 -->
+                        <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
+                            <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">🏠 설치비</div>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                                <div class="info-item">
+                                    <div class="info-label">납부 상태</div>
+                                    <div class="info-value" id="installFeeStatusMain">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">납부일</div>
+                                    <div class="info-value" id="installFeePaidDate">-</div>
+                                </div>
                             </div>
-                            <div class="info-item">
-                                <div class="info-label">설치비 납부일</div>
-                                <div class="info-value" id="subInstallDate">-</div>
+                        </div>
+
+                        <!-- 3. 이용료 섹션 -->
+                        <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
+                            <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">📅 월 이용료</div>
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                                <div class="info-item">
+                                    <div class="info-label">무료 이용 기간</div>
+                                    <div class="info-value" id="freePeriodRemaining">-</div>
+                                </div>
+                                <div class="info-item">
+                                    <div class="info-label">다음 결제일</div>
+                                    <div class="info-value" id="nextPayDate">-</div>
+                                </div>
                             </div>
-                            <div class="info-item">
-                                <div class="info-label">플랫폼 이용료 시작일</div>
-                                <div class="info-value" id="subFeeStart">-</div>
+                        </div>
+
+                        <!-- 4. 크레딧 섹션 -->
+                        <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
+                            <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">💰 크레딧</div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div class="info-item" style="flex: 1;">
+                                    <div class="info-label">현재 잔액</div>
+                                    <div class="info-value" style="color: var(--secondary); font-size: 20px; font-weight: 700;" id="subCreditBalance">₩0</div>
+                                </div>
+                                <a href="credit.html" class="btn-edit" style="text-decoration: none; background: var(--secondary);">
+                                    💰 크레딧 충전
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 5. 결제수단 관리 (마지막) -->
+                        <div style="padding-top: 16px; border-top: 1px solid var(--gray-100);">
+                            <a href="subscription.html" class="btn-edit btn-secondary" style="text-decoration: none; text-align: center; display: block; width: 100%;">
+                                💳 결제수단 관리
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- 요금 안내 -->
+                    <div class="card" style="margin-top: 24px;">
+                        <div class="card-header">
+                            <h3 class="card-title">이용 요금 안내</h3>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 24px;">🏠</div>
+                                    <div>
+                                        <div style="font-weight: 600;">설치비</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">1회 (무통장 입금)</div>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <div style="font-weight: 700; color: var(--primary);">₩3,000,000</div>
+                                    <div style="font-size: 12px; color: var(--gray-500);" id="installFeeStatus">미납</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 24px;">📅</div>
+                                    <div>
+                                        <div style="font-weight: 600;">월 이용료</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">4개월차부터 (토스 페이먼트)</div>
+                                    </div>
+                                </div>
+                                <div style="font-weight: 700; color: var(--primary);">₩50,000/월</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 24px;">🎁</div>
+                                    <div>
+                                        <div style="font-weight: 600;">초기 크레딧</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">설치비 확인 시 자동 지급</div>
+                                    </div>
+                                </div>
+                                <div style="font-weight: 700; color: var(--success);">₩50,000</div>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="font-size: 24px;">⏰</div>
+                                    <div>
+                                        <div style="font-weight: 600;">무료 이용 기간</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">설치비 확인 후 1~3개월차</div>
+                                    </div>
+                                </div>
+                                <div style="font-weight: 700; color: var(--accent);">3개월</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Payment Method -->
+                    <!-- 결제 수단 -->
                     <div class="card" style="margin-top: 24px;">
                         <div class="card-header">
-                            <h3 class="card-title">결제 수단</h3>
+                            <h3 class="card-title">등록된 결제 수단</h3>
                             <a href="subscription.html" class="btn-edit btn-secondary" style="text-decoration: none; font-size: 14px;">변경하기</a>
                         </div>
                         <div id="paymentMethodDisplay">
@@ -1002,7 +1075,7 @@
                         </div>
                     </div>
 
-                    <!-- Recent Billing History -->
+                    <!-- 최근 결제 내역 -->
                     <div class="card" style="margin-top: 24px;">
                         <div class="card-header">
                             <h3 class="card-title">최근 결제 내역</h3>
@@ -1012,22 +1085,6 @@
                             <div style="color: var(--gray-500); text-align: center; padding: 40px;">
                                 로딩 중...
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Quick Actions -->
-                    <div class="card" style="margin-top: 24px;">
-                        <div class="card-header">
-                            <h3 class="card-title">빠른 메뉴</h3>
-                        </div>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                            <a href="../payment/installation.html" class="btn-edit" style="text-decoration: none; text-align: center;">🏠 설치비 안내</a>
-                            <a href="subscription.html" class="btn-edit btn-secondary" style="text-decoration: none; text-align: center;">📋 구독 관리</a>
-                        </div>
-                        <div style="margin-top: 16px; padding: 16px; background: var(--gray-50); border-radius: 8px;">
-                            <p style="color: var(--gray-500); font-size: 14px;">
-                                구독 상태 변경이나 결제 관련 문의는 고객센터로 연락해주세요.
-                            </p>
                         </div>
                     </div>
                 </section>
@@ -1403,29 +1460,82 @@
             }).join('');
         }
 
-        // ========== 구독 정보 렌더링 ==========
+        // ========== 서비스 이용 현황 렌더링 ==========
         async function renderSubscription() {
             if (!userData) return;
 
-            const statusText = getSubscriptionStatusText(userData.subscription_status);
-            const installText = userData.installation_fee_paid ? '완료' : '미납';
+            // 서비스 이용 상태
+            const statusBadge = document.getElementById('serviceStatusBadge');
+            const isServiceActive = userData.is_service_active;
+            const subscriptionStatus = userData.subscription_status;
 
-            document.getElementById('subStatus').textContent = statusText;
-            document.getElementById('installFee').textContent = installText;
+            if (isServiceActive) {
+                statusBadge.textContent = '✅ 이용 중';
+                statusBadge.className = 'profile-badge badge-active';
+            } else if (subscriptionStatus === 'pending') {
+                statusBadge.textContent = '⏳ 설치비 대기';
+                statusBadge.className = 'profile-badge badge-paused';
+            } else {
+                statusBadge.textContent = '❌ 비활성';
+                statusBadge.className = 'profile-badge badge-free';
+            }
 
-            document.getElementById('subStatusDetail').textContent = statusText;
-            document.getElementById('subInstallDetail').textContent = installText;
-            document.getElementById('subInstallDate').textContent =
-                userData.installation_date ? formatDate(userData.installation_date) : '-';
-            document.getElementById('subFeeStart').textContent =
-                userData.platform_fee_start_date ? formatDate(userData.platform_fee_start_date) : '-';
-
-            // Calculate next payment date
-            if (userData.subscription_status === 'active' && userData.platform_fee_start_date) {
-                const feeStart = new Date(userData.platform_fee_start_date);
+            // 무료 이용 기간 계산
+            const freePeriodEl = document.getElementById('freePeriodRemaining');
+            if (userData.subscription_started_at && userData.next_billing_date) {
                 const now = new Date();
-                const nextPay = new Date(now.getFullYear(), now.getMonth() + 1, feeStart.getDate());
-                document.getElementById('nextPayDate').textContent = formatDate(nextPay);
+                const nextBilling = new Date(userData.next_billing_date);
+                const diffTime = nextBilling - now;
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                if (diffDays > 0) {
+                    const months = Math.floor(diffDays / 30);
+                    const days = diffDays % 30;
+                    freePeriodEl.textContent = months > 0 ? `${months}개월 ${days}일 남음` : `${days}일 남음`;
+                    freePeriodEl.style.color = 'var(--success)';
+                } else {
+                    freePeriodEl.textContent = '무료 기간 종료';
+                    freePeriodEl.style.color = 'var(--gray-500)';
+                }
+            } else if (!userData.installation_fee_paid) {
+                freePeriodEl.textContent = '설치비 납부 후 시작';
+                freePeriodEl.style.color = 'var(--gray-500)';
+            } else {
+                freePeriodEl.textContent = '-';
+            }
+
+            // 다음 결제일
+            if (userData.next_billing_date) {
+                document.getElementById('nextPayDate').textContent = formatDate(userData.next_billing_date);
+            } else {
+                document.getElementById('nextPayDate').textContent = '-';
+            }
+
+            // 크레딧 잔액
+            const creditBalance = userData.credit_balance || 0;
+            document.getElementById('subCreditBalance').textContent = `₩${creditBalance.toLocaleString()}`;
+
+            // 설치비 상태 (메인 카드)
+            const installFeeStatusMain = document.getElementById('installFeeStatusMain');
+            const installFeePaidDate = document.getElementById('installFeePaidDate');
+            if (userData.installation_fee_paid) {
+                installFeeStatusMain.innerHTML = '<span style="color: var(--success);">✅ 완납</span>';
+                installFeePaidDate.textContent = userData.subscription_started_at
+                    ? formatDate(userData.subscription_started_at)
+                    : '-';
+            } else {
+                installFeeStatusMain.innerHTML = '<span style="color: var(--danger);">❌ 미납</span>';
+                installFeePaidDate.textContent = '-';
+            }
+
+            // 설치비 상태 (요금 안내 카드)
+            const installFeeStatus = document.getElementById('installFeeStatus');
+            if (userData.installation_fee_paid) {
+                installFeeStatus.textContent = '✅ 완납';
+                installFeeStatus.style.color = 'var(--success)';
+            } else {
+                installFeeStatus.textContent = '미납';
+                installFeeStatus.style.color = 'var(--danger)';
             }
 
             // Load payment methods from Supabase
@@ -1672,7 +1782,13 @@
                 `₩${(userData.credit_balance || 0).toLocaleString()}`;
 
             const statusBadge = document.getElementById('quickStatus');
-            statusBadge.innerHTML = `<span class="profile-badge badge-${userData.subscription_status || 'free'}">${getSubscriptionStatusText(userData.subscription_status)}</span>`;
+            if (userData.is_service_active) {
+                statusBadge.innerHTML = `<span class="profile-badge badge-active">이용 중</span>`;
+            } else if (userData.subscription_status === 'pending') {
+                statusBadge.innerHTML = `<span class="profile-badge badge-paused">대기 중</span>`;
+            } else {
+                statusBadge.innerHTML = `<span class="profile-badge badge-free">비활성</span>`;
+            }
         }
 
         // ========== 메뉴 네비게이션 ==========
