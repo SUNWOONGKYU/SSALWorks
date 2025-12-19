@@ -74,7 +74,7 @@ Main Agent → 사용자에게 작업 및 검증 결과 보고
 
 **서브에이전트 참조:**
 > ⚠️ Task Agent와 Verification Agent는 **Project SSAL Grid에 사전 정의**되어 있습니다.
-> 매뉴얼 참조: `S0_Project-SSAL-Grid_생성/manual/PROJECT_SSAL_GRID_MANUAL.md`
+> 매뉴얼 참조: `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
 > Grid의 `task_agent`와 `verification_agent` 필드 값을 따르세요.
 
 ---
