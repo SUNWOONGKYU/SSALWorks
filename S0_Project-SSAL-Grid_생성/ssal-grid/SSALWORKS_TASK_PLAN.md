@@ -1,10 +1,10 @@
 # SSALWorks Task 기획서 [★ 실전용 ★]
 
 > **작성일**: 2025-11-27
-> **수정일**: 2025-12-18
-> **버전**: v3.3
+> **수정일**: 2025-12-19
+> **버전**: v4.0
 > **프로젝트**: SSALWorks v1.0 (프로덕션)
-> **총 Task 수**: 42개 (GRID 관리 범위: S1-S5)
+> **총 Task 수**: 52개 (GRID 관리 범위: S1-S5)
 > **유형**: ★ 실전용 (템플릿 아님) ★
 > **아키텍처**: HTML + Serverless Functions (Vercel)
 
@@ -57,11 +57,11 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║                PROJECT SAL GRID 관리 범위 (S1-S5)                     ║
 ╠═══════════════════════════════════════════════════════════════════════╣
-║   Stage 1: 개발 준비 (8 tasks) - Vercel/도메인/환경 설정              ║
-║   Stage 2: 개발 1차 (12 tasks) - OAuth/이메일/핵심 API                ║
-║   Stage 3: 개발 2차 (4 tasks) - AI연동/구독권한                       ║
-║   Stage 4: 개발 3차 (10 tasks) - 결제/관리자/테스트                   ║
-║   Stage 5: 운영 (8 tasks) - 배포/도메인연결/운영                      ║
+║   Stage 1: 개발 준비 (9 tasks) - Vercel/도메인/환경/Sentry 설정       ║
+║   Stage 2: 개발 1차 (16 tasks) - OAuth/이메일/핵심 API/회원가입       ║
+║   Stage 3: 개발 2차 (6 tasks) - AI연동/구독권한/AI UI                 ║
+║   Stage 4: 개발 3차 (14 tasks) - 결제/관리자/테스트/크레딧            ║
+║   Stage 5: 운영 (7 tasks) - 배포/유지보수                             ║
 ║                                                                       ║
 ║   ※ GRID 자체 기능(뷰어, Task CRUD)은 GRID 생성 단계에서 별도 처리   ║
 ╚═══════════════════════════════════════════════════════════════════════╝
@@ -71,23 +71,23 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 
 | Stage | 설명 | Task 수 |
 |-------|------|---------|
-| S1 개발 준비 | Vercel 설정 + 환경 준비 + 도메인 연결 | 8 |
-| S2 개발 1차 | OAuth + 이메일 + 핵심 API | 13 |
-| S3 개발 2차 | AI 연동 + 구독 권한 | 4 |
-| S4 개발 3차 | 결제 + 관리자 + QA | 10 |
+| S1 개발 준비 | Vercel 설정 + 환경 준비 + 도메인 연결 + Sentry | 9 |
+| S2 개발 1차 | OAuth + 이메일 + 핵심 API + 회원가입 + 프로젝트관리 | 16 |
+| S3 개발 2차 | AI 연동 + 구독 권한 + AI UI | 6 |
+| S4 개발 3차 | 결제 + 관리자 + QA + 크레딧 | 14 |
 | S5 운영 | 배포 + 유지보수 | 7 |
-| **합계** | | **42** |
+| **합계** | | **52** |
 
 ### Area별 분포
 
 | Stage | M | U | F | BI | BA | D | S | T | O | E | C | 합계 |
 |-------|---|---|---|----|----|----|---|---|---|---|---|------|
-| S1 | 1 | - | 2 | 1 | - | 1 | 1 | 1 | 1 | - | - | **8** |
-| S2 | 1 | - | 2 | 3 | 3 | 1 | 1 | 1 | - | - | 1 | **13** |
-| S3 | - | - | - | 1 | 1 | - | 1 | - | - | 1 | - | **4** |
-| S4 | 1 | - | 2 | 1 | 2 | - | 1 | 2 | 1 | - | - | **10** |
+| S1 | 1 | - | 2 | 2 | - | 1 | 1 | 1 | 1 | - | - | **9** |
+| S2 | 1 | - | 3 | 3 | 5 | 1 | 1 | 1 | - | - | 1 | **16** |
+| S3 | - | - | 1 | 1 | 2 | - | 1 | - | - | 1 | - | **6** |
+| S4 | 1 | - | 3 | - | 5 | 1 | 1 | 2 | 1 | - | - | **14** |
 | S5 | 1 | - | 1 | - | 1 | 1 | 1 | - | 2 | - | - | **7** |
-| **합계** | 4 | 0 | 7 | 6 | 7 | 3 | 5 | 4 | 4 | 1 | 1 | **42** |
+| **합계** | 4 | 0 | 10 | 6 | 13 | 4 | 5 | 4 | 4 | 1 | 1 | **52** |
 
 > **참고**:
 > - Area U (UI/UX)는 P3에서 모두 완료되어 S1-S5에서는 Task 없음
@@ -95,10 +95,10 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 
 ---
 
-## 2. Stage 1: 개발 준비 (8 Tasks)
+## 2. Stage 1: 개발 준비 (9 Tasks)
 
-> **목표**: Vercel 배포 환경 + 도메인 + 인프라 설정
-> **Areas**: M(1), F(2), BI(1), D(1), S(1), T(1), O(1)
+> **목표**: Vercel 배포 환경 + 도메인 + 인프라 설정 + Sentry 에러 트래킹
+> **Areas**: M(1), F(2), BI(2), D(1), S(1), T(1), O(1)
 
 ### Area M - Manual/Documentation (1)
 
@@ -113,11 +113,12 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 | S1F1 | Vercel 프로젝트 설정 | Vercel 프로젝트 생성, Git 연결, 프레임워크 설정 | - |
 | S1F2 | vercel.json 설정 | 빌드 설정, 라우팅, 보안 헤더, CORS 설정 | S1F1 |
 
-### Area BI - Backend Infrastructure (1)
+### Area BI - Backend Infrastructure (2)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S1BI1 | 환경변수 설정 | .env 파일 구조, Vercel 환경변수 설정 | S1F1 |
+| S1BI2 | Sentry 에러 트래킹 설정 | 클라이언트/서버 에러 모니터링, 개발 초기 버그 조기 발견 | S1BI1 |
 
 ### Area D - Database (1)
 
@@ -145,10 +146,10 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 
 ---
 
-## 3. Stage 2: 개발 1차 (13 Tasks)
+## 3. Stage 2: 개발 1차 (16 Tasks)
 
-> **목표**: Google OAuth + 이메일 서비스 + 핵심 API 완성
-> **Areas**: M(1), F(2), BI(3), BA(3), D(1), S(1), T(1), C(1)
+> **목표**: Google OAuth + 이메일 서비스 + 핵심 API + 회원가입 + 프로젝트 관리
+> **Areas**: M(1), F(3), BI(3), BA(5), D(1), S(1), T(1), C(1)
 
 ### Area M - Manual/Documentation (1)
 
@@ -156,12 +157,13 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 |---------|--------|------|--------|
 | S2M1 | API 문서 v1 | Serverless API 명세서 (인증/구독 API) | S2BA1, S2BA2, S2BA3 |
 
-### Area F - Frontend (2)
+### Area F - Frontend (3)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S2F1 | Google 소셜 로그인 UI | Google 로그인 버튼, OAuth 콜백 페이지 | S2BA1 |
 | S2F2 | 비밀번호 재설정 UI | 이메일 인증 기반 재설정 폼 + 이메일 전송 연동 | S2BA2 |
+| S2F3 | 회원가입 UI | 이메일/비밀번호 회원가입 폼 (Google OAuth 외 별도) | S2BA4 |
 
 ### Area BI - Backend Infrastructure (3)
 
@@ -171,13 +173,15 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 | S2BI2 | 에러 핸들링 시스템 | 전역 에러 처리, 토스트 알림, 에러 로깅 | - |
 | S2BI3 | 이메일 도메인 인증 (Resend) | Whois DNS 설정으로 ssalworks.ai.kr 도메인 인증 | S2BI1 |
 
-### Area BA - Backend APIs (3)
+### Area BA - Backend APIs (5)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S2BA1 | Google OAuth Serverless API | /api/auth/google, /api/auth/google/callback | S1S1 |
 | S2BA2 | 이메일 발송 API (Resend) | 비밀번호 재설정, 환영 메일 API | S2BI1 |
 | S2BA3 | 구독 관리 API | 구독 신청/상태 조회/해지 API | S1D1 |
+| S2BA4 | 회원가입 API | POST /api/auth/signup (이메일/비밀번호 회원가입) | S1S1 |
+| S2BA5 | 프로젝트 관리 API | POST /api/projects (생성), GET (목록), PUT (수정), POST /complete (완료) | S1D1 |
 
 ### Area D - Database (1)
 
@@ -201,15 +205,21 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
-| S2C1 | 학습용 콘텐츠 시스템 정비 | viewer.html/index.html 콘텐츠 목록 동기화 (DB 미사용, jsdelivr CDN) | - |
+| S2C1 | Books 콘텐츠 업로드 | viewer.html/index.html 콘텐츠 목록 동기화 (DB 미사용, jsdelivr CDN) | - |
 
 ---
 
-## 4. Stage 3: 개발 2차 (4 Tasks)
+## 4. Stage 3: 개발 2차 (6 Tasks)
 
-> **목표**: AI 연동 + 구독 권한
-> **Areas**: BI(1), BA(1), S(1), E(1)
+> **목표**: AI 연동 + 구독 권한 + AI UI
+> **Areas**: F(1), BI(1), BA(2), S(1), E(1)
 > **참고**: Project SAL GRID 자체 기능(그리드 뷰어, Task CRUD 등)은 GRID 생성 단계에서 별도 처리
+
+### Area F - Frontend (1)
+
+| Task ID | Task명 | 설명 | 의존성 |
+|---------|--------|------|--------|
+| S3F1 | AI Q&A 인터페이스 | Gemini/ChatGPT/Perplexity 선택, 질문 입력, 답변 표시, 크레딧 | S3BA1 |
 
 ### Area BI - Backend Infrastructure (1)
 
@@ -217,17 +227,18 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 |---------|--------|------|--------|
 | S3BI1 | AI API 클라이언트 통합 | Gemini, ChatGPT, Perplexity 3개 서비스 연동 구조 | - |
 
-### Area BA - Backend APIs (1)
+### Area BA - Backend APIs (2)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S3BA1 | AI Q&A API | Gemini, ChatGPT, Perplexity 프록시 API, 크레딧 차감 | S3BI1 |
+| S3BA2 | AI 가격 조회 API | GET /api/ai/pricing (실시간 가격 조회) | S3BI1 |
 
 ### Area S - Security (1)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
-| S3S1 | 구독 권한 체크 | Books/AI 접근 권한 검증 | S2S1 |
+| S3S1 | AI 서비스 구독 상태 확인 (Health Check) | Books/AI 접근 권한 검증 | S2S1 |
 
 ### Area E - External (1)
 
@@ -237,10 +248,10 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 
 ---
 
-## 5. Stage 4: 개발 3차 (10 Tasks)
+## 5. Stage 4: 개발 3차 (14 Tasks)
 
-> **목표**: 결제 시스템 + 관리자 대시보드 + 품질 보증
-> **Areas**: M(1), F(2), BI(1), BA(2), S(1), T(2), O(1)
+> **목표**: 결제 시스템 + 관리자 대시보드 + 품질 보증 + 크레딧
+> **Areas**: M(1), F(3), BA(5), D(1), S(1), T(2), O(1)
 
 ### Area M - Manual/Documentation (1)
 
@@ -248,25 +259,29 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 |---------|--------|------|--------|
 | S4M1 | 관리자 가이드 | Admin Dashboard 사용법 | S4F1 |
 
-### Area F - Frontend (2)
+### Area F - Frontend (3)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S4F1 | 관리자 대시보드 강화 | 통계, 사용자 관리, 구독 승인 | S4BA2 |
-| S4F2 | AI Q&A 인터페이스 | Gemini/ChatGPT/Perplexity 선택, 질문 입력, 답변 표시, 크레딧 | S3BA2 |
+| S4F3 | 크레딧 충전 UI | 충전 금액 선택, 결제 수단 선택 페이지 | S4BA4 |
+| S4F4 | 결제 수단 등록 UI | 카드/계좌 정보 입력 페이지 | S4BA3 |
 
-### Area BI - Backend Infrastructure (1)
-
-| Task ID | Task명 | 설명 | 의존성 |
-|---------|--------|------|--------|
-| S4BI1 | Sentry 에러 트래킹 설정 | 클라이언트/서버 에러 모니터링 | S1BI1 |
-
-### Area BA - Backend APIs (2)
+### Area BA - Backend APIs (5)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S4BA1 | 결제 API (토스 페이먼트) | 결제 요청/확인 Serverless API | S2BA3 |
 | S4BA2 | 결제 웹훅 API | 토스 결제 완료 콜백, 구독 상태 업데이트 | S4BA1 |
+| S4BA3 | 결제 수단 등록 API | POST /api/subscription/payment-method (카드/계좌 자동이체 등록) | S4D1 |
+| S4BA4 | 크레딧 충전 API | POST /api/credit/purchase (크레딧 구매) | S4D1 |
+| S4BA5 | 설치비 입금 확인 API | POST /api/payment/installation-confirm, POST /api/admin/confirm-installation | S4D1 |
+
+### Area D - Database (1)
+
+| Task ID | Task명 | 설명 | 의존성 |
+|---------|--------|------|--------|
+| S4D1 | 결제/크레딧 테이블 | billing_history, credit_history, ai_pricing, api_usage_log 테이블 | S1D1 |
 
 ### Area S - Security (1)
 
@@ -341,6 +356,7 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 ```
 S1F1 (Vercel 프로젝트) ──> S1F2 (vercel.json)
 S1F1 ──> S1BI1 (환경변수) ──> S1S1 (Auth Provider)
+S1BI1 ──> S1BI2 (Sentry)
 S1F1 ──> S1T1 (테스트환경)
 ```
 
@@ -355,17 +371,21 @@ S1D1 ──> S2BA3 (구독 API)
 ### S2 → S3 의존성
 ```
 S2BA1 (OAuth) ──> S2S1 (인증 미들웨어) ──> S3S1 (구독 권한)
-S1BI1 ──> S3E1 (Perplexity 키)
-S1D1 ──> S3BA1 (Task API) ──> S3F1 (그리드 뷰어)
-S3BI1 (API 클라이언트) ──> S3BA2 (AI API)
+S1BI1 ──> S3E1 (AI API 키)
+S3BI1 (API 클라이언트) ──> S3BA1 (AI Q&A API)
+S3BI1 ──> S3BA2 (AI 가격 조회)
+S3BA1 ──> S3F1 (AI Q&A UI)
 ```
 
 ### S3 → S4 의존성
 ```
-S3BA2 (AI API) ──> S4F2 (AI Q&A UI)
 S2BA3 (구독 API) ──> S4BA1 (결제 API) ──> S4BA2 (웹훅)
 S4BA2 ──> S4F1 (관리자 대시보드)
 S2S1 ──> S4S1 (관리자 권한)
+S1D1 ──> S4D1 (결제/크레딧 테이블)
+S4D1 ──> S4BA3, S4BA4, S4BA5
+S4BA4 ──> S4F3 (크레딧 충전 UI)
+S4BA3 ──> S4F4 (결제 수단 등록 UI)
 ```
 
 ### S4 → S5 의존성
@@ -378,43 +398,43 @@ S5O1 ──> S5M1, S5F1, S5BA1, S5D1, S5S1
 
 ### 전체 의존성 요약
 ```
-                    S1 (8 tasks)
+                    S1 (9 tasks)
                          │
          ┌───────────────┼───────────────┐
          ▼               ▼               ▼
-    Vercel설정      환경변수설정    DB스키마확정
+    Vercel설정      환경변수/Sentry   DB스키마확정
          │               │               │
          └───────────────┼───────────────┘
                          ▼
-                    S2 (12 tasks)
+                    S2 (16 tasks)
                          │
          ┌───────────────┼───────────────┐
          ▼               ▼               ▼
-    OAuth API      이메일 API      구독 API
+    OAuth/회원가입   이메일 API    구독/프로젝트 API
          │               │               │
          └───────────────┼───────────────┘
                          ▼
-                    S3 (10 tasks)
+                    S3 (6 tasks)
                          │
          ┌───────────────┼───────────────┐
          ▼               ▼               ▼
-    Task API        AI API         권한체크
+    AI Q&A API      AI UI          권한체크
          │               │               │
          └───────────────┼───────────────┘
                          ▼
-                    S4 (10 tasks)
+                    S4 (14 tasks)
                          │
          ┌───────────────┼───────────────┐
          ▼               ▼               ▼
-    결제 API        관리자           테스트
+    결제/크레딧     관리자           테스트
          │               │               │
          └───────────────┼───────────────┘
                          ▼
-                    S5 (8 tasks)
+                    S5 (7 tasks)
                          │
          ┌───────────────┼───────────────┐
          ▼               ▼               ▼
-      배포          도메인연결        운영
+      배포           유지보수         운영
 ```
 
 ---
@@ -431,6 +451,7 @@ S5O1 ──> S5M1, S5F1, S5BA1, S5D1, S5S1
 - [ ] Vercel 프로젝트 설정 완료
 - [ ] vercel.json 보안 헤더 설정
 - [ ] 환경변수 설정 완료
+- [ ] Sentry 에러 트래킹 설정 완료
 - [ ] DNS 설정 완료 (도메인은 P2에서 구매 완료)
 - [ ] Google OAuth Provider 설정 완료
 
@@ -442,18 +463,45 @@ S5O1 ──> S5M1, S5F1, S5BA1, S5D1, S5S1
 
 ### S3 → S4 Gate (개발2차 → 개발3차)
 - [ ] AI Q&A API 작동 (Gemini, ChatGPT, Perplexity)
+- [ ] AI Q&A 인터페이스 완성
+- [ ] AI 가격 조회 API 작동
 - [ ] 구독 권한 체크 작동
 
 ### S4 → S5 Gate (개발3차 → 운영)
 - [ ] 결제 시스템 작동 (토스 페이먼트)
+- [ ] 크레딧 충전 시스템 작동
 - [ ] 관리자 대시보드 완성
 - [ ] E2E 테스트 통과
 - [ ] API 통합 테스트 통과
-- [ ] Sentry 에러 트래킹 설정 완료
 
 ---
 
 ## 9. 변경 이력
+
+### v4.0 (2025-12-19)
+- **대규모 Task 추가/이동 작업**
+- **Task 수 변경**: 42 → 52 tasks (+10)
+- **누락 Task 10개 추가**:
+  - S2: S2BA4 (회원가입 API), S2BA5 (프로젝트 관리 API), S2F3 (회원가입 UI)
+  - S3: S3BA2 (AI 가격 조회 API)
+  - S4: S4BA3 (결제 수단 등록 API), S4BA4 (크레딧 충전 API), S4BA5 (설치비 입금 확인 API), S4F3 (크레딧 충전 UI), S4F4 (결제 수단 등록 UI), S4D1 (결제/크레딧 테이블)
+- **Stage 이동 2건**:
+  - S4BI1 (Sentry) → S1BI2 (개발 초기 설정 필요)
+  - S4F2 (AI Q&A UI) → S3F1 (AI 연동 Stage에서 함께 처리)
+- **Stage별 Task 수 변경**:
+  - S1: 8 → 9
+  - S2: 13 → 16
+  - S3: 4 → 6
+  - S4: 10 → 14
+  - S5: 7 (변동 없음)
+- **이유**: User Flow 분석 결과 누락된 Task 추가, Stage 목표에 맞는 Task 재배치
+
+### v3.4 (2025-12-19)
+- **S2C1 이름 통일**: "학습용 콘텐츠 시스템 정비" → "Books 콘텐츠 업로드" (Grid 기준)
+- **S3S1 이름 통일**: "구독 권한 체크" → "AI 서비스 구독 상태 확인 (Health Check)" (Grid 기준)
+- **S5O2 Grid에서 삭제**: S1O1로 통합됨 (Task Plan v3.1 반영)
+- **Task 수 변경**: 42 → 42 tasks (변동 없음, S5O2는 이미 Task Plan에서 삭제됨)
+- **이유**: Task Plan과 Grid 데이터 불일치 해소
 
 ### v3.3 (2025-12-18)
 - **S2BI3 추가**: 이메일 도메인 인증 (Resend) - Whois DNS 설정으로 ssalworks.ai.kr 도메인 인증
