@@ -4,6 +4,63 @@
 
 ---
 
+## 안내문 일반화 및 SSAL → SAL 명칭 변경 (2025-12-19)
+
+### 작업 상태: ✅ 완료
+
+**변경 사항 요약:**
+
+#### 1. 용어 통일
+- "SSAL Grid" → "Project SAL Grid" (정식 명칭)
+- "ssalworks_tasks" → "tasks"
+- "SSAL Works 개발 흐름" → "웹 개발 프로젝트 흐름"
+
+#### 2. 폴더/파일명 변경
+| 변경 전 | 변경 후 |
+|--------|--------|
+| S0_Project-SSAL-Grid_생성 | S0_Project-SAL-Grid_생성 |
+| ssal-grid | sal-grid |
+| PROJECT_SSAL_GRID_MANUAL.md | PROJECT_SAL_GRID_MANUAL.md |
+| S0-1_SSAL_Grid_생성.md | S0-1_SAL_Grid_생성.md |
+| (S0-2, S0-3, S0-4도 동일) | |
+
+#### 3. Order_Sheet_템플릿 안내문 수정 (S0-S5)
+- "SSAL Grid 기반" → "Project SAL Grid 기반"
+- "ssalworks_tasks" → "tasks"
+- 파일 경로 참조 업데이트
+
+#### 4. 상황별_안내문 일반화 (S1~S5)
+**변경 원칙:**
+- 안내문 = 개요만, 일반론만
+- 구체적 Task 목록 → Order Sheet에만 기재
+- Task ID 제거, Area 기반 개요 테이블로 대체
+
+**수정된 파일:**
+- `S1_개발_준비.md` - 일반화 완료 (v3.0)
+- `S2_개발_1차.md` - 일반화 완료 (v3.0)
+- `S3_개발_2차.md` - 일반화 완료 (v3.0)
+- `S4_개발_3차.md` - 일반화 완료 (v3.0)
+- `S5_운영.md` - 일반화 완료 (v3.0)
+
+**새 포맷 예시:**
+```markdown
+## 3. Stage 작업 영역
+
+| Area | 작업 내용 | 유형 |
+|------|----------|------|
+| Documentation | 개발 가이드 문서화 | AI-Only |
+| Frontend | 프로젝트 설정, 빌드 구성 | Human-AI |
+...
+
+**상세 Task 목록은 Order Sheet를 참조하세요.**
+```
+
+#### 5. 변경하지 않은 파일
+- `SSALWORKS_TASK_PLAN.md` - SSALWorks 프로젝트 자체 파일
+- `!SSAL_Works_Private` 폴더명 - 프로젝트 루트 폴더
+
+---
+
 ## .claude/rules/ 폴더 생성 - 작업 규칙 체계화 (2025-12-19)
 
 ### 작업 상태: ✅ 완료

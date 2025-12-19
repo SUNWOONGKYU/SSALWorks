@@ -26,7 +26,10 @@
       "Bash(test:*)",
       "Bash(node verify.js:*)",
       "Bash(cp:*)",
-      "Bash(python3:*)"
+      "Bash(python3:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

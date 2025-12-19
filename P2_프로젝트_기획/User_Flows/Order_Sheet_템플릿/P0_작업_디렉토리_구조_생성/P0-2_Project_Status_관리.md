@@ -100,3 +100,7 @@
 - `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
 - `S0_Project-SSAL-Grid_생성/ssal-grid/` (Grid 데이터)
 - `.claude/work_logs/current.md` (작업 로그)
+
+---
+
+> 본 Order Sheet는 예시입니다. Project Owner가 프로젝트에 맞게 자유롭게 수정할 수 있습니다.
