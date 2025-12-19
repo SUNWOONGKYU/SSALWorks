@@ -118,5 +118,31 @@
   },
   "env": {
     "NODE_ENV": "production"
-  }
+  },
+  "crons": [
+    {
+      "path": "/api/cron/ai-pricing-update",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/subscription-expiry",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/pending-payment-expiry",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/churn-risk-alert",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/challenge-expiry",
+      "schedule": "0 9 1 * *"
+    },
+    {
+      "path": "/api/cron/stats-aggregate",
+      "schedule": "0 1 * * *"
+    }
+  ]
 }
