@@ -60,6 +60,40 @@
   - F, BA, D Area: + `03_area-stage.md` (Production 이중 저장)
   - 검증 관련: + `04_grid-writing.md`, `06_verification.md`
 
+#### 6. Instruction 파일 84개에 규칙 참조 추가
+
+**수정된 폴더:**
+- `S0_Project-SSAL-Grid_생성/ssal-grid/task-instructions/` (42개)
+- `S0_Project-SSAL-Grid_생성/ssal-grid/verification-instructions/` (42개)
+
+**추가된 내용:**
+
+**Task Instructions:**
+```
+| 규칙 파일 | 내용 | 참조 시점 |
+|----------|------|----------|
+| .claude/rules/01_file-naming.md | 파일 명명 규칙 | 파일 생성 시 |
+| .claude/rules/02_save-location.md | 저장 위치 규칙 | 파일 저장 시 |
+| .claude/rules/03_area-stage.md | Area/Stage 매핑 | 폴더 선택 시 |
+| .claude/rules/05_execution-process.md | 6단계 실행 프로세스 | 작업 전체 |
+```
+
+**Verification Instructions:**
+```
+| 규칙 파일 | 내용 | 참조 시점 |
+|----------|------|----------|
+| .claude/rules/04_grid-writing.md | Grid 속성 검증 | 결과 기록 시 |
+| .claude/rules/05_execution-process.md | 검증 프로세스 | 검증 수행 순서 |
+| .claude/rules/06_verification.md | 검증 기준 | **핵심 참조** |
+```
+
+**추가 파일:**
+- `add_rules_reference.js`: 일괄 적용 스크립트
+- `seed_ssalworks_tasks.sql`: 주석에 규칙 파일 목록 추가
+
+**Git 커밋:**
+- `447da9e`: docs: instruction 파일 84개에 .claude/rules/ 참조 추가
+
 **규칙 연결 구조:**
 ```
 CLAUDE.md (절대 규칙)
