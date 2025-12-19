@@ -4,7 +4,7 @@
 S4BA3
 
 ## Task Name
-결제 수단 등록 API
+토스 페이먼트 결제 API
 
 ## Verification Agent
 code-reviewer

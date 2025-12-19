@@ -18,7 +18,7 @@
 S4F1
 
 ## Task Name
-결제 UI
+관리자 대시보드 강화
 
 ## Verification Checklist
 

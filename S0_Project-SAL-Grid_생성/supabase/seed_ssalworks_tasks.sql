@@ -482,6 +482,16 @@ INSERT INTO ssalworks_tasks (
   NULL, 'Not Verified', 'POST /api/payment/installation-confirm, POST /api/admin/confirm-installation'
 ),
 
+-- S4BA6: 결제/알림 이메일 템플릿 (NEW)
+(
+  4, 'BA', 'S4BA6', '결제/알림 이메일 템플릿',
+  'task-instructions/S4BA6_instruction.md', 'backend-developer', 'npm, resend-api', 'AI-Only', 'S2BA2, S4BA1, S4BA2',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S4BA6_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '결제 영수증, 구독료 결제, 결제 실패, 환불, 크레딧 부족 등 13종 이메일 템플릿'
+),
+
 -- S4D1: 결제/크레딧 테이블 (NEW)
 (
   4, 'D', 'S4D1', '결제/크레딧 테이블',

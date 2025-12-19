@@ -18,7 +18,7 @@
 S4BA2
 
 ## Task Name
-웹훅 핸들러
+입금 확인 API (관리자용)
 
 ## Verification Checklist
 

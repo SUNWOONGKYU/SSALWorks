@@ -18,7 +18,7 @@
 S4BA1
 
 ## Task Name
-결제 API
+무통장 입금 결제 API
 
 ## Verification Checklist
 
