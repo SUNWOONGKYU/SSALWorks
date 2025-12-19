@@ -19,7 +19,7 @@
 S3S1
 
 ## Task Name
-AI 서비스 구독 상태 확인 (PO's AI Service Subscription Health Check)
+AI 서비스 구독 상태 확인 (Health Check)
 
 ## Task Goal
 Project Owner(PO)의 AI 서비스(Gemini, ChatGPT, Perplexity) 구독 상태가 사용 가능한지 확인하는 헬스체크 기능 구현

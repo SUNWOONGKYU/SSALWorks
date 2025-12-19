@@ -19,7 +19,7 @@
 S5S1
 
 ## Task Name
-SSL/보안 설정
+보안 점검 및 패치
 
 ## Task Goal
 프로덕션 환경의 SSL 인증서 및 보안 헤더 설정

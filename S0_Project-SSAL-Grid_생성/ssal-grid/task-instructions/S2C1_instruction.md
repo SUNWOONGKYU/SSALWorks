@@ -19,7 +19,7 @@
 S2C1
 
 ## Task Name
-학습용 콘텐츠 시스템 정비
+Books 콘텐츠 업로드
 
 ## Task Goal
 학습용 콘텐츠(Books, Tips) 목록을 viewer.html 및 index.html과 동기화

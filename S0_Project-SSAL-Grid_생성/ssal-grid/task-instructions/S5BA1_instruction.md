@@ -19,7 +19,7 @@
 S5BA1
 
 ## Task Name
-모니터링 API
+API 버그 수정 및 최적화
 
 ## Task Goal
 시스템 상태 및 에러 모니터링을 위한 Health Check API 구현

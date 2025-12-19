@@ -19,7 +19,7 @@
 S4T2
 
 ## Task Name
-E2E 결제 테스트
+API 통합 테스트
 
 ## Task Goal
 전체 결제 플로우 End-to-End 테스트 수행

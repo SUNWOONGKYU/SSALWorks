@@ -19,7 +19,7 @@
 S5D1
 
 ## Task Name
-백업 설정
+데이터 백업 설정
 
 ## Task Goal
 Supabase 데이터베이스 백업 정책 수립 및 설정

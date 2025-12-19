@@ -19,7 +19,7 @@
 S4T1
 
 ## Task Name
-결제 테스트
+E2E 테스트
 
 ## Task Goal
 결제 API에 대한 단위 테스트 및 통합 테스트 작성

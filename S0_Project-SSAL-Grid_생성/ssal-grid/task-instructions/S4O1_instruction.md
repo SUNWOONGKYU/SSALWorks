@@ -19,7 +19,7 @@
 S4O1
 
 ## Task Name
-PG사 설정
+Cron Jobs 설정
 
 ## Task Goal
 토스 페이먼트 가맹점 등록 및 운영 환경 설정

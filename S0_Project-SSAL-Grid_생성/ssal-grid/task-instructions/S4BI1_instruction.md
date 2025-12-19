@@ -19,7 +19,7 @@
 S4BI1
 
 ## Task Name
-결제 클라이언트 SDK
+Sentry 에러 트래킹 설정
 
 ## Task Goal
 토스 페이먼트 클라이언트 SDK 설정 및 정기결제(빌링) 연동

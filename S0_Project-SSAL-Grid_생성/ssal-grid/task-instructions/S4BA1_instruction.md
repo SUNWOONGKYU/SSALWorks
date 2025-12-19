@@ -19,7 +19,7 @@
 S4BA1
 
 ## Task Name
-결제 API
+결제 API (토스 페이먼트)
 
 ## Task Goal
 토스 페이먼트 결제 승인 및 빌링 API 구현

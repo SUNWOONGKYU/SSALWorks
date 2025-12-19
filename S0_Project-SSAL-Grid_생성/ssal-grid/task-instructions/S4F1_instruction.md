@@ -19,7 +19,7 @@
 S4F1
 
 ## Task Name
-결제 UI
+관리자 대시보드 강화
 
 ## Task Goal
 토스 페이먼트 결제 위젯 연동 UI 구현

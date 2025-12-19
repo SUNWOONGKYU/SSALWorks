@@ -19,7 +19,7 @@
 S5O1
 
 ## Task Name
-도메인 연결
+프로덕션 배포
 
 ## Task Goal
 커스텀 도메인 구매 및 Vercel 프로젝트에 연결
