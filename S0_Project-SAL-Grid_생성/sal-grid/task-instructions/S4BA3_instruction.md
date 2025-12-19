@@ -19,7 +19,7 @@
 S4BA3
 
 ## Task Name
-토스 페이먼트 결제 API
+결제 수단 등록 API
 
 ## Task Goal
 크레딧 충전 및 월 이용료 자동결제를 위한 토스 페이먼트 API 구현
