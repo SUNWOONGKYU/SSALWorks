@@ -244,7 +244,7 @@
 ### 8.2 S2 주요 작업 예정
 
 ```
-S2 (개발 1차 - Core Development): 12개 Task
+S2 (개발 1차 - Auth & Registration): 12개 Task
 
 주요 작업:
 - S2M1: 기능 명세서

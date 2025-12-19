@@ -95,9 +95,9 @@ Stage 6: 운영 (12개)
 │         PROJECT SAL GRID 관리 범위         │
 ├────────────────────────────────────────────┤
 │  S1: 개발 준비 (Development Setup)         │
-│  S2: 개발 1차 (Core Development)           │
-│  S3: 개발 2차 (Advanced Features)          │
-│  S4: 개발 3차 (QA & Optimization)          │
+│  S2: 개발 1차 (Auth & Registration)        │
+│  S3: 개발 2차 (AI Integration)             │
+│  S4: 개발 3차 (Payment & Admin)            │
 │  S5: 운영 (Operation & Maintenance)        │
 └────────────────────────────────────────────┘
 
@@ -156,7 +156,7 @@ C  - Content System (콘텐츠 시스템)
 
 ---
 
-### S2: 개발 1차 - 핵심 기능 (Core Development) - 14개 Task
+### S2: 개발 1차 - 핵심 기능 (Auth & Registration) - 14개 Task
 
 | Task ID | Area | Task명 | 설명 |
 |---------|------|--------|------|
@@ -177,7 +177,7 @@ C  - Content System (콘텐츠 시스템)
 
 ---
 
-### S3: 개발 2차 - 고급 기능 (Advanced Features) - 12개 Task
+### S3: 개발 2차 - 고급 기능 (AI Integration) - 12개 Task
 
 | Task ID | Area | Task명 | 설명 |
 |---------|------|--------|------|
@@ -196,7 +196,7 @@ C  - Content System (콘텐츠 시스템)
 
 ---
 
-### S4: 개발 3차 - QA & 최적화 (QA & Optimization) - 8개 Task
+### S4: 개발 3차 - 결제 & 관리자 (Payment & Admin) - 8개 Task
 
 | Task ID | Area | Task명 | 설명 |
 |---------|------|--------|------|

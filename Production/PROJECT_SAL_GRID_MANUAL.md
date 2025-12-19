@@ -117,9 +117,9 @@ export default async function handler(req, res) {
 | Stage | 올바른 명칭 | ❌ 잘못된 예시 |
 |-------|-------------|---------------|
 | S1 | 개발 준비 (Development Setup) | 기반 구축, Foundation |
-| S2 | 개발 1차 (Core Development) | 핵심 기능, Core Features |
-| S3 | 개발 2차 (Advanced Features) | AI 기능, AI Features |
-| S4 | 개발 3차 (QA & Optimization) | 결제 연동, Payment |
+| S2 | 개발 1차 (Auth & Registration) | 핵심 기능, Core Features |
+| S3 | 개발 2차 (AI Integration) | AI 기능, AI Features |
+| S4 | 개발 3차 (Payment & Admin) | 결제 연동, Payment |
 | S5 | 운영 (Operations) | 배포 운영, Deployment |
 
 ### 📌 Area 명칭 (정확히 사용)
@@ -423,9 +423,9 @@ DB 자동 기록: created_at, updated_at (Supabase)
 ║                PROJECT SAL GRID 관리 범위 (S1-S5)                     ║
 ╠═══════════════════════════════════════════════════════════════════════╣
 ║   Stage 1: Development Setup (개발 준비)        ← 일부 Areas          ║
-║   Stage 2: Core Development (개발 1차)          ← 11 Areas            ║
-║   Stage 3: Advanced Features (개발 2차)         ← 11 Areas            ║
-║   Stage 4: QA & Optimization (개발 3차)         ← 일부 Areas          ║
+║   Stage 2: Auth & Registration (개발 1차)          ← 11 Areas            ║
+║   Stage 3: AI Integration (개발 2차)         ← 11 Areas            ║
+║   Stage 4: Payment & Admin (개발 3차)         ← 일부 Areas          ║
 ║   Stage 5: Operations (운영)                    ← 9 Areas             ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
@@ -437,9 +437,9 @@ DB 자동 기록: created_at, updated_at (Supabase)
 #### **5 Stages (GRID 관리 범위)**
 ```
 Stage 1: Development Setup (개발 준비)
-Stage 2: Core Development (개발 1차)
-Stage 3: Advanced Features (개발 2차)
-Stage 4: QA & Optimization (개발 3차)
+Stage 2: Auth & Registration (개발 1차)
+Stage 3: AI Integration (개발 2차)
+Stage 4: Payment & Admin (개발 3차)
 Stage 5: Operations (운영)
 ```
 
@@ -1085,9 +1085,9 @@ project-root/
 ├── P2_프로젝트_기획/                   # Project Planning (GRID 범위 밖)
 ├── P3_프로토타입_제작/                 # Prototype (GRID 범위 밖)
 ├── S1_개발_준비/                       # Development Setup (Stage 1)
-├── S2_개발-1차/                        # Core Development (Stage 2)
-├── S3_개발-2차/                        # Advanced Features (Stage 3)
-├── S4_개발-3차/                        # QA & Optimization (Stage 4)
+├── S2_개발-1차/                        # Auth & Registration (Stage 2)
+├── S3_개발-2차/                        # AI Integration (Stage 3)
+├── S4_개발-3차/                        # Payment & Admin (Stage 4)
 ├── S5_운영/                            # Operations (Stage 5)
 │
 ├── .claude/                           # Claude Code 설정

@@ -40,9 +40,9 @@
 ╠═══════════════════════════════════════════════════════════════════════╣
 ║                                                                       ║
 ║   Stage 1: 개발 준비 (Development Setup)        ← 일부 Areas          ║
-║   Stage 2: 개발 1차 (Core Development)          ← 11 Areas            ║
-║   Stage 3: 개발 2차 (Advanced Features)         ← 11 Areas            ║
-║   Stage 4: 개발 3차 (QA & Optimization)         ← 일부 Areas          ║
+║   Stage 2: 개발 1차 (Auth & Registration)          ← 11 Areas            ║
+║   Stage 3: 개발 2차 (AI Integration)         ← 11 Areas            ║
+║   Stage 4: 개발 3차 (Payment & Admin)         ← 일부 Areas          ║
 ║   Stage 5: 운영 (Operations)                    ← 9 Areas             ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝
@@ -55,9 +55,9 @@
 ### **5 Stages (GRID 관리 범위)**
 ```
 Stage 1: Development Setup (개발 준비)
-Stage 2: Core Development (개발 1차)
-Stage 3: Advanced Features (개발 2차)
-Stage 4: QA & Optimization (개발 3차)
+Stage 2: Auth & Registration (개발 1차)
+Stage 3: AI Integration (개발 2차)
+Stage 4: Payment & Admin (개발 3차)
 Stage 5: Operations (운영)
 ```
 
@@ -161,7 +161,7 @@ C  - Content System (콘텐츠 시스템)
 
 ---
 
-### **Stage 2: 개발 1차 (Core Development)**
+### **Stage 2: 개발 1차 (Auth & Registration)**
 > 11 Areas 전부 사용
 > 핵심 기능 구현 (인증, 기본 CRUD, 핵심 페이지)
 
@@ -181,7 +181,7 @@ C  - Content System (콘텐츠 시스템)
 
 ---
 
-### **Stage 3: 개발 2차 (Advanced Features)**
+### **Stage 3: 개발 2차 (AI Integration)**
 > 11 Areas 전부 사용
 > 고급 기능 구현 (결제, AI, 외부 연동)
 
@@ -201,7 +201,7 @@ C  - Content System (콘텐츠 시스템)
 
 ---
 
-### **Stage 4: 개발 3차 (QA & Optimization)**
+### **Stage 4: 개발 3차 (Payment & Admin)**
 > 일부 Areas 사용
 > 품질 보증, 성능 최적화, 보안 점검
 

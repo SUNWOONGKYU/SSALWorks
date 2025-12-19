@@ -140,7 +140,7 @@ SSALWorks 프로젝트는 **8단계 프로세스**로 구성됩니다:
 
 ---
 
-### S2: 개발 1차 (Core Development)
+### S2: 개발 1차 (Auth & Registration)
 
 **목적**: 핵심 기능 구현
 
@@ -163,7 +163,7 @@ SSALWorks 프로젝트는 **8단계 프로세스**로 구성됩니다:
 
 ---
 
-### S3: 개발 2차 (Advanced Features)
+### S3: 개발 2차 (AI Integration)
 
 **목적**: 고급 기능 및 외부 서비스 연동
 
@@ -185,7 +185,7 @@ SSALWorks 프로젝트는 **8단계 프로세스**로 구성됩니다:
 
 ---
 
-### S4: 개발 3차 (QA & Optimization)
+### S4: 개발 3차 (Payment & Admin)
 
 **목적**: 품질 보증 및 성능 최적화
 

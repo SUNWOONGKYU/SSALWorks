@@ -89,9 +89,9 @@ SSAL_Grid_배포_패키지/
 | Stage | 정확한 명칭 |
 |-------|-------------|
 | S1 | 개발 준비 (Development Setup) |
-| S2 | 개발 1차 (Core Development) |
-| S3 | 개발 2차 (Advanced Features) |
-| S4 | 개발 3차 (QA & Optimization) |
+| S2 | 개발 1차 (Auth & Registration) |
+| S3 | 개발 2차 (AI Integration) |
+| S4 | 개발 3차 (Payment & Admin) |
 | S5 | 운영 (Operations) |
 
 ### Area 명칭 (11개)
