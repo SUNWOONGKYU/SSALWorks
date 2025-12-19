@@ -1,6 +1,6 @@
 -- ================================================================
 -- SSALWorks v1.0 Task Data Insert
--- 52 Tasks with 22 Attributes
+-- 64 Tasks with 22 Attributes
 -- Generated: 2025-12-19
 -- ================================================================
 --
@@ -614,6 +614,130 @@ INSERT INTO ssalworks_tasks (
   'verification-instructions/S5O3_verification.md', 'qa-specialist',
   NULL, NULL, NULL, NULL,
   NULL, 'Not Verified', 'HTTPS 설정 확인, 인증서 자동 갱신 확인'
+),
+
+-- ============================================
+-- ADDITIONAL TASKS (Added 2025-12-20)
+-- ============================================
+
+-- S1BI2: Sentry 에러 트래킹 설정
+(
+  1, 'BI', 'S1BI2', 'Sentry 에러 트래킹 설정',
+  'task-instructions/S1BI2_instruction.md', 'devops-troubleshooter', 'Sentry Dashboard, Vercel', 'AI-Only', 'S1BI1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S1BI2_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '클라이언트/서버 에러 모니터링을 위한 Sentry 설정'
+),
+
+-- S2BA4: 회원가입 API
+(
+  2, 'BA', 'S2BA4', '회원가입 API',
+  'task-instructions/S2BA4_instruction.md', 'backend-developer', 'supabase-js, Vercel', 'AI-Only', 'S1S1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S2BA4_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '이메일/비밀번호 기반 회원가입 Serverless API'
+),
+
+-- S2BA5: 프로젝트 관리 API
+(
+  2, 'BA', 'S2BA5', '프로젝트 관리 API',
+  'task-instructions/S2BA5_instruction.md', 'backend-developer', 'supabase-js', 'AI-Only', 'S1D1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S2BA5_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '프로젝트 생성, 목록, 수정, 완료 처리 API'
+),
+
+-- S2F3: 회원가입 UI
+(
+  2, 'F', 'S2F3', '회원가입 UI',
+  'task-instructions/S2F3_instruction.md', 'frontend-developer', 'HTML/CSS/JS', 'AI-Only', 'S2BA4',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S2F3_verification.md', 'qa-specialist',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '이메일/비밀번호 회원가입 폼 및 이메일 확인 페이지'
+),
+
+-- S3BA2: AI 가격 조회 API
+(
+  3, 'BA', 'S3BA2', 'AI 가격 조회 API',
+  'task-instructions/S3BA2_instruction.md', 'backend-developer', 'supabase-js', 'AI-Only', 'S3BI1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S3BA2_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', 'Gemini, ChatGPT, Perplexity AI 가격 정보 조회'
+),
+
+-- S3F1: AI Q&A 인터페이스
+(
+  3, 'F', 'S3F1', 'AI Q&A 인터페이스',
+  'task-instructions/S3F1_instruction.md', 'frontend-developer', 'HTML/CSS/JS', 'AI-Only', 'S3BA1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S3F1_verification.md', 'qa-specialist',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', 'AI 모델 선택, 질문 입력, 답변 표시 UI'
+),
+
+-- S4BA3: 토스 페이먼트 결제 API
+(
+  4, 'BA', 'S4BA3', '토스 페이먼트 결제 API',
+  'task-instructions/S4BA3_instruction.md', 'backend-developer', '토스 페이먼트 API, supabase-js', 'Human-AI', 'S4BA2, S4D1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S4BA3_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '크레딧 충전 및 월 이용료 자동결제 API'
+),
+
+-- S4BA4: 크레딧 충전 API
+(
+  4, 'BA', 'S4BA4', '크레딧 충전 API',
+  'task-instructions/S4BA4_instruction.md', 'backend-developer', 'supabase-js, Toss Payments API', 'AI-Only', 'S4D1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S4BA4_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', 'AI 서비스 이용을 위한 크레딧 구매 및 충전 API'
+),
+
+-- S4BA5: 설치비 입금 확인 API
+(
+  4, 'BA', 'S4BA5', '설치비 입금 확인 API',
+  'task-instructions/S4BA5_instruction.md', 'backend-developer', 'supabase-js, Email API', 'AI-Only', 'S4D1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S4BA5_verification.md', 'code-reviewer',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '설치비 무통장 입금 신청 및 관리자 확인 API'
+),
+
+-- S4D1: 결제/크레딧 테이블
+(
+  4, 'D', 'S4D1', '결제/크레딧 테이블',
+  'task-instructions/S4D1_instruction.md', 'database-specialist', 'Supabase SQL Editor', 'AI-Only', 'S1D1',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S4D1_verification.md', 'database-specialist',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', 'billing_history, credit_history, ai_pricing 등 테이블'
+),
+
+-- S4F3: 크레딧 충전 UI
+(
+  4, 'F', 'S4F3', '크레딧 충전 UI',
+  'task-instructions/S4F3_instruction.md', 'frontend-developer', 'HTML/CSS/JS, 토스 SDK', 'AI-Only', 'S4BA4',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S4F3_verification.md', 'qa-specialist',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '충전 금액 선택, 결제 수단 선택, 결제 진행 페이지'
+),
+
+-- S4F4: 결제 수단 등록 UI
+(
+  4, 'F', 'S4F4', '결제 수단 등록 UI',
+  'task-instructions/S4F4_instruction.md', 'frontend-developer', 'HTML/CSS/JS, 토스 SDK', 'AI-Only', 'S4BA3',
+  0, 'Pending', NULL, NULL,
+  'verification-instructions/S4F4_verification.md', 'qa-specialist',
+  NULL, NULL, NULL, NULL,
+  NULL, 'Not Verified', '카드/계좌 정보 입력 및 빌링키 발급 페이지'
 );
 
 -- ============================================
@@ -622,11 +746,11 @@ INSERT INTO ssalworks_tasks (
 
 -- 전체 개수 확인
 -- SELECT COUNT(*) as total_tasks FROM ssalworks_tasks;
--- 결과: 52
+-- 결과: 64
 
 -- Stage별 개수 확인
 -- SELECT stage, COUNT(*) FROM ssalworks_tasks GROUP BY stage ORDER BY stage;
--- 결과: 1=9, 2=16, 3=6, 4=14, 5=7
+-- 결과: 1=10, 2=19, 3=8, 4=20, 5=7
 
 -- Area별 개수 확인
 -- SELECT area, COUNT(*) FROM ssalworks_tasks GROUP BY area ORDER BY area;

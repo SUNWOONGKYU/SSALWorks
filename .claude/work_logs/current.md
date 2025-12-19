@@ -4,6 +4,42 @@
 
 ---
 
+## Supabase DB Task 동기화 (2025-12-20)
+
+### 작업 상태: ✅ 완료
+
+**문제**: Viewer에서 Task 수가 로컬 파일과 불일치
+- 로컬 instruction 파일: 53개
+- Supabase DB: 43개 (이전 세션에서 S4BA6만 추가됨)
+- 차이: 12개 Task 누락
+
+**해결**: 누락된 12개 Task를 Supabase에 삽입
+
+**추가된 Task:**
+| Task ID | Task Name |
+|---------|-----------|
+| S1BI2 | Sentry 에러 트래킹 설정 |
+| S2BA4 | 회원가입 API |
+| S2BA5 | 프로젝트 관리 API |
+| S2F3 | 회원가입 UI |
+| S3BA2 | AI 가격 조회 API |
+| S3F1 | AI Q&A 인터페이스 |
+| S4BA3 | 토스 페이먼트 결제 API |
+| S4BA4 | 크레딧 충전 API |
+| S4BA5 | 설치비 입금 확인 API |
+| S4D1 | 결제/크레딧 테이블 |
+| S4F3 | 크레딧 충전 UI |
+| S4F4 | 결제 수단 등록 UI |
+
+**결과:**
+- Supabase DB 총 Task 수: 55개
+- (로컬 53개 + DB에만 있는 S4BI1, S4F2 = 55개)
+
+**수정된 파일:**
+- `S0_Project-SAL-Grid_생성/supabase/seed_ssalworks_tasks.sql` - 12개 INSERT 문 추가 (52 → 64 Tasks)
+
+---
+
 ## 안내문 일반화 및 SSAL → SAL 명칭 변경 (2025-12-19)
 
 ### 작업 상태: ✅ 완료
