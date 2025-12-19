@@ -38,6 +38,7 @@
 - `8c1d240`: docs: .claude/rules/ 폴더 생성 - 6개 작업 규칙 파일 분리
 - `0cc5516`: docs: CLAUDE.md에 .claude/rules/ 참조 섹션 추가
 - `f420812`: docs: PROJECT_SSAL_GRID_MANUAL v3.4 - .claude/rules/ 참조 통합
+- `6f17331`: docs: Order Sheet 템플릿에 rules_reference 필드 추가
 
 #### 4. PROJECT_SSAL_GRID_MANUAL 업데이트 (v3.3 → v3.4)
 
@@ -45,6 +46,19 @@
 - AI 필수 준수 규칙 섹션: 상세 규칙 참조 추가
 - Task Instruction 섹션 (7.1): 필수 참조 규칙 파일 테이블 추가
 - Verification Instruction 섹션 (8.1): 필수 참조 규칙 파일 테이블 추가
+
+#### 5. Order Sheet 템플릿 업데이트 (v2.1 → v2.2)
+
+**수정된 파일**: `Human_ClaudeCode_Bridge/HUMAN_CLAUDECODE_BRIDGE_GUIDE.md`
+
+**추가된 내용:**
+- Order Sheet Markdown 예시에 "필수 참조 규칙" 섹션 추가
+- Order Sheet JSON 구조에 `rules_reference` 필드 추가
+- JSON 필드 설명 테이블 추가
+- Area별 필수 규칙 매핑 가이드 추가:
+  - 모든 Task: `01_file-naming.md`, `02_save-location.md`, `05_execution-process.md`
+  - F, BA, D Area: + `03_area-stage.md` (Production 이중 저장)
+  - 검증 관련: + `04_grid-writing.md`, `06_verification.md`
 
 **규칙 연결 구조:**
 ```
