@@ -27,7 +27,7 @@
 
 9. [3단계 검증 시스템](#9-3단계-검증-시스템)
 10. [Stage Gate 시스템](#10-stage-gate-시스템)
-11. [Inbox/Outbox JSON 시스템](#11-inboxoutbox-json-시스템)
+11. [Orders/Reports JSON 시스템](#11-ordersreports-json-시스템)
 12. [Git 통합 추적 시스템](#12-git-통합-추적-시스템)
 
 ### PART 4: Supabase 설정 및 실행
@@ -1030,7 +1030,7 @@ S2F1_S1F6_login_component.tsx
 
 ### **1. 하이브리드 자동화**
 - PROJECT SAL GRID: Task 자동 실행 (80%)
-- Inbox/Outbox: Project Owner의 전략적 개입 (20%)
+- Orders/Reports: Project Owner의 전략적 개입 (20%)
 - Stage 시작/종료는 Project Owner가 제어
 
 ### **2. 이중 검증 (Stage Gate)**
@@ -1282,9 +1282,9 @@ Production/                 ← 배포용 코드 (최신 상태 유지)
 
 ### 4.6 web_claude-code_bridge/ 폴더
 
-#### **Inbox/Outbox System**
+#### **Orders/Reports System**
 
-**inbox/ (수신함)**
+**Orders/ (수신함)**
 ```
 inbox/
 ├── 20251123_143000_stage_start.json
@@ -1373,7 +1373,7 @@ Project-SSAL-Grid/
 예시: S2F3_login_page.tsx
 ```
 
-#### **Inbox/Outbox**
+#### **Orders/Reports**
 ```
 형식: {YYYYMMDD}_{HHMMSS}_{type}.json
 예시: 20251123_143000_stage_start.json
@@ -2815,11 +2815,11 @@ def check_stage_gate(stage_id):
 
 ---
 
-## 11. Inbox/Outbox JSON 시스템
+## 11. Orders/Reports JSON 시스템
 
 ### 11.1 개요
 
-**Inbox/Outbox JSON System**은 Project Owner와 AI 간의 비동기 커뮤니케이션 시스템입니다.
+**Orders/Reports JSON System**은 Project Owner와 AI 간의 비동기 커뮤니케이션 시스템입니다.
 
 **목적:**
 - 세션 중단에도 불구하고 연속성 유지
@@ -2829,12 +2829,12 @@ def check_stage_gate(stage_id):
 **핵심 구성:**
 ```
 Project Owner
-        ↓ Inbox
+        ↓ Orders
    Order Sheet 발행
         ↓
 Claude (AI Agent)
   작업 실행
-        ↓ Outbox
+        ↓ Reports
    완료 보고
         ↓
 Human Manager
@@ -2843,7 +2843,7 @@ Human Manager
 
 ---
 
-### 11.2 Inbox (수신함)
+### 11.2 Orders (수신함)
 
 #### **역할:**
 - Project Owner → Claude
@@ -2851,8 +2851,8 @@ Human Manager
 - 작업 지시 전달
 
 #### **저장 위치:**
-- Supabase `inbox` 테이블
-- JSON 파일
+- Supabase `orders` 테이블
+- Human_ClaudeCode_Bridge/Orders/ 폴더 (JSON 파일)
 
 #### **JSON 구조:**
 ```json
@@ -2869,7 +2869,7 @@ Human Manager
 }
 ```
 
-#### **Inbox JSON 속성:**
+#### **Orders JSON 속성:**
 
 | 속성 | 타입 | 설명 | 필수 |
 |------|------|------|------|
@@ -2885,7 +2885,7 @@ Human Manager
 
 ---
 
-### 11.3 Outbox (발신함)
+### 11.3 Reports (발신함)
 
 #### **역할:**
 - Claude → Project Owner
@@ -2893,8 +2893,8 @@ Human Manager
 - 질문/요청
 
 #### **저장 위치:**
-- Supabase `outbox` 테이블
-- JSON 파일
+- Supabase `reports` 테이블
+- Human_ClaudeCode_Bridge/Reports/ 폴더 (JSON 파일)
 
 #### **JSON 구조:**
 ```json
@@ -2916,7 +2916,7 @@ Human Manager
 }
 ```
 
-#### **Outbox JSON 속성:**
+#### **Reports JSON 속성:**
 
 | 속성 | 타입 | 설명 | 필수 |
 |------|------|------|------|
@@ -2936,9 +2936,9 @@ Human Manager
 
 ### 11.4 활용 예시
 
-#### **Order Sheet 발행 (Inbox 활용)**
+#### **Order Sheet 발행 (Orders 활용)**
 
-Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
+Project Owner가 Orders를 통해 Order Sheet를 발행하는 시점:
 
 **1. Stage Start (단계 시작)**
 ```json
@@ -3072,7 +3072,7 @@ Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
 - JSON 파일로 영속성 보장
 
 **2. 세션 독립성**
-- 각 Claude 세션은 Inbox/Outbox로 연결
+- 각 Claude 세션은 Orders/Reports로 연결
 - 이전 세션 상태 파악 가능
 
 **3. 인간 중심 제어**
@@ -3083,7 +3083,7 @@ Project Owner가 Inbox를 통해 Order Sheet를 발행하는 시점:
 - 모든 커뮤니케이션 기록
 - 타임스탬프로 순서 보장
 
-#### **Inbox/Outbox 사용 가이드라인:**
+#### **Orders/Reports 사용 가이드라인:**
 
 ```
 ✅ DO:
@@ -3537,9 +3537,9 @@ python3 scripts/update_git_commits.py
 □ 다음 Stage 시작 준비
 ```
 
-### C. Inbox/Outbox 체크리스트
+### C. Orders/Reports 체크리스트
 
-**Inbox (수신):**
+**Orders (수신):**
 ```
 □ 새 메시지 확인
 □ Order Sheet 읽기
@@ -3596,7 +3596,7 @@ PART 3에서는 PROJECT SAL GRID의 품질 보증과 추적 시스템을 다루�
 
 1. **3단계 검증 시스템**: Task → Stage Gate (AI) → Stage Gate (Human)의 3중 안전장치
 2. **Stage Gate 시스템**: 각 Stage의 품질을 보증하는 관문 시스템
-3. **Inbox/Outbox JSON 시스템**: 비동기 커뮤니케이션으로 세션 중단에도 연속성 유지
+3. **Orders/Reports JSON 시스템**: 비동기 커뮤니케이션으로 세션 중단에도 연속성 유지
 4. **Git 통합 추적 시스템**: Task ID 기반 완벽한 코드 추적
 
 이 시스템들은 AI와 인간이 협업하는 대규모 프로젝트에서 품질과 추적성을 보장합니다.

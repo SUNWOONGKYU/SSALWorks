@@ -11,7 +11,7 @@
 2. [Sidebar & Navigation Functions](#2-sidebar--navigation-functions)
 3. [Template & Editor Functions](#3-template--editor-functions)
 4. [Translation Functions](#4-translation-functions)
-5. [Inbox/Outbox Functions](#5-inboxoutbox-functions)
+5. [Orders/Reports Functions](#5-ordersreports-functions)
 6. [AI Integration Functions](#6-ai-integration-functions)
 7. [Support & Help Functions](#7-support--help-functions)
 8. [Modal Management Functions](#8-modal-management-functions)
@@ -44,16 +44,16 @@ const SIDEBAR_STRUCTURE = {
 ```javascript
 const PROJECT_CONFIGS = {
     'PoliticianFinder': {
-        inboxPath: 'C:\\!SSAL_Works_Private\\Developement_Real_PoliticianFinder\\Web_ClaudeCode_Bridge\\Inbox',
+        ordersPath: 'C:\\!SSAL_Works_Private\\Developement_Real_PoliticianFinder\\Human_ClaudeCode_Bridge\\Orders',
         status: 'completed'
     },
     'SSAL Works': {
-        inboxPath: 'C:\\!SSAL_Works_Private\\Web_ClaudeCode_Bridge\\Inbox',
+        ordersPath: 'C:\\!SSAL_Works_Private\\Human_ClaudeCode_Bridge\\Orders',
         status: 'in_progress'
     }
 };
 ```
-**Purpose:** Multi-project configuration for different inbox paths.
+**Purpose:** Multi-project configuration for different orders paths.
 
 ### State Variables
 ```javascript
@@ -301,13 +301,13 @@ function toggleTranslation()
 
 ---
 
-## 5. Inbox/Outbox Functions
+## 5. Orders/Reports Functions
 
-### 5.1 downloadToInbox()
+### 5.1 downloadToOrders()
 ```javascript
-async function downloadToInbox()
+async function downloadToOrders()
 ```
-**Purpose:** Save order sheet to project's Inbox as JSON.
+**Purpose:** Save order sheet to project's Orders folder as JSON.
 **Flow:**
 1. Validate content and project selection
 2. Confirm save with user
@@ -351,14 +351,14 @@ function manualDownload(content, filename)
 3. Trigger click event
 4. Cleanup
 
-### 5.3 loadFromOutbox()
+### 5.3 loadFromReports()
 ```javascript
-async function loadFromOutbox()
+async function loadFromReports()
 ```
-**Purpose:** Load and display completed work from Claude Code (Outbox).
-**Endpoint:** `GET http://localhost:3030/outbox/files`
+**Purpose:** Load and display completed work from Claude Code (Reports).
+**Endpoint:** `GET http://localhost:3030/reports/files`
 **Algorithm:**
-1. Fetch file list from Outbox
+1. Fetch file list from Reports
 2. For each JSON file:
    - Read file content
    - Extract `question`/`content_korean`
@@ -882,13 +882,13 @@ function openFolder(folderPath)
 - generateBilingualMarkdown()
 - toggleTranslation()
 
-### Inbox/Outbox (6 functions)
-- downloadToInbox()
+### Orders/Reports (6 functions)
+- downloadToOrders()
 - manualDownload()
-- loadFromOutbox()
-- selectOutboxFile()
+- loadFromReports()
+- selectReportsFile()
 - generateHTMLFromJSON()
-- closeOutboxModal()
+- closeReportsModal()
 
 ### AI Integration (4 functions)
 - selectAI()

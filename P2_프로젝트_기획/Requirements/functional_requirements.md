@@ -1685,14 +1685,14 @@ Dashboard (prototype_index_최종개선.html)
     ↕ Socket.io (port 3030)
 inbox_server.js (File Watcher + Socket.io Server)
     ↓
-Web_ClaudeCode_Bridge/Inbox/
+Human_ClaudeCode_Bridge/Orders/
     ↓
 Claude Code Session
 ```
 
 **동작 흐름:**
 1. Dashboard에서 Order Sheet 생성
-2. JSON 파일이 `Web_ClaudeCode_Bridge/Inbox/` 폴더에 저장
+2. JSON 파일이 `Human_ClaudeCode_Bridge/Orders/` 폴더에 저장
 3. inbox_server.js의 chokidar file watcher가 새 파일 감지
 4. Socket.io `io.emit('new-order-alert', data)` 이벤트 발생
 5. 연결된 모든 Dashboard 클라이언트에 브로드캐스트
@@ -1719,12 +1719,12 @@ Claude Code Session
   ┌─────────────────────────────────┐
   │ 📬 새 Order가 도착했습니다!      │
   ├─────────────────────────────────┤
-  │ Order Sheet가 Inbox에           │
+  │ Order Sheet가 Orders에          │
   │ 저장되었습니다.                 │
   │                                 │
   │ [노란색 강조 박스]              │
   │ 원하는 Claude Code 세션에 가서  │
-  │ "Inbox에 저장된 Order Sheet를   │
+  │ "Orders에 저장된 Order Sheet를  │
   │  확인해줘"                      │
   │ 라고 말씀해주세요.              │
   │ [/노란색 강조 박스]             │

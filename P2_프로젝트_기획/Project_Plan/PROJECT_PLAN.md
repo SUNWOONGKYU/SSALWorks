@@ -57,7 +57,7 @@ SSAL Works는 비개발자가 AI(Claude Code)를 활용하여 웹사이트를 �
 - 작업 의존성을 한눈에 파악
 
 **✅ AI 자동화 연동**
-- Order Sheet 시스템 (Inbox/Outbox)
+- Order Sheet 시스템 (Orders/Outbox)
 - Socket.io 실시간 알림으로 즉각 반응
 - Claude Code, ChatGPT, Gemini 등 다양한 AI 도구 활용
 
@@ -123,7 +123,7 @@ SSAL Works는 비개발자가 AI(Claude Code)를 활용하여 웹사이트를 �
 │          │                               │               │
 │ ① 📦 PROJECT   │ ④ Workspace (상단 75%)   │ ⑥ 📚 학습    │
 │ ② 📊 진행      │    - Order Sheet 작성     │    콘텐츠    │
-│    프로세스    │    - Inbox/Outbox        │ ⑦ 🙋 FAQ     │
+│    프로세스    │    - Orders/Outbox       │ ⑦ 🙋 FAQ     │
 │ ③ 🔗 연계      │                          │ ⑧ 🔔 Claude  │
 │    서비스      │ ⑤ Project SAL Grid       │    Code      │
 │    바로가기    │    (하단 25%)            │    업데이트  │
@@ -158,11 +158,11 @@ SSAL Works는 비개발자가 AI(Claude Code)를 활용하여 웹사이트를 �
 ```
 Dashboard에서 Order Sheet 발행
     ↓
-Inbox/ 폴더에 JSON 저장
+Orders/ 폴더에 JSON 저장 (Human_ClaudeCode_Bridge)
     ↓
 Claude Code가 실제 코드 작성/수정
     ↓
-Outbox/ 폴더에 결과 저장
+Outbox/ 폴더에 결과 저장 (Web_ClaudeCode_Bridge)
     ↓
 Dashboard에서 결과 확인
 ```
@@ -173,10 +173,10 @@ Dashboard에서 결과 확인
 ```
 Dashboard (Order Sheet 생성)
     ↓
-Inbox/ 폴더 (JSON 파일 저장)
+Orders/ 폴더 (JSON 파일 저장 - Human_ClaudeCode_Bridge)
     ↓
 inbox_server.js (Node.js + Socket.io v4.7.2)
-    - File Watcher로 Inbox 폴더 감지
+    - File Watcher로 Orders 폴더 감지
     - WebSocket으로 실시간 양방향 통신
     ↓
 Dashboard (모든 클라이언트에 브로드캐스트)
@@ -186,7 +186,7 @@ Dashboard (모든 클라이언트에 브로드캐스트)
 
 **동작 흐름:**
 1. Dashboard에서 Order Sheet 생성
-2. JSON 파일이 `Web_ClaudeCode_Bridge/Inbox/` 폴더에 저장됨
+2. JSON 파일이 `Human_ClaudeCode_Bridge/Orders/` 폴더에 저장됨
 3. `inbox_server.js`의 file watcher가 새 파일 감지
 4. Socket.io를 통해 'new-order' 이벤트 발생
 5. 연결된 모든 클라이언트(Dashboard)에 실시간 브로드캐스트
@@ -389,8 +389,9 @@ P2_프로젝트_기획/
 ```
 .claude/                      # Claude Code 설정 및 가이드
 Web_ClaudeCode_Bridge/        # Web ↔ Claude Code 브릿지
-    ├── inbox/                # Dashboard → Claude Code
-    └── outbox/               # Claude Code → Dashboard
+    └── Outbox/               # Claude Code → Dashboard
+Human_ClaudeCode_Bridge/      # Human ↔ Claude Code 브릿지
+    └── Orders/               # Dashboard → Claude Code
 Project-SSAL-Grid/            # PROJECT SAL GRID 관리
 Sidebar-Process-Tools/        # 사이드바 프로세스 도구
 ```

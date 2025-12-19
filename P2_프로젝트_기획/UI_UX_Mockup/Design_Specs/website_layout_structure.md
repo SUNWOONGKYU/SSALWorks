@@ -349,8 +349,8 @@
             <p>Order Sheet 작성 및 작업 지시</p>
         </div>
         <div class="workspace-actions">
-            <button class="workspace-btn">📥 Inbox 불러오기</button>
-            <button class="workspace-btn">📤 Outbox 불러오기</button>
+            <button class="workspace-btn">📥 Orders 불러오기</button>
+            <button class="workspace-btn">📤 Reports 불러오기</button>
             <button class="workspace-btn primary">📋 Order Sheet 발행</button>
         </div>
     </div>
@@ -887,8 +887,8 @@ function publishOrderSheet() {
     // Socket.io로 전송
 }
 
-// Inbox 불러오기
-function loadInbox() {
+// Orders 불러오기
+function loadOrders() {
     // JSON 파일 읽기
 }
 ```

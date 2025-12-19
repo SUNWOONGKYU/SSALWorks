@@ -89,7 +89,7 @@
 
 ### 2.4 파일 감시
 
-- **chokidar** - inbox 폴더 모니터링 (inbox_server.js)
+- **chokidar** - orders 폴더 모니터링 (inbox_server.js)
 
 ---
 
@@ -110,7 +110,7 @@
 
 ### 3.3 연동 방식
 
-- **Inbox/Outbox 시스템** (Web_ClaudeCode_Bridge)
+- **Orders/Outbox 시스템** (Human_ClaudeCode_Bridge/Orders, Web_ClaudeCode_Bridge/Outbox)
 - **Socket.io 실시간 알림** (Order Sheet)
 
 ---
@@ -360,7 +360,7 @@ PERPLEXITY_API_KEY=your-perplexity-api-key
 
 # Socket.io (inbox_server.js)
 SOCKET_PORT=3030
-INBOX_PATH=./Web_ClaudeCode_Bridge/Inbox
+ORDERS_PATH=./Human_ClaudeCode_Bridge/Orders
 
 # Next.js
 NEXT_PUBLIC_APP_URL=https://ssalworks.world
@@ -385,7 +385,7 @@ PERPLEXITY_API_KEY=
 
 # Socket.io
 SOCKET_PORT=3030
-INBOX_PATH=./Web_ClaudeCode_Bridge/Inbox
+ORDERS_PATH=./Human_ClaudeCode_Bridge/Orders
 
 # Next.js
 NEXT_PUBLIC_APP_URL=http://localhost:3000

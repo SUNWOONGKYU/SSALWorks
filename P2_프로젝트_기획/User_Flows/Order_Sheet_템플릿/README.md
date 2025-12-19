@@ -83,7 +83,7 @@ export default async function handler(req, res) {
    └── ORDER_SHEET_TEMPLATES['P1-1_Vision_Mission']
 
 5. 워크스페이스(textEditor)에 템플릿 표시
-   └── 사용자가 편집 후 Inbox에 발행
+   └── 사용자가 편집 후 Orders에 발행
 ```
 
 ## 파일 목록 (22개)
@@ -243,7 +243,7 @@ guideUrl → GUIDE_CONTENTS → 안내문 팝업
     ↓
 orderSheetUrl → ORDER_SHEET_TEMPLATES → 워크스페이스 로드
     ↓
-사용자 편집 → Inbox 발행 → Claude Code 처리
+사용자 편집 → Orders 발행 → Claude Code 처리
 ```
 
 ## 연관 파일

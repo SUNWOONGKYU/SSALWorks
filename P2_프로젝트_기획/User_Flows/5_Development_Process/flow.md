@@ -193,20 +193,20 @@
 
 **System Actions:**
 1. Order JSON 파일 생성
-2. `Web_ClaudeCode_Bridge/Inbox/order_[timestamp].json` 저장
+2. `Human_ClaudeCode_Bridge/Orders/order_[timestamp].json` 저장
 3. Socket.io 알림 발송
 4. 좌측 사이드바 상태 업데이트: `⚪ (대기)` → `🔵 (진행 중)`
 
 #### Step 5: Claude Code 작업 수행
 
 **User Actions:**
-- Claude Code 세션에서 Inbox 확인
+- Claude Code 세션에서 Orders 확인
 - AI가 시장조사 수행
-- 결과를 Outbox에 저장
+- 결과를 Reports에 저장
 
 #### Step 6: 결과 확인
 
-**Workspace에서 "Load from Outbox" 클릭**
+**Workspace에서 "Load from Reports" 클릭**
 
 **표시 내용:**
 ```
@@ -525,11 +525,11 @@ function onProcessItemClick(item) {
 │ └─────────────────────────────────────────────────────┘│
 │                                                         │
 │ 하단: 액션 버튼                                         │
-│ [템플릿 리셋] [Order Sheet 발행] [Outbox 불러오기]     │
+│ [템플릿 리셋] [Order Sheet 발행] [Reports 불러오기]    │
 │                                                         │
 │ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
 │                                                         │
-│ 결과 영역: Outbox 내용 표시                             │
+│ 결과 영역: Reports 내용 표시                            │
 │ ┌─────────────────────────────────────────────────────┐│
 │ │ (Order 완료 후 결과 표시)                          ││
 │ └─────────────────────────────────────────────────────┘│
@@ -599,8 +599,8 @@ function renderWorkspaceWithTemplate(data) {
 
     <div class="workspace-actions">
       <button onclick="resetTemplate()">템플릿 리셋</button>
-      <button onclick="downloadToInbox()" class="primary">Order Sheet 발행</button>
-      <button onclick="openOutboxModal()">Outbox 불러오기</button>
+      <button onclick="downloadToOrders()" class="primary">Order Sheet 발행</button>
+      <button onclick="openReportsModal()">Reports 불러오기</button>
     </div>
 
     <div class="workspace-result">
@@ -668,13 +668,13 @@ async function downloadToInbox() {
     created_at: new Date().toISOString()
   };
 
-  // Inbox에 저장
+  // Orders에 저장
   const filename = `order_${Date.now()}.json`;
   const blob = new Blob([JSON.stringify(orderData, null, 2)], {
     type: "application/json"
   });
 
-  // 다운로드 (사용자가 Inbox 폴더에 저장)
+  // 다운로드 (사용자가 Orders 폴더에 저장)
   const link = document.createElement("a");
   link.href = URL.createObjectURL(blob);
   link.download = filename;
@@ -684,7 +684,7 @@ async function downloadToInbox() {
   updateProcessItemStatus(selectedItem.id, "progress");
 
   // 알림
-  showNotification(`Order Sheet가 발행되었습니다. Inbox에 저장하세요.`);
+  showNotification(`Order Sheet가 발행되었습니다. Orders에 저장하세요.`);
 }
 ```
 

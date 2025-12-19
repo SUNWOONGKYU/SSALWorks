@@ -77,8 +77,10 @@ project-root/
 │   └── commands/
 │
 ├── Web_ClaudeCode_Bridge/            # Web ↔ Claude Code 브릿지
-│   ├── inbox/                        # Project Owner → Claude
-│   └── outbox/                       # Claude → Project Owner
+│   └── Outbox/                       # Claude → Project Owner
+│
+├── Human_ClaudeCode_Bridge/          # Human ↔ Claude Code 브릿지
+│   └── Orders/                       # Project Owner → Claude
 │
 ├── Sidebar-Process-Tools/            # SSALWorks 사이드바 프로세스 도구
 │   ├── progress_data/                # 진행 상황 데이터 (JSON)
@@ -432,19 +434,18 @@ S5_운영/
 
 ## 6. Web_ClaudeCode_Bridge/ 폴더
 
-### Inbox/Outbox System
+### Orders/Outbox System
 
-**inbox/ (수신함)**
+**Orders/ (수신함 - Human_ClaudeCode_Bridge)**
 ```
-inbox/
-├── order_2025-11-30_15-29-38.json
-├── .new_order_notification
+Human_ClaudeCode_Bridge/Orders/
+├── ORDER-S3-20251218-001.json
 └── (Order Sheet 대기)
 ```
 
-**outbox/ (발신함)**
+**Outbox/ (발신함 - Web_ClaudeCode_Bridge)**
 ```
-outbox/
+Web_ClaudeCode_Bridge/Outbox/
 ├── result_2025-12-01_00-35-14.json
 ├── planning_simple_plan_2025-12-01.json
 └── (작업 완료 보고)
@@ -456,20 +457,20 @@ outbox/
 형식: {type}_{YYYY-MM-DD}_{HH-MM-SS}.json
 
 예시:
-- order_2025-11-30_15-29-38.json
+- ORDER-S3-20251218-001.json
 - result_2025-12-01_00-35-14.json
 - planning_improvement_plan_2025-12-01_00-42-28.json
 ```
 
 ### 역할
 
-**inbox/:**
+**Orders/ (Human_ClaudeCode_Bridge):**
 - Project Owner → Claude
 - Order Sheet 전달
 - 작업 지시
 - Socket.io 알림 (inbox_server.js)
 
-**outbox/:**
+**Outbox/ (Web_ClaudeCode_Bridge):**
 - Claude → Project Owner
 - 작업 완료 보고
 - 계획서 제출
@@ -478,7 +479,7 @@ outbox/
 ### Socket.io 실시간 알림
 
 **inbox_server.js (포트 3030)**
-- File watcher로 inbox 폴더 모니터링
+- File watcher로 Orders 폴더 모니터링
 - 새 Order Sheet 감지 시 Socket.io로 Dashboard에 알림
 - `new-order-alert` 이벤트 발생
 
@@ -590,7 +591,7 @@ Project-SSAL-Grid/
 - S3T1_e2e_test.ts (E2E 테스트)
 ```
 
-### Inbox/Outbox 파일
+### Orders/Outbox 파일
 
 ```
 형식: {type}_{YYYY-MM-DD}_{HH-MM-SS}.json
@@ -633,7 +634,7 @@ Project-SSAL-Grid/
 - 모든 폴더 구조
 - 모든 문서 파일
 - 모든 코드 파일
-- Inbox/Outbox JSON 파일 (선택적)
+- Orders/Outbox JSON 파일 (선택적)
 
 **.gitignore 추가:**
 ```
@@ -717,8 +718,8 @@ Thumbs.db
 ### 3단계: 작업 폴더 생성
 - [ ] .claude/
 - [ ] .claude/CLAUDE.md
-- [ ] Web_ClaudeCode_Bridge/inbox/
-- [ ] Web_ClaudeCode_Bridge/outbox/
+- [ ] Human_ClaudeCode_Bridge/Orders/
+- [ ] Web_ClaudeCode_Bridge/Outbox/
 
 ### 4단계: Grid 관리 폴더 생성
 - [ ] Project-SSAL-Grid/manual/
