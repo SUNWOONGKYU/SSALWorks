@@ -24,35 +24,22 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### SAL Grid 매뉴얼
 > `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
 
+### 주의사항
+> `.claude/CAUTION.md` (RLS, 본개발 TODO, Supabase 대안 프로세스)
+
 ---
 
-## 🌾 세션 시작 시
+## 🌾 세션 시작 시 확인
 
-### 1. 작업 기록 확인
+### 1. 작업 기록
 `.claude/work_logs/current.md` 🔴 최우선
 
-### 2. 프로젝트 상태 (필요시)
+### 2. 이전 작업 결과
+`Human_ClaudeCode_Bridge/Reports/` 확인
+
+### 3. 프로젝트 상태
 - `P0_작업_디렉토리_구조_생성/Project_Status.md`
 - `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
-
----
-
-## ⚠️ CRITICAL 경고
-
-### 개발 환경 RLS 정책
-**현재:** 개발용 RLS 적용 중 (anon 접근 허용)
-
-**프로덕션 배포 전 필수:**
-```sql
--- 원래 RLS로 교체
-07_learning_contents_rls.sql
-10_faqs_rls.sql
-```
-
-### 본개발 TODO
-- [ ] 토스 페이먼트 가맹점 등록
-- [ ] 빌링키 발급 API 연동
-- [ ] PG 이용약관 동의 체크박스
 
 ---
 
