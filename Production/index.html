@@ -7575,15 +7575,24 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             showStatus('🚀 표준 Project 구조 생성 중...', 'info');
 
             try {
+                // Supabase 세션에서 토큰 가져오기
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session) {
+                    alert('로그인이 필요합니다.');
+                    showStatus('❌ 로그인이 필요합니다', 'error');
+                    return;
+                }
+
                 // 서버에 프로젝트 생성 요청
                 const response = await fetch('/api/projects/create', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session.access_token}`
                     },
                     body: JSON.stringify({
                         projectName: name,
-                        projectPath: null  // 기본 경로 사용 (서버에서 결정)
+                        description: null
                     })
                 });
 
@@ -10502,6 +10511,15 @@ ${result.answer}`;
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+
+        /**
+         * 학습용 Books 뷰어 열기
+         */
+        function openLearningBooks(book = '') {
+            const basePath = '../부수적_고유기능/콘텐츠/학습용_Books_New/index.html';
+            const url = book ? `${basePath}?book=${book}` : basePath;
+            window.open(url, '_blank');
         }
 
         /**
