@@ -1,0 +1,185 @@
+{
+  "order_id": "ORDER-S{N}-YYYYMMDD-NNN",
+  "created_at": "YYYY-MM-DDTHH:mm:ssZ",
+  "stage": "S{N}",
+  "stage_name": "{Stage Name}",
+  "version": "4.3",
+  "purpose": "S{N} Stage 전체 작업 실행 지시",
+
+  "⚠️_MANDATORY_RULE_CHECK": {
+    "_warning": "🚨🚨🚨 파일 생성/저장 전 반드시 6대 작업 규칙 확인 필수! 🚨🚨🚨",
+    "_location": ".claude/rules/",
+
+    "rules": {
+      "01_file-naming.md": "파일명 정할 때 확인",
+      "02_save-location.md": "⭐ 파일 저장할 때 확인 (가장 중요!)",
+      "03_area-stage.md": "폴더 선택할 때 확인",
+      "04_grid-writing.md": "Grid 업데이트할 때 확인",
+      "05_execution-process.md": "Task 실행할 때 확인",
+      "06_verification.md": "검증할 때 확인"
+    },
+
+    "work_order": [
+      "1. 파일 저장 필요 → 02_save-location.md 읽기",
+      "2. 규칙에 정의된 경로 확인",
+      "3. 그 경로에 저장 (추측 X, 규칙대로!)"
+    ],
+
+    "prohibited": [
+      "❌ 규칙 확인 없이 폴더 생성/파일 저장 절대 금지",
+      "❌ '이렇게 하면 되겠지' 추측 금지 - 규칙 파일이 정답!",
+      "❌ Project_Directory_Structure.md만 보고 저장 금지 - 규칙 파일 우선!"
+    ],
+
+    "past_problems_from_not_checking": [
+      "Backend_API vs Backend_APIs 혼용 → 폴더 중복 생성",
+      "API/ vs api/ 대소문자 혼용 → 경로 불일치",
+      "Backend_Infrastructure vs Backend_Infra → 폴더명 불일치"
+    ]
+  },
+
+  "status_transition_rules": {
+    "_description": "상태 전이 규칙 - 반드시 순서대로 진행",
+
+    "task_status": {
+      "values": ["Pending", "In Progress", "Executed", "Completed"],
+      "transitions": {
+        "Pending": "→ In Progress (작업 시작)",
+        "In Progress": "→ Executed (파일 생성 완료)",
+        "Executed": "→ Completed (검증 통과 + 수정 반영 후)"
+      },
+      "rules": [
+        "Executed: 파일 생성 완료 시 설정",
+        "Completed: verification_status가 Verified일 때만 가능"
+      ]
+    },
+
+    "verification_status": {
+      "values": ["Not Verified", "In Review", "Needs Fix", "Verified"],
+      "transitions": {
+        "Not Verified": "→ In Review (검증 시작)",
+        "In Review": "→ Needs Fix (수정 필요) 또는 → Verified (통과)",
+        "Needs Fix": "→ In Review (재검증)",
+        "Verified": "최종 상태"
+      }
+    },
+
+    "complete_condition": "task_status=Completed AND verification_status=Verified"
+  },
+
+  "pre_execution_validation": {
+    "_description": "작업 시작 전 필수 검증 단계 - PO 동의 전 반드시 수행",
+
+    "step_0_task_consistency_check": {
+      "description": "Task 정보 일관성 검증",
+      "actions": [
+        "1. Project Task Plan의 Task 목록 확인",
+        "2. SSAL Grid(ssalworks_tasks)의 Task 목록 확인",
+        "3. Task 명칭(task_name) 일치 여부 확인",
+        "4. Task Instruction이 Task 명칭/목적과 부합하는지 검증",
+        "5. Verification Instruction이 적절한지 검증"
+      ],
+      "validation_report": {
+        "task_count_match": "Project Plan vs Grid 개수 일치?",
+        "task_names_match": "모든 Task 명칭 일치?",
+        "instructions_valid": "Instruction 내용이 Task 목적과 부합?"
+      },
+      "on_mismatch": "불일치 발견 시 PO에게 보고 후 수정"
+    },
+
+    "step_0_execution_plan": {
+      "description": "작업 실행 계획 수립 및 PO 동의",
+      "actions": [
+        "1. Stage 내 모든 Task 종합 검토",
+        "2. Dependencies 기반 실행 순서 결정",
+        "3. 예상 작업 범위 정리",
+        "4. 실행 계획서 작성하여 PO에게 제시",
+        "5. PO 동의 후 작업 진행"
+      ],
+      "plan_format": {
+        "task_list": "실행할 Task 목록 (순서대로)",
+        "dependencies_chain": "의존성 체인 시각화",
+        "expected_outputs": "예상 산출물 목록",
+        "human_ai_tasks": "Human-AI Task 별도 표시"
+      },
+      "approval_required": true
+    }
+  },
+
+  "execution_steps": [
+    "Step 0-A: Task 일관성 검증 (Task Plan vs Grid 비교)",
+    "Step 0-B: 실행 계획 수립 → PO 동의 받기",
+    "Step 1: SAL Grid 확인 (Supabase ssalworks_tasks)",
+    "Step 2: Task 실행 순서 결정 (dependencies)",
+    "Step 3: 각 Task 실행 (task_agent 서브에이전트)",
+    "Step 4: 검증 (verification_agent 서브에이전트)",
+    "Step 5: Grid 업데이트 - 필수 체크리스트 확인!",
+    "Step 6: 🚨 6대 규칙 확인 → 결과물 파일 저장 (02_save-location.md 필독!)",
+    "Step 7: Stage Gate 검증",
+    "Step 8: PO 기능 테스트 요청"
+  ],
+
+  "mandatory_grid_checklist": {
+    "_description": "Task 완료 시 AI가 반드시 확인해야 하는 Grid 필드",
+    "_warning": "이 체크리스트를 모두 완료하지 않으면 Task를 Completed로 변경 금지!",
+
+    "task_execution_10_13": {
+      "task_progress": "100으로 설정",
+      "task_status": "Completed로 설정",
+      "generated_files": "생성된 파일 경로 목록",
+      "modification_history": "수정 이력 (있는 경우)"
+    },
+
+    "verification_execution_16_19": {
+      "_critical": "이 섹션을 빠뜨리면 안 됨!",
+      "test": {
+        "format": "JSONB",
+        "required_fields": ["unit_test", "integration_test"],
+        "example": {"unit_test": "✅ 함수별 테스트", "integration_test": "✅ API 연동"}
+      },
+      "build": {
+        "format": "JSONB",
+        "required_fields": ["lint", "compile"],
+        "example": {"lint": "✅ 통과", "compile": "✅ 문법 오류 없음"}
+      },
+      "integration_verification": {
+        "format": "JSONB",
+        "required_fields": ["data_flow", "cross_task_connection"],
+        "example": {"data_flow": "✅ Input → Process → Output", "cross_task_connection": "✅ 의존 Task와 연동"}
+      },
+      "blockers": {
+        "format": "JSONB",
+        "required_fields": ["status"],
+        "example": {"status": "No Blockers ✅"}
+      }
+    },
+
+    "verification_completion_20_22": {
+      "comprehensive_verification": "[task_instruction] ✅ [test] ✅ [build] ✅ [integration] ✅ [final] ✅ Passed",
+      "verification_status": "Verified",
+      "remarks": "특이사항 (있는 경우)"
+    }
+  },
+
+  "completion_validation": {
+    "_description": "Task 완료 전 자동 검증 규칙",
+    "rules": [
+      "test 필드가 null이면 Completed 금지",
+      "build 필드가 null이면 Completed 금지",
+      "integration_verification 필드가 null이면 Completed 금지",
+      "blockers 필드가 null이면 Completed 금지",
+      "comprehensive_verification이 비어있으면 Completed 금지"
+    ]
+  },
+
+  "references": {
+    "⭐_6대_작업_규칙": ".claude/rules/ (파일 저장 전 반드시 확인!)",
+    "save_location_rule": ".claude/rules/02_save-location.md (가장 중요!)",
+    "ssal_grid": "S0_Project-SSAL-Grid_생성/ssal-grid/",
+    "grid_manual": "S0_Project-SSAL-Grid_생성/manual/PROJECT_SSAL_GRID_MANUAL.md",
+    "verification_rules": ".claude/rules/06_verification.md",
+    "project_rules": ".claude/CLAUDE.md"
+  },
+
+  "status": "template"
+}

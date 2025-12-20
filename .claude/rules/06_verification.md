@@ -4,6 +4,59 @@
 
 ---
 
+## 0. 상태 전이 규칙 (Status Transition Rules) ⭐ NEW
+
+### task_status (작업 상태)
+
+| 상태 | 설명 | 전이 조건 |
+|------|------|----------|
+| **Pending** | 작업 시작 전 | 초기 상태 |
+| **In Progress** | 작업 진행 중 | Pending → In Progress (작업 시작) |
+| **Executed** | 파일 생성 완료 | In Progress → Executed (파일 생성 완료) |
+| **Completed** | 모든 과정 완료 | Executed → Completed (검증 통과 + 수정 반영) |
+
+### verification_status (검증 상태)
+
+| 상태 | 설명 | 전이 조건 |
+|------|------|----------|
+| **Not Verified** | 검증 시작 전 | 초기 상태 |
+| **In Review** | 검증 진행 중 | Not Verified → In Review (검증 시작) |
+| **Needs Fix** | 수정 필요 | In Review → Needs Fix (이슈 발견) |
+| **Verified** | 검증 통과 | In Review → Verified (통과) 또는 Needs Fix → Verified (수정 후 재검증 통과) |
+
+### 상태 조합표
+
+```
+┌─────────────────┬──────────────────┬───────────────────┬─────────────┐
+│ task_status     │ verification_    │ fixes_required    │ 의미        │
+│                 │ status           │                   │             │
+├─────────────────┼──────────────────┼───────────────────┼─────────────┤
+│ Pending         │ Not Verified     │ false             │ 시작 전      │
+│ In Progress     │ Not Verified     │ false             │ 작업 중      │
+│ Executed        │ Not Verified     │ false             │ 파일 완료    │
+│ Executed        │ In Review        │ false             │ 검증 중      │
+│ Executed        │ Needs Fix        │ true              │ 수정 필요    │
+│ Executed        │ Verified         │ false             │ 검증 통과    │
+│ Completed       │ Verified         │ false             │ 최종 완료    │
+└─────────────────┴──────────────────┴───────────────────┴─────────────┘
+```
+
+### ⛔ 완료 조건 (CRITICAL)
+
+**Completed로 변경하려면:**
+1. `verification_status`가 `Verified`여야 함
+2. [16-19] Verification Execution 필드가 모두 채워져 있어야 함
+3. `comprehensive_verification`이 `Passed`여야 함
+
+**DB 트리거로 강제:**
+```sql
+IF task_status = 'Completed' AND verification_status != 'Verified' THEN
+    RAISE EXCEPTION 'Cannot set task_status to Completed unless verification_status is Verified';
+END IF;
+```
+
+---
+
 ## 1. Task 검증 항목
 
 ### Test Result (#16)

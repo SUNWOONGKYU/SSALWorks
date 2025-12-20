@@ -4,6 +4,33 @@
 
 ---
 
+## 프로세스 개선 - 상태 전이 규칙 추가 (2025-12-20)
+
+### 작업 상태: ✅ 완료
+
+### 개선 내용
+
+**문제 발견:** Verification Execution 필드 ([16-19])가 누락됨
+
+**해결책:** 상태 전이 규칙 도입
+- `task_status`: Pending → In Progress → **Executed** → Completed
+- `verification_status`: Not Verified → In Review → Needs Fix → **Verified**
+- **Completed는 Verified일 때만 가능** (DB 트리거로 강제)
+
+### 업데이트된 파일
+
+| 파일 | 내용 |
+|------|------|
+| `S0_Project-SAL-Grid_생성/supabase/schema_v4.1_status_expansion.sql` | DB 스키마 (수동 적용 필요) |
+| `Human_ClaudeCode_Bridge/Orders/ORDER_TEMPLATE_v4.json` | v4.2로 업그레이드 |
+| `.claude/rules/06_verification.md` | 상태 전이 규칙 추가 |
+| `.claude/CLAUDE.md` | 새 상태값 섹션 추가 |
+| 53개 Instruction 파일 | Task Agent/Verification Agent 추가 |
+
+### ✅ DB 스키마 적용 완료 (PO 실행)
+
+---
+
 ## 6개 신규 Task 구현 완료 (2025-12-20)
 
 ### 작업 상태: ✅ 완료
@@ -842,15 +869,102 @@ WHERE service_name = 'chatgpt';
 
 ---
 
+## S4 Stage 전체 완료 (2025-12-20)
+
+### 작업 상태: ✅ 완료 (15개 Task)
+
+**S4: 개발 3차 (Payment & Admin)**
+
+### Phase 1 완료 (4개)
+| Task ID | Task Name | 파일 수 | 저장 위치 |
+|---------|-----------|--------|-----------|
+| S4D1 | 결제/크레딧 DB | 7개 SQL | S4_개발-3차/Database |
+| S4BA6 | 이메일 템플릿 | 1개 | S4_개발-3차/Backend_APIs + Production |
+| S4O1 | Cron Jobs | 6개 | S4_개발-3차/DevOps + Production |
+| S4S1 | Admin 권한 체크 | 4개 | S4_개발-3차/Security + Production |
+
+### Phase 2 완료 (5개)
+| Task ID | Task Name | 파일 수 | 저장 위치 |
+|---------|-----------|--------|-----------|
+| S4BA1 | 무통장 입금 API | 4개 | S4_개발-3차/Backend_APIs + Production |
+| S4BA2 | 입금 확인 API | 4개 | S4_개발-3차/Backend_APIs + Production |
+| S4BA3 | 토스 페이먼트 API | 7개 | S4_개발-3차/Backend_APIs + Production |
+| S4BA4 | 크레딧 충전 API | 4개 | S4_개발-3차/Backend_APIs + Production |
+| S4BA5 | 설치비 확인 API | 3개 | S4_개발-3차/Backend_APIs + Production |
+
+### Phase 3 완료 (3개)
+| Task ID | Task Name | 파일 수 | 저장 위치 |
+|---------|-----------|--------|-----------|
+| S4F1 | 관리자 대시보드 | 11개 | S4_개발-3차/Frontend + Production |
+| S4F3 | 크레딧 충전 UI | 4개 | S4_개발-3차/Frontend + Production |
+| S4F4 | 결제 수단 등록 UI | 3개 | S4_개발-3차/Frontend + Production |
+
+### Phase 4 완료 (3개)
+| Task ID | Task Name | 파일 수 | 저장 위치 |
+|---------|-----------|--------|-----------|
+| S4T1 | E2E 테스트 (Playwright) | 6개 | S4_개발-3차/Testing |
+| S4T2 | API 통합 테스트 (Jest) | 9개 | S4_개발-3차/Testing |
+| S4M1 | 관리자 가이드 문서 | 1개 | S4_개발-3차/Documentation |
+
+### 총계
+- **총 파일 수**: 약 73개
+- **이중 저장 적용**: F, BA, S, BI, E Areas (Production 포함)
+- **Stage 전용**: D, T, M, O Areas
+
+---
+
+## Order Sheet Template v4.3 업데이트 (2025-12-20)
+
+### 작업 상태: ✅ 완료
+
+**목적**: 6대 작업 규칙 확인을 Order Sheet에 필수 요소로 반영
+
+**수정된 파일:**
+- `Human_ClaudeCode_Bridge/Orders/ORDER_TEMPLATE_v4.json` (v4.2 → v4.3)
+
+**추가된 내용:**
+
+#### 1. `⚠️_MANDATORY_RULE_CHECK` 섹션 추가
+```json
+{
+  "_warning": "🚨🚨🚨 파일 생성/저장 전 반드시 6대 작업 규칙 확인 필수! 🚨🚨🚨",
+  "_location": ".claude/rules/",
+  "rules": {
+    "01_file-naming.md": "파일명 정할 때 확인",
+    "02_save-location.md": "⭐ 파일 저장할 때 확인 (가장 중요!)",
+    ...
+  },
+  "work_order": ["1. 파일 저장 필요 → 02_save-location.md 읽기", ...],
+  "prohibited": ["❌ 규칙 확인 없이 폴더 생성/파일 저장 절대 금지", ...],
+  "past_problems_from_not_checking": [
+    "Backend_API vs Backend_APIs 혼용 → 폴더 중복 생성",
+    "API/ vs api/ 대소문자 혼용 → 경로 불일치",
+    "Backend_Infrastructure vs Backend_Infra → 폴더명 불일치"
+  ]
+}
+```
+
+#### 2. execution_steps 수정
+- Step 6: `🚨 6대 규칙 확인 → 결과물 파일 저장 (02_save-location.md 필독!)`
+
+#### 3. references 섹션 추가
+- `⭐_6대_작업_규칙`: `.claude/rules/`
+- `save_location_rule`: `.claude/rules/02_save-location.md`
+
+**적용 효과:**
+- 새 Claude Code 세션에서 Order Sheet 읽을 때 6대 규칙 확인 필수
+- 폴더 혼란 방지 (Backend_API vs Backend_APIs 등)
+- 작업 순서 명확화 (규칙 확인 → 경로 확인 → 저장)
+
+---
+
 ## 다음 작업 예정
 
-- **S2F3 후속 작업**:
-  - resend-verification API 엔드포인트 구현 (S2BA2 확장)
-  - login.html 페이지 구현 (S2F4 예정)
+- **S4 Stage Gate 검증**:
+  - Stage Gate Report 생성 (`S4GATE_verification_report.md`)
+  - PO 테스트 가이드 제공
+  - PO 최종 승인 대기
 
-- **S4 Stage**: 진행 예정 (PO 지시)
-  - S4: 개발 3차 (QA & Optimization)
-  - 주요 내용: 결제 연동, 성능 최적화, QA
-  - S4BA6 (결제/알림 이메일 템플릿) SAL Grid 파일 준비 완료
+- **S5 Stage**: 운영 단계 (PO 지시 대기)
 
 ---
