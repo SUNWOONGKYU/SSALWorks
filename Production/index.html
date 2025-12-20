@@ -7541,16 +7541,16 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                 }
             });
 
-            if (hasInProgress) {
-                // 현재 프로젝트의 개발이 완료되었는지 확인
-                if (!isProjectCompleted()) {
-                    alert('⚠️ 현재 Project의 개발이 완료되지 않았습니다!\n\n모든 진행 프로세스가 100%가 되어야 새로운 Project를 시작할 수 있습니다.\n현재 진행 중인 Project를 먼저 완료해주세요.');
-                    return;
-                }
-
-                alert('⚠️ 진행 중인 Project가 이미 있습니다!\n\n한 번에 하나의 Project만 진행할 수 있습니다.\n현재 Project를 완료한 후 새로운 Project를 시작해주세요.\n\n💡 여러 Project를 동시에 진행하시려면 새로운 계정으로 로그인하세요.');
-                return;
-            }
+// TEST_DISABLE:             if (hasInProgress) {
+// TEST_DISABLE:                 // 현재 프로젝트의 개발이 완료되었는지 확인
+// TEST_DISABLE:                 if (!isProjectCompleted()) {
+// TEST_DISABLE:                     alert('⚠️ 현재 Project의 개발이 완료되지 않았습니다!\n\n모든 진행 프로세스가 100%가 되어야 새로운 Project를 시작할 수 있습니다.\n현재 진행 중인 Project를 먼저 완료해주세요.');
+// TEST_DISABLE:                     return;
+// TEST_DISABLE:                 }
+// TEST_DISABLE: 
+// TEST_DISABLE:                 alert('⚠️ 진행 중인 Project가 이미 있습니다!\n\n한 번에 하나의 Project만 진행할 수 있습니다.\n현재 Project를 완료한 후 새로운 Project를 시작해주세요.\n\n💡 여러 Project를 동시에 진행하시려면 새로운 계정으로 로그인하세요.');
+// TEST_DISABLE:                 return;
+// TEST_DISABLE:             }
 
             // Project 구조 생성 중 표시
             showStatus('🚀 표준 Project 구조 생성 중...', 'info');
@@ -7573,7 +7573,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                     },
                     body: JSON.stringify({
                         projectName: name,
-                        description: null
+                        description: description
                     })
                 });
 
@@ -8564,7 +8564,7 @@ ${result.answer}`;
             </div>
             <button class="grid-fullscreen-close" onclick="closeAddProjectModal()">✕ 닫기</button>
         </div>
-        <div class="grid-fullscreen-content" style="padding: 40px; max-width: 600px; margin: 0 auto;">
+        <div class="grid-fullscreen-content" style="padding: 40px; max-width: 800px; margin: 0 auto;">
             <form id="newProjectForm" style="display: flex; flex-direction: column; gap: 20px;">
                 <div>
                     <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #495057;">프로젝트명</label>
@@ -8574,7 +8574,7 @@ ${result.answer}`;
                 <div>
                     <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #495057;">설명</label>
                     <textarea id="projectDescription" placeholder="프로젝트에 대한 간단한 설명을 입력하세요..."
-                        style="width: 100%; padding: 12px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; min-height: 100px; font-family: inherit;"></textarea>
+                        style="width: 100%; padding: 12px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; min-height: 150px; font-family: inherit;"></textarea>
                 </div>
                 <div style="display: flex; gap: 12px; justify-content: flex-end;">
                     <button type="button" onclick="closeAddProjectModal()"
@@ -9483,7 +9483,7 @@ ${result.answer}`;
                     top: ${modalTop}px;
                     background: white;
                     border-radius: 12px;
-                    max-width: 600px;
+                    max-width: 800px;
                     width: 90%;
                     max-height: 80vh;
                     overflow-y: auto;
