@@ -93,19 +93,20 @@ module.exports = async (req, res) => {
         const userId = userData.user_id;
 
         // 4. 진행 중인 프로젝트가 있는지 확인
-        const { data: existingProject, error: checkError } = await supabase
-            .from('projects')
-            .select('project_id, project_name')
-            .eq('user_id', userId)
-            .eq('status', 'in_progress')
-            .single();
+        // TEST_DISABLE: 테스트를 위해 임시 비활성화
+        // const { data: existingProject, error: checkError } = await supabase
+        //     .from('projects')
+        //     .select('project_id, project_name')
+        //     .eq('user_id', userId)
+        //     .eq('status', 'in_progress')
+        //     .single();
 
-        if (existingProject) {
-            return res.status(400).json({
-                success: false,
-                error: `이미 진행 중인 프로젝트가 있습니다: ${existingProject.project_name}`
-            });
-        }
+        // if (existingProject) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         error: `이미 진행 중인 프로젝트가 있습니다: ${existingProject.project_name}`
+        //     });
+        // }
 
         // 5. project_id 생성 (user_id-P001 형식)
         const { data: countData, error: countError } = await supabase
