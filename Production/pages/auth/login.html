@@ -609,7 +609,7 @@
                 const { data, error } = await supabaseClient.auth.signInWithOAuth({
                     provider: 'google',
                     options: {
-                        redirectTo: window.location.origin + '/Production/Frontend/index.html'
+                        redirectTo: window.location.origin + '/index.html'
                     }
                 });
 
@@ -635,7 +635,7 @@
 
             try {
                 const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
-                    redirectTo: window.location.origin + '/Production/Frontend/pages/auth/reset-password.html'
+                    redirectTo: window.location.origin + '/pages/auth/reset-password.html'
                 });
 
                 if (error) throw error;
