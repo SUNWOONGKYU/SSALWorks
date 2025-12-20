@@ -478,7 +478,7 @@
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="Tips 검색..." id="searchInput">
             </div>
-            <div class="sidebar-title">Tips 카테고리 (49개)</div>
+            <div class="sidebar-title">Tips 카테고리 (54개)</div>
             <div id="categoryList">
                 <!-- Categories will be generated dynamically -->
             </div>
@@ -562,7 +562,8 @@
                     { name: 'Git으로 버전 관리하기', path: 'Tips/작업_기록_백업/Git으로_버전_관리하기.md' },
                     { name: 'outbox에 작업 결과 저장하기', path: 'Tips/작업_기록_백업/outbox에_작업_결과_저장하기.md' },
                     { name: '중요한 파일 주기적으로 백업하기', path: 'Tips/작업_기록_백업/중요한_파일_주기적으로_백업하기.md' },
-                    { name: '.gitignore로 민감정보 보호하기', path: 'Tips/작업_기록_백업/.gitignore로_민감정보_보호하기.md' }
+                    { name: '.gitignore로 민감정보 보호하기', path: 'Tips/작업_기록_백업/.gitignore로_민감정보_보호하기.md' },
+                    { name: 'Orders/Reports JSON으로 작업 요청하기', path: 'Tips/작업_기록_백업/Orders_Reports_JSON으로_작업_요청하기.md' }
                 ]
             },
             '세션_관리': {
@@ -572,7 +573,8 @@
                 files: [
                     { name: '세션 끊어졌을 때 복구하기', path: 'Tips/세션_관리/세션_끊어졌을_때_복구하기.md' },
                     { name: '헤매면 미련 없이 세션 정리하기', path: 'Tips/세션_관리/헤매면_미련_없이_세션_정리하기.md' },
-                    { name: 'Google Drive 동기화 문제 해결', path: 'Tips/세션_관리/Google_Drive_동기화_문제_해결.md' }
+                    { name: 'Google Drive 동기화 문제 해결', path: 'Tips/세션_관리/Google_Drive_동기화_문제_해결.md' },
+                    { name: 'CLI 여러 개 동시 실행하기', path: 'Tips/세션_관리/CLI_여러_개_동시_실행하기.md' }
                 ]
             },
             '검증_문서화': {
@@ -582,7 +584,8 @@
                 files: [
                     { name: '별도 서브에이전트로 검증하기', path: 'Tips/검증_문서화/별도_서브에이전트로_검증하기.md' },
                     { name: '수시로 문서화 지시하기', path: 'Tips/검증_문서화/수시로_문서화_지시하기.md' },
-                    { name: '작업 규칙 CLAUDE.md에 업데이트하기', path: 'Tips/검증_문서화/작업_규칙_CLAUDE.md에_업데이트하기.md' }
+                    { name: '작업 규칙 CLAUDE.md에 업데이트하기', path: 'Tips/검증_문서화/작업_규칙_CLAUDE.md에_업데이트하기.md' },
+                    { name: '개발 완료 후 디자인/완성도 체크', path: 'Tips/검증_문서화/개발_완료_후_디자인_완성도_체크.md' }
                 ]
             },
             '개발_실무': {
@@ -595,7 +598,9 @@
                     { name: 'GitHub Push/Pull로 작업 반영하기', path: 'Tips/개발_실무/GitHub_Push_Pull로_작업_반영하기.md' },
                     { name: '인증 코드는 숫자 6자리로', path: 'Tips/개발_실무/인증_코드는_숫자_6자리로.md' },
                     { name: '폴더 정리 및 임의 생성 금지 규칙', path: 'Tips/개발_실무/폴더_정리_및_임의_생성_금지_규칙.md' },
-                    { name: '파일 저장 위치 확인하기', path: 'Tips/개발_실무/파일_저장_위치_확인하기.md' }
+                    { name: '파일 저장 위치 확인하기', path: 'Tips/개발_실무/파일_저장_위치_확인하기.md' },
+                    { name: '파일 위치 수시로 점검하기', path: 'Tips/개발_실무/파일_위치_수시로_점검하기.md' },
+                    { name: 'Feature 브랜치로 Vercel Preview 테스트 후 병합하기', path: 'Tips/개발_실무/Feature_브랜치로_Vercel_Preview_테스트_후_병합하기.md' }
                 ]
             },
             '효율적인_소통': {
@@ -615,8 +620,7 @@
                 icon: '🗄️',
                 description: 'DB 관리 팁',
                 files: [
-                    { name: 'DB 삭제해도 복구 가능', path: 'Tips/데이터베이스/DB_삭제해도_복구_가능.md' },
-                    { name: 'SQL 직접 실행해야 할 경우', path: 'Tips/데이터베이스/SQL_직접_실행해야_할_경우.md' },
+                    { name: 'Claude Code로 Supabase CRUD 하는 방법', path: 'Tips/데이터베이스/Claude_Code로_Supabase_CRUD_하는_방법.md' },
                     { name: 'Supabase RLS 정책 관리', path: 'Tips/데이터베이스/Supabase_RLS_정책_관리.md' },
                     { name: 'Supabase 쿼리 최적화', path: 'Tips/데이터베이스/Supabase_쿼리_최적화.md' }
                 ]
@@ -629,7 +633,8 @@
                     { name: 'Task를 작게 나누는 기준', path: 'Tips/SAL_Grid/Task를_작게_나누는_기준.md' },
                     { name: 'Phase Gate 검증 체크리스트', path: 'Tips/SAL_Grid/Phase_Gate_검증_체크리스트.md' },
                     { name: 'Task ID로 파일 관리하기', path: 'Tips/SAL_Grid/Task_ID로_파일_관리하기.md' },
-                    { name: '검증 완료 후 문서화하기', path: 'Tips/SAL_Grid/검증_완료_후_문서화하기.md' }
+                    { name: '검증 완료 후 문서화하기', path: 'Tips/SAL_Grid/검증_완료_후_문서화하기.md' },
+                    { name: 'Task Plan 작성 전 User Flow 먼저', path: 'Tips/SAL_Grid/Task_Plan_작성_전_User_Flow_먼저.md' }
                 ]
             },
             '트러블슈팅': {
