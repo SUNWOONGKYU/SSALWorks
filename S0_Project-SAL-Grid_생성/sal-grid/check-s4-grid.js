@@ -1,12 +1,24 @@
 const { createClient } = require('@supabase/supabase-js');
+const path = require('path');
+const fs = require('fs');
+
+// .env 파일에서 환경변수 읽기
+const envPath = path.join(__dirname, '../../../P3_프로토타입_제작/Database/.env');
+const envContent = fs.readFileSync(envPath, 'utf-8');
+const envVars = {};
+envContent.split('\n').forEach(line => {
+  const match = line.match(/^([^#=]+)=(.*)$/);
+  if (match) envVars[match[1].trim()] = match[2].trim();
+});
+
 const supabase = createClient(
-  'https://gqkziovmisijqhnpqqtr.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdxa3ppb3ZtaXNpanFobnBxcXRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI1MTI0NzUsImV4cCI6MjA0ODA4ODQ3NX0.YGIKRO1lY4vd3Ym1TfCr7T7P5s7RWdpFBnNjabaLgkI'
+  envVars.SUPABASE_URL,
+  envVars.SUPABASE_ANON_KEY
 );
 
 async function checkS4Tasks() {
   const { data, error } = await supabase
-    .from('tasks')
+    .from('ssalworks_tasks')
     .select('task_id, task_name, task_status, verification_status, task_progress, generated_files, test, build, integration_verification, blockers, comprehensive_verification')
     .like('task_id', 'S4%')
     .order('task_id');

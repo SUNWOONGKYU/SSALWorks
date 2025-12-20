@@ -11,11 +11,19 @@
  */
 
 const { createClient } = require('@supabase/supabase-js');
+const path = require('path');
+const fs = require('fs');
 
-const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
+// .env 파일에서 환경변수 읽기
+const envPath = path.join(__dirname, '../../../P3_프로토타입_제작/Database/.env');
+const envContent = fs.readFileSync(envPath, 'utf-8');
+const envVars = {};
+envContent.split('\n').forEach(line => {
+  const match = line.match(/^([^#=]+)=(.*)$/);
+  if (match) envVars[match[1].trim()] = match[2].trim();
+});
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient(envVars.SUPABASE_URL, envVars.SUPABASE_ANON_KEY);
 
 async function updateGrid(taskId, updates) {
     console.log(`\n📝 Grid UPDATE: ${taskId}`);

@@ -1,0 +1,46 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- 도 4: Graph Builder 프로세스 -->
+  <rect width="100%" height="100%" fill="white"/>
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+    </marker>
+  </defs>
+
+  <!-- 도면 번호 -->
+  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 4</text>
+
+  <!-- Graph Builder (60) -->
+  <rect x="50" y="100" width="1100" height="600" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5" rx="10"/>
+  <text x="1100" y="140" text-anchor="end" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Graph Builder (60)</text>
+
+  <!-- Step 1: Cell 그룹화 (61) -->
+  <rect x="100" y="200" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="250" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Cell 그룹화</text>
+  <text x="250" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(61)</text>
+
+  <!-- 화살표 1 -->
+  <line x1="400" y1="275" x2="450" y2="275" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Step 2: 엣지 생성 (62) -->
+  <rect x="450" y="200" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="600" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">엣지 생성</text>
+  <text x="600" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(62)</text>
+
+  <!-- 화살표 2 -->
+  <line x1="750" y1="275" x2="800" y2="275" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Step 3: 순환 검출 (63) -->
+  <rect x="800" y="200" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="950" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">순환 검출</text>
+  <text x="950" y="305" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(63)</text>
+
+  <!-- 아래로 이동 화살표 -->
+  <line x1="950" y1="350" x2="950" y2="450" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Step 4: 병목 마킹 (64) -->
+  <rect x="800" y="450" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="950" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">병목 마킹</text>
+  <text x="950" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(64)</text>
+
+</svg>
