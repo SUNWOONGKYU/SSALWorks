@@ -2,217 +2,59 @@
 
 ---
 
-Task Instruction은 AI에게 주는 작업 지시서이다. Instruction이 명확할수록 AI의 결과물이 좋아진다. 이 편에서는 효과적인 Task Instruction을 작성하는 방법을 살펴본다.
+## AI에게 정확한 지시를 내리려면
 
-## 1. Task Instruction이란
+"로그인 기능 만들어줘"라고 AI에게 말하면 무슨 일이 벌어질까? AI는 열심히 뭔가를 만들어 낸다. 하지만 당신이 원했던 것과 다를 가능성이 높다. 소셜 로그인을 원했는데 이메일 로그인을 만들었을 수 있다. 성공 시 메인 페이지로 가길 원했는데 로그인 페이지에 그대로 있을 수 있다.
 
-### 정의
+왜 이런 일이 벌어질까? 지시가 모호했기 때문이다. "로그인 기능"이 정확히 무엇인지 AI가 알 수 없었다. AI는 추측할 수밖에 없고, 추측은 틀릴 수 있다.
 
-Task Instruction은 22개 속성 중 `task_instruction` 필드에 들어가는 값이다. AI가 이 Task에서 무엇을 해야 하는지 상세하게 기술한다.
-
-```json
-{
-  "task_id": "S2BA1",
-  "task_name": "구독 취소 API",
-  "task_instruction": "POST /api/subscription/cancel 엔드포인트 구현..."
-}
-```
-
-### 왜 중요한가
-
-```
-모호한 Instruction → AI가 추측 → 잘못된 결과
-명확한 Instruction → AI가 정확히 이해 → 원하는 결과
-```
-
-Instruction의 품질이 곧 결과물의 품질이다.
-
-### Instruction vs 대화
-
-일반적인 AI 대화와 달리, Instruction은 구조화되어 있다.
-
-```
-❌ 대화 방식:
-"구독 취소 기능 만들어줘. 아 그리고 취소하면 이메일도 보내야 하고..."
-
-✅ Instruction 방식:
-"구현 사항:
-1. POST /api/subscription/cancel 엔드포인트
-2. 입력: user_id
-3. 처리: subscription_status를 'cancelled'로 변경
-4. 출력: 성공/실패 JSON
-5. 부가 기능: 취소 확인 이메일 발송 트리거"
-```
+SAL Grid에서는 이 문제를 Task Instruction(작업 지시사항)으로 해결한다. 22개 속성 중 task_instruction 필드에 정확한 지시사항을 적는다. 지시가 명확할수록 AI의 결과물이 원하는 것에 가까워진다.
 
 ---
 
-## 2. Instruction 구조
+## 좋은 Instruction의 다섯 가지 요소
 
-좋은 Instruction은 다음 요소를 포함한다.
+좋은 Instruction에는 다섯 가지 요소가 있다.
 
-### 2.1 목표 (Goal)
+**첫째, 목표**다. 이 Task가 끝나면 무엇이 달성되는가? "사용자가 Google 계정으로 로그인할 수 있다"처럼 최종 상태를 적는다.
 
-이 Task가 완료되면 무엇이 달성되는가?
+**둘째, 입력과 출력**이다. 무엇을 받아서 무엇을 반환하는가? API라면 "user_id를 받아서 구독 상태 JSON을 반환한다"처럼 명시한다. UI라면 "로그인 버튼 클릭을 받아서 대시보드 페이지로 이동한다"처럼 적는다.
 
-```
-목표: 사용자가 구독을 취소할 수 있는 API 엔드포인트 구현
-```
+**셋째, 세부 요구사항**이다. 정확히 어떻게 구현해야 하는가? 사용할 라이브러리, 호출할 함수, 저장할 필드 등을 나열한다. "Supabase의 signInWithOAuth 함수를 사용하라. 로그인 성공 시 /dashboard로 리다이렉트하라."
 
-### 2.2 입력/출력 (Input/Output)
+**넷째, 예외 처리**다. 예상되는 오류 상황과 대처 방법을 적는다. "인증 실패 시 401 반환. 이미 취소된 구독이면 409 반환." 에러를 무시하라는 것이 아니라 어떻게 처리하라는 것인지 명확히 한다.
 
-무엇을 받아서 무엇을 반환하는가?
-
-```
-입력:
-- user_id: 사용자 UUID (필수)
-- reason: 취소 사유 (선택)
-
-출력:
-- 성공: { success: true, message: "구독이 취소되었습니다" }
-- 실패: { success: false, error: "취소할 구독이 없습니다" }
-```
-
-### 2.3 세부 요구사항 (Requirements)
-
-구체적으로 어떻게 구현해야 하는가?
-
-```
-요구사항:
-1. Supabase에서 user_id로 구독 정보 조회
-2. subscription_status가 'active'인 경우만 취소 가능
-3. 취소 시 subscription_status를 'cancelled'로 변경
-4. cancelled_at 필드에 현재 시각 기록
-5. 성공 시 취소 확인 이메일 발송 함수 호출
-```
-
-### 2.4 예외 처리 (Error Handling)
-
-예상되는 오류 상황과 처리 방법:
-
-```
-예외 처리:
-- 사용자를 찾을 수 없는 경우: 404 반환
-- 이미 취소된 구독인 경우: 400 반환 + "이미 취소된 구독입니다"
-- DB 오류 발생 시: 500 반환 + 에러 로깅
-```
-
-### 2.5 참고 사항 (Notes)
-
-추가로 알아야 할 정보:
-
-```
-참고:
-- 이메일 발송은 S2BA2에서 구현된 sendEmail 함수 사용
-- Supabase Client는 S1BI1에서 설정한 것 사용
-- 환불 처리는 S4에서 별도 구현 예정
-```
+**다섯째, 참고 사항**이다. 다른 Task의 결과물을 사용해야 하거나, 특별히 주의할 점이 있으면 적는다. "이메일 발송은 S2BA2에서 구현한 sendEmail 함수를 사용하라. 환불 처리는 S4에서 별도로 구현한다."
 
 ---
 
-## 3. 좋은 Instruction vs 나쁜 Instruction
+## 모호한 표현과 명확한 표현
 
-### 비교 1: 목표
+같은 내용도 표현에 따라 결과가 달라진다.
 
-```
-❌ 나쁜 예:
-"로그인 기능 구현"
+"사용자 정보를 저장하라"는 모호하다. 어떤 정보를? 어디에? AI가 스스로 결정해야 한다. 반면 "users 테이블에 id, email, full_name, avatar_url, created_at 필드를 저장하라"는 명확하다. AI가 추측할 필요가 없다.
 
-✅ 좋은 예:
-"Google OAuth를 통한 소셜 로그인 구현.
-- Supabase Auth의 signInWithOAuth 사용
-- 로그인 성공 시 /dashboard로 리다이렉트
-- 실패 시 에러 메시지 표시"
-```
+"에러 처리를 해라"는 모호하다. 어떤 에러를? 어떻게 처리해? 반면 "인증 실패 시 401, 데이터 없음 시 404, 중복 요청 시 409를 반환하라"는 명확하다.
 
-### 비교 2: 구체성
+"빠르게 동작해야 한다"는 모호하다. 빠르다는 게 1초인가? 10초인가? 반면 "API 응답 시간 500ms 이내"는 명확하다. 측정할 수 있다.
 
-```
-❌ 나쁜 예:
-"사용자 정보 저장"
-
-✅ 좋은 예:
-"users 테이블에 다음 필드 저장:
-- id: UUID (Supabase Auth에서 생성)
-- email: 이메일 주소
-- full_name: 전체 이름
-- avatar_url: 프로필 이미지 URL
-- created_at: 가입 시각
-- updated_at: 정보 수정 시각"
-```
-
-### 비교 3: 완료 기준
-
-```
-❌ 나쁜 예:
-"API가 잘 동작해야 함"
-
-✅ 좋은 예:
-"완료 기준:
-1. POST /api/subscription/cancel 호출 시 200 반환
-2. 구독 상태가 'cancelled'로 변경됨
-3. cancelled_at 필드가 기록됨
-4. 중복 취소 시 400 에러 반환"
-```
-
-### 비교 4: 예외 처리
-
-```
-❌ 나쁜 예:
-"에러 처리도 해줘"
-
-✅ 좋은 예:
-"에러 처리:
-- 401: 인증되지 않은 사용자
-- 404: 구독 정보 없음
-- 409: 이미 취소된 구독
-- 500: 서버 내부 오류 (로깅 필수)"
-```
+"예쁘게 만들어라"는 최악이다. 예쁘다는 기준이 없다. 반면 "디자인 시안 figma.com/xxx를 참조하라"는 명확하다. 기준이 있다.
 
 ---
 
-## 4. 작성 가이드라인
+## 예시를 보여주는 것의 힘
 
-### 4.1 구체적으로 작성
+복잡한 요구사항은 설명보다 예시가 효과적이다.
 
-추상적인 표현 대신 구체적인 표현을 사용한다.
-
-| 추상적 | 구체적 |
-|--------|--------|
-| 사용자 정보 | user_id, email, full_name |
-| 적절한 에러 처리 | 401, 404, 500 상태코드 반환 |
-| 빠르게 | 3초 이내 응답 |
-| 안전하게 | RLS 정책 적용, 입력값 검증 |
-
-### 4.2 측정 가능하게 작성
-
-완료 여부를 객관적으로 판단할 수 있어야 한다.
+"API가 성공 시 적절한 JSON을 반환하라"고 하면 AI가 어떤 형식을 만들지 모른다. 하지만 예시를 보여주면 정확히 그 형식으로 만든다.
 
 ```
-❌ 측정 불가:
-"UI가 예쁘게"
-"빠르게 동작"
-"안정적으로"
-
-✅ 측정 가능:
-"디자인 시안 figma.com/xxx 참조"
-"API 응답 시간 500ms 이내"
-"에러율 1% 미만"
-```
-
-### 4.3 예시 포함
-
-복잡한 요구사항은 예시로 보여준다.
-
-```
-API 응답 예시:
-
 성공 시:
 {
   "success": true,
   "data": {
     "subscription_id": "sub_123",
-    "status": "cancelled",
-    "cancelled_at": "2025-12-20T10:30:00Z"
+    "status": "cancelled"
   }
 }
 
@@ -226,157 +68,68 @@ API 응답 예시:
 }
 ```
 
-### 4.4 의존성 명시
-
-다른 Task의 결과물을 사용하는 경우 명확히 표시한다.
-
-```
-참고:
-- Supabase Client: S1BI1에서 생성한 supabaseClient 사용
-- 이메일 함수: S2BA2에서 구현한 sendEmail() 사용
-- DB 스키마: S1D1의 users 테이블, S1D2의 subscriptions 테이블
-```
+이렇게 예시를 주면 AI는 이 형식을 그대로 따른다. success(성공 여부), data(데이터), error(오류 정보), code(오류 코드), message(오류 메시지) 같은 필드명도 예시 그대로 사용한다.
 
 ---
 
-## 5. 실제 예시
+## 의존성을 명시해야 하는 이유
 
-### 5.1 Frontend Task 예시
+Task는 혼자 존재하지 않는다. 다른 Task의 결과물을 가져다 쓰는 경우가 많다.
 
-```markdown
-# S2F1: Google 로그인 UI
+로그인 UI를 만들 때 Supabase Client가 필요하다. 이 Client는 S1BI1에서 만들었다. 구독 취소 후 이메일을 보내려면 sendEmail 함수가 필요하다. 이 함수는 S2BA2에서 만들었다.
 
-## 목표
-Google OAuth 로그인 버튼이 있는 로그인 페이지 구현
+Instruction에 이 관계를 적어두면 AI가 찾아서 사용한다. "S1BI1에서 생성한 supabaseClient를 import해서 사용하라." 이렇게 적으면 AI가 해당 파일을 찾아서 올바르게 연결한다.
 
-## 파일 위치
-- Production/Frontend/pages/auth/google-login.html
-
-## 요구사항
-1. "Google로 로그인" 버튼 표시
-2. 버튼 클릭 시 Supabase signInWithOAuth 호출
-3. 로그인 성공 시 /index.html로 리다이렉트
-4. 로그인 실패 시 에러 메시지 표시
-
-## UI 요소
-- 로고 (SSALWorks)
-- 타이틀 ("로그인")
-- Google 로그인 버튼 (Google 아이콘 포함)
-- 에러 메시지 영역
-
-## 의존성
-- S1S1: Supabase Auth 설정 완료 필요
-- S1BI1: Supabase Client 사용
-
-## 완료 기준
-1. 페이지 정상 로드
-2. 버튼 클릭 시 Google 로그인 창 표시
-3. 로그인 성공 시 /index.html 이동
-```
-
-### 5.2 Backend Task 예시
-
-```markdown
-# S2BA1: 구독 취소 API
-
-## 목표
-사용자의 구독을 취소하는 API 엔드포인트 구현
-
-## 파일 위치
-- Production/api/Backend_APIs/subscription-cancel.js
-
-## 엔드포인트
-POST /api/subscription/cancel
-
-## 입력
-```json
-{
-  "user_id": "uuid",
-  "reason": "string (optional)"
-}
-```
-
-## 출력
-```json
-// 성공
-{ "success": true, "message": "구독이 취소되었습니다" }
-
-// 실패
-{ "success": false, "error": "에러 메시지" }
-```
-
-## 처리 로직
-1. user_id로 subscriptions 테이블 조회
-2. 현재 상태가 'active'인지 확인
-3. 'active'면 'cancelled'로 변경
-4. cancelled_at에 현재 시각 기록
-5. 취소 확인 이메일 발송
-
-## 에러 처리
-- 401: 인증 실패
-- 404: 구독 정보 없음
-- 409: 이미 취소됨
-- 500: 서버 오류
-
-## 의존성
-- S1D2: subscriptions 테이블
-- S2BA2: sendEmail 함수
-```
-
-### 5.3 Database Task 예시
-
-```markdown
-# S1D1: users 테이블 스키마
-
-## 목표
-사용자 정보를 저장할 users 테이블 생성
-
-## 파일 위치
-- S1_개발_준비/Database/S1D1_users_schema.sql
-
-## 테이블 구조
-```sql
-CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  email TEXT UNIQUE NOT NULL,
-  full_name TEXT,
-  avatar_url TEXT,
-  subscription_status TEXT DEFAULT 'free',
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-```
-
-## 필드 설명
-- id: Supabase Auth와 연동되는 UUID
-- email: 로그인 이메일
-- full_name: 표시 이름
-- avatar_url: 프로필 이미지
-- subscription_status: free, active, cancelled
-- created_at: 가입일시
-- updated_at: 정보 수정일시
-
-## RLS 정책
-- SELECT: 본인 데이터만 조회 가능
-- UPDATE: 본인 데이터만 수정 가능
-
-## 완료 기준
-1. 테이블 생성 완료
-2. RLS 정책 적용 완료
-3. 테스트 데이터 삽입 성공
-```
+적어두지 않으면 AI가 새로 만들 수 있다. 이미 있는 Client를 두고 또 만드는 것이다. 중복 코드가 생기고, 나중에 수정할 때 문제가 된다.
 
 ---
 
-## 6. 다음 단계
+## 완료 기준을 구체적으로
 
-5편에서는 Task Instruction 작성법을 살펴봤다.
+"기능이 잘 동작해야 한다"는 완료 기준이 아니다. 누가 판단하나? 기준이 뭔가?
 
-- Instruction 구조: 목표, 입력/출력, 요구사항, 예외 처리, 참고
-- 작성 원칙: 구체적으로, 측정 가능하게, 예시 포함
-- 좋은 Instruction = 좋은 결과물
+좋은 완료 기준은 체크리스트 형태다.
 
-다음 편에서는 Verification Instruction 작성법을 살펴본다. Task가 완료된 후 어떻게 검증할지 정의하는 방법이다.
+```
+완료 기준:
+1. POST /api/subscription/cancel 호출 시 200 반환
+2. 구독 상태가 'cancelled'로 변경됨
+3. cancelled_at 필드에 현재 시각 기록됨
+4. 중복 취소 시 409 에러 반환
+5. 취소 후 확인 이메일 발송됨
+```
+
+이 다섯 가지를 확인하면 Task가 완료됐는지 객관적으로 알 수 있다. 검증할 때도 이 체크리스트를 사용한다.
+
+---
+
+## Area별 Instruction의 차이
+
+Frontend, Backend, Database - 영역에 따라 Instruction에서 강조하는 부분이 다르다.
+
+**Frontend Instruction**은 UI 요소와 사용자 인터랙션을 상세히 적는다. 어떤 버튼이 있고, 클릭하면 무엇이 일어나고, 에러가 나면 어떻게 표시하는지. 디자인 시안이 있으면 참조 링크를 적는다.
+
+**Backend Instruction**은 엔드포인트, 입력, 출력, 처리 로직, 에러 처리를 상세히 적는다. API 명세에 가깝다. 어떤 HTTP 메서드를 쓰고, 어떤 상태 코드를 반환하는지.
+
+**Database Instruction**은 테이블 구조, 필드 정의, 관계, 제약조건을 상세히 적는다. RLS(Row Level Security, 행 단위 접근 제어) 정책도 여기서 정의한다. SQL 예시를 직접 포함하는 경우가 많다.
+
+---
+
+## 점점 더 좋은 Instruction을 쓰게 된다
+
+처음에는 Instruction 쓰는 데 시간이 오래 걸린다. 뭘 적어야 할지 모르겠고, 너무 상세한 것 같기도 하다.
+
+하지만 몇 번 해보면 감이 온다. 어떤 정보가 있어야 AI가 정확하게 작업하는지 알게 된다. 모호하게 적었다가 결과물을 수정하는 시간보다 Instruction을 상세히 쓰는 시간이 짧다는 것도 알게 된다.
+
+프로젝트를 진행하면서 Instruction 템플릿도 쌓인다. 비슷한 유형의 Task는 이전 Instruction을 참고해서 빠르게 쓸 수 있다. "지난번 API Instruction에서 입출력 형식만 바꾸면 되겠다."
+
+---
+
+## 다음 단계
+
+5편에서는 Task Instruction 작성법을 살펴봤다. 좋은 Instruction은 목표, 입력/출력, 세부 요구사항, 예외 처리, 참고 사항을 포함한다. 모호한 표현 대신 구체적이고 측정 가능한 표현을 사용한다.
+
+다음 편에서는 Verification Instruction을 다룬다. Task가 완료된 후 어떻게 검증할지 정의하는 방법이다. Task Instruction이 "무엇을 해라"라면, Verification Instruction은 "어떻게 확인해라"다.
 
 ---
 
@@ -384,4 +137,4 @@ CREATE TABLE users (
 
 ---
 
-**작성일: 2025-12-20 / 글자수: 약 4,600자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 글자수: 약 3,600자 / 작성자: Claude / 프롬프터: 써니**

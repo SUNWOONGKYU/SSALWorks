@@ -2,397 +2,126 @@
 
 ---
 
-Task Instruction이 "무엇을 할지"를 정의한다면, Verification Instruction은 "어떻게 검증할지"를 정의한다. 이 편에서는 효과적인 Verification Instruction을 작성하는 방법을 살펴본다.
+## 만들었다고 끝이 아니다
 
-## 1. Verification Instruction이란
+로그인 API를 만들었다. 테스트 한 번 해봤더니 잘 된다. 끝? 아니다.
 
-### 정의
+"테스트 한 번 해봤더니 잘 된다"는 검증이 아니다. 정상적인 경우만 확인한 것이다. 비밀번호가 틀렸을 때는? 이미 로그인된 상태에서 다시 로그인하면? 이메일 형식이 잘못됐으면? 이런 경우에도 제대로 동작하는가?
 
-Verification Instruction은 22개 속성 중 `verification_instruction` 필드에 들어가는 값이다. Task가 완료된 후 제대로 수행되었는지 검증하는 기준을 제공한다.
-
-```json
-{
-  "task_id": "S2BA1",
-  "task_instruction": "구독 취소 API 구현...",
-  "verification_instruction": "1. API 호출 시 구독 상태 변경 확인..."
-}
-```
-
-### Task Instruction과의 관계
-
-두 Instruction은 짝을 이룬다.
-
-```
-Task Instruction: "무엇을 해야 하는가"
-                      ↓
-                   작업 수행
-                      ↓
-Verification Instruction: "제대로 했는가"
-```
-
-Task Instruction의 모든 요구사항은 Verification Instruction에서 검증되어야 한다.
-
-### 왜 필요한가
-
-```
-검증 없음 → 문제 발견 지연 → 나중에 대규모 수정
-검증 있음 → 즉시 문제 발견 → 바로 수정
-```
-
-검증을 건너뛰면 나중에 더 큰 비용이 든다.
+SAL Grid에서는 모든 Task에 Verification Instruction(검증 지시사항)을 작성한다. Task Instruction이 "무엇을 만들어라"라면, Verification Instruction은 "이것들을 확인해라"다. 만드는 것과 검증하는 것은 별개의 작업이다.
 
 ---
 
-## 2. 작성자 ≠ 검증자 원칙
+## 자기 검증은 왜 안 되는가
 
-### 핵심 원칙
+학교에서 시험을 치면 학생이 채점하지 않는다. 선생님이 채점한다. 왜? 학생은 자기 답이 맞다고 생각하기 때문이다. 객관적인 평가가 어렵다.
 
-**Task Agent와 Verification Agent는 반드시 다른 Agent여야 한다.**
+코드도 마찬가지다. 자기가 작성한 코드를 자기가 검증하면 문제를 놓치기 쉽다. "이렇게 했으니까 당연히 되겠지"라고 생각한다. 하지만 실제로는 안 될 수 있다.
 
-```
-❌ 금지:
-Task Agent: backend-developer
-Verification Agent: backend-developer  ← 같은 Agent!
-
-✅ 올바름:
-Task Agent: backend-developer
-Verification Agent: code-reviewer  ← 다른 Agent!
-```
-
-### 왜 분리해야 하는가
-
-**1. 자기 검증의 한계**
-
-자기가 만든 것은 자기가 객관적으로 평가하기 어렵다. 작성자는 자신의 코드가 "당연히 맞다"고 생각하는 경향이 있다.
-
-**2. 새로운 시각**
-
-다른 Agent가 보면 작성자가 놓친 문제를 발견할 수 있다.
-
-**3. 품질 보장**
-
-두 번의 검토(작성 + 검증)를 거치면 품질이 높아진다.
-
-### Area별 Agent 매핑
-
-| Area | Task Agent | Verification Agent |
-|------|------------|-------------------|
-| M | documentation-specialist | code-reviewer |
-| U | frontend-developer | qa-specialist |
-| F | frontend-developer | code-reviewer |
-| BI | backend-developer | code-reviewer |
-| BA | backend-developer | code-reviewer |
-| D | database-specialist | database-specialist* |
-| S | security-specialist | security-auditor |
-| T | test-engineer | qa-specialist |
-| O | devops-troubleshooter | code-reviewer |
-| E | backend-developer | code-reviewer |
-| C | content-specialist | qa-specialist |
-
-*D Area는 같은 전문가지만 역할(작성/검증)이 다름
+SAL Grid에서는 Task Agent와 Verification Agent가 반드시 다르다. 코드를 작성한 Agent와 검증하는 Agent가 분리된다. backend-developer가 만든 코드는 code-reviewer가 검증한다. 새로운 눈으로 보면 작성자가 놓친 것을 발견할 수 있다.
 
 ---
 
-## 3. 검증 기준 설정 방법
+## 검증 기준은 객관적이어야 한다
 
-### 객관적/측정 가능한 기준
+"코드가 깔끔해야 한다"는 검증 기준이 아니다. 깔끔하다는 게 뭔가? 내가 보기엔 깔끔한데 다른 사람이 보기엔 지저분할 수 있다.
 
-검증 기준은 Pass/Fail을 명확히 판단할 수 있어야 한다.
+좋은 검증 기준은 누가 봐도 Pass/Fail을 똑같이 판단할 수 있어야 한다.
 
-```
-❌ 주관적 기준:
-"코드가 깔끔해야 함"
-"성능이 좋아야 함"
-"UI가 예뻐야 함"
+"ESLint 에러가 0개여야 한다"는 좋은 기준이다. 에러가 0개면 Pass, 1개라도 있으면 Fail. 명확하다.
 
-✅ 객관적 기준:
-"ESLint 에러 0개"
-"API 응답 시간 500ms 이내"
-"디자인 시안과 일치"
-```
+"API 응답 시간이 500ms 이내여야 한다"도 좋은 기준이다. 측정할 수 있고, 숫자로 비교할 수 있다.
 
-### Pass/Fail 판단 기준
-
-각 검증 항목에 대해 Pass/Fail 기준을 명시한다.
-
-```
-검증 항목: API 응답 상태코드
-- Pass: 성공 시 200, 실패 시 적절한 4xx/5xx
-- Fail: 잘못된 상태코드 반환
-
-검증 항목: 에러 핸들링
-- Pass: 모든 에러 케이스에서 적절한 메시지 반환
-- Fail: 에러 시 빈 응답 또는 스택트레이스 노출
-```
-
-### 검증 유형별 기준
-
-**1. 기능 검증**
-```
-- 정상 케이스: 예상대로 동작하는가
-- 엣지 케이스: 경계값에서 올바르게 처리하는가
-- 에러 케이스: 잘못된 입력에 적절히 대응하는가
-```
-
-**2. 빌드 검증**
-```
-- 컴파일: 에러 없이 빌드되는가
-- 린트: 코드 스타일 규칙 준수하는가
-- 배포: 배포 환경에서 정상 동작하는가
-```
-
-**3. 통합 검증**
-```
-- 의존성: 선행 Task 결과물과 연동되는가
-- 다른 Task: 다른 Task와 충돌하지 않는가
-- 데이터 흐름: 데이터가 정상적으로 전달되는가
-```
+"UI가 예뻐야 한다"는 나쁜 기준이다. 대신 "디자인 시안과 일치해야 한다"라고 하면 기준이 생긴다. 시안과 비교해서 같으면 Pass, 다르면 Fail.
 
 ---
 
-## 4. 검증 결과 기록 형식
+## 세 가지 종류의 검증
 
-### test_result (#16)
+Verification Instruction에는 세 가지 종류의 검증이 들어간다.
 
-테스트 수행 결과를 기록한다.
+**첫째, 기능 검증**이다. Task Instruction에서 요구한 기능이 제대로 동작하는지 확인한다. 정상적인 경우(성공 케이스), 경계 상황(엣지 케이스), 잘못된 입력(에러 케이스)을 모두 테스트한다.
 
-```json
-{
-  "unit_test": "✅ 5/5 통과",
-  "integration_test": "✅ 3/3 통과",
-  "edge_cases": "✅ 경계값 처리 확인",
-  "manual_test": "✅ 수동 테스트 완료"
-}
-```
+로그인 API라면: 올바른 이메일과 비밀번호로 로그인하면 토큰이 반환되는가? 이미 로그인된 사용자가 다시 로그인하면 어떻게 되는가? 비밀번호가 틀리면 401이 반환되는가?
 
-**상태 표시:**
-- ✅: Pass
-- ❌: Fail
-- ⏳: 진행 중
+**둘째, 빌드 검증**이다. 코드가 에러 없이 빌드되는지, 배포가 성공하는지, 실행 시 문제가 없는지 확인한다. 컴파일 에러, 린트 에러, 런타임 에러가 없어야 한다.
 
-### build_verification (#17)
+**셋째, 통합 검증**이다. 이 Task가 다른 Task들과 잘 연결되는지 확인한다. 선행 Task의 결과물을 제대로 사용하는지, 다른 Task와 충돌하지 않는지, 데이터가 정상적으로 흐르는지.
 
-빌드 관련 검증 결과를 기록한다.
-
-```json
-{
-  "compile": "✅ 컴파일 성공",
-  "lint": "✅ ESLint 에러 0개",
-  "deploy": "✅ Vercel 배포 성공",
-  "runtime": "✅ 런타임 에러 없음"
-}
-```
-
-### integration_verification (#18)
-
-다른 Task와의 통합 검증 결과를 기록한다.
-
-```json
-{
-  "dependency_propagation": "✅ S1D1 스키마 정상 사용",
-  "cross_task_connection": "✅ S2F1과 연동 확인",
-  "data_flow": "✅ 입출력 데이터 정상"
-}
-```
-
-### blockers (#19)
-
-차단 요소가 있는지 기록한다.
-
-```json
-{
-  "dependency": "None",
-  "environment": "None",
-  "external_api": "None",
-  "status": "No Blockers ✅"
-}
-```
-
-차단 요소가 있는 경우:
-```json
-{
-  "dependency": "⚠️ S1S1 미완료",
-  "environment": "None",
-  "external_api": "None",
-  "status": "1 Blocker 🚫"
-}
-```
-
-### comprehensive_verification (#20)
-
-모든 검증을 종합한다.
-
-```json
-{
-  "task_instruction": "✅ 모든 요구사항 구현",
-  "test": "✅ 8/8 통과",
-  "build": "✅ 4/4 통과",
-  "integration": "✅ 3/3 통과",
-  "blockers": "✅ None",
-  "final": "✅ Passed"
-}
-```
+구독 취소 API가 subscriptions 테이블을 제대로 업데이트하는지, 취소 후 이메일 발송 함수를 정상적으로 호출하는지 확인하는 것이 통합 검증이다.
 
 ---
 
-## 5. 실제 예시
+## Task Instruction과 1:1로 대응
 
-### 5.1 API 검증 예시
+Verification Instruction은 Task Instruction의 거울이다. Task Instruction에서 "이렇게 해라"라고 한 모든 것에 대해 Verification Instruction에서 "이렇게 됐는지 확인해라"가 있어야 한다.
 
-**Task: S2BA1 구독 취소 API**
+Task Instruction에 "성공 시 200을 반환하라"고 적었으면, Verification Instruction에 "성공 시 200이 반환되는지 확인"이 있어야 한다.
 
-```markdown
-# Verification Instruction
+Task Instruction에 "cancelled_at 필드에 현재 시각을 기록하라"고 적었으면, Verification Instruction에 "cancelled_at 필드에 시각이 기록되었는지 확인"이 있어야 한다.
 
-## 기능 검증
-
-### 정상 케이스
-1. 활성 구독 사용자로 API 호출
-   - 예상: 200 OK + 성공 메시지
-   - 확인: subscription_status가 'cancelled'로 변경
-
-### 엣지 케이스
-2. 이미 취소된 구독으로 API 호출
-   - 예상: 409 Conflict + "이미 취소됨" 메시지
-
-3. 구독이 없는 사용자로 API 호출
-   - 예상: 404 Not Found
-
-### 에러 케이스
-4. 인증 없이 API 호출
-   - 예상: 401 Unauthorized
-
-5. 잘못된 user_id 형식
-   - 예상: 400 Bad Request
-
-## 빌드 검증
-- ESLint 에러 없음
-- Vercel 배포 성공
-
-## 통합 검증
-- S1D2 subscriptions 테이블 연동 확인
-- S2BA2 이메일 발송 함수 호출 확인
-```
-
-### 5.2 UI 검증 예시
-
-**Task: S2F1 Google 로그인 UI**
-
-```markdown
-# Verification Instruction
-
-## 기능 검증
-
-### 정상 케이스
-1. 페이지 로드
-   - 확인: 로고, 타이틀, 버튼 표시
-
-2. Google 로그인 버튼 클릭
-   - 예상: Google 로그인 팝업 표시
-
-3. 로그인 성공 후
-   - 예상: /index.html로 리다이렉트
-
-### 에러 케이스
-4. 로그인 실패/취소
-   - 예상: 에러 메시지 표시 (alert 또는 UI)
-
-## 빌드 검증
-- HTML 유효성 검사 통과
-- 브라우저 콘솔 에러 없음
-
-## UI/UX 검증
-- 반응형: 모바일/데스크톱 정상 표시
-- 접근성: 버튼에 적절한 aria-label
-
-## 통합 검증
-- S1S1 Supabase Auth 연동 확인
-- S1BI1 Supabase Client 정상 로드
-```
-
-### 5.3 Database 검증 예시
-
-**Task: S1D1 users 테이블 스키마**
-
-```markdown
-# Verification Instruction
-
-## 스키마 검증
-
-1. 테이블 생성 확인
-   - 확인: \d users 명령으로 구조 확인
-
-2. 필드 타입 확인
-   - id: UUID
-   - email: TEXT, NOT NULL, UNIQUE
-   - created_at: TIMESTAMPTZ
-
-3. 기본값 확인
-   - id: uuid_generate_v4()
-   - subscription_status: 'free'
-   - created_at: NOW()
-
-## RLS 검증
-
-4. SELECT 정책
-   - 본인 데이터만 조회 가능
-   - 다른 사용자 데이터 조회 시 빈 결과
-
-5. UPDATE 정책
-   - 본인 데이터만 수정 가능
-   - 다른 사용자 데이터 수정 시도 시 에러
-
-## 데이터 검증
-
-6. 테스트 데이터 삽입
-   - INSERT 정상 동작
-   - 중복 email 삽입 시 에러
-```
+하나라도 빠지면 검증되지 않은 부분이 생긴다. 그 부분에서 문제가 생길 수 있다.
 
 ---
 
-## 6. Verification Instruction 작성 팁
+## 검증 결과를 기록하는 방법
 
-### Tip 1: Task Instruction과 1:1 대응
+검증이 끝나면 결과를 22개 속성에 기록한다. 여러 속성에 나눠서 기록하는 이유는 나중에 어디서 문제가 생겼는지 빠르게 파악하기 위해서다.
 
-Task Instruction의 각 요구사항에 대응하는 검증 항목이 있어야 한다.
+test_result에는 테스트 결과를 기록한다. 단위 테스트 몇 개 중 몇 개 통과, 통합 테스트 몇 개 중 몇 개 통과, 수동 테스트 완료 여부.
 
-```
-Task Instruction:
-1. API가 200 반환 ─────→ 검증: 200 반환 확인 ✓
-2. 상태가 변경됨 ─────→ 검증: DB 상태 확인 ✓
-3. 이메일 발송 ─────→ 검증: 이메일 트리거 확인 ✓
-```
+build_verification에는 빌드 결과를 기록한다. 컴파일 성공 여부, 린트 에러 개수, 배포 성공 여부, 런타임 에러 여부.
 
-### Tip 2: 검증 순서 명시
+integration_verification에는 통합 결과를 기록한다. 선행 Task 연동 확인, 다른 Task와 충돌 없음 확인, 데이터 흐름 정상 확인.
 
-검증은 순서대로 진행해야 효율적이다.
+blockers에는 진행을 막는 문제가 있으면 기록한다. 선행 Task 미완료, 환경 설정 문제, 외부 API 문제 등.
 
-```
-1. 먼저: 기본 기능 검증
-2. 다음: 엣지 케이스 검증
-3. 그 다음: 에러 케이스 검증
-4. 마지막: 통합 검증
-```
-
-### Tip 3: 자동화 가능 여부 표시
-
-```
-[자동] API 응답 코드 확인 → 테스트 코드로 자동화
-[수동] UI 레이아웃 확인 → 육안 확인 필요
-```
+comprehensive_verification에는 모든 것을 종합해서 최종 결론을 낸다. 모든 검증을 통과했으면 "Passed", 하나라도 실패했으면 "Failed".
 
 ---
 
-## 7. 다음 단계
+## 정상 케이스만 확인하면 안 되는 이유
 
-6편에서는 Verification Instruction 작성법을 살펴봤다.
+사용자는 개발자가 예상한 대로 행동하지 않는다. 이메일 칸에 전화번호를 넣기도 하고, 버튼을 연속으로 누르기도 하고, 뒤로 가기 버튼을 누르다가 이상한 상태가 되기도 한다.
 
-- Task Agent ≠ Verification Agent 원칙
-- 객관적/측정 가능한 검증 기준
-- JSON 형식의 검증 결과 기록
+그래서 검증할 때 엣지 케이스와 에러 케이스를 반드시 포함해야 한다.
 
-다음 편에서는 검증 시스템 전체와 Stage Gate 프로세스를 살펴본다.
+로그인 API라면:
+- 정상: 올바른 정보로 로그인 → 성공
+- 엣지: 비밀번호에 특수문자만 → 어떻게 되나?
+- 에러: 빈 이메일 → 400 Bad Request여야 함
+- 에러: 존재하지 않는 이메일 → 401이어야 함
+- 에러: 비밀번호 틀림 → 401이어야 함
+
+이 모든 경우를 Verification Instruction에 적어두고 검증한다.
+
+---
+
+## 수동 검증과 자동 검증
+
+모든 검증을 자동화할 수는 없다. API 응답 코드 확인은 테스트 코드로 자동화할 수 있지만, UI가 디자인 시안과 일치하는지는 눈으로 봐야 한다.
+
+Verification Instruction을 작성할 때 어떤 것은 자동화 가능하고 어떤 것은 수동 확인이 필요한지 표시해두면 좋다. 자동화 가능한 것은 테스트 코드로 만들고, 수동 확인이 필요한 것은 체크리스트로 남긴다.
+
+점점 자동화 범위를 넓혀가면 검증 시간이 줄어든다. 하지만 100% 자동화는 불가능하다. 사람의 눈으로 봐야 하는 것들이 있다.
+
+---
+
+## 검증 없이 완료 보고하면 안 되는 이유
+
+"완료했습니다"라고 보고했는데 나중에 문제가 발견되면 어떻게 되나? 다시 돌아가서 수정해야 한다. 그 사이에 다른 Task들이 이 결과물을 사용했을 수 있다. 도미노처럼 문제가 퍼진다.
+
+검증을 하면 문제를 바로 발견한다. 완료 보고 전에 수정할 수 있다. 다른 Task에 영향을 주기 전에 해결한다.
+
+검증을 건너뛰면 단기적으로는 시간이 절약되는 것 같다. 하지만 장기적으로는 더 많은 시간을 잡아먹는다. "급할수록 돌아가라"는 말이 여기에 딱 맞는다.
+
+---
+
+## 다음 단계
+
+6편에서는 Verification Instruction 작성법을 살펴봤다. 작성자와 검증자를 분리하고, 객관적인 기준으로 검증하고, 기능/빌드/통합을 모두 확인한다.
+
+다음 편에서는 검증 시스템 전체와 Stage Gate를 다룬다. 개별 Task 검증을 넘어서 Stage 전체가 완료됐는지 확인하는 프로세스다.
 
 ---
 
@@ -400,4 +129,4 @@ Task Instruction:
 
 ---
 
-**작성일: 2025-12-20 / 글자수: 약 4,500자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 글자수: 약 3,500자 / 작성자: Claude / 프롬프터: 써니**

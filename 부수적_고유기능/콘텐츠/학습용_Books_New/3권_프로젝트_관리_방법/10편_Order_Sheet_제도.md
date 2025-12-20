@@ -2,388 +2,113 @@
 
 ---
 
-Order Sheet는 사람이 AI에게 작업을 요청하는 표준 문서이다. 대화 방식이 아닌 구조화된 문서로 작업을 요청하면 더 정확하고 일관된 결과를 얻을 수 있다. 이 편에서는 Order Sheet 제도의 전체 구조와 사용법을 살펴본다.
+## 대화로 일을 시키면 생기는 문제
 
-## 1. Order Sheet란
+"로그인 페이지 만들어줘. 아, 그리고 Google 로그인도 되게 해줘. 비밀번호 찾기도 넣고. 아 맞다, 회원가입도 필요하지. 디자인은 깔끔하게."
 
-### 정의
+이렇게 대화로 일을 시키면 어떻게 될까? AI는 열심히 만들기는 하는데, 원하던 것과 다를 가능성이 높다. "깔끔하게"가 무슨 뜻인지 모르고, 어떤 순서로 만들어야 하는지 불분명하고, 결과물을 어디에 저장해야 하는지도 모호하다.
 
-Order Sheet는 AI에게 작업을 요청하는 공식 문서이다.
+더 큰 문제는 기록이 남지 않는다는 것이다. 세션이 끝나면 대화 내용이 사라진다. 나중에 "그때 뭘 요청했더라?"를 확인하려면 대화 기록을 뒤져야 한다. 팀원에게 공유하기도 어렵다.
 
-```
-일반 대화: "로그인 페이지 만들어줘. 아 그리고 Google 로그인도..."
-Order Sheet: 구조화된 문서 + Task ID + 참조 규칙 + 결과물 경로
-```
-
-### 왜 Order Sheet를 사용하나
-
-**대화 방식의 문제점:**
-- 모호한 요청 → 잘못된 결과
-- 요청 내용 휘발 → 나중에 추적 불가
-- 일관성 없음 → 매번 다른 형식
-
-**Order Sheet의 장점:**
-- 구조화된 요청 → 명확한 결과
-- JSON 저장 → 영구 기록
-- 표준 형식 → 일관된 품질
-
-### 핵심 특징
-
-| 특징 | 설명 |
-|------|------|
-| 구조화 | Task ID, 의존성, 결과물 경로 등 명확한 필드 |
-| 추적 가능 | Orders 폴더에 저장, 나중에 검색 가능 |
-| 규칙 연결 | `.claude/rules/` 파일 참조로 일관성 유지 |
-| 세션 독립 | 세션이 끊어져도 Order 파일로 이어서 작업 |
+SAL Grid에서는 이 문제를 Order Sheet로 해결한다. 대화 대신 구조화된 문서로 작업을 요청한다.
 
 ---
 
-## 2. Order Sheet 형식
+## Order Sheet란
 
-### 2.1 JSON 형식 (권장)
+Order Sheet는 AI에게 작업을 요청하는 공식 문서다. 식당의 주문서를 생각하면 된다. 손님이 "맛있는 거 주세요"라고 하면 요리사가 곤란하다. 하지만 주문서에 "1번 메뉴 1개, 맵게, 밥 추가"라고 적혀 있으면 명확하다.
 
-Claude Code가 파싱하기 쉬운 JSON 형식이 권장된다.
+Order Sheet에는 필요한 정보가 구조화되어 들어간다. 어떤 Task를 요청하는지, 어떤 파일을 만들어야 하는지, 어떤 규칙을 따라야 하는지, 선행 작업이 무엇인지.
 
-```json
-{
-  "order_id": "ORDER-S2F1-251218",
-  "task_id": "S2F1",
-  "task_name": "Google 로그인 UI",
-  "priority": "높음",
-  "created_at": "2025-12-18T10:00:00Z",
-  "instructions": "Google OAuth 로그인 버튼이 있는 로그인 페이지 구현",
-  "expected_output": [
-    "Production/Frontend/pages/auth/google-login.html"
-  ],
-  "dependencies": ["S1S1", "S1BI1"],
-  "rules_reference": [
-    ".claude/rules/01_file-naming.md",
-    ".claude/rules/02_save-location.md",
-    ".claude/rules/05_execution-process.md"
-  ]
-}
-```
-
-### 2.2 필드 설명
-
-| 필드 | 설명 | 필수 |
-|------|------|:----:|
-| order_id | Order 고유 ID | ✅ |
-| task_id | Grid Task ID (S2F1 등) | ✅ |
-| task_name | Task 이름 | ✅ |
-| priority | 우선순위 (높음/중간/낮음) | ⭕ |
-| created_at | 생성 시간 (ISO 8601) | ✅ |
-| instructions | 작업 지시사항 | ✅ |
-| expected_output | 예상 결과물 파일 목록 | ✅ |
-| dependencies | 선행 Task ID 목록 | ⭕ |
-| rules_reference | 필수 참조 규칙 파일 목록 | ✅ |
-
-### 2.3 rules_reference 필드
-
-**모든 Order Sheet에 반드시 포함해야 하는 필드이다.**
-
-| Task Area | 필수 규칙 파일 |
-|-----------|---------------|
-| 모든 Task | `01_file-naming.md`, `02_save-location.md`, `05_execution-process.md` |
-| F, BA, D | + `03_area-stage.md` (Production 이중 저장) |
-| 검증 관련 | + `04_grid-writing.md`, `06_verification.md` |
+JSON 형식으로 작성되어 AI가 파싱하기 쉽다. 사람이 읽기도 쉽다. 파일로 저장되어 나중에 찾아볼 수 있다.
 
 ---
 
-## 3. MD 템플릿
+## 왜 구조화된 문서인가
 
-### 3.1 표준 템플릿 구조
+구조화의 첫 번째 장점은 명확성이다. "로그인 페이지 만들어줘"는 모호하다. 하지만 Order Sheet에는 Task ID, 결과물 경로, 필수 규칙 참조가 명시된다. AI가 추측할 여지가 줄어든다.
 
-웹사이트에서 사용하는 MD 템플릿 형식이다.
+두 번째 장점은 추적 가능성이다. Order Sheet는 파일로 저장된다. 언제 무슨 작업을 요청했는지 기록이 남는다. 나중에 "그때 왜 이렇게 만들었지?"를 확인할 수 있다.
 
-```markdown
-# Order Sheet - [단계명]
+세 번째 장점은 일관성이다. 매번 같은 형식을 사용하니까 품질이 균일하다. 어떤 Task는 자세히 요청하고 어떤 Task는 대충 요청하는 일이 없다.
 
-## 작업 지시
-
-**Claude AI에게**: [작업 내용 설명]
+네 번째 장점은 세션 독립성이다. 세션이 끊어져도 Order Sheet 파일은 남아 있다. 새 세션에서 파일을 읽으면 이전 요청을 바로 파악할 수 있다.
 
 ---
 
-## 작업 내용
+## Order Sheet의 구성
 
-### 1. [작업 항목 1]
-[상세 설명]
+Order Sheet는 몇 가지 핵심 필드로 구성된다.
 
-### 2. [작업 항목 2]
-[상세 설명]
+order_id는 Order의 고유 식별자다. ORDER-S2F1-251218처럼 어떤 Task를 언제 요청했는지 알 수 있게 만든다.
 
----
+task_id는 SAL Grid의 Task ID다. S2F1, S3BA2 같은 형식. 이 Order가 어떤 Task에 관한 것인지 연결한다.
 
-## 사용자 입력 (필수)
+instructions는 작업 지시사항이다. 무엇을 어떻게 만들어야 하는지 설명한다.
 
-**[입력 항목명]:**
-```
-[여기에 입력하세요]
-```
+expected_output은 예상 결과물이다. 어떤 파일이 어디에 생성되어야 하는지 경로까지 명시한다.
 
----
+dependencies는 선행 Task다. 이 작업을 하려면 먼저 완료되어 있어야 하는 Task 목록이다.
 
-## 결과물 저장 위치
-
-- `[저장 경로]`
+rules_reference는 참조해야 하는 규칙 파일 목록이다. 파일 명명 규칙, 저장 위치 규칙 같은 것들. 이 필드가 있으면 AI가 규칙을 지키면서 작업한다.
 
 ---
 
-## 제약 조건
+## Orders 폴더와 Reports 폴더
 
-- [제약 사항 1]
-- [제약 사항 2]
-```
+Order Sheet 시스템은 두 개의 폴더를 사용한다.
 
-### 3.2 템플릿 목록
+Orders 폴더에는 요청이 저장된다. 사람이 Order Sheet를 작성해서 Claude Code에 전달하면, Claude Code는 이것을 Orders 폴더에 저장한다. 그리고 작업을 시작한다.
 
-```
-Order_Sheet_템플릿/
-├── P1_사업계획/          # P1-1 ~ P1-3 (3개)
-├── P2_프로젝트_기획/      # P2-1 ~ P2-4 (8개)
-├── P3_프로토타입_제작/    # P3-1 ~ P3-3 (4개)
-├── S1_개발_준비/         # S1 (1개)
-├── S2_개발_1차/          # S2 (1개)
-├── S3_개발_2차/          # S3 (1개)
-├── S4_개발_3차/          # S4 (1개)
-├── S5_운영/              # S5 (1개)
-└── 특별단계/             # SP-1, SP-2 (2개)
-```
+Reports 폴더에는 결과가 저장된다. Claude Code가 작업을 완료하면 결과 보고서를 Reports 폴더에 저장한다. 어떤 파일을 생성했는지, 검증 결과가 어떤지, 다음 작업이 무엇인지.
 
-총 22개 표준 템플릿이 있다.
+이 구조의 장점은 요청과 결과가 분리된다는 것이다. Orders 폴더를 보면 무엇을 요청했는지 알 수 있고, Reports 폴더를 보면 무엇이 완료됐는지 알 수 있다.
 
 ---
 
-## 4. 처리 프로세스
+## 처리 흐름
 
-### 전체 흐름
+Order Sheet가 처리되는 흐름은 이렇다.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Order Sheet 처리 플로우                       │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│   [Dashboard]                                                    │
-│       │                                                          │
-│       ├─ Order Sheet 작성                                        │
-│       │                                                          │
-│       ├─ [Order Sheet 전달하기] 버튼 클릭                         │
-│       │         │                                                │
-│       │         ├─► 📋 클립보드에 복사 ──► Claude Code 붙여넣기   │
-│       │         │                                                │
-│       │         └─► 💾 JSON 다운로드 ──► Orders 폴더 저장        │
-│       │                                                          │
-│       │                              ▼                           │
-│       │                      [Claude Code]                       │
-│       │                              │                           │
-│       │                      1. Orders 폴더에 저장               │
-│       │                      2. 작업 수행                        │
-│       │                      3. Reports 폴더에 결과 저장         │
-│       │                              │                           │
-│       │                              ▼                           │
-│       └─ [Reports 불러오기] 버튼 ◄────┘                          │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
+사람이 대시보드에서 Order Sheet를 작성한다. 템플릿을 선택하고 필요한 정보를 입력한다. 작성이 끝나면 클립보드에 복사하거나 JSON 파일로 저장한다.
 
-### Claude Code의 처리 순서
+Claude Code에 Order Sheet를 전달한다. 클립보드에서 붙여넣거나 파일을 지정한다. Claude Code는 Order Sheet를 받으면 먼저 Orders 폴더에 저장한다. 이 단계를 빠뜨리면 안 된다. 기록이 남아야 하기 때문이다.
 
-```
-1. Order Sheet 받음
-      ↓
-2. Orders 폴더에 저장 (필수!)
-   → Human_ClaudeCode_Bridge/Orders/ORDER-XXX.json
-      ↓
-3. 실제 작업 수행
-   → 코드 작성, 파일 생성, 테스트 등
-      ↓
-4. 결과를 Reports 폴더에 저장
-   → Human_ClaudeCode_Bridge/Reports/XXX_completed.json
-      ↓
-5. 사용자에게 완료 보고
-```
+Claude Code가 작업을 수행한다. Order Sheet에 명시된 대로 코드를 작성하고 파일을 생성한다. rules_reference에 있는 규칙을 따른다.
+
+작업이 끝나면 Reports 폴더에 결과를 저장한다. 완료 보고서에는 생성된 파일 목록, 검증 결과, 다음 단계 등이 포함된다.
+
+사람은 대시보드에서 Reports를 불러와서 결과를 확인한다. 문제가 없으면 다음 작업으로 넘어간다.
 
 ---
 
-## 5. 폴더 구조
+## Stage 단위 Order Sheet
 
-### Human_ClaudeCode_Bridge
+개별 Task가 아니라 Stage 전체를 요청할 수도 있다. S3 Stage 전체를 작업해달라고 요청하면, Claude Code는 SAL Grid에서 S3에 해당하는 모든 Task를 찾아서 순서대로 처리한다.
 
-```
-Human_ClaudeCode_Bridge/
-├── Orders/                # Order Sheet 저장 (Claude Code가 받으면 여기 저장)
-│   ├── ORDER-S2-20251218-001.json
-│   ├── ORDER-S3-20251218-001.json
-│   └── ...
-├── Reports/               # 작업 결과 보고서 저장
-│   ├── S2F1_completed.json
-│   ├── S2F1_verification.json
-│   └── ...
-└── HUMAN_CLAUDECODE_BRIDGE_GUIDE.md  # 시스템 가이드
-```
+이때 중요한 원칙이 있다. Grid가 진실의 원천이다. Order Sheet는 "S3를 작업해라"라고만 지시한다. 구체적으로 어떤 Task가 있는지, 어떤 순서로 해야 하는지, 의존성이 무엇인지는 모두 Grid에서 읽어온다.
 
-### 파일 형식 규칙
-
-| 파일 종류 | 형식 | 이유 |
-|----------|------|------|
-| Order Sheet | `.json` | AI가 파싱하여 작업 내용 파악 |
-| 작업 완료 보고서 | `.json` | 다음 세션에서 이전 작업 파악 |
-| 검증 리포트 | `.json` | 구조화된 검증 결과 |
-| 요약 문서 | `.md` | 사람이 읽기 편한 설명 (선택) |
+Order Sheet가 Grid를 대체하는 것이 아니다. Order Sheet는 "Grid 보고 해라"라고 지시하는 트리거일 뿐이다. 실제 정보는 Grid에 있다.
 
 ---
 
-## 6. Report 형식
+## 메모리 문제의 해결
 
-### 작업 완료 보고서 (JSON)
+AI와 대화하면 메모리 문제가 있다. 세션이 끝나면 대화 내용을 잊어버린다. 세션 중에도 대화가 길어지면 앞부분을 잊어버린다.
 
-```json
-{
-  "order_id": "ORDER-S2F1-251218",
-  "task_id": "S2F1",
-  "task_name": "Google 로그인 UI",
-  "status": "completed",
-  "files_created": [
-    "Production/Frontend/pages/auth/google-login.html"
-  ],
-  "verification": {
-    "test": "✅ 10/10 통과",
-    "build": "✅ 성공"
-  },
-  "completed_at": "2025-12-18T11:30:00Z",
-  "next_steps": [
-    "S2BA1 - 로그인 API 구현"
-  ]
-}
-```
+Order Sheet 시스템은 이 문제를 해결한다. 요청은 Orders 폴더에, 결과는 Reports 폴더에 파일로 저장된다. 세션이 끝나도 파일은 남아 있다.
 
-### 핵심 필드
+새 세션이 시작되면 Orders와 Reports 폴더를 확인한다. 어떤 작업이 요청됐고 어떤 작업이 완료됐는지 바로 파악할 수 있다. "지난번에 뭘 했더라?"가 아니라 파일을 읽으면 된다.
 
-| 필드 | 설명 |
-|------|------|
-| order_id | 원본 Order ID |
-| task_id | 완료한 Task ID |
-| status | completed, failed, blocked |
-| files_created | 생성된 파일 목록 |
-| verification | 검증 결과 |
-| next_steps | 다음 작업 |
+work_log도 비슷한 역할을 하지만, Order Sheet는 더 구조화되어 있다. JSON 형식이라 필드별로 검색할 수 있고, 요청과 결과가 명확히 분리된다.
 
 ---
 
-## 7. 메모리/컨텍스트 이점
+## 다음 단계
 
-### 왜 JSON으로 저장하나
+10편에서는 Order Sheet 제도를 살펴봤다. 대화 대신 구조화된 문서로 작업을 요청하면 명확성, 추적 가능성, 일관성, 세션 독립성이 확보된다.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│              Orders/Reports 시스템의 메모리 이점                  │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                  │
-│  ❌ 기존 방식의 문제점                                           │
-│  ────────────────────────────────────────────────────────────   │
-│  채팅 방식:                                                      │
-│  - 세션 종료 시 대화 내용 휘발                                   │
-│  - 컨텍스트 길이 제한 (토큰 한계)                                │
-│  - 작업 추적 어려움                                              │
-│                                                                  │
-│  ✅ Orders/Reports JSON 시스템의 해결책                          │
-│  ────────────────────────────────────────────────────────────   │
-│  - 구조화된 JSON = 필드별 즉시 검색                              │
-│  - 작업 요청 → Orders 폴더에 영구 저장                           │
-│  - 작업 결과 → Reports 폴더에 영구 저장                          │
-│  - 새 세션에서도 이전 작업 기록 참조 가능                        │
-│                                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### 방식별 비교
-
-| 항목 | 채팅 방식 | work_log | Orders/Reports |
-|------|----------|----------|----------------|
-| 구조화 | ❌ 없음 | ❌ 없음 | ✅ 완벽 |
-| 검색 | ❌ 어려움 | △ 텍스트만 | ✅ 필드별 |
-| 연속성 | ❌ 끊김 | △ 제한적 | ✅ 완벽 |
-| AI 기억 | ❌ 제한 | △ 부분적 | ✅ 100% |
-
----
-
-## 8. 웹사이트 연동
-
-### Dashboard 버튼
-
-| 버튼 | 색상 | 기능 |
-|------|------|------|
-| Workspace 지우기 | 회색 | Workspace 내용 초기화 |
-| Order Sheet 전달하기 | 초록색 | 클립보드 복사 또는 JSON 저장 |
-| Reports 불러오기 | 파란색 | Reports 폴더에서 파일 선택 |
-
-### 전달하기 옵션
-
-**옵션 1: 클립보드에 복사**
-- 클립보드에 Order Sheet 복사
-- Claude Code CLI에 `Ctrl+V`로 붙여넣기
-
-**옵션 2: Orders 폴더에 저장**
-- JSON 파일 다운로드
-- `Human_ClaudeCode_Bridge/Orders/`에 저장
-
-### Reports 불러오기
-
-1. [Reports 불러오기] 버튼 클릭
-2. `Human_ClaudeCode_Bridge/Reports/` 폴더에서 파일 선택
-3. HTML 모달로 결과 확인
-
----
-
-## 9. Stage 단위 Order Sheet
-
-### Stage 단위 요청
-
-개별 Task가 아닌 Stage 전체를 요청할 수 있다.
-
-```json
-{
-  "order_id": "ORDER-S3-20251218-001",
-  "stage": "S3",
-  "stage_name": "개발 2차 (Advanced Features)",
-  "execution_steps": {
-    "step_1": "SAL Grid 확인 - S3 Task 목록 조회",
-    "step_2": "Task 실행 순서 결정 - Dependencies 기반",
-    "step_3": "각 Task 실행 - Task Agent 투입",
-    "step_4": "결과물 저장 - Stage/Area + Production 이중 저장",
-    "step_5": "검증 - Verification Agent 투입",
-    "step_6": "Grid 업데이트",
-    "step_7": "Stage Gate 검증",
-    "step_8": "PO 기능 테스트 요청"
-  },
-  "core_principles": [
-    "Grid가 진실의 원천: 모든 Task 정보는 SAL Grid에 있음",
-    "Grid를 읽고 실행: Order Sheet는 Grid 보고 해라라고 지시할 뿐",
-    "Grid에 기록: 작업 결과는 Grid에 업데이트"
-  ]
-}
-```
-
-### 핵심 원칙
-
-**Grid가 진실의 원천:**
-- Task 목록, Instruction, 의존성 모두 Grid에 있음
-- Order Sheet는 "Grid 보고 해라"라고 지시할 뿐
-- 작업 결과는 Grid에 업데이트
-
----
-
-## 10. 다음 단계
-
-10편에서는 Order Sheet 제도를 살펴봤다.
-
-- Order Sheet = 구조화된 작업 요청 문서
-- JSON 형식 + rules_reference 필수
-- Orders(요청) / Reports(결과) 분리 저장
-- 세션 간 완벽한 연속성 확보
-
-다음 편에서는 AI 작업 6대 규칙과 규칙 반영 방법을 살펴본다.
+다음 편에서는 AI 작업 6대 규칙을 살펴본다. AI가 일관되게 작업하도록 만드는 규칙들이다.
 
 ---
 
@@ -391,4 +116,4 @@ Human_ClaudeCode_Bridge/
 
 ---
 
-**작성일: 2025-12-20 / 글자수: 약 5,200자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 글자수: 약 3,200자 / 작성자: Claude / 프롬프터: 써니**

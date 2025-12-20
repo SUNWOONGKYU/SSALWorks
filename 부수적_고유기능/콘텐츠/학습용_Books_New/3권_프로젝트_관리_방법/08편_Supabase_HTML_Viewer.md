@@ -2,351 +2,111 @@
 
 ---
 
-SAL Grid 데이터는 Supabase 데이터베이스에 저장된다. 이를 통해 여러 세션에서 데이터를 공유하고, 프로젝트 상태를 영속적으로 관리할 수 있다. 이 편에서는 Supabase 설정과 HTML Viewer 사용법을 살펴본다.
+## AI의 기억력 문제
 
-## 1. 왜 DB에 저장하는가
+AI와 대화하다 보면 불편한 진실을 마주하게 된다. 세션이 끊어지면 이전 대화 내용을 기억하지 못한다는 것이다.
 
-### AI 세션의 한계
+오늘 다섯 개의 Task를 완료했다. 로그인 API, 회원가입 UI, 이메일 인증, 비밀번호 재설정, 세션 관리. 열심히 작업했고, 모든 것이 잘 동작한다. 그런데 내일 새로운 세션을 시작하면? AI는 "어디까지 했더라?"부터 다시 시작해야 한다.
 
-AI 세션은 끊어지면 컨텍스트가 사라진다. Grid 데이터를 메모리에만 두면:
+이것은 AI의 잘못이 아니다. AI 세션은 원래 그렇게 설계되어 있다. 대화가 끝나면 컨텍스트가 사라진다. 마치 매일 아침 기억이 리셋되는 것과 같다.
 
-```
-세션 1: Task 5개 완료
-    ↓ (세션 종료)
-세션 2: "어디까지 했더라?" → 처음부터 다시 파악 필요
-```
-
-### DB 저장의 장점
-
-```
-세션 1: Task 5개 완료 → DB에 저장
-    ↓ (세션 종료)
-세션 2: DB에서 읽기 → 즉시 현재 상태 파악
-```
-
-**장점 정리:**
-- 세션 간 데이터 공유
-- 프로젝트 상태 영속성
-- 여러 사람/AI가 동시 접근 가능
-- 진행 상황 시각화 (Viewer)
+SAL Grid에서는 이 문제를 데이터베이스로 해결한다. Grid 데이터를 Supabase에 저장해두면 세션이 끊어져도 데이터는 그대로 남아 있다. 새 세션이 시작되면 데이터베이스에서 읽어오면 된다. "어디까지 했더라?"가 아니라 "S2BA1이 완료됐고 S2BA2가 진행 중이군"으로 바로 시작할 수 있다.
 
 ---
 
-## 2. DB 테이블 구조
+## 왜 Supabase인가
 
-SAL Grid는 3개의 테이블을 사용한다.
+데이터베이스는 여러 가지가 있다. MySQL, PostgreSQL, MongoDB 등. 그런데 왜 Supabase를 선택했을까?
 
-### 2.1 테이블 목록
+첫째, 설정이 쉽다. 웹사이트에서 몇 번 클릭하면 데이터베이스가 만들어진다. 서버를 직접 설치하거나 관리할 필요가 없다.
 
-| 테이블명 | 용도 |
-|----------|------|
-| project_ssal_grid_tasks_template | 템플릿 Task (범용 예시) |
-| ssalworks_tasks | 실전 Task (SSALWorks 프로젝트) |
-| stage_verification | Stage Gate 검증 |
+둘째, 무료로 시작할 수 있다. 작은 프로젝트라면 무료 플랜으로 충분하다. 나중에 프로젝트가 커지면 유료 플랜으로 업그레이드하면 된다.
 
-### 2.2 ssalworks_tasks 테이블
+셋째, PostgreSQL 기반이다. PostgreSQL은 검증된 관계형 데이터베이스다. 복잡한 쿼리도 가능하고, 데이터 무결성도 보장된다.
 
-실제 프로젝트의 Task를 저장하는 핵심 테이블이다.
-
-```sql
-CREATE TABLE ssalworks_tasks (
-    id UUID PRIMARY KEY,
-
-    -- [1-4] Basic Info
-    stage INTEGER NOT NULL,           -- 단계 (1~6)
-    area VARCHAR(30) NOT NULL,        -- 영역 (M, F, BA 등)
-    task_id VARCHAR(20) UNIQUE,       -- Task ID (S2BA1 등)
-    task_name TEXT NOT NULL,          -- Task 이름
-
-    -- [5-9] Task Definition
-    task_instruction TEXT,            -- 작업 지침
-    task_agent VARCHAR(100),          -- 수행 Agent
-    tools TEXT,                       -- 사용 도구
-    execution_type VARCHAR(20),       -- AI-Only, Human-AI 등
-    dependencies TEXT,                -- 선행 Task
-
-    -- [10-13] Task Execution
-    task_progress INTEGER DEFAULT 0,  -- 진행률 (0~100)
-    task_status VARCHAR(20),          -- Pending, In Progress, Completed
-    generated_files TEXT,             -- 생성된 파일
-    modification_history TEXT,        -- 수정 이력
-
-    -- [14-15] Verification Definition
-    verification_instruction TEXT,    -- 검증 지침
-    verification_agent VARCHAR(100),  -- 검증 Agent
-
-    -- [16-19] Verification Execution
-    test JSONB,                       -- 테스트 결과
-    build JSONB,                      -- 빌드 결과
-    integration_verification JSONB,   -- 통합 검증
-    blockers JSONB,                   -- 차단 요소
-
-    -- [20-22] Verification Completion
-    comprehensive_verification TEXT,  -- 종합 검증
-    verification_status VARCHAR(20),  -- Not Verified, Passed, Failed
-    remarks TEXT,                     -- 비고
-
-    -- 시스템 필드
-    created_at TIMESTAMPTZ,
-    updated_at TIMESTAMPTZ
-);
-```
-
-### 2.3 stage_verification 테이블
-
-Stage Gate 검증 상태를 저장한다.
-
-```sql
-CREATE TABLE stage_verification (
-    id UUID PRIMARY KEY,
-    stage_name VARCHAR(50) NOT NULL,  -- 'S1', 'S2' 등
-    project_id VARCHAR(50),           -- 'SSALWORKS'
-
-    -- AI 자동 검증
-    auto_verification_status VARCHAR(20),   -- Not Verified, Verified
-    auto_verification_result TEXT,          -- 검증 결과 상세
-    auto_verification_date TIMESTAMPTZ,
-
-    -- PO 수동 검증
-    manual_verification_status VARCHAR(20), -- Not Verified, Approved, Rejected
-    manual_verification_comment TEXT,       -- PO 코멘트
-    manual_verification_date TIMESTAMPTZ,
-
-    -- Stage Gate 최종 상태
-    stage_gate_status VARCHAR(20)           -- Not Started, AI Verified, Approved, Rejected
-);
-```
-
-**stage_gate_status 값:**
-- `Not Started`: 검증 시작 안 함
-- `AI Verified`: AI 검증 완료, PO 승인 대기
-- `Approved`: PO 승인 완료
-- `Rejected`: PO 거부 (사유와 함께)
+넷째, API가 자동으로 생성된다. 테이블을 만들면 REST API가 자동으로 만들어진다. 별도로 API 서버를 구축할 필요가 없다.
 
 ---
 
-## 3. Supabase 설정
+## 세 개의 테이블
 
-### 3.1 프로젝트 생성
+SAL Grid는 세 개의 테이블을 사용한다.
 
-1. https://supabase.com 접속
-2. "New Project" 클릭
-3. 프로젝트 정보 입력:
-   - Name: 프로젝트 이름
-   - Database Password: 강력한 비밀번호
-   - Region: Northeast Asia (Seoul)
+첫 번째는 ssalworks_tasks 테이블이다. 프로젝트의 모든 Task를 저장하는 핵심 테이블이다. 22개 속성이 컬럼으로 들어가 있다. Task ID, Task 이름, Stage, Area, 진행률, 상태, 검증 결과 등 모든 정보가 여기에 저장된다.
 
-### 3.2 스키마 실행
+두 번째는 stage_verification 테이블이다. Stage Gate 검증 상태를 저장한다. 각 Stage가 AI 검증을 통과했는지, PO 승인을 받았는지, 최종 상태가 무엇인지 기록한다.
 
-Supabase SQL Editor에서 schema.sql 실행:
-
-```
-위치: S0_Project-SAL-Grid_생성/supabase/schema.sql
-```
-
-실행 순서:
-1. schema.sql (테이블 생성)
-2. seed_ssalworks_tasks.sql (초기 데이터)
-
-### 3.3 API 키 확인
-
-```
-Project Settings → API
-
-- Project URL: https://[프로젝트ID].supabase.co
-- anon (public) key: eyJhbGci... (클라이언트용)
-- service_role key: eyJhbGci... (서버용, 비공개)
-```
+세 번째는 project_ssal_grid_tasks_template 테이블이다. 범용 템플릿 Task를 저장한다. 새 프로젝트를 시작할 때 이 템플릿을 복사해서 사용할 수 있다.
 
 ---
 
-## 4. 데이터 조회/수정
+## Task 테이블의 구조
 
-### 4.1 기본 조회
+ssalworks_tasks 테이블은 22개 속성을 담는다. 2편에서 배운 22개 속성이 그대로 데이터베이스 컬럼이 된다.
 
-**모든 Task 조회:**
-```sql
-SELECT * FROM ssalworks_tasks ORDER BY stage, area, task_id;
-```
+기본 정보 섹션에는 stage, area, task_id, task_name이 들어간다. Stage는 숫자로 저장되고(1~5), Area는 문자열로 저장된다(M, F, BA 등).
 
-**특정 Stage Task 조회:**
-```sql
-SELECT task_id, task_name, task_status, verification_status
-FROM ssalworks_tasks
-WHERE stage = 2
-ORDER BY task_id;
-```
+Task 정의 섹션에는 task_instruction, task_agent, tools, execution_type, dependencies가 들어간다. 이 Task를 누가 어떻게 수행해야 하는지 정의하는 정보들이다.
 
-**완료되지 않은 Task:**
-```sql
-SELECT task_id, task_name, task_status
-FROM ssalworks_tasks
-WHERE task_status != 'Completed'
-ORDER BY stage, task_id;
-```
+Task 실행 섹션에는 task_progress, task_status, generated_files, modification_history가 들어간다. 진행률은 0에서 100 사이의 숫자고, 상태는 Pending, In Progress, Completed 중 하나다.
 
-### 4.2 상태 업데이트
-
-**Task 상태 변경:**
-```sql
-UPDATE ssalworks_tasks
-SET task_status = 'Completed',
-    task_progress = 100,
-    updated_at = NOW()
-WHERE task_id = 'S2BA1';
-```
-
-**검증 결과 기록:**
-```sql
-UPDATE ssalworks_tasks
-SET test = '{"unit_test": "✅ 5/5 통과", "integration_test": "✅ 3/3 통과"}'::jsonb,
-    verification_status = 'Passed',
-    updated_at = NOW()
-WHERE task_id = 'S2BA1';
-```
-
-### 4.3 Stage Gate 상태 업데이트
-
-**AI 검증 완료:**
-```sql
-UPDATE stage_verification
-SET auto_verification_status = 'Verified',
-    auto_verification_result = '모든 Task 검증 통과',
-    auto_verification_date = NOW(),
-    stage_gate_status = 'AI Verified'
-WHERE stage_name = 'S2' AND project_id = 'SSALWORKS';
-```
-
-**PO 승인:**
-```sql
-UPDATE stage_verification
-SET manual_verification_status = 'Approved',
-    manual_verification_comment = '테스트 완료, 승인함',
-    manual_verification_date = NOW(),
-    stage_gate_status = 'Approved'
-WHERE stage_name = 'S2' AND project_id = 'SSALWORKS';
-```
+검증 섹션에는 verification_instruction, verification_agent, test, build, integration_verification, blockers, comprehensive_verification, verification_status, remarks가 들어간다. 테스트, 빌드, 통합 결과는 JSONB 타입으로 저장되어 복잡한 구조도 담을 수 있다.
 
 ---
 
-## 5. HTML Viewer
+## Stage Gate 테이블
 
-### 5.1 Viewer란
+stage_verification 테이블은 Stage 단위의 검증 상태를 추적한다.
 
-HTML Viewer는 Grid 데이터를 웹 브라우저에서 시각적으로 보여주는 도구이다.
+stage_name에는 S1, S2 같은 Stage 이름이 들어간다. project_id에는 프로젝트 식별자가 들어간다. 여러 프로젝트를 관리할 때 구분하기 위해서다.
 
-```
-위치: S0_Project-SAL-Grid_생성/viewer/viewer.html
-```
+AI 자동 검증 섹션에는 auto_verification_status, auto_verification_result, auto_verification_date가 있다. AI가 검증을 완료했는지, 결과가 무엇인지, 언제 검증했는지 기록한다.
 
-### 5.2 주요 기능
+PO 수동 검증 섹션에는 manual_verification_status, manual_verification_comment, manual_verification_date가 있다. PO가 승인했는지 거부했는지, 어떤 코멘트를 남겼는지, 언제 확인했는지 기록한다.
 
-**1. Task 목록 조회**
-- Stage별 필터링
-- Area별 필터링
-- 상태별 필터링 (Pending, In Progress, Completed)
-
-**2. Task 상세 보기**
-- 22개 속성 전체 확인
-- 검증 결과 확인
-- 의존성 확인
-
-**3. 진행 상황 대시보드**
-- Stage별 완료율
-- 전체 진행률
-- Blocker 현황
-
-### 5.3 사용 방법
-
-1. Supabase 연결 정보 설정 (URL, anon key)
-2. 브라우저에서 viewer.html 열기
-3. 데이터 자동 로드
-
-### 5.4 필터링/검색
-
-**Stage 필터:**
-```
-[S1] [S2] [S3] [S4] [S5] [전체]
-```
-
-**Status 필터:**
-```
-[Pending] [In Progress] [Completed] [전체]
-```
-
-**검색:**
-```
-Task ID 또는 Task Name으로 검색
-```
+최종 상태는 stage_gate_status에 저장된다. Not Started는 아직 검증이 시작되지 않은 상태, AI Verified는 AI 검증은 통과했지만 PO 승인 대기 중인 상태, Approved는 PO 승인까지 완료된 상태, Rejected는 거부된 상태다.
 
 ---
 
-## 6. 실전 활용 예시
+## HTML Viewer로 한눈에 보기
 
-### 6.1 새 세션 시작 시
+데이터베이스에 저장된 데이터는 SQL로 조회할 수 있다. 하지만 매번 SQL을 작성하는 것은 번거롭다. 그래서 HTML Viewer를 만들었다.
 
-```
-1. Viewer에서 현재 상태 확인
-2. 진행 중인 Task 파악
-3. 다음 작업할 Task 결정
-4. 작업 시작
-```
+HTML Viewer는 브라우저에서 열 수 있는 웹 페이지다. Supabase에 연결해서 Grid 데이터를 가져오고, 보기 좋게 표시해준다.
 
-### 6.2 Task 완료 시
+Task 목록을 Stage별로 필터링할 수 있다. S1만 보거나 S2만 보거나. Area별로도 필터링된다. Frontend 작업만 보거나 Backend 작업만 보거나. 상태별로도 필터링된다. 완료된 것만 보거나 진행 중인 것만 보거나.
 
-```
-1. 코드 작성 완료
-2. DB 업데이트:
-   - task_status = 'Completed'
-   - task_progress = 100
-   - generated_files = 파일 목록
-3. Viewer에서 반영 확인
-```
+각 Task를 클릭하면 상세 정보가 나온다. 22개 속성 전체를 확인할 수 있다. 검증 결과가 어떤지, 어떤 파일이 생성됐는지, 블로커가 있는지.
 
-### 6.3 Stage Gate 시
-
-```
-1. Viewer에서 Stage 내 모든 Task 확인
-2. 미완료 Task 있으면 완료
-3. AI 검증 수행
-4. stage_verification 테이블 업데이트
-5. PO에게 테스트 요청
-6. PO 승인 후 stage_gate_status = 'Approved'
-```
+대시보드에서는 전체 진행 상황을 볼 수 있다. Stage별 완료율이 막대 그래프로 표시되고, 전체 진행률이 퍼센트로 나온다. 어디서 병목이 생기고 있는지 한눈에 파악된다.
 
 ---
 
-## 7. RLS 정책
+## 새 세션의 시작
 
-### Row Level Security
+Viewer가 있으면 새 세션을 시작할 때 훨씬 수월하다.
 
-현재 개발 환경에서는 public 접근을 허용한다.
+이전에는 "지난번에 뭘 했더라?"하고 대화 내용을 뒤지거나, work_log를 읽어야 했다. 하지만 이제는 Viewer를 열면 된다. 현재 진행 중인 Task가 뭔지, 다음에 해야 할 Task가 뭔지, 막혀 있는 것이 있는지 바로 보인다.
 
-```sql
--- 읽기 허용
-CREATE POLICY "Allow public read"
-    ON ssalworks_tasks FOR SELECT TO public USING (true);
-
--- 쓰기 허용
-CREATE POLICY "Allow public write"
-    ON ssalworks_tasks FOR ALL TO public USING (true);
-```
-
-**프로덕션 배포 시 주의:**
-- 인증된 사용자만 수정 가능하도록 변경
-- anon 역할의 쓰기 권한 제한
+AI도 마찬가지다. 새 세션이 시작되면 데이터베이스에서 현재 상태를 읽어온다. 대화 맥락이 없어도 프로젝트 상태는 완벽하게 파악할 수 있다.
 
 ---
 
-## 8. 다음 단계
+## 보안 주의사항
 
-8편에서는 Supabase DB와 HTML Viewer를 살펴봤다.
+개발 환경에서는 편의상 모든 접근을 허용해둔다. 누구나 읽고 쓸 수 있게. 하지만 프로덕션 환경에서는 이렇게 하면 안 된다.
 
-- 3개 테이블: ssalworks_tasks, stage_verification, template
-- Task 상태 및 검증 결과 저장
-- Viewer로 시각적 확인
+Row Level Security(RLS, 행 단위 보안 정책)를 설정해서 인증된 사용자만 데이터를 수정할 수 있게 해야 한다. RLS는 "이 데이터는 누가 읽을 수 있고 누가 쓸 수 있는지"를 테이블의 각 행마다 제어하는 기능이다. 예를 들어 모든 사용자에게 읽기는 허용하되, 수정과 삭제는 인증된 관리자에게만 허용할 수 있다.
 
-다음 편에서는 SAL Grid 매뉴얼을 효과적으로 활용하는 방법을 살펴본다.
+이 설정은 나중에 서비스를 배포할 때 반드시 변경해야 한다. 개발 환경 설정 그대로 배포하면 아무나 데이터를 수정할 수 있게 되어버린다.
+
+---
+
+## 다음 단계
+
+8편에서는 Supabase 데이터베이스와 HTML Viewer를 살펴봤다. AI의 기억력 한계를 데이터베이스로 극복하고, Viewer로 프로젝트 상태를 한눈에 파악할 수 있다.
+
+다음 편에서는 SAL Grid 매뉴얼을 효과적으로 활용하는 방법을 살펴본다. 170KB 분량의 매뉴얼에서 필요한 정보를 빠르게 찾는 방법이다.
 
 ---
 
@@ -354,4 +114,4 @@ CREATE POLICY "Allow public write"
 
 ---
 
-**작성일: 2025-12-20 / 글자수: 약 4,500자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 글자수: 약 3,300자 / 작성자: Claude / 프롬프터: 써니**

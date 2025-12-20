@@ -2,340 +2,107 @@
 
 ---
 
-SAL Grid에서는 모든 작업이 체계적으로 검증된다. Task 실행 → Task 검증 → Stage Gate 검증 → PO 승인의 단계를 거친다. 이 편에서는 전체 검증 시스템과 Stage Gate 프로세스를 살펴본다.
+## 품질 관문을 통과해야 다음으로
 
-## 1. 실행과 검증 프로세스
+건물을 지을 때 각 층이 완성되면 감독관이 검사한다. 콘크리트가 제대로 굳었는지, 철근이 규격에 맞는지, 안전 기준을 충족하는지. 검사를 통과해야 다음 층을 올릴 수 있다.
 
-### 전체 흐름
+SAL Grid에서는 이것을 Stage Gate라고 부른다. Stage가 끝날 때마다 관문이 있다. 이 관문을 통과해야 다음 Stage로 넘어갈 수 있다. 통과하지 못하면 문제를 해결할 때까지 멈춰 있어야 한다.
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                      실행 및 검증 프로세스                        │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  [실행] Task Agent ─────────────→ 작업 수행, 결과물 생성         │
-│                                                                 │
-│  [검증 1단계] Verification Agent ─→ Task 결과물 검증             │
-│                                                                 │
-│  [검증 2단계] Main Agent ─────────→ Stage 전체 검증              │
-│                                                                 │
-│  [검증 3단계] PO (Human) ─────────→ 최종 테스트 및 승인           │
-│                                                                 │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-### 각 단계의 역할
-
-| 단계 | 수행자 | 역할 |
-|------|--------|------|
-| 실행 | Task Agent | 실제 작업 수행 (코드 작성, 파일 생성 등) |
-| 검증 1단계 | Verification Agent | 개별 Task 결과물 검증 |
-| 검증 2단계 | Main Agent | Stage 전체 통합 검증 |
-| 검증 3단계 | PO (Human) | 최종 테스트 및 승인 |
+왜 이렇게 할까? 문제가 있는 상태에서 다음 단계로 넘어가면 문제가 커지기 때문이다. S2에서 로그인이 제대로 안 되는데 S3에서 AI 연동을 하면? 나중에 로그인 문제를 고칠 때 AI 연동 부분도 다 수정해야 할 수 있다. 일찍 발견하면 작은 수정이지만, 늦게 발견하면 대규모 수정이 된다.
 
 ---
 
-## 2. Task 실행 (Task Agent)
+## 세 단계의 검증
 
-### 역할
+SAL Grid에서는 세 단계로 검증이 이루어진다.
 
-Task Agent는 task_instruction에 따라 실제 작업을 수행한다.
+**첫 번째는 Task 검증**이다. 각 Task가 끝나면 Verification Agent가 결과물을 검증한다. 코드가 요구사항대로 작성됐는지, 테스트가 통과하는지, 빌드가 되는지 확인한다. 하나의 Task에 대한 미시적인 검증이다.
 
-```
-Task Agent (예: backend-developer)
-    ↓
-task_instruction 읽기
-    ↓
-작업 수행 (코드 작성, 파일 생성)
-    ↓
-결과물 생성
-    ↓
-generated_files, build_result 기록
-```
+**두 번째는 Stage Gate 검증**이다. Stage의 모든 Task가 완료되면 Main Agent가 전체를 검증한다. 개별 Task는 다 됐는데 Task들이 서로 잘 연결되는지 확인한다. 로그인 API와 로그인 UI가 제대로 연동되는지, 데이터가 흐름에 맞게 이동하는지. 전체 그림을 보는 거시적인 검증이다.
 
-### 기록 항목
-
-Task 완료 후 다음 속성을 기록한다:
-
-| 속성 | 내용 |
-|------|------|
-| generated_files | 생성된 파일 목록 |
-| duration | 소요 시간 |
-| build_result | 빌드 결과 |
-| status | 'completed'로 변경 |
-
-### 주의사항
-
-- Task Agent는 검증을 하지 않는다
-- 검증은 Verification Agent의 역할이다
-- 작성자 ≠ 검증자 원칙
+**세 번째는 PO 승인**이다. AI 검증만으로는 충분하지 않다. 실제 사용자가 써봐야 한다. PO(Product Owner, 프로젝트 책임자)가 직접 기능을 테스트하고 괜찮으면 승인한다. 사람이 직접 확인하는 최종 검증이다.
 
 ---
 
-## 3. 검증 1단계: Task 검증 (Verification Agent)
+## Task 검증: 하나씩 확인하기
 
-### 역할
+Task Agent가 작업을 마치면 Verification Agent가 투입된다. 둘은 반드시 다른 Agent다. 작성자가 자기 작업을 검증하면 안 되기 때문이다.
 
-Verification Agent는 verification_instruction에 따라 Task 결과물을 검증한다.
+Verification Agent는 verification_instruction을 읽고 검증을 수행한다. 정상 케이스, 엣지 케이스, 에러 케이스를 모두 확인한다. 빌드가 되는지, 테스트가 통과하는지, 다른 Task와 충돌하지 않는지 확인한다.
 
-```
-Verification Agent (예: code-reviewer)
-    ↓
-verification_instruction 읽기
-    ↓
-Task 결과물 검증
-    ↓
-검증 결과 기록
-```
+검증 결과는 22개 속성에 기록된다. test_result에 테스트 통과 여부, build_verification에 빌드 결과, integration_verification에 통합 결과, blockers에 막히는 문제가 있는지. 마지막으로 comprehensive_verification에 최종 판정을 기록한다. "Passed"면 통과, "Failed"면 수정이 필요하다.
 
-### 검증 항목
-
-| 검증 유형 | 내용 | 기록 속성 |
-|----------|------|----------|
-| 테스트 | 단위/통합/엣지 케이스 | test_result |
-| 빌드 | 컴파일/린트/배포/런타임 | build_verification |
-| 통합 | 의존성/연결/데이터 흐름 | integration_verification |
-| 차단 요소 | 의존성/환경/외부 API | blockers |
-
-### 검증 결과 예시
-
-```json
-{
-  "test_result": {
-    "unit_test": "✅ 5/5 통과",
-    "integration_test": "✅ 3/3 통과",
-    "edge_cases": "✅ 경계값 처리 확인",
-    "manual_test": "✅ 수동 테스트 완료"
-  },
-  "build_verification": {
-    "compile": "✅ 컴파일 성공",
-    "lint": "✅ ESLint 에러 0개",
-    "deploy": "✅ 배포 성공",
-    "runtime": "✅ 런타임 에러 없음"
-  },
-  "comprehensive_verification": {
-    "final": "✅ Passed"
-  }
-}
-```
-
-### Pass/Fail 판정
-
-```
-모든 항목 Pass → comprehensive_verification.final = "✅ Passed"
-하나라도 Fail → comprehensive_verification.final = "❌ Failed"
-```
+만약 검증에 실패하면? Task Agent가 문제를 수정하고 Verification Agent가 다시 검증한다. 통과할 때까지 반복한다.
 
 ---
 
-## 4. 검증 2단계: Stage Gate (Main Agent)
+## Stage Gate: 전체 그림 확인하기
 
-### Stage Gate란
+모든 Task가 개별 검증을 통과해도 Stage Gate를 통과하는 것은 아니다. 개별 부품이 다 좋아도 조립하면 안 맞을 수 있다.
 
-Stage Gate는 Stage 간의 관문이다. 현재 Stage의 모든 Task가 완료되고 검증을 통과해야 다음 Stage로 넘어갈 수 있다.
+Stage의 모든 Task가 완료되면 Main Agent가 Stage Gate 검증을 수행한다. 확인하는 것은 다음과 같다.
 
-```
-S1 ──[S1 Gate]──→ S2 ──[S2 Gate]──→ S3 ──[S3 Gate]──→ S4 ──[S4 Gate]──→ S5
-      ↑                ↑                ↑                ↑
-   모든 S1 Task     모든 S2 Task     모든 S3 Task     모든 S4 Task
-   검증 통과 필요   검증 통과 필요   검증 통과 필요   검증 통과 필요
-```
+모든 Task가 정말 완료됐는가? 하나라도 빠진 것 없는가? 모든 Task의 검증 결과가 "Passed"인가? "Failed"가 섞여 있지 않은가? Blocker가 없는가? 어떤 Task가 막혀 있지 않은가? Task들이 서로 잘 연결되는가? 데이터가 흐름대로 이동하는가?
 
-### Stage Gate 통과 조건
-
-| 조건 | 확인 사항 |
-|------|----------|
-| Task 완료 | Stage 내 모든 Task status = 'completed' |
-| 검증 통과 | 모든 Task comprehensive_verification = 'Passed' |
-| Blocker 없음 | 모든 Task blockers.status = 'No Blockers' |
-| 빌드 성공 | 전체 빌드가 정상 동작 |
-| 통합 확인 | Task 간 연동이 정상 |
-
-### Stage Gate 리포트
-
-Main Agent가 Stage Gate 검증을 수행하고 리포트를 작성한다.
-
-```markdown
-# S2 Stage Gate Verification Report
-
-## 1. Task 완료 현황
-
-| Task ID | Task Name | Status | Verification |
-|---------|-----------|--------|--------------|
-| S2F1 | Google 로그인 UI | ✅ 완료 | ✅ Passed |
-| S2F2 | 이메일 인증 UI | ✅ 완료 | ✅ Passed |
-| S2BA1 | 구독 관리 API | ✅ 완료 | ✅ Passed |
-| S2BA2 | 이메일 발송 API | ✅ 완료 | ✅ Passed |
-| S2S1 | 세션 관리 | ✅ 완료 | ✅ Passed |
-
-**완료율**: 5/5 (100%)
-
-## 2. 검증 결과 종합
-
-| 검증 유형 | 결과 |
-|----------|------|
-| 단위 테스트 | ✅ 24/24 통과 |
-| 통합 테스트 | ✅ 8/8 통과 |
-| 빌드 검증 | ✅ 에러 없음 |
-| Blockers | ✅ 없음 |
-
-## 3. AI 검증 의견
-
-모든 S2 Task가 정상적으로 완료되었습니다.
-Google 로그인, 이메일 인증, 구독 관리 기능이 정상 동작합니다.
-S3 진행 준비 완료.
-
-## 4. PO 테스트 가이드
-
-### 테스트 1: Google 로그인
-- 파일: Production/Frontend/pages/auth/google-login.html
-- 방법: 브라우저에서 열고 버튼 클릭
-- 예상: Google 로그인 후 대시보드 이동
-
-### 테스트 2: 구독 취소
-- 파일: Production/Frontend/pages/subscription/cancel.html
-- 방법: 취소 버튼 클릭
-- 예상: 구독 상태 'cancelled'로 변경
+이 모든 것을 확인하고 Stage Gate 리포트를 작성한다. Task별 완료 현황, 검증 결과 종합, AI의 검증 의견, 그리고 PO가 테스트할 수 있는 가이드를 포함한다.
 
 ---
 
-**검증일**: 2025-12-20
-**검증자**: Main Agent (Claude)
-**상태**: PO 승인 대기
-```
-
----
-
-## 5. 검증 3단계: PO 승인 (Human)
-
-### 역할
-
-PO(Project Owner, 사람)가 최종 테스트를 수행하고 Stage Gate 통과를 승인한다.
-
-```
-AI 검증 리포트 확인
-    ↓
-테스트 가이드 따라 직접 테스트
-    ↓
-기능 정상 작동 확인
-    ↓
-승인 또는 거부
-```
-
-### PO 테스트 가이드
-
-AI가 제공하는 테스트 가이드 형식:
-
-```markdown
 ## PO 테스트 가이드
 
-### 테스트 전 확인사항
-- [ ] 외부 서비스 설정 완료 (Supabase, Resend 등)
-- [ ] 환경 변수 설정 완료
-- [ ] 로컬 서버 실행 (필요 시)
+AI가 아무리 꼼꼼하게 검증해도 사람이 직접 써보는 것과 다르다. AI는 "로그인 버튼 클릭 시 API 호출 성공"을 확인할 수 있지만, "로그인 화면이 직관적인가"는 판단하기 어렵다.
 
-### 기능별 테스트
+그래서 Stage Gate 검증이 끝나면 PO 테스트 가이드를 제공한다. PO가 어떤 기능을 어떻게 테스트하면 되는지 단계별로 설명한다.
 
-#### [기능 1: Google 로그인]
-- 테스트 파일: Production/Frontend/pages/auth/google-login.html
-- 테스트 방법:
-  1. 브라우저에서 파일 열기
-  2. "Google로 로그인" 버튼 클릭
-  3. Google 계정 선택
-  4. 로그인 완료 후 대시보드 이동 확인
-- 예상 결과: /index.html로 리다이렉트
-- 필요 설정: Supabase Google Provider ✅
+예를 들어 "Google 로그인 테스트"라면: 어떤 파일을 열고, 어떤 버튼을 클릭하고, 무엇을 기대해야 하는지 적는다. 필요한 외부 설정이 있으면 그것도 명시한다. Supabase에 Google Provider가 설정되어 있어야 한다든지.
 
-#### [기능 2: 구독 취소]
-...
-```
-
-### 승인/거부
-
-| 결과 | stage_gate_status | 다음 단계 |
-|------|-------------------|----------|
-| 승인 | 'approved' | 다음 Stage 진행 |
-| 거부 | 'rejected' + 사유 | 문제 해결 후 재검증 |
+PO는 이 가이드를 따라 직접 테스트한다. 문제가 없으면 승인하고, 문제가 있으면 거부한다. 거부할 때는 무엇이 문제인지 구체적으로 알려준다.
 
 ---
 
-## 6. 전체 프로세스 요약
+## 승인과 거부
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│ Stage 시작                                                       │
-│     ↓                                                            │
-│ Task 1: Task Agent 실행 → Verification Agent 검증               │
-│ Task 2: Task Agent 실행 → Verification Agent 검증               │
-│ Task 3: Task Agent 실행 → Verification Agent 검증               │
-│ ...                                                              │
-│     ↓                                                            │
-│ 모든 Task 완료                                                   │
-│     ↓                                                            │
-│ Main Agent: Stage Gate 검증                                     │
-│     ↓                                                            │
-│ Stage Gate 리포트 작성                                           │
-│     ↓                                                            │
-│ PO: 테스트 가이드 따라 테스트                                    │
-│     ↓                                                            │
-│ PO 승인                                                          │
-│     ↓                                                            │
-│ 다음 Stage 진행                                                  │
-└─────────────────────────────────────────────────────────────────┘
-```
+PO가 승인하면 stage_gate_status가 "approved"로 바뀐다. 다음 Stage로 넘어갈 수 있다.
+
+PO가 거부하면 stage_gate_status가 "rejected"로 바뀌고 사유가 기록된다. "로그인 후 대시보드로 이동하지 않음", "구독 취소 버튼이 작동하지 않음" 같은 구체적인 문제.
+
+거부되면 문제를 해결해야 한다. Task Agent가 수정하고, Verification Agent가 재검증하고, Main Agent가 Stage Gate를 다시 검증하고, PO가 다시 테스트한다. 승인받을 때까지 반복한다.
+
+이게 번거로워 보일 수 있다. 하지만 이 과정을 거치지 않고 문제가 있는 상태로 다음 단계로 넘어가면 더 큰 비용이 든다. 나중에 발견되는 문제는 수정하기가 훨씬 어렵다.
 
 ---
 
-## 7. 검증 실패 시 대응
+## 왜 AI 검증만으로 안 되는가
 
-### Task 검증 실패
+AI가 모든 것을 검증할 수 있으면 좋겠지만, 한계가 있다.
 
-```
-Verification Agent: "❌ unit_test 2개 실패"
-    ↓
-Task Agent: 문제 수정
-    ↓
-Verification Agent: 재검증
-    ↓
-Pass될 때까지 반복
-```
+첫째, 외부 서비스 연동은 AI가 확인하기 어렵다. Google 로그인이 실제로 되는지는 직접 클릭해봐야 안다. Supabase 설정이 제대로 됐는지, API 키가 유효한지는 실제로 호출해봐야 안다.
 
-### Stage Gate 검증 실패
+둘째, 사용자 경험은 사람이 판단해야 한다. 화면이 직관적인지, 버튼이 찾기 쉬운지, 에러 메시지가 이해하기 쉬운지는 사람의 눈으로 봐야 한다.
 
-```
-Main Agent: "❌ S2BA1과 S2F1 연동 오류"
-    ↓
-해당 Task 수정
-    ↓
-Verification Agent 재검증
-    ↓
-Main Agent Stage Gate 재검증
-```
-
-### PO 승인 거부
-
-```
-PO: "거부 - 로그인 후 리다이렉트 안 됨"
-    ↓
-문제 분석 및 수정
-    ↓
-전체 검증 재수행
-    ↓
-PO 재테스트
-```
+셋째, 비즈니스 로직의 의도는 기획자가 확인해야 한다. 코드가 요구사항대로 작동하는지는 AI가 확인할 수 있지만, 요구사항 자체가 맞는지는 비즈니스를 아는 사람이 판단해야 한다.
 
 ---
 
-## 8. 다음 단계
+## 검증 실패 시 대응
 
-7편에서는 검증 시스템과 Stage Gate를 살펴봤다.
+검증에서 문제가 발견되면 어떻게 할까?
 
-- 실행: Task Agent
-- 검증 1단계: Verification Agent (Task 검증)
-- 검증 2단계: Main Agent (Stage Gate)
-- 검증 3단계: PO (최종 승인)
+Task 검증에서 실패하면 해당 Task만 수정한다. 다른 Task에 영향을 주지 않는다.
 
-다음 편에서는 Supabase DB와 HTML Viewer를 통해 Grid 데이터를 저장하고 조회하는 방법을 살펴본다.
+Stage Gate 검증에서 실패하면 관련된 Task들을 수정한다. Task 간 연동 문제라면 양쪽을 모두 확인해야 할 수 있다.
+
+PO 승인에서 거부되면 문제의 원인을 분석한다. 단순한 버그인지, 요구사항 이해가 잘못됐는지, 설정 문제인지. 원인에 따라 대응이 달라진다.
+
+어느 단계에서든 문제가 발견되면 그 자리에서 해결한다. "나중에 고치자"하고 넘어가면 안 된다. 나중에 고치는 비용이 지금 고치는 비용보다 훨씬 크다.
+
+---
+
+## 다음 단계
+
+7편에서는 검증 시스템과 Stage Gate를 살펴봤다. Task 검증, Stage Gate 검증, PO 승인의 세 단계를 거쳐야 다음 Stage로 넘어갈 수 있다. 각 단계는 다른 관점에서 품질을 확인한다.
+
+다음 편에서는 SAL Grid 데이터를 Supabase에 저장하고 HTML Viewer로 조회하는 방법을 살펴본다. Grid 정보를 시각적으로 확인하는 도구다.
 
 ---
 
@@ -343,4 +110,4 @@ PO 재테스트
 
 ---
 
-**작성일: 2025-12-20 / 글자수: 약 4,800자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 글자수: 약 3,600자 / 작성자: Claude / 프롬프터: 써니**
