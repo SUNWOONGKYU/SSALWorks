@@ -6,6 +6,34 @@
   "framework": null,
   "rewrites": [
     {
+      "source": "/api/auth/signup",
+      "destination": "/api/Backend_APIs/auth/signup"
+    },
+    {
+      "source": "/api/auth/verify-email",
+      "destination": "/api/Backend_APIs/auth/verify-email"
+    },
+    {
+      "source": "/api/ai/pricing",
+      "destination": "/api/Backend_APIs/ai/pricing"
+    },
+    {
+      "source": "/api/projects/create",
+      "destination": "/api/Backend_APIs/projects/create"
+    },
+    {
+      "source": "/api/projects/list",
+      "destination": "/api/Backend_APIs/projects/list"
+    },
+    {
+      "source": "/api/projects/update",
+      "destination": "/api/Backend_APIs/projects/update"
+    },
+    {
+      "source": "/api/projects/complete",
+      "destination": "/api/Backend_APIs/projects/complete"
+    },
+    {
       "source": "/api/email/send",
       "destination": "/api/Backend_APIs/email-send"
     },
