@@ -137,6 +137,12 @@ module.exports = { AUTH_ERRORS };
 - Supabase Auth
 - JWT
 
+## Task Agent
+`security-specialist`
+
+## Verification Agent
+`security-auditor`
+
 ## Tools
 - Write, Read
 - Bash (API 테스트)

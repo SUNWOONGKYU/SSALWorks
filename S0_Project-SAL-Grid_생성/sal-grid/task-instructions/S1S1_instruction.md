@@ -94,6 +94,12 @@ Supabase에서 Google OAuth Provider 설정 및 Redirect URL 등록
 - Supabase Authentication
 - OAuth 2.0
 
+## Task Agent
+`security-specialist`
+
+## Verification Agent
+`security-auditor`
+
 ## Tools
 - WebFetch (Dashboard 접속)
 - Write (문서 작성)

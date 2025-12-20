@@ -89,10 +89,10 @@ node update_sidebar_html.js
 | Stage | Area 수 | Areas |
 |-------|---------|-------|
 | S1 개발 준비 | 7개 | Documentation, Frontend, Backend_Infra, Database, Security, Testing, DevOps |
-| S2 개발 1차 | 8개 | Documentation, Frontend, Backend_Infra, Backend_API, Database, Security, Testing, Content_System |
-| S3 개발 2차 | 4개 | Backend_Infra, Backend_API, Security, External |
-| S4 개발 3차 | 7개 | Documentation, Frontend, Backend_Infra, Backend_API, Security, Testing, DevOps |
-| S5 운영 | 6개 | Documentation, Frontend, Backend_API, Database, Security, DevOps |
+| S2 개발 1차 | 8개 | Documentation, Frontend, Backend_Infra, Backend_APIs, Database, Security, Testing, Content_System |
+| S3 개발 2차 | 4개 | Backend_Infra, Backend_APIs, Security, External |
+| S4 개발 3차 | 7개 | Documentation, Frontend, Backend_Infra, Backend_APIs, Security, Testing, DevOps |
+| S5 운영 | 6개 | Documentation, Frontend, Backend_APIs, Database, Security, DevOps |
 
 ---
 

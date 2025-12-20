@@ -220,6 +220,12 @@ export function initErrorHandling() {
 - Sentry SDK (@sentry/browser, @sentry/node)
 - JavaScript (ES6+)
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Sentry Dashboard
 - Vercel Environment Variables

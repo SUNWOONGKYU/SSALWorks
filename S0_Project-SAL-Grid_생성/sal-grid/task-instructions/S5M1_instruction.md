@@ -244,6 +244,12 @@ supabase status
 ## Tech Stack
 - Markdown
 
+## Task Agent
+`documentation-specialist`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - 없음 (문서 작업)
 

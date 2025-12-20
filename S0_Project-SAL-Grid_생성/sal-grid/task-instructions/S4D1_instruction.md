@@ -362,6 +362,12 @@ $$;
 - PostgreSQL
 - Supabase
 
+## Task Agent
+`database-specialist`
+
+## Verification Agent
+`database-specialist`
+
 ## Tools
 - Supabase SQL Editor
 

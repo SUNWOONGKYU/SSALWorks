@@ -282,6 +282,12 @@ module.exports = withPerformanceLogging(
 - Supabase
 - Node.js
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Write, Read
 - Bash (API 테스트)

@@ -145,6 +145,12 @@ describe('Email API', () => {
 - Jest
 - Node.js
 
+## Task Agent
+`test-engineer`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read
 - Bash (npm test)

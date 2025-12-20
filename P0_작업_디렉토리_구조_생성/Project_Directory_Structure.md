@@ -1,7 +1,7 @@
 # SSALWorks 프로젝트 디렉토리 구조 가이드
 
-> **버전**: v12.0
-> **최종 업데이트**: 2025-12-18
+> **버전**: v12.2
+> **최종 업데이트**: 2025-12-20
 > **프로젝트**: SaaS 구독형 학습 + 프로젝트 관리 통합 플랫폼
 
 ---
@@ -95,7 +95,7 @@ C:\!SSAL_Works_Private\
 ### 규칙 4: 하위 폴더는 영문 사용
 ```
 ✅ P2_프로젝트_기획/User_Flows/
-✅ S2_개발-1차/Backend_API/
+✅ S2_개발-1차/Backend_APIs/
 ❌ S2_개발-1차/백엔드_API/  (한글 사용 X)
 ```
 
@@ -248,7 +248,7 @@ P3_프로토타입_제작/
 ## 📂 실행단계 (S1-S5) 상세 구조
 
 > **참고**: 각 Stage의 폴더 구조는 SSALWORKS_TASK_PLAN.md의 Area 분포와 일치합니다.
-> Area 약어: M(Documentation), F(Frontend), BI(Backend_Infra), BA(Backend_API), D(Database), S(Security), T(Testing), O(DevOps), E(External), C(Content_System)
+> Area 약어: M(Documentation), F(Frontend), BI(Backend_Infra), BA(Backend_APIs), D(Database), S(Security), T(Testing), O(DevOps), E(External), C(Content_System)
 
 ### S1_개발_준비/
 
@@ -291,7 +291,7 @@ S1_개발_준비/
 
 ```
 S2_개발-1차/
-├── Backend_API/            # BA: 백엔드 API
+├── Backend_APIs/            # BA: 백엔드 API
 ├── Backend_Infra/          # BI: 백엔드 인프라
 ├── Content_System/         # C: 콘텐츠 시스템
 ├── Database/               # D: 데이터베이스
@@ -318,7 +318,7 @@ S2_개발-1차/
 
 ```
 S3_개발-2차/
-├── Backend_API/            # BA: AI Q&A API
+├── Backend_APIs/            # BA: AI Q&A API
 ├── Backend_Infra/          # BI: AI API 클라이언트
 ├── External/               # E: AI API 키 설정
 └── Security/               # S: 구독 권한 체크
@@ -340,7 +340,7 @@ S3_개발-2차/
 
 ```
 S4_개발-3차/
-├── Backend_API/            # BA: 결제 API, 웹훅
+├── Backend_APIs/            # BA: 결제 API, 웹훅
 ├── Backend_Infra/          # BI: Sentry 에러 트래킹
 ├── DevOps/                 # O: Cron Jobs 설정
 ├── Documentation/          # M: 관리자 가이드
@@ -365,7 +365,7 @@ S4_개발-3차/
 
 ```
 S5_운영/
-├── Backend_API/            # BA: API 버그 수정 및 최적화
+├── Backend_APIs/            # BA: API 버그 수정 및 최적화
 ├── Database/               # D: 데이터 백업 설정
 ├── DevOps/                 # O: 프로덕션 배포, 도메인 연결, SSL
 ├── Documentation/          # M: 운영 매뉴얼
@@ -387,36 +387,35 @@ S5_운영/
 ```
 Production/                    ← Vercel 루트 디렉토리
 ├── Frontend/                  ← 화면 (F Area)
-│   ├── Pages/                 # HTML 페이지
-│   └── Assets/                # CSS, JS, 이미지
+│   ├── pages/                 # HTML 페이지
+│   └── assets/                # CSS, JS, 이미지
 │
-├── API/                       ← 서버 (Area별 분류)
+├── api/                       ← 서버 (Area별 분류)
 │   ├── Backend_APIs/          # BA Area (구독, 이메일 등)
 │   ├── Security/              # S Area (인증, 권한)
-│   ├── Backend_Infrastructure/# BI Area (공통 라이브러리)
+│   ├── Backend_Infra/         # BI Area (공통 라이브러리)
 │   └── External/              # E Area (외부 연동)
 │
-└── Config/                    ← 설정 (O Area)
-    ├── vercel.json
-    └── package.json
+├── vercel.json                ← Vercel 설정
+└── package.json               ← 패키지 설정
 ```
 
 **Area별 API 분류:**
 | Area | Production 폴더 | 예시 |
 |------|----------------|------|
-| BA (Backend_APIs) | `API/Backend_APIs/` | 구독, 이메일 API |
-| S (Security) | `API/Security/` | 로그인, 인증 |
-| BI (Backend_Infrastructure) | `API/Backend_Infrastructure/` | 공통 라이브러리 |
-| E (External) | `API/External/` | 외부 서비스 연동 |
+| BA (Backend_APIs) | `api/Backend_APIs/` | 구독, 이메일 API |
+| S (Security) | `api/Security/` | 로그인, 인증 |
+| BI (Backend_Infra) | `api/Backend_Infra/` | 공통 라이브러리 |
+| E (External) | `api/External/` | 외부 서비스 연동 |
 
 **Stage → Production 복사 규칙:**
 | Stage 폴더 | Production 위치 |
 |------------|-----------------|
 | `S?_*/Frontend/` | `Production/Frontend/` |
-| `S?_*/Backend_APIs/` | `Production/API/Backend_APIs/` |
-| `S?_*/Security/` (API) | `Production/API/Security/` |
-| `S?_*/Backend_Infra/` (API) | `Production/API/Backend_Infrastructure/` |
-| `S?_*/External/` (API) | `Production/API/External/` |
+| `S?_*/Backend_APIs/` | `Production/api/Backend_APIs/` |
+| `S?_*/Security/` (API) | `Production/api/Security/` |
+| `S?_*/Backend_Infra/` (API) | `Production/api/Backend_Infra/` |
+| `S?_*/External/` (API) | `Production/api/External/` |
 
 **Production에 넣지 않는 것:**
 - `Testing/` - 테스트 코드 (개발용)
@@ -616,7 +615,7 @@ Sidebar-Process-Tools/
 | 개발 환경 설정 | `S1_개발_준비/Backend_Infra/` |
 | HTML 페이지 | 해당 Stage `Frontend/` + `Production/Frontend/` |
 | SQL 파일 | 해당 Stage `Database/` + `Production/Database/` |
-| API 코드 | 해당 Stage `Backend_API/` + `Production/Backend_API/` |
+| API 코드 | 해당 Stage `Backend_APIs/` + `Production/Backend_APIs/` |
 | 테스트 코드 | 해당 Stage `Testing/` |
 | 배포 설정 | 해당 Stage `DevOps/` |
 | 배포용 코드 | `Production/` (종합집결지) |
@@ -644,7 +643,7 @@ Sidebar-Process-Tools/
 → 해당 Stage의 `Database/` + `Production/Database/`에 반영
 
 **Q: API 코드를 작성했어요**
-→ 해당 Stage의 `Backend_API/` + `Production/Backend_API/`에 반영
+→ 해당 Stage의 `Backend_APIs/` + `Production/Backend_APIs/`에 반영
 
 **Q: 테스트 코드를 작성했어요**
 → 해당 Stage의 `Testing/`
@@ -753,10 +752,12 @@ Sidebar-Process-Tools/
 | v9.0 | 2025-12-14 | 실제 폴더와 문서 일치화: AI_Link/학습용_콘텐츠 경로 수정, Project-SSAL-Grid→S0_Project-SSAL-Grid_생성, 누락 파일 추가 | Claude Code |
 | v10.0 | 2025-12-17 | 부수적_고유기능 폴더 구조 업데이트: 학습용_콘텐츠→학습용_Books, Tips/외부_연동_설정_Guide 추가 | Claude Code |
 | v11.0 | 2025-12-18 | Web_ClaudeCode_Bridge → Human_ClaudeCode_Bridge 변경, Inbox/Outbox → Orders/Reports 변경, 파일 형식 규칙 추가 | Claude Code |
-| **v12.0** | **2025-12-18** | **파일 명명 규칙 추가 (규칙 5), Production 폴더 구조 재설계 (Area별 분류)** | Claude Code |
+| v12.0 | 2025-12-18 | 파일 명명 규칙 추가 (규칙 5), Production 폴더 구조 재설계 (Area별 분류) | Claude Code |
+| v12.1 | 2025-12-20 | Backend_API → Backend_APIs 용어 통일 (실제 폴더명과 일치화) | Claude Code |
+| **v12.2** | **2025-12-20** | **Production 구조 6대 규칙 일치화: API→api, Backend_Infrastructure→Backend_Infra** | Claude Code |
 
 ---
 
-**현재 버전:** v12.0
+**현재 버전:** v12.2
 **작성자:** SSALWorks Team
 **마지막 업데이트:** 2025-12-18

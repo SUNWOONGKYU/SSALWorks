@@ -107,6 +107,12 @@ EXPLAIN ANALYZE SELECT * FROM users WHERE email = 'test@example.com';
 - PostgreSQL
 - Supabase
 
+## Task Agent
+`database-specialist`
+
+## Verification Agent
+`database-specialist`
+
 ## Tools
 - Read, Write
 - Supabase SQL Editor

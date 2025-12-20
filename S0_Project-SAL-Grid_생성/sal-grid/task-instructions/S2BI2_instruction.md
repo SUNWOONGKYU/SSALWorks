@@ -147,6 +147,12 @@ async function apiCall(url, options = {}) {
 - JavaScript (Vanilla)
 - CSS
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read, Edit
 

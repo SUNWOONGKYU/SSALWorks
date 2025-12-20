@@ -269,6 +269,12 @@ if (issues.length > 0) {
 - npm audit
 - Vercel
 
+## Task Agent
+`security-specialist`
+
+## Verification Agent
+`security-auditor`
+
 ## Tools
 - Write, Read
 - Bash (보안 스캔)

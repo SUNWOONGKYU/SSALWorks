@@ -502,6 +502,12 @@ function getAccessToken() {
 ## Tech Stack
 - HTML/CSS/JavaScript
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - S3BA1 (AI Q&A API) 연동
 

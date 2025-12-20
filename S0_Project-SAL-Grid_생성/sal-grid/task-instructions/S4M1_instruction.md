@@ -186,6 +186,12 @@ Admin Dashboard 사용법 문서 작성 - 관리자 기능 사용 가이드
 ## Tech Stack
 - Markdown
 
+## Task Agent
+`documentation-specialist`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - 없음 (문서 작업)
 

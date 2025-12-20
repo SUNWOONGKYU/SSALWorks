@@ -82,6 +82,12 @@ dig @8.8.8.8 www.[도메인] CNAME
 - Vercel
 - Domain Management
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Vercel Dashboard
 - 도메인 등록 업체 DNS 관리 패널

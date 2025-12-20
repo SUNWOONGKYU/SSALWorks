@@ -113,6 +113,12 @@ await resend.emails.send({
 - Resend
 - Node.js
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read
 - Bash (npm install resend)

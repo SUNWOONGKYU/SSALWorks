@@ -103,6 +103,12 @@ GitHub (저장소) + jsdelivr (CDN) + Marked.js (렌더링)
 - Marked.js (MD 렌더링)
 - JavaScript
 
+## Task Agent
+`content-specialist`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Read, Write, Glob, Bash
 

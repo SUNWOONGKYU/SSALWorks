@@ -115,6 +115,12 @@ Vercel 배포 설정, 라우팅, 보안 헤더, CORS 설정을 위한 vercel.jso
 - Vercel Configuration
 - JSON
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Write, Read
 - Bash (curl로 헤더 확인)

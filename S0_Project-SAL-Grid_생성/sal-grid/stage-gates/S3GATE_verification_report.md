@@ -129,7 +129,7 @@ S3BA1 (Q&A API) ← S3BI1
 
 ```
 S3_개발-2차/
-├── Backend_API/
+├── Backend_APIs/
 │   └── ai-qa.js (S3BA1)
 ├── Backend_Infra/
 │   └── ai/

@@ -116,6 +116,12 @@ module.exports = defineConfig({
 - Playwright
 - Node.js
 
+## Task Agent
+`test-engineer`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read
 - Bash (npm install, npm test)

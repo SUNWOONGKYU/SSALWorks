@@ -272,6 +272,12 @@ module.exports = async (req, res) => {
 - Vercel (Let's Encrypt)
 - Node.js
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Bash (openssl, curl)
 - 웹 브라우저 (SSL Labs)

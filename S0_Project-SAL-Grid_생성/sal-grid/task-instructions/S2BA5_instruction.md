@@ -339,6 +339,12 @@ export default async function handler(req, res) {
 - Supabase
 - JavaScript (ES6+)
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - supabase-js SDK
 

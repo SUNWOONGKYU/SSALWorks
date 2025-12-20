@@ -503,6 +503,12 @@ module.exports = { sendEmail };
 - Supabase
 - Resend (이메일 발송)
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read
 - Bash (Cron 테스트)

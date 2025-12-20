@@ -97,6 +97,12 @@ Serverless API 명세서 작성 (인증/구독 API)
 - Markdown
 - REST API
 
+## Task Agent
+`documentation-specialist`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Read, Write
 - Grep (API 코드 검색)

@@ -1,22 +1,16 @@
 # Feature 브랜치로 Vercel Preview 테스트 후 병합하기
 
-## 요약
-프로덕션에 바로 배포하지 말고 Feature 브랜치를 만들어 Vercel Preview에서 먼저 테스트한 후 main에 병합한다. 실서비스 장애 없이 안전하게 변경사항을 적용할 수 있다.
+> 이 문서는 Feature 브랜치와 Vercel Preview를 활용하여 안전하게 배포하는 방법을 설명합니다.
 
-## 상세
+---
 
-### Git 브랜치란?
+## 왜 Feature 브랜치를 사용하는가
 
-코드의 복사본을 만들어 독립적으로 작업하는 것. main 브랜치는 실서비스용, feature 브랜치는 새 기능 개발용.
+main 브랜치에 직접 Push하면 변경사항이 즉시 프로덕션에 배포됩니다. 버그가 있으면 실서비스가 바로 영향을 받습니다. Feature 브랜치에서 작업하고 Preview에서 테스트한 후 병합하면 안전합니다.
 
-```
-main (실서비스) ─────────────────────────────→
-                 \                      /
-                  └── feature/기능명 ──┘
-                      (여기서 개발 후 합침)
-```
+---
 
-### 워크플로우
+## 전체 워크플로우
 
 ```
 1. Feature 브랜치 생성
@@ -31,34 +25,85 @@ main (실서비스) ────────────────────
 4. Preview에서 테스트
     ↓
 5. 문제없으면 main에 병합
-   git checkout main && git merge feature/design-update
-    ↓
-6. 프로덕션 자동 배포
 ```
 
-### Claude Code에게 요청
+---
+
+## 상세 단계
+
+### 1단계: Feature 브랜치 생성
+
+```bash
+git checkout -b feature/design-update
+```
+
+브랜치 이름: `feature/기능명`, `fix/버그명`, `hotfix/긴급수정`
+
+### 2단계: 작업 및 Push
+
+```bash
+git add .
+git commit -m "feat: 디자인 업데이트"
+git push origin feature/design-update
+```
+
+### 3단계: Preview에서 테스트
+
+Preview URL에서 기능, 디자인, 에러 확인
+
+### 4단계: main에 병합
+
+```bash
+git checkout main
+git pull origin main
+git merge feature/design-update
+git push origin main
+```
+
+### 5단계: 정리
+
+```bash
+git branch -d feature/design-update
+```
+
+---
+
+## Claude Code에게 요청하기
 
 ```
 "feature/design-update 브랜치 만들어줘"
-
-"Preview 테스트 완료됐으니 main에 병합하고 Push해줘"
+"feature 브랜치 main에 병합하고 Push해줘"
+"병합 완료된 feature 브랜치 삭제해줘"
 ```
 
-### Preview 환경 변수 설정
+---
 
-Preview에서 데이터가 안 보이면 환경 변수가 Production에만 설정된 것.
+## 트러블슈팅
 
-**설정 경로:**
-1. Vercel 대시보드 접속
-2. 프로젝트 선택
-3. **Settings** 탭 클릭
-4. 왼쪽 메뉴에서 **Environment Variables**
-5. 변수 추가 시 **Preview** 체크박스 선택
+**Preview에서 데이터가 안 보임**: Vercel 환경 변수가 Preview에도 설정되어 있는지 확인
 
-### 주의
-- Preview 배포 실패 시: Vercel 대시보드 → Deployments → 해당 배포 클릭 → 로그 확인
-- 병합 후 Feature 브랜치는 삭제: `git branch -d feature/기능명`
-- 충돌 발생 시: Claude Code에게 "merge conflict 해결해줘" 요청
+**충돌 발생**: `"merge conflict 해결해줘"`
 
 ---
-📚 더 자세히: Vercel 공식 문서
+
+## 체크리스트
+
+### 브랜치 생성 시
+- [ ] 적절한 브랜치 이름을 지었는가?
+
+### Preview 테스트
+- [ ] 기능을 테스트했는가?
+- [ ] 기존 기능이 깨지지 않았는가?
+
+### 병합 전
+- [ ] main에서 최신 변경사항을 Pull했는가?
+- [ ] 충돌을 해결했는가?
+
+### 병합 후
+- [ ] 프로덕션에서 정상 작동하는가?
+- [ ] feature 브랜치를 삭제했는가?
+
+---
+
+*더 자세한 Vercel 설정은 Vercel 공식 문서를 참고하세요: https://vercel.com/docs*
+

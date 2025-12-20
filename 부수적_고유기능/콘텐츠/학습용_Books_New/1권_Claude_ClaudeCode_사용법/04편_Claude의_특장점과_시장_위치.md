@@ -57,7 +57,7 @@ Claude Code는 출시 3개월 만에 연간 매출 5억 달러를 기록했는�
 
 ### 1.5 안전성과 윤리적 설계
 
-Constitutional AI를 기반으로 설계된 Claude는 안전성 측면에서 신뢰할 수 있다.
+헌법적 AI(Constitutional AI)를 기반으로 설계된 Claude는 안전성 측면에서 신뢰할 수 있다.
 
 **안전 관련 특징**:
 - 유해한 콘텐츠 생성 거부

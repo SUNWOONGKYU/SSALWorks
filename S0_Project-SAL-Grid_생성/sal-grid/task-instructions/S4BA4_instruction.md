@@ -380,6 +380,12 @@ export default async function handler(req, res) {
 - Supabase
 - 토스 페이먼트 API
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - supabase-js SDK
 - Toss Payments API

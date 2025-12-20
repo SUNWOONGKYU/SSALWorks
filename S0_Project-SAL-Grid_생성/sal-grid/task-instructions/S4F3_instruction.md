@@ -475,6 +475,12 @@ function getUserName() {
 - HTML/CSS/JavaScript
 - 토스 페이먼트 SDK
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - S4BA4 (크레딧 충전 API) 연동
 

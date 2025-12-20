@@ -385,6 +385,12 @@ export default async function handler(req, res) {
 - Vercel Serverless Functions
 - Supabase
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - supabase-js SDK
 - Email API (S2BA2)

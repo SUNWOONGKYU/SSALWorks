@@ -408,6 +408,12 @@ TEST_USER_PASSWORD=TestPassword123!
 - Node.js
 - fetch
 
+## Task Agent
+`test-engineer`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read
 - Bash (npm test)

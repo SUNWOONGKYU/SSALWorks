@@ -1,0 +1,76 @@
+<svg width="1600" height="900" viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- 도 3: Parser/Normalizer 플로우차트 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="white"/>
+
+  <!-- 제목 -->
+  <text x="800" y="45" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold">Parser/Normalizer 모듈 (50) 처리 흐름</text>
+
+  <!-- 1단계: SAL ID 입력 -->
+  <rect x="250" y="70" width="1100" height="90" rx="6" fill="white" stroke="black" stroke-width="2"/>
+  <text x="800" y="125" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="black">1. SAL ID 문자열 입력</text>
+  <line x1="800" y1="160" x2="800" y2="190" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- 2단계: 정규식 매칭 (51) -->
+  <rect x="250" y="195" width="1100" height="90" rx="6" fill="white" stroke="black" stroke-width="2"/>
+  <text x="800" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="black">2. 정규식 매칭부 (51): 패턴 검증</text>
+  <line x1="800" y1="285" x2="800" y2="315" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- 오류 분기 (정규식 실패) -->
+  <line x1="1350" y1="240" x2="1450" y2="240" stroke="black" stroke-width="2"/>
+  <line x1="1450" y1="240" x2="1450" y2="360" stroke="black" stroke-width="2"/>
+  <rect x="1400" y="360" width="180" height="60" rx="3" fill="white" stroke="black" stroke-width="2" stroke-dasharray="5,3"/>
+  <text x="1490" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="black">오류 반환</text>
+  <text x="1380" y="235" font-family="Arial, sans-serif" font-size="16" fill="black">실패</text>
+
+  <!-- 3단계: 구성요소 추출 (52) -->
+  <rect x="250" y="320" width="1100" height="90" rx="6" fill="white" stroke="black" stroke-width="2"/>
+  <text x="800" y="375" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="black">3. 구성요소 추출부 (52): Stage/Area/Level/Variant 분리</text>
+  <line x1="800" y1="410" x2="800" y2="440" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- 4단계: 유효성 검사 (53) -->
+  <rect x="250" y="445" width="1100" height="90" rx="6" fill="white" stroke="black" stroke-width="2"/>
+  <text x="800" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="black">4. 유효성 검사부 (53): 범위/코드표 검증</text>
+  <line x1="800" y1="535" x2="800" y2="565" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- 오류 분기 (유효성 실패) -->
+  <line x1="1350" y1="490" x2="1450" y2="490" stroke="black" stroke-width="2"/>
+  <line x1="1450" y1="420" x2="1450" y2="490" stroke="black" stroke-width="2"/>
+  <text x="1380" y="485" font-family="Arial, sans-serif" font-size="16" fill="black">실패</text>
+
+  <!-- 5단계: 고유키 충돌 검사 -->
+  <rect x="250" y="570" width="1100" height="90" rx="6" fill="white" stroke="black" stroke-width="2"/>
+  <text x="800" y="625" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="black">5. 고유키 충돌 검사: (stage, area, level, variant) 중복 확인</text>
+  <line x1="800" y1="660" x2="800" y2="690" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- 오류 분기 (충돌) -->
+  <line x1="1350" y1="615" x2="1450" y2="615" stroke="black" stroke-width="2"/>
+  <line x1="1450" y1="420" x2="1450" y2="615" stroke="black" stroke-width="2"/>
+  <text x="1380" y="610" font-family="Arial, sans-serif" font-size="16" fill="black">충돌</text>
+
+  <!-- 6단계: 정렬키 생성 (54) -->
+  <rect x="250" y="695" width="1100" height="90" rx="6" fill="white" stroke="black" stroke-width="2"/>
+  <text x="800" y="750" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="black">6. 정렬키 생성부 (54): 정렬 가능한 키 생성 및 출력</text>
+
+  <!-- 좌측: 범례 -->
+  <rect x="50" y="200" width="180" height="200" fill="none" stroke="black" stroke-width="1" rx="5"/>
+  <text x="140" y="225" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold">구성요소</text>
+  <line x1="60" y1="240" x2="170" y2="240" stroke="black" stroke-width="1"/>
+  <text x="140" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">51: 정규식 매칭부</text>
+  <text x="140" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">52: 구성요소 추출부</text>
+  <text x="140" y="330" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">53: 유효성 검사부</text>
+  <text x="140" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">54: 정렬키 생성부</text>
+  <text x="140" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">50: Parser/Normalizer</text>
+
+  <!-- 하단: 검사 항목 설명 -->
+  <rect x="50" y="800" width="500" height="80" fill="none" stroke="black" stroke-width="1" rx="5"/>
+  <text x="300" y="830" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold">유효성 검사 항목 (53)</text>
+  <text x="300" y="855" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">Stage 범위: 1~99 | Area 코드표 확인 | Level 범위: 1~99</text>
+  <text x="300" y="875" text-anchor="middle" font-family="Arial, sans-serif" font-size="14">정규식: ^S(\d{1,2})([A-Z]{2})(\d{1,2})([a-z])?$</text>
+
+</svg>

@@ -544,6 +544,12 @@ function getAccessToken() {
 - HTML/CSS/JavaScript
 - 토스 페이먼트 SDK
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - S4BA3 (결제 수단 등록 API) 연동
 

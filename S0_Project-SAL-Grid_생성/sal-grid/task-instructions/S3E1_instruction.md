@@ -71,6 +71,12 @@ Gemini, ChatGPT, Perplexity API 키 등록 및 Vercel 환경 변수 설정
 - Vercel
 - Node.js
 
+## Task Agent
+`external-integration-specialist`
+
+## Verification Agent
+`code-reviewer`
+
 ## Execution Type
 Human-Assisted
 

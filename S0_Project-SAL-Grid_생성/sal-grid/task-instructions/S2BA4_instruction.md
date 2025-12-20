@@ -266,6 +266,12 @@ export function getPasswordStrength(password) {
 - Supabase Auth
 - JavaScript (ES6+)
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - supabase-js SDK
 - Vercel Environment Variables

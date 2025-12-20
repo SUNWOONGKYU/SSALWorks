@@ -94,6 +94,12 @@ api/
 ## Tech Stack
 - Markdown
 
+## Task Agent
+`documentation-specialist`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Read, Write, Glob
 

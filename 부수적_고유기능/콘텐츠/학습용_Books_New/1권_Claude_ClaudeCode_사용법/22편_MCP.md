@@ -72,7 +72,8 @@ Anthropic과 커뮤니티에서 제공하는 검증된 서버들이다.
 |------|------|
 | @modelcontextprotocol/server-filesystem | 파일 시스템 접근 |
 | @modelcontextprotocol/server-memory | 영구 기억 저장 |
-| @anthropic/claude-code-puppeteer | 브라우저 자동화 |
+| @modelcontextprotocol/server-puppeteer | 브라우저 자동화 (Puppeteer) |
+| @playwright/mcp | 브라우저 자동화 (Playwright) |
 | @modelcontextprotocol/server-postgres | PostgreSQL 연결 |
 | @modelcontextprotocol/server-sqlite | SQLite 연결 |
 
@@ -223,21 +224,35 @@ Claude: [memory 서버에서 조회]
         DB 비밀번호는 abc123입니다.
 ```
 
-### 4.3 puppeteer (브라우저 자동화)
+### 4.3 브라우저 자동화 (Puppeteer / Playwright)
 
-웹 브라우저를 자동으로 제어한다.
+웹 브라우저를 자동으로 제어한다. Puppeteer와 Playwright 두 가지 옵션이 있다.
 
-**설정:**
+**Puppeteer 설정:**
 ```json
 {
   "mcpServers": {
     "puppeteer": {
       "command": "npx",
-      "args": ["-y", "@anthropic/claude-code-puppeteer"]
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
     }
   }
 }
 ```
+
+**Playwright 설정 (권장):**
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
+```
+
+> **Puppeteer vs Playwright:** Playwright는 Microsoft가 개발한 최신 브라우저 자동화 도구로, 접근성 트리 기반으로 작동하여 더 빠르고 안정적이다. Chromium, Firefox, WebKit을 모두 지원한다.
 
 **제공 도구:**
 - 페이지 열기
@@ -250,7 +265,7 @@ Claude: [memory 서버에서 조회]
 ```
 사용자: 로그인 페이지 스크린샷 찍어줘
 
-Claude: [puppeteer 서버 사용]
+Claude: [puppeteer/playwright 서버 사용]
         1. 브라우저 열기
         2. 로그인 페이지로 이동
         3. 스크린샷 캡처
@@ -366,6 +381,7 @@ Claude:
 | filesystem | 파일 접근 | 읽기, 쓰기, 검색 |
 | memory | 기억 저장 | 정보 저장/조회 |
 | puppeteer | 브라우저 | 자동화, 스크린샷 |
+| playwright | 브라우저 (권장) | 자동화, 멀티브라우저 |
 | postgres | PostgreSQL | SQL 쿼리 |
 | sqlite | SQLite | 로컬 DB |
 
@@ -387,9 +403,9 @@ Claude:
         "/home/user/projects"
       ]
     },
-    "puppeteer": {
+    "playwright": {
       "command": "npx",
-      "args": ["-y", "@anthropic/claude-code-puppeteer"]
+      "args": ["@playwright/mcp@latest"]
     }
   }
 }
@@ -404,5 +420,5 @@ Claude:
 
 ---
 
-**작성일: 2025-12-20 / 글자수: 약 4,100자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 수정일: 2025-12-20 / 글자수: 약 4,300자 / 작성자: Claude / 프롬프터: 써니**
 

@@ -186,6 +186,12 @@ module.exports = { checkUsageLimit, DAILY_LIMITS };
 - Supabase
 - Node.js
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Execution Type
 AI-Only
 

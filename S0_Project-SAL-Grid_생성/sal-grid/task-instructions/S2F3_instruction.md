@@ -431,6 +431,12 @@ function signupWithGoogle() {
 ## Tech Stack
 - HTML/CSS/JavaScript
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - S2BA4 (회원가입 API) 연동
 

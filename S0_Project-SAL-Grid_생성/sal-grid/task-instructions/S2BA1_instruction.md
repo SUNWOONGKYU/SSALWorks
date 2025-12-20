@@ -137,6 +137,12 @@ module.exports = async (req, res) => {
 - Supabase Auth
 - OAuth 2.0
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Write, Read
 - Bash (vercel dev 로컬 테스트)

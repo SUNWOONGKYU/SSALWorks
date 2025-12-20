@@ -83,6 +83,12 @@ P3 프로토타입에서 사용된 Supabase 스키마 점검 및 프로덕션용
 - PostgreSQL (Supabase)
 - SQL
 
+## Task Agent
+`database-specialist`
+
+## Verification Agent
+`database-specialist`
+
 ## Tools
 - Read, Write, Glob
 - Grep (SQL 파일 검색)

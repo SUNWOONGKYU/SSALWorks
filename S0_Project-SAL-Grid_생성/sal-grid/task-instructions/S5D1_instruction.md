@@ -299,6 +299,12 @@ node scripts/restore-database.js ./backups/backup_YYYY-MM-DD.sql.gz
 - PostgreSQL (pg_dump)
 - Node.js
 
+## Task Agent
+`database-specialist`
+
+## Verification Agent
+`database-specialist`
+
 ## Tools
 - Write, Read
 - Bash (pg_dump, 스크립트 실행)

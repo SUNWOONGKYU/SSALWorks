@@ -2508,7 +2508,7 @@
                             <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Backend_API</span>
+                                    <span>Backend_APIs</span>
                                 </div>
                             </div>
                             <div class="process-small">
@@ -2563,7 +2563,7 @@
                             <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Backend_API</span>
+                                    <span>Backend_APIs</span>
                                 </div>
                             </div>
                             <div class="process-small">
@@ -2618,7 +2618,7 @@
                             <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Backend_API</span>
+                                    <span>Backend_APIs</span>
                                 </div>
                             </div>
                             <div class="process-small">
@@ -2679,7 +2679,7 @@
                             <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Backend_API</span>
+                                    <span>Backend_APIs</span>
                                 </div>
                             </div>
                             <div class="process-small">
@@ -3721,10 +3721,10 @@ The content you enter in the Control Space will be displayed here.</pre>
             "executionStages": [
                 { "id": "S1", "name": "프로토타입 제작", "path": "P3_프로토타입_제작", "areas": ["Documentation", "Design", "Frontend", "Database"] },
                 { "id": "S2", "name": "개발 준비", "path": "S1_개발_준비", "areas": ["Documentation", "Backend_Infra", "Database", "Security"] },
-                { "id": "S3", "name": "개발 1차", "path": "S2_개발-1차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_API", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
-                { "id": "S4", "name": "개발 2차", "path": "S3_개발-2차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_API", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
-                { "id": "S5", "name": "개발 3차", "path": "S4_개발-3차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_API", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
-                { "id": "S6", "name": "운영", "path": "S5_운영", "areas": ["Documentation", "Frontend", "Backend_API", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] }
+                { "id": "S3", "name": "개발 1차", "path": "S2_개발-1차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
+                { "id": "S4", "name": "개발 2차", "path": "S3_개발-2차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
+                { "id": "S5", "name": "개발 3차", "path": "S4_개발-3차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
+                { "id": "S6", "name": "운영", "path": "S5_운영", "areas": ["Documentation", "Frontend", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] }
             ]
         };
 
@@ -7032,7 +7032,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             // 개발 생산성
             { type: 'Tip', category: '개발 생산성', question: 'Git 커밋 메시지 작성법', answer: '💡 Conventional Commits 형식: feat(새기능), fix(버그수정), docs(문서), refactor(리팩토링). 예: "feat: Google OAuth 로그인 구현". Claude Code에게 "커밋해줘"라고 하면 자동 작성!' },
-            { type: 'Tip', category: '개발 생산성', question: '파일 저장 위치 확인하기', answer: '💡 파일 생성 전 PROJECT_DIRECTORY_STRUCTURE.md 확인 필수! Stage+Area 기반으로 저장 (S2BA1 → S2_개발-1차/Backend_API/). 모르겠으면 Claude Code에게 물어보세요.' },
+            { type: 'Tip', category: '개발 생산성', question: '파일 저장 위치 확인하기', answer: '💡 파일 생성 전 PROJECT_DIRECTORY_STRUCTURE.md 확인 필수! Stage+Area 기반으로 저장 (S2BA1 → S2_개발-1차/Backend_APIs/). 모르겠으면 Claude Code에게 물어보세요.' },
             { type: 'Tip', category: '개발 생산성', question: '환경변수 관리 베스트 프랙티스', answer: '💡 .env.example(템플릿, Git 커밋), .env.local(실제 값, Git 무시). Vercel에서는 Dashboard > Environment Variables에서 환경별로 설정. SECRET_KEY는 절대 클라이언트 노출 금지!' },
             { type: 'Tip', category: '개발 생산성', question: 'Supabase 쿼리 최적화', answer: '💡 select("*") 대신 필요한 컬럼만! 페이지네이션(.range(0,9)), 서버 필터링(.eq("status","active")) 활용. 자주 검색하는 컬럼에 인덱스 추가하면 성능 향상.' }
         ];

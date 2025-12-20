@@ -105,6 +105,12 @@ document.getElementById('forgotPasswordForm').addEventListener('submit', async (
 - HTML/CSS/JavaScript
 - Supabase Auth
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Read, Write, Edit
 

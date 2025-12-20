@@ -1550,6 +1550,12 @@ function filterByStatus() {
 - HTML/CSS/JavaScript
 - Chart.js
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Chart.js CDN
 

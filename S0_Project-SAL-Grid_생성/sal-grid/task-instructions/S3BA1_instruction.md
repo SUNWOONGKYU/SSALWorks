@@ -124,6 +124,12 @@ ${context ? `참고 콘텐츠:\n${context}` : ''}`;
 - Perplexity API
 - Supabase
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Execution Type
 AI-Only
 

@@ -193,6 +193,12 @@ async function checkAIHealth() {
 - openai
 - fetch (Perplexity)
 
+## Task Agent
+`security-specialist`
+
+## Verification Agent
+`security-auditor`
+
 ## Tools
 - Write, Read
 - Bash (API 테스트)

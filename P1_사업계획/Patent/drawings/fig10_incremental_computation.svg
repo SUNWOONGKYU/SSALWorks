@@ -1,0 +1,45 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- 도 10: 증분 재계산 프로세스 -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+    </marker>
+  </defs>
+
+  <!-- 중앙: 증분 재계산 모듈 -->
+  <rect x="400" y="300" width="400" height="200" fill="none" stroke="black" stroke-width="3" rx="5"/>
+  <text x="600" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">증분 재계산</text>
+  <text x="600" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">모듈</text>
+  <text x="600" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">변경 영향 범위만 처리</text>
+
+  <!-- 상단: 변경 감지 -->
+  <rect x="400" y="60" width="400" height="160" fill="none" stroke="black" stroke-width="2" rx="5"/>
+  <text x="600" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">변경 감지</text>
+  <text x="600" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">Task 이동/수정 탐지</text>
+  <text x="600" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">변경 노드 마킹</text>
+
+  <!-- 좌측: 영향 범위 추적 -->
+  <rect x="60" y="300" width="280" height="160" fill="none" stroke="black" stroke-width="2" rx="5"/>
+  <text x="200" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="bold">영향 범위 추적</text>
+  <text x="200" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">DAG 후속 노드</text>
+  <text x="200" y="435" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">재계산 대상 식별</text>
+
+  <!-- 우측: 선택적 재계산 -->
+  <rect x="860" y="300" width="280" height="160" fill="none" stroke="black" stroke-width="2" rx="5"/>
+  <text x="1000" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="bold">선택적 재계산</text>
+  <text x="1000" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">영향 노드만 처리</text>
+  <text x="1000" y="435" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">70~90% 시간 절약</text>
+
+  <!-- 하단: 결과 유지 -->
+  <rect x="400" y="560" width="400" height="160" fill="none" stroke="black" stroke-width="2" rx="5" stroke-dasharray="5,3"/>
+  <text x="600" y="620" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">비영향 노드</text>
+  <text x="600" y="670" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">이전 계산 결과 유지</text>
+  <text x="600" y="700" text-anchor="middle" font-family="Arial, sans-serif" font-size="24">재계산 생략</text>
+
+  <!-- 화살표 연결 -->
+  <line x1="600" y1="220" x2="600" y2="300" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="340" y1="380" x2="400" y2="380" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="860" y1="380" x2="800" y2="380" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <line x1="600" y1="500" x2="600" y2="560" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+</svg>

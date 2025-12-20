@@ -99,6 +99,12 @@ const supabaseUrl = process.env.SUPABASE_URL;
 - Environment Variables
 - Vercel
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read
 - WebFetch (Vercel Dashboard)

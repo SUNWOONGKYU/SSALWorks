@@ -20,6 +20,9 @@ S4BA6
 ## Task Name
 결제/알림 이메일 템플릿
 
+## Verification Agent
+code-reviewer
+
 ## Verification Checklist
 
 ### 1. 파일 존재 검증
@@ -112,8 +115,8 @@ S4BA6
 
 ### 제1 규칙: Stage + Area 폴더에 저장
 - Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- S4BA6 → `S4_개발-3차/Backend_API/`
+- S4BA6 → `S4_개발-3차/Backend_APIs/`
 
 ### 제2 규칙: Production 코드는 이중 저장
-- Backend_API 코드는 Stage 폴더 + Production 폴더 둘 다 저장
+- Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장
 - `Production/api/email/` 에도 저장

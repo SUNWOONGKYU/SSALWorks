@@ -242,6 +242,12 @@ CREATE INDEX idx_admin_audit_logs_action ON admin_audit_logs(action);
 - Vercel Serverless Functions
 - Supabase Auth
 
+## Task Agent
+`security-specialist`
+
+## Verification Agent
+`security-auditor`
+
 ## Tools
 - Write, Read
 - Bash (API 테스트)

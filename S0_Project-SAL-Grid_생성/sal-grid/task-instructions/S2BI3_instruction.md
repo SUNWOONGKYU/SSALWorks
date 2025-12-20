@@ -147,6 +147,12 @@ from: 'noreply@ssalworks.ai.kr'
 - Whois DNS
 - DNS (SPF, DKIM)
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - WebFetch (Resend Dashboard, Whois)
 - Bash (nslookup, dig)

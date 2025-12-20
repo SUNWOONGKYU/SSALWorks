@@ -819,6 +819,12 @@ CREATE INDEX IF NOT EXISTS idx_payment_methods_user_id ON payment_methods(user_i
 - Supabase
 - 토스 페이먼트 API
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Write, Read
 - Bash (API 테스트)
@@ -843,7 +849,7 @@ Human-AI (토스 페이먼트 가맹점 등록 필요)
 
 ### 제1 규칙: Stage + Area 폴더에 저장
 - Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S4BA3 → `S4_개발-3차/Backend_API/`
+- 예: S4BA3 → `S4_개발-3차/Backend_APIs/`
 
 ### 제2 규칙: Production 코드는 이중 저장
 - Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장

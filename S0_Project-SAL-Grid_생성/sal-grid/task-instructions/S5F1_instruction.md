@@ -231,6 +231,12 @@ if (!Array.prototype.includes) {
 ## Tech Stack
 - HTML/CSS/JavaScript
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Write, Read
 - Bash (테스트 실행)

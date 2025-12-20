@@ -361,27 +361,27 @@ Stage(S2) + Area(BA) + 순서(1) - Task ID 하나로 Stage, Area, 순서 모두
 <tr>
 <td>S1</td>
 <td>개발 준비 (Development Setup)</td>
-<td>기반 구축, Foundation</td>
+<td>환경설정, DB스키마, Auth설정</td>
 </tr>
 <tr>
 <td>S2</td>
-<td>개발 1차 (Core Development)</td>
-<td>핵심 기능, Core Features</td>
+<td>개발 1차 (Auth &amp; Registration)</td>
+<td>OAuth, 이메일, 회원가입</td>
 </tr>
 <tr>
 <td>S3</td>
-<td>개발 2차 (Advanced Features)</td>
-<td>AI 기능, AI Features</td>
+<td>개발 2차 (AI Integration)</td>
+<td>AI 연동, AI Q&amp;A</td>
 </tr>
 <tr>
 <td>S4</td>
-<td>개발 3차 (QA &amp; Optimization)</td>
-<td>결제 연동, Payment</td>
+<td>개발 3차 (Payment &amp; Admin)</td>
+<td>결제, 관리자, 크레딧</td>
 </tr>
 <tr>
 <td>S5</td>
 <td>운영 (Operations)</td>
-<td>배포 운영, Deployment</td>
+<td>배포, 백업, 보안점검</td>
 </tr>
 </tbody>
 </table>
@@ -730,9 +730,9 @@ DB 자동 기록: created_at, updated_at (Supabase)</code></pre>
 ║                PROJECT SAL GRID 관리 범위 (S1-S5)                     ║
 ╠═══════════════════════════════════════════════════════════════════════╣
 ║   Stage 1: Development Setup (개발 준비)        ← 일부 Areas          ║
-║   Stage 2: Core Development (개발 1차)          ← 11 Areas            ║
-║   Stage 3: Advanced Features (개발 2차)         ← 11 Areas            ║
-║   Stage 4: QA &amp; Optimization (개발 3차)         ← 일부 Areas          ║
+║   Stage 2: Auth &amp; Registration (개발 1차)       ← 11 Areas            ║
+║   Stage 3: AI Integration (개발 2차)            ← 11 Areas            ║
+║   Stage 4: Payment &amp; Admin (개발 3차)           ← 일부 Areas          ║
 ║   Stage 5: Operations (운영)                    ← 9 Areas             ║
 ╚═══════════════════════════════════════════════════════════════════════╝</code></pre>
 <h4 id="기호-설명"><strong>기호 설명</strong></h4>
@@ -745,9 +745,9 @@ S4, S5)</li>
 <h4 id="stages-grid-관리-범위"><strong>5 Stages (GRID 관리
 범위)</strong></h4>
 <pre><code>Stage 1: Development Setup (개발 준비)
-Stage 2: Core Development (개발 1차)
-Stage 3: Advanced Features (개발 2차)
-Stage 4: QA &amp; Optimization (개발 3차)
+Stage 2: Auth &amp; Registration (개발 1차)
+Stage 3: AI Integration (개발 2차)
+Stage 4: Payment &amp; Admin (개발 3차)
 Stage 5: Operations (운영)</code></pre>
 <h4 id="areas-작업-영역"><strong>11 Areas (작업 영역)</strong></h4>
 <pre><code>M  - Documentation (문서화)
@@ -1325,9 +1325,9 @@ Gate)</strong></h3>
 ├── P2_프로젝트_기획/                   # Project Planning (GRID 범위 밖)
 ├── P3_프로토타입_제작/                 # Prototype (GRID 범위 밖)
 ├── S1_개발_준비/                       # Development Setup (Stage 1)
-├── S2_개발-1차/                        # Core Development (Stage 2)
-├── S3_개발-2차/                        # Advanced Features (Stage 3)
-├── S4_개발-3차/                        # QA &amp; Optimization (Stage 4)
+├── S2_개발-1차/                        # Auth &amp; Registration (Stage 2)
+├── S3_개발-2차/                        # AI Integration (Stage 3)
+├── S4_개발-3차/                        # Payment &amp; Admin (Stage 4)
 ├── S5_운영/                            # Operations (Stage 5)
 │
 ├── .claude/                           # Claude Code 설정

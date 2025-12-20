@@ -147,6 +147,12 @@ module.exports = { passwordResetTemplate, welcomeTemplate };
 - Vercel Serverless Functions
 - Supabase Auth
 
+## Task Agent
+`backend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Write, Read
 - Bash (API 테스트)

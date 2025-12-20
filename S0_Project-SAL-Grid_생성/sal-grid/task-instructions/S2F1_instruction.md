@@ -105,6 +105,12 @@ document.getElementById('googleLoginBtn').addEventListener('click', () => {
 - HTML/CSS/JavaScript
 - OAuth 2.0
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - Read, Write, Edit
 

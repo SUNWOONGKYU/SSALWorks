@@ -1,11 +1,10 @@
-# Claude Code로 Supabase CRUD (데이터 생성/조회/수정/삭제) 하는 방법
+# Claude Code로 Supabase CRUD 하는 방법
 
-## 요약
-Claude Code가 Supabase에 직접 데이터를 넣고, 읽고, 수정하고, 삭제하는 방법은 4가지. 각각 사전 설정이 필요하고, 설정 안 되어 있으면 다음 방법으로 넘어간다. 실수로 삭제해도 복구 가능하니 당황하지 말 것.
+> 이 문서는 Claude Code가 Supabase 데이터베이스에 직접 CRUD(생성/조회/수정/삭제)하는 방법을 설명합니다.
 
-## 상세
+---
 
-### CRUD (크루드) 란?
+## CRUD란?
 
 | 영어 | 한글 | SQL | 예시 |
 |------|------|-----|------|
@@ -16,179 +15,83 @@ Claude Code가 Supabase에 직접 데이터를 넣고, 읽고, 수정하고, 삭
 
 ---
 
-### 방법 4가지 비교
+## 방법 비교
 
 | 순위 | 방법 | 왜 안 될 수 있나? |
 |:----:|------|------------------|
 | 1 | Supabase MCP | MCP 서버 설정 안 했으면 사용 불가 |
-| 2 | Supabase CLI | CLI 설치 안 했거나 프로젝트 연결 안 됐으면 사용 불가 |
-| 3 | psql | PostgreSQL 클라이언트 미설치 또는 연결 정보 없으면 사용 불가 |
-| 4 | JSON+Node.js | 스크립트만 있으면 항상 가능 (최후의 방법) |
+| 2 | Supabase CLI | CLI 설치 안 했으면 사용 불가 |
+| 3 | psql | PostgreSQL 클라이언트 미설치 시 불가 |
+| 4 | JSON+Node.js | 스크립트만 있으면 항상 가능 |
 
 ---
 
-### 방법 1: Supabase MCP (권장)
+## 방법 1: Supabase MCP (권장)
 
-**왜 안 될 수 있나?**
-- `claude mcp add supabase` 명령으로 MCP 서버를 추가해야 함
-- 추가 안 했으면 Claude Code가 Supabase에 접근 자체가 안 됨
-
-**설정 되어 있는지 확인:**
 ```bash
+# MCP 서버 추가 확인
 claude mcp list
-# → supabase 보이면 사용 가능
+
+# supabase 보이면 사용 가능
 ```
 
-**사용 예시:**
 ```
 "MCP로 users 테이블에 새 사용자 INSERT 해줘"
-"Supabase MCP 써서 이 SQL 실행해줘"
 ```
 
 ---
 
-### 방법 2: Supabase CLI
+## 방법 2: Supabase CLI
 
-**왜 안 될 수 있나?**
-- `npm install -g supabase` 로 CLI 설치해야 함
-- `supabase login` + `supabase link`로 프로젝트 연결해야 함
-- 설치/연결 안 했으면 명령어 자체가 안 됨
-
-**설정 되어 있는지 확인:**
 ```bash
+# 설정 확인
 supabase status
-# → 프로젝트 정보 보이면 사용 가능
-```
 
-**사용 예시:**
-```bash
+# 쿼리 실행
 supabase db execute "INSERT INTO users (name) VALUES ('홍길동')"
 ```
 
 ---
 
-### 방법 3: psql (PostgreSQL 직접 연결)
+## 방법 3: JSON + Node.js (대안)
 
-**왜 안 될 수 있나?**
-- PostgreSQL 클라이언트(psql)가 컴퓨터에 설치되어 있어야 함
-- Supabase 데이터베이스 연결 문자열(비밀번호 포함)을 알아야 함
-- 보안상 연결 문자열을 공유 안 하는 경우 많음
+MCP/CLI가 안 될 때 사용합니다.
 
-**설정 되어 있는지 확인:**
-```bash
-psql --version
-# → 버전 보이면 설치됨
-```
-
-**사용 예시:**
-```bash
-psql "postgresql://postgres:비밀번호@db.xxx.supabase.co:5432/postgres" \
-  -c "INSERT INTO users (name) VALUES ('홍길동')"
-```
-
----
-
-### 방법 4: JSON + Node.js (대안 - 항상 가능)
-
-**왜 다른 방법이 안 되나?**
-
-| 방법 | 문제점 |
-|------|--------|
-| curl | Windows에서 한글 인코딩 깨짐 |
-| MCP | 연결 안 됨 |
-| 직접 API 호출 | 인증 문제 |
-| **Node.js fetch** | ✅ UTF-8 정상 처리 |
-
-**프로세스:**
-```
-[1단계] Claude Code가 JSON 파일 생성
-    ↓
-[2단계] Node.js 스크립트로 DB에 반영
-```
-
-**1단계: JSON 파일 생성**
-
-```
-위치: S0_Project-SAL-Grid_생성/sal-grid/task-results/
-파일명: {TaskID}_result.json
-```
-
-```json
-{
-  "task_id": "S4BA3",
-  "task_status": "Completed",
-  "generated_files": ["payment.js"]
-}
-```
-
-**2단계: 스크립트 실행**
+1. JSON 파일 생성
+2. Node.js 스크립트로 DB에 반영
 
 ```bash
 cd S0_Project-SAL-Grid_생성/supabase
 node sync_task_results_to_db.js
 ```
 
-**스크립트 위치:** `S0_Project-SAL-Grid_생성/supabase/sync_task_results_to_db.js`
-
 ---
 
-### 어떤 방법을 써야 하나?
+## 어떤 방법을 써야 하나?
 
 ```
-[확인] claude mcp list → supabase 있음?
-   ├─ 있음 → 방법 1 (MCP) 사용
-   └─ 없음 ↓
-
-[확인] supabase status → 연결됨?
-   ├─ 연결됨 → 방법 2 (CLI) 사용
-   └─ 안 됨 ↓
-
-[확인] psql --version → 설치됨?
-   ├─ 설치됨 + 연결정보 있음 → 방법 3 (psql) 사용
-   └─ 없음 ↓
-
-방법 4 (JSON + Node.js) 사용
+[확인] claude mcp list → supabase 있음? → 방법 1
+[확인] supabase status → 연결됨? → 방법 2
+[확인] 스크립트 있음? → 방법 3
+[없음] → SQL 파일 생성 후 Dashboard에서 직접 실행
 ```
 
 ---
 
-### 다 안 되면? 사용자가 직접 실행
+## 실수로 삭제했을 때
 
-MCP/CLI/psql 다 안 되고, 스크립트도 없으면:
-1. Claude Code에게 SQL 작성 요청
-2. `.sql` 파일 생성됨
-3. Supabase Dashboard → SQL Editor에서 붙여넣기 → Run
-4. "SQL 실행 완료됐어" 알려주기
+1. 추가 작업 중단
+2. 복구 방법 선택
 
----
+| 방법 | 사용 조건 |
+|------|----------|
+| PITR | Pro 플랜 이상 |
+| Daily Backup | 모든 플랜 |
+| 수동 백업 | 사전 백업 있을 때 |
 
-### 실수로 삭제했을 때 복구 방법
-
-**당황하지 마세요.** Supabase는 백업 기능이 있습니다.
-
-**즉시 행동:**
-1. 추가 작업 중단 (더 이상 DELETE/DROP 금지)
-2. 무엇이, 언제 삭제됐는지 파악
-3. 복구 방법 선택
-
-**복구 방법:**
-
-| 방법 | 사용 조건 | 특징 |
-|------|----------|------|
-| PITR | Pro 플랜 이상 | 7일 내 분 단위 복원 |
-| Daily Backup | 모든 플랜 | 매일 백업, 7일 보관 |
-| 수동 백업 | 사전 백업 있을 때 | SQL dump 파일 복원 |
-
-**복구 요청 예시:**
-```
-"users 테이블을 실수로 DROP했어.
-10분 전에 삭제했고 Pro 플랜이야.
-복구 방법 알려줘"
-```
-
-**예방 조치:**
-- DELETE 전 SELECT로 삭제 대상 확인
-- 중요 작업 전 백업: `supabase db dump > backup.sql`
+**예방**: DELETE 전 SELECT로 확인, 중요 작업 전 백업
 
 ---
-📚 더 자세히: `외부_연동_설정_Guide/MCP_설정_가이드.md`
+
+*상세 내용: `외부_연동_설정_Guide/MCP_설정_가이드.md` 참조*
+

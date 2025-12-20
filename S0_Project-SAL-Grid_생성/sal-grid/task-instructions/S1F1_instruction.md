@@ -69,6 +69,12 @@ SSALWorks 프로덕션 배포를 위한 Vercel 프로젝트 생성 및 GitHub �
 - Vercel
 - GitHub
 
+## Task Agent
+`frontend-developer`
+
+## Verification Agent
+`code-reviewer`
+
 ## Tools
 - WebFetch (Vercel Dashboard 확인)
 - Bash (gh CLI 사용 가능시)

@@ -318,6 +318,12 @@ module.exports = { testUsers };
 - Playwright
 - Node.js
 
+## Task Agent
+`test-engineer`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Write, Read
 - Bash (npx playwright test)

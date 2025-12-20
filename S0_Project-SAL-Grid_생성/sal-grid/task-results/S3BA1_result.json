@@ -16,7 +16,7 @@
     "Production/api/External/ai-qa.js",
     "Production/api/External/ai-usage.js",
     "Production/api/External/ai-faq-suggest.js",
-    "S3_개발-2차/Backend_API/ai-qa.js"
+    "S3_개발-2차/Backend_APIs/ai-qa.js"
   ],
   "modification_history": "[2025-12-18] 초기 구현\n[2025-12-18] 버그수정: req.userTier → req.subscription?.plan",
 

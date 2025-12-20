@@ -258,6 +258,12 @@ vercel rollback [DEPLOYMENT_URL]
 - GitHub
 - Node.js
 
+## Task Agent
+`devops-troubleshooter`
+
+## Verification Agent
+`qa-specialist`
+
 ## Tools
 - Bash (vercel CLI)
 - 웹 브라우저

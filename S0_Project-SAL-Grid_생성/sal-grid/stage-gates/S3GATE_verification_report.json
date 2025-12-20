@@ -62,7 +62,7 @@
         "Production/api/External/ai-qa.js",
         "Production/api/External/ai-usage.js",
         "Production/api/External/ai-faq-suggest.js",
-        "S3_개발-2차/Backend_API/ai-qa.js"
+        "S3_개발-2차/Backend_APIs/ai-qa.js"
       ],
       "bug_fixes": [
         {
