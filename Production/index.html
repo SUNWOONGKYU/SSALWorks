@@ -3508,6 +3508,25 @@ The content you enter in the Control Space will be displayed here.</pre>
                 <!-- faqStaticBackup 끝 -->
             </div>
 
+            <!-- 학습용 Books -->
+            <div class="sidebar-section" id="learningBooksSection">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    📚 학습용 Books
+                    <span onclick="openLearningBooks()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#3B82F6'" onmouseout="this.style.color='#6c757d'">전체보기 →</span>
+                </h3>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <a onclick="openLearningBooks('book1')" style="display: block; padding: 6px 10px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(59, 130, 246, 0.08); border-left: 3px solid #3B82F6; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(59, 130, 246, 0.15)'" onmouseout="this.style.background='rgba(59, 130, 246, 0.08)'">
+                        🤖 1권 | Claude & Claude Code (31편)
+                    </a>
+                    <a onclick="openLearningBooks('book2')" style="display: block; padding: 6px 10px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10B981; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        💻 2권 | 풀스택 웹개발 기초 (27편)
+                    </a>
+                    <a onclick="openLearningBooks('book3')" style="display: block; padding: 6px 10px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); border-left: 3px solid #F59E0B; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        📊 3권 | 프로젝트 관리 SAL Grid (12편)
+                    </a>
+                </div>
+            </div>
+
             <!-- 외부 연동 설정 Guide -->
             <div class="sidebar-section" id="serviceGuideSection">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
@@ -7557,7 +7576,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 
             try {
                 // 서버에 프로젝트 생성 요청
-                const response = await fetch('http://localhost:3030/create-project', {
+                const response = await fetch('/api/projects/create', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -10026,6 +10045,9 @@ ${result.answer}`;
 
         // Tips 콘텐츠 배열 (54개, 13개 카테고리) - path 기반으로 MD 파일에서 로드
         const TIPS_CONTENTS = [
+            // === AI 준수사항 (1개) ===
+            { category: 'AI 준수사항', title: 'Claude Code가 작업 시 반드시 따라야 할 AI 협업 12대 준수사항', path: 'Tips/AI_준수사항/AI_12대_준수사항.md' },
+
             // === 프로젝트 시작 (4개) ===
             { category: '프로젝트 시작', title: '새 프로젝트 시작 시 코드 작성 전에 폴더 구조부터 만들기', path: 'Tips/프로젝트_시작/작업_디렉터리_구조_먼저_생성하기.md' },
             { category: '프로젝트 시작', title: 'Project_Directory_Structure.md 파일로 전체 폴더 구조 문서화하기', path: 'Tips/프로젝트_시작/디렉터리_구조_문서_만들기.md' },
@@ -10101,10 +10123,7 @@ ${result.answer}`;
             { category: '트러블슈팅', title: 'JavaScript try-catch와 Supabase 에러를 효과적으로 처리하는 패턴', path: 'Tips/트러블슈팅/에러_핸들링_패턴.md' },
             { category: '트러블슈팅', title: 'npx serve로 HTML 파일 로컬 서버에서 실행하고 포트 충돌 해결하기', path: 'Tips/트러블슈팅/로컬_서버_실행_방법.md' },
             { category: '트러블슈팅', title: 'API 키를 프론트엔드에 노출하지 않고 서버 사이드에서 안전하게 관리하기', path: 'Tips/트러블슈팅/API_키_보안_관리.md' },
-            { category: '트러블슈팅', title: '.env 파일로 환경변수 안전하게 관리하고 배포 환경별로 분리하기', path: 'Tips/트러블슈팅/환경변수_관리_베스트_프랙티스.md' },
-
-            // === AI 준수사항 (1개) ===
-            { category: 'AI 준수사항', title: 'Claude Code가 작업 시 반드시 따라야 할 AI 협업 12대 준수사항', path: 'Tips/AI_준수사항/AI_12대_준수사항.md' }
+            { category: '트러블슈팅', title: '.env 파일로 환경변수 안전하게 관리하고 배포 환경별로 분리하기', path: 'Tips/트러블슈팅/환경변수_관리_베스트_프랙티스.md' }
         ];
 
         // 현재 선택된 카테고리 (전체 보기용)
@@ -10195,6 +10214,29 @@ ${result.answer}`;
                         ×
                     </button>
                 </div>
+                <style>
+                    /* Tips 모달 전용 Markdown 스타일 */
+                    #tipContentArea h1 { font-size: 24px; font-weight: 800; color: #7C3AED; margin: 0 0 16px; padding-bottom: 12px; border-bottom: 3px solid #8B5CF6; }
+                    #tipContentArea h2 { font-size: 20px; font-weight: 700; color: #7C3AED; margin: 28px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #E5E7EB; }
+                    #tipContentArea h3 { font-size: 17px; font-weight: 700; color: #374151; margin: 24px 0 10px; }
+                    #tipContentArea h4 { font-size: 15px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
+                    #tipContentArea h5 { font-size: 14px; font-weight: 600; color: #4B5563; margin: 16px 0 6px; }
+                    #tipContentArea h6 { font-size: 13px; font-weight: 600; color: #6B7280; margin: 12px 0 4px; }
+                    #tipContentArea p { margin-bottom: 14px; }
+                    #tipContentArea blockquote { background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+                    #tipContentArea blockquote p { margin: 0; font-style: italic; }
+                    #tipContentArea pre { background: #1E1E1E; color: #D4D4D4; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; font-size: 13px; }
+                    #tipContentArea code { background: #F5F3FF; padding: 2px 6px; border-radius: 4px; font-family: Consolas, Monaco, monospace; font-size: 13px; color: #7C3AED; }
+                    #tipContentArea pre code { background: none; padding: 0; color: inherit; }
+                    #tipContentArea table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+                    #tipContentArea th, #tipContentArea td { padding: 10px 14px; text-align: left; border: 1px solid #E5E7EB; }
+                    #tipContentArea th { background: #F5F3FF; font-weight: 600; }
+                    #tipContentArea ul, #tipContentArea ol { margin: 14px 0; padding-left: 24px; }
+                    #tipContentArea li { margin-bottom: 6px; }
+                    #tipContentArea hr { border: none; border-top: 2px solid #E5E7EB; margin: 28px 0; }
+                    #tipContentArea a { color: #8B5CF6; text-decoration: none; }
+                    #tipContentArea a:hover { text-decoration: underline; }
+                </style>
                 <div id="tipContentArea" style="padding: 20px 24px; line-height: 1.7; color: #495057; font-size: 14px; overflow-y: auto; max-height: calc(90vh - 140px);">
                     <div style="text-align: center; padding: 40px;">
                         <div style="font-size: 24px; margin-bottom: 12px;">⏳</div>
