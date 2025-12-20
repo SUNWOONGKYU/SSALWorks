@@ -1,4 +1,4 @@
-# outbox에 작업 결과 저장하기
+# Human_ClaudeCode_Bridge/Reports 폴더에 작업 결과 JSON으로 저장하기
 
 > 이 문서는 작업 결과를 outbox 폴더에 JSON 형식으로 저장하여 관리하는 방법을 설명합니다.
 

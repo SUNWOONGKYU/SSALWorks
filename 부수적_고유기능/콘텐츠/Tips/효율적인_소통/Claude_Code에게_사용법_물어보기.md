@@ -1,4 +1,4 @@
-# Claude Code에게 사용법 물어보기
+# Claude Code 기능이 궁금하면 Claude Code 자체에게 직접 물어보기
 
 > 이 문서는 Claude Code의 기능과 사용법을 Claude Code 자체에게 질문하는 방법을 설명합니다.
 

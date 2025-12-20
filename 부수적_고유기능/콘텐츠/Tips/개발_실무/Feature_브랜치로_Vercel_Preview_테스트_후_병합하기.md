@@ -1,4 +1,4 @@
-# Feature 브랜치로 Vercel Preview 테스트 후 병합하기
+# Feature 브랜치 만들고 Vercel Preview로 테스트 후 main에 병합하기
 
 > 이 문서는 Feature 브랜치와 Vercel Preview를 활용하여 안전하게 배포하는 방법을 설명합니다.
 

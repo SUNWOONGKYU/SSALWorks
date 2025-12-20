@@ -2071,6 +2071,19 @@
 </head>
 
 <body>
+    <!-- 비밀번호 재설정/이메일 인증 리다이렉트 처리 -->
+    <script>
+        (function() {
+            const hash = window.location.hash;
+            if (hash && hash.includes('type=recovery')) {
+                // 비밀번호 재설정 페이지로 리다이렉트
+                window.location.href = '/pages/auth/reset-password.html' + hash;
+            } else if (hash && hash.includes('type=signup')) {
+                // 회원가입 완료 - 로그인 페이지로 리다이렉트
+                window.location.href = '/pages/auth/login.html' + hash;
+            }
+        })();
+    </script>
     <div class="page-wrapper">
         <!-- Header -->
         <header class="header">

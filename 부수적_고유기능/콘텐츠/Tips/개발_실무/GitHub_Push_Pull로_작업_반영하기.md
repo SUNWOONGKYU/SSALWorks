@@ -1,4 +1,4 @@
-# GitHub Push/Pull로 작업 반영하기
+# GitHub Push/Pull로 작업 변경사항을 원격 저장소에 동기화하기
 
 > 이 문서는 GitHub를 통해 작업을 동기화하고 버전 관리하는 방법을 설명합니다.
 

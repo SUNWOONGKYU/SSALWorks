@@ -1,4 +1,4 @@
-# Orders/Reports JSON으로 작업 요청하기
+# Order Sheet JSON으로 구조화된 작업 요청하고 Report로 결과 받기
 
 > 이 문서는 JSON 형식의 Order Sheet와 Report를 활용하여 Claude Code와 구조화된 방식으로 소통하는 방법을 설명합니다.
 

@@ -1,4 +1,4 @@
-# work_logs로 작업 기록 관리하기
+# .claude/work_logs/current.md로 작업 내역 기록하고 세션 간 연속성 유지하기
 
 > 이 문서는 `.claude/work_logs/` 폴더를 활용하여 AI와의 작업 내역을 체계적으로 기록하고 세션 간 연속성을 유지하는 방법을 설명합니다.
 

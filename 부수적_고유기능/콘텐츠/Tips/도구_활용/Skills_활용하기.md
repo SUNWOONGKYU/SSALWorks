@@ -1,4 +1,4 @@
-# Skills 활용하기
+# PDF, Excel 등 Skills로 문서 분석하고 데이터 처리하기
 
 > 이 문서는 Skills를 활용하여 Claude Code에게 프로젝트별 전문 지식을 제공하는 방법을 설명합니다.
 

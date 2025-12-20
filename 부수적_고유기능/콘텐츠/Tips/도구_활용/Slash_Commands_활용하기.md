@@ -1,4 +1,4 @@
-# Slash Commands 활용하기
+# /review-pr, /deploy 같은 슬래시 명령어로 반복 작업 자동화하기
 
 > 이 문서는 Slash Commands를 활용하여 반복 작업을 자동화하는 방법을 설명합니다.
 

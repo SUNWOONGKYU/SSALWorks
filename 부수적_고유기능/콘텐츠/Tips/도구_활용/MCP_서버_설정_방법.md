@@ -1,4 +1,4 @@
-# MCP 서버 설정 방법
+# Memory MCP, Supabase MCP 등 외부 서비스 연동하는 MCP 서버 설정하기
 
 > 이 문서는 MCP(Model Context Protocol) 서버를 설정하여 Claude Code 기능을 확장하는 방법을 설명합니다.
 
