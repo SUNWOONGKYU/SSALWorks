@@ -456,22 +456,18 @@
 
         // 비밀번호 검증
         function validatePassword(password) {
-            if (password.length < 8) {
-                return { valid: false, message: '비밀번호는 8자 이상이어야 합니다.' };
+            if (password.length < 6) {
+                return { valid: false, message: '비밀번호는 6자 이상이어야 합니다.' };
             }
 
-            const hasLetter = /[a-zA-Z]/.test(password);
+            const hasLowercase = /[a-z]/.test(password);
             const hasNumber = /[0-9]/.test(password);
-            const hasSpecial = /[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\\/`~]/.test(password);
 
-            if (!hasLetter) {
-                return { valid: false, message: '영문자를 포함해야 합니다.' };
+            if (!hasLowercase) {
+                return { valid: false, message: '영문 소문자를 포함해야 합니다.' };
             }
             if (!hasNumber) {
                 return { valid: false, message: '숫자를 포함해야 합니다.' };
-            }
-            if (!hasSpecial) {
-                return { valid: false, message: '특수문자를 포함해야 합니다.' };
             }
 
             return { valid: true };
@@ -487,37 +483,33 @@
             let strengthLabel = '';
             let color = '';
 
-            if (password.length >= 8) strength++;
-            if (password.length >= 12) strength++;
-            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            // 기본 요구사항 체크
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[a-z]/.test(password)) strength++;
             if (/[0-9]/.test(password)) strength++;
-            if (/[!@#$%^&*(),.?":{}|<>_\-+=\[\]\\\/`~]/.test(password)) strength++;
 
             switch (strength) {
                 case 0:
                 case 1:
-                    strengthLabel = '매우 약함';
+                    strengthLabel = '약함';
                     color = '#EF4444';
                     break;
                 case 2:
-                    strengthLabel = '약함';
+                    strengthLabel = '보통';
                     color = '#F59E0B';
                     break;
                 case 3:
-                    strengthLabel = '보통';
-                    color = '#ffc107';
-                    break;
-                case 4:
                     strengthLabel = '강함';
                     color = '#10B981';
                     break;
-                case 5:
+                case 4:
                     strengthLabel = '매우 강함';
                     color = '#059669';
                     break;
             }
 
-            fill.style.width = (strength / 5 * 100) + '%';
+            fill.style.width = (strength / 4 * 100) + '%';
             fill.style.background = color;
             text.textContent = password ? `비밀번호 강도: ${strengthLabel}` : '';
             text.style.color = color;
