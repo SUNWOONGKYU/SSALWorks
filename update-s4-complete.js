@@ -1,7 +1,7 @@
 const { createClient } = require('@supabase/supabase-js');
 const supabase = createClient(
-  'https://gqkziovmisijqhnpqqtr.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdxa3ppb3ZtaXNpanFobnBxcXRyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI1MTI0NzUsImV4cCI6MjA0ODA4ODQ3NX0.YGIKRO1lY4vd3Ym1TfCr7T7P5s7RWdpFBnNjabaLgkI'
+  'https://zwjmfewyshhwpgwdtrus.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4'
 );
 
 // S4 Stage Task별 generated_files
@@ -215,7 +215,7 @@ async function updateS4Tasks() {
     };
 
     const { error } = await supabase
-      .from('tasks')
+      .from('ssalworks_tasks')
       .update(updateData)
       .eq('task_id', taskId);
 
