@@ -203,6 +203,23 @@
         .content-link.book3:hover { background: #fffbeb; border-left-color: var(--book3-color); }
         .content-link.book3.active { background: var(--book3-color); border-left-color: var(--book3-color); }
 
+        /* Part Header */
+        .part-header {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            padding: 10px 12px 4px;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .part-header:first-child {
+            margin-top: 0;
+            border-top: none;
+        }
+
         /* Main Content */
         .main-content {
             flex: 1;
@@ -520,7 +537,7 @@
     <header class="header">
         <div>
             <div class="header-title">📚 SSALWorks 학습용 Books</div>
-            <div class="header-subtitle">Claude & 웹개발 & 프로젝트 관리 | 총 70편</div>
+            <div class="header-subtitle">Claude & 웹개발 & 프로젝트 관리 | 총 57편</div>
         </div>
         <button class="close-btn" onclick="window.history.length > 1 ? history.back() : window.close()" title="닫기">✕ 닫기</button>
     </header>
@@ -531,7 +548,7 @@
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="편 제목 검색..." id="searchInput">
             </div>
-            <div class="sidebar-title">📖 목차 (70편)</div>
+            <div class="sidebar-title">📖 목차 (57편)</div>
             <div id="bookList"></div>
         </aside>
 
@@ -556,6 +573,13 @@
                 color: 'book1',
                 folder: '1권_Claude_ClaudeCode_사용법',
                 description: 'AI 도구 Claude와 Claude Code 완벽 가이드',
+                parts: [
+                    { name: 'Part 1: Anthropic과 Claude 이해', start: 0, end: 4 },
+                    { name: 'Part 2: Claude 설치와 시작', start: 4, end: 8 },
+                    { name: 'Part 3: Claude 생태계', start: 8, end: 14 },
+                    { name: 'Part 4: Claude Code 기능과 활용', start: 14, end: 27 },
+                    { name: 'Part 5: AI 활용 시 참고사항', start: 27, end: 31 }
+                ],
                 files: [
                     '01편_Anthropic_창업과_철학.md',
                     '02편_Claude의_탄생과_진화.md',
@@ -595,35 +619,29 @@
                 icon: '💻',
                 color: 'book2',
                 folder: '2권_풀스택_웹사이트_개발_기초지식',
-                description: 'HTML부터 배포까지 웹개발 기초 완성',
+                description: '분류체계와 7개 개발 영역 기초 완성',
+                parts: [
+                    { name: 'Part 1: 개요', start: 0, end: 2 },
+                    { name: 'Part 2: 분류체계', start: 2, end: 4 },
+                    { name: 'Part 3: 개발 영역 · 기술 스택별 상세', start: 4, end: 11 },
+                    { name: 'Part 4: 최적화', start: 11, end: 13 },
+                    { name: 'Part 5: 용어 사전', start: 13, end: 14 }
+                ],
                 files: [
-                    '01편_웹개발_핵심_개념과_용어.md',
+                    '01편_웹사이트_개발_핵심_개념.md',
                     '02편_웹사이트_작동_원리와_구조.md',
-                    '03편_명령줄_CLI와_개발환경_설정.md',
-                    '04편_코드_에디터와_IDE.md',
-                    '05편_HTML.md',
-                    '06편_CSS.md',
-                    '07편_JavaScript.md',
-                    '08편_브라우저_개발자_도구와_디버깅.md',
-                    '09편_Git과_GitHub.md',
-                    '10편_패키지_관리와_빌드_도구.md',
-                    '11편_TypeScript_기초.md',
-                    '12편_라이브러리와_프레임워크.md',
-                    '13편_백엔드_기초와_Node.js.md',
-                    '14편_데이터베이스_기초.md',
-                    '15편_데이터베이스_실무.md',
-                    '16편_API와_서버_통신.md',
-                    '17편_개발_워크플로우_자동화와_DevOps_기초.md',
-                    '18편_웹_보안과_성능_최적화.md',
-                    '19편_도메인과_호스팅.md',
-                    '20편_종합_실습_프로젝트_Part1.md',
-                    '21편_종합_실습_프로젝트_Part1_마무리.md',
-                    '22편_전체_개발_프로세스_통합_가이드.md',
-                    '23편_종합_실습_프로젝트_Part2.md',
-                    '24편_웹_애플리케이션_아키텍처.md',
-                    '25편_클라우드와_서버리스.md',
-                    '26편_실시간_웹과_WebSocket.md',
-                    '27편_다음_학습_로드맵.md'
+                    '03편_분류체계 (1).md',
+                    '03편_분류체계 (2).md',
+                    '04편_Frontend.md',
+                    '05편_Backend_Infra.md',
+                    '06편_Backend_API.md',
+                    '07편_Database.md',
+                    '08편_Security.md',
+                    '09편_Testing.md',
+                    '10편_DevOps.md',
+                    '11편_SEO와_웹_접근성.md',
+                    '12편_성능_최적화.md',
+                    '13편_용어_사전.md'
                 ]
             },
             book3: {
@@ -680,23 +698,55 @@
                 const list = document.createElement('ul');
                 list.className = 'book-list';
 
-                book.files.forEach((file, index) => {
-                    const li = document.createElement('li');
-                    li.className = 'content-item';
+                // Part가 있으면 Part별로 그룹화
+                if (book.parts && book.parts.length > 0) {
+                    book.parts.forEach(part => {
+                        // Part 헤더
+                        const partHeader = document.createElement('li');
+                        partHeader.className = 'part-header';
+                        partHeader.textContent = part.name;
+                        list.appendChild(partHeader);
 
-                    const a = document.createElement('a');
-                    a.className = `content-link ${book.color}`;
-                    a.textContent = getTitle(file);
-                    a.onclick = () => loadContent(key, index, a);
-                    a.dataset.book = key;
-                    a.dataset.index = index;
+                        // Part 내 파일들
+                        for (let i = part.start; i < part.end; i++) {
+                            const file = book.files[i];
+                            if (!file) continue;
 
-                    li.appendChild(a);
-                    list.appendChild(li);
+                            const li = document.createElement('li');
+                            li.className = 'content-item';
 
-                    // 전체 파일 목록에 추가
-                    allFiles.push({ book: key, index: index, title: getTitle(file) });
-                });
+                            const a = document.createElement('a');
+                            a.className = `content-link ${book.color}`;
+                            a.textContent = getTitle(file);
+                            a.onclick = () => loadContent(key, i, a);
+                            a.dataset.book = key;
+                            a.dataset.index = i;
+
+                            li.appendChild(a);
+                            list.appendChild(li);
+
+                            allFiles.push({ book: key, index: i, title: getTitle(file) });
+                        }
+                    });
+                } else {
+                    // Part 없으면 기존 방식
+                    book.files.forEach((file, index) => {
+                        const li = document.createElement('li');
+                        li.className = 'content-item';
+
+                        const a = document.createElement('a');
+                        a.className = `content-link ${book.color}`;
+                        a.textContent = getTitle(file);
+                        a.onclick = () => loadContent(key, index, a);
+                        a.dataset.book = key;
+                        a.dataset.index = index;
+
+                        li.appendChild(a);
+                        list.appendChild(li);
+
+                        allFiles.push({ book: key, index: index, title: getTitle(file) });
+                    });
+                }
 
                 bookDiv.appendChild(header);
                 bookDiv.appendChild(list);
