@@ -10044,79 +10044,87 @@ ${result.answer}`;
         // 💡 Tips 로컬 배열 기반 시스템
         // ================================================
 
-        // Tips 콘텐츠 배열 (48개, 12개 카테고리) - path 기반으로 MD 파일에서 로드
+        // Tips 콘텐츠 배열 (54개, 13개 카테고리) - path 기반으로 MD 파일에서 로드
         const TIPS_CONTENTS = [
             // === 프로젝트 시작 (4개) ===
-            { category: '프로젝트 시작', title: '작업 디렉터리 구조 먼저 생성하기', path: 'Tips/프로젝트_시작/작업_디렉터리_구조_먼저_생성하기.md' },
-            { category: '프로젝트 시작', title: '디렉터리 구조 문서 만들기', path: 'Tips/프로젝트_시작/디렉터리_구조_문서_만들기.md' },
-            { category: '프로젝트 시작', title: '프로젝트 진행 상황 문서 만들기', path: 'Tips/프로젝트_시작/프로젝트_진행_상황_문서_만들기.md' },
-            { category: '프로젝트 시작', title: 'CLAUDE.md로 작업 참고사항 정리하기', path: 'Tips/프로젝트_시작/CLAUDE.md로_작업_참고사항_정리하기.md' },
+            { category: '프로젝트 시작', title: '새 프로젝트 시작 시 코드 작성 전에 폴더 구조부터 만들기', path: 'Tips/프로젝트_시작/작업_디렉터리_구조_먼저_생성하기.md' },
+            { category: '프로젝트 시작', title: 'Project_Directory_Structure.md 파일로 전체 폴더 구조 문서화하기', path: 'Tips/프로젝트_시작/디렉터리_구조_문서_만들기.md' },
+            { category: '프로젝트 시작', title: 'Project_Status.md로 진행 상황과 다음 할 일 기록하기', path: 'Tips/프로젝트_시작/프로젝트_진행_상황_문서_만들기.md' },
+            { category: '프로젝트 시작', title: 'CLAUDE.md에 AI가 따라야 할 규칙과 참고사항 정리하기', path: 'Tips/프로젝트_시작/CLAUDE.md로_작업_참고사항_정리하기.md' },
 
             // === 설치/실행 (3개) ===
             { category: '설치/실행', title: 'Claude Code 설치 방법 및 오류 해결', path: 'Tips/설치_실행/Claude_Code_설치_방법_및_오류_해결.md' },
-            { category: '설치/실행', title: '폴더에서 터미널 열어 실행하기', path: 'Tips/설치_실행/폴더에서_터미널_열어_실행하기.md' },
-            { category: '설치/실행', title: '토큰 사용량 확인하기', path: 'Tips/설치_실행/토큰_사용량_확인하기.md' },
+            { category: '설치/실행', title: '프로젝트 폴더에서 터미널 열고 claude 명령어로 시작하기', path: 'Tips/설치_실행/폴더에서_터미널_열어_실행하기.md' },
+            { category: '설치/실행', title: '/cost 명령어로 토큰 사용량과 비용 실시간 확인하기', path: 'Tips/설치_실행/토큰_사용량_확인하기.md' },
 
             // === 입력/편의 (2개) ===
-            { category: '입력/편의', title: '음성으로 지시하기 - Windows 기본', path: 'Tips/입력_편의/음성으로_지시하기_-_Windows_기본.md' },
-            { category: '입력/편의', title: '음성으로 지시하기 - AI 활용', path: 'Tips/입력_편의/음성으로_지시하기_-_AI_활용.md' },
+            { category: '입력/편의', title: 'Windows 음성 인식(Win+H)으로 타이핑 없이 음성으로 지시하기', path: 'Tips/입력_편의/음성으로_지시하기_-_Windows_기본.md' },
+            { category: '입력/편의', title: 'Whisper, Vrew 같은 AI 음성인식으로 정확하게 음성 입력하기', path: 'Tips/입력_편의/음성으로_지시하기_-_AI_활용.md' },
 
             // === 도구 활용 (4개) ===
             { category: '도구 활용', title: '서브에이전트 효과적으로 활용하기', path: 'Tips/도구_활용/서브에이전트_효과적으로_활용하기.md' },
-            { category: '도구 활용', title: 'Slash Commands 활용하기', path: 'Tips/도구_활용/Slash_Commands_활용하기.md' },
-            { category: '도구 활용', title: 'MCP 서버 설정 방법', path: 'Tips/도구_활용/MCP_서버_설정_방법.md' },
-            { category: '도구 활용', title: 'Skills 활용하기', path: 'Tips/도구_활용/Skills_활용하기.md' },
+            { category: '도구 활용', title: '/review-pr, /deploy 같은 슬래시 명령어로 반복 작업 자동화하기', path: 'Tips/도구_활용/Slash_Commands_활용하기.md' },
+            { category: '도구 활용', title: 'Memory MCP, Supabase MCP 등 외부 서비스 연동하는 MCP 서버 설정하기', path: 'Tips/도구_활용/MCP_서버_설정_방법.md' },
+            { category: '도구 활용', title: 'PDF, Excel 등 Skills로 문서 분석하고 데이터 처리하기', path: 'Tips/도구_활용/Skills_활용하기.md' },
 
-            // === 작업 기록/백업 (5개) ===
-            { category: '작업 기록/백업', title: 'work_logs로 작업 기록 관리하기', path: 'Tips/작업_기록_백업/work_logs로_작업_기록_관리하기.md' },
-            { category: '작업 기록/백업', title: 'Git으로 버전 관리하기', path: 'Tips/작업_기록_백업/Git으로_버전_관리하기.md' },
-            { category: '작업 기록/백업', title: 'outbox에 작업 결과 저장하기', path: 'Tips/작업_기록_백업/outbox에_작업_결과_저장하기.md' },
-            { category: '작업 기록/백업', title: '중요한 파일 주기적으로 백업하기', path: 'Tips/작업_기록_백업/중요한_파일_주기적으로_백업하기.md' },
-            { category: '작업 기록/백업', title: '.gitignore로 민감정보 보호하기', path: 'Tips/작업_기록_백업/.gitignore로_민감정보_보호하기.md' },
+            // === 작업 기록/백업 (6개) ===
+            { category: '작업 기록/백업', title: '.claude/work_logs/current.md로 작업 내역 기록하고 세션 간 연속성 유지하기', path: 'Tips/작업_기록_백업/work_logs로_작업_기록_관리하기.md' },
+            { category: '작업 기록/백업', title: 'git add, commit, push로 코드 변경 이력 관리하고 실수 복구하기', path: 'Tips/작업_기록_백업/Git으로_버전_관리하기.md' },
+            { category: '작업 기록/백업', title: 'Human_ClaudeCode_Bridge/Reports 폴더에 작업 결과 JSON으로 저장하기', path: 'Tips/작업_기록_백업/outbox에_작업_결과_저장하기.md' },
+            { category: '작업 기록/백업', title: '3-2-1 원칙으로 중요한 프로젝트 파일 안전하게 백업하기', path: 'Tips/작업_기록_백업/중요한_파일_주기적으로_백업하기.md' },
+            { category: '작업 기록/백업', title: '.gitignore로 API 키, 비밀번호 같은 민감정보가 GitHub에 올라가지 않게 보호하기', path: 'Tips/작업_기록_백업/.gitignore로_민감정보_보호하기.md' },
+            { category: '작업 기록/백업', title: 'Order Sheet JSON으로 구조화된 작업 요청하고 Report로 결과 받기', path: 'Tips/작업_기록_백업/Orders_Reports_JSON으로_작업_요청하기.md' },
 
-            // === 세션 관리 (3개) ===
-            { category: '세션 관리', title: '세션 끊어졌을 때 복구하기', path: 'Tips/세션_관리/세션_끊어졌을_때_복구하기.md' },
-            { category: '세션 관리', title: '헤매면 미련 없이 세션 정리하기', path: 'Tips/세션_관리/헤매면_미련_없이_세션_정리하기.md' },
-            { category: '세션 관리', title: 'Google Drive 동기화 문제 해결', path: 'Tips/세션_관리/Google_Drive_동기화_문제_해결.md' },
+            // === 세션 관리 (4개) ===
+            { category: '세션 관리', title: '세션이 끊어져도 work_logs, CLAUDE.md로 이전 작업 상태 빠르게 복구하기', path: 'Tips/세션_관리/세션_끊어졌을_때_복구하기.md' },
+            { category: '세션 관리', title: '세션이 비효율적이면 미련 없이 /clear하고 새로 시작하기', path: 'Tips/세션_관리/헤매면_미련_없이_세션_정리하기.md' },
+            { category: '세션 관리', title: 'Google Drive 동기화로 파일 잠금되면 스트리밍 끄고 로컬로 전환하기', path: 'Tips/세션_관리/Google_Drive_동기화_문제_해결.md' },
+            { category: '세션 관리', title: '터미널 창 여러 개로 Claude Code 병렬 실행하여 작업 효율 높이기', path: 'Tips/세션_관리/CLI_여러_개_동시_실행하기.md' },
 
-            // === 검증/문서화 (3개) ===
-            { category: '검증/문서화', title: '별도 서브에이전트로 검증하기', path: 'Tips/검증_문서화/별도_서브에이전트로_검증하기.md' },
-            { category: '검증/문서화', title: '수시로 문서화 지시하기', path: 'Tips/검증_문서화/수시로_문서화_지시하기.md' },
-            { category: '검증/문서화', title: '작업 규칙 CLAUDE.md에 업데이트하기', path: 'Tips/검증_문서화/작업_규칙_CLAUDE.md에_업데이트하기.md' },
+            // === 검증/문서화 (4개) ===
+            { category: '검증/문서화', title: '작성자와 검증자를 다른 서브에이전트로 분리하여 객관적으로 검증하기', path: 'Tips/검증_문서화/별도_서브에이전트로_검증하기.md' },
+            { category: '검증/문서화', title: '작업 중 중요한 결정사항과 변경사항을 수시로 문서화하기', path: 'Tips/검증_문서화/수시로_문서화_지시하기.md' },
+            { category: '검증/문서화', title: '새로운 규칙이 생기면 바로 CLAUDE.md에 추가하여 AI가 따르게 하기', path: 'Tips/검증_문서화/작업_규칙_CLAUDE.md에_업데이트하기.md' },
+            { category: '검증/문서화', title: '개발 완료 후 서비스 개시 전 디자인과 UI/UX 완성도 최종 점검하기', path: 'Tips/검증_문서화/개발_완료_후_디자인_완성도_체크.md' },
 
-            // === 개발 실무 (6개) ===
-            { category: '개발 실무', title: '반응형 디자인은 별도로 요청하기', path: 'Tips/개발_실무/반응형_디자인은_별도로_요청하기.md' },
-            { category: '개발 실무', title: '최적화/성능 개선 작업 시키기', path: 'Tips/개발_실무/최적화_성능_개선_작업_시키기.md' },
-            { category: '개발 실무', title: 'GitHub Push/Pull로 작업 반영하기', path: 'Tips/개발_실무/GitHub_Push_Pull로_작업_반영하기.md' },
-            { category: '개발 실무', title: '인증 코드는 숫자 6자리로', path: 'Tips/개발_실무/인증_코드는_숫자_6자리로.md' },
-            { category: '개발 실무', title: '폴더 정리 및 임의 생성 금지 규칙', path: 'Tips/개발_실무/폴더_정리_및_임의_생성_금지_규칙.md' },
-            { category: '개발 실무', title: '파일 저장 위치 확인하기', path: 'Tips/개발_실무/파일_저장_위치_확인하기.md' },
+            // === 개발 실무 (8개) ===
+            { category: '개발 실무', title: '데스크톱 버전 완성 후 모바일 반응형 디자인은 별도 작업으로 요청하기', path: 'Tips/개발_실무/반응형_디자인은_별도로_요청하기.md' },
+            { category: '개발 실무', title: '페이지 로딩 속도, 번들 크기 등 최적화 성능 개선 작업 요청하기', path: 'Tips/개발_실무/최적화_성능_개선_작업_시키기.md' },
+            { category: '개발 실무', title: 'GitHub Push/Pull로 작업 변경사항을 원격 저장소에 동기화하기', path: 'Tips/개발_실무/GitHub_Push_Pull로_작업_반영하기.md' },
+            { category: '개발 실무', title: '이메일/비밀번호 재설정 인증 코드는 숫자 6자리로 통일하기', path: 'Tips/개발_실무/인증_코드는_숫자_6자리로.md' },
+            { category: '개발 실무', title: '프로젝트 폴더 구조 유지하고 새 폴더 만들기 전에 반드시 승인 받기', path: 'Tips/개발_실무/폴더_정리_및_임의_생성_금지_규칙.md' },
+            { category: '개발 실무', title: 'SAL Grid의 Stage/Area 규칙에 맞는 파일 저장 위치 결정하기', path: 'Tips/개발_실무/파일_저장_위치_확인하기.md' },
+            { category: '개발 실무', title: '파일이 Stage/Area 규칙대로 올바른 위치에 있는지 수시로 점검하기', path: 'Tips/개발_실무/파일_위치_수시로_점검하기.md' },
+            { category: '개발 실무', title: 'Feature 브랜치 만들고 Vercel Preview로 테스트 후 main에 병합하기', path: 'Tips/개발_실무/Feature_브랜치로_Vercel_Preview_테스트_후_병합하기.md' },
 
             // === 효율적인 소통 (5개) ===
-            { category: '효율적인 소통', title: '3가지 이상 대안 요청하기', path: 'Tips/효율적인_소통/3가지_이상_대안_요청하기.md' },
-            { category: '효율적인 소통', title: '이해될 때까지 질문하기', path: 'Tips/효율적인_소통/이해될_때까지_질문하기.md' },
-            { category: '효율적인 소통', title: 'Claude Code에게 사용법 물어보기', path: 'Tips/효율적인_소통/Claude_Code에게_사용법_물어보기.md' },
-            { category: '효율적인 소통', title: '구체적으로 질문하는 방법', path: 'Tips/효율적인_소통/구체적으로_질문하는_방법.md' },
-            { category: '효율적인 소통', title: '단계별로 요청하기', path: 'Tips/효율적인_소통/단계별로_요청하기.md' },
+            { category: '효율적인 소통', title: '판단이 어려운 상황에서 AI에게 3가지 이상 대안과 추천 이유 요청하기', path: 'Tips/효율적인_소통/3가지_이상_대안_요청하기.md' },
+            { category: '효율적인 소통', title: 'AI 답변이 이해 안 되면 이해될 때까지 계속 질문하기', path: 'Tips/효율적인_소통/이해될_때까지_질문하기.md' },
+            { category: '효율적인 소통', title: 'Claude Code 기능이 궁금하면 Claude Code 자체에게 직접 물어보기', path: 'Tips/효율적인_소통/Claude_Code에게_사용법_물어보기.md' },
+            { category: '효율적인 소통', title: '애매한 질문보다 상황, 기대 결과, 제한사항을 구체적으로 말하기', path: 'Tips/효율적인_소통/구체적으로_질문하는_방법.md' },
+            { category: '효율적인 소통', title: '큰 작업은 한 번에 시키지 말고 작은 단계로 나눠서 요청하기', path: 'Tips/효율적인_소통/단계별로_요청하기.md' },
 
-            // === 데이터베이스 (4개) ===
-            { category: '데이터베이스', title: 'DB 삭제해도 복구 가능', path: 'Tips/데이터베이스/DB_삭제해도_복구_가능.md' },
-            { category: '데이터베이스', title: 'SQL 직접 실행해야 할 경우', path: 'Tips/데이터베이스/SQL_직접_실행해야_할_경우.md' },
-            { category: '데이터베이스', title: 'Supabase RLS 정책 관리', path: 'Tips/데이터베이스/Supabase_RLS_정책_관리.md' },
-            { category: '데이터베이스', title: 'Supabase 쿼리 최적화', path: 'Tips/데이터베이스/Supabase_쿼리_최적화.md' },
+            // === 데이터베이스 (3개) ===
+            { category: '데이터베이스', title: 'Supabase Row Level Security(RLS) 정책으로 데이터 접근 권한 관리하기', path: 'Tips/데이터베이스/Supabase_RLS_정책_관리.md' },
+            { category: '데이터베이스', title: 'Supabase 인덱스, select 최소화 등으로 쿼리 속도 최적화하기', path: 'Tips/데이터베이스/Supabase_쿼리_최적화.md' },
+            { category: '데이터베이스', title: 'Claude Code가 Supabase MCP로 데이터 생성/조회/수정/삭제 직접 하기', path: 'Tips/데이터베이스/Claude_Code로_Supabase_CRUD_하는_방법.md' },
 
-            // === SAL Grid (4개) ===
-            { category: 'SAL Grid', title: 'Task를 작게 나누는 기준', path: 'Tips/SAL_Grid/Task를_작게_나누는_기준.md' },
-            { category: 'SAL Grid', title: 'Phase Gate 검증 체크리스트', path: 'Tips/SAL_Grid/Phase_Gate_검증_체크리스트.md' },
-            { category: 'SAL Grid', title: 'Task ID로 파일 관리하기', path: 'Tips/SAL_Grid/Task_ID로_파일_관리하기.md' },
-            { category: 'SAL Grid', title: '검증 완료 후 문서화하기', path: 'Tips/SAL_Grid/검증_완료_후_문서화하기.md' },
+            // === SAL Grid (5개) ===
+            { category: 'SAL Grid', title: 'Task 하나는 1-3개 파일, 2-4시간 완료 가능한 크기로 나누기', path: 'Tips/SAL_Grid/Task를_작게_나누는_기준.md' },
+            { category: 'SAL Grid', title: 'Stage Gate 검증 시 AI 검증 → PO 테스트 → 최종 승인 체크리스트', path: 'Tips/SAL_Grid/Phase_Gate_검증_체크리스트.md' },
+            { category: 'SAL Grid', title: 'Task ID(S2BA1 등)를 파일 주석에 넣어 어느 작업인지 추적하기', path: 'Tips/SAL_Grid/Task_ID로_파일_관리하기.md' },
+            { category: 'SAL Grid', title: 'Task 검증 완료 후 결과를 Grid와 문서에 기록하기', path: 'Tips/SAL_Grid/검증_완료_후_문서화하기.md' },
+            { category: 'SAL Grid', title: 'SAL Grid Task 설계 전에 사용자 흐름(User Flow)부터 먼저 그리기', path: 'Tips/SAL_Grid/Task_Plan_작성_전_User_Flow_먼저.md' },
 
             // === 트러블슈팅 (5개) ===
-            { category: '트러블슈팅', title: '브라우저 콘솔 에러 확인하기', path: 'Tips/트러블슈팅/브라우저_콘솔_에러_확인하기.md' },
-            { category: '트러블슈팅', title: '에러 핸들링 패턴', path: 'Tips/트러블슈팅/에러_핸들링_패턴.md' },
-            { category: '트러블슈팅', title: '로컬 서버 실행 방법', path: 'Tips/트러블슈팅/로컬_서버_실행_방법.md' },
-            { category: '트러블슈팅', title: 'API 키 보안 관리', path: 'Tips/트러블슈팅/API_키_보안_관리.md' },
-            { category: '트러블슈팅', title: '환경변수 관리 베스트 프랙티스', path: 'Tips/트러블슈팅/환경변수_관리_베스트_프랙티스.md' }
+            { category: '트러블슈팅', title: '브라우저 개발자 도구(F12) 콘솔에서 JavaScript 에러와 네트워크 오류 확인하기', path: 'Tips/트러블슈팅/브라우저_콘솔_에러_확인하기.md' },
+            { category: '트러블슈팅', title: 'JavaScript try-catch와 Supabase 에러를 효과적으로 처리하는 패턴', path: 'Tips/트러블슈팅/에러_핸들링_패턴.md' },
+            { category: '트러블슈팅', title: 'npx serve로 HTML 파일 로컬 서버에서 실행하고 포트 충돌 해결하기', path: 'Tips/트러블슈팅/로컬_서버_실행_방법.md' },
+            { category: '트러블슈팅', title: 'API 키를 프론트엔드에 노출하지 않고 서버 사이드에서 안전하게 관리하기', path: 'Tips/트러블슈팅/API_키_보안_관리.md' },
+            { category: '트러블슈팅', title: '.env 파일로 환경변수 안전하게 관리하고 배포 환경별로 분리하기', path: 'Tips/트러블슈팅/환경변수_관리_베스트_프랙티스.md' },
+
+            // === AI 준수사항 (1개) ===
+            { category: 'AI 준수사항', title: 'Claude Code가 작업 시 반드시 따라야 할 AI 협업 12대 준수사항', path: 'Tips/AI_준수사항/AI_12대_준수사항.md' }
         ];
 
         // 현재 선택된 카테고리 (전체 보기용)
