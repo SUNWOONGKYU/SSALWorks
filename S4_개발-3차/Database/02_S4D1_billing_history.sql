@@ -1,7 +1,10 @@
 -- @task S4D1
 -- S4D1: 결제 이력 테이블
 
-CREATE TABLE IF NOT EXISTS billing_history (
+-- 기존 테이블 삭제 후 재생성
+DROP TABLE IF EXISTS billing_history CASCADE;
+
+CREATE TABLE billing_history (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     payment_key TEXT NOT NULL,
