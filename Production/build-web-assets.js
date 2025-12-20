@@ -28,11 +28,13 @@ const PATHS = {
     // 소스 경로
     ordersheetsGenerator: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/generate-ordersheets-js.js'),
     guidesGenerator: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/User_Flows/상황별_안내문/generate-guides-js.js'),
+    serviceGuidesGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/generate-service-guides-js.js'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),
 
     // 출력 경로
     ordersheetsOutput: path.join(PROJECT_ROOT, 'Production/Frontend/ordersheets.js'),
     guidesOutput: path.join(PROJECT_ROOT, 'Production/Frontend/guides.js'),
+    serviceGuidesOutput: path.join(PROJECT_ROOT, 'Production/Frontend/service-guides.js'),
     manualHtml: path.join(PROJECT_ROOT, '참고자료/PROJECT_SAL_GRID_MANUAL.html'),
 
     // 복사 대상 경로
@@ -44,6 +46,10 @@ const PATHS = {
         guides: [
             path.join(PROJECT_ROOT, 'Production/guides.js'),
             path.join(PROJECT_ROOT, 'P3_프로토타입_제작/Frontend/Prototype/guides.js')
+        ],
+        serviceGuides: [
+            path.join(PROJECT_ROOT, 'Production/service-guides.js'),
+            path.join(PROJECT_ROOT, 'P3_프로토타입_제작/Frontend/Prototype/service-guides.js')
         ]
     }
 };
@@ -118,6 +124,31 @@ function buildGuides() {
     }
 }
 
+// Service Guides (외부 연동 설정 가이드) 빌드
+function buildServiceGuides() {
+    log.header('Service Guides (외부 연동 설정) 빌드');
+
+    try {
+        log.info('generate-service-guides-js.js 실행 중...');
+        execSync(`node "${PATHS.serviceGuidesGenerator}"`, {
+            stdio: 'inherit',
+            cwd: path.dirname(PATHS.serviceGuidesGenerator)
+        });
+
+        // 추가 위치에 복사
+        log.info('추가 위치에 복사 중...');
+        PATHS.copyTargets.serviceGuides.forEach(target => {
+            copyFile(PATHS.serviceGuidesOutput, target);
+        });
+
+        log.success('Service Guides 빌드 완료!');
+        return true;
+    } catch (err) {
+        log.error(`Service Guides 빌드 실패: ${err.message}`);
+        return false;
+    }
+}
+
 // Manual HTML 변환
 function buildManual() {
     log.header('PROJECT_SAL_GRID_MANUAL HTML 변환');
@@ -152,6 +183,7 @@ function buildAll() {
     const results = {
         ordersheets: buildOrdersheets(),
         guides: buildGuides(),
+        serviceGuides: buildServiceGuides(),
         manual: buildManual()
     };
 
@@ -161,10 +193,11 @@ function buildAll() {
     console.log('\n' + '='.repeat(50));
     console.log('📊 빌드 결과 요약');
     console.log('='.repeat(50));
-    console.log(`  Order Sheets: ${results.ordersheets ? '✅ 성공' : '❌ 실패'}`);
-    console.log(`  Guides:       ${results.guides ? '✅ 성공' : '❌ 실패'}`);
-    console.log(`  Manual:       ${results.manual ? '✅ 성공' : '❌ 실패'}`);
-    console.log(`  소요 시간:    ${elapsed}초`);
+    console.log(`  Order Sheets:   ${results.ordersheets ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  Guides:         ${results.guides ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  Service Guides: ${results.serviceGuides ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  Manual:         ${results.manual ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  소요 시간:      ${elapsed}초`);
     console.log('='.repeat(50) + '\n');
 
     return Object.values(results).every(r => r);
@@ -181,10 +214,11 @@ if (args.includes('--help') || args.includes('-h')) {
   node build-web-assets.js [옵션]
 
 옵션:
-  --ordersheets   Order Sheet 템플릿만 빌드
-  --guides        안내문(Guides)만 빌드
-  --manual        Manual HTML만 빌드
-  --help, -h      도움말 표시
+  --ordersheets      Order Sheet 템플릿만 빌드
+  --guides           안내문(Guides)만 빌드
+  --service-guides   외부 연동 설정 가이드만 빌드
+  --manual           Manual HTML만 빌드
+  --help, -h         도움말 표시
 
 옵션 없이 실행하면 전체 빌드를 수행합니다.
 `);
@@ -202,6 +236,9 @@ if (args.length === 0) {
     }
     if (args.includes('--guides')) {
         success = buildGuides() && success;
+    }
+    if (args.includes('--service-guides')) {
+        success = buildServiceGuides() && success;
     }
     if (args.includes('--manual')) {
         success = buildManual() && success;

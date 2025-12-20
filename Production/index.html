@@ -3508,25 +3508,6 @@ The content you enter in the Control Space will be displayed here.</pre>
                 <!-- faqStaticBackup 끝 -->
             </div>
 
-            <!-- 학습용 Books -->
-            <div class="sidebar-section" id="learningBooksSection">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
-                    📚 학습용 Books
-                    <span onclick="openLearningBooks()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#3B82F6'" onmouseout="this.style.color='#6c757d'">전체보기 →</span>
-                </h3>
-                <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <a onclick="openLearningBooks('book1')" style="display: block; padding: 6px 10px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(59, 130, 246, 0.08); border-left: 3px solid #3B82F6; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(59, 130, 246, 0.15)'" onmouseout="this.style.background='rgba(59, 130, 246, 0.08)'">
-                        🤖 1권 | Claude & Claude Code (31편)
-                    </a>
-                    <a onclick="openLearningBooks('book2')" style="display: block; padding: 6px 10px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10B981; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
-                        💻 2권 | 풀스택 웹개발 기초 (27편)
-                    </a>
-                    <a onclick="openLearningBooks('book3')" style="display: block; padding: 6px 10px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); border-left: 3px solid #F59E0B; transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                        📊 3권 | 프로젝트 관리 SAL Grid (12편)
-                    </a>
-                </div>
-            </div>
-
             <!-- 외부 연동 설정 Guide -->
             <div class="sidebar-section" id="serviceGuideSection">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
@@ -10385,24 +10366,38 @@ ${result.answer}`;
          * 외부 연동 설정 Guide 열기
          */
         async function openServiceGuide(serviceId) {
-            const fileUrl = SERVICE_GUIDE_PATHS[serviceId];
             const title = SERVICE_GUIDE_TITLES[serviceId];
 
-            if (!fileUrl) {
+            if (!title) {
                 showStatus('⚠️ 해당 가이드는 아직 준비 중입니다.', 'warning');
                 return;
             }
 
-            try {
-                // GitHub Raw URL에서 MD 파일 로드
-                const response = await fetch(fileUrl);
+            let mdContent;
 
-                if (!response.ok) {
-                    showStatus('❌ 가이드 파일을 불러올 수 없습니다.', 'error');
+            // 1. 번들된 콘텐츠 우선 사용 (로컬/오프라인 지원)
+            if (typeof SERVICE_GUIDE_CONTENTS !== 'undefined' && SERVICE_GUIDE_CONTENTS[serviceId]) {
+                mdContent = SERVICE_GUIDE_CONTENTS[serviceId];
+            }
+            // 2. Fallback: GitHub Raw URL에서 로드
+            else {
+                try {
+                    const fileUrl = SERVICE_GUIDE_PATHS[serviceId];
+                    if (!fileUrl) {
+                        showStatus('❌ 가이드를 찾을 수 없습니다.', 'error');
+                        return;
+                    }
+                    const response = await fetch(fileUrl);
+                    if (!response.ok) {
+                        showStatus('❌ 가이드 파일을 불러올 수 없습니다.', 'error');
+                        return;
+                    }
+                    mdContent = await response.text();
+                } catch (error) {
+                    showStatus('❌ 가이드 로드 실패. 번들 파일을 확인하세요.', 'error');
                     return;
                 }
-
-                const mdContent = await response.text();
+            }
 
                 // 모달 생성
                 const overlay = document.createElement('div');
@@ -10483,11 +10478,6 @@ ${result.answer}`;
                 document.addEventListener('mouseup', () => {
                     isDragging = false;
                 });
-
-            } catch (error) {
-                console.error('서비스 가이드 로드 실패:', error);
-                showStatus('❌ 서버 연결 실패. Bridge 서버가 실행 중인지 확인하세요.', 'error');
-            }
         }
 
         /**
@@ -10511,15 +10501,6 @@ ${result.answer}`;
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
-        }
-
-        /**
-         * 학습용 Books 뷰어 열기
-         */
-        function openLearningBooks(book = '') {
-            const basePath = 'books-viewer.html';
-            const url = book ? `${basePath}?book=${book}` : basePath;
-            window.open(url, '_blank');
         }
 
         /**
@@ -10834,6 +10815,7 @@ ${result.answer}`;
     </script>
 <script src="guides.js"></script>
 <script src="ordersheets.js"></script>
+<script src="service-guides.js"></script>
 </body>
 
 </html>
