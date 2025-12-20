@@ -8564,23 +8564,23 @@ ${result.answer}`;
             </div>
             <button class="grid-fullscreen-close" onclick="closeAddProjectModal()">✕ 닫기</button>
         </div>
-        <div class="grid-fullscreen-content" style="padding: 40px; max-width: 800px; margin: 0 auto;">
-            <form id="newProjectForm" style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="grid-fullscreen-content" style="padding: 50px; max-width: 700px; margin: 50px auto; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+            <form id="newProjectForm" style="display: flex; flex-direction: column; gap: 24px;">
                 <div>
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #495057;">프로젝트명</label>
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #333; font-size: 15px;">프로젝트명</label>
                     <input type="text" id="projectName" placeholder="예: My Awesome Project"
-                        style="width: 100%; padding: 12px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px;">
+                        style="width: 100%; padding: 16px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; box-sizing: border-box;">
                 </div>
                 <div>
-                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #495057;">설명</label>
+                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #333; font-size: 15px;">설명</label>
                     <textarea id="projectDescription" placeholder="프로젝트에 대한 간단한 설명을 입력하세요..."
-                        style="width: 100%; padding: 12px; border: 2px solid #dee2e6; border-radius: 6px; font-size: 14px; min-height: 150px; font-family: inherit;"></textarea>
+                        style="width: 100%; padding: 16px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; min-height: 180px; font-family: inherit; box-sizing: border-box; resize: vertical;"></textarea>
                 </div>
-                <div style="display: flex; gap: 12px; justify-content: flex-end;">
+                <div style="display: flex; gap: 16px; justify-content: flex-end; margin-top: 10px;">
                     <button type="button" onclick="closeAddProjectModal()"
-                        style="padding: 12px 24px; background: #495057; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: white;">취소</button>
+                        style="padding: 14px 32px; background: #6c757d; border: none; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600; color: white;">취소</button>
                     <button type="submit"
-                        style="padding: 12px 24px; background: var(--success); border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: white;">등록하기</button>
+                        style="padding: 14px 32px; background: #10B981; border: none; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600; color: white;">등록하기</button>
                 </div>
             </form>
         </div>
