@@ -6,7 +6,7 @@ Claude Code는 MCP(Model Context Protocol)를 통해 외부 서비스와 연결�
 
 ## 1. MCP 개요
 
-### 1.1 MCP란
+### 1-1 MCP란
 
 MCP(Model Context Protocol)는 Claude Code의 기능을 확장하는 표준 프로토콜이다. 외부 도구와 서비스를 Claude Code에 연결하는 방법을 정의한다.
 
@@ -18,7 +18,7 @@ MCP(Model Context Protocol)는 Claude Code의 기능을 확장하는 표준 프�
                           - API 서비스
 ```
 
-### 1.2 MCP가 필요한 이유
+### 1-2 MCP가 필요한 이유
 
 Claude Code의 기본 도구만으로는 처리하기 어려운 작업이 있다.
 
@@ -32,7 +32,7 @@ Claude Code의 기본 도구만으로는 처리하기 어려운 작업이 있다
 - 새로운 도구 추가
 - 기능 무한 확장
 
-### 1.3 MCP 작동 방식
+### 1-3 MCP 작동 방식
 
 ```
 [사용자 요청]
@@ -52,7 +52,7 @@ MCP 서버는 Claude Code와 외부 서비스 사이의 다리 역할을 한다.
 
 ## 2. MCP 서버
 
-### 2.1 MCP 서버란
+### 2-1 MCP 서버란
 
 MCP 서버는 특정 기능을 제공하는 독립 프로그램이다. Claude Code가 필요할 때 서버에 요청을 보내고 결과를 받는다.
 
@@ -64,7 +64,7 @@ Claude Code
     └── MCP 서버 C (브라우저)
 ```
 
-### 2.2 공식 제공 서버
+### 2-2 공식 제공 서버
 
 Anthropic과 커뮤니티에서 제공하는 검증된 서버들이다.
 
@@ -77,7 +77,7 @@ Anthropic과 커뮤니티에서 제공하는 검증된 서버들이다.
 | @modelcontextprotocol/server-postgres | PostgreSQL 연결 |
 | @modelcontextprotocol/server-sqlite | SQLite 연결 |
 
-### 2.3 커뮤니티 서버
+### 2-3 커뮤니티 서버
 
 개발자 커뮤니티에서 만든 다양한 서버들이 있다.
 
@@ -89,7 +89,7 @@ Anthropic과 커뮤니티에서 제공하는 검증된 서버들이다.
 
 ## 3. MCP 설정
 
-### 3.1 설정 파일 위치
+### 3-1 설정 파일 위치
 
 MCP 서버는 Claude Code 설정 파일에서 정의한다.
 
@@ -105,7 +105,7 @@ MCP 서버는 Claude Code 설정 파일에서 정의한다.
 ~/.claude/settings.json
 ```
 
-### 3.2 서버 추가 방법
+### 3-2 서버 추가 방법
 
 settings.json에 MCP 서버를 추가한다.
 
@@ -150,7 +150,7 @@ settings.json에 MCP 서버를 추가한다.
 }
 ```
 
-### 3.3 /mcp 명령어
+### 3-3 /mcp 명령어
 
 현재 연결된 MCP 서버를 확인하고 관리한다.
 
@@ -163,7 +163,7 @@ settings.json에 MCP 서버를 추가한다.
 
 ## 4. 주요 MCP 서버
 
-### 4.1 filesystem (파일 시스템)
+### 4-1 filesystem (파일 시스템)
 
 지정된 디렉토리의 파일에 접근한다.
 
@@ -188,7 +188,7 @@ settings.json에 MCP 서버를 추가한다.
 - 디렉토리 목록
 - 파일 검색
 
-### 4.2 memory (기억 저장)
+### 4-2 memory (기억 저장)
 
 대화 간에 정보를 기억하고 공유한다.
 
@@ -224,7 +224,7 @@ Claude: [memory 서버에서 조회]
         DB 비밀번호는 abc123입니다.
 ```
 
-### 4.3 브라우저 자동화 (Puppeteer / Playwright)
+### 4-3 브라우저 자동화 (Puppeteer / Playwright)
 
 웹 브라우저를 자동으로 제어한다. Puppeteer와 Playwright 두 가지 옵션이 있다.
 
@@ -274,7 +274,7 @@ Claude: [puppeteer/playwright 서버 사용]
         스크린샷을 저장했습니다: login-page.png
 ```
 
-### 4.4 기타 유용한 서버
+### 4-4 기타 유용한 서버
 
 **PostgreSQL:**
 ```json
@@ -310,7 +310,7 @@ Claude: [puppeteer/playwright 서버 사용]
 
 ## 5. 실전 활용
 
-### 5.1 외부 서비스 연동
+### 5-1 외부 서비스 연동
 
 Supabase와 연동하는 예시:
 
@@ -341,7 +341,7 @@ Claude: [supabase MCP 서버 사용]
         ...
 ```
 
-### 5.2 데이터베이스 연결
+### 5-2 데이터베이스 연결
 
 PostgreSQL 데이터베이스에 직접 쿼리를 실행한다.
 
@@ -355,7 +355,7 @@ Claude: [postgres MCP 서버 사용]
         지난달 매출 합계: 12,345,678원
 ```
 
-### 5.3 자동화 워크플로우
+### 5-3 자동화 워크플로우
 
 여러 MCP 서버를 조합해서 복잡한 작업을 자동화한다.
 

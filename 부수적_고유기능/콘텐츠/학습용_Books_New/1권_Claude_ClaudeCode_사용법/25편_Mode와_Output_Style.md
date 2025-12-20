@@ -6,7 +6,7 @@ Claude Code는 작업 방식을 조절하는 Mode와 응답 스타일을 조절�
 
 ## 1. Mode 개요
 
-### 1.1 Mode란
+### 1-1 Mode란
 
 Mode는 Claude Code의 작업 방식을 결정한다. 바로 실행하는 기본 Mode와 계획을 먼저 세우는 Plan Mode가 있다.
 
@@ -15,7 +15,7 @@ Mode는 Claude Code의 작업 방식을 결정한다. 바로 실행하는 기본
 Plan Mode:   요청 → 계획 수립 → 승인 → 실행 → 결과
 ```
 
-### 1.2 기본 Mode vs Plan Mode
+### 1-2 기본 Mode vs Plan Mode
 
 | 구분 | 기본 Mode | Plan Mode |
 |------|----------|-----------|
@@ -24,7 +24,7 @@ Plan Mode:   요청 → 계획 수립 → 승인 → 실행 → 결과
 | 적합한 작업 | 간단한 작업 | 복잡한 작업 |
 | 수정 가능 | 실행 후 | 실행 전 |
 
-### 1.3 Mode 전환
+### 1-3 Mode 전환
 
 **Plan Mode 진입:**
 - 복잡한 작업 요청 시 자동 진입
@@ -36,7 +36,7 @@ Plan Mode:   요청 → 계획 수립 → 승인 → 실행 → 결과
 
 ## 2. Plan Mode
 
-### 2.1 Plan Mode 진입
+### 2-1 Plan Mode 진입
 
 복잡한 구현 작업을 요청하면 Claude Code가 Plan Mode 진입을 제안한다.
 
@@ -54,7 +54,7 @@ Claude: 이 작업은 여러 단계가 필요합니다.
 - 아키텍처 결정이 필요한 작업
 - 여러 선택지가 있는 작업
 
-### 2.2 계획 작성
+### 2-2 계획 작성
 
 Plan Mode에서 Claude Code는 구현 계획을 작성한다.
 
@@ -96,7 +96,7 @@ Claude: 계획을 수정합니다.
         - GET /api/payments/status
 ```
 
-### 2.3 계획 승인과 실행
+### 2-3 계획 승인과 실행
 
 **승인:**
 ```
@@ -118,7 +118,7 @@ Claude: [Plan Mode 종료]
 
 ## 3. Output Style
 
-### 3.1 Output Style이란
+### 3-1 Output Style이란
 
 Output Style은 Claude Code 응답의 형식과 길이를 조절한다.
 
@@ -128,7 +128,7 @@ Output Style은 Claude Code 응답의 형식과 길이를 조절한다.
 코드 중심:      설명 최소화, 코드 위주
 ```
 
-### 3.2 /output-style 명령어
+### 3-2 /output-style 명령어
 
 응답 스타일을 변경한다.
 
@@ -141,7 +141,7 @@ Output Style은 Claude Code 응답의 형식과 길이를 조절한다.
   3. 코드 중심 (Code-focused)
 ```
 
-### 3.3 스타일 옵션
+### 3-3 스타일 옵션
 
 **간결함 (Concise):**
 ```
@@ -180,7 +180,7 @@ Claude: const sortNumbers = (arr) => arr.sort((a, b) => a - b);
 
 ## 4. 응답 커스터마이징
 
-### 4.1 간결함 vs 상세함
+### 4-1 간결함 vs 상세함
 
 **간결한 응답 요청:**
 ```
@@ -196,7 +196,7 @@ Claude: const sortNumbers = (arr) => arr.sort((a, b) => a - b);
 사용자: 초보자도 이해하게 설명해줘
 ```
 
-### 4.2 코드 스타일
+### 4-2 코드 스타일
 
 **특정 스타일 요청:**
 ```
@@ -212,7 +212,7 @@ Claude: const sortNumbers = (arr) => arr.sort((a, b) => a - b);
 사용자: Prettier 포맷 적용해줘
 ```
 
-### 4.3 언어 설정
+### 4-3 언어 설정
 
 Claude Code는 기본적으로 사용자의 언어로 응답한다.
 

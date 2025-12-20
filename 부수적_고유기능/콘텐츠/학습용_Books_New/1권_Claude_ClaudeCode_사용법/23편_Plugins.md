@@ -6,7 +6,7 @@ Claude Code는 여러 기능을 하나로 묶은 Plugin을 지원한다. Command
 
 ## 1. Plugins 개요
 
-### 1.1 Plugins란
+### 1-1 Plugins란
 
 Plugin은 Claude Code의 기능을 확장하는 패키지이다. 여러 구성 요소를 하나로 묶어서 배포한다.
 
@@ -18,7 +18,7 @@ Plugin
 └── 설정 파일
 ```
 
-### 1.2 Plugin vs MCP 차이
+### 1-2 Plugin vs MCP 차이
 
 | 구분 | Plugin | MCP |
 |------|--------|-----|
@@ -30,7 +30,7 @@ Plugin
 **Plugin:** Claude Code 자체의 기능을 확장
 **MCP:** 외부 서비스와 연결
 
-### 1.3 Plugin 구성 요소
+### 1-3 Plugin 구성 요소
 
 Plugin에 포함할 수 있는 요소:
 
@@ -44,7 +44,7 @@ Plugin에 포함할 수 있는 요소:
 
 ## 2. Plugin 설치
 
-### 2.1 /plugin 명령어
+### 2-1 /plugin 명령어
 
 Plugin을 관리하는 명령어이다.
 
@@ -59,7 +59,7 @@ Plugin을 관리하는 명령어이다.
 - Plugin 활성화/비활성화
 - Plugin 제거
 
-### 2.2 설치 방법
+### 2-2 설치 방법
 
 **npm 패키지로 설치:**
 ```
@@ -76,7 +76,7 @@ Plugin을 관리하는 명령어이다.
 /plugin install github:username/repo
 ```
 
-### 2.3 활성화/비활성화
+### 2-3 활성화/비활성화
 
 **활성화:**
 ```
@@ -95,7 +95,7 @@ Plugin을 관리하는 명령어이다.
 
 ## 3. Plugin 구조
 
-### 3.1 매니페스트 파일
+### 3-1 매니페스트 파일
 
 Plugin의 정보를 정의하는 manifest.json 파일이다.
 
@@ -112,7 +112,7 @@ Plugin의 정보를 정의하는 manifest.json 파일이다.
 }
 ```
 
-### 3.2 포함 가능한 요소
+### 3-2 포함 가능한 요소
 
 **Commands:**
 ```
@@ -146,7 +146,7 @@ plugin/
     └── tester.md
 ```
 
-### 3.3 디렉토리 구조
+### 3-3 디렉토리 구조
 
 **완전한 Plugin 구조:**
 ```
@@ -166,7 +166,7 @@ my-plugin/
 
 ## 4. Plugin 만들기
 
-### 4.1 기본 구조 생성
+### 4-1 기본 구조 생성
 
 **1단계: 폴더 생성**
 ```
@@ -191,7 +191,7 @@ cd my-plugin
 mkdir commands skills
 ```
 
-### 4.2 Commands 추가
+### 4-2 Commands 추가
 
 commands/ 폴더에 마크다운 파일을 추가한다.
 
@@ -226,7 +226,7 @@ commands/ 폴더에 마크다운 파일을 추가한다.
 4. 리포트 생성
 ```
 
-### 4.3 Skills 추가
+### 4-3 Skills 추가
 
 skills/ 폴더에 마크다운 파일을 추가한다.
 
@@ -252,7 +252,7 @@ skills/ 폴더에 마크다운 파일을 추가한다.
 - 개선 권장사항
 ```
 
-### 4.4 배포 방법
+### 4-4 배포 방법
 
 **npm으로 배포:**
 ```bash

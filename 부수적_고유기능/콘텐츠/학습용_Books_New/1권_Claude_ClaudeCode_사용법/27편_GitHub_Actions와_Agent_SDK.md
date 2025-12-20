@@ -6,7 +6,7 @@ Claude Code는 GitHub Actions와 연동해서 PR 리뷰를 자동화하고, Agen
 
 ## 1. GitHub Actions 연동
 
-### 1.1 GitHub Actions란
+### 1-1 GitHub Actions란
 
 GitHub Actions는 GitHub 저장소에서 자동화 워크플로우를 실행하는 기능이다. PR 생성, 코드 푸시 등의 이벤트에 반응해서 작업을 수행한다.
 
@@ -18,7 +18,7 @@ GitHub Actions는 GitHub 저장소에서 자동화 워크플로우를 실행하�
 [자동화 작업 수행]
 ```
 
-### 1.2 Claude Code 연동 설정
+### 1-2 Claude Code 연동 설정
 
 GitHub 저장소에 Claude Code를 연동한다.
 
@@ -52,7 +52,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
 ```
 
-### 1.3 @claude 멘션 사용
+### 1-3 @claude 멘션 사용
 
 PR이나 이슈에서 @claude를 멘션하면 Claude Code가 응답한다.
 
@@ -77,7 +77,7 @@ PR이나 이슈에서 @claude를 멘션하면 Claude Code가 응답한다.
 
 ## 2. PR 자동화
 
-### 2.1 PR 리뷰 자동화
+### 2-1 PR 리뷰 자동화
 
 PR이 생성되면 자동으로 코드 리뷰를 수행한다.
 
@@ -112,7 +112,7 @@ PR이 생성되면 자동으로 코드 리뷰를 수행한다.
   불필요한 반복문 제거 권장
 ```
 
-### 2.2 코드 제안
+### 2-2 코드 제안
 
 Claude Code가 개선된 코드를 직접 제안한다.
 
@@ -142,7 +142,7 @@ const findUser = (users, id) => users.find(u => u.id === id) ?? null;
 - 화살표 함수로 간결화
 ```
 
-### 2.3 자동 수정
+### 2-3 자동 수정
 
 Claude Code가 직접 수정 커밋을 생성할 수 있다.
 
@@ -161,7 +161,7 @@ Claude:
 
 ## 3. Agent SDK 개요
 
-### 3.1 Agent SDK란
+### 3-1 Agent SDK란
 
 Agent SDK는 Claude Code의 기능을 프로그래밍 방식으로 사용할 수 있게 해주는 개발 도구이다.
 
@@ -170,7 +170,7 @@ CLI (Claude Code):  터미널에서 대화형 사용
 Agent SDK:          코드에서 프로그래밍 방식 사용
 ```
 
-### 3.2 SDK vs CLI 차이
+### 3-2 SDK vs CLI 차이
 
 | 구분 | CLI | Agent SDK |
 |------|-----|-----------|
@@ -179,7 +179,7 @@ Agent SDK:          코드에서 프로그래밍 방식 사용
 | 인터페이스 | 대화형 | API |
 | 용도 | 개발 작업 | 커스텀 에이전트 |
 
-### 3.3 사용 시나리오
+### 3-3 사용 시나리오
 
 **커스텀 에이전트 구축:**
 - 특정 도메인 전문 에이전트
@@ -193,7 +193,7 @@ Agent SDK:          코드에서 프로그래밍 방식 사용
 
 ## 4. Agent SDK 활용
 
-### 4.1 설치 및 설정
+### 4-1 설치 및 설정
 
 **설치:**
 ```bash
@@ -205,7 +205,7 @@ npm install @anthropic-ai/claude-agent-sdk
 export ANTHROPIC_API_KEY=your-api-key
 ```
 
-### 4.2 기본 사용법
+### 4-2 기본 사용법
 
 **간단한 요청:**
 ```javascript
@@ -230,7 +230,7 @@ const result = await agent.run({
 });
 ```
 
-### 4.3 커스텀 에이전트 구축
+### 4-3 커스텀 에이전트 구축
 
 **코드 리뷰 에이전트:**
 ```javascript

@@ -1,7 +1,10 @@
 -- @task S4D1
 -- S4D1: 크레딧 이력 테이블
 
-CREATE TABLE IF NOT EXISTS credit_history (
+-- 기존 테이블 삭제 후 재생성
+DROP TABLE IF EXISTS credit_history CASCADE;
+
+CREATE TABLE credit_history (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     type VARCHAR(20) NOT NULL, -- purchase, usage, refund, bonus

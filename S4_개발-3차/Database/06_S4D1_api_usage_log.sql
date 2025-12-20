@@ -1,7 +1,10 @@
 -- @task S4D1
 -- S4D1: API 사용 로그 테이블
 
-CREATE TABLE IF NOT EXISTS api_usage_log (
+-- 기존 테이블 삭제 후 재생성
+DROP TABLE IF EXISTS api_usage_log CASCADE;
+
+CREATE TABLE api_usage_log (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
     endpoint VARCHAR(255) NOT NULL,

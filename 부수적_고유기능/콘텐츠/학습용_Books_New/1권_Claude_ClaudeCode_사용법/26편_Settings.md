@@ -6,7 +6,7 @@ Claude Code는 다양한 설정을 통해 동작을 커스터마이징할 수 �
 
 ## 1. Settings 개요
 
-### 1.1 설정 파일 종류
+### 1-1 설정 파일 종류
 
 Claude Code는 두 가지 설정 파일을 사용한다.
 
@@ -15,7 +15,7 @@ Claude Code는 두 가지 설정 파일을 사용한다.
 | 프로젝트 설정 | `.claude/settings.json` | 해당 프로젝트만 |
 | 전역 설정 | `~/.claude/settings.json` | 모든 프로젝트 |
 
-### 1.2 설정 우선순위
+### 1-2 설정 우선순위
 
 프로젝트 설정이 전역 설정보다 우선한다.
 
@@ -29,7 +29,7 @@ Claude Code는 두 가지 설정 파일을 사용한다.
 3. 기본값
 ```
 
-### 1.3 /config 명령어
+### 1-3 /config 명령어
 
 설정 화면을 열어 옵션을 변경한다.
 
@@ -45,7 +45,7 @@ Claude Code는 두 가지 설정 파일을 사용한다.
 
 ## 2. 프로젝트 설정
 
-### 2.1 .claude/settings.json
+### 2-1 .claude/settings.json
 
 프로젝트 루트에 `.claude/settings.json` 파일을 만든다.
 
@@ -55,7 +55,7 @@ Claude Code는 두 가지 설정 파일을 사용한다.
     └── settings.json
 ```
 
-### 2.2 주요 설정 항목
+### 2-2 주요 설정 항목
 
 ```json
 {
@@ -76,7 +76,7 @@ Claude Code는 두 가지 설정 파일을 사용한다.
 | hooks | 이벤트 Hook 설정 |
 | mcpServers | MCP 서버 설정 |
 
-### 2.3 설정 예시
+### 2-3 설정 예시
 
 **기본 설정:**
 ```json
@@ -125,7 +125,7 @@ Claude Code는 두 가지 설정 파일을 사용한다.
 
 ## 3. 전역 설정
 
-### 3.1 ~/.claude/settings.json
+### 3-1 ~/.claude/settings.json
 
 홈 디렉토리의 `.claude/settings.json` 파일이다.
 
@@ -134,7 +134,7 @@ Windows: C:\Users\사용자명\.claude\settings.json
 Mac/Linux: ~/.claude/settings.json
 ```
 
-### 3.2 전역 vs 프로젝트 설정
+### 3-2 전역 vs 프로젝트 설정
 
 | 구분 | 전역 설정 | 프로젝트 설정 |
 |------|----------|--------------|
@@ -153,7 +153,7 @@ Mac/Linux: ~/.claude/settings.json
 - 프로젝트별 MCP 서버
 - 특수한 권한 설정
 
-### 3.3 설정 병합
+### 3-3 설정 병합
 
 같은 항목이 있으면 프로젝트 설정이 우선한다.
 
@@ -172,7 +172,7 @@ Mac/Linux: ~/.claude/settings.json
 
 ## 4. 권한 설정
 
-### 4.1 /permissions 명령어
+### 4-1 /permissions 명령어
 
 도구 사용 권한을 관리한다.
 
@@ -185,7 +185,7 @@ Mac/Linux: ~/.claude/settings.json
   - 자동 승인 설정
 ```
 
-### 4.2 도구별 권한
+### 4-2 도구별 권한
 
 각 도구의 사용 여부를 설정할 수 있다.
 
@@ -220,7 +220,7 @@ Mac/Linux: ~/.claude/settings.json
 }
 ```
 
-### 4.3 자동 승인 설정
+### 4-3 자동 승인 설정
 
 일부 도구는 실행 전 승인을 요청한다. 자동 승인을 설정하면 확인 없이 실행된다.
 

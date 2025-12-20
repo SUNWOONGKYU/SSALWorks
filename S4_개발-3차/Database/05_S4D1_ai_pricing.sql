@@ -1,7 +1,10 @@
 -- @task S4D1
 -- S4D1: AI 가격 테이블
 
-CREATE TABLE IF NOT EXISTS ai_pricing (
+-- 기존 테이블 삭제 후 재생성
+DROP TABLE IF EXISTS ai_pricing CASCADE;
+
+CREATE TABLE ai_pricing (
     id SERIAL PRIMARY KEY,
     service_name VARCHAR(50) NOT NULL UNIQUE, -- gemini, chatgpt, perplexity
     display_name VARCHAR(100) NOT NULL,

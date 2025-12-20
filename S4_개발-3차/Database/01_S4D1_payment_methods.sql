@@ -1,7 +1,10 @@
 -- @task S4D1
 -- S4D1: 결제 수단 테이블
 
-CREATE TABLE IF NOT EXISTS payment_methods (
+-- 기존 테이블 삭제 후 재생성
+DROP TABLE IF EXISTS payment_methods CASCADE;
+
+CREATE TABLE payment_methods (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     billing_key TEXT NOT NULL,

@@ -6,7 +6,7 @@ Claude Code는 복잡한 작업을 처리할 때 전문화된 서브에이전트
 
 ## 1. Subagents 개요
 
-### 1.1 Subagents란
+### 1-1 Subagents란
 
 Subagents는 특정 작업을 위임받아 독립적으로 수행하는 전문화된 에이전트이다. Main Agent가 복잡한 작업을 만나면 적합한 Subagent에게 작업을 위임한다.
 
@@ -24,7 +24,7 @@ Subagents는 특정 작업을 위임받아 독립적으로 수행하는 전문�
 [Main Agent가 사용자에게 보고]
 ```
 
-### 1.2 Main Agent vs Subagent
+### 1-2 Main Agent vs Subagent
 
 | 구분 | Main Agent | Subagent |
 |------|------------|----------|
@@ -33,7 +33,7 @@ Subagents는 특정 작업을 위임받아 독립적으로 수행하는 전문�
 | 실행 | 항상 활성화 | 필요할 때 투입 |
 | 결과 | 사용자에게 직접 응답 | Main Agent에게 반환 |
 
-### 1.3 Task 도구 사용
+### 1-3 Task 도구 사용
 
 Subagent는 Task 도구를 통해 호출된다.
 
@@ -53,7 +53,7 @@ Claude: [Task 도구 - Explore 서브에이전트 투입]
 
 ## 2. Subagent 유형
 
-### 2.1 general-purpose (범용)
+### 2-1 general-purpose (범용)
 
 복잡한 질문 조사, 코드 검색, 다단계 작업 처리를 위한 범용 에이전트이다.
 
@@ -75,7 +75,7 @@ Claude: [Task - general-purpose 서브에이전트]
         ...
 ```
 
-### 2.2 Explore (코드베이스 탐색)
+### 2-2 Explore (코드베이스 탐색)
 
 코드베이스를 빠르게 탐색하는 전문 에이전트이다.
 
@@ -102,7 +102,7 @@ Claude: [Task - Explore 서브에이전트 (medium)]
         ...
 ```
 
-### 2.3 Plan (설계/계획)
+### 2-3 Plan (설계/계획)
 
 구현 계획을 수립하는 소프트웨어 아키텍트 에이전트이다.
 
@@ -129,7 +129,7 @@ Claude: [Task - Plan 서브에이전트]
         ...
 ```
 
-### 2.4 기타 특화 유형
+### 2-4 기타 특화 유형
 
 프로젝트에 따라 다양한 특화 유형이 있을 수 있다.
 
@@ -143,7 +143,7 @@ Claude: [Task - Plan 서브에이전트]
 
 ## 3. Subagent 호출
 
-### 3.1 Task 도구 파라미터
+### 3-1 Task 도구 파라미터
 
 Task 도구는 다음 파라미터를 사용한다:
 
@@ -155,7 +155,7 @@ Task 도구는 다음 파라미터를 사용한다:
 | model | 모델 선택 (선택) | "sonnet", "haiku" |
 | run_in_background | 백그라운드 실행 | true/false |
 
-### 3.2 동기/비동기 실행
+### 3-2 동기/비동기 실행
 
 **동기 실행 (기본):**
 Subagent 작업이 완료될 때까지 기다린다.
@@ -181,7 +181,7 @@ Subagent가 백그라운드에서 작업하고, 다른 작업을 계속할 수 �
 [나중에 TaskOutput으로 결과 확인]
 ```
 
-### 3.3 결과 받기 (TaskOutput)
+### 3-3 결과 받기 (TaskOutput)
 
 백그라운드로 실행한 Subagent의 결과를 가져온다.
 
@@ -199,7 +199,7 @@ Claude: [TaskOutput - task_id: agent_xyz]
 
 ## 4. 사용자 정의 Subagents
 
-### 4.1 Subagents 파일 위치
+### 4-1 Subagents 파일 위치
 
 프로젝트 루트에 `.claude/subagents/` 폴더를 만들어 사용한다.
 
@@ -210,7 +210,7 @@ Claude: [TaskOutput - task_id: agent_xyz]
         └── agent이름.md
 ```
 
-### 4.2 파일 구조
+### 4-2 파일 구조
 
 마크다운 파일로 Subagent의 역할과 동작을 정의한다.
 
@@ -236,7 +236,7 @@ Claude: [TaskOutput - task_id: agent_xyz]
 [결과 형식 설명]
 ```
 
-### 4.3 작성 예시
+### 4-3 작성 예시
 
 **코드 리뷰 전문 에이전트:**
 ```markdown
@@ -299,7 +299,7 @@ Claude: [TaskOutput - task_id: agent_xyz]
 
 ## 5. 실전 활용
 
-### 5.1 병렬 작업 처리
+### 5-1 병렬 작업 처리
 
 여러 Subagent를 동시에 실행해서 작업 속도를 높인다.
 
@@ -316,7 +316,7 @@ Claude:
 └── 백엔드: Express 기반, 8개 API 엔드포인트
 ```
 
-### 5.2 복잡한 작업 분할
+### 5-2 복잡한 작업 분할
 
 큰 작업을 여러 Subagent에게 분할 위임한다.
 
@@ -337,7 +337,7 @@ Claude:
 리팩토링 계획서 완성
 ```
 
-### 5.3 전문 분야 위임
+### 5-3 전문 분야 위임
 
 적합한 전문 에이전트에게 작업을 위임한다.
 

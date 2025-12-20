@@ -958,6 +958,43 @@ WHERE service_name = 'chatgpt';
 
 ---
 
+## S4D1 Database SQL 실행 완료 (2025-12-20)
+
+### 작업 상태: ✅ 완료
+
+**실행된 SQL 파일 (7개):**
+
+| # | 파일 | 테이블/객체 | 상태 |
+|---|------|------------|------|
+| 01 | payment_methods.sql | payment_methods | ✅ |
+| 02 | billing_history.sql | billing_history | ✅ |
+| 03 | credit_history.sql | credit_history | ✅ |
+| 04 | users_credit_column.sql | users.credit_balance + deduct_credit() | ✅ |
+| 05 | ai_pricing.sql | ai_pricing (초기 데이터 포함) | ✅ |
+| 06 | api_usage_log.sql | api_usage_log | ✅ |
+| 07 | installation_payments.sql | installation_payments | ✅ |
+
+**해결된 이슈:**
+1. 파일 순서 변경 (02↔04 교환) - 의존성 해결
+2. DROP TABLE IF EXISTS CASCADE 추가 - 기존 테이블 충돌 해결
+3. DROP POLICY IF EXISTS 추가 - 중복 정책 에러 해결
+
+**생성된 테이블:**
+- `payment_methods` - 결제 수단 (빌링키)
+- `billing_history` - 결제 이력
+- `credit_history` - 크레딧 충전/사용 이력
+- `ai_pricing` - AI 서비스 가격표 (Gemini, ChatGPT, Perplexity)
+- `api_usage_log` - API 사용 로그
+- `installation_payments` - 설치비 입금 관리
+
+**생성된 함수:**
+- `deduct_credit()` - 크레딧 차감 함수 (SECURITY DEFINER)
+
+**추가된 컬럼:**
+- `users.credit_balance` - 사용자 크레딧 잔액
+
+---
+
 ## 다음 작업 예정
 
 - **S4 Stage Gate 검증**:

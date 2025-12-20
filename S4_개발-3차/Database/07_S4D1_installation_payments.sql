@@ -1,7 +1,10 @@
 -- @task S4D1
 -- S4D1: 설치비 결제 테이블
 
-CREATE TABLE IF NOT EXISTS installation_payments (
+-- 기존 테이블 삭제 후 재생성
+DROP TABLE IF EXISTS installation_payments CASCADE;
+
+CREATE TABLE installation_payments (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
     project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
