@@ -266,6 +266,7 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 | S4F1 | 관리자 대시보드 강화 | 통계, 사용자 관리, 구독 승인 | S4BA2 |
 | S4F3 | 크레딧 충전 UI | 충전 금액 선택, 결제 수단 선택 페이지 | S4BA4 |
 | S4F4 | 결제 수단 등록 UI | 카드/계좌 정보 입력 페이지 | S4BA3 |
+| S4F5 | 프로젝트 등록 API 연동 | localhost:3030 → Vercel API 변경, 인증 토큰 포함 | S2BA5 |
 
 ### Area BA - Backend APIs (6)
 
