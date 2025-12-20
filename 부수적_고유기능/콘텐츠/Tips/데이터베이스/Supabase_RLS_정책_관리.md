@@ -1,4 +1,4 @@
-# Supabase RLS 정책 관리
+# Supabase Row Level Security(RLS) 정책으로 데이터 접근 권한 관리하기
 
 > 이 문서는 Supabase의 Row Level Security(RLS) 정책을 안전하게 관리하는 방법을 설명합니다.
 

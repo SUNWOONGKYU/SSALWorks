@@ -1,4 +1,4 @@
-# Claude Code로 Supabase CRUD 하는 방법
+# Claude Code가 Supabase MCP로 데이터 생성/조회/수정/삭제 직접 하기
 
 > 이 문서는 Claude Code가 Supabase 데이터베이스에 직접 CRUD(생성/조회/수정/삭제)하는 방법과 AI/PO 역할 분담을 설명합니다.
 

@@ -1,4 +1,4 @@
-# Task Plan 작성 전 User Flow 먼저
+# SAL Grid Task 설계 전에 사용자 흐름(User Flow)부터 먼저 그리기
 
 > 이 문서는 프로젝트 기획 시 User Flow를 먼저 작성해야 하는 이유와 방법을 설명합니다.
 

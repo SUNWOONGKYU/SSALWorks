@@ -1,4 +1,4 @@
-# Supabase 쿼리 최적화
+# Supabase 인덱스, select 최소화 등으로 쿼리 속도 최적화하기
 
 > 이 문서는 Supabase 데이터베이스 쿼리를 최적화하는 방법을 설명합니다.
 

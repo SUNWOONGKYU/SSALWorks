@@ -1,4 +1,4 @@
-# Phase Gate 검증 체크리스트
+# Stage Gate 검증 시 AI 검증 → PO 테스트 → 최종 승인 체크리스트
 
 > 이 문서는 Stage Gate(Phase Gate) 검증의 전체 프로세스와 체크리스트를 설명합니다.
 
