@@ -4,6 +4,40 @@
 
 ---
 
+## S5U1, S5T1 Task 추가 (2025-12-20)
+
+### 작업 상태: ✅ 완료
+
+### 추가된 Task
+
+| Task ID | Task Name | Area | 설명 |
+|---------|-----------|------|------|
+| S5U1 | 디자인 QA 및 일관성 점검 | U (Design) | 색상/폰트/간격 일관성, 반응형 테스트, 디자인 시스템 준수 |
+| S5T1 | 프로덕션 완성도 점검 | T (Testing) | 페이지 접근성, 링크, 폼, 콘솔 에러, 성능 종합 점검 |
+
+### 업데이트된 파일 (5개 위치)
+
+| # | 위치 | 파일 | 내용 |
+|---|------|------|------|
+| 1 | Supabase DB | `ssal_grid` 테이블 | S5U1, S5T1 레코드 추가 |
+| 2 | Task Instructions | `sal-grid/task-instructions/S5U1_instruction.md`, `S5T1_instruction.md` | 작업 지시서 |
+| 3 | Verification Instructions | `sal-grid/verification-instructions/S5U1_verification.md`, `S5T1_verification.md` | 검증 지시서 |
+| 4 | Task Plan | `sal-grid/SSALWORKS_TASK_PLAN.md` | v4.2 (53→55 tasks) |
+| 5 | Manual | `manual/PROJECT_SAL_GRID_MANUAL.md` | v3.5 버전 이력 추가 |
+
+### 폴더 위치 수정
+
+**문제**: `ssal-grid/` 폴더가 잘못 생성됨 (올바른 폴더: `sal-grid/`)
+**해결**: 파일 이동 후 `ssal-grid/` 폴더 삭제
+
+### 결과
+
+- S5 Stage Task 수: 7 → 9
+- 전체 Task 수: 53 → 55
+- Area 분포: U(0→1), T(4→5)
+
+---
+
 ## 프로세스 개선 - 상태 전이 규칙 추가 (2025-12-20)
 
 ### 작업 상태: ✅ 완료
@@ -995,6 +1029,48 @@ WHERE service_name = 'chatgpt';
 
 ---
 
+## Tips 제목 확장 및 index.html 연동 (2025-12-20)
+
+### 작업 상태: ✅ 완료
+
+**작업 목적:**
+- Tips 파일의 짧은 제목을 상세한 설명으로 확장
+- 제목만 보고도 내용을 파악할 수 있도록 개선
+
+**완료된 작업:**
+
+#### 1. Tips 파일 제목 확장 (54개)
+모든 Tips 파일의 `# 제목` 부분을 상세하게 확장
+
+**예시 변경:**
+| 카테고리 | 변경 전 | 변경 후 |
+|----------|--------|--------|
+| 검증_문서화 | 별도 서브에이전트로 검증하기 | 작성자와 검증자를 다른 서브에이전트로 분리하여 객관적으로 검증하기 |
+| 개발_실무 | 에러 핸들링 패턴 | JavaScript try-catch와 Supabase 에러를 효과적으로 처리하는 패턴 |
+| SAL_Grid | Task를 작게 나누는 기준 | Task 하나는 1-3개 파일, 2-4시간 완료 가능한 크기로 나누기 |
+
+#### 2. index.html TIPS_CONTENTS 배열 업데이트
+- **문제**: Tips 파일 수정 후에도 화면에 반영되지 않음
+- **원인**: index.html의 TIPS_CONTENTS 배열이 하드코딩됨
+- **해결**: 배열 전체를 새 제목과 누락된 파일로 교체
+
+**변경 사항:**
+- 48개 → 54개 Tips (누락된 6개 파일 추가)
+- 12개 → 13개 카테고리 (AI 준수사항 카테고리 추가)
+- 모든 제목을 확장된 버전으로 업데이트
+
+#### 3. Git 커밋 및 푸시
+```
+[master 51ac99c] feat: Tips 제목 확장 - 짧은 제목을 상세한 설명으로 변경
+ 1 file changed, 67 insertions(+), 59 deletions(-)
+```
+
+**수정된 파일:**
+- `Production/index.html` - TIPS_CONTENTS 배열 완전 재작성
+- Tips 폴더 내 54개 MD 파일 (이전 세션에서 완료)
+
+---
+
 ## 다음 작업 예정
 
 - **S4 Stage Gate 검증**:
@@ -1005,3 +1081,40 @@ WHERE service_name = 'chatgpt';
 - **S5 Stage**: 운영 단계 (PO 지시 대기)
 
 ---
+
+---
+
+## S4 관리자 페이지 수정 (2025-12-20 오후)
+
+### 완료된 작업
+
+1. **JS/CSS 파일 경로 수정**
+   - Production 루트에 JS/CSS 파일 복사
+   - shared.css 신규 생성
+
+2. **Supabase 연결 정보 교체**
+   - 플레이스홀더 → 실제 Supabase URL/Key
+
+3. **Google OAuth 리다이렉트 URL 수정**
+   - `/Production/Frontend/index.html` → `/index.html`
+
+4. **닉네임 표시 수정**
+   - nickname > name > email 우선순위
+
+### 테스트 결과
+
+| 기능 | 상태 |
+|------|------|
+| Google 소셜 로그인 | ✅ |
+| 관리자 대시보드 | ✅ |
+| 닉네임 표시 | ✅ |
+
+### 다음 작업 (남은 S4 테스트)
+
+- [ ] 설치비 관리
+- [ ] 구독 관리
+- [ ] 결제 내역
+- [ ] 크레딧 관리
+- [ ] 크레딧 충전 UI
+- [ ] 결제 수단 등록 UI
+

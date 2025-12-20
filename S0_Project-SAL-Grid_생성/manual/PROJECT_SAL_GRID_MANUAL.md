@@ -1,7 +1,7 @@
-# PROJECT SAL GRID MANUAL v3.4
+# PROJECT SAL GRID MANUAL v3.5
 
 > **작성일**: 2025-11-25
-> **최종 수정**: 2025-12-19 (v3.4 - .claude/rules/ 참조 추가)
+> **최종 수정**: 2025-12-20 (v3.5 - S4F5, S5U1, S5T1 Task 추가 반영)
 > **기반**: PROJECT_SAL_GRID_생성_가이드_V2.0.md
 > **용도**: PROJECT SAL GRID 완전 매뉴얼
 
@@ -5905,6 +5905,19 @@ A:
 
 ### PROJECT SAL GRID MANUAL 버전 이력
 
+- **v3.5 (2025-12-20)**: Task 확장 반영
+  - S4F5 (프로젝트 등록 API 연동) Task 추가 반영
+  - S5U1 (디자인 QA 및 일관성 점검) Task 추가 반영
+  - S5T1 (프로덕션 완성도 점검) Task 추가 반영
+  - SSALWORKS_TASK_PLAN.md v4.2 반영 (53 → 55 tasks)
+
+- **v3.4 (2025-12-19)**: .claude/rules/ 참조 추가
+  - AI 필수 준수 규칙에 .claude/rules/ 참조 추가
+
+- **v3.3 (2025-12-18)**: Task Plan 동기화
+  - SSALWORKS_TASK_PLAN.md v3.3~v3.4 변경사항 반영
+  - S2BI3 이메일 도메인 인증 Task 추가
+
 - **v3.2 (2025-12-12)**: 유연성 확보 및 현행화
   - 섹션 5.1 Grid 생성 시점: P1-P3 + S1-S5 구조에 맞게 수정
   - 섹션 14: Task 개수 일반화 (66개/93개 → 프로젝트별 Task)
@@ -5941,8 +5954,8 @@ A:
 > 🌾 **SSALWorks - Your AI-Powered Project Management System**
 >
 > **작성**: 2025-11-25
-> **버전**: v3.2
-> **최종 수정**: 2025-12-12
+> **버전**: v3.5
+> **최종 수정**: 2025-12-20
 > **문의**: PROJECT_SAL_GRID 관련 문서 참고
 
 **Happy Coding!** 💻✨
