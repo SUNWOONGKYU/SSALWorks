@@ -94,6 +94,42 @@
       "destination": "/api/External/ai-health"
     },
     {
+      "source": "/api/payment/installation-request",
+      "destination": "/api/Backend_APIs/payment/installation-request"
+    },
+    {
+      "source": "/api/payment/installation/:action",
+      "destination": "/api/Backend_APIs/payment/installation/:action"
+    },
+    {
+      "source": "/api/admin/confirm-installation",
+      "destination": "/api/Backend_APIs/admin/confirm-installation"
+    },
+    {
+      "source": "/api/admin/installation-list",
+      "destination": "/api/Backend_APIs/admin/installation-list"
+    },
+    {
+      "source": "/api/admin/installation/:action",
+      "destination": "/api/Backend_APIs/api/admin/installation/:action"
+    },
+    {
+      "source": "/api/credit/:action",
+      "destination": "/api/Backend_APIs/credit/:action"
+    },
+    {
+      "source": "/api/payment/billing/:action",
+      "destination": "/api/Backend_APIs/payment/billing/:action"
+    },
+    {
+      "source": "/api/payment/credit/:action",
+      "destination": "/api/Backend_APIs/payment/credit/:action"
+    },
+    {
+      "source": "/api/webhook/toss",
+      "destination": "/api/Backend_APIs/webhook/toss"
+    },
+    {
       "source": "/api/:path*",
       "destination": "/api/:path*"
     }
