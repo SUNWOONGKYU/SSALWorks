@@ -43,4 +43,12 @@
   <text x="950" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">병목 마킹</text>
   <text x="950" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(64)</text>
 
+  <!-- 왼쪽으로 이동 화살표 -->
+  <line x1="800" y1="525" x2="750" y2="525" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+
+  <!-- Step 5: DAG 완성 (65) -->
+  <rect x="450" y="450" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="600" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">DAG 완성</text>
+  <text x="600" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(65)</text>
+
 </svg>

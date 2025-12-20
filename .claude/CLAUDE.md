@@ -169,6 +169,103 @@ verification_status 전이:
 - 상태 전이 순서 건너뛰기
 - Verification Agent 투입 생략
 - DB 상태 업데이트 생략
+- **검증만 하고 결과 기록 생략** ⭐ 신규 추가
+
+**⭐ 검증 결과 기록 필수 (절대 생략 금지!):**
+
+```
+🚫 검증만 수행하고 기록 안 하면 무의미!
+🚫 "검증했습니다" 말만 하고 DB/파일에 기록 안 하면 안 됨!
+🚫 검증 결과는 반드시 아래 3곳에 기록!
+```
+
+**검증 후 필수 기록 위치:**
+```
+1. Supabase DB (ssal_grid 테이블)
+   → verification_status: 'Verified' 또는 'Needs Fix'
+   → verification_result: 검증 상세 결과 (JSON)
+   → verified_at: 검증 완료 시간
+
+2. work_logs/current.md
+   → 검증 결과 요약
+   → 통과/실패 항목
+   → 수정 필요 사항 (있을 경우)
+
+3. Human_ClaudeCode_Bridge/Reports/
+   → {TaskID}_verification_report.json
+   → 상세 검증 결과 저장
+```
+
+**검증 기록 체크리스트:**
+- [ ] DB에 verification_status 업데이트했는가?
+- [ ] DB에 verification_result JSON 저장했는가?
+- [ ] work_logs에 검증 결과 기록했는가?
+- [ ] Reports에 검증 리포트 저장했는가?
+
+---
+
+### 절대 규칙 4: Production 코드는 이중 저장
+
+> **적용 대상**: Frontend, Backend_APIs, Database 코드 파일 생성/수정 시
+
+```
+🚫 Stage 폴더에만 저장하고 Production 폴더 복사 생략 금지!
+🚫 코드 파일은 반드시 두 곳에 존재해야 함! (이중 저장)
+🚫 Production 폴더가 최신 상태가 아니면 배포 불가!
+```
+
+**이중 저장 규칙:**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  코드 파일 생성/수정 시                                       │
+├─────────────────────────────────────────────────────────────┤
+│  1. Stage/Area 폴더에 저장 (작업 이력용)                      │
+│     예: S2_개발-1차/Frontend/login.html                      │
+│                                                              │
+│  2. Production 폴더에 복사 (배포용) ⭐ 필수!                   │
+│     예: Production/Frontend/login.html                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**대상 Area:**
+| Area | Stage 폴더 | Production 폴더 |
+|------|------------|-----------------|
+| F (Frontend) | `S?_*/Frontend/` | `Production/Frontend/` |
+| BA (Backend_APIs) | `S?_*/Backend_APIs/` | `Production/Backend_APIs/` |
+| D (Database) | `S?_*/Database/` | `Production/Database/` |
+
+**필수 프로세스:**
+```
+1. Stage 폴더에 코드 저장
+     ↓
+2. Production 폴더로 복사/이동
+     ↓
+3. 두 파일이 동일한지 확인
+     ↓
+4. 완료 보고 시 두 경로 모두 명시
+```
+
+**완료 보고 양식:**
+```
+"코드 파일 저장 완료
+
+📁 Stage 폴더: S2_개발-1차/Frontend/login.html
+📁 Production: Production/Frontend/login.html
+
+✅ 두 파일 동기화 완료"
+```
+
+**❌ 절대 금지 행동:**
+- Stage 폴더에만 저장하고 Production 폴더 무시
+- Production 폴더 복사 생략
+- 두 파일 버전 불일치 상태로 방치
+
+**Production 폴더 동기화 체크리스트:**
+- [ ] Frontend 코드 → Production/Frontend/ 복사했는가?
+- [ ] Backend API 코드 → Production/Backend_APIs/ 복사했는가?
+- [ ] Database 스키마 → Production/Database/ 복사했는가?
+- [ ] 두 파일이 동일한지 확인했는가?
 
 ---
 
