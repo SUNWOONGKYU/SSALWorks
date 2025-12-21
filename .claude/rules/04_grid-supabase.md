@@ -1,6 +1,6 @@
-# 04. Grid 작성 규칙
+# 04. Grid 작성 및 Supabase 작업 규칙
 
-> PROJECT SAL Grid 데이터 작성 시 준수 사항
+> PROJECT SAL Grid 데이터 작성 및 Supabase CRUD 작업 시 준수 사항
 
 ---
 
@@ -134,9 +134,86 @@
 
 ---
 
+## 6. Supabase 연결 정보
+
+### 환경변수 위치
+```
+📁 P3_프로토타입_제작/Database/.env
+```
+
+### 환경변수 목록
+
+| 변수명 | 용도 |
+|--------|------|
+| `SUPABASE_URL` | 프로젝트 URL |
+| `SUPABASE_ANON_KEY` | 공개 키 (클라이언트용) |
+| `SUPABASE_SERVICE_ROLE_KEY` | 관리자 키 (서버용) |
+
+### 테이블명
+
+| 용도 | 테이블명 |
+|------|---------|
+| Task 관리 | `ssalworks_tasks` |
+| Stage 검증 | `stage_verification` |
+
+---
+
+## 7. Supabase CRUD 작업 방법
+
+### 핵심 원칙
+
+```
+🚫 PO(사람)에게 SQL 실행을 요청하지 마라!
+✅ AI가 직접 실행해야 함!
+```
+
+### 우선순위
+
+| 순위 | 방법 | 사용 조건 |
+|:----:|------|----------|
+| **1** | REST API (Node.js) | **기본 방법** - 항상 작동 |
+| 2 | Supabase MCP | MCP 연결 시 |
+| 3 | Supabase CLI | CLI 설치 시 |
+| 4 | Dashboard SQL Editor | 최후 수단 (PO 수동) |
+
+### REST API 사용법
+
+```
+URL: https://{프로젝트}.supabase.co/rest/v1/{테이블명}
+인증: apikey + Authorization 헤더에 SERVICE_ROLE_KEY
+```
+
+| 작업 | HTTP | 경로 예시 |
+|------|------|----------|
+| 조회 | GET | `/rest/v1/ssalworks_tasks?select=*` |
+| 생성 | POST | `/rest/v1/ssalworks_tasks` |
+| 수정 | PATCH | `/rest/v1/ssalworks_tasks?task_id=eq.S5U2` |
+| 삭제 | DELETE | `/rest/v1/ssalworks_tasks?task_id=eq.S5U2` |
+
+### PO(사람)에게 요청해야 하는 경우
+
+아래 조건을 **모두** 만족할 때만 PO에게 요청:
+
+1. REST API 시도 → 실패 (3회 이상)
+2. MCP 시도 → 실패 또는 연결 안 됨
+3. CLI 시도 → 설치 안 됨 또는 실패
+
+**위 3가지 모두 실패한 경우에만:**
+- "모든 방법 시도 후 실패했습니다. Dashboard에서 실행해주세요."
+- SQL 파일 생성하여 제공
+
+---
+
 ## 체크리스트
 
+### Grid 작성
 - [ ] Task Agent가 Area에 맞는가?
 - [ ] Verification Agent가 Task Agent와 다른가?
 - [ ] Verification 필드가 JSON 형식인가?
 - [ ] Tools에 기본 도구(Read/Write)가 없는가?
+
+### Supabase 작업
+- [ ] 테이블명이 `ssalworks_tasks`인가? (`tasks` 아님)
+- [ ] REST API를 먼저 시도했는가?
+- [ ] .env 파일에서 SERVICE_ROLE_KEY를 사용했는가?
+- [ ] PO 요청은 3가지 방법 모두 실패 후인가?
