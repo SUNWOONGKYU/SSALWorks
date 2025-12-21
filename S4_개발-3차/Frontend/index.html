@@ -718,7 +718,7 @@
         .process-special-major:hover .process-percent {
             color: white !important;
         }
-        .process-special-major[data-progress="100"] {
+        .process-special-major[data-progress="0"] {
             background: #bfdbfe;
             border: 1px solid #60a5fa;
         }
@@ -2301,7 +2301,7 @@
                 <div class="process-list">
                     <!-- P0. 작업 디렉토리 구조 생성 (특별단계) -->
                     <div class="process-item">
-                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="100">
+                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">P0.</span>
                                 <span class="process-name">작업 디렉토리 구조 생성</span>
@@ -2309,9 +2309,9 @@
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 100%"></div>
+                                    <div class="process-progress-fill" style="width: 0%"></div>
                                 </div>
-                                <span class="process-percent">100%</span>
+                                <span class="process-percent">0%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
@@ -2332,7 +2332,7 @@
 
                     <!-- P1 사업계획 -->
                     <div class="process-item">
-                        <div class="process-major completed" onclick="toggleProcess(this)" data-progress="100">
+                        <div class="process-major" onclick="toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">P1.</span>
                                 <span class="process-name">사업계획</span>
@@ -2340,9 +2340,9 @@
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 100%"></div>
+                                    <div class="process-progress-fill" style="width: 0%"></div>
                                 </div>
-                                <span class="process-percent">100%</span>
+                                <span class="process-percent">0%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
@@ -2381,7 +2381,7 @@
 
                     <!-- P2 프로젝트 기획 -->
                     <div class="process-item">
-                        <div class="process-major completed" onclick="toggleProcess(this)" data-progress="100">
+                        <div class="process-major" onclick="toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">P2.</span>
                                 <span class="process-name">프로젝트 기획</span>
@@ -2389,9 +2389,9 @@
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 100%"></div>
+                                    <div class="process-progress-fill" style="width: 0%"></div>
                                 </div>
-                                <span class="process-percent">100%</span>
+                                <span class="process-percent">0%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
@@ -2442,7 +2442,7 @@
 
                     <!-- P3. 프로토타입 제작 -->
                     <div class="process-item">
-                        <div class="process-major completed" onclick="toggleProcess(this)" data-progress="100">
+                        <div class="process-major" onclick="toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">P3.</span>
                                 <span class="process-name">프로토타입 제작</span>
@@ -2450,9 +2450,9 @@
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 100%"></div>
+                                    <div class="process-progress-fill" style="width: 0%"></div>
                                 </div>
-                                <span class="process-percent">100%</span>
+                                <span class="process-percent">0%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
@@ -2479,7 +2479,7 @@
 
                     <!-- S0. Project SAL Grid 생성 -->
                     <div class="process-item">
-                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="100">
+                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">S0.</span>
                                 <span class="process-name">Project SAL Grid 생성</span>
@@ -2487,9 +2487,9 @@
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 100%"></div>
+                                    <div class="process-progress-fill" style="width: 0%"></div>
                                 </div>
-                                <span class="process-percent">100%</span>
+                                <span class="process-percent">0%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
@@ -2522,7 +2522,7 @@
 
                     <!-- S1. 개발 준비 (Stage Gate 완료) -->
                     <div class="process-item">
-                        <div id="process-s1" class="process-major completed" onclick="loadProcessStage('s2_dev_prep', 'S1. 개발 준비', '개발단계'); toggleProcess(this)" data-progress="100">
+                        <div id="process-s1" class="process-major" onclick="loadProcessStage('s2_dev_prep', 'S1. 개발 준비', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">S1.</span>
                                 <span class="process-name">개발 준비</span>
@@ -2530,9 +2530,9 @@
                             </div>
                             <div class="process-progress-container">
                                 <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 100%"></div>
+                                    <div class="process-progress-fill" style="width: 0%"></div>
                                 </div>
-                                <span class="process-percent">100%</span>
+                                <span class="process-percent">0%</span>
                             </div>
                         </div>
                         <div class="process-small-list">
