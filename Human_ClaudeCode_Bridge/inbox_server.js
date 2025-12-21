@@ -633,10 +633,10 @@ app.get('/welcome-template/:type', (req, res) => {
 // 이 코드를 inbox_server.js의 welcome-template/:type 엔드포인트 다음에 추가하세요.
 
 // 상황별 안내문 디렉토리 경로
-const GUIDE_DIR = path.join(__dirname, '..', '상황별_안내문');
+const GUIDE_DIR = path.join(__dirname, '..', 'P2_프로젝트_기획', 'User_Flows', '상황별_안내문');
 
 // Order Sheet 템플릿 디렉토리 경로
-const ORDERSHEET_TEMPLATE_DIR = path.join(__dirname, '..', 'Order_Sheet_템플릿');
+const ORDERSHEET_TEMPLATE_DIR = path.join(__dirname, '..', 'P2_프로젝트_기획', 'User_Flows', 'Order_Sheet_템플릿');
 
 // 안내문 목록 조회
 app.get('/guides', (req, res) => {
