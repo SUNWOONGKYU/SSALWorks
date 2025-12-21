@@ -101,18 +101,20 @@ function greet(name) {
 }
 
 // 함수 표현식
-const greet = function(name) {
+const greet2 = function(name) {
     return `안녕하세요, ${name}님!`;
 };
 
 // 화살표 함수 (권장)
-const greet = (name) => {
+const greet3 = (name) => {
     return `안녕하세요, ${name}님!`;
 };
 
 // 화살표 함수 (한 줄일 때)
-const greet = (name) => `안녕하세요, ${name}님!`;
+const greet4 = (name) => `안녕하세요, ${name}님!`;
 ```
+
+**4가지 방식 모두 같은 동작**을 합니다. 화살표 함수가 가장 간결합니다.
 
 ### 3-2. 함수 호출
 

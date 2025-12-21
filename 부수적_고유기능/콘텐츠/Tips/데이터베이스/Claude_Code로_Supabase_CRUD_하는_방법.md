@@ -129,11 +129,11 @@ Claude Code는 기본적으로 직접 실행해야 합니다. 하지만 아래 �
 
 | 순위 | 방법 | 안정성 | 권장 상황 |
 |:----:|------|:------:|----------|
-| **1** | REST API (Node.js) | ✅ 매우 안정 | 기본으로 사용 |
-| 2 | Supabase MCP | ⚠️ 불안정 | MCP 연결이 잘 될 때 |
-| 3 | Supabase CLI | ✅ 안정 | CLI 설치되어 있을 때 |
-| 4 | curl | ⚠️ Windows 이슈 | Linux/Mac 환경 |
-| 5 | Dashboard SQL Editor | ✅ 안정 | 최후 수단 (수동) |
+| **1** | REST API (Node.js) | 매우 안정 | 기본으로 사용 |
+| 2 | Supabase MCP | 불안정 | MCP 연결이 잘 될 때 |
+| 3 | Supabase CLI | 안정 | CLI 설치되어 있을 때 |
+| 4 | curl | Windows 이슈 | Linux/Mac 환경 |
+| 5 | Dashboard SQL Editor | 안정 | 최후 수단 (수동) |
 
 **결정 흐름**:
 ```
@@ -148,8 +148,8 @@ Supabase는 두 종류의 API 키를 제공합니다.
 
 | 키 | RLS 정책 | 용도 | 주의사항 |
 |----|:--------:|------|----------|
-| Anon Key | ✅ 적용됨 | 웹/앱 클라이언트 | 공개 가능 |
-| Service Role Key | ❌ 무시됨 | 서버, AI 작업 | **절대 공개 금지** |
+| Anon Key | 적용됨 | 웹/앱 클라이언트 | 공개 가능 |
+| Service Role Key | 무시됨 | 서버, AI 작업 | **절대 공개 금지** |
 
 Claude Code가 데이터베이스 작업을 할 때는 Service Role Key를 사용합니다. 이 키는 RLS(Row Level Security) 정책을 우회하므로 모든 데이터에 접근할 수 있습니다.
 
@@ -165,10 +165,4 @@ P3_프로토타입_제작/Database/.env
 
 ---
 
-## 체크리스트
-
-- [ ] 어떤 방법을 사용할지 결정했는가?
-- [ ] .env 파일에서 필요한 키를 확인했는가?
-- [ ] 테이블명이 정확한가? (예: `ssalworks_tasks`)
-- [ ] 스키마 변경(DDL)은 MCP apply_migration을 사용하는가?
-
+*상세 내용: `.claude/methods/01_supabase-crud.md` 참조*

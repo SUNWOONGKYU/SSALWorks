@@ -333,7 +333,7 @@ export default async function handler(req, res) {
 
 **완화 방법:**
 - 함수 크기 줄이기 (불필요한 import 제거)
-- Edge Functions 사용 (Pro 플랜)
+- Edge Functions 사용 (무료 플랜에서도 사용 가능)
 
 ### 9-2. 정적 파일 캐싱
 

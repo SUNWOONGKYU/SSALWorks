@@ -7,10 +7,10 @@
 ## 기본 원칙
 
 ```sql
--- ❌ 모든 컬럼 조회
+-- 모든 컬럼 조회 (비효율적)
 SELECT * FROM products;
 
--- ✅ 필요한 컬럼만
+-- 필요한 컬럼만 (효율적)
 SELECT id, name, price FROM products;
 ```
 
@@ -35,13 +35,13 @@ CREATE INDEX idx_orders_user_date ON orders (user_id, created_at);
 ## N+1 문제 해결
 
 ```javascript
-// ❌ N+1 문제 (주문 100개 = 101번 쿼리)
+// N+1 문제 (주문 100개 = 101번 쿼리)
 const orders = await supabase.from('orders').select('*');
 for (const order of orders.data) {
   await supabase.from('users').select('*').eq('id', order.user_id);
 }
 
-// ✅ JOIN으로 한 번에 (1번 쿼리)
+// JOIN으로 한 번에 (1번 쿼리)
 const { data } = await supabase
   .from('orders')
   .select('id, total_amount, users (id, email, name)');
@@ -100,14 +100,4 @@ EXPLAIN ANALYZE SELECT * FROM orders WHERE user_id = 'uuid';
 
 ---
 
-## 체크리스트
-
-- [ ] SELECT *를 사용하고 있지 않은가?
-- [ ] 자주 필터링하는 컬럼에 인덱스가 있는가?
-- [ ] N+1 문제가 없는가?
-- [ ] 큰 테이블에 페이지네이션을 적용했는가?
-
----
-
-*상세 내용: Supabase Dashboard → Database → Query Performance 참조*
-
+*상세 내용: Supabase Dashboard > Database > Query Performance 참조*

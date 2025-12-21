@@ -103,7 +103,7 @@ interface User {
     email?: string;  // 선택적 속성 (optional)
 }
 
-const user: User = {
+const myUser: User = {
     name: "홍길동",
     age: 30
     // email은 없어도 OK
@@ -177,15 +177,13 @@ type Dog = Animal & { breed: string };
 ### 4-1. 기본 형식
 
 ```typescript
-// 매개변수와 반환값 타입 지정
+// 함수 선언식
 function add(a: number, b: number): number {
     return a + b;
 }
 
 // 화살표 함수
-const add = (a: number, b: number): number => {
-    return a + b;
-};
+const addArrow = (a: number, b: number): number => a + b;
 
 // 반환값 없음
 function log(message: string): void {
