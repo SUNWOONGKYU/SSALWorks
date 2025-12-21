@@ -178,6 +178,40 @@ mv "S5_운영" "S5_개발_마무리"
 
 ---
 
+### S4F5 버그 수정 완료 ✅ (오후)
+
+**근본 원인 발견:**
+- Google OAuth로 로그인하면 `auth.users`에만 레코드 생성됨
+- `public.users` 테이블에는 자동 생성되지 않음 (트리거 없음)
+- API가 `public.users`에서 `user_id`(8자리)를 조회하려 했으나 레코드 없음
+
+**해결책:**
+1. API에 신규 사용자 자동 생성 로직 추가
+2. 8자리 고유 user_id 생성 함수 추가 (중복 체크 포함)
+3. 프로젝트 카운트 계산 버그 수정 (head:true 옵션 올바르게 사용)
+
+**수정된 파일:**
+- `Production/api/Backend_APIs/projects/create.js`
+- `S4_개발-3차/Backend_APIs/projects/create.js`
+
+**자가 검토 5회 완료:**
+| 검토 | 항목 | 결과 |
+|-----|------|------|
+| 1/5 | generateUserId, createUniqueUserId 함수 | ✅ 정상 |
+| 2/5 | 사용자 조회/생성 로직 | ✅ 정상 |
+| 3/5 | 프로젝트 생성 및 응답 | ✅ 정상 |
+| 4/5 | 프론트엔드 DOMContentLoaded, localSupabase | ✅ 정상 |
+| 5/5 | API 호출 및 응답 처리 | ✅ 정상 |
+
+**커밋:** `5bf39b3`: fix: 프로젝트 생성 API - 신규 사용자 자동 생성 및 카운트 버그 수정
+
+**⏳ PO 테스트 필요:**
+- 브라우저에서 https://www.ssalworks.ai.kr/ 접속
+- 프로젝트 등록 시도
+- 성공 시 TEST_DISABLE 주석 해제
+
+---
+
 ## ⚠️ 테스트용 임시 수정 (다음 세션에서 반드시 복원!)
 
 ### 1. Production/index.html
