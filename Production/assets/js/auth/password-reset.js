@@ -42,8 +42,8 @@ function isValidEmail(email) {
 
 /**
  * 비밀번호 재설정 요청 처리
- * - /api/email/password-reset API 호출
- * - Supabase Auth의 resetPasswordForEmail 사용 (선택적)
+ * - Supabase Auth의 resetPasswordForEmail 사용
+ * - Supabase가 직접 이메일 발송 및 토큰 관리
  *
  * @param {Event} event - 폼 제출 이벤트
  */
@@ -69,31 +69,21 @@ async function handleForgotPassword(event) {
     try {
         showLoading();
 
-        // API 엔드포인트 (프로덕션 환경에 맞게 조정)
-        const API_URL = '/api/email/password-reset';
+        // Supabase 클라이언트 초기화 (forgot-password.html에서 전역으로 제공)
+        if (typeof supabaseClient === 'undefined') {
+            throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
+        }
 
-        // API 호출
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                to: email,
-                name: email.split('@')[0], // 이메일에서 이름 추출 (임시)
-                resetToken: generateTemporaryToken(), // 임시 토큰 생성 (실제로는 백엔드에서 생성)
-                expiryMinutes: 30
-            })
+        // Supabase 내장 비밀번호 재설정 기능 사용
+        const { data, error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin + '/pages/auth/reset-password.html'
         });
 
         hideLoading();
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error?.message || '비밀번호 재설정 요청에 실패했습니다.');
+        if (error) {
+            throw error;
         }
-
-        const data = await response.json();
 
         // 성공 화면 표시
         document.getElementById('requestForm').style.display = 'none';
@@ -105,18 +95,17 @@ async function handleForgotPassword(event) {
     } catch (error) {
         hideLoading();
         console.error('비밀번호 재설정 요청 실패:', error);
-        showToast(error.message || '비밀번호 재설정 요청에 실패했습니다.', 'error', 5000);
-    }
-}
 
-/**
- * 임시 토큰 생성 (실제로는 백엔드에서 생성)
- * - 프로토타입용 임시 구현
- * @returns {string} 임시 토큰
- */
-function generateTemporaryToken() {
-    return 'temp_token_' + Math.random().toString(36).substring(2, 15) +
-           Math.random().toString(36).substring(2, 15);
+        let errorMessage = '비밀번호 재설정 요청에 실패했습니다.';
+        if (error.message) {
+            if (error.message.includes('rate limit')) {
+                errorMessage = '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.';
+            } else {
+                errorMessage = error.message;
+            }
+        }
+        showToast(errorMessage, 'error', 5000);
+    }
 }
 
 // ========== reset-password.html: 비밀번호 재설정 ==========
