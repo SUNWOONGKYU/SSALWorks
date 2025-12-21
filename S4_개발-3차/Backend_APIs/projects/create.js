@@ -185,20 +185,23 @@ module.exports = async (req, res) => {
         }
 
         // 4. 진행 중인 프로젝트가 있는지 확인
-        // TEST_DISABLE: 테스트를 위해 임시 비활성화
-        // const { data: existingProject, error: checkError } = await supabase
-        //     .from('projects')
-        //     .select('project_id, project_name')
-        //     .eq('user_id', userId)
-        //     .eq('status', 'in_progress')
-        //     .single();
+        // (DB에 idx_one_in_progress_per_user 제약조건 있음 - 사용자당 1개만 허용)
+        const { data: existingProject, error: checkError } = await supabase
+            .from('projects')
+            .select('project_id, project_name')
+            .eq('user_id', userId)
+            .eq('status', 'in_progress')
+            .single();
 
-        // if (existingProject) {
-        //     return res.status(400).json({
-        //         success: false,
-        //         error: `이미 진행 중인 프로젝트가 있습니다: ${existingProject.project_name}`
-        //     });
-        // }
+        if (existingProject) {
+            return res.status(400).json({
+                success: false,
+                error: `이미 진행 중인 프로젝트가 있습니다: ${existingProject.project_name}`,
+                existingProjectId: existingProject.project_id,
+                existingProjectName: existingProject.project_name,
+                hint: '기존 프로젝트를 완료하거나 삭제한 후 새 프로젝트를 생성해주세요'
+            });
+        }
 
         // 5. project_id 생성 (user_id-P001 형식)
         const { count: projectCount, error: countError } = await supabase
@@ -239,6 +242,16 @@ module.exports = async (req, res) => {
 
         if (insertError) {
             console.error('Project insert failed:', insertError);
+
+            // 사용자당 1개 진행 중 프로젝트 제약조건 위반 (레이스 컨디션 대비)
+            if (insertError.code === '23505' && insertError.message.includes('idx_one_in_progress_per_user')) {
+                return res.status(400).json({
+                    success: false,
+                    error: '이미 진행 중인 프로젝트가 있습니다',
+                    hint: '기존 프로젝트를 완료하거나 삭제한 후 새 프로젝트를 생성해주세요'
+                });
+            }
+
             return res.status(500).json({
                 success: false,
                 error: '프로젝트 생성에 실패했습니다',
