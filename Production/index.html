@@ -5425,46 +5425,71 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         // 프로젝트 진행률 로드 (DB에서)
         async function loadProjectProgress(projectName) {
             try {
-                // SSAL Works 프로젝트인 경우 ssalworks_tasks에서 진행률 로드
+                // SSAL Works 프로젝트인 경우
                 if (projectName === 'SSAL Works') {
+                    // 1. Stage Gate 상태 조회
+                    const { data: stageGates } = await supabaseClient
+                        .from('stage_verification')
+                        .select('stage_name, stage_gate_status')
+                        .eq('project_id', 'SSALWORKS');
+
+                    const approvedStages = {};
+                    if (stageGates) {
+                        stageGates.forEach(sg => {
+                            if (sg.stage_gate_status === 'Approved') {
+                                approvedStages[sg.stage_name] = true;
+                            }
+                        });
+                    }
+
+                    // 2. Task 상태 조회
                     const { data: tasks, error } = await supabaseClient
                         .from('ssalworks_tasks')
-                        .select('stage, task_status, task_progress');
+                        .select('stage, task_status');
 
                     if (error) {
                         console.error('진행률 로드 실패:', error);
                         return;
                     }
 
-                    // Stage별 진행률 계산
-                    const stageProgress = {};
-                    const stageCounts = {};
+                    // 3. Stage별 진행률 계산 (Completed Task 수 / 전체 Task 수)
+                    const stageCompleted = {};
+                    const stageTotals = {};
 
                     tasks.forEach(task => {
                         const stage = task.stage;
-                        if (!stageProgress[stage]) {
-                            stageProgress[stage] = 0;
-                            stageCounts[stage] = 0;
+                        if (!stageTotals[stage]) {
+                            stageTotals[stage] = 0;
+                            stageCompleted[stage] = 0;
                         }
-                        stageProgress[stage] += (task.task_progress || 0);
-                        stageCounts[stage]++;
+                        stageTotals[stage]++;
+                        if (task.task_status === 'Completed') {
+                            stageCompleted[stage]++;
+                        }
                     });
 
-                    // 평균 계산
-                    Object.keys(stageProgress).forEach(stage => {
-                        stageProgress[stage] = Math.round(stageProgress[stage] / stageCounts[stage]);
+                    // 4. 진행률 계산
+                    const stageProgress = {};
+                    Object.keys(stageTotals).forEach(stage => {
+                        stageProgress[stage] = Math.round((stageCompleted[stage] / stageTotals[stage]) * 100);
                     });
 
-                    // P0, P1, P2, P3는 SSAL Works 프로젝트에서 완료됨 (100%)
+                    // P0, P1, P2, P3, S0는 SSAL Works 프로젝트에서 완료됨 (100%)
                     updateStageProgress('P0', 100);
                     updateStageProgress('P1', 100);
                     updateStageProgress('P2', 100);
                     updateStageProgress('P3', 100);
+                    updateStageProgress('S0', 100);
 
-                    // S1-S5 진행률 업데이트
+                    // S1-S5 진행률 업데이트 (Stage Gate Approved면 100%)
                     for (let i = 1; i <= 5; i++) {
-                        const progress = stageProgress[i] || 0;
-                        updateStageProgress('S' + i, progress);
+                        const stageName = 'S' + i;
+                        if (approvedStages[stageName]) {
+                            updateStageProgress(stageName, 100);
+                        } else {
+                            const progress = stageProgress[i] || 0;
+                            updateStageProgress(stageName, progress);
+                        }
                     }
 
                     console.log('📊 프로젝트 진행률 로드 완료:', stageProgress);
