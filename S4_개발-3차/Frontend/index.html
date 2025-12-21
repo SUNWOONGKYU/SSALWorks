@@ -9371,7 +9371,7 @@ ${result.answer}`;
                         displayName = session.user.email.split('@')[0];
                     }
 
-                    showLoggedInUI(displayName);
+                    showLoggedInUI(displayName, session.user.email);
                     // 로그인 상태 - Default 안내문 로드
                     loadGuideToWorkspace('Default');
                     // 진행중 프로젝트 로드
@@ -9407,13 +9407,22 @@ ${result.answer}`;
             }
         }
 
-        function showLoggedInUI(nickname = '사용자') {
+        const ADMIN_EMAIL = 'wksun999@gmail.com'; // 관리자 이메일
+
+        function showLoggedInUI(nickname = '사용자', email = '') {
             const guestBtns = document.getElementById('headerGuestBtns');
             const userBtns = document.getElementById('headerUserBtns');
             const nicknameEl = document.getElementById('userNickname');
+            const adminModeBtn = document.getElementById('adminModeBtn');
+
             if (guestBtns) guestBtns.style.display = 'none';
             if (userBtns) userBtns.style.display = 'flex';
             if (nicknameEl) nicknameEl.textContent = nickname + '님';
+
+            // 관리자 이메일만 버튼 표시
+            if (adminModeBtn) {
+                adminModeBtn.style.display = (email === ADMIN_EMAIL) ? 'inline-block' : 'none';
+            }
         }
 
         function showLoggedOutUI() {
