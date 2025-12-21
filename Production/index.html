@@ -2262,23 +2262,11 @@
                 <div style="margin-bottom: 6px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; color: #495057; padding: 6px 8px; background: rgba(16, 185, 129, 0.05); border-radius: 4px; cursor: pointer;"
                         onclick="toggleCompletedProjects()">
-                        <span>✅ 완료 Project (<span id="completedProjectsCount">3</span>개)</span>
+                        <span>✅ 완료 Project (<span id="completedProjectsCount">0</span>개)</span>
                         <span id="completedProjectsArrow" style="font-size: 10px;">▶</span>
                     </div>
                     <div id="completedProjectsList" style="display: none; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px; max-height: 200px; overflow-y: auto;">
                         <!-- 완료 프로젝트들 (DB에서 동적 로드) -->
-                        <div class="project-list-item" onclick="selectProject('포트폴리오')" style="opacity: 0.7;">
-                            <span class="project-name">포트폴리오</span>
-                            <span class="project-status" style="background: var(--success); color: white;">완료</span>
-                        </div>
-                        <div class="project-list-item" onclick="selectProject('쇼핑몰 프로젝트')" style="opacity: 0.7;">
-                            <span class="project-name">쇼핑몰 프로젝트</span>
-                            <span class="project-status" style="background: var(--success); color: white;">완료</span>
-                        </div>
-                        <div class="project-list-item" onclick="selectProject('회사 홈페이지')" style="opacity: 0.7;">
-                            <span class="project-name">회사 홈페이지</span>
-                            <span class="project-status" style="background: var(--success); color: white;">완료</span>
-                        </div>
                     </div>
                 </div>
 
@@ -9337,9 +9325,10 @@ ${result.answer}`;
         // 진행중 프로젝트 로드 (로그인 시 호출)
         // ========================================
         function loadInProgressProject(authUserId) {
-            // 일반 회원 모드로 시작 - SSAL Works 표시
+            // 일반 회원 모드로 시작 - 사용자별 프로젝트 로드
             if (!isAdminMode) {
                 loadUserProject();
+                loadCompletedProjects();
             }
         }
 
@@ -9513,22 +9502,136 @@ ${result.answer}`;
                 adminModeBtn.style.background = '#6c757d';
                 adminModeBtn.onclick = showAdminPasswordModal;
             }
-            // 일반 모드: SSAL Works 로드
+            // 일반 모드: 사용자별 프로젝트 로드
             loadUserProject();
+            loadCompletedProjects();
             console.log('ℹ️ 일반 모드 전환');
         }
 
-        function loadUserProject() {
-            // 일반 회원 모드: SSAL Works 로드
+        async function loadUserProject() {
             const currentProjectList = document.getElementById('currentProjectList');
-            if (currentProjectList) {
+            if (!currentProjectList) return;
+
+            try {
+                // 현재 로그인한 사용자 확인
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    currentProjectList.innerHTML = `
+                        <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
+                            로그인이 필요합니다
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 사용자 정보 조회
+                const { data: userData } = await supabaseClient
+                    .from('users')
+                    .select('user_id, installation_fee_paid')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (!userData || !userData.installation_fee_paid) {
+                    currentProjectList.innerHTML = `
+                        <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
+                            개설비 납부 후 이용 가능
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 사용자의 진행중 프로젝트 조회
+                const { data: projects, error } = await supabaseClient
+                    .from('projects')
+                    .select('*')
+                    .eq('user_id', userData.user_id)
+                    .eq('status', 'in_progress')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                if (!projects || projects.length === 0) {
+                    currentProjectList.innerHTML = `
+                        <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
+                            진행중인 프로젝트 없음
+                        </div>
+                    `;
+                    return;
+                }
+
+                // 진행중 프로젝트 표시
+                const project = projects[0];
                 currentProjectList.innerHTML = `
-                    <div class="project-list-item selected" onclick="loadProcessStage('project_work', 'SSAL Works', '프로젝트'); selectProject('SSAL Works')">
-                        <span class="project-name">SSAL Works</span>
+                    <div class="project-list-item selected" onclick="loadProcessStage('project_work', '${project.project_name}', '프로젝트'); selectProject('${project.project_name}')">
+                        <span class="project-name">${project.project_name}</span>
                         <span class="project-status">진행중</span>
                     </div>
                 `;
-                console.log('✅ 프로젝트 로드: SSAL Works');
+                console.log('✅ 프로젝트 로드:', project.project_name);
+
+            } catch (error) {
+                console.error('프로젝트 로드 실패:', error);
+                currentProjectList.innerHTML = `
+                    <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
+                        프로젝트 로드 실패
+                    </div>
+                `;
+            }
+        }
+
+        async function loadCompletedProjects() {
+            const completedProjectsList = document.getElementById('completedProjectsList');
+            const completedProjectsCount = document.getElementById('completedProjectsCount');
+            if (!completedProjectsList) return;
+
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    completedProjectsCount.textContent = '0';
+                    return;
+                }
+
+                const { data: userData } = await supabaseClient
+                    .from('users')
+                    .select('user_id')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (!userData) {
+                    completedProjectsCount.textContent = '0';
+                    return;
+                }
+
+                const { data: projects, error } = await supabaseClient
+                    .from('projects')
+                    .select('*')
+                    .eq('user_id', userData.user_id)
+                    .eq('status', 'completed')
+                    .order('updated_at', { ascending: false });
+
+                if (error) throw error;
+
+                completedProjectsCount.textContent = projects?.length || 0;
+
+                if (!projects || projects.length === 0) {
+                    completedProjectsList.innerHTML = `
+                        <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
+                            완료된 프로젝트 없음
+                        </div>
+                    `;
+                    return;
+                }
+
+                completedProjectsList.innerHTML = projects.map(p => `
+                    <div class="project-list-item" onclick="selectProject('${p.project_name}')" style="opacity: 0.7;">
+                        <span class="project-name">${p.project_name}</span>
+                        <span class="project-status" style="background: var(--success); color: white;">완료</span>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('완료 프로젝트 로드 실패:', error);
+                completedProjectsCount.textContent = '0';
             }
         }
 
