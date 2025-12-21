@@ -178,6 +178,21 @@
             cursor: pointer;
         }
 
+        /* Part 제목 스타일 */
+        .part-header {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--tertiary);
+            padding: 12px 8px 6px;
+            margin-top: 12px;
+            border-bottom: 2px solid var(--tertiary);
+            margin-bottom: 4px;
+        }
+
+        .part-header:first-child {
+            margin-top: 0;
+        }
+
         .content-link:hover {
             background: rgba(102, 126, 234, 0.1);
             color: var(--tertiary);
@@ -502,20 +517,24 @@
                 icon: '🤖',
                 description: 'AI 활용의 기초부터 고급까지 (34편)',
                 files: [
+                    { type: 'part', name: 'Part 1 | 시작하기' },
                     { name: '01편 - Anthropic 창업과 철학', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/01편_Anthropic_창업과_철학.md' },
                     { name: '02편 - Claude의 탄생과 진화', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/02편_Claude의_탄생과_진화.md' },
                     { name: '03편 - Claude 모델과 접근방식 개요', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/03편_Claude_모델과_접근방식_개요.md' },
                     { name: '04편 - Claude의 특장점과 시장 위치', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/04편_Claude의_특장점과_시장_위치.md' },
+                    { type: 'part', name: 'Part 2 | 접근방식' },
                     { name: '05편 - 모바일 앱과 웹', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/05편_모바일_앱과_웹.md' },
                     { name: '06편 - 데스크톱 앱', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/06편_데스크톱_앱.md' },
                     { name: '07편 - Claude Code', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/07편_Claude_Code.md' },
                     { name: '08편 - IDE 결합과 API 연결', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/08편_IDE_결합과_API_연결.md' },
+                    { type: 'part', name: 'Part 3 | 기능 이해' },
                     { name: '09편 - Claude 생태계 전체 구조', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/09편_Claude_생태계_전체_구조.md' },
                     { name: '10편 - Claude 내부 기능', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/10편_Claude_내부_기능.md' },
                     { name: '11편 - Claude 내부 도구 1 (대화/검색)', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/11편_Claude_내부_도구_1_대화_검색.md' },
                     { name: '12편 - Claude 내부 도구 2 (개발/작업)', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/12편_Claude_내부_도구_2_개발_작업.md' },
                     { name: '13편 - 작업 환경과 확장 생태계', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/13편_작업_환경과_확장_생태계.md' },
                     { name: '14편 - 구독 플랜과 요금 체계', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/14편_구독_플랜과_요금_체계.md' },
+                    { type: 'part', name: 'Part 4 | 도구 활용' },
                     { name: '15편 - 파일 다루기', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/15편_파일_다루기.md' },
                     { name: '16편 - 명령 실행', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/16편_명령_실행.md' },
                     { name: '17편 - 웹 정보와 사용자 상호작용', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/17편_웹_정보와_사용자_상호작용.md' },
@@ -529,6 +548,7 @@
                     { name: '25편 - Mode와 Output Style', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/25편_Mode와_Output_Style.md' },
                     { name: '26편 - Settings', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/26편_Settings.md' },
                     { name: '27편 - GitHub Actions와 Agent SDK', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/27편_GitHub_Actions와_Agent_SDK.md' },
+                    { type: 'part', name: 'Part 5 | 실전 활용' },
                     { name: '28편 - 자동화 코드 생성', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/28편_자동화_코드_생성.md' },
                     { name: '29편 - 노코드 자동화 도구', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/29편_노코드_자동화_도구.md' },
                     { name: '30편 - 복합 AI 활용 전략', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/30편_복합_AI_활용_전략.md' },
@@ -625,16 +645,25 @@
                 list.className = 'category-list';
 
                 category.files.forEach(file => {
-                    const li = document.createElement('li');
-                    li.className = 'content-item';
+                    if (file.type === 'part') {
+                        // Part 헤더 생성
+                        const partDiv = document.createElement('div');
+                        partDiv.className = 'part-header';
+                        partDiv.textContent = file.name;
+                        list.appendChild(partDiv);
+                    } else {
+                        // 일반 콘텐츠 링크 생성
+                        const li = document.createElement('li');
+                        li.className = 'content-item';
 
-                    const a = document.createElement('a');
-                    a.className = 'content-link';
-                    a.textContent = file.name;
-                    a.onclick = () => loadContent(file.path, a);
+                        const a = document.createElement('a');
+                        a.className = 'content-link';
+                        a.textContent = file.name;
+                        a.onclick = () => loadContent(file.path, a);
 
-                    li.appendChild(a);
-                    list.appendChild(li);
+                        li.appendChild(a);
+                        list.appendChild(li);
+                    }
                 });
 
                 categoryDiv.appendChild(header);
