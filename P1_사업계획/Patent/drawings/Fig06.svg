@@ -1,5 +1,5 @@
-<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-  <!-- 도 6: 3D Renderer/UI 프로세스 -->
+﻿<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- ??6: 3D Renderer/UI ?꾨줈?몄뒪 -->
   <rect width="100%" height="100%" fill="white"/>
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -7,36 +7,36 @@
     </marker>
   </defs>
 
-  <!-- 도면 번호 -->
-  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 6</text>
+  <!-- ?꾨㈃ 踰덊샇 -->
+  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">??6</text>
 
-  <!-- Step 1: 좌표 매핑 (81) -->
+  <!-- Step 1: 醫뚰몴 留ㅽ븨 81 -->
   <rect x="100" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="200" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">좌표 매핑</text>
-  <text x="200" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(81)</text>
+  <text x="200" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">醫뚰몴 留ㅽ븨</text>
+  <text x="200" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">81</text>
 
-  <!-- 화살표 1 -->
+  <!-- ?붿궡??1 -->
   <line x1="300" y1="400" x2="350" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 2: 렌더링 엔진 (82) -->
+  <!-- Step 2: ?뚮뜑留??붿쭊 82 -->
   <rect x="350" y="300" width="250" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="475" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">렌더링 엔진</text>
-  <text x="475" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(82)</text>
+  <text x="475" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?뚮뜑留??붿쭊</text>
+  <text x="475" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">82</text>
 
-  <!-- 화살표 2 -->
+  <!-- ?붿궡??2 -->
   <line x1="600" y1="400" x2="650" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 3: 상호작용 처리 (83) -->
+  <!-- Step 3: ?곹샇?묒슜 泥섎━ 83 -->
   <rect x="650" y="300" width="250" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="775" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">상호작용 처리</text>
-  <text x="775" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(83)</text>
+  <text x="775" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?곹샇?묒슜 泥섎━</text>
+  <text x="775" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">83</text>
 
-  <!-- 화살표 3 -->
+  <!-- ?붿궡??3 -->
   <line x1="900" y1="400" x2="950" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 4: 실시간 갱신 (84) -->
+  <!-- Step 4: ?ㅼ떆媛?媛깆떊 84 -->
   <rect x="950" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="1050" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">실시간 갱신</text>
-  <text x="1050" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(84)</text>
+  <text x="1050" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?ㅼ떆媛?媛깆떊</text>
+  <text x="1050" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">84</text>
 
 </svg>

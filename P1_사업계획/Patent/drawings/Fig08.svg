@@ -1,5 +1,5 @@
-<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-  <!-- 도 8: Reporting 파이프라인 -->
+﻿<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+  <!-- ??8: Reporting ?뚯씠?꾨씪??-->
   <rect width="100%" height="100%" fill="white"/>
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -7,36 +7,36 @@
     </marker>
   </defs>
 
-  <!-- 도면 번호 -->
-  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 8</text>
+  <!-- ?꾨㈃ 踰덊샇 -->
+  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">??8</text>
 
-  <!-- Step 1: 데이터 수집 (101) -->
+  <!-- Step 1: ?곗씠???섏쭛 101 -->
   <rect x="100" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="200" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">데이터 수집</text>
-  <text x="200" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(101)</text>
+  <text x="200" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?곗씠???섏쭛</text>
+  <text x="200" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">101</text>
 
-  <!-- 화살표 1 -->
+  <!-- ?붿궡??1 -->
   <line x1="300" y1="400" x2="350" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 2: 집계/분석 (102) -->
+  <!-- Step 2: 吏묎퀎/遺꾩꽍 102 -->
   <rect x="350" y="300" width="250" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="475" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">집계/분석</text>
-  <text x="475" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(102)</text>
+  <text x="475" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">吏묎퀎/遺꾩꽍</text>
+  <text x="475" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">102</text>
 
-  <!-- 화살표 2 -->
+  <!-- ?붿궡??2 -->
   <line x1="600" y1="400" x2="650" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 3: 리포트 생성 (103) -->
+  <!-- Step 3: 由ы룷???앹꽦 103 -->
   <rect x="650" y="300" width="250" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="775" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">리포트 생성</text>
-  <text x="775" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(103)</text>
+  <text x="775" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">由ы룷???앹꽦</text>
+  <text x="775" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">103</text>
 
-  <!-- 화살표 3 -->
+  <!-- ?붿궡??3 -->
   <line x1="900" y1="400" x2="950" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 4: 알림 발송 (104) -->
+  <!-- Step 4: ?뚮┝ 諛쒖넚 104 -->
   <rect x="950" y="300" width="150" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="1025" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">알림</text>
-  <text x="1025" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(104)</text>
+  <text x="1025" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?뚮┝</text>
+  <text x="1025" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">104</text>
 
 </svg>

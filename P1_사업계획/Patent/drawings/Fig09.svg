@@ -1,5 +1,5 @@
-<svg width="1200" height="1000" viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
-  <!-- 도 9: 증분 재계산 프로세스 (구 도 10) -->
+﻿<svg width="1200" height="1000" viewBox="0 0 1200 1000" xmlns="http://www.w3.org/2000/svg">
+  <!-- ??9: 利앸텇 ?ш퀎???꾨줈?몄뒪 (援???10) -->
   <rect width="100%" height="100%" fill="white"/>
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -7,44 +7,44 @@
     </marker>
   </defs>
 
-  <!-- 도면 번호 -->
-  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 9</text>
+  <!-- ?꾨㈃ 踰덊샇 -->
+  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">??9</text>
 
-  <!-- Step 1: 상호작용 (83) -->
+  <!-- Step 1: ?곹샇?묒슜 83 -->
   <rect x="400" y="100" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">상호작용/변경</text>
-  <text x="600" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(83)</text>
+  <text x="600" y="145" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?곹샇?묒슜/蹂寃?/text>
+  <text x="600" y="175" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">83</text>
 
-  <!-- 화살표 1 -->
+  <!-- ?붿궡??1 -->
   <line x1="600" y1="200" x2="600" y2="250" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 2: 파싱/정규화 (50) -->
+  <!-- Step 2: ?뚯떛/?뺢퇋??50 -->
   <rect x="400" y="250" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">파싱/정규화</text>
-  <text x="600" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(50)</text>
+  <text x="600" y="295" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?뚯떛/?뺢퇋??/text>
+  <text x="600" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">50</text>
 
-  <!-- 화살표 2 -->
+  <!-- ?붿궡??2 -->
   <line x1="600" y1="350" x2="600" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 3: 그래프 재구성 (60) -->
+  <!-- Step 3: 洹몃옒???ш뎄??60 -->
   <rect x="400" y="400" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="445" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">그래프 재구성</text>
-  <text x="600" y="475" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(60)</text>
+  <text x="600" y="445" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">洹몃옒???ш뎄??/text>
+  <text x="600" y="475" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">60</text>
 
-  <!-- 화살표 3 -->
+  <!-- ?붿궡??3 -->
   <line x1="600" y1="500" x2="600" y2="550" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 4: 스케줄링 (70) -->
+  <!-- Step 4: ?ㅼ?以꾨쭅 70 -->
   <rect x="400" y="550" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="595" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">스케줄링</text>
-  <text x="600" y="625" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(70)</text>
+  <text x="600" y="595" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?ㅼ?以꾨쭅</text>
+  <text x="600" y="625" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">70</text>
 
-  <!-- 화살표 4 -->
+  <!-- ?붿궡??4 -->
   <line x1="600" y1="650" x2="600" y2="700" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- Step 5: 3D 렌더링 (80) -->
+  <!-- Step 5: 3D ?뚮뜑留?80 -->
   <rect x="400" y="700" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="745" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">3D 렌더링</text>
-  <text x="600" y="775" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(80)</text>
+  <text x="600" y="745" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">3D ?뚮뜑留?/text>
+  <text x="600" y="775" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">80</text>
 
 </svg>
