@@ -5404,6 +5404,82 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             }
         };
 
+        // 프로젝트 진행률 로드 (DB에서)
+        async function loadProjectProgress(projectName) {
+            try {
+                // SSAL Works 프로젝트인 경우 ssalworks_tasks에서 진행률 로드
+                if (projectName === 'SSAL Works') {
+                    const { data: tasks, error } = await supabaseClient
+                        .from('ssalworks_tasks')
+                        .select('stage, task_status, task_progress');
+
+                    if (error) {
+                        console.error('진행률 로드 실패:', error);
+                        return;
+                    }
+
+                    // Stage별 진행률 계산
+                    const stageProgress = {};
+                    const stageCounts = {};
+
+                    tasks.forEach(task => {
+                        const stage = task.stage;
+                        if (!stageProgress[stage]) {
+                            stageProgress[stage] = 0;
+                            stageCounts[stage] = 0;
+                        }
+                        stageProgress[stage] += (task.task_progress || 0);
+                        stageCounts[stage]++;
+                    });
+
+                    // 평균 계산
+                    Object.keys(stageProgress).forEach(stage => {
+                        stageProgress[stage] = Math.round(stageProgress[stage] / stageCounts[stage]);
+                    });
+
+                    // P0, P1, P2, P3는 SSAL Works 프로젝트에서 완료됨 (100%)
+                    updateStageProgress('P0', 100);
+                    updateStageProgress('P1', 100);
+                    updateStageProgress('P2', 100);
+                    updateStageProgress('P3', 100);
+
+                    // S1-S5 진행률 업데이트
+                    for (let i = 1; i <= 5; i++) {
+                        const progress = stageProgress[i] || 0;
+                        updateStageProgress('S' + i, progress);
+                    }
+
+                    console.log('📊 프로젝트 진행률 로드 완료:', stageProgress);
+                }
+            } catch (error) {
+                console.error('진행률 로드 오류:', error);
+            }
+        }
+
+        // 특정 Stage 진행률 업데이트
+        function updateStageProgress(stageId, progress) {
+            const processItems = document.querySelectorAll('.process-item');
+            processItems.forEach(item => {
+                const header = item.querySelector('.process-icon');
+                if (header && header.textContent.includes(stageId)) {
+                    const progressFill = item.querySelector('.process-progress-fill');
+                    const percentText = item.querySelector('.process-percent');
+                    const majorDiv = item.querySelector('.process-major, .process-special-major');
+
+                    if (progressFill) progressFill.style.width = progress + '%';
+                    if (percentText) percentText.textContent = progress + '%';
+                    if (majorDiv) {
+                        majorDiv.setAttribute('data-progress', progress);
+                        if (progress === 100) {
+                            majorDiv.classList.add('completed');
+                        } else {
+                            majorDiv.classList.remove('completed');
+                        }
+                    }
+                }
+            });
+        }
+
         // 모든 진행 프로세스 진행률을 0%로 초기화 (새 사용자용)
         function resetAllProgressToZero() {
             // 모든 progress-fill 너비를 0%로
@@ -9597,6 +9673,9 @@ ${result.answer}`;
                     </div>
                 `;
                 console.log('✅ 프로젝트 로드:', project.project_name);
+
+                // 프로젝트 진행률 로드
+                await loadProjectProgress(project.project_name);
 
             } catch (error) {
                 console.error('프로젝트 로드 실패:', error);
