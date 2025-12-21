@@ -2661,12 +2661,12 @@
                         </div>
                     </div>
 
-                    <!-- S5. 운영 -->
+                    <!-- S5. 개발 마무리 -->
                     <div class="process-item">
-                        <div id="process-s5" class="process-major completed" onclick="loadProcessStage('s6_operation', 'S5. 운영', '개발단계'); toggleProcess(this)" data-progress="100">
+                        <div id="process-s5" class="process-major completed" onclick="loadProcessStage('s6_operation', 'S5. 개발 마무리', '개발단계'); toggleProcess(this)" data-progress="100">
                             <div class="process-header">
                                 <span class="process-icon">S5.</span>
-                                <span class="process-name">운영</span>
+                                <span class="process-name">개발 마무리</span>
                                 <span class="process-arrow">▶</span>
                             </div>
                             <div class="process-progress-container">
@@ -3725,7 +3725,7 @@ The content you enter in the Control Space will be displayed here.</pre>
                 { "id": "S3", "name": "개발 1차", "path": "S2_개발-1차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
                 { "id": "S4", "name": "개발 2차", "path": "S3_개발-2차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
                 { "id": "S5", "name": "개발 3차", "path": "S4_개발-3차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
-                { "id": "S6", "name": "운영", "path": "S5_운영", "areas": ["Documentation", "Frontend", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] }
+                { "id": "S6", "name": "개발 마무리", "path": "S5_개발_마무리", "areas": ["Documentation", "Design", "Frontend", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] }
             ]
         };
 
@@ -4252,7 +4252,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [x] 프로토타입_제작 폴더
 - [x] 개발_준비 폴더
 - [x] 개발_1차~3차 폴더
-- [x] 운영 폴더
+- [x] 개발_마무리 폴더
 - [x] Human_ClaudeCode_Bridge 폴더
 
 ---
@@ -4283,7 +4283,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [ ] 프로토타입_제작 폴더
 - [ ] 개발_준비 폴더
 - [ ] 개발_1차~3차 폴더
-- [ ] 운영 폴더
+- [ ] 개발_마무리 폴더
 - [ ] Human_ClaudeCode_Bridge 폴더
 
 ---
@@ -4335,7 +4335,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [ ] S3: 개발 1차
 - [ ] S4: 개발 2차
 - [ ] S5: 개발 3차
-- [ ] S6: 운영
+- [ ] S6: 개발 마무리
 
 ### Area (영역)
 - [ ] Frontend
@@ -5265,15 +5265,15 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             's6_operation': {
                 stageId: 's6_operation',
-                stageName: 'S5. 운영',
+                stageName: 'S5. 개발 마무리',
                 hasAction: true,
-                confirmMessage: '운영 단계를 위와 같이 진행하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - 운영
+                confirmMessage: '개발 마무리 단계를 위와 같이 진행하시겠습니까?',
+                orderSheetAfterExecute: `# 추가 Order Sheet - 개발 마무리
 
 ## ✅ 자동 실행된 항목
 
 - [x] 배포
-- [x] 모니터링 설정
+- [x] QA 점검
 
 ---
 
@@ -5282,7 +5282,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [추가 요청사항을 작성하세요]
 
 `,
-                orderSheet: `# Order Sheet - S5. 운영
+                orderSheet: `# Order Sheet - S5. 개발 마무리
 
 ## 기본 정보
 - **Order ID**: OS-S5-A-001
@@ -5293,8 +5293,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 ## 작업 항목
 
 - [ ] 배포
-- [ ] 모니터링 설정
-- [ ] 유지보수 계획
+- [ ] QA 점검
+- [ ] 안정화
 
 ---
 
@@ -5302,8 +5302,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/S5_운영.html',
-                orderSheetUrl: 'templates/S5_운영.md'
+                guideUrl: 'guides/S5_개발_마무리.html',
+                orderSheetUrl: 'templates/S5_개발_마무리.md'
             }
         };
 
@@ -7519,8 +7519,9 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             return allCompleted;
         }
 
-        // 새 프로젝트 추가 처리
-        document.getElementById('newProjectForm')?.addEventListener('submit', async function (e) {
+        // 새 프로젝트 추가 처리 (DOM 로드 후 실행)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('newProjectForm')?.addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const name = document.getElementById('projectName').value;
@@ -7633,10 +7634,10 @@ ${name}/
 │   ├── 3-9_Deployment/
 │   └── 3-10_Stabilization/
 │
-├── 4_운영/
-│   ├── 4-1_Monitoring/
-│   ├── 4-2_Maintenance/
-│   ├── 4-3_Backup/
+├── 4_개발_마무리/
+│   ├── 4-1_Deployment/
+│   ├── 4-2_QA/
+│   ├── 4-3_Stabilization/
 │   └── 4-4_Security/
 │
 ├── Human_ClaudeCode_Bridge/
@@ -7744,7 +7745,8 @@ Claude Code가 작업을 완료하면:
                 showStatus(`❌ 프로젝트 생성 실패: ${error.message}`, 'error');
                 alert(`프로젝트 생성 중 오류가 발생했습니다:\n\n${error.message}\n\n서버(inbox_server.js)가 실행 중인지 확인해주세요.`);
             }
-        });
+            });
+        }); // DOMContentLoaded 끝
 
         // ==================== Service Introduction Modal ====================
         function openServiceIntro() {
