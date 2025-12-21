@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+<svg width="1600" height="1600" viewBox="0 0 1600 1600" xmlns="http://www.w3.org/2000/svg">
     <rect width="100%" height="100%" fill="white"/>
 
     <defs>
-        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-            <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+        <marker id="arrowhead" markerWidth="15" markerHeight="10.5" refX="13.5" refY="5.25" orient="auto">
+            <polygon points="0 0, 15 5.25, 0 10.5" fill="black"/>
         </marker>
     </defs>
-    <text x="600" y="50" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="bold">도 8: Reporting/Analytics 데이터 파이프라인</text>
-    <rect x="50" y="100" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="10"/>
-    <text x="600" y="140" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">Reporting/Analytics 모듈 (100)</text>
-    <rect x="400" y="200" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="600.0" y="240" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">데이터 수집부</text>
-    <text x="600.0" y="275" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(101)</text>
-    <text x="600.0" y="315" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Log/Event Collection</text>
-    <line x1="600" y1="320" x2="600" y2="380" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="400" y="380" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="600.0" y="420" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">집계/분석부</text>
-    <text x="600.0" y="455" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(102)</text>
-    <text x="600.0" y="495" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">KPI Calculation</text>
-    <line x1="600" y1="500" x2="350" y2="550" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <line x1="600" y1="500" x2="850" y2="550" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="150" y="550" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="350.0" y="590" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">리포트 생성부</text>
-    <text x="350.0" y="625" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(103)</text>
-    <text x="350.0" y="665" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">PDF/Dashboard</text>
-    <rect x="650" y="550" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="850.0" y="590" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">알림 발송부</text>
-    <text x="850.0" y="625" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(104)</text>
-    <text x="850.0" y="665" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Email/Slack</text>
+    <text x="800" y="80" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="48" font-weight="bold">도 8: Reporting/Analytics 데이터 파이프라인</text>
+    <rect x="50" y="150" width="1500" height="1300" fill="white" stroke="black" stroke-width="2" rx="15"/>
+    <text x="800" y="200" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">Reporting/Analytics 모듈 (100)</text>
+    <rect x="500" y="300" width="600" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
+    <text x="800.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">데이터 수집부</text>
+    <text x="800.0" y="410" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(101)</text>
+    <text x="800.0" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">Log/Event Collection</text>
+    <line x1="800" y1="500" x2="800" y2="600" stroke="black" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <rect x="500" y="600" width="600" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
+    <text x="800.0" y="660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">집계/분석부</text>
+    <text x="800.0" y="710" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(102)</text>
+    <text x="800.0" y="760" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">KPI Calculation</text>
+    <line x1="800" y1="800" x2="400" y2="900" stroke="black" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <line x1="800" y1="800" x2="1200" y2="900" stroke="black" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <rect x="100" y="900" width="600" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
+    <text x="400.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">리포트 생성부</text>
+    <text x="400.0" y="1010" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(103)</text>
+    <text x="400.0" y="1060" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">PDF/Dashboard</text>
+    <rect x="900" y="900" width="600" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
+    <text x="1200.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">알림 발송부</text>
+    <text x="1200.0" y="1010" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(104)</text>
+    <text x="1200.0" y="1060" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">Email/Slack</text>
 </svg>
