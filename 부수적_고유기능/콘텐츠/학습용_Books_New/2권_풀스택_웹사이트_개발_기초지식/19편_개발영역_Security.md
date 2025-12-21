@@ -1,4 +1,4 @@
-# 8편 | Security (보안)
+# 19편 | 개발 영역 - Security (보안)
 
 ---
 
@@ -24,13 +24,13 @@
 
 ---
 
-## 8.1~8.4 Language, Runtime, Package Manager, Tools
+## 19.1~19.4 Language, Runtime, Package Manager, Tools
 
 Security 영역에서는 별도의 언어, 런타임, 패키지 관리자, 도구를 사용하지 않습니다. 기존 스택(TypeScript, Node.js)을 그대로 활용하며, Supabase Auth가 대부분의 기능을 제공합니다.
 
 ---
 
-## 8.5 Library (라이브러리)
+## 19.5 Library (라이브러리)
 
 ### Supabase Auth
 
@@ -103,13 +103,13 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
 
 ---
 
-## 8.6 Framework (프레임워크)
+## 19.6 Framework (프레임워크)
 
 Security 영역에서는 별도의 프레임워크를 사용하지 않습니다. Supabase Auth가 프레임워크 역할을 합니다.
 
 ---
 
-## 8.7 Service (서비스)
+## 19.7 External Service (외부 서비스)
 
 ### OAuth (Open Authorization)
 
@@ -280,10 +280,11 @@ if (!result.success) {
 | Tools | - |
 | Library | **Supabase Auth** |
 | Framework | - |
-| Service | **Google OAuth**, **Kakao OAuth** |
+| External Service | **Google OAuth**, **Kakao OAuth** |
 
 Security는 애플리케이션의 방패입니다. 다음 편에서는 코드 품질을 검증하는 **Testing**을 알아봅니다.
 
 ---
 
 **작성일: 2025-12-21 / 글자수: 약 5,100자 / 작성자: Claude / 프롬프터: 써니**
+

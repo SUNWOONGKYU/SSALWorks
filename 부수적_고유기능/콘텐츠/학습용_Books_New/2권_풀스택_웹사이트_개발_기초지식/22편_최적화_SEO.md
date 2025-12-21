@@ -1,8 +1,8 @@
-# 11편 | SEO와 웹 접근성
+# 22편 | 최적화 - SEO (검색 엔진 최적화)
 
 ---
 
-검색 엔진에서 찾기 쉽고, 모든 사람이 사용할 수 있는 웹사이트를 만드는 영역입니다. **SEO**는 검색 최적화, **웹 접근성**은 장애인을 포함한 모든 사용자의 접근성을 다룹니다.
+검색 엔진에서 찾기 쉬운 웹사이트를 만드는 기술, **SEO(Search Engine Optimization)**입니다. 구글, 네이버 등에서 검색 순위를 높이는 방법을 다룹니다.
 
 ---
 
@@ -21,27 +21,27 @@
 
 | 요소 | 설명 | 중요도 |
 |-----|------|-------|
-| 콘텐츠 | 유용하고 고유한 내용 | ⭐⭐⭐⭐⭐ |
-| 메타 태그 | 제목, 설명, 키워드 | ⭐⭐⭐⭐ |
-| 페이지 속도 | 로딩 시간 | ⭐⭐⭐⭐ |
-| 모바일 대응 | 반응형 디자인 | ⭐⭐⭐⭐ |
-| HTTPS | 보안 연결 | ⭐⭐⭐ |
+| 콘텐츠 | 유용하고 고유한 내용 | 매우 높음 |
+| 메타 태그 | 제목, 설명, 키워드 | 높음 |
+| 페이지 속도 | 로딩 시간 | 높음 |
+| 모바일 대응 | 반응형 디자인 | 높음 |
+| HTTPS | 보안 연결 | 중간 |
 
 ---
 
-## 11.1 Language (언어)
+## 22.1 Language (언어)
 
 ### HTML (시맨틱 태그)
 
-시맨틱 태그는 의미를 가진 HTML 태그입니다.
+시맨틱 태그는 의미를 가진 HTML 태그입니다. 검색 엔진이 콘텐츠 구조를 이해하는 데 도움됩니다.
 
 ```html
-<!-- ❌ 나쁜 예: div만 사용 -->
+<!-- 나쁜 예: div만 사용 -->
 <div class="header">...</div>
 <div class="nav">...</div>
 <div class="content">...</div>
 
-<!-- ✅ 좋은 예: 시맨틱 태그 -->
+<!-- 좋은 예: 시맨틱 태그 -->
 <header>사이트 헤더</header>
 <nav>네비게이션</nav>
 <main>
@@ -91,13 +91,13 @@
 
 ---
 
-## 11.2~11.3 Runtime, Package Manager
+## 22.2~22.3 Runtime, Package Manager
 
-SEO/접근성 영역에서는 별도의 런타임이나 패키지 관리자를 사용하지 않습니다.
+SEO 영역에서는 별도의 런타임이나 패키지 관리자를 사용하지 않습니다.
 
 ---
 
-## 11.4 Tools (도구)
+## 22.4 Tools (도구)
 
 ### Lighthouse
 
@@ -119,22 +119,22 @@ Chrome DevTools에 내장된 웹 품질 측정 도구입니다.
 | Best Practices | 모범 사례 | 90+ |
 | SEO | 검색 최적화 | 90+ |
 
-### WAVE
+### PageSpeed Insights
 
-웹 접근성 평가 도구입니다.
+Google의 웹 성능 분석 서비스입니다.
 
 **사용법:**
 ```
-1. https://wave.webaim.org/ 접속
+1. https://pagespeed.web.dev/ 접속
 2. URL 입력
-3. 접근성 문제 확인
+3. 분석 결과 확인
 ```
 
-**SSALWorks**: Lighthouse + WAVE로 품질을 측정합니다.
+**SSALWorks**: Lighthouse + PageSpeed Insights를 사용합니다.
 
 ---
 
-## 11.5 Library (라이브러리)
+## 22.5 Library (라이브러리)
 
 ### next-seo
 
@@ -193,7 +193,7 @@ export default function AboutPage() {
 
 ---
 
-## 11.6 Framework (프레임워크)
+## 22.6 Framework (프레임워크)
 
 ### Next.js (SEO 기능)
 
@@ -261,7 +261,7 @@ export default async function sitemap() {
 
 ---
 
-## 11.7 Service (서비스)
+## 22.7 External Service (외부 서비스)
 
 ### Google Search Console
 
@@ -297,55 +297,25 @@ Google 검색 성능을 모니터링하는 서비스입니다.
 
 ---
 
-## 웹 접근성 (WCAG)
+## SEO 체크리스트
 
-### WCAG 4대 원칙
+### 기술적 SEO
 
-| 원칙 | 설명 | 예시 |
-|-----|------|------|
-| 인식 가능 | 정보를 인식할 수 있어야 함 | 이미지 대체 텍스트 |
-| 운용 가능 | 키보드로 조작 가능해야 함 | 키보드 네비게이션 |
-| 이해 가능 | 내용을 이해할 수 있어야 함 | 명확한 레이블 |
-| 견고함 | 다양한 기술에서 작동해야 함 | 표준 HTML 사용 |
+- [ ] 시맨틱 HTML 태그 사용
+- [ ] 메타 태그 (title, description) 설정
+- [ ] Open Graph 태그 설정
+- [ ] sitemap.xml 생성
+- [ ] robots.txt 설정
+- [ ] HTTPS 사용
+- [ ] 모바일 반응형 디자인
 
-### 접근성 체크리스트
+### 콘텐츠 SEO
 
-**이미지:**
-```html
-<!-- 대체 텍스트 필수 -->
-<img src="logo.png" alt="SSALWorks 로고">
-
-<!-- 장식용 이미지는 빈 alt -->
-<img src="decoration.png" alt="">
-```
-
-**폼 요소:**
-```html
-<!-- label과 input 연결 -->
-<label for="email">이메일</label>
-<input type="email" id="email" name="email">
-
-<!-- placeholder만으로는 불충분 -->
-<input type="email" placeholder="이메일"> <!-- ❌ -->
-```
-
-**색상 대비:**
-```css
-/* 4.5:1 이상의 대비율 필요 */
-.text {
-    color: #333;      /* 충분한 대비 */
-    background: #fff;
-}
-```
-
-**키보드 접근:**
-```css
-/* focus 스타일 유지 */
-button:focus {
-    outline: 2px solid #007bff;
-    outline-offset: 2px;
-}
-```
+- [ ] 고유하고 유용한 콘텐츠
+- [ ] 적절한 헤딩 구조 (h1 → h2 → h3)
+- [ ] 이미지 alt 텍스트
+- [ ] 내부 링크 구조
+- [ ] 페이지 로딩 속도
 
 ---
 
@@ -356,13 +326,13 @@ button:focus {
 | Language | **HTML (시맨틱 태그)**, 메타 태그 |
 | Runtime | - |
 | Package Manager | - |
-| Tools | **Lighthouse**, **WAVE** |
+| Tools | **Lighthouse**, **PageSpeed Insights** |
 | Library | **next-seo** |
 | Framework | **Next.js (Metadata API)** |
-| Service | **Google Search Console**, **Naver Search Advisor** |
+| External Service | **Google Search Console**, **Naver Search Advisor** |
 
-SEO와 접근성은 모든 사용자를 위한 배려입니다. 다음 편에서는 **성능 최적화**를 알아봅니다.
+SEO는 검색에서 발견되기 위한 필수 기술입니다. 다음 편에서는 모든 사용자를 위한 **웹 접근성**을 알아봅니다.
 
 ---
 
-**작성일: 2025-12-21 / 글자수: 약 5,300자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-21 / 글자수: 약 4,800자 / 작성자: Claude / 프롬프터: 써니**

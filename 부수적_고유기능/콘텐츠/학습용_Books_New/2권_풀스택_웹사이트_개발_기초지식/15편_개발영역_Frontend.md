@@ -1,4 +1,4 @@
-# 4편 | Frontend (프론트엔드)
+# 15편 | 개발 영역 - Frontend (프론트엔드)
 
 ---
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 4.1 Language (언어)
+## 15.1 Language (언어)
 
 프론트엔드의 3대 언어와 TypeScript를 알아봅니다.
 
@@ -74,7 +74,7 @@ function greet(name: string): string {
 
 ---
 
-## 4.2 Runtime (실행 환경)
+## 15.2 Runtime (실행 환경)
 
 ### Browser (브라우저)
 
@@ -97,7 +97,7 @@ function greet(name: string): string {
 
 ---
 
-## 4.3 Package Manager (패키지 관리자)
+## 15.3 Package Manager (패키지 관리자)
 
 ### npm (Node Package Manager)
 
@@ -123,7 +123,7 @@ yarn build
 
 ---
 
-## 4.4 Tools (도구)
+## 15.4 Tools (도구)
 
 ### Vite
 
@@ -172,7 +172,7 @@ const x = { a: 1, b: 2 };
 
 ---
 
-## 4.5 Library (라이브러리)
+## 15.5 Library (라이브러리)
 
 ### React
 
@@ -223,7 +223,7 @@ const { register, handleSubmit } = useForm();
 
 ---
 
-## 4.6 Framework (프레임워크)
+## 15.6 Framework (프레임워크)
 
 ### Next.js
 
@@ -263,7 +263,7 @@ app/
 
 ---
 
-## 4.7 Service (서비스)
+## 15.7 External Service (외부 서비스)
 
 Frontend 영역에서는 별도의 외부 서비스를 사용하지 않습니다. 필요한 서비스는 다른 영역(Database, DevOps 등)에서 연동합니다.
 
@@ -279,10 +279,11 @@ Frontend 영역에서는 별도의 외부 서비스를 사용하지 않습니다
 | Tools | Vite, ESLint, Prettier, DevTools |
 | Library | **React**, Zustand, React Hook Form |
 | Framework | **Next.js**, Tailwind CSS |
-| Service | - |
+| External Service | - |
 
 프론트엔드는 사용자와 직접 만나는 영역입니다. 다음 편에서는 서버 환경을 구축하는 **Backend Infra**를 알아봅니다.
 
 ---
 
 **작성일: 2025-12-21 / 글자수: 약 5,100자 / 작성자: Claude / 프롬프터: 써니**
+

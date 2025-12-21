@@ -1,4 +1,4 @@
-# 10편 | DevOps (데브옵스)
+# 21편 | 개발 영역 - DevOps (데브옵스)
 
 ---
 
@@ -22,7 +22,7 @@
 
 ---
 
-## 10.1 Language (언어)
+## 21.1 Language (언어)
 
 ### YAML
 
@@ -69,13 +69,13 @@ vercel --prod
 
 ---
 
-## 10.2~10.3 Runtime, Package Manager
+## 21.2~21.3 Runtime, Package Manager
 
 DevOps 영역에서는 별도의 런타임이나 패키지 관리자를 사용하지 않습니다.
 
 ---
 
-## 10.4 Tools (도구)
+## 21.4 Tools (도구)
 
 ### Git
 
@@ -150,13 +150,13 @@ vercel env add SUPABASE_URL
 
 ---
 
-## 10.5~10.6 Library, Framework
+## 21.5~21.6 Library, Framework
 
 DevOps 영역에서는 별도의 라이브러리나 프레임워크를 사용하지 않습니다.
 
 ---
 
-## 10.7 Service (서비스)
+## 21.7 External Service (외부 서비스)
 
 ### Vercel (PaaS - Platform as a Service)
 
@@ -337,10 +337,11 @@ Vercel Dashboard → Project → Logs
 | Tools | **Git**, **GitHub**, **Vercel CLI** |
 | Library | - |
 | Framework | - |
-| Service | **Vercel (PaaS)**, **GitHub Actions** |
+| External Service | **Vercel (PaaS)**, **GitHub Actions** |
 
 DevOps는 개발과 운영의 다리입니다. 다음 편에서는 **SEO와 웹 접근성**을 알아봅니다.
 
 ---
 
 **작성일: 2025-12-21 / 글자수: 약 5,000자 / 작성자: Claude / 프롬프터: 써니**
+

@@ -1,4 +1,4 @@
-# 7편 | Database (데이터베이스)
+# 18편 | 개발 영역 - Database (데이터베이스)
 
 ---
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 7.1 Language (언어)
+## 18.1 Language (언어)
 
 ### SQL (Structured Query Language)
 
@@ -57,7 +57,7 @@ CREATE TABLE users (
 
 ---
 
-## 7.2 Runtime (실행 환경)
+## 18.2 Runtime (실행 환경)
 
 ### PostgreSQL
 
@@ -85,13 +85,13 @@ CREATE TABLE users (
 
 ---
 
-## 7.3 Package Manager (패키지 관리자)
+## 18.3 Package Manager (패키지 관리자)
 
 Database 영역에서는 패키지 관리자를 사용하지 않습니다. 데이터베이스는 SQL로 직접 관리합니다.
 
 ---
 
-## 7.4 Tools (도구)
+## 18.4 Tools (도구)
 
 ### Supabase Dashboard
 
@@ -123,7 +123,7 @@ PostgreSQL 전용 GUI 관리 도구입니다.
 
 ---
 
-## 7.5 Library (라이브러리)
+## 18.5 Library (라이브러리)
 
 ### @supabase/supabase-js
 
@@ -189,13 +189,13 @@ const { error } = await supabase
 
 ---
 
-## 7.6 Framework (프레임워크)
+## 18.6 Framework (프레임워크)
 
 Database 영역에서는 별도의 프레임워크를 사용하지 않습니다. Supabase가 ORM 없이도 충분한 기능을 제공합니다.
 
 ---
 
-## 7.7 Service (서비스)
+## 18.7 External Service (외부 서비스)
 
 ### Supabase (BaaS - Backend as a Service)
 
@@ -295,10 +295,11 @@ USING (auth.uid() = user_id);
 | Tools | **Supabase Dashboard**, pgAdmin |
 | Library | **@supabase/supabase-js** |
 | Framework | - |
-| Service | **Supabase (BaaS)** |
+| External Service | **Supabase (BaaS)** |
 
 Database는 애플리케이션의 심장입니다. 다음 편에서는 인증과 인가를 담당하는 **Security**를 알아봅니다.
 
 ---
 
 **작성일: 2025-12-21 / 글자수: 약 5,400자 / 작성자: Claude / 프롬프터: 써니**
+
