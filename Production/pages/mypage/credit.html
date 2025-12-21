@@ -575,13 +575,7 @@
                     <button class="btn btn-charge" data-amount="200000">₩200,000</button>
                     <button class="btn btn-charge" data-amount="500000">₩500,000</button>
                 </div>
-                <!-- 무통장 입금 안내 -->
-                <div style="margin-top: 20px; padding: 16px; background: var(--gray-50); border-radius: 12px; border: 1px solid var(--gray-200);">
-                    <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-700);">
-                        🏦 <span>무통장 입금으로 충전됩니다 (하나은행 287-910921-40507 선웅규)</span>
-                    </div>
-                </div>
-                <button class="btn btn-primary" id="chargeBtn" disabled onclick="openCreditDepositModal()">
+                <button class="btn btn-primary" id="chargeBtn" style="margin-top: 20px;" onclick="openCreditDepositModal()">
                     💳 납부하기
                 </button>
             </div>
@@ -740,8 +734,6 @@
                     buttons.forEach(b => b.classList.remove('selected'));
                     btn.classList.add('selected');
                     selectedAmount = parseInt(btn.dataset.amount);
-                    document.getElementById('chargeBtn').disabled = false;
-                    document.getElementById('chargeBtn').textContent = `💳 ₩${selectedAmount.toLocaleString()} 납부하기`;
                 });
             });
         }
@@ -798,11 +790,9 @@
                 closeDepositModal();
                 showToast('입금 완료 알림이 접수되었습니다.', 'success');
 
-                // 버튼 초기화
+                // 선택 초기화
                 selectedAmount = 0;
                 document.querySelectorAll('#chargeGrid .btn-charge').forEach(b => b.classList.remove('selected'));
-                document.getElementById('chargeBtn').disabled = true;
-                document.getElementById('chargeBtn').textContent = '💳 납부하기';
             } catch (error) {
                 console.error('입금 알림 저장 실패:', error);
                 showToast('입금 알림 접수에 실패했습니다. 다시 시도해주세요.', 'error');
