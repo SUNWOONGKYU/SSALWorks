@@ -1,58 +1,95 @@
-# Claude Code 설치 방법 및 오류 해결
+# Claude Code 설치 방법과 흔한 오류 해결
 
-> 이 문서는 Claude Code를 설치하고 자주 발생하는 오류를 해결하는 방법을 설명합니다.
+> 이 문서는 Claude Code 설치 방법과 설치 중 발생하는 오류 해결 방법을 설명합니다.
 
 ---
 
-## 사전 요구사항
+## 설치 전 요구사항
 
-- Node.js 18 이상
-- npm 또는 yarn
-- Anthropic 계정
+| 항목 | 요구 버전 |
+|------|----------|
+| Node.js | 18.0 이상 |
+| npm | Node.js에 포함 |
+| OS | Windows 10+, macOS, Linux |
 
 ---
 
 ## 설치 방법
 
 ```bash
-# 1. Node.js 버전 확인 (18 이상 필요)
-node -v
-
-# 2. Claude Code 설치
 npm install -g @anthropic-ai/claude-code
+```
 
-# 3. 설치 확인
+설치 확인:
+```bash
 claude --version
 ```
 
 ---
 
-## 첫 실행
+## 흔한 설치 오류
 
-```bash
-# 프로젝트 폴더로 이동
-cd /path/to/your/project
+### 1. npm 권한 오류 (Windows)
 
-# Claude Code 시작
-claude
+```
+Error: EPERM: operation not permitted
 ```
 
-첫 실행 시 브라우저에서 Anthropic 계정 인증이 필요합니다.
+**해결:**
+- 관리자 권한으로 PowerShell 실행
+- 또는 npm 캐시 정리: `npm cache clean --force`
 
 ---
 
-## 자주 발생하는 오류
+### 2. Node.js 버전 오류
 
-| 오류 | 원인 | 해결 방법 |
-|------|------|----------|
-| EACCES 권한 오류 | 전역 설치 권한 없음 | 관리자 권한 또는 `sudo npm install` |
-| Node.js 버전 오류 | 버전 18 미만 | `nvm install 20 && nvm use 20` |
-| 네트워크 오류 | npm 캐시 문제 | `npm cache clean --force` |
-| 인증 실패 | 토큰 만료 | `claude --logout` 후 재로그인 |
+```
+Error: Node.js version must be >= 18
+```
+
+**해결:**
+- Node.js 최신 버전 설치: https://nodejs.org
+- nvm 사용자: `nvm install 20 && nvm use 20`
 
 ---
 
-## 업데이트
+### 3. PATH 설정 오류
+
+```
+'claude'은(는) 내부 또는 외부 명령... 이 아닙니다
+```
+
+**해결:**
+- 터미널 재시작
+- 또는 npx로 실행: `npx @anthropic-ai/claude-code`
+
+---
+
+## API 키 설정
+
+첫 실행 시 API 키 입력:
+```bash
+claude
+# API 키 입력 프롬프트 표시됨
+```
+
+또는 환경 변수로 설정:
+```bash
+export ANTHROPIC_API_KEY=sk-ant-...
+```
+
+---
+
+## 실행 확인
+
+```bash
+claude
+# "무엇을 도와드릴까요?" 메시지 표시되면 성공
+```
+
+---
+
+## 업데이트 방법
 
 ```bash
 npm update -g @anthropic-ai/claude-code
@@ -60,23 +97,20 @@ npm update -g @anthropic-ai/claude-code
 
 ---
 
-## Claude Code에게 요청하기
+## 제거 방법
 
-```
-"현재 Claude Code 버전 확인해줘"
-"설정 파일 위치 알려줘"
+```bash
+npm uninstall -g @anthropic-ai/claude-code
 ```
 
 ---
 
-## 체크리스트
+## 문제 해결 안 될 때
 
-- [ ] Node.js 18 이상 설치되었는가?
-- [ ] `npm install -g`로 전역 설치했는가?
-- [ ] `claude --version`으로 확인했는가?
-- [ ] Anthropic 계정 인증 완료했는가?
+1. Node.js 완전 제거 후 재설치
+2. npm 캐시 정리: `npm cache clean --force`
+3. 재설치: `npm install -g @anthropic-ai/claude-code`
 
 ---
 
-*상세 내용: https://docs.anthropic.com/claude-code 참조*
-
+*상세 내용: `폴더에서_터미널_열어_실행하기.md` 참조*

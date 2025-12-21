@@ -1,0 +1,164 @@
+{
+  "categories": [
+    {
+      "id": "웹개발_기초개념",
+      "name": "웹개발 기초개념",
+      "icon": "🌐",
+      "description": "웹 개발의 기본 개념 이해",
+      "files": [
+        { "name": "풀스택 웹사이트란 무엇인가", "file": "풀스택_웹사이트란_무엇인가.md" }
+      ]
+    },
+    {
+      "id": "AI_준수사항",
+      "name": "AI 준수사항",
+      "icon": "📋",
+      "description": "AI 협업 시 반드시 지켜야 할 원칙",
+      "files": [
+        { "name": "AI 12대 준수사항", "file": "AI_12대_준수사항.md" }
+      ]
+    },
+    {
+      "id": "프로젝트_시작",
+      "name": "프로젝트 시작",
+      "icon": "🚀",
+      "description": "프로젝트 초기 설정 가이드",
+      "files": [
+        { "name": "작업 디렉터리 구조 먼저 생성하기", "file": "작업_디렉터리_구조_먼저_생성하기.md" },
+        { "name": "디렉터리 구조 문서 만들기", "file": "디렉터리_구조_문서_만들기.md" },
+        { "name": "프로젝트 진행 상황 문서 만들기", "file": "프로젝트_진행_상황_문서_만들기.md" },
+        { "name": "CLAUDE.md로 작업 참고사항 정리하기", "file": "CLAUDE.md로_작업_참고사항_정리하기.md" }
+      ]
+    },
+    {
+      "id": "설치_실행",
+      "name": "설치 & 실행",
+      "icon": "💻",
+      "description": "Claude Code 설치 및 실행",
+      "files": [
+        { "name": "Claude Code 설치 방법 및 오류 해결", "file": "Claude_Code_설치_방법_및_오류_해결.md" },
+        { "name": "폴더에서 터미널 열어 실행하기", "file": "폴더에서_터미널_열어_실행하기.md" },
+        { "name": "토큰 사용량 확인하기", "file": "토큰_사용량_확인하기.md" }
+      ]
+    },
+    {
+      "id": "입력_편의",
+      "name": "입력 편의",
+      "icon": "⌨️",
+      "description": "입력 효율화 팁",
+      "files": [
+        { "name": "음성 입력 활용하기", "file": "음성_입력_활용하기.md" },
+        { "name": "멀티라인 입력 팁", "file": "멀티라인_입력_팁.md" }
+      ]
+    },
+    {
+      "id": "도구_활용",
+      "name": "도구 활용",
+      "icon": "🔧",
+      "description": "MCP, Skills 등 도구 활용",
+      "files": [
+        { "name": "MCP Server 설정 방법", "file": "MCP_Server_설정_방법.md" },
+        { "name": "Skills 파일 만들어 활용하기", "file": "Skills_파일_만들어_활용하기.md" },
+        { "name": "Subagents 파일 만들어 활용하기", "file": "Subagents_파일_만들어_활용하기.md" },
+        { "name": "MCP Tool 결과 해석하기", "file": "MCP_Tool_결과_해석하기.md" },
+        { "name": "MCP Server 종류별 용도 정리", "file": "MCP_Server_종류별_용도_정리.md" },
+        { "name": "Slash Commands로 자주 쓰는 명령 자동화", "file": "Slash_Commands로_자주_쓰는_명령_자동화.md" }
+      ]
+    },
+    {
+      "id": "작업_기록_백업",
+      "name": "작업 기록 & 백업",
+      "icon": "📝",
+      "description": "로그, 백업 관리",
+      "files": [
+        { "name": "Work Log 작성 및 관리하기", "file": "Work_Log_작성_및_관리하기.md" },
+        { "name": "Memory MCP로 정보 저장하기", "file": "Memory_MCP로_정보_저장하기.md" },
+        { "name": "Git으로 버전 관리하기", "file": "Git으로_버전_관리하기.md" },
+        { "name": "자동 백업 설정하기", "file": "자동_백업_설정하기.md" }
+      ]
+    },
+    {
+      "id": "세션_관리",
+      "name": "세션 관리",
+      "icon": "🔄",
+      "description": "세션 연속성 유지",
+      "files": [
+        { "name": "세션 시작 시 컨텍스트 복구하기", "file": "세션_시작_시_컨텍스트_복구하기.md" },
+        { "name": "긴 작업 중 세션 끊김 대응하기", "file": "긴_작업_중_세션_끊김_대응하기.md" },
+        { "name": "컨텍스트 용량 관리하기", "file": "컨텍스트_용량_관리하기.md" }
+      ]
+    },
+    {
+      "id": "검증_문서화",
+      "name": "검증 & 문서화",
+      "icon": "✅",
+      "description": "검증, 리포트 작성",
+      "files": [
+        { "name": "작업 완료 후 검증 프로세스", "file": "작업_완료_후_검증_프로세스.md" },
+        { "name": "리포트 파일 작성 가이드", "file": "리포트_파일_작성_가이드.md" },
+        { "name": "Stage Gate 검증 방법", "file": "Stage_Gate_검증_방법.md" }
+      ]
+    },
+    {
+      "id": "개발_실무",
+      "name": "개발 실무",
+      "icon": "💼",
+      "description": "개발 실무 팁",
+      "files": [
+        { "name": "에러 메시지 효과적으로 전달하기", "file": "에러_메시지_효과적으로_전달하기.md" },
+        { "name": "코드 리뷰 요청하기", "file": "코드_리뷰_요청하기.md" },
+        { "name": "테스트 코드 작성 요청하기", "file": "테스트_코드_작성_요청하기.md" },
+        { "name": "리팩토링 요청하기", "file": "리팩토링_요청하기.md" },
+        { "name": "API 설계 요청하기", "file": "API_설계_요청하기.md" },
+        { "name": "콘텐츠 작성부터 웹사이트 게시까지 자동화 프로세스", "file": "콘텐츠_작성부터_웹사이트_게시까지_자동화_프로세스.md" }
+      ]
+    },
+    {
+      "id": "효율적인_소통",
+      "name": "효율적인 소통",
+      "icon": "💬",
+      "description": "AI와 효율적 커뮤니케이션",
+      "files": [
+        { "name": "명확한 요청 작성법", "file": "명확한_요청_작성법.md" },
+        { "name": "컨텍스트 효율적으로 제공하기", "file": "컨텍스트_효율적으로_제공하기.md" },
+        { "name": "대용량 파일 다루기", "file": "대용량_파일_다루기.md" },
+        { "name": "이미지 스크린샷 활용하기", "file": "이미지_스크린샷_활용하기.md" }
+      ]
+    },
+    {
+      "id": "데이터베이스",
+      "name": "데이터베이스",
+      "icon": "🗄️",
+      "description": "DB 관련 팁",
+      "files": [
+        { "name": "Supabase 기본 사용법", "file": "Supabase_기본_사용법.md" },
+        { "name": "SQL 쿼리 작성 요청하기", "file": "SQL_쿼리_작성_요청하기.md" },
+        { "name": "RLS 정책 설정하기", "file": "RLS_정책_설정하기.md" },
+        { "name": "DB 스키마 설계 요청하기", "file": "DB_스키마_설계_요청하기.md" }
+      ]
+    },
+    {
+      "id": "SAL_Grid",
+      "name": "SAL Grid",
+      "icon": "📊",
+      "description": "SAL Grid 시스템",
+      "files": [
+        { "name": "SAL Grid 개념 이해하기", "file": "SAL_Grid_개념_이해하기.md" },
+        { "name": "Task Instruction 작성하기", "file": "Task_Instruction_작성하기.md" },
+        { "name": "Task Plan 작성 전 User Flow 먼저", "file": "Task_Plan_작성_전_User_Flow_먼저.md" }
+      ]
+    },
+    {
+      "id": "트러블슈팅",
+      "name": "트러블슈팅",
+      "icon": "🔥",
+      "description": "문제 해결 가이드",
+      "files": [
+        { "name": "자주 발생하는 오류 해결", "file": "자주_발생하는_오류_해결.md" },
+        { "name": "빌드 에러 해결하기", "file": "빌드_에러_해결하기.md" },
+        { "name": "배포 오류 해결하기", "file": "배포_오류_해결하기.md" },
+        { "name": "API 연동 오류 해결하기", "file": "API_연동_오류_해결하기.md" }
+      ]
+    }
+  ]
+}

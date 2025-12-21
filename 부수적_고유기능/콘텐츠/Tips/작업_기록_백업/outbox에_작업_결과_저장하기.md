@@ -38,6 +38,44 @@
 
 ---
 
+## 검증 보고서 예시
+
+```json
+{
+  "task_id": "S2F1",
+  "verification_agent": "code-reviewer",
+  "verified_at": "2025-01-15T15:00:00Z",
+  "test_result": {
+    "unit_test": "5/5 통과",
+    "integration_test": "2/2 통과"
+  },
+  "build_verification": {
+    "compile": "에러 없음",
+    "lint": "0 warnings"
+  },
+  "final_status": "Verified"
+}
+```
+
+---
+
+## Stage Gate 보고서 예시
+
+```json
+{
+  "stage": "S2",
+  "stage_name": "개발 1차",
+  "total_tasks": 12,
+  "completed_tasks": 12,
+  "verified_tasks": 12,
+  "blockers": 0,
+  "gate_status": "Approved",
+  "approved_at": "2025-01-20T10:00:00Z"
+}
+```
+
+---
+
 ## 저장 시점
 
 | 저장 O | 저장 X |
@@ -56,13 +94,13 @@
 
 ---
 
-## 체크리스트
+## Claude Code에게 요청하는 방법
 
-- [ ] Task 완료 시 결과 JSON을 저장했는가?
-- [ ] 파일명이 규칙에 맞는가?
-- [ ] JSON 문법이 올바른가?
+```
+"S2F1 Task 완료했으니 결과 JSON 파일 생성해줘"
+"Stage Gate 검증 리포트 작성해서 Reports 폴더에 저장해줘"
+```
 
 ---
 
 *상세 내용: `Orders_Reports_JSON으로_작업_요청하기.md` 참조*
-

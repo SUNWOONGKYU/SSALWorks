@@ -1,97 +1,107 @@
-# Task ID(S2BA1 등)를 파일 주석에 넣어 어느 작업인지 추적하기
+# Task ID를 활용하여 파일을 체계적으로 관리하기
 
-> 이 문서는 SAL Grid에서 Task ID를 활용하여 파일을 체계적으로 관리하는 방법을 설명합니다.
-
----
-
-## Task ID란
-
-Task ID는 각 작업을 고유하게 식별하는 코드입니다. `S2BA1`이라는 ID는: S2(Stage 2) + BA(Backend APIs) + 1(첫 번째 Task)를 의미합니다.
+> 이 문서는 Task ID를 활용하여 프로젝트 파일을 체계적으로 관리하는 방법을 설명합니다.
 
 ---
 
 ## Task ID 구조
 
-**Stage 코드 (5개)**
-
-| Stage | 폴더명 | 설명 |
-|-------|--------|------|
-| S1 | S1_개발_준비 | 환경 설정, DB 스키마 |
-| S2 | S2_개발-1차 | 핵심 기능 개발 |
-| S3 | S3_개발-2차 | 추가 기능 개발 |
-| S4 | S4_개발-3차 | QA, 최적화 |
-| S5 | S5_운영 | 배포, 모니터링 |
-
-**Area 코드 (11개)**
-
-| Area | Production 저장 | 설명 |
-|------|:---------------:|------|
-| F | ✅ | Frontend |
-| BA | ✅ | Backend APIs |
-| S | ✅ | Security |
-| BI | ✅ | Backend Infrastructure |
-| E | ✅ | External |
-| D, M, U, T, O, C | ❌ | DB, 문서, 디자인, 테스트, DevOps, 콘텐츠 |
+```
+S2BA1
+│ │ └─ 순서: 1번째 Task
+│ └─── Area: BA (Backend APIs)
+└───── Stage: S2 (개발 1차)
+```
 
 ---
 
-## 파일에 Task ID 표기
+## Task ID 예시
 
-**JavaScript**
+| Task ID | 의미 |
+|---------|------|
+| S1D1 | 개발준비 - 데이터베이스 - 1번 |
+| S2F1 | 개발1차 - 프론트엔드 - 1번 |
+| S2BA1 | 개발1차 - 백엔드API - 1번 |
+| S3E1 | 개발2차 - 외부연동 - 1번 |
+
+---
+
+## 파일에 Task ID 표시
+
+파일명에는 넣지 않고, 파일 상단 주석에 표시:
+
 ```javascript
 /**
  * @task S2BA1
  * @description 구독 취소 API
  */
-export default async function handler(req, res) { }
+export default async function handler(req, res) {
+  // ...
+}
 ```
 
-**HTML**
+---
+
+## HTML 파일의 경우
+
 ```html
 <!--
 @task S2F1
-@description Google 로그인 페이지
+@description 로그인 페이지 UI
 -->
-```
-
-**SQL**
-```sql
--- @task S1D1
--- @description users 테이블 생성
+<!DOCTYPE html>
+<html>
+...
 ```
 
 ---
 
-## Task ID로 저장 위치 결정
+## Task ID로 파일 찾기
 
-**예시: S2BA1**
-- Stage: S2 (개발 1차)
-- Area: BA (Backend APIs, Production 저장 대상)
-- 저장 위치:
-  - `S2_개발-1차/Backend_APIs/subscription-cancel.js`
-  - `Production/api/Backend_APIs/subscription-cancel.js`
-
-**예시: S1D1**
-- Stage: S1, Area: D (Database, Production 저장 안 함)
-- 저장 위치: `S1_개발_준비/Database/` (Supabase에서 직접 실행)
+```
+"S2F1 Task 관련 파일들 찾아줘"
+"이 파일의 Task ID가 뭐야?"
+```
 
 ---
 
-## 장점
+## 폴더와 Task ID 매핑
 
-- **추적성**: Task ID로 언제, 왜 만들어졌는지 추적 가능
-- **일관성**: 동일한 규칙으로 모든 파일 관리
-- **자동화**: 파일 위치, 검증 결과 자동 연결
-
----
-
-## 주의사항
-
-- 모든 코드 파일에 Task ID 주석 필수
-- Production 복사 시에도 Task ID 유지
-- 한 번 정해진 Task ID는 변경하지 않음
+| Task ID | 폴더 경로 |
+|---------|----------|
+| S1D1 | S1_개발_준비/Database/ |
+| S2F1 | S2_개발-1차/Frontend/ |
+| S2BA1 | S2_개발-1차/Backend_APIs/ |
 
 ---
 
-*상세 내용: `.claude/rules/01_file-naming.md`, `03_area-stage.md` 참조*
+## Task ID 활용
 
+| 용도 | 예시 |
+|------|------|
+| 파일 추적 | 어떤 Task에서 생성됐는지 |
+| 검색 | Task ID로 관련 파일 검색 |
+| 보고서 | Task별 생성 파일 목록 |
+| 커밋 메시지 | "S2F1: 로그인 UI 구현" |
+
+---
+
+## 커밋 메시지에 Task ID
+
+```
+"S2F1: 로그인 페이지 구현"
+"S2BA1: 구독 취소 API 추가"
+```
+
+---
+
+## Task ID 검증
+
+```
+"이 파일들이 올바른 Task ID를 가지고 있는지 확인해줘"
+"Task ID가 없는 파일들 찾아줘"
+```
+
+---
+
+*상세 내용: `Task_Plan_작성_전_User_Flow_먼저.md` 참조*

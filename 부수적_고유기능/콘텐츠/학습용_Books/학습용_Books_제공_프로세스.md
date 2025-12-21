@@ -1,208 +1,239 @@
-# 학습용 Books 제공 프로세스
+# 학습용 Books 콘텐츠 작성 및 배포 프로세스
 
-## 핵심 구조
-
-```
-GitHub (저장소) + jsdelivr (CDN) + Marked.js (렌더링)
-= DB 없이 콘텐츠 관리 시스템 완성
-```
+> **Claude Code 필독**: 학습용 Books 콘텐츠 작성 요청을 받으면 이 문서를 따라 MD 파일 작성부터 Production 반영까지 완료하세요.
 
 ---
 
-## 1. 시스템 구성 요소
+## 1. 전체 프로세스 요약 (자동화)
 
-### 1.1 GitHub (저장소)
-- **역할**: MD 파일 저장 및 버전 관리
-- **위치**: `부수적_고유기능/콘텐츠/학습용_Books/` 폴더
-- **장점**:
-  - 무료 호스팅
-  - 버전 관리 자동
-  - 수정 이력 보관
+```
+[1단계] 카테고리 확인
+    ↓
+[2단계] MD 파일 작성
+    ↓
+[3단계] books-list.json에 항목 추가
+    ↓
+[4단계] node sync-books.js 실행 → 3개 파일 자동 업데이트
+    ↓
+[5단계] 완료 보고
+```
 
-### 1.2 jsdelivr CDN
-- **역할**: GitHub 파일을 전 세계에서 빠르게 접근 가능하게 함
-- **URL 형식**: `https://cdn.jsdelivr.net/gh/{사용자명}/{저장소명}@{브랜치}/{파일경로}`
-- **예시**: `https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/콘텐츠/학습용_Books/1_Claude_사용법/...`
-- **장점**:
-  - CORS 문제 해결 (브라우저에서 직접 fetch 가능)
-  - 빠른 응답 속도 (전 세계 CDN)
-  - 무료
-
-### 1.3 Marked.js (렌더링 라이브러리)
-- **역할**: MD(Markdown) → HTML 실시간 변환
-- **위치**: viewer.html에서 CDN으로 로드
-- **장점**:
-  - 서버 변환 불필요
-  - 브라우저에서 즉시 렌더링
-
-### 1.4 viewer.html (뷰어)
-- **역할**: 콘텐츠 목록 표시 + MD 파일 로드 + 렌더링
-- **위치**: `부수적_고유기능/콘텐츠/학습용_Books/viewer.html`
-- **기능**:
-  - 사이드바에 카테고리별 콘텐츠 목록
-  - 검색 기능
-  - MD 파일 fetch → Marked.js로 렌더링
+**핵심**: `books-list.json` 하나만 수정하면 스크립트가 3개 파일 자동 동기화!
 
 ---
 
-## 2. 작동 원리
+## 2. 1단계: 카테고리 확인
 
-```
-[사용자가 콘텐츠 클릭]
-        ↓
-[viewer.html이 jsdelivr CDN URL 생성]
-        ↓
-[fetch()로 MD 파일 가져오기]
-        ↓
-[Marked.js가 MD → HTML 변환]
-        ↓
-[화면에 렌더링]
-```
+### 2.1 기존 카테고리 목록
 
-### 상세 흐름
+| ID | 카테고리명 | 아이콘 | 폴더 |
+|----|-----------|--------|------|
+| `1_Claude_사용법` | Claude & Claude Code 사용법 | 🤖 | `1. Claude&ClaudeCode사용법` |
+| `2_웹개발_지식` | 웹개발 기초지식 | 💻 | `2. 웹개발 기초지식` |
+| `3_프로젝트_관리` | 프로젝트 관리 방법 | 📋 | `3권_프로젝트_관리_방법` |
 
-1. **viewer.html 열림**
-2. **CONTENTS 객체에서 파일 목록 읽기** (하드코딩됨)
-3. **사이드바에 카테고리/콘텐츠 목록 표시**
-4. **사용자가 콘텐츠 클릭**
-5. **jsdelivr CDN URL로 MD 파일 fetch**
-6. **Marked.js가 MD를 HTML로 변환**
-7. **메인 영역에 렌더링**
+### 2.2 새 카테고리 필요 시
+
+`books-list.json`의 `categories` 배열에 새 객체 추가 (3단계에서 함께 처리)
 
 ---
 
-## 3. 새 콘텐츠 추가 방법
+## 3. 2단계: MD 파일 작성
 
-### 3.1 MD 파일 작성
-1. 적절한 폴더에 MD 파일 생성
-   - 예: `부수적_고유기능/콘텐츠/학습용_Books/1_Claude_사용법/Claude&ClaudeCode사용법/21편_새로운내용.md`
-2. Markdown 형식으로 내용 작성
+### 3.1 저장 위치
 
-### 3.2 viewer.html 업데이트 (Claude Code에게 요청)
-**요청 예시:**
 ```
-"부수적_고유기능/콘텐츠/학습용_Books/1_Claude_사용법/Claude&ClaudeCode사용법/21편_새로운내용.md 파일 추가했어.
-viewer.html에 추가해줘."
+부수적_고유기능/콘텐츠/학습용_Books/{카테고리폴더}/{파일명}.md
 ```
 
-**Claude Code가 업데이트하는 곳:**
-1. `부수적_고유기능/콘텐츠/학습용_Books/viewer.html` - CONTENTS 객체에 파일 추가
-2. `Production/Frontend/index.html` - LEARNING_CONTENTS 배열에 추가 (검색용)
+또는 (새 형식):
+```
+부수적_고유기능/콘텐츠/학습용_Books_New/{카테고리폴더}/{파일명}.md
+```
 
-### 3.3 GitHub Push
+### 3.2 파일명 규칙
+
+- `{번호}편_{제목}.md` 형식 권장
+- 한글 사용 가능
+- 특수문자 최소화
+
+### 3.3 작성 규칙
+
+- 비개발자 대상 설명식 문장
+- 코드 블록 최소화
+- SSALWorks 방법론 가치 강조
+- 분량 제한 없음 (책 형식)
+
+---
+
+## 4. 3단계: books-list.json에 항목 추가
+
+### 4.1 파일 위치
+
+```
+부수적_고유기능/콘텐츠/학습용_Books/books-list.json
+```
+
+### 4.2 기존 카테고리에 파일 추가
+
+해당 카테고리의 `files` 배열에 추가:
+
+```json
+{
+  "id": "1_Claude_사용법",
+  "name": "Claude & Claude Code 사용법",
+  "icon": "🤖",
+  "description": "AI 활용의 기초부터 고급까지",
+  "folder": "학습용_Books/1. Claude&ClaudeCode사용법",
+  "files": [
+    { "name": "1편 - Claude란 무엇인가", "file": "1편_Claude란_무엇인가.md" },
+    { "name": "21편 - 새로운 내용", "file": "21편_새로운_내용.md" }
+  ]
+}
+```
+
+**필드 설명:**
+- `name`: 뷰어에 표시될 제목
+- `file`: 파일명만 (경로 제외)
+
+### 4.3 새 카테고리 추가
+
+`categories` 배열에 새 객체 추가:
+
+```json
+{
+  "id": "4_새카테고리",
+  "name": "새 카테고리 이름",
+  "icon": "🆕",
+  "description": "카테고리 설명",
+  "folder": "학습용_Books/4. 새카테고리",
+  "files": [
+    { "name": "1편 - 첫 번째 내용", "file": "1편_첫번째_내용.md" }
+  ]
+}
+```
+
+**⚠️ 주의:**
+- `id`: 언더스코어 사용, 고유해야 함
+- `folder`: 실제 폴더 경로 (basePath 이후)
+
+---
+
+## 5. 4단계: 동기화 스크립트 실행
+
+### 5.1 스크립트 실행
+
 ```bash
-git add .
-git commit -m "새 학습 콘텐츠 추가: 21편_새로운내용"
-git push
+cd 부수적_고유기능/콘텐츠/학습용_Books
+node sync-books.js
 ```
 
-### 3.4 완료
-- jsdelivr CDN이 자동으로 새 파일 인식
-- viewer.html에서 바로 접근 가능
+### 5.2 실행 결과
+
+```
+🔄 학습용 Books 동기화 시작...
+
+📄 books-list.json 로드...
+   카테고리: 3개
+   콘텐츠 파일: 56개
+
+📝 파일 업데이트...
+  ✅ 업데이트: viewer.html
+  ✅ 업데이트: learning-viewer.html
+  ✅ 업데이트: index.html (LEARNING_CONTENTS)
+
+✅ 동기화 완료!
+```
+
+### 5.3 자동 업데이트되는 파일
+
+| # | 파일 | 용도 |
+|---|------|------|
+| 1 | `학습용_Books/viewer.html` | 원본 뷰어 |
+| 2 | `Production/learning-viewer.html` | Production 뷰어 |
+| 3 | `Production/index.html` | 대시보드 검색/팝업 |
+
+**스크립트가 형식 변환까지 자동 처리!** (CONTENTS 객체, LEARNING_CONTENTS 배열)
 
 ---
 
-## 4. 폴더 구조
+## 6. 5단계: 완료 보고
+
+작업 완료 후 사용자에게 보고:
 
 ```
-부수적_고유기능/
-└── 콘텐츠/
-    └── 학습용_Books/
-        ├── viewer.html                      ← 뷰어 (핵심 파일)
-        ├── 학습용_Books_제공_프로세스.md    ← 이 문서
-        │
-        ├── 1. Claude&ClaudeCode사용법/      ← 카테고리 1
-        │   ├── 1편_Claude란_무엇인가.md
-        │   ├── 2편_프롬프트_엔지니어링_기초편.md
-        │   └── ...
-        │
-        ├── 2. 웹개발 기초지식/              ← 카테고리 2
-        │   ├── 1편 웹개발 핵심 개념.md
-        │   └── ...
-        │
-        └── 3_프로젝트관리방법/              ← 카테고리 3
-            └── ...
-```
+학습용 Books 콘텐츠 작성 완료:
 
-**폴더 구조 = 카테고리 구조**
-- 폴더 이름이 곧 카테고리명
-- 정리된 폴더 구조 = 정리된 콘텐츠 구조
+1. MD 파일 생성: {폴더}/{파일명}.md
+2. books-list.json 업데이트 완료
+3. sync-books.js 실행 → 3개 파일 자동 동기화 ✅
+
+뷰어에서 "{카테고리명} > {파일 제목}"으로 접근 가능합니다.
+```
 
 ---
 
-## 5. 장점 요약
+## 7. 시스템 구조
 
-### 5.1 이전 방식 (복잡)
 ```
-MD 작성 → GitHub Push → GitHub Actions 실행 → HTML 변환
-→ 어드민에서 DB 메타데이터 등록 → 웹사이트에서 표시
+GitHub 저장소
+    ↓ (push)
+jsdelivr CDN (자동 반영)
+    ↓ (fetch)
+viewer.html (Marked.js로 렌더링)
+    ↓
+사용자 화면
 ```
-- DB 필요
-- 어드민 필요
-- GitHub Actions 필요
-- 복잡한 프로세스
 
-### 5.2 현재 방식 (간단)
+### 파일 관계
+
 ```
-MD 작성 → viewer.html 목록 추가 → GitHub Push → 끝
+학습용_Books/
+├── books-list.json              ← 단일 소스 (이것만 수정!)
+├── sync-books.js                ← 동기화 스크립트
+├── viewer.html                  ← 자동 업데이트됨
+├── 학습용_Books_제공_프로세스.md ← 이 문서
+│
+├── 1. Claude&ClaudeCode사용법/  ← 카테고리 1
+│   └── *.md
+├── 2. 웹개발 기초지식/          ← 카테고리 2
+│   └── *.md
+└── ...
 ```
-- DB 불필요
-- 어드민 불필요
-- GitHub Actions 불필요
-- 간단한 프로세스
-
-### 5.3 비용
-- **GitHub**: 무료
-- **jsdelivr CDN**: 무료
-- **Marked.js**: 무료 (MIT 라이선스)
-- **서버 비용**: 없음
-- **DB 비용**: 없음
-
----
-
-## 6. 주의사항
-
-### 6.1 viewer.html 업데이트 필수
-- 새 MD 파일 추가 시 viewer.html의 CONTENTS 객체에 수동 추가 필요
-- Claude Code에게 요청하면 자동 처리
-
-### 6.2 파일명 규칙
-- 한글 파일명 가능 (jsdelivr가 URL 인코딩 처리)
-- 공백 가능하나 언더스코어(_) 권장
-- 특수문자 최소화 권장
-
-### 6.3 jsdelivr 캐시
-- 새 파일 push 후 CDN 반영까지 약간의 시간 소요 가능 (보통 즉시~수분)
-- 캐시 강제 갱신: URL에 `?v=버전번호` 추가
-
----
-
-## 7. GitHub 덕분에 가능한 것들
-
-1. **무료 파일 호스팅** - MD 파일 무제한 저장
-2. **jsdelivr CDN 연동** - 자동으로 전 세계 CDN 배포
-3. **CORS 문제 해결** - jsdelivr가 알아서 처리
-4. **버전 관리** - 모든 수정 이력 자동 보관
-5. **협업** - 여러 명이 동시에 콘텐츠 관리 가능
-6. **백업** - GitHub이 자동 백업
-
-**결론: GitHub + jsdelivr + Marked.js = 무료 콘텐츠 관리 시스템**
-
----
-
-## 8. 빠른 참조
-
-### 새 콘텐츠 추가 시
-1. MD 파일 작성 (폴더에 저장)
-2. Claude Code에게 "viewer.html에 추가해줘" 요청
-3. git push
-
-### 파일 위치
-- 뷰어: `부수적_고유기능/콘텐츠/학습용_Books/viewer.html`
-- 콘텐츠: `부수적_고유기능/콘텐츠/학습용_Books/{대분류}/{중분류}/{파일명}.md`
-- 검색 목록: `Production/Frontend/index.html` (LEARNING_CONTENTS)
 
 ### CDN URL 형식
+
 ```
-https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/{파일경로}
+https://cdn.jsdelivr.net/gh/SUNWOONGKYU/SSALWorks@master/부수적_고유기능/콘텐츠/{경로}
 ```
+
+---
+
+## 8. 체크리스트
+
+학습용 Books 작성 완료 전 확인:
+
+**MD 파일:**
+- [ ] 올바른 카테고리 폴더에 저장했는가?
+- [ ] 파일명이 `{번호}편_{제목}.md` 형식인가?
+- [ ] 비개발자 대상 설명식으로 작성했는가?
+
+**JSON 업데이트:**
+- [ ] `books-list.json`에 항목 추가했는가?
+- [ ] `folder`가 실제 폴더 경로와 일치하는가?
+- [ ] `file`에 파일명만 적었는가? (경로 제외)
+
+**동기화:**
+- [ ] `node sync-books.js` 실행했는가?
+- [ ] 3개 파일 모두 업데이트 확인했는가?
+
+---
+
+## 9. Production 배포 확인
+
+동기화 후 다음 파일들이 자동 업데이트됩니다:
+
+1. **Production/learning-viewer.html** - 학습 콘텐츠 뷰어
+2. **Production/index.html** - 메인 대시보드 (학습 검색 기능)
+
+git push하면 Vercel이 자동 배포하여 메인 화면에 즉시 반영됩니다.

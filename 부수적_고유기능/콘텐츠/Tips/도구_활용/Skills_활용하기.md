@@ -1,87 +1,85 @@
-# PDF, Excel 등 Skills로 문서 분석하고 데이터 처리하기
+# Claude Code Skills로 특정 작업 자동화하기
 
-> 이 문서는 Skills를 활용하여 Claude Code에게 프로젝트별 전문 지식을 제공하는 방법을 설명합니다.
-
----
-
-## Skills란 무엇인가
-
-Skills는 `.claude/skills/` 폴더에 정의된 전문 지식 문서입니다. Claude Code가 특정 작업을 할 때 해당 Skill을 참조하여 일관된 방식으로 작업합니다.
+> 이 문서는 Claude Code의 Skills 기능을 활용하여 반복 작업을 자동화하는 방법을 설명합니다.
 
 ---
 
-## Skills vs Commands vs Subagents
+## Skills란
 
-| 구분 | 역할 | 위치 | 예시 |
-|------|------|------|------|
-| Skills | 전문 지식/지침 | `.claude/skills/` | api-builder.md |
-| Commands | 단축 명령어 | `.claude/commands/` | /commit |
-| Subagents | 전문 역할 수행자 | `.claude/subagents/` | backend-developer |
+특정 작업 유형에 대한 전문 지침을 제공하여 Claude Code가 더 효과적으로 작업할 수 있게 하는 기능입니다.
 
 ---
 
-## Skill 작성 예시
+## 내장 Skills 예시
 
-**`.claude/skills/api-builder.md`**
+| Skill | 용도 |
+|-------|------|
+| pdf | PDF 파일 읽기 및 분석 |
+| xlsx | Excel 파일 처리 |
+| playwright-mcp | 브라우저 자동화 테스트 |
+
+---
+
+## Skills 사용 방법
+
+Claude Code가 자동으로 필요한 Skill을 감지하고 활성화합니다.
+
+```
+"이 PDF 파일 분석해줘"  → pdf skill 자동 활성화
+"이 엑셀 데이터 읽어줘"  → xlsx skill 자동 활성화
+```
+
+---
+
+## Skills의 이점
+
+| 이점 | 설명 |
+|------|------|
+| 전문성 | 해당 작업에 최적화된 처리 |
+| 일관성 | 항상 동일한 방식으로 처리 |
+| 자동화 | 수동 설정 불필요 |
+
+---
+
+## 사용자 정의 Skills
+
+프로젝트에 맞는 커스텀 Skill을 정의할 수 있습니다.
 
 ```markdown
-# api-builder
+# .claude/skills/my-skill.md
 
-## 응답 형식
-{ success: boolean, data?: T, error?: string }
-
-## 에러 처리
-try-catch 필수, 에러 메시지 한글로
-
-## 네이밍
-- 엔드포인트: kebab-case (/user-profile)
-- 함수: camelCase (getUserProfile)
-
-## 인증
-모든 API는 JWT 토큰 검증 필수
+이 프로젝트의 특정 작업 규칙...
 ```
 
 ---
 
-## 활용 방법
+## Skills 확인
 
 ```
-"로그인 API 만들어줘"
-→ Claude Code가 api-builder Skill 자동 참조
-→ 정의된 응답 형식, 에러 처리 규칙대로 API 생성
-```
-
----
-
-## 권장 Skills
-
-| Skill 이름 | 용도 |
-|------------|------|
-| `api-builder.md` | API 설계 규칙 |
-| `db-schema.md` | DB 설계 규칙 |
-| `code-review.md` | 코드 리뷰 기준 |
-| `testing.md` | 테스트 작성 규칙 |
-| `documentation.md` | 문서 작성 규칙 |
-
----
-
-## Claude Code에게 요청하기
-
-```
-"api-builder Skill 만들어줘"
-"현재 Skills 목록 확인해줘"
-"db-schema Skill 참고해서 테이블 만들어줘"
+"사용 가능한 Skills 목록 보여줘"
+"현재 활성화된 Skill이 뭐야?"
 ```
 
 ---
 
-## 체크리스트
+## Skills vs Slash Commands
 
-- [ ] 프로젝트에 맞는 Skills를 정의했는가?
-- [ ] `.claude/skills/` 폴더에 마크다운 파일이 있는가?
-- [ ] 각 Skill에 명확한 규칙이 정의되어 있는가?
+| 구분 | Skills | Slash Commands |
+|------|--------|----------------|
+| 활성화 | 자동 | 수동 (/명령어) |
+| 용도 | 작업 유형별 전문성 | 특정 동작 실행 |
+| 지속성 | 세션 동안 | 한 번 실행 |
 
 ---
 
-*상세 내용: `.claude/skills/` 폴더 예시 파일 참조*
+## 권장 사용 패턴
 
+| 상황 | 권장 |
+|------|------|
+| PDF/Excel 작업 | Skill 자동 활성화 |
+| 테스트 자동화 | playwright-mcp skill |
+| 프로젝트 규칙 | 커스텀 skill 정의 |
+
+---
+
+*상세 내용: `Slash_Commands_활용하기.md` 참조*
