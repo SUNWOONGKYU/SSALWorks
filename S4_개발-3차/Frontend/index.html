@@ -740,6 +740,17 @@
         .process-special-major[data-progress="0"] .process-arrow {
             color: #6c757d;
         }
+        /* 특별단계 완료 시 (100%) 녹색 배경 */
+        .process-special-major.completed {
+            background: rgba(16, 185, 129, 0.25);
+            border: 1px solid rgba(16, 185, 129, 0.5);
+        }
+        .process-special-major.completed .process-percent {
+            color: #10b981;
+        }
+        .process-special-major.completed .process-progress-fill {
+            background: #10b981;
+        }
         .process-special-major .process-header {
             display: flex;
             align-items: center;
