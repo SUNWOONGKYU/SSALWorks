@@ -268,6 +268,37 @@ verification_status 전이:
 
 ---
 
+### 절대 규칙 5: Task 완료/수정 시 Grid 자동 업데이트 ⭐ 신규
+
+> **적용 대상**: SAL Grid Task 작업 완료 또는 버그 수정 시
+
+```
+🚫 Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
+🚫 "작업 완료했습니다" 말만 하고 DB 업데이트 안 하면 안 됨!
+✅ 작업 완료 후 반드시 ssalworks_tasks 테이블 업데이트!
+```
+
+**업데이트 시점:**
+| 상황 | 업데이트 필드 |
+|------|-------------|
+| Task 완료 | `task_status`, `task_progress`, `generated_files`, `remarks` |
+| 버그 수정 | `modification_history`, `remarks`, `updated_at` |
+
+**필수 프로세스:**
+```
+Task 작업 완료
+     ↓
+ssalworks_tasks 테이블 PATCH 업데이트
+     ↓
+work_logs/current.md 기록
+     ↓
+완료 보고
+```
+
+**상세 규칙:** `.claude/rules/04_grid-supabase.md` 섹션 8 참조
+
+---
+
 ## 📘 작업 방법 (Methods)
 
 > **특정 작업 수행 시 반드시 해당 방법을 따라야 함!**
