@@ -7748,7 +7748,7 @@ Claude Code가 작업을 완료하면:
             } catch (error) {
                 console.error('프로젝트 생성 오류:', error);
                 showStatus(`❌ 프로젝트 생성 실패: ${error.message}`, 'error');
-                alert(`프로젝트 생성 중 오류가 발생했습니다:\n\n${error.message}\n\n서버(inbox_server.js)가 실행 중인지 확인해주세요.`);
+                alert(`프로젝트 생성 중 오류가 발생했습니다:\n\n${error.message}`);
             }
             });
         }); // DOMContentLoaded 끝
