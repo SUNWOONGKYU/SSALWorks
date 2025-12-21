@@ -26,6 +26,37 @@ const supabase = createClient(
     process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+// 8자리 고유 user_id 생성 함수
+function generateUserId() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let result = '';
+    for (let i = 0; i < 8; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+}
+
+// 고유한 user_id 생성 (중복 체크)
+async function createUniqueUserId() {
+    let attempts = 0;
+    const maxAttempts = 10;
+
+    while (attempts < maxAttempts) {
+        const userId = generateUserId();
+        const { data } = await supabase
+            .from('users')
+            .select('user_id')
+            .eq('user_id', userId)
+            .single();
+
+        if (!data) {
+            return userId;
+        }
+        attempts++;
+    }
+    throw new Error('Failed to generate unique user_id');
+}
+
 module.exports = async (req, res) => {
     // CORS 헤더
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -75,27 +106,58 @@ module.exports = async (req, res) => {
             });
         }
 
-        // 3. users 테이블에서 user_id (8자리) 조회
+        // 3. users 테이블에서 user_id (8자리) 조회 또는 생성
+        let userId;
         const { data: userData, error: userError } = await supabase
             .from('users')
             .select('user_id')
             .eq('id', user.id)
             .single();
 
-        if (userError || !userData) {
-            console.error('User query failed:', userError);
-            console.error('Auth user.id:', user.id);
-            return res.status(500).json({
-                success: false,
-                error: '사용자 정보를 찾을 수 없습니다',
-                debug: {
-                    authUserId: user.id,
-                    userError: userError?.message || null
-                }
-            });
-        }
+        if (userData && userData.user_id) {
+            // 기존 사용자
+            userId = userData.user_id;
+        } else {
+            // 신규 사용자 - public.users에 레코드 생성
+            console.log('Creating new user record for:', user.id, user.email);
 
-        const userId = userData.user_id;
+            try {
+                const newUserId = await createUniqueUserId();
+                const { data: newUser, error: insertUserError } = await supabase
+                    .from('users')
+                    .insert({
+                        id: user.id,  // auth.uid()
+                        email: user.email,
+                        name: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
+                        user_id: newUserId,
+                        avatar_url: user.user_metadata?.avatar_url || null,
+                        role: 'user',
+                        subscription_status: 'free',
+                        credit_balance: 0
+                    })
+                    .select('user_id')
+                    .single();
+
+                if (insertUserError) {
+                    console.error('Failed to create user:', insertUserError);
+                    return res.status(500).json({
+                        success: false,
+                        error: '사용자 등록에 실패했습니다',
+                        details: insertUserError.message
+                    });
+                }
+
+                userId = newUser.user_id;
+                console.log('New user created with user_id:', userId);
+            } catch (createError) {
+                console.error('User creation error:', createError);
+                return res.status(500).json({
+                    success: false,
+                    error: '사용자 ID 생성에 실패했습니다',
+                    details: createError.message
+                });
+            }
+        }
 
         // 4. 진행 중인 프로젝트가 있는지 확인
         // TEST_DISABLE: 테스트를 위해 임시 비활성화
@@ -114,13 +176,13 @@ module.exports = async (req, res) => {
         // }
 
         // 5. project_id 생성 (user_id-P001 형식)
-        const { data: countData, error: countError } = await supabase
+        const { count: projectCount, error: countError } = await supabase
             .from('projects')
-            .select('id', { count: 'exact', head: true })
+            .select('*', { count: 'exact', head: true })
             .eq('user_id', userId);
 
-        const projectCount = (countData?.length || 0) + 1;
-        const projectId = `${userId}-P${String(projectCount).padStart(3, '0')}`;
+        const nextProjectNum = (projectCount || 0) + 1;
+        const projectId = `${userId}-P${String(nextProjectNum).padStart(3, '0')}`;
 
         // 6. 프로젝트 생성
         const { data: newProject, error: insertError } = await supabase
