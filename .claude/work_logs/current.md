@@ -59,6 +59,11 @@ mv "S5_운영" "S5_개발_마무리"
 | Task Agent | frontend-developer |
 | Verification Agent | code-reviewer |
 
+**Supabase DB 등록 완료:**
+- 테이블: `ssalworks_tasks`
+- Status: 201 Created
+- ID: `b857456c-cfea-4b46-b9df-a559a88df916`
+
 ---
 
 ### 2권 콘텐츠 04편~13편 야간 작성 완료 ✅

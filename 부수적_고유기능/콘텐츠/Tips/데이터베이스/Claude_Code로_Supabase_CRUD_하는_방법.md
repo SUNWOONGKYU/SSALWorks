@@ -1,187 +1,158 @@
-# Claude Code가 Supabase MCP로 데이터 생성/조회/수정/삭제 직접 하기
+# Claude Code가 Supabase에 직접 CRUD 하는 방법
 
-> 이 문서는 Claude Code가 Supabase 데이터베이스에 직접 CRUD(생성/조회/수정/삭제)하는 방법과 AI/PO 역할 분담을 설명합니다.
+> Claude Code는 Supabase 데이터베이스에 직접 데이터를 생성/조회/수정/삭제할 수 있습니다.
+> 이 문서는 그 방법들을 설명하고, 어떤 방법을 우선 사용해야 하는지 안내합니다.
 
 ---
 
 ## CRUD란?
 
-| 영어 | 한글 | SQL | 예시 |
-|------|------|-----|------|
-| **C**reate | 생성 | INSERT | 새 회원 등록 |
-| **R**ead | 조회 | SELECT | 회원 목록 보기 |
-| **U**pdate | 수정 | UPDATE | 회원 정보 변경 |
-| **D**elete | 삭제 | DELETE | 회원 탈퇴 |
+데이터베이스의 4가지 기본 작업입니다.
+
+| 영어 | 한글 | SQL 명령어 | HTTP 메서드 | 예시 |
+|------|------|-----------|-------------|------|
+| **C**reate | 생성 | INSERT | POST | 새 Task 등록 |
+| **R**ead | 조회 | SELECT | GET | Task 목록 보기 |
+| **U**pdate | 수정 | UPDATE | PATCH | Task 상태 변경 |
+| **D**elete | 삭제 | DELETE | DELETE | Task 삭제 |
 
 ---
 
-## AI가 할 수 있는 것 vs PO가 해야 하는 것
+## AI가 할 수 있는 것 vs PO(Project Owner; 사람)가 해야 하는 것
 
-### AI (Claude Code + MCP)가 할 수 있는 작업
+### Claude Code가 직접 할 수 있는 작업
 
-| 작업 | MCP 도구 | 비고 |
-|------|----------|------|
-| 테이블 생성 (CREATE TABLE) | `apply_migration` | 스키마 변경 추적됨 |
-| 테이블 수정 (ALTER TABLE) | `apply_migration` | 컬럼 추가/변경 등 |
-| RLS 정책 생성/수정 | `apply_migration` | 보안 정책 설정 |
-| 데이터 INSERT/UPDATE/DELETE | `execute_sql` | 일반 CRUD |
-| SELECT 쿼리 | `execute_sql` | 데이터 조회 |
+- 테이블 생성/수정 (CREATE TABLE, ALTER TABLE)
+- RLS 정책 생성/수정
+- 데이터 CRUD (INSERT, SELECT, UPDATE, DELETE)
 
-**조건**: MCP가 정상 연결되고, Read-only 모드가 꺼져 있어야 함
-
-### PO가 직접 해야 하는 작업
+### PO(Project Owner; 사람)가 직접 해야 하는 작업
 
 | 작업 | 이유 | 어디서? |
 |------|------|---------|
-| **OAuth Provider 설정** | MCP 미지원 | Dashboard > Auth > Providers |
-| **API 키 재생성** | 보안상 이유 | Dashboard > Project Settings |
-| **환경 변수 배포** | 외부 서비스 연동 | Vercel Dashboard |
-| **프로덕션 DB 직접 실행** | 실수 방지 | Dashboard > SQL Editor |
-| **프로젝트 생성/삭제** | 중요 작업 | Dashboard |
+| OAuth Provider 설정 | AI 도구 미지원 | Dashboard > Auth > Providers |
+| API 키 재생성 | 보안상 이유 | Dashboard > Project Settings |
+| 환경 변수 배포 | 외부 서비스 | Vercel Dashboard |
+| 프로젝트 생성/삭제 | 중요 작업 | Supabase Dashboard |
 
 ---
 
-## MCP가 불안정한 이유
+## 방법 1: REST API (Node.js로 직접 호출)
 
-### 주요 원인
+Supabase는 모든 테이블에 자동으로 REST API를 제공합니다. Node.js의 `https` 모듈로 이 API를 직접 호출하면 됩니다.
 
-| 원인 | 증상 | 해결 |
-|------|------|------|
-| **Windows 한글 인코딩** | 한글 포함 쿼리 실패 | 영문 위주로 작업 |
-| **HTTP 연결 타임아웃** | 응답 없음, 무한 대기 | 세션 재시작 |
-| **네트워크 불안정** | 간헐적 연결 끊김 | 재시도 |
-| **토큰 만료** | 인증 실패 | 토큰 재발급 |
-| **Supabase 서버 상태** | 전체 서비스 느림 | 잠시 후 재시도 |
+**장점**: MCP 연결 상태와 무관하게 항상 작동합니다. 가장 안정적인 방법입니다.
 
-### MCP 연결 확인
+**작동 방식**:
+- URL 형식: `https://{프로젝트ID}.supabase.co/rest/v1/{테이블명}`
+- 인증: HTTP 헤더에 `apikey`와 `Authorization`에 Service Role Key 포함
+- 조건 지정: URL 쿼리 파라미터로 조건 추가 (예: `?task_id=eq.S5U2`)
 
-```bash
-# MCP 목록 확인
-claude mcp list
-
-# supabase가 보이면 연결됨
-# 안 보이면 설정 필요
-```
+**쿼리 연산자**:
+- `eq` (=), `neq` (≠), `gt` (>), `gte` (≥), `lt` (<), `lte` (≤)
+- `like` (패턴 매칭), `in` (여러 값 중 하나)
 
 ---
 
-## API 키 종류와 권한
+## 방법 2: Supabase MCP (Model Context Protocol)
 
-| 키 | 권한 | RLS 적용 | 용도 |
-|----|------|:--------:|------|
-| **Anon Key** | 제한적 | ✅ 적용 | 클라이언트 (웹, 앱) |
-| **Service Role Key** | 무제한 | ❌ 무시 | 서버, MCP (개발용) |
+Claude Code에 Supabase MCP 서버가 연결되어 있으면, 자연어로 데이터베이스 작업을 지시할 수 있습니다.
 
-**주의**: Service Role Key는 RLS를 무시하므로 **절대 클라이언트에 노출 금지**
+**장점**: 자연어로 편하게 요청 가능. "users 테이블에 새 사용자 추가해줘"처럼 말하면 됩니다.
 
----
+**단점**: Windows 환경에서 한글 인코딩 문제, 연결 타임아웃 등으로 불안정할 수 있습니다.
 
-## 방법 비교
+**주요 도구**:
+- `apply_migration`: 테이블 생성/수정 등 스키마 변경 (DDL)
+- `execute_sql`: 데이터 조회/추가/수정/삭제 (DML)
 
-| 순위 | 방법 | 장점 | 단점 |
-|:----:|------|------|------|
-| 1 | Supabase MCP | 빠르고 편함 | 불안정할 수 있음 |
-| 2 | Supabase CLI | 안정적 | 설치 필요 |
-| 3 | Dashboard SQL Editor | 항상 가능 | 수동 복사 필요 |
-| 4 | JSON+Node.js | 자동화 가능 | 스크립트 필요 |
-
----
-
-## 방법 1: Supabase MCP (권장)
-
-```bash
-# MCP 서버 확인
-claude mcp list
-```
-
-**스키마 변경 (DDL)**:
-```
-"MCP apply_migration으로 users 테이블 생성해줘"
-```
-
-**데이터 변경 (DML)**:
-```
-"MCP execute_sql로 users 테이블에 INSERT 해줘"
-```
-
----
-
-## 방법 2: Dashboard SQL Editor (안정적)
-
-MCP가 불안정할 때 가장 확실한 방법:
-
-1. AI가 SQL 파일 생성
-2. PO가 Dashboard > SQL Editor에서 실행
-
-```
-"users 테이블 생성 SQL 파일 만들어줘"
-→ AI가 .sql 파일 생성
-→ PO가 Dashboard에서 복사해서 실행
-```
+**연결 확인**: `claude mcp list` 명령어로 supabase가 보이면 연결된 상태입니다.
 
 ---
 
 ## 방법 3: Supabase CLI
 
-```bash
-# 연결 확인
-supabase status
+Supabase CLI가 설치되어 있으면 터미널에서 직접 SQL을 실행할 수 있습니다.
 
-# SQL 실행
-supabase db execute "INSERT INTO users (name) VALUES ('홍길동')"
+**장점**: 마이그레이션 파일 관리, 버전 관리에 유용합니다.
 
-# 마이그레이션 푸시
-supabase db push
+**단점**: 별도 설치가 필요합니다.
+
+**주요 명령어**:
+- `supabase status`: 연결 상태 확인
+- `supabase db execute "SQL문"`: SQL 직접 실행
+- `supabase db push`: 마이그레이션 적용
+
+---
+
+## 방법 4: curl 명령어
+
+터미널에서 curl로 REST API를 직접 호출하는 방법입니다.
+
+**장점**: 간단한 테스트에 유용합니다.
+
+**단점**: Windows에서는 따옴표 처리 문제로 자주 실패합니다. 한글이 포함된 데이터도 인코딩 문제가 발생할 수 있습니다. Linux/Mac에서는 잘 작동합니다.
+
+---
+
+## 방법 5: Dashboard SQL Editor (수동)
+
+Supabase Dashboard의 SQL Editor에서 직접 쿼리를 실행하는 방법입니다.
+
+**사용 시점**: 위의 모든 방법이 안 될 때 최후 수단으로 사용합니다.
+
+**작업 흐름**:
+1. Claude Code가 SQL 파일을 생성
+2. PO(사람)가 Dashboard > SQL Editor에서 해당 SQL을 복사하여 실행
+
+---
+
+## 방법별 우선순위
+
+위 5가지 방법을 모두 이해했다면, 아래 우선순위에 따라 선택하세요.
+
+| 순위 | 방법 | 안정성 | 권장 상황 |
+|:----:|------|:------:|----------|
+| **1** | REST API (Node.js) | ✅ 매우 안정 | 기본으로 사용 |
+| 2 | Supabase MCP | ⚠️ 불안정 | MCP 연결이 잘 될 때 |
+| 3 | Supabase CLI | ✅ 안정 | CLI 설치되어 있을 때 |
+| 4 | curl | ⚠️ Windows 이슈 | Linux/Mac 환경 |
+| 5 | Dashboard SQL Editor | ✅ 안정 | 최후 수단 (수동) |
+
+**결정 흐름**:
+```
+REST API → MCP → CLI → Dashboard
 ```
 
 ---
 
-## 방법 4: JSON + Node.js (대안)
+## API 키 종류
 
-MCP/CLI가 안 될 때 사용:
+Supabase는 두 종류의 API 키를 제공합니다.
 
-```bash
-cd S0_Project-SAL-Grid_생성/supabase
-node sync_task_results_to_db.js
-```
+| 키 | RLS 정책 | 용도 | 주의사항 |
+|----|:--------:|------|----------|
+| Anon Key | ✅ 적용됨 | 웹/앱 클라이언트 | 공개 가능 |
+| Service Role Key | ❌ 무시됨 | 서버, AI 작업 | **절대 공개 금지** |
 
----
-
-## 결정 흐름
-
-```
-[1차] MCP 연결됨? → MCP로 실행
-        ↓ 안 됨
-[2차] CLI 설치됨? → CLI로 실행
-        ↓ 안 됨
-[3차] AI가 SQL 파일 생성 → PO가 Dashboard에서 실행
-```
+Claude Code가 데이터베이스 작업을 할 때는 Service Role Key를 사용합니다. 이 키는 RLS(Row Level Security) 정책을 우회하므로 모든 데이터에 접근할 수 있습니다.
 
 ---
 
-## 실수로 삭제했을 때
+## 환경변수 위치
 
-1. 추가 작업 중단
-2. 복구 방법 선택
+```
+P3_프로토타입_제작/Database/.env
+```
 
-| 방법 | 사용 조건 |
-|------|----------|
-| PITR (Point-in-Time Recovery) | Pro 플랜 이상 |
-| Daily Backup | 모든 플랜 |
-| 수동 백업 | 사전 백업 있을 때 |
-
-**예방**: DELETE 전 SELECT로 확인, 중요 작업 전 백업
+이 파일에 `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY`가 저장되어 있습니다.
 
 ---
 
 ## 체크리스트
 
-- [ ] MCP 연결 상태 확인했는가?
-- [ ] 어떤 키(Anon/Service Role)를 사용하는지 알고 있는가?
-- [ ] DDL(스키마 변경)은 apply_migration을 사용하는가?
-- [ ] 프로덕션 환경은 Dashboard에서 직접 실행하는가?
-
----
-
-*상세 내용: `외부_연동_설정_Guide/MCP_설정_가이드.md` 참조*
+- [ ] 어떤 방법을 사용할지 결정했는가?
+- [ ] .env 파일에서 필요한 키를 확인했는가?
+- [ ] 테이블명이 정확한가? (예: `ssalworks_tasks`)
+- [ ] 스키마 변경(DDL)은 MCP apply_migration을 사용하는가?
 
