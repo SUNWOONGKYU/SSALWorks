@@ -5484,7 +5484,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     // S1-S5 진행률 업데이트 (Stage Gate Approved면 100%)
                     for (let i = 1; i <= 5; i++) {
                         const stageName = 'S' + i;
-                        if (approvedStages[stageName]) {
+                        const stageGateName = 'Stage ' + i; // DB에는 'Stage 1' 형식
+                        if (approvedStages[stageGateName]) {
                             updateStageProgress(stageName, 100);
                         } else {
                             const progress = stageProgress[i] || 0;
