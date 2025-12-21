@@ -575,36 +575,13 @@
                     <button class="btn btn-charge" data-amount="200000">₩200,000</button>
                     <button class="btn btn-charge" data-amount="500000">₩500,000</button>
                 </div>
-                <!-- 무통장 입금 정보 -->
-                <div style="margin-top: 20px; padding: 20px; background: var(--gray-50); border-radius: 12px; border: 2px solid var(--secondary);">
-                    <h4 style="font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                        🏦 무통장 입금 안내
-                    </h4>
-                    <div style="display: grid; gap: 12px;">
-                        <div style="display: flex; justify-content: space-between; padding: 12px 16px; background: white; border-radius: 8px;">
-                            <span style="color: var(--gray-500);">입금 은행</span>
-                            <span style="font-weight: 600;">하나은행</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 16px; background: white; border-radius: 8px;">
-                            <span style="color: var(--gray-500);">계좌번호</span>
-                            <span style="font-weight: 600; font-family: monospace;">287-910921-40507</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; padding: 12px 16px; background: white; border-radius: 8px;">
-                            <span style="color: var(--gray-500);">예금주</span>
-                            <span style="font-weight: 600;">선웅규</span>
-                        </div>
-                    </div>
-                    <div style="margin-top: 16px;">
-                        <label style="display: block; font-size: 13px; color: var(--gray-500); margin-bottom: 6px;">입금자명</label>
-                        <input type="text" id="depositorName" placeholder="입금자명을 입력하세요"
-                            style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-300); border-radius: 8px; font-family: inherit; font-size: 14px;">
-                    </div>
-                    <div style="margin-top: 12px; font-size: 13px; color: var(--gray-500); line-height: 1.6;">
-                        ※ 입금 후 1영업일 이내 크레딧이 충전됩니다.<br>
-                        ※ 입금자명이 회원명과 다를 경우 반드시 입금자명을 입력해주세요.
+                <!-- 무통장 입금 안내 -->
+                <div style="margin-top: 20px; padding: 16px; background: var(--gray-50); border-radius: 12px; border: 1px solid var(--gray-200);">
+                    <div style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--gray-700);">
+                        🏦 <span>무통장 입금으로 충전됩니다 (하나은행 287-910921-40507 선웅규)</span>
                     </div>
                 </div>
-                <button class="btn btn-primary" id="chargeBtn" disabled onclick="processCharge()">
+                <button class="btn btn-primary" id="chargeBtn" disabled onclick="openCreditDepositModal()">
                     충전 신청하기
                 </button>
             </div>
@@ -680,6 +657,56 @@
         </div>
     </div>
 
+    <!-- 무통장 입금 모달 -->
+    <div id="depositModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: white; border-radius: 16px; padding: 32px; max-width: 420px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <h3 style="font-size: 20px; font-weight: 700;">🏦 무통장 입금 안내</h3>
+                <button onclick="closeDepositModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--gray-500);">×</button>
+            </div>
+
+            <div style="background: var(--gray-50); border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--gray-200);">
+                    <span style="color: var(--gray-500);">입금 은행</span>
+                    <span style="font-weight: 600;">하나은행</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--gray-200);">
+                    <span style="color: var(--gray-500);">계좌번호</span>
+                    <span style="font-weight: 600; font-family: monospace;">287-910921-40507</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--gray-200);">
+                    <span style="color: var(--gray-500);">예금주</span>
+                    <span style="font-weight: 600;">선웅규</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding: 12px 0;">
+                    <span style="color: var(--gray-500);">입금 금액</span>
+                    <span style="font-weight: 700; color: var(--secondary); font-size: 18px;" id="depositAmount">₩0</span>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px;">입금자명</label>
+                <input type="text" id="depositorNameModal" placeholder="입금자명을 입력하세요"
+                    style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-300); border-radius: 8px; font-size: 14px; box-sizing: border-box;">
+            </div>
+
+            <div style="background: #FEF3C7; border-radius: 8px; padding: 14px; margin-bottom: 24px;">
+                <div style="font-size: 13px; color: #92400E;">
+                    ⚠️ 입금 후 아래 버튼을 눌러 입금 완료를 알려주세요.
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 12px;">
+                <button onclick="closeDepositModal()" style="flex: 1; padding: 14px; border: 1px solid var(--gray-300); border-radius: 8px; background: white; font-weight: 600; cursor: pointer;">
+                    취소
+                </button>
+                <button onclick="submitDepositNotification()" style="flex: 2; padding: 14px; border: none; border-radius: 8px; background: var(--secondary); color: white; font-weight: 600; cursor: pointer;">
+                    ✓ 입금 완료 알림
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="toastContainer"></div>
 
     <script>
@@ -727,6 +754,61 @@
                     sendQuestion();
                 }
             });
+        }
+
+        // 크레딧 충전 모달 열기
+        function openCreditDepositModal() {
+            if (selectedAmount <= 0) {
+                showToast('충전 금액을 선택해주세요.', 'error');
+                return;
+            }
+            document.getElementById('depositAmount').textContent = `₩${selectedAmount.toLocaleString()}`;
+            document.getElementById('depositModal').style.display = 'flex';
+            document.getElementById('depositorNameModal').value = '';
+        }
+
+        function closeDepositModal() {
+            document.getElementById('depositModal').style.display = 'none';
+        }
+
+        // 입금 완료 알림 제출
+        async function submitDepositNotification() {
+            const depositorName = document.getElementById('depositorNameModal').value.trim();
+            if (!depositorName) {
+                showToast('입금자명을 입력해주세요.', 'error');
+                return;
+            }
+
+            showLoading();
+            try {
+                // deposit_notifications 테이블에 저장
+                const { error } = await supabaseClient
+                    .from('deposit_notifications')
+                    .insert({
+                        user_id: currentUser?.id || 'GUEST',
+                        deposit_type: 'credit',
+                        amount: selectedAmount,
+                        depositor_name: depositorName,
+                        status: 'pending',
+                        created_at: new Date().toISOString()
+                    });
+
+                if (error) throw error;
+
+                closeDepositModal();
+                showToast('입금 완료 알림이 접수되었습니다.', 'success');
+
+                // 버튼 초기화
+                selectedAmount = 0;
+                document.querySelectorAll('#chargeGrid .btn-charge').forEach(b => b.classList.remove('selected'));
+                document.getElementById('chargeBtn').disabled = true;
+                document.getElementById('chargeBtn').textContent = '충전 신청하기';
+            } catch (error) {
+                console.error('입금 알림 저장 실패:', error);
+                showToast('입금 알림 접수에 실패했습니다. 다시 시도해주세요.', 'error');
+            } finally {
+                hideLoading();
+            }
         }
 
         async function checkAuth() {
