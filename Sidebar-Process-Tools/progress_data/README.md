@@ -84,40 +84,44 @@ P1_사업계획/
 
 ## 📊 Grid 기반 단계 (S1 ~ S5)
 
-S1부터 S5까지는 **Stage Gate 승인 상태**로 진행률을 결정합니다.
+S1부터 S5까지는 **Task 완료율** 또는 **Stage Gate 승인**으로 진행률을 결정합니다.
 
 ### 진행률 규칙
 
-| stage_gate_status | 진행률 |
-|-------------------|--------|
-| `Approved` | **100%** |
-| `AI Verified` | 90% (PO 승인 대기) |
-| `Not Started` / `Rejected` | Task 진행률 평균 |
+| 상태 | 진행률 |
+|------|--------|
+| Stage Gate `Approved` | **100%** (고정) |
+| 그 전 | `(Completed Task 수 / 전체 Task 수) × 100%` |
 
 ### 진행률 계산 방식
 
-```javascript
-// 1. Stage Gate 상태 확인
-SELECT stage_name, stage_gate_status
+```sql
+-- 1. Stage Gate 상태 확인
+SELECT stage_gate_status
 FROM stage_verification
-WHERE project_id = 'SSALWORKS';
+WHERE stage_name = 'S1' AND project_id = 'SSALWORKS';
 
-// 2. Approved면 100%, 아니면 Task 진행률 평균
+-- 2. Approved가 아니면 Task 완료율 계산
+SELECT
+    stage,
+    COUNT(CASE WHEN task_status = 'Completed' THEN 1 END) * 100 / COUNT(*) as progress
+FROM ssalworks_tasks
+WHERE stage = 1
+GROUP BY stage;
+```
+
+```javascript
+// JavaScript 로직
 if (stage_gate_status === 'Approved') {
     return 100;
-} else if (stage_gate_status === 'AI Verified') {
-    return 90;
 } else {
-    // Task 진행률 평균 계산
-    SELECT AVG(task_progress) as progress
-    FROM ssalworks_tasks
-    WHERE stage = ?;
+    return (completedTaskCount / totalTaskCount) * 100;
 }
 ```
 
 ### DB 테이블
 - **Stage Gate 상태**: `stage_verification.stage_gate_status`
-- **Task 진행률**: `ssalworks_tasks.task_progress`
+- **Task 상태**: `ssalworks_tasks.task_status` ('Completed' 여부)
 - **사용자 프로젝트**: `user_project_tasks` (향후 구현)
 
 ---
