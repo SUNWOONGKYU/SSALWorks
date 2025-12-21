@@ -754,7 +754,8 @@
                     pricing.forEach(p => {
                         aiPricing[p.service_name] = p.price_per_use;
                     });
-                    renderPriceList(pricing);
+                    // 토큰 기반 가격표는 HTML에 정적으로 표시됨 (입력/출력 토큰당 가격)
+                    // renderPriceList(pricing);
                 }
             } catch (e) {
                 console.log('가격 정보 로드 실패 - 기본값 사용');

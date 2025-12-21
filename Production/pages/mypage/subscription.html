@@ -219,6 +219,34 @@
         }
 
         .toast.error { background: var(--danger); }
+
+        .profile-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-active { background: #D1FAE5; color: #065F46; }
+        .badge-paused { background: #FEF3C7; color: #92400E; }
+        .badge-free { background: var(--gray-100); color: var(--gray-700); }
+
+        .btn-edit {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: inherit;
+            font-size: 14px;
+            background: var(--primary);
+            color: white;
+            transition: all 0.2s;
+        }
+
+        .btn-edit:hover { opacity: 0.9; }
+        .btn-edit.btn-secondary { background: var(--gray-200); color: var(--gray-700); }
     </style>
 </head>
 <body>
@@ -251,50 +279,122 @@
 
         <h1 class="page-title">📋 서비스 이용 현황</h1>
 
-        <!-- Stats -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">📋</div>
-                <div class="stat-value" id="subStatus">-</div>
-                <div class="stat-label">서비스 상태</div>
+        <!-- 서비스 이용 현황 메인 카드 -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">서비스 이용 현황</h3>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">💳</div>
-                <div class="stat-value" id="installFee">-</div>
-                <div class="stat-label">개발자 계정 개설비</div>
+
+            <!-- 1. 서비스 상태 -->
+            <div style="display: flex; align-items: center; gap: 12px; padding: 16px; background: var(--gray-50); border-radius: 8px; margin-bottom: 20px;">
+                <div style="font-size: 28px;">📋</div>
+                <div style="flex: 1;">
+                    <div style="font-size: 14px; color: var(--gray-500); margin-bottom: 4px;">서비스 상태</div>
+                    <div style="font-weight: 600; font-size: 18px;">
+                        <span class="profile-badge" id="serviceStatusBadge" style="font-size: 14px;">-</span>
+                    </div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-icon">📅</div>
-                <div class="stat-value" id="feeStartDate">-</div>
-                <div class="stat-label">플랫폼 이용료 시작일</div>
+
+            <!-- 2. 개발자 계정 개설비 섹션 -->
+            <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
+                <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">🏠 개발자 계정 개설비</div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                    <div class="info-item">
+                        <div class="info-label">납부 상태</div>
+                        <div class="info-value" id="installFeeStatusMain">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">납부일</div>
+                        <div class="info-value" id="installFeePaidDate">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. 이용료 섹션 -->
+            <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
+                <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">📅 월 이용료</div>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                    <div class="info-item">
+                        <div class="info-label">무료 이용 기간</div>
+                        <div class="info-value" id="freePeriodRemaining">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">다음 결제일</div>
+                        <div class="info-value" id="nextPayDate">-</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. 크레딧 섹션 -->
+            <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
+                <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">💰 크레딧</div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="info-item" style="flex: 1;">
+                        <div class="info-label">현재 잔액</div>
+                        <div class="info-value" style="color: var(--secondary); font-size: 20px; font-weight: 700;" id="subCreditBalance">₩0</div>
+                    </div>
+                    <a href="credit.html" class="btn-edit" style="text-decoration: none; background: var(--secondary);">
+                        💰 크레딧 충전
+                    </a>
+                </div>
+            </div>
+
+            <!-- 5. 결제수단 관리 -->
+            <div style="padding-top: 16px; border-top: 1px solid var(--gray-100);">
+                <div style="font-size: 14px; color: var(--gray-500); margin-bottom: 8px;">결제수단 변경이나 서비스 문의는 고객센터로 연락해주세요.</div>
             </div>
         </div>
 
-        <!-- Detail Card -->
+        <!-- 이용 요금 안내 -->
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">상세 정보</h3>
+                <h3 class="card-title">이용 요금 안내</h3>
             </div>
-            <div class="info-grid">
-                <div class="info-item">
-                    <div class="info-label">현재 서비스 상태</div>
-                    <div class="info-value" id="subStatusDetail">-</div>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="font-size: 24px;">🏠</div>
+                        <div>
+                            <div style="font-weight: 600;">개발자 계정 개설비</div>
+                            <div style="font-size: 12px; color: var(--gray-500);">1회 (무통장 입금)</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-weight: 700; color: var(--primary);">₩3,000,000</div>
+                        <div style="font-size: 12px; color: var(--gray-500);" id="installFeeStatus">미납</div>
+                    </div>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">개발자 계정 개설비 납부</div>
-                    <div class="info-value" id="subInstallDetail">-</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="font-size: 24px;">📅</div>
+                        <div>
+                            <div style="font-weight: 600;">월 이용료</div>
+                            <div style="font-size: 12px; color: var(--gray-500);">4개월차부터 (토스 페이먼트)</div>
+                        </div>
+                    </div>
+                    <div style="font-weight: 700; color: var(--primary);">₩50,000/월</div>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">개발자 계정 개설비 납부일</div>
-                    <div class="info-value" id="subInstallDate">-</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="font-size: 24px;">🎁</div>
+                        <div>
+                            <div style="font-weight: 600;">초기 크레딧</div>
+                            <div style="font-size: 12px; color: var(--gray-500);">개설비 확인 시 자동 지급</div>
+                        </div>
+                    </div>
+                    <div style="font-weight: 700; color: var(--success);">₩5,000</div>
                 </div>
-                <div class="info-item">
-                    <div class="info-label">플랫폼 이용료 시작일</div>
-                    <div class="info-value" id="subFeeStart">-</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="font-size: 24px;">⏰</div>
+                        <div>
+                            <div style="font-weight: 600;">무료 이용 기간</div>
+                            <div style="font-size: 12px; color: var(--gray-500);">개설비 확인 후 1~3개월차</div>
+                        </div>
+                    </div>
+                    <div style="font-weight: 700; color: var(--accent);">3개월</div>
                 </div>
-            </div>
-            <div class="notice-box">
-                서비스 상태 변경이나 결제 관련 문의는 고객센터로 연락해주세요.
             </div>
         </div>
     </div>
@@ -332,13 +432,26 @@
         }
 
         function showSampleData() {
-            document.getElementById('subStatus').textContent = '무료';
-            document.getElementById('installFee').textContent = '미납';
-            document.getElementById('feeStartDate').textContent = '-';
-            document.getElementById('subStatusDetail').textContent = '무료';
-            document.getElementById('subInstallDetail').textContent = '미납';
-            document.getElementById('subInstallDate').textContent = '-';
-            document.getElementById('subFeeStart').textContent = '-';
+            // 서비스 상태
+            const badge = document.getElementById('serviceStatusBadge');
+            badge.textContent = '무료 체험';
+            badge.className = 'profile-badge badge-free';
+
+            // 개발자 계정 개설비
+            document.getElementById('installFeeStatusMain').textContent = '미납';
+            document.getElementById('installFeeStatusMain').style.color = 'var(--warning)';
+            document.getElementById('installFeePaidDate').textContent = '-';
+
+            // 월 이용료
+            document.getElementById('freePeriodRemaining').textContent = '-';
+            document.getElementById('nextPayDate').textContent = '-';
+
+            // 크레딧
+            document.getElementById('subCreditBalance').textContent = '₩0';
+
+            // 이용 요금 안내 - 개설비 상태
+            document.getElementById('installFeeStatus').textContent = '미납';
+            document.getElementById('installFeeStatus').style.color = 'var(--warning)';
         }
 
         async function loadUserData() {
@@ -360,21 +473,62 @@
         function renderSubscription() {
             if (!userData) return;
 
+            // 1. 서비스 상태 배지
+            const badge = document.getElementById('serviceStatusBadge');
             const statusText = getStatusText(userData.subscription_status);
+            badge.textContent = statusText;
+            badge.className = 'profile-badge ' + getBadgeClass(userData.subscription_status);
+
+            // 2. 개발자 계정 개설비
             const installText = userData.installation_fee_paid ? '완료' : '미납';
+            const installFeeMain = document.getElementById('installFeeStatusMain');
+            installFeeMain.textContent = installText;
+            installFeeMain.style.color = userData.installation_fee_paid ? 'var(--success)' : 'var(--warning)';
 
-            document.getElementById('subStatus').textContent = statusText;
-            document.getElementById('subStatus').className = `stat-value ${userData.subscription_status === 'active' ? 'success' : ''}`;
+            document.getElementById('installFeePaidDate').textContent = formatDate(userData.installation_date) || '-';
 
-            document.getElementById('installFee').textContent = installText;
-            document.getElementById('installFee').className = `stat-value ${userData.installation_fee_paid ? 'success' : 'warning'}`;
+            // 3. 무료 이용 기간 & 다음 결제일 계산
+            if (userData.installation_fee_paid && userData.installation_date) {
+                const installDate = new Date(userData.installation_date);
+                const freeEndDate = new Date(installDate);
+                freeEndDate.setMonth(freeEndDate.getMonth() + 3);
 
-            document.getElementById('feeStartDate').textContent = formatDate(userData.platform_fee_start_date) || '-';
+                const today = new Date();
+                const daysRemaining = Math.ceil((freeEndDate - today) / (1000 * 60 * 60 * 24));
 
-            document.getElementById('subStatusDetail').textContent = statusText;
-            document.getElementById('subInstallDetail').textContent = installText;
-            document.getElementById('subInstallDate').textContent = formatDate(userData.installation_date) || '-';
-            document.getElementById('subFeeStart').textContent = formatDate(userData.platform_fee_start_date) || '-';
+                if (daysRemaining > 0) {
+                    document.getElementById('freePeriodRemaining').textContent = `${daysRemaining}일 남음`;
+                    document.getElementById('freePeriodRemaining').style.color = 'var(--success)';
+                } else {
+                    document.getElementById('freePeriodRemaining').textContent = '종료';
+                    document.getElementById('freePeriodRemaining').style.color = 'var(--gray-500)';
+                }
+
+                document.getElementById('nextPayDate').textContent = formatDate(freeEndDate);
+            } else {
+                document.getElementById('freePeriodRemaining').textContent = '-';
+                document.getElementById('nextPayDate').textContent = '-';
+            }
+
+            // 4. 크레딧 잔액
+            const creditBalance = userData.credits_balance || 0;
+            document.getElementById('subCreditBalance').textContent = `₩${creditBalance.toLocaleString()}`;
+
+            // 5. 이용 요금 안내 - 개설비 상태
+            const installFeeStatus = document.getElementById('installFeeStatus');
+            installFeeStatus.textContent = userData.installation_fee_paid ? '납부 완료' : '미납';
+            installFeeStatus.style.color = userData.installation_fee_paid ? 'var(--success)' : 'var(--warning)';
+        }
+
+        function getBadgeClass(status) {
+            const map = {
+                'free': 'badge-free',
+                'active': 'badge-active',
+                'paused': 'badge-paused',
+                'suspended': 'badge-paused',
+                'cancelled': 'badge-paused'
+            };
+            return map[status] || 'badge-free';
         }
 
         async function logout() {
