@@ -2295,7 +2295,7 @@
             </div>
 
             <!-- Process Section -->
-            <div class="left-sidebar-section">
+            <div class="left-sidebar-section" id="processSectionContainer">
                 <h2 class="sidebar-title" style="margin-bottom: 13px;">📊 진행 프로세스</h2>
 
                 <div class="process-list">
@@ -5403,6 +5403,31 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 orderSheetUrl: 'templates/S5_개발_마무리.md'
             }
         };
+
+        // 모든 진행 프로세스 진행률을 0%로 초기화 (새 사용자용)
+        function resetAllProgressToZero() {
+            // 모든 progress-fill 너비를 0%로
+            const progressFills = document.querySelectorAll('.process-progress-fill');
+            progressFills.forEach(fill => {
+                fill.style.width = '0%';
+            });
+            // 모든 percent 텍스트를 0%로
+            const percentTexts = document.querySelectorAll('.process-percent');
+            percentTexts.forEach(text => {
+                text.textContent = '0%';
+            });
+            // data-progress도 0으로
+            const progressItems = document.querySelectorAll('[data-progress]');
+            progressItems.forEach(item => {
+                item.setAttribute('data-progress', '0');
+            });
+            // completed 클래스 제거 (색상 원복)
+            const completedItems = document.querySelectorAll('.process-major.completed, .process-special-major.completed');
+            completedItems.forEach(item => {
+                item.classList.remove('completed');
+            });
+            console.log('📊 진행 프로세스 0%로 초기화됨');
+        }
 
         // 진행 프로세스 단계 클릭 시 호출되는 함수
         // 안내문 팝업 + [예][아니오] 버튼 표시
@@ -9534,9 +9559,11 @@ ${result.answer}`;
                 if (!userData || !userData.installation_fee_paid) {
                     currentProjectList.innerHTML = `
                         <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
-                            개설비 납부 후 이용 가능
+                             개발자 계정 개설비 납부 후 이용 가능
                         </div>
                     `;
+                    // 진행 프로세스 모두 0%로 초기화 (새 사용자)
+                    resetAllProgressToZero();
                     return;
                 }
 
@@ -9556,6 +9583,8 @@ ${result.answer}`;
                             진행중인 프로젝트 없음
                         </div>
                     `;
+                    // 진행 프로세스 모두 0%로 초기화 (프로젝트 없음)
+                    resetAllProgressToZero();
                     return;
                 }
 
