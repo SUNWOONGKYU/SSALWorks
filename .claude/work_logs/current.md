@@ -6,6 +6,67 @@
 
 ## 2025-12-22 작업 내역
 
+### Bridge Server 대규모 정리 ✅
+
+**1단계: 파일명 및 변수명 변경**
+
+| 항목 | 이전 | 이후 |
+|------|------|------|
+| 파일명 | `inbox_server.js` | `bridge_server.js` |
+| 변수 | `INBOX_DIR` | `ORDERS_DIR` |
+| 변수 | `OUTBOX_DIR` | `REPORTS_DIR` |
+| 배너 | `Inbox/Outbox Server` | `Human-ClaudeCode Bridge Server` |
+
+**2단계: 불필요한 기능 삭제 (1048줄 → 399줄)**
+
+| 삭제 항목 | 이유 |
+|----------|------|
+| AI 프록시 엔드포인트 | `ai_server.js`에 이미 있음 (중복) |
+| File Watcher (chokidar) | 알림 기능 미사용 |
+| Socket.io 관련 코드 | 실시간 알림 미사용 |
+| Claude 큐 시스템 | 미사용 |
+| `/test-notification` | socket.io 삭제로 작동 안 함 |
+| `/order-status/:id` | UI 없음, 미사용 |
+| `/ordersheet-templates` | 번들(ordersheets.js) 사용 |
+| `/welcome-templates` | 번들 사용 |
+| `/guides`, `/guide/:file` | 번들(guides.js) 사용 |
+| `/order-templates/*` | 번들 사용 |
+| `/dashboard`, `/mockup` | 옛날 경로(1_기획) 참조, 깨짐 |
+| `/project-structure` | 옛날 구조(0_, 1_, 2_) 참조, 깨짐 |
+| `/create-project` | 의미 없음 (Claude Code에서 직접 생성) |
+
+**3단계: 엔드포인트 이름 통일**
+
+| 이전 | 이후 |
+|------|------|
+| `/save-to-inbox` | `/save-order` |
+| `/outbox/files` | `/reports` |
+| `/outbox/read/:file` | `/report/:file` |
+| `/outbox/archive/:file` | `/archive/:file` |
+
+**최종 API 엔드포인트 (7개):**
+```
+GET  /ping          서버 상태 확인
+POST /save          Order 저장 (JSON)
+POST /save-order    Order 저장 (MD)
+GET  /files         Orders 목록
+GET  /reports       Reports 목록
+GET  /report/:file  Report 읽기
+POST /archive/:file Archive 이동
+```
+
+**삭제된 imports:**
+- `chokidar` (watcher)
+- `socket.io`
+- `https`
+- `spawn`, `exec` (child_process)
+- `@google-cloud/translate`
+
+**유지된 imports:**
+- `express`, `cors`, `fs`, `path`, `dotenv`, `marked`
+
+---
+
 ### 상황별 안내문 일반화 및 SAL Grid 명칭 정리 ✅
 
 **작업 목적:**

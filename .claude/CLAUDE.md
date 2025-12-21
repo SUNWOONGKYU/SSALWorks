@@ -382,12 +382,12 @@ node Production/build-web-assets.js
 | 작업 | 사용 파일 | 용도 |
 |------|----------|------|
 | **빌드** (MD→JS 번들) | `build-web-assets.js` | 배포용 파일 생성 |
-| **서버** (실시간 API) | `inbox_server.js` | 개발용 로컬 서버 |
+| **서버** (실시간 API) | `bridge_server.js` | 개발용 로컬 서버 |
 
 **⛔ 혼동 금지:**
 - "Order Sheet 빌드해" → `build-web-assets.js` 실행
 - "안내문 빌드해" → `build-web-assets.js` 실행
-- **`inbox_server.js`는 빌드 도구가 아님!** (런타임 API 서버)
+- **`bridge_server.js`는 빌드 도구가 아님!** (런타임 API 서버)
 
 **빌드 스크립트 위치:**
 ```
