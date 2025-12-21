@@ -582,7 +582,7 @@
                     </div>
                 </div>
                 <button class="btn btn-primary" id="chargeBtn" disabled onclick="openCreditDepositModal()">
-                    충전 신청하기
+                    💳 납부하기
                 </button>
             </div>
 
@@ -741,7 +741,7 @@
                     btn.classList.add('selected');
                     selectedAmount = parseInt(btn.dataset.amount);
                     document.getElementById('chargeBtn').disabled = false;
-                    document.getElementById('chargeBtn').textContent = `₩${selectedAmount.toLocaleString()} 충전하기`;
+                    document.getElementById('chargeBtn').textContent = `💳 ₩${selectedAmount.toLocaleString()} 납부하기`;
                 });
             });
         }
@@ -802,7 +802,7 @@
                 selectedAmount = 0;
                 document.querySelectorAll('#chargeGrid .btn-charge').forEach(b => b.classList.remove('selected'));
                 document.getElementById('chargeBtn').disabled = true;
-                document.getElementById('chargeBtn').textContent = '충전 신청하기';
+                document.getElementById('chargeBtn').textContent = '💳 납부하기';
             } catch (error) {
                 console.error('입금 알림 저장 실패:', error);
                 showToast('입금 알림 접수에 실패했습니다. 다시 시도해주세요.', 'error');
