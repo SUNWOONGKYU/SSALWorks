@@ -1,4 +1,4 @@
-# 9편 | Testing (테스트)
+# 20편 | 개발 영역 - Testing (테스트)
 
 ---
 
@@ -31,7 +31,7 @@
 
 ---
 
-## 9.1 Language (언어)
+## 20.1 Language (언어)
 
 ### JavaScript & TypeScript
 
@@ -48,7 +48,7 @@ test('1 + 2 = 3', () => {
 
 ---
 
-## 9.2 Runtime (실행 환경)
+## 20.2 Runtime (실행 환경)
 
 ### Node.js
 
@@ -64,7 +64,7 @@ npm test -- auth.test.ts
 
 ---
 
-## 9.3 Package Manager (패키지 관리자)
+## 20.3 Package Manager (패키지 관리자)
 
 ### npm
 
@@ -88,13 +88,13 @@ npm install -D playwright @playwright/test
 
 ---
 
-## 9.4 Tools (도구)
+## 20.4 Tools (도구)
 
 Testing 영역에서는 별도의 도구를 사용하지 않습니다. Jest와 Playwright가 CLI 도구를 제공합니다.
 
 ---
 
-## 9.5 Library (라이브러리)
+## 20.5 Library (라이브러리)
 
 ### Jest
 
@@ -262,13 +262,13 @@ await page.screenshot({ path: 'screenshot.png' });
 
 ---
 
-## 9.6 Framework (프레임워크)
+## 20.6 Framework (프레임워크)
 
 Testing 영역에서는 별도의 프레임워크를 사용하지 않습니다. Jest와 Playwright가 프레임워크 역할을 합니다.
 
 ---
 
-## 9.7 Service (서비스)
+## 20.7 External Service (외부 서비스)
 
 Testing 영역에서는 별도의 외부 서비스를 사용하지 않습니다.
 
@@ -330,10 +330,11 @@ test('사용자 조회', () => {
 | Tools | - |
 | Library | **Jest**, **Playwright** |
 | Framework | - |
-| Service | - |
+| External Service | - |
 
 Testing은 코드의 안전망입니다. 다음 편에서는 배포와 운영을 담당하는 **DevOps**를 알아봅니다.
 
 ---
 
 **작성일: 2025-12-21 / 글자수: 약 5,000자 / 작성자: Claude / 프롬프터: 써니**
+

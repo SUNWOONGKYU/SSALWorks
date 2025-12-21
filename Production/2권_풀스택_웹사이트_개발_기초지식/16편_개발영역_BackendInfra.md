@@ -1,4 +1,4 @@
-# 5편 | Backend Infra (백엔드 기반)
+# 16편 | 개발 영역 - Backend Infra (백엔드 기반)
 
 ---
 
@@ -6,7 +6,7 @@
 
 ---
 
-## 5.1 Language (언어)
+## 16.1 Language (언어)
 
 ### JavaScript & TypeScript
 
@@ -32,7 +32,7 @@ app.get('/api/hello', (req, res) => {
 
 ---
 
-## 5.2 Runtime (실행 환경)
+## 16.2 Runtime (실행 환경)
 
 ### Node.js
 
@@ -70,7 +70,7 @@ node -v  # v20.x.x
 
 ---
 
-## 5.3 Package Manager (패키지 관리자)
+## 16.3 Package Manager (패키지 관리자)
 
 ### npm & yarn
 
@@ -96,7 +96,7 @@ npm install -D nodemon typescript
 
 ---
 
-## 5.4 Tools (도구)
+## 16.4 Tools (도구)
 
 ### Webpack
 
@@ -137,7 +137,7 @@ npx nodemon src/server.ts
 
 ---
 
-## 5.5 Library (라이브러리)
+## 16.5 Library (라이브러리)
 
 ### Socket.io
 
@@ -194,13 +194,13 @@ chokidar.watch('./uploads').on('all', (event, path) => {
 
 ---
 
-## 5.6 Framework (프레임워크)
+## 16.6 Framework (프레임워크)
 
 Backend Infra 영역에서는 별도의 프레임워크를 사용하지 않습니다. Next.js가 API Routes를 통해 백엔드 기능을 제공하므로, 별도의 Express 등을 사용하지 않아도 됩니다.
 
 ---
 
-## 5.7 Service (서비스)
+## 16.7 External Service (외부 서비스)
 
 ### Resend (이메일 발송 서비스)
 
@@ -254,10 +254,11 @@ await resend.emails.send({
 | Tools | Webpack (Next.js 내장) |
 | Library | Socket.io, chokidar |
 | Framework | - (Next.js 사용) |
-| Service | **Resend** |
+| External Service | **Resend** |
 
 Backend Infra는 서버가 돌아가는 기반을 담당합니다. 다음 편에서는 비즈니스 로직을 처리하는 **Backend API**를 알아봅니다.
 
 ---
 
 **작성일: 2025-12-21 / 글자수: 약 4,800자 / 작성자: Claude / 프롬프터: 써니**
+
