@@ -108,6 +108,8 @@ module.exports = async (req, res) => {
 
         // 3. users 테이블에서 user_id (8자리) 조회 또는 생성
         let userId;
+
+        // 3-1. 먼저 auth.uid()로 조회
         const { data: userData, error: userError } = await supabase
             .from('users')
             .select('user_id')
@@ -115,47 +117,70 @@ module.exports = async (req, res) => {
             .single();
 
         if (userData && userData.user_id) {
-            // 기존 사용자
+            // auth.uid()로 찾음 - 정상 케이스
             userId = userData.user_id;
         } else {
-            // 신규 사용자 - public.users에 레코드 생성
-            console.log('Creating new user record for:', user.id, user.email);
+            // 3-2. auth.uid()로 못 찾으면 email로 조회
+            const { data: userByEmail, error: emailError } = await supabase
+                .from('users')
+                .select('id, user_id')
+                .eq('email', user.email)
+                .single();
 
-            try {
-                const newUserId = await createUniqueUserId();
-                const { data: newUser, error: insertUserError } = await supabase
+            if (userByEmail && userByEmail.user_id) {
+                // email로 찾음 - id를 auth.uid()로 업데이트
+                console.log('Found user by email, updating id:', userByEmail.id, '->', user.id);
+
+                const { error: updateError } = await supabase
                     .from('users')
-                    .insert({
-                        id: user.id,  // auth.uid()
-                        email: user.email,
-                        name: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
-                        user_id: newUserId,
-                        avatar_url: user.user_metadata?.avatar_url || null,
-                        role: 'user',
-                        subscription_status: 'free',
-                        credit_balance: 0
-                    })
-                    .select('user_id')
-                    .single();
+                    .update({ id: user.id })
+                    .eq('email', user.email);
 
-                if (insertUserError) {
-                    console.error('Failed to create user:', insertUserError);
-                    return res.status(500).json({
-                        success: false,
-                        error: '사용자 등록에 실패했습니다',
-                        details: insertUserError.message
-                    });
+                if (updateError) {
+                    console.error('Failed to update user id:', updateError);
                 }
 
-                userId = newUser.user_id;
-                console.log('New user created with user_id:', userId);
-            } catch (createError) {
-                console.error('User creation error:', createError);
-                return res.status(500).json({
-                    success: false,
-                    error: '사용자 ID 생성에 실패했습니다',
-                    details: createError.message
-                });
+                userId = userByEmail.user_id;
+            } else {
+                // 3-3. 둘 다 없으면 신규 생성
+                console.log('Creating new user record for:', user.id, user.email);
+
+                try {
+                    const newUserId = await createUniqueUserId();
+                    const { data: newUser, error: insertUserError } = await supabase
+                        .from('users')
+                        .insert({
+                            id: user.id,
+                            email: user.email,
+                            name: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
+                            user_id: newUserId,
+                            avatar_url: user.user_metadata?.avatar_url || null,
+                            role: 'user',
+                            subscription_status: 'free',
+                            credit_balance: 0
+                        })
+                        .select('user_id')
+                        .single();
+
+                    if (insertUserError) {
+                        console.error('Failed to create user:', insertUserError);
+                        return res.status(500).json({
+                            success: false,
+                            error: '사용자 등록에 실패했습니다',
+                            details: insertUserError.message
+                        });
+                    }
+
+                    userId = newUser.user_id;
+                    console.log('New user created with user_id:', userId);
+                } catch (createError) {
+                    console.error('User creation error:', createError);
+                    return res.status(500).json({
+                        success: false,
+                        error: '사용자 ID 생성에 실패했습니다',
+                        details: createError.message
+                    });
+                }
             }
         }
 
