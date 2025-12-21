@@ -298,7 +298,12 @@
 
             <!-- 2. 개발자 계정 개설비 섹션 -->
             <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
-                <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">🏠 개발자 계정 개설비</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="font-weight: 600; color: var(--gray-700);">🏠 개발자 계정 개설비</div>
+                    <button class="btn-edit" id="installFeePayBtn" onclick="payInstallFee()" style="background: var(--secondary);">
+                        💳 납부하기
+                    </button>
+                </div>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
                     <div class="info-item">
                         <div class="info-label">납부 상태</div>
@@ -313,7 +318,12 @@
 
             <!-- 3. 이용료 섹션 -->
             <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
-                <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">📅 월 이용료</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="font-weight: 600; color: var(--gray-700);">📅 월 이용료</div>
+                    <button class="btn-edit" id="autoPayBtn" onclick="setupAutoPay()" style="background: var(--primary);">
+                        🔄 자동 결제 설정
+                    </button>
+                </div>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
                     <div class="info-item">
                         <div class="info-label">무료 이용 기간</div>
@@ -326,23 +336,18 @@
                 </div>
             </div>
 
-            <!-- 4. 크레딧 섹션 -->
-            <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
-                <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">💰 크레딧</div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div class="info-item" style="flex: 1;">
-                        <div class="info-label">현재 잔액</div>
-                        <div class="info-value" style="color: var(--secondary); font-size: 20px; font-weight: 700;" id="subCreditBalance">₩0</div>
-                    </div>
-                    <a href="credit.html" class="btn-edit" style="text-decoration: none; background: var(--secondary);">
-                        💰 크레딧 충전
-                    </a>
+            <!-- 4. 결제수단 관리 -->
+            <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <div style="font-weight: 600; color: var(--gray-700);">💳 결제수단 관리</div>
+                    <button class="btn-edit btn-secondary" onclick="changePaymentMethod()">
+                        결제수단 변경
+                    </button>
                 </div>
-            </div>
-
-            <!-- 5. 결제수단 관리 -->
-            <div style="padding-top: 16px; border-top: 1px solid var(--gray-100);">
-                <div style="font-size: 14px; color: var(--gray-500); margin-bottom: 8px;">결제수단 변경이나 서비스 문의는 고객센터로 연락해주세요.</div>
+                <div class="info-item">
+                    <div class="info-label">등록된 결제수단</div>
+                    <div class="info-value" id="paymentMethod">미등록</div>
+                </div>
             </div>
         </div>
 
@@ -383,7 +388,7 @@
                             <div style="font-size: 12px; color: var(--gray-500);">개설비 확인 시 자동 지급</div>
                         </div>
                     </div>
-                    <div style="font-weight: 700; color: var(--success);">₩5,000</div>
+                    <div style="font-weight: 700; color: var(--success);">₩50,000</div>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: var(--gray-50); border-radius: 8px;">
                     <div style="display: flex; align-items: center; gap: 10px;">
@@ -446,8 +451,8 @@
             document.getElementById('freePeriodRemaining').textContent = '-';
             document.getElementById('nextPayDate').textContent = '-';
 
-            // 크레딧
-            document.getElementById('subCreditBalance').textContent = '₩0';
+            // 결제수단
+            document.getElementById('paymentMethod').textContent = '미등록';
 
             // 이용 요금 안내 - 개설비 상태
             document.getElementById('installFeeStatus').textContent = '미납';
@@ -510,9 +515,14 @@
                 document.getElementById('nextPayDate').textContent = '-';
             }
 
-            // 4. 크레딧 잔액
-            const creditBalance = userData.credits_balance || 0;
-            document.getElementById('subCreditBalance').textContent = `₩${creditBalance.toLocaleString()}`;
+            // 4. 결제수단
+            const paymentMethod = userData.payment_method || '미등록';
+            document.getElementById('paymentMethod').textContent = paymentMethod;
+
+            // 납부하기 버튼 숨김 (이미 납부 완료 시)
+            if (userData.installation_fee_paid) {
+                document.getElementById('installFeePayBtn').style.display = 'none';
+            }
 
             // 5. 이용 요금 안내 - 개설비 상태
             const installFeeStatus = document.getElementById('installFeeStatus');
@@ -529,6 +539,33 @@
                 'cancelled': 'badge-paused'
             };
             return map[status] || 'badge-free';
+        }
+
+        // 개발자 계정 개설비 납부하기
+        function payInstallFee() {
+            // 무통장 입금 안내 모달 또는 페이지 이동
+            alert('개발자 계정 개설비 납부 안내\n\n' +
+                  '입금 은행: 하나은행\n' +
+                  '계좌번호: 287-910921-40507\n' +
+                  '예금주: 선웅규\n' +
+                  '금액: 3,000,000원\n\n' +
+                  '입금 후 1영업일 이내 확인됩니다.');
+        }
+
+        // 월 이용료 자동 결제 설정 (토스 페이먼트)
+        function setupAutoPay() {
+            // TODO: 토스 페이먼트 빌링키 발급 연동
+            alert('자동 결제 설정\n\n' +
+                  '토스 페이먼트를 통한 자동 결제 설정 페이지로 이동합니다.\n' +
+                  '(본개발 시 토스 페이먼트 연동 예정)');
+        }
+
+        // 결제수단 변경
+        function changePaymentMethod() {
+            // TODO: 토스 페이먼트 결제수단 변경 연동
+            alert('결제수단 변경\n\n' +
+                  '토스 페이먼트를 통한 결제수단 변경 페이지로 이동합니다.\n' +
+                  '(본개발 시 토스 페이먼트 연동 예정)');
         }
 
         async function logout() {
