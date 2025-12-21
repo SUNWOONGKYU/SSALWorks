@@ -568,9 +568,9 @@
                 if (error) throw error;
                 userData = data;
 
-                // 설치비 미납 확인
+                // 개발자 계정 개설비 미납 확인
                 if (!userData.installation_fee_paid) {
-                    showToast('설치비 납부 후 이용 가능합니다.', 'error');
+                    showToast('개발자 계정 개설비 납부 후 이용 가능합니다.', 'error');
                     setTimeout(() => {
                         window.location.href = '../payment/installation.html';
                     }, 1500);

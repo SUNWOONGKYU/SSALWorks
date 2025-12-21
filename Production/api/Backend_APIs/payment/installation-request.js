@@ -1,6 +1,6 @@
 /**
  * @task S4BA5
- * @description 설치비 입금 신청 API
+ * @description 개발자 계정 개설비 입금 신청 API
  * POST /api/payment/installation-request
  *
  * 기능:
@@ -80,9 +80,9 @@ export default async function handler(req, res) {
       return res.status(403).json({ error: '프로젝트 소유자만 신청할 수 있습니다.' });
     }
 
-    // 이미 설치비가 확인된 프로젝트인지 확인
+    // 이미 개발자 계정 개설비가 확인된 프로젝트인지 확인
     if (project.installation_paid) {
-      return res.status(400).json({ error: '이미 설치비가 확인된 프로젝트입니다.' });
+      return res.status(400).json({ error: '이미 개발자 계정 개설비가 확인된 프로젝트입니다.' });
     }
 
     // 중복 신청 방지 - pending 상태의 신청이 있는지 확인
@@ -133,9 +133,9 @@ export default async function handler(req, res) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           to: adminEmail,
-          subject: `[SSAL Grid] 새로운 설치비 입금 신청 - ${project.project_name}`,
+          subject: `[SSAL Grid] 새로운 개발자 계정 개설비 입금 신청 - ${project.project_name}`,
           html: `
-            <h2>새로운 설치비 입금 신청이 접수되었습니다</h2>
+            <h2>새로운 개발자 계정 개설비 입금 신청이 접수되었습니다</h2>
             <p><strong>프로젝트:</strong> ${project.project_name}</p>
             <p><strong>입금자명:</strong> ${depositorName}</p>
             <p><strong>은행:</strong> ${bankName}</p>
@@ -157,7 +157,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: '설치비 입금 신청이 완료되었습니다.',
+      message: '개발자 계정 개설비 입금 신청이 완료되었습니다.',
       payment: {
         id: payment.id,
         amount: payment.amount,
@@ -169,7 +169,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('설치비 입금 신청 오류:', error);
+    console.error('개발자 계정 개설비 입금 신청 오류:', error);
     return res.status(500).json({
       error: '서버 오류가 발생했습니다.',
       details: error.message

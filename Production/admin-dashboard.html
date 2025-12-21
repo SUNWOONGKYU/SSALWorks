@@ -1295,7 +1295,7 @@
                     👥 회원 관리
                 </div>
                 <div class="menu-item" onclick="showSection('installation', event)">
-                    🏠 설치비 관리
+                    🏠 개발자 계정 개설비 관리
                     <span class="menu-badge" id="installationPendingBadge" style="display:none;">0</span>
                 </div>
                 <div class="menu-item" onclick="showSection('projects', event)">
@@ -2249,14 +2249,14 @@
                 </div>
             </div>
 
-            <!-- Installation Fee Section (설치비 관리) -->
+            <!-- Installation Fee Section (개발자 계정 개설비 관리) -->
             <div id="installation-section" class="content-view" style="display:none;">
                 <div class="content-header">
-                    <h1 class="content-title">🏠 설치비 관리</h1>
-                    <p class="content-subtitle">설치비 입금 요청을 관리하세요.</p>
+                    <h1 class="content-title">🏠 개발자 계정 개설비 관리</h1>
+                    <p class="content-subtitle">개발자 계정 개설비 입금 요청을 관리하세요.</p>
                 </div>
 
-                <!-- 설치비 통계 -->
+                <!-- 개발자 계정 개설비 통계 -->
                 <div class="stats-grid">
                     <div class="stat-card warning">
                         <div class="stat-icon">⏳</div>
@@ -2276,7 +2276,7 @@
                     <div class="stat-card primary">
                         <div class="stat-icon">💰</div>
                         <div class="stat-value" id="installationTotalAmount">₩0</div>
-                        <div class="stat-label">총 설치비 매출</div>
+                        <div class="stat-label">총 개발자 계정 개설비 매출</div>
                     </div>
                 </div>
 
@@ -2455,7 +2455,7 @@
                     <div class="stats-grid" style="margin-top: 16px;">
                         <div class="stat-card success">
                             <div class="stat-value">₩135M</div>
-                            <div class="stat-label">설치비 매출 (누적)</div>
+                            <div class="stat-label">개발자 계정 개설비 매출 (누적)</div>
                         </div>
                         <div class="stat-card success">
                             <div class="stat-value">₩2.25M</div>
@@ -2695,7 +2695,7 @@
                         <h2 class="section-title">💰 요금 설정</h2>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">설치비 (원)</label>
+                        <label class="form-label">개발자 계정 개설비 (원)</label>
                         <input type="number" class="form-input" value="3000000">
                     </div>
                     <div class="form-group">
@@ -2732,7 +2732,7 @@
             <div id="subscription-section" class="content-view" style="display:none;">
                 <div class="content-header">
                     <h1 class="content-title">🔄 구독 관리</h1>
-                    <p class="content-subtitle">설치비 및 월 사용료 결제 현황을 관리하세요.</p>
+                    <p class="content-subtitle">개발자 계정 개설비 및 월 사용료 결제 현황을 관리하세요.</p>
                 </div>
 
                 <!-- 구독 통계 -->
@@ -2759,16 +2759,16 @@
                     </div>
                 </div>
 
-                <!-- 설치비 결제 현황 -->
+                <!-- 개발자 계정 개설비 결제 현황 -->
                 <div class="content-section">
                     <div class="section-header">
-                        <h2 class="section-title">🏠 설치비 결제 현황</h2>
+                        <h2 class="section-title">🏠 개발자 계정 개설비 결제 현황</h2>
                     </div>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>사용자</th>
-                                <th>설치비</th>
+                                <th>개발자 계정 개설비</th>
                                 <th>결제방식</th>
                                 <th>결제일</th>
                                 <th>상태</th>
@@ -2918,7 +2918,7 @@
                     </div>
                     <div class="stat-card warning">
                         <div class="stat-value" id="paidUsersCount">-</div>
-                        <div class="stat-label">설치비 납부</div>
+                        <div class="stat-label">개발자 계정 개설비 납부</div>
                     </div>
                     <div class="stat-card primary">
                         <div class="stat-value" id="totalCreditsCount">-</div>
@@ -3031,7 +3031,7 @@
                             <div id="userDetailPlan">-</div>
                         </div>
                         <div>
-                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">설치비 납부</div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">개발자 계정 개설비 납부</div>
                             <div id="userDetailInstallationFee">-</div>
                         </div>
                         <div>
@@ -3235,7 +3235,7 @@
                 loadUsers();
             }
 
-            // 설치비 관리 섹션일 때 데이터 로드
+            // 개발자 계정 개설비 관리 섹션일 때 데이터 로드
             if (section === 'installation') {
                 loadInstallationRequests();
             }
@@ -4922,7 +4922,7 @@
                 planElem.innerHTML = getPlanBadge(user.subscription_plan);
             }
 
-            // 설치비 납부
+            // 개발자 계정 개설비 납부
             const installFeeElem = document.getElementById('userDetailInstallationFee');
             if (installFeeElem) {
                 installFeeElem.innerHTML = user.installation_fee_paid
@@ -4987,20 +4987,20 @@
         }
 
         // ========================================
-        // 설치비 관리 기능 (Agenda #5)
+        // 개발자 계정 개설비 관리 기능 (Agenda #5)
         // ========================================
 
         let installationRequests = [];
 
         async function loadInstallationRequests() {
-            console.log('📋 설치비 요청 목록 로드 시작');
+            console.log('📋 개발자 계정 개설비 요청 목록 로드 시작');
 
             try {
                 if (!supabaseClient) {
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
-                // 설치비 요청 목록 조회
+                // 개발자 계정 개설비 요청 목록 조회
                 const { data, error } = await supabaseClient
                     .from('installation_payment_requests')
                     .select('*')
@@ -5009,13 +5009,13 @@
                 if (error) throw error;
 
                 installationRequests = data || [];
-                console.log('✅ 설치비 요청 로드 성공:', installationRequests.length, '개');
+                console.log('✅ 개발자 계정 개설비 요청 로드 성공:', installationRequests.length, '개');
 
                 renderInstallationTables();
                 updateInstallationStats();
 
             } catch (error) {
-                console.error('❌ 설치비 요청 로드 오류:', error);
+                console.error('❌ 개발자 계정 개설비 요청 로드 오류:', error);
                 document.getElementById('installationPendingTableBody').innerHTML = `
                     <tr>
                         <td colspan="7" style="text-align: center; color: #dc3545; padding: 40px;">
@@ -5120,7 +5120,7 @@
         }
 
         async function approveInstallation(requestId) {
-            if (!confirm('이 입금 요청을 승인하시겠습니까?\n\n승인 시:\n- 설치비 납부 완료 처리\n- 무료 크레딧 ₩5,000 지급')) {
+            if (!confirm('이 입금 요청을 승인하시겠습니까?\n\n승인 시:\n- 개발자 계정 개설비 납부 완료 처리\n- 무료 크레딧 ₩5,000 지급')) {
                 return;
             }
 
@@ -5138,7 +5138,7 @@
 
                 if (error) throw error;
 
-                showToast('설치비 입금이 승인되었습니다!', 'success');
+                showToast('개발자 계정 개설비 입금이 승인되었습니다!', 'success');
                 loadInstallationRequests();
 
                 hideLoading();
@@ -5407,7 +5407,7 @@
             const typeLabels = {
                 'platform_fee': '플랫폼 이용료',
                 'credit_purchase': '크레딧 충전',
-                'installation_fee': '설치비'
+                'installation_fee': '개발자 계정 개설비'
             };
 
             tbody.innerHTML = billingHistory.map(bill => {
@@ -5442,7 +5442,7 @@
             const typeLabels = {
                 'platform_fee': '플랫폼 이용료',
                 'credit_purchase': '크레딧 충전',
-                'installation_fee': '설치비'
+                'installation_fee': '개발자 계정 개설비'
             };
 
             const statusLabels = {

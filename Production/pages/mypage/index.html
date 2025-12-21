@@ -912,15 +912,15 @@
                         </div>
                     </div>
 
-                    <!-- 설치비 미납 안내 -->
+                    <!-- 개발자 계정 개설비 미납 안내 -->
                     <div class="card" id="projectFeeNotice" style="display: none; text-align: center; padding: 40px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%); border: 2px solid var(--secondary);">
                         <div style="font-size: 48px; margin-bottom: 16px;">🏠</div>
-                        <h3 style="color: var(--secondary-dark); margin-bottom: 12px;">설치비 납부가 필요합니다</h3>
+                        <h3 style="color: var(--secondary-dark); margin-bottom: 12px;">개발자 계정 개설비 납부가 필요합니다</h3>
                         <p style="color: var(--gray-700); margin-bottom: 24px; line-height: 1.6;">
-                            프로젝트를 등록하려면 먼저 설치비를 납부해주세요.<br>
-                            설치비 납부 시 ₩5,000 무료 크레딧이 지급됩니다!
+                            프로젝트를 등록하려면 먼저 개발자 계정 개설비를 납부해주세요.<br>
+                            개발자 계정 개설비 납부 시 ₩5,000 무료 크레딧이 지급됩니다!
                         </p>
-                        <a href="../payment/installation.html" class="btn-edit" style="display: inline-block; background: var(--secondary); text-decoration: none;">설치비 안내 보기</a>
+                        <a href="../payment/installation.html" class="btn-edit" style="display: inline-block; background: var(--secondary); text-decoration: none;">개발자 계정 개설비 안내 보기</a>
                     </div>
 
                     <!-- 프로젝트 목록 -->
@@ -954,9 +954,9 @@
                             </div>
                         </div>
 
-                        <!-- 2. 설치비 섹션 -->
+                        <!-- 2. 개발자 계정 개설비 섹션 -->
                         <div style="padding: 16px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 16px;">
-                            <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">🏠 설치비</div>
+                            <div style="font-weight: 600; margin-bottom: 12px; color: var(--gray-700);">🏠 개발자 계정 개설비</div>
                             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
                                 <div class="info-item">
                                     <div class="info-label">납부 상태</div>
@@ -1016,7 +1016,7 @@
                                 <div style="display: flex; align-items: center; gap: 10px;">
                                     <div style="font-size: 24px;">🏠</div>
                                     <div>
-                                        <div style="font-weight: 600;">설치비</div>
+                                        <div style="font-weight: 600;">개발자 계정 개설비</div>
                                         <div style="font-size: 12px; color: var(--gray-500);">1회 (무통장 입금)</div>
                                     </div>
                                 </div>
@@ -1040,7 +1040,7 @@
                                     <div style="font-size: 24px;">🎁</div>
                                     <div>
                                         <div style="font-weight: 600;">초기 크레딧</div>
-                                        <div style="font-size: 12px; color: var(--gray-500);">설치비 확인 시 자동 지급</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">개발자 계정 개설비 확인 시 자동 지급</div>
                                     </div>
                                 </div>
                                 <div style="font-weight: 700; color: var(--success);">₩50,000</div>
@@ -1050,7 +1050,7 @@
                                     <div style="font-size: 24px;">⏰</div>
                                     <div>
                                         <div style="font-weight: 600;">무료 이용 기간</div>
-                                        <div style="font-size: 12px; color: var(--gray-500);">설치비 확인 후 1~3개월차</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">개발자 계정 개설비 확인 후 1~3개월차</div>
                                     </div>
                                 </div>
                                 <div style="font-weight: 700; color: var(--accent);">3개월</div>
@@ -1360,7 +1360,7 @@
             const listCard = document.getElementById('projectListCard');
             const newBtn = document.getElementById('newProjectBtnMypage');
 
-            // 설치비 미납 시
+            // 개발자 계정 개설비 미납 시
             if (!userData.installation_fee_paid) {
                 feeNotice.style.display = 'block';
                 listCard.style.display = 'none';
@@ -1473,7 +1473,7 @@
                 statusBadge.textContent = '✅ 이용 중';
                 statusBadge.className = 'profile-badge badge-active';
             } else if (subscriptionStatus === 'pending') {
-                statusBadge.textContent = '⏳ 설치비 대기';
+                statusBadge.textContent = '⏳ 개발자 계정 개설비 대기';
                 statusBadge.className = 'profile-badge badge-paused';
             } else {
                 statusBadge.textContent = '❌ 비활성';
@@ -1498,7 +1498,7 @@
                     freePeriodEl.style.color = 'var(--gray-500)';
                 }
             } else if (!userData.installation_fee_paid) {
-                freePeriodEl.textContent = '설치비 납부 후 시작';
+                freePeriodEl.textContent = '개발자 계정 개설비 납부 후 시작';
                 freePeriodEl.style.color = 'var(--gray-500)';
             } else {
                 freePeriodEl.textContent = '-';
@@ -1515,7 +1515,7 @@
             const creditBalance = userData.credit_balance || 0;
             document.getElementById('subCreditBalance').textContent = `₩${creditBalance.toLocaleString()}`;
 
-            // 설치비 상태 (메인 카드)
+            // 개발자 계정 개설비 상태 (메인 카드)
             const installFeeStatusMain = document.getElementById('installFeeStatusMain');
             const installFeePaidDate = document.getElementById('installFeePaidDate');
             if (userData.installation_fee_paid) {
@@ -1528,7 +1528,7 @@
                 installFeePaidDate.textContent = '-';
             }
 
-            // 설치비 상태 (요금 안내 카드)
+            // 개발자 계정 개설비 상태 (요금 안내 카드)
             const installFeeStatus = document.getElementById('installFeeStatus');
             if (userData.installation_fee_paid) {
                 installFeeStatus.textContent = '✅ 완납';

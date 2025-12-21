@@ -125,7 +125,7 @@ async function checkPendingInstallations() {
                     <span class="alert-icon">⚠️</span>
                     <div class="alert-content">
                         <strong>입금 확인 필요</strong>
-                        <p>${count}건의 설치비 입금이 확인 대기 중입니다.</p>
+                        <p>${count}건의 개발자 계정 개설비 입금이 확인 대기 중입니다.</p>
                     </div>
                     <a href="installation.html" class="btn-primary">확인하기</a>
                 </div>

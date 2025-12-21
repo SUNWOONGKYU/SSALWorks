@@ -1,6 +1,6 @@
 /**
  * @task S4BA1
- * @description 설치비 무통장 입금 요청 API
+ * @description 개발자 계정 개설비 무통장 입금 요청 API
  */
 const { createClient } = require('@supabase/supabase-js');
 
@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
 
         if (existingPayment) {
             if (existingPayment.status === 'confirmed') {
-                return res.status(400).json({ error: '이미 설치비를 결제하셨습니다.' });
+                return res.status(400).json({ error: '이미 개발자 계정 개설비를 결제하셨습니다.' });
             }
             if (existingPayment.status === 'pending') {
                 return res.status(400).json({ error: '대기 중인 입금 요청이 있습니다.' });

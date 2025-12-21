@@ -164,9 +164,9 @@ export default async function handler(req, res) {
       let emailSubject, emailHtml;
 
       if (action === 'confirm') {
-        emailSubject = `[SSAL Grid] 설치비 입금이 확인되었습니다 - ${projectName}`;
+        emailSubject = `[SSAL Grid] 개발자 계정 개설비 입금이 확인되었습니다 - ${projectName}`;
         emailHtml = `
-          <h2>설치비 입금이 확인되었습니다</h2>
+          <h2>개발자 계정 개설비 입금이 확인되었습니다</h2>
           <p>안녕하세요, ${payment.users.display_name || '고객'}님</p>
           <p><strong>프로젝트:</strong> ${projectName}</p>
           <p><strong>입금액:</strong> ${payment.amount.toLocaleString()}원</p>
@@ -178,9 +178,9 @@ export default async function handler(req, res) {
           <p>감사합니다.</p>
         `;
       } else {
-        emailSubject = `[SSAL Grid] 설치비 입금 신청이 반려되었습니다 - ${projectName}`;
+        emailSubject = `[SSAL Grid] 개발자 계정 개설비 입금 신청이 반려되었습니다 - ${projectName}`;
         emailHtml = `
-          <h2>설치비 입금 신청이 반려되었습니다</h2>
+          <h2>개발자 계정 개설비 입금 신청이 반려되었습니다</h2>
           <p>안녕하세요, ${payment.users.display_name || '고객'}님</p>
           <p><strong>프로젝트:</strong> ${projectName}</p>
           <p><strong>입금자명:</strong> ${payment.depositor_name}</p>

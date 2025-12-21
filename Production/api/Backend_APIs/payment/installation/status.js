@@ -1,6 +1,6 @@
 /**
  * @task S4BA1
- * @description 설치비 결제 상태 조회 API
+ * @description 개발자 계정 개설비 결제 상태 조회 API
  */
 const { createClient } = require('@supabase/supabase-js');
 
@@ -39,7 +39,7 @@ module.exports = async (req, res) => {
         if (selectError || !payment) {
             return res.status(404).json({
                 success: false,
-                message: '설치비 결제 요청 내역이 없습니다.'
+                message: '개발자 계정 개설비 결제 요청 내역이 없습니다.'
             });
         }
 
@@ -69,7 +69,7 @@ module.exports = async (req, res) => {
                 response.warning = '입금 기한이 만료되었습니다. 새로 요청해주세요.';
             }
         } else if (payment.status === 'confirmed') {
-            response.message = '설치비 결제가 완료되었습니다.';
+            response.message = '개발자 계정 개설비 결제가 완료되었습니다.';
             response.benefits = {
                 initial_credit: 50000,
                 free_months: 3,
