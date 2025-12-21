@@ -7,27 +7,28 @@
             <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
         </marker>
     </defs>
-    <text x="600" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 5: Scheduler/Leveler 처리 과정</text>
-    <rect x="50" y="80" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="5"/>
-    <text x="600" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Scheduler/Leveler 모듈 (70)</text>
-    <rect x="400" y="150" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="600.0" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">위상정렬부</text>
-    <text x="600.0" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(71)</text>
-    <text x="600.0" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">DAG Topological Sort</text>
-    <line x1="600" y1="250" x2="600" y2="300" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="400" y="300" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="600.0" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">슬롯 할당부</text>
-    <text x="600.0" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(72)</text>
-    <text x="600.0" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">자원 제약 고려</text>
-    <line x1="600" y1="400" x2="600" y2="450" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="150" y="450" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="350.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">비용함수 최적화부</text>
-    <text x="350.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(73)</text>
-    <text x="350.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Min(J)</text>
-    <text x="350.0" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">J=αM+βW+γO+δR</text>
-    <line x1="550" y1="510" x2="650" y2="510" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="650" y="450" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="850.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">레벨 재배치부</text>
-    <text x="850.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(74)</text>
-    <text x="850.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Level Balancing</text>
+    <text x="600" y="50" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="bold">도 5: Scheduler/Leveler 처리 과정</text>
+    <rect x="50" y="100" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="10"/>
+    <text x="600" y="140" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">Scheduler/Leveler 모듈 (70)</text>
+    <rect x="400" y="180" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="600.0" y="220" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">위상정렬부</text>
+    <text x="600.0" y="255" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(71)</text>
+    <text x="600.0" y="295" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">DAG Topological Sort</text>
+    <line x1="600" y1="300" x2="600" y2="350" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="400" y="350" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="600.0" y="390" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">슬롯 할당부</text>
+    <text x="600.0" y="425" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(72)</text>
+    <text x="600.0" y="465" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">자원 제약 고려</text>
+    <line x1="600" y1="470" x2="600" y2="520" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="600" y1="470" x2="350" y2="520" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="600" y1="470" x2="850" y2="520" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="150" y="520" width="400" height="140" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="350.0" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">비용함수 최적화부</text>
+    <text x="350.0" y="595" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(73)</text>
+    <text x="350.0" y="635" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Min(J)</text>
+    <text x="350.0" y="665" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">J=αM+βW+γO+δR</text>
+    <rect x="650" y="520" width="400" height="140" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="850.0" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">레벨 재배치부</text>
+    <text x="850.0" y="595" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(74)</text>
+    <text x="850.0" y="635" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Level Balancing</text>
 </svg>

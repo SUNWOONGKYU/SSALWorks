@@ -4,6 +4,41 @@
 
 ---
 
+## 2025-12-22 작업 내역
+
+### 상황별 안내문 일반화 및 SAL Grid 명칭 정리 ✅
+
+**작업 목적:**
+- P0~S5 프로젝트 진행 안내문에서 SSAL 관련 언급 제거 및 일반화
+- 플랫폼 소개 안내문(Welcome, BeforeSignup 등)은 SSAL Works 브랜드 유지
+- Grid 명칭 통일: "SAL Grid" (SSAL Grid 금지)
+
+**구분 기준:**
+| 유형 | 파일 | 처리 |
+|------|------|------|
+| 프로젝트 진행 안내문 | P1-1~P3-3, S1~S5 | 일반화 (버전 3.0) |
+| 플랫폼 소개 안내문 | Welcome, BeforeSignup, Default, Project_* | SSAL Works 브랜드 유지 |
+
+**수정된 파일:**
+1. **P1-1_Vision_Mission.md** - "프로젝트 관리 체계 구축" → "Project SAL Grid 생성" (2곳)
+2. **P1~P3 MD 파일들** - 이전 세션에서 일반화 완료 (버전 3.0)
+3. **S1~S5 MD 파일들** - 이전 세션에서 일반화 완료 (버전 3.0, SAL Grid 사용)
+
+**SAL Grid 명칭 규칙 확정:**
+- "SSAL" = 브랜드명에서만 사용 (SSAL Works)
+- "SAL Grid" = Grid 명칭 (SSAL Grid 금지)
+- 예: "Project SAL Grid", "SAL Grid 확인" 등
+
+**번들 재생성:**
+- `convert-guides-to-html.js` 실행: 21개 MD → HTML 변환
+- `generate-guides-js.js` 실행: 29개 안내문 → guides.js 번들
+
+**결과:**
+- `Production/Frontend/guides.js` 업데이트 완료
+- 웹사이트 배포 시 반영됨
+
+---
+
 ## 2025-12-21 작업 내역
 
 ### S5 Stage 이름 변경 및 S5U2 Task 추가 ✅

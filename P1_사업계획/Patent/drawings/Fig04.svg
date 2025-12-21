@@ -7,28 +7,27 @@
             <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
         </marker>
     </defs>
-    <text x="600" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 4: Graph Builder DAG 생성 과정</text>
-    <rect x="50" y="80" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="5"/>
-    <text x="600" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Graph Builder 모듈 (60)</text>
-    <rect x="150" y="200" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="300.0" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Cell 그룹화부</text>
-    <text x="300.0" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(61)</text>
-    <text x="300.0" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">동일 Cell 병렬 처리</text>
-    <line x1="450" y1="260" x2="550" y2="260" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="550" y="200" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="700.0" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">엣지 생성부</text>
-    <text x="700.0" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(62)</text>
-    <text x="700.0" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Level 후행 규칙</text>
-    <text x="700.0" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">외부 의존 병합</text>
-    <line x1="850" y1="260" x2="950" y2="350" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="150" y="450" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="300.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">순환 검출부</text>
-    <text x="300.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(63)</text>
-    <text x="300.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Cycle Detection</text>
-    <line x1="450" y1="510" x2="550" y2="510" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="550" y="450" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="700.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">병목 마킹부</text>
-    <text x="700.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(64)</text>
-    <text x="700.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Critical Path 식별</text>
-    <line x1="700" y1="320" x2="700" y2="450" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="600" y="50" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="bold">도 4: Graph Builder DAG 생성 과정</text>
+    <rect x="50" y="100" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="10"/>
+    <text x="600" y="140" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">Graph Builder 모듈 (60)</text>
+    <rect x="150" y="200" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="350.0" y="240" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">Cell 그룹화부</text>
+    <text x="350.0" y="275" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(61)</text>
+    <text x="350.0" y="315" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">동일 Cell 병렬 처리</text>
+    <line x1="550" y1="275" x2="650" y2="275" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="650" y="200" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="850.0" y="240" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">엣지 생성부</text>
+    <text x="850.0" y="275" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(62)</text>
+    <text x="850.0" y="315" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Level 후행 규칙</text>
+    <text x="850.0" y="345" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">외부 의존 병합</text>
+    <line x1="850" y1="350" x2="850" y2="450" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="650" y="450" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="850.0" y="490" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">순환 검출부</text>
+    <text x="850.0" y="525" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(63)</text>
+    <text x="850.0" y="565" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Cycle Detection</text>
+    <line x1="650" y1="525" x2="550" y2="525" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="150" y="450" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="350.0" y="490" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">병목 마킹부</text>
+    <text x="350.0" y="525" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(64)</text>
+    <text x="350.0" y="565" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Critical Path 식별</text>
 </svg>

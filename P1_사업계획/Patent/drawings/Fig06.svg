@@ -7,28 +7,28 @@
             <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
         </marker>
     </defs>
-    <text x="600" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 6: 3D Renderer/UI 상호작용 구조</text>
-    <rect x="50" y="80" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="5"/>
-    <text x="600" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">3D Renderer/UI 모듈 (80)</text>
-    <rect x="100" y="200" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="250.0" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">좌표 매핑부</text>
-    <text x="250.0" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(81)</text>
-    <text x="250.0" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">SAL -> (x,y,z)</text>
-    <line x1="400" y1="260" x2="500" y2="260" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="500" y="200" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="650.0" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">렌더링 엔진</text>
-    <text x="650.0" y="285" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(82)</text>
-    <text x="650.0" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">WebGL/Three.js</text>
-    <line x1="800" y1="260" x2="900" y2="350" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="500" y="450" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="650.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">상호작용 처리부</text>
-    <text x="650.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(83)</text>
-    <text x="650.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Drag & Drop</text>
-    <text x="650.0" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Click</text>
-    <line x1="500" y1="510" x2="400" y2="510" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="100" y="450" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="250.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">실시간 갱신부</text>
-    <text x="250.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(84)</text>
-    <text x="250.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">UI Update</text>
-    <line x1="250" y1="450" x2="250" y2="320" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <text x="600" y="50" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="bold">도 6: 3D Renderer/UI 상호작용 구조</text>
+    <rect x="50" y="100" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="10"/>
+    <text x="600" y="140" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">3D Renderer/UI 모듈 (80)</text>
+    <rect x="150" y="200" width="350" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="325.0" y="240" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">좌표 매핑부</text>
+    <text x="325.0" y="275" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(81)</text>
+    <text x="325.0" y="315" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">SAL -> (x,y,z)</text>
+    <line x1="500" y1="275" x2="650" y2="275" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="650" y="200" width="350" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="825.0" y="240" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">렌더링 엔진</text>
+    <text x="825.0" y="275" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(82)</text>
+    <text x="825.0" y="315" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">WebGL/Three.js</text>
+    <line x1="825" y1="350" x2="825" y2="450" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="650" y="450" width="350" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="825.0" y="490" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">상호작용 처리부</text>
+    <text x="825.0" y="525" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(83)</text>
+    <text x="825.0" y="565" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Drag & Drop</text>
+    <text x="825.0" y="595" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Click</text>
+    <line x1="650" y1="525" x2="500" y2="525" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="150" y="450" width="350" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="325.0" y="490" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">실시간 갱신부</text>
+    <text x="325.0" y="525" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(84)</text>
+    <text x="325.0" y="565" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">UI Update</text>
+    <line x1="325" y1="450" x2="325" y2="350" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 </svg>

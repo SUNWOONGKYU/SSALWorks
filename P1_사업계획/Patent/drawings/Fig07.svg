@@ -7,29 +7,29 @@
             <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
         </marker>
     </defs>
-    <text x="600" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 7: ID Chain 구조</text>
-    <rect x="50" y="80" width="1100" height="650" fill="white" stroke="black" stroke-width="1" rx="5"/>
-    <text x="600" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">ID Chain 관리 모듈 (90)</text>
-    <rect x="100" y="250" width="250" height="120" fill="white" stroke="black" stroke-width="2" rx="5"/>
-    <text x="225.0" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Block #1</text>
-    <text x="225.0" y="335" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">ID: S1DE1a</text>
-    <text x="225.0" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Prev: Null</text>
-    <line x1="350" y1="310" x2="450" y2="310" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="450" y="250" width="250" height="120" fill="white" stroke="black" stroke-width="2" rx="5"/>
-    <text x="575.0" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Block #2</text>
-    <text x="575.0" y="335" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">ID: S2DE2a</text>
-    <text x="575.0" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Prev: S1DE1a</text>
-    <line x1="700" y1="310" x2="800" y2="310" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-    <rect x="800" y="250" width="250" height="120" fill="white" stroke="black" stroke-width="2" rx="5"/>
-    <text x="925.0" y="300" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Block #3</text>
-    <text x="925.0" y="335" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">ID: S3QA3a</text>
-    <text x="925.0" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Prev: S2DE2a</text>
-    <rect x="200" y="450" width="350" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="375.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">체인 Append부</text>
-    <text x="375.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(94)</text>
-    <text x="375.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Append-Only 저장</text>
-    <rect x="650" y="450" width="350" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
-    <text x="825.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">리졸버(Resolver)</text>
-    <text x="825.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(95)</text>
-    <text x="825.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">과거 ID -> 최신 ID</text>
+    <text x="600" y="50" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="bold">도 7: ID Chain 구조</text>
+    <rect x="50" y="100" width="1100" height="650" fill="white" stroke="black" stroke-width="1" rx="10"/>
+    <text x="600" y="140" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">ID Chain 관리 모듈 (90)</text>
+    <rect x="50" y="250" width="300" height="150" fill="white" stroke="black" stroke-width="2" rx="10"/>
+    <text x="200.0" y="290" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">Block #1</text>
+    <text x="200.0" y="330" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">ID: S1DE1a</text>
+    <text x="200.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Prev: Null</text>
+    <line x1="350" y1="325" x2="450" y2="325" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="450" y="250" width="300" height="150" fill="white" stroke="black" stroke-width="2" rx="10"/>
+    <text x="600.0" y="290" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">Block #2</text>
+    <text x="600.0" y="330" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">ID: S2DE2a</text>
+    <text x="600.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Prev: S1DE1a</text>
+    <line x1="750" y1="325" x2="850" y2="325" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="850" y="250" width="300" height="150" fill="white" stroke="black" stroke-width="2" rx="10"/>
+    <text x="1000.0" y="290" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">Block #3</text>
+    <text x="1000.0" y="330" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">ID: S3QA3a</text>
+    <text x="1000.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Prev: S2DE2a</text>
+    <rect x="150" y="500" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="350.0" y="540" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">체인 Append부</text>
+    <text x="350.0" y="575" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(94)</text>
+    <text x="350.0" y="615" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">Append-Only 저장</text>
+    <rect x="650" y="500" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="850.0" y="540" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">리졸버(Resolver)</text>
+    <text x="850.0" y="575" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="28" font-weight="bold">(95)</text>
+    <text x="850.0" y="615" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="24" font-weight="normal">과거 ID -> 최신 ID</text>
 </svg>
