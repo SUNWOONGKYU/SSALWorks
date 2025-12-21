@@ -269,6 +269,37 @@ verification_status 전이:
 
 ---
 
+## 📘 작업 방법 (Methods)
+
+> **특정 작업 수행 시 반드시 해당 방법을 따라야 함!**
+
+| # | 방법 파일 | 적용 시점 | 핵심 |
+|---|----------|----------|------|
+| 1 | `01_supabase-crud.md` | **Supabase CRUD 작업 시** | PO에게 요청 금지, AI가 직접 실행 |
+
+**📁 위치:** `.claude/methods/`
+
+### Supabase CRUD 작업 시 필수 준수
+
+```
+🚫 PO(사람)에게 SQL 실행을 요청하지 마라!
+🚫 "이 SQL을 실행해주세요" 금지!
+🚫 "Supabase Dashboard에서 실행해주세요" 금지!
+✅ AI가 REST API (Node.js)로 직접 실행해야 함!
+```
+
+**우선순위:**
+```
+1. REST API (Node.js) ← 기본 방법, 항상 작동
+2. Supabase MCP ← 연결 시
+3. Supabase CLI ← 설치 시
+4. Dashboard (PO 수동) ← 최후 수단
+```
+
+**환경변수 위치:** `P3_프로토타입_제작/Database/.env`
+
+---
+
 ## 📋 기타 참조 문서
 
 ### AI 12대 준수사항

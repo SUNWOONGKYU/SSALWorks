@@ -471,7 +471,7 @@
             <div class="header-subtitle">Claude & Claude Code 사용법 / 풀스택 웹사이트 개발 기초지식 / 프로젝트 관리 방법 | (총 57편)</div>
         </div>
         <div class="header-buttons">
-            <button class="home-btn" onclick="location.href='/'" title="메인 화면">🏠 메인</button>
+            <button class="home-btn" onclick="location.href='/'" title="메인 화면으로 돌아가기">← 메인 화면으로 돌아가기</button>
             <button class="close-btn" onclick="location.href='/'" title="닫기">✕ 닫기</button>
         </div>
     </header>
@@ -622,12 +622,12 @@
                 bookDiv.className = 'book-category';
 
                 const header = document.createElement('div');
-                header.className = `book-header ${book.color}`;
+                header.className = `book-header ${book.color} collapsed`;
                 header.innerHTML = `<span class="icon">▼</span> ${book.icon} ${book.name} (${book.files.length}편)`;
                 header.onclick = () => toggleBook(header);
 
                 const list = document.createElement('ul');
-                list.className = 'book-list';
+                list.className = 'book-list hidden';
 
                 // Part가 있으면 Part별로 그룹화
                 if (book.parts && book.parts.length > 0) {
