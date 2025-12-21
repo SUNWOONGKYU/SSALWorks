@@ -3979,22 +3979,7 @@ The content you enter in the Control Space will be displayed here.</pre>
         document.addEventListener('DOMContentLoaded', () => {
             // loadSidebarStructure(); // ❌ 비활성화 - HTML에 직접 작성된 진행률(55%) 사용
             console.log('✅ Using static HTML structure with progress data');
-            updateProgressBackgrounds();
-        function updateProgressBackgrounds() {
-            document.querySelectorAll('.process-major').forEach(el => {
-                const progress = parseInt(el.getAttribute('data-progress') || 0);
-                if (el.classList.contains('completed')) return;
-                const minOpacity = 0.08;
-                const maxOpacity = 0.25;
-                const opacity = minOpacity + (maxOpacity - minOpacity) * (progress / 100);
-                const minBorderOpacity = 0.2;
-                const maxBorderOpacity = 0.5;
-                const borderOpacity = minBorderOpacity + (maxBorderOpacity - minBorderOpacity) * (progress / 100);
-                el.style.backgroundColor = `rgba(16, 185, 129, ${opacity})`;
-                el.style.borderColor = `rgba(16, 185, 129, ${borderOpacity})`;
-            });
-        }
-
+            // updateProgressBackgrounds(); // ❌ 제거 - CSS에서 3단계 색상 처리
         });
 
         // Toggle process prep sub-items (준비단계 ○)
@@ -5564,10 +5549,12 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             percentTexts.forEach(text => {
                 text.textContent = '0%';
             });
-            // data-progress도 0으로
-            const progressItems = document.querySelectorAll('[data-progress]');
+            // data-progress도 0으로 + inline style 제거 (CSS가 적용되도록)
+            const progressItems = document.querySelectorAll('.process-major, .process-special-major');
             progressItems.forEach(item => {
                 item.setAttribute('data-progress', '0');
+                item.style.backgroundColor = '';  // inline style 제거
+                item.style.borderColor = '';      // inline style 제거
             });
             // completed 클래스 제거 (색상 원복)
             const completedItems = document.querySelectorAll('.process-major.completed, .process-special-major.completed');
