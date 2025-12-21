@@ -240,12 +240,12 @@
 <header id="title-block-header">
 <h1 class="title">PROJECT SAL GRID MANUAL</h1>
 </header>
-<h1 id="project-sal-grid-manual-v3.4">PROJECT SAL GRID MANUAL v3.4</h1>
+<h1 id="project-sal-grid-manual-v3.5">PROJECT SAL GRID MANUAL v3.5</h1>
 <blockquote>
 <p><strong>작성일</strong>: 2025-11-25 <strong>최종 수정</strong>:
-2025-12-19 (v3.4 - .claude/rules/ 참조 추가) <strong>기반</strong>:
-PROJECT_SAL_GRID_생성_가이드_V2.0.md <strong>용도</strong>: PROJECT SAL
-GRID 완전 매뉴얼</p>
+2025-12-20 (v3.5 - S4F5, S5U1, S5T1 Task 추가 반영)
+<strong>기반</strong>: PROJECT_SAL_GRID_생성_가이드_V2.0.md
+<strong>용도</strong>: PROJECT SAL GRID 완전 매뉴얼</p>
 </blockquote>
 <hr />
 <h2 id="목차-전체-27개-섹션">📋 목차 (전체 27개 섹션)</h2>
@@ -380,8 +380,8 @@ Stage(S2) + Area(BA) + 순서(1) - Task ID 하나로 Stage, Area, 순서 모두
 </tr>
 <tr>
 <td>S5</td>
-<td>운영 (Operations)</td>
-<td>배포, 백업, 보안점검</td>
+<td>개발 마무리 (Development Stabilization)</td>
+<td>배포, QA, 안정화</td>
 </tr>
 </tbody>
 </table>
@@ -733,7 +733,7 @@ DB 자동 기록: created_at, updated_at (Supabase)</code></pre>
 ║   Stage 2: Auth &amp; Registration (개발 1차)       ← 11 Areas            ║
 ║   Stage 3: AI Integration (개발 2차)            ← 11 Areas            ║
 ║   Stage 4: Payment &amp; Admin (개발 3차)           ← 일부 Areas          ║
-║   Stage 5: Operations (운영)                    ← 9 Areas             ║
+║   Stage 5: Development Stabilization (개발 마무리) ← 9 Areas          ║
 ╚═══════════════════════════════════════════════════════════════════════╝</code></pre>
 <h4 id="기호-설명"><strong>기호 설명</strong></h4>
 <ul>
@@ -748,7 +748,7 @@ S4, S5)</li>
 Stage 2: Auth &amp; Registration (개발 1차)
 Stage 3: AI Integration (개발 2차)
 Stage 4: Payment &amp; Admin (개발 3차)
-Stage 5: Operations (운영)</code></pre>
+Stage 5: Development Stabilization (개발 마무리)</code></pre>
 <h4 id="areas-작업-영역"><strong>11 Areas (작업 영역)</strong></h4>
 <pre><code>M  - Documentation (문서화)
 U  - Design (UI/UX 디자인)
@@ -817,7 +817,7 @@ href="#19-2-task-수정-update">19-2. Task 수정</a> 참조</p>
 예시:
 - S1M1: Stage 1 (개발 준비) - Documentation - Task 1
 - S3F5: Stage 3 (개발 2차) - Frontend - Task 5
-- S5O1: Stage 5 (운영) - DevOps - Task 1</code></pre>
+- S5O1: Stage 5 (개발 마무리) - DevOps - Task 1</code></pre>
 <h3 id="병렬-작업-표현">2.4 병렬 작업 표현</h3>
 <pre><code>동시 실행 가능한 Task는 알파벳으로 구분:
 
@@ -1328,7 +1328,7 @@ Gate)</strong></h3>
 ├── S2_개발-1차/                        # Auth &amp; Registration (Stage 2)
 ├── S3_개발-2차/                        # AI Integration (Stage 3)
 ├── S4_개발-3차/                        # Payment &amp; Admin (Stage 4)
-├── S5_운영/                            # Operations (Stage 5)
+├── S5_개발_마무리/                     # Development Stabilization (Stage 5)
 │
 ├── .claude/                           # Claude Code 설정
 │   └── CLAUDE.md
@@ -1397,7 +1397,7 @@ id="project_directory_structure.md"><strong>PROJECT_DIRECTORY_STRUCTURE.md</stro
 <p><strong>Stage 폴더 매핑:</strong> | Stage | 폴더명 | |——-|——–| | S1 |
 <code>S1_개발_준비/</code> | | S2 | <code>S2_개발-1차/</code> | | S3 |
 <code>S3_개발-2차/</code> | | S4 | <code>S4_개발-3차/</code> | | S5 |
-<code>S5_운영/</code> |</p>
+<code>S5_개발_마무리/</code> |</p>
 <p><strong>Area 폴더 매핑:</strong> | Area 코드 | 폴더명 | |———–|——–| |
 M | <code>Documentation/</code> | | F | <code>Frontend/</code> | | BI |
 <code>Backend_Infra/</code> | | BA | <code>Backend_APIs/</code> | | D |
@@ -1453,8 +1453,8 @@ Documentation에 저장)</li>
 사업계획서, 시장조사 - <strong>1_기획</strong>: 요구사항, 목업, ERD -
 <strong>2_프로토타입_제작</strong>: 프로토타입 코드, 초기 화면 -
 <strong>3_개발 준비</strong>: 환경 설정, 기반 구조 -
-<strong>4_개발</strong>: 실제 기능 코드 - <strong>5_운영</strong>: 배포,
-모니터링, 유지보수</p>
+<strong>4_개발</strong>: 실제 기능 코드 -
+<strong>5_개발_마무리</strong>: 배포, QA, 안정화</p>
 <hr />
 <h3 id="claude-폴더">4.5 claude/ 폴더</h3>
 <h4 id="claude.md"><strong>claude.md</strong></h4>
@@ -2915,7 +2915,7 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb96-1"><a href=
 □ 전체 테스트 통과
 □ 성능 최적화 완료
 □ 보안 검토 완료</code></pre>
-<p><strong>S5GATE (운영):</strong></p>
+<p><strong>S5GATE (개발 마무리):</strong></p>
 <pre><code>□ 배포 완료
 □ 모니터링 시스템 구축
 □ 백업 체계 확립
@@ -5667,7 +5667,7 @@ verification_instruction</li>
 </ul></li>
 <li><strong>표준 디렉토리 구조 추가</strong> (신규 섹션 12):
 <ul>
-<li>6개 Stage 폴더 (P1_사업계획 ~ 5_운영)</li>
+<li>6개 Stage 폴더 (P1_사업계획 ~ 5_개발_마무리)</li>
 <li>claude/ 폴더</li>
 <li>web_claude-code_bridge/ (Inbox/Outbox)</li>
 <li>Project-SSAL-Grid/ (매뉴얼, DB, 뷰어, ssal-grid)</li>
@@ -5704,6 +5704,22 @@ task_instruction 명칭 변경</li>
 <h3 id="project-sal-grid-manual-버전-이력">PROJECT SAL GRID MANUAL 버전
 이력</h3>
 <ul>
+<li><strong>v3.5 (2025-12-20)</strong>: Task 확장 반영
+<ul>
+<li>S4F5 (프로젝트 등록 API 연동) Task 추가 반영</li>
+<li>S5U1 (디자인 QA 및 일관성 점검) Task 추가 반영</li>
+<li>S5T1 (프로덕션 완성도 점검) Task 추가 반영</li>
+<li>SSALWORKS_TASK_PLAN.md v4.2 반영 (53 → 55 tasks)</li>
+</ul></li>
+<li><strong>v3.4 (2025-12-19)</strong>: .claude/rules/ 참조 추가
+<ul>
+<li>AI 필수 준수 규칙에 .claude/rules/ 참조 추가</li>
+</ul></li>
+<li><strong>v3.3 (2025-12-18)</strong>: Task Plan 동기화
+<ul>
+<li>SSALWORKS_TASK_PLAN.md v3.3~v3.4 변경사항 반영</li>
+<li>S2BI3 이메일 도메인 인증 Task 추가</li>
+</ul></li>
 <li><strong>v3.2 (2025-12-12)</strong>: 유연성 확보 및 현행화
 <ul>
 <li>섹션 5.1 Grid 생성 시점: P1-P3 + S1-S5 구조에 맞게 수정</li>
@@ -5745,8 +5761,8 @@ task_instruction 명칭 변경</li>
 <blockquote>
 <p>🌾 <strong>SSALWorks - Your AI-Powered Project Management
 System</strong></p>
-<p><strong>작성</strong>: 2025-11-25 <strong>버전</strong>: v3.2
-<strong>최종 수정</strong>: 2025-12-12 <strong>문의</strong>:
+<p><strong>작성</strong>: 2025-11-25 <strong>버전</strong>: v3.5
+<strong>최종 수정</strong>: 2025-12-20 <strong>문의</strong>:
 PROJECT_SAL_GRID 관련 문서 참고</p>
 </blockquote>
 <p><strong>Happy Coding!</strong> 💻✨</p>

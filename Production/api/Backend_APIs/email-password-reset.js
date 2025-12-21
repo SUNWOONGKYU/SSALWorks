@@ -74,7 +74,8 @@ module.exports = async (req, res) => {
   // ================================================================
   try {
     // 재설정 URL 생성
-    const resetUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password?token=${resetToken}`;
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://ssal-works.vercel.app';
+    const resetUrl = `${baseUrl}/pages/auth/reset-password.html?token=${resetToken}`;
 
     const result = await sendPasswordResetEmail(to, {
       name,
