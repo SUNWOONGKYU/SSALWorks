@@ -1,4 +1,4 @@
-﻿【서류명】 특허출원서
+【서류명】 특허출원서
 【출원구분】 특허출원
 【출원인】
    【성명(명칭)】 [출원인 성명 입력]
@@ -2400,5 +2400,5 @@ Critical Path 변화, SLA 위반 임박, 자원 과부하 등의 이벤트에 �
 【도 8】
 ![Fig 8](drawings/Fig08.svg)
 
-【도 9】
-![Fig 9](drawings/Fig09.svg)
+【도 10】
+![Fig 10](drawings/Fig10.svg)

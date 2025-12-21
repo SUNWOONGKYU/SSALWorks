@@ -10,10 +10,6 @@
   <!-- 도면 번호 -->
   <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 7</text>
 
-  <!-- ID Chain Manager (90) -->
-  <rect x="50" y="100" width="1100" height="600" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5" rx="10"/>
-  <text x="1100" y="140" text-anchor="end" font-family="Arial, sans-serif" font-size="28" font-weight="bold">ID Chain Manager (90)</text>
-
   <!-- 체인 Append (94) - Blocks 1, 2, 3을 포함하는 박스 -->
   <rect x="80" y="250" width="1040" height="280" fill="none" stroke="black" stroke-width="2" stroke-dasharray="2,2" rx="10"/>
   <text x="600" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">체인 추가 (Chain Append) (94)</text>

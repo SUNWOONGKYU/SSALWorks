@@ -299,7 +299,7 @@ AI-Only (스크립트 작성) / Human-Assisted (외부 도구 확인)
 
 ### 제1 규칙: Stage + Area 폴더에 저장
 - Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S5O3 → `S5_운영/DevOps/`
+- 예: S5O3 → `S5_개발_마무리/DevOps/`
 
 ### 제2 규칙: Production 코드는 이중 저장
 - DevOps 스크립트/문서는 Stage 폴더에만 저장

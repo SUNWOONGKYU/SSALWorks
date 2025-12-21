@@ -30,7 +30,7 @@
 | 2 | **S2** | Auth & Registration | 개발 1차 | OAuth, 이메일, 회원가입 | `S2_개발-1차/` |
 | 3 | **S3** | AI Integration | 개발 2차 | AI 연동, AI Q&A | `S3_개발-2차/` |
 | 4 | **S4** | Payment & Admin | 개발 3차 | 결제, 관리자, 크레딧 | `S4_개발-3차/` |
-| 5 | **S5** | Operations | 운영 | 배포, 백업, 보안점검 | `S5_운영/` |
+| 5 | **S5** | Development Stabilization | 개발 마무리 | 배포, QA, 안정화 | `S5_개발_마무리/` |
 
 ---
 

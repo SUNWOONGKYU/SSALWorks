@@ -1,5 +1,5 @@
 <svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-  <!-- 도 6: 3D Renderer 피드백 루프 -->
+  <!-- 도 6: 3D Renderer/UI 프로세스 -->
   <rect width="100%" height="100%" fill="white"/>
   <defs>
     <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
@@ -10,38 +10,33 @@
   <!-- 도면 번호 -->
   <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 6</text>
 
-  <!-- 3D Renderer/UI (80) -->
-  <rect x="50" y="100" width="1100" height="600" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5" rx="10"/>
-  <text x="1100" y="140" text-anchor="end" font-family="Arial, sans-serif" font-size="28" font-weight="bold">3D Renderer/UI (80)</text>
+  <!-- Step 1: 좌표 매핑 (81) -->
+  <rect x="100" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="200" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">좌표 매핑</text>
+  <text x="200" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(81)</text>
 
-  <!-- 중앙 상단: 렌더링 엔진 (82) -->
-  <rect x="400" y="150" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">렌더링 엔진</text>
-  <text x="600" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(82)</text>
+  <!-- 화살표 1 -->
+  <line x1="300" y1="400" x2="350" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- 우측 하단: 상호작용 처리 (83) -->
-  <rect x="750" y="450" width="350" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="925" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">상호작용 처리</text>
-  <text x="925" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(83)</text>
+  <!-- Step 2: 렌더링 엔진 (82) -->
+  <rect x="350" y="300" width="250" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="475" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">렌더링 엔진</text>
+  <text x="475" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(82)</text>
 
-  <!-- 좌측 하단: 실시간 갱신 (84) -->
-  <rect x="100" y="450" width="350" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="275" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">실시간 갱신</text>
-  <text x="275" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(84)</text>
+  <!-- 화살표 2 -->
+  <line x1="600" y1="400" x2="650" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- 화살표 연결 (시계 방향 루프) -->
-  <!-- 렌더링 -> 상호작용 -->
-  <line x1="800" y1="225" x2="925" y2="225" stroke="black" stroke-width="2"/>
-  <line x1="925" y1="225" x2="925" y2="450" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <!-- Step 3: 상호작용 처리 (83) -->
+  <rect x="650" y="300" width="250" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="775" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">상호작용 처리</text>
+  <text x="775" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(83)</text>
 
-  <!-- 상호작용 -> 갱신 -->
-  <line x1="750" y1="525" x2="450" y2="525" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <!-- 화살표 3 -->
+  <line x1="900" y1="400" x2="950" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
 
-  <!-- 갱신 -> 렌더링 -->
-  <line x1="275" y1="450" x2="275" y2="225" stroke="black" stroke-width="2"/>
-  <line x1="275" y1="225" x2="400" y2="225" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-  <!-- 좌표 매핑 (81) -->
-  <text x="600" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold">좌표 매핑 (81)</text>
+  <!-- Step 4: 실시간 갱신 (84) -->
+  <rect x="950" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
+  <text x="1050" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">실시간 갱신</text>
+  <text x="1050" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(84)</text>
 
 </svg>

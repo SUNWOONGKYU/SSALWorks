@@ -259,7 +259,7 @@ AI-Only (버그 수정) / Human-Assisted (실제 버그 보고 수집)
 
 ### 제1 규칙: Stage + Area 폴더에 저장
 - Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S5F1 → `S5_운영/Frontend/`
+- 예: S5F1 → `S5_개발_마무리/Frontend/`
 
 ### 제2 규칙: Production 코드는 이중 저장
 - Frontend 코드는 Stage 폴더 + Production 폴더 둘 다 저장

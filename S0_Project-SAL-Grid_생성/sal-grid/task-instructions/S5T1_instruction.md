@@ -4,8 +4,10 @@
 - **Task ID**: S5T1
 - **Task Name**: 프로덕션 완성도 점검
 - **Area**: T (Testing)
-- **Stage**: S5 (운영)
+- **Stage**: S5 (개발 마무리)
 - **Dependencies**: S5O1 (프로덕션 배포)
+- **Task Agent**: `test-engineer`
+- **Verification Agent**: `qa-specialist`
 
 ## 목적
 프로덕션 환경에서 모든 기능이 정상 작동하는지 종합적으로 점검한다.
@@ -64,7 +66,7 @@
 - Chrome DevTools: 콘솔/네트워크 확인
 
 ## 결과물
-- `S5_운영/Documentation/S5T1_production_check_report.md`
+- `S5_개발_마무리/Documentation/S5T1_production_check_report.md`
 - 발견된 이슈 목록
 - 수정 필요 항목
 

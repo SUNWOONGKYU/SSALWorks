@@ -7,6 +7,8 @@
 - **Area**: F (Frontend)
 - **Level**: 2
 - **Dependencies**: S2BA5
+- **Task Agent**: `frontend-developer`
+- **Verification Agent**: `code-reviewer`
 
 ## Task 목표
 
@@ -72,7 +74,7 @@ const response = await fetch('/api/projects/create', {
 | 파일 | 변경 내용 |
 |------|----------|
 | `Production/index.html` | API 호출 코드 수정 |
-| `S5_운영/Database/projects_table.sql` (필요시) | 테이블 생성 |
+| `S5_개발_마무리/Database/projects_table.sql` (필요시) | 테이블 생성 |
 
 ---
 

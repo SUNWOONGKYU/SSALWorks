@@ -4,8 +4,10 @@
 - **Task ID**: S5U1
 - **Task Name**: 디자인 QA 및 일관성 점검
 - **Area**: U (Design)
-- **Stage**: S5 (운영)
+- **Stage**: S5 (개발 마무리)
 - **Dependencies**: S5O1 (프로덕션 배포)
+- **Task Agent**: `design-qa-specialist`
+- **Verification Agent**: `code-reviewer`
 
 ## 목적
 프로덕션 환경에서 디자인 일관성과 품질을 점검하여 사용자 경험을 보장한다.
@@ -57,7 +59,7 @@
 - Chrome DevTools: 스타일 검사
 
 ## 결과물
-- `S5_운영/Documentation/S5U1_design_qa_report.md`
+- `S5_개발_마무리/Documentation/S5U1_design_qa_report.md`
 - 발견된 이슈 목록
 - 수정 권장사항
 

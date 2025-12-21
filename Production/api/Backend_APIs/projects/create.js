@@ -84,9 +84,14 @@ module.exports = async (req, res) => {
 
         if (userError || !userData) {
             console.error('User query failed:', userError);
+            console.error('Auth user.id:', user.id);
             return res.status(500).json({
                 success: false,
-                error: '사용자 정보를 찾을 수 없습니다'
+                error: '사용자 정보를 찾을 수 없습니다',
+                debug: {
+                    authUserId: user.id,
+                    userError: userError?.message || null
+                }
             });
         }
 

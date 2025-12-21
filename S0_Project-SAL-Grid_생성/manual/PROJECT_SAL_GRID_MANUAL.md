@@ -120,7 +120,7 @@ export default async function handler(req, res) {
 | S2 | 개발 1차 (Auth & Registration) | OAuth, 이메일, 회원가입 |
 | S3 | 개발 2차 (AI Integration) | AI 연동, AI Q&A |
 | S4 | 개발 3차 (Payment & Admin) | 결제, 관리자, 크레딧 |
-| S5 | 운영 (Operations) | 배포, 백업, 보안점검 |
+| S5 | 개발 마무리 (Development Stabilization) | 배포, QA, 안정화 |
 
 ### 📌 Area 명칭 (정확히 사용)
 
@@ -426,7 +426,7 @@ DB 자동 기록: created_at, updated_at (Supabase)
 ║   Stage 2: Auth & Registration (개발 1차)       ← 11 Areas            ║
 ║   Stage 3: AI Integration (개발 2차)            ← 11 Areas            ║
 ║   Stage 4: Payment & Admin (개발 3차)           ← 일부 Areas          ║
-║   Stage 5: Operations (운영)                    ← 9 Areas             ║
+║   Stage 5: Development Stabilization (개발 마무리) ← 9 Areas          ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
 
@@ -440,7 +440,7 @@ Stage 1: Development Setup (개발 준비)
 Stage 2: Auth & Registration (개발 1차)
 Stage 3: AI Integration (개발 2차)
 Stage 4: Payment & Admin (개발 3차)
-Stage 5: Operations (운영)
+Stage 5: Development Stabilization (개발 마무리)
 ```
 
 #### **11 Areas (작업 영역)**
@@ -497,7 +497,7 @@ C  - Content System (콘텐츠 시스템)
 예시:
 - S1M1: Stage 1 (개발 준비) - Documentation - Task 1
 - S3F5: Stage 3 (개발 2차) - Frontend - Task 5
-- S5O1: Stage 5 (운영) - DevOps - Task 1
+- S5O1: Stage 5 (개발 마무리) - DevOps - Task 1
 ```
 
 ### 2.4 병렬 작업 표현
@@ -1088,7 +1088,7 @@ project-root/
 ├── S2_개발-1차/                        # Auth & Registration (Stage 2)
 ├── S3_개발-2차/                        # AI Integration (Stage 3)
 ├── S4_개발-3차/                        # Payment & Admin (Stage 4)
-├── S5_운영/                            # Operations (Stage 5)
+├── S5_개발_마무리/                     # Development Stabilization (Stage 5)
 │
 ├── .claude/                           # Claude Code 설정
 │   └── CLAUDE.md
@@ -1169,7 +1169,7 @@ Task ID 구조: [Stage][Area][번호]
 | S2 | `S2_개발-1차/` |
 | S3 | `S3_개발-2차/` |
 | S4 | `S4_개발-3차/` |
-| S5 | `S5_운영/` |
+| S5 | `S5_개발_마무리/` |
 
 **Area 폴더 매핑:**
 | Area 코드 | 폴더명 |
@@ -1248,7 +1248,7 @@ Production/                 ← 배포용 코드 (최신 상태 유지)
 - **2_프로토타입_제작**: 프로토타입 코드, 초기 화면
 - **3_개발 준비**: 환경 설정, 기반 구조
 - **4_개발**: 실제 기능 코드
-- **5_운영**: 배포, 모니터링, 유지보수
+- **5_개발_마무리**: 배포, QA, 안정화
 
 ---
 
@@ -2665,7 +2665,7 @@ Gate 승인 시:
 □ 보안 검토 완료
 ```
 
-**S5GATE (운영):**
+**S5GATE (개발 마무리):**
 ```
 □ 배포 완료
 □ 모니터링 시스템 구축
@@ -5876,7 +5876,7 @@ A:
     - Verification Sheet → Verification Instruction (전체)
     - 속성 #20 이름 변경: verification_sheet → verification_instruction
   - **표준 디렉토리 구조 추가** (신규 섹션 12):
-    - 6개 Stage 폴더 (P1_사업계획 ~ 5_운영)
+    - 6개 Stage 폴더 (P1_사업계획 ~ 5_개발_마무리)
     - claude/ 폴더
     - web_claude-code_bridge/ (Inbox/Outbox)
     - Project-SSAL-Grid/ (매뉴얼, DB, 뷰어, ssal-grid)

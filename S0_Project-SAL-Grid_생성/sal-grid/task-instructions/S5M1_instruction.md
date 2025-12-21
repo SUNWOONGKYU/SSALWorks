@@ -30,7 +30,7 @@ S5M1
 ## Specific Instructions
 
 ### 1. 문서 구조
-- 위치: `S5_운영/Documentation/OPERATIONS_MANUAL.md`
+- 위치: `S5_개발_마무리/Documentation/OPERATIONS_MANUAL.md`
 - 형식: Markdown
 
 ### 2. 필수 포함 내용
@@ -230,7 +230,7 @@ supabase status
 ```
 
 ## Expected Output Files
-- `S5_운영/Documentation/OPERATIONS_MANUAL.md`
+- `S5_개발_마무리/Documentation/OPERATIONS_MANUAL.md`
 
 ## Completion Criteria
 - [ ] 시스템 아키텍처 문서화

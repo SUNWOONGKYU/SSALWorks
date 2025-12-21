@@ -309,7 +309,7 @@ AI-Only (버그 수정) / Human-Assisted (성능 모니터링)
 
 ### 제1 규칙: Stage + Area 폴더에 저장
 - Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S5BA1 → `S5_운영/Backend_APIs/`
+- 예: S5BA1 → `S5_개발_마무리/Backend_APIs/`
 
 ### 제2 규칙: Production 코드는 이중 저장
 - Backend_APIs 코드는 Stage 폴더 + Production 폴더 둘 다 저장

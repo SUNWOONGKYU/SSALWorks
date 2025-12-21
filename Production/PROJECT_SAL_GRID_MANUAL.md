@@ -1088,7 +1088,7 @@ project-root/
 ├── S2_개발-1차/                        # Auth & Registration (Stage 2)
 ├── S3_개발-2차/                        # AI Integration (Stage 3)
 ├── S4_개발-3차/                        # Payment & Admin (Stage 4)
-├── S5_운영/                            # Operations (Stage 5)
+├── S5_개발_마무리/                     # Development Stabilization (Stage 5)
 │
 ├── .claude/                           # Claude Code 설정
 │   └── CLAUDE.md
@@ -1169,7 +1169,7 @@ Task ID 구조: [Stage][Area][번호]
 | S2 | `S2_개발-1차/` |
 | S3 | `S3_개발-2차/` |
 | S4 | `S4_개발-3차/` |
-| S5 | `S5_운영/` |
+| S5 | `S5_개발_마무리/` |
 
 **Area 폴더 매핑:**
 | Area 코드 | 폴더명 |

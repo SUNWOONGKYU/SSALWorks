@@ -10,10 +10,6 @@
   <!-- 도면 번호 -->
   <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 4</text>
 
-  <!-- Graph Builder (60) -->
-  <rect x="50" y="100" width="1100" height="600" fill="none" stroke="black" stroke-width="2" stroke-dasharray="5,5" rx="10"/>
-  <text x="1100" y="140" text-anchor="end" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Graph Builder (60)</text>
-
   <!-- Step 1: Cell 그룹화 (61) -->
   <rect x="100" y="200" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
   <text x="250" y="265" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Cell 그룹화</text>
