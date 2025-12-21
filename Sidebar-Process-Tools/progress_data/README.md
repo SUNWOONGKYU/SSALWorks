@@ -1,8 +1,8 @@
 # Progress Tracking - 진행률 추적 시스템
 
-> **버전**: v2.0
+> **버전**: v3.0
 > **최종 업데이트**: 2025-12-22
-> **기준**: 사이드바 P0~S5 단계별 진행률 추적
+> **기준**: 폴더 기반 진행률 추적 (P0~S0) + Grid 기반 (S1~S5)
 
 ---
 
@@ -10,11 +10,11 @@
 
 | 단계 | 추적 방식 | 기준 |
 |------|----------|------|
-| **P0** 작업 디렉토리 구조 생성 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
-| **P1** 사업계획 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
-| **P2** 프로젝트 기획 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
-| **P3** 프로토타입 제작 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
-| **S0** 개발 준비 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
+| **P0** 작업 디렉토리 구조 생성 | **폴더 기반** | 하위 폴더에 파일 존재 여부 |
+| **P1** 사업계획 | **폴더 기반** | 하위 폴더에 파일 존재 여부 |
+| **P2** 프로젝트 기획 | **폴더 기반** | 하위 폴더에 파일 존재 여부 |
+| **P3** 프로토타입 제작 | **폴더 기반** | 하위 폴더에 파일 존재 여부 |
+| **S0** 개발 준비 | **폴더 기반** | 하위 폴더에 파일 존재 여부 |
 | **S1** 개발 1차 | **Grid 기반** | DB Task 진행률 조회 |
 | **S2** 개발 2차 | **Grid 기반** | DB Task 진행률 조회 |
 | **S3** 개발 3차 | **Grid 기반** | DB Task 진행률 조회 |
@@ -23,159 +23,143 @@
 
 ---
 
-## 📁 파일 구조
+## 📁 폴더 기반 진행률 계산 (P0 ~ S0)
+
+### 계산 방식
 
 ```
-progress_data/
-├── P0_directory_structure.json    # P0: 작업 디렉토리 구조 생성
-├── P1_business_planning.json      # P1: 사업계획
-├── P2_project_planning.json       # P2: 프로젝트 기획
-├── P3_prototype.json              # P3: 프로토타입 제작
-├── S0_dev_preparation.json        # S0: 개발 준비
-└── README.md                      # 이 파일
+진행률 = (파일이 있는 하위 폴더 수 / 전체 하위 폴더 수) × 100%
+```
+
+### 예시
+
+```
+P1_사업계획/
+├── 0-1_Vision_Mission/      ← 파일 있음 → ✅ 완료
+├── 0-2_Market_Analysis/     ← 파일 없음 → ❌ 미완료
+└── 0-3_Business_Model/      ← 파일 있음 → ✅ 완료
+
+진행률 = 2/3 = 67%
 ```
 
 ---
 
-## 📋 파일 기반 단계 (P0 ~ S0)
+## 📋 단계별 폴더 구조
 
 ### P0: 작업 디렉토리 구조 생성
-- **파일**: `P0_directory_structure.json`
 - **기준 폴더**: `P0_작업_디렉토리_구조_생성/`
-- **산출물**:
-  - Project_Directory_Structure.md
-  - Project_Status.md
 
 ### P1: 사업계획
-- **파일**: `P1_business_planning.json`
 - **기준 폴더**: `P1_사업계획/`
-- **산출물**:
-  - Vision_Mission.md
-  - Market_Analysis.md
-  - Business_Model.md
-  - Target_Users.md
+- **하위 폴더**:
+  - `0-1_Vision_Mission/`
+  - `0-2_Market_Analysis/`
+  - `0-3_Business_Model/`
 
 ### P2: 프로젝트 기획
-- **파일**: `P2_project_planning.json`
 - **기준 폴더**: `P2_프로젝트_기획/`
-- **산출물**:
-  - Project_Plan.md
-  - Requirements.md
-  - User_Flows.md
-  - Design_System.md
-  - UI_UX_Mockup/
-  - Database_Schema.md
+- **하위 폴더**:
+  - `1-1_Directory_Structure/`
+  - `1-2_Project_Plan/`
+  - `1-3_UI_UX_Design/`
+  - `1-4_Database_Design/`
 
 ### P3: 프로토타입 제작
-- **파일**: `P3_prototype.json`
 - **기준 폴더**: `P3_프로토타입_제작/`
-- **산출물**:
-  - Frontend/ (HTML/CSS/JS)
-  - Database/ (SQL 스키마)
-  - Scripts/
+- **하위 폴더**:
+  - `Frontend/`
+  - `Database/`
+  - `Scripts/`
 
 ### S0: 개발 준비
-- **파일**: `S0_dev_preparation.json`
 - **기준 폴더**: `S1_개발_준비/`
-- **산출물**:
-  - Tech_Stack.md
-  - Architecture.md
-  - Development_Setup/
-  - Project_Grid/
-  - Environment/
+- **하위 폴더**:
+  - `Tech_Stack/`
+  - `Architecture/`
+  - `Development_Setup/`
+  - `Backend_Infra/`
+  - `Project_Grid/`
 
 ---
 
 ## 📊 Grid 기반 단계 (S1 ~ S5)
 
-S1부터 S5까지는 **Project SAL Grid** 테이블에서 Task 진행률을 조회합니다.
+S1부터 S5까지는 **Stage Gate 승인 상태**로 진행률을 결정합니다.
+
+### 진행률 규칙
+
+| stage_gate_status | 진행률 |
+|-------------------|--------|
+| `Approved` | **100%** |
+| `AI Verified` | 90% (PO 승인 대기) |
+| `Not Started` / `Rejected` | Task 진행률 평균 |
 
 ### 진행률 계산 방식
 
 ```javascript
-// 각 Stage의 진행률 = Stage 내 Task들의 task_progress 평균
-SELECT stage, AVG(task_progress) as progress
-FROM ssalworks_tasks  -- 또는 user_project_tasks
-WHERE stage IN (1, 2, 3, 4, 5)
-GROUP BY stage;
+// 1. Stage Gate 상태 확인
+SELECT stage_name, stage_gate_status
+FROM stage_verification
+WHERE project_id = 'SSALWORKS';
+
+// 2. Approved면 100%, 아니면 Task 진행률 평균
+if (stage_gate_status === 'Approved') {
+    return 100;
+} else if (stage_gate_status === 'AI Verified') {
+    return 90;
+} else {
+    // Task 진행률 평균 계산
+    SELECT AVG(task_progress) as progress
+    FROM ssalworks_tasks
+    WHERE stage = ?;
+}
 ```
 
 ### DB 테이블
-- **SSAL Works 프로젝트**: `ssalworks_tasks`
+- **Stage Gate 상태**: `stage_verification.stage_gate_status`
+- **Task 진행률**: `ssalworks_tasks.task_progress`
 - **사용자 프로젝트**: `user_project_tasks` (향후 구현)
 
-## 📊 JSON 구조
+---
 
-```json
-{
-  "phase": "Phase 이름",
-  "phase_code": "P0",
-  "description": "설명",
-  "base_folder": "기준 폴더",
-  "items": [
-    {
-      "id": "고유ID",
-      "name": "작업명",
-      "description": "상세 설명",
-      "folder": "하위 폴더",
-      "weight": 가중치,
-      "completed": true/false
-    }
-  ],
-  "total_weight": 100,
-  "progress": 계산된_진행률,
-  "last_updated": "2025-11-17"
-}
-```
-
-## 🔄 진행률 계산 방법
+## 🔄 진행률 계산 코드
 
 ```javascript
-// 가중치 기반 진행률 계산
-function calculateProgress(checklist) {
-    let completedWeight = 0;
+// 폴더 기반 진행률 계산 (P0~S0)
+function calculateFolderProgress(baseFolder, subFolders) {
+    let completedCount = 0;
 
-    checklist.items.forEach(item => {
-        if (item.completed) {
-            completedWeight += item.weight;
+    subFolders.forEach(folder => {
+        const folderPath = baseFolder + folder;
+        // 폴더에 파일이 1개 이상 있으면 완료
+        if (hasFilesInFolder(folderPath)) {
+            completedCount++;
         }
     });
 
-    return Math.round((completedWeight / checklist.total_weight) * 100);
+    return Math.round((completedCount / subFolders.length) * 100);
+}
+
+// 폴더에 파일 존재 여부 확인
+function hasFilesInFolder(folderPath) {
+    const files = fs.readdirSync(folderPath);
+    return files.some(file => !fs.statSync(folderPath + '/' + file).isDirectory());
 }
 ```
 
-## 📝 사용 방법
+---
 
-### 1. 작업 완료 표시
+## 📝 Dashboard 사이드바 연동
 
-```json
-{
-  "id": "P1-02",
-  "name": "UI/UX 디자인 가이드라인",
-  "completed": false  // 작업 완료 시 true로 변경
-}
-```
+Dashboard는 폴더를 스캔하여 "진행 프로세스" 섹션에 진행률 표시:
 
-### 2. Dashboard 좌측 사이드바 연동
-
-Dashboard는 이 JSON 파일들을 읽어서 "진행 프로세스" 섹션에 진행률 표시:
-
-**파일 기반 (P0~S0):**
-- **P0 작업 디렉토리**: `P0_directory_structure.json` → progress 값
-- **P1 사업계획**: `P1_business_planning.json` → progress 값
-- **P2 프로젝트 기획**: `P2_project_planning.json` → progress 값
-- **P3 프로토타입**: `P3_prototype.json` → progress 값
-- **S0 개발 준비**: `S0_dev_preparation.json` → progress 값
+**폴더 기반 (P0~S0):**
+- 해당 폴더의 하위 폴더들을 스캔
+- 파일이 있는 폴더 수 / 전체 폴더 수 = 진행률
 
 **Grid 기반 (S1~S5):**
-- **S1~S5**: Project SAL Grid (`ssalworks_tasks` 또는 `user_project_tasks`) → Task 완료율 자동 계산
-
-### 3. 진행률 업데이트 주기
-
-- 문서/폴더 작업 완료 시 즉시
-- 주요 마일스톤 달성 시
-- Dashboard 로드 시 자동 계산
+- DB에서 Task 진행률 조회
+- Stage별 평균 계산
 
 ---
 
@@ -203,6 +187,7 @@ Dashboard는 이 JSON 파일들을 읽어서 "진행 프로세스" 섹션에 진
 |------|------|----------|
 | v1.0 | 2025-11-17 | 초기 문서 작성 |
 | v2.0 | 2025-12-22 | P0~S0 파일 기반, S1~S5 Grid 기반으로 규칙 정리 |
+| v3.0 | 2025-12-22 | P0~S0 폴더 기반으로 변경, S1~S5 Stage Gate 승인 기준 명시 |
 
 ---
 
