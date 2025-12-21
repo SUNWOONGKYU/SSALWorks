@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>구독 정보 - SSAL Works</title>
+    <title>서비스 이용 현황 - SSAL Works</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
@@ -246,17 +246,17 @@
             <span>›</span>
             <span>My Page</span>
             <span>›</span>
-            <span>구독 정보</span>
+            <span>서비스 이용 현황</span>
         </div>
 
-        <h1 class="page-title">📋 구독 정보</h1>
+        <h1 class="page-title">📋 서비스 이용 현황</h1>
 
         <!-- Stats -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">📋</div>
                 <div class="stat-value" id="subStatus">-</div>
-                <div class="stat-label">구독 상태</div>
+                <div class="stat-label">서비스 상태</div>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">💳</div>
@@ -277,7 +277,7 @@
             </div>
             <div class="info-grid">
                 <div class="info-item">
-                    <div class="info-label">현재 구독 상태</div>
+                    <div class="info-label">현재 서비스 상태</div>
                     <div class="info-value" id="subStatusDetail">-</div>
                 </div>
                 <div class="info-item">
@@ -294,7 +294,7 @@
                 </div>
             </div>
             <div class="notice-box">
-                구독 상태 변경이나 결제 관련 문의는 고객센터로 연락해주세요.
+                서비스 상태 변경이나 결제 관련 문의는 고객센터로 연락해주세요.
             </div>
         </div>
     </div>
@@ -353,7 +353,7 @@
                 userData = data;
                 renderSubscription();
             } catch (error) {
-                showToast('구독 정보를 불러오는데 실패했습니다.', 'error');
+                showToast('서비스 이용 현황을 불러오는데 실패했습니다.', 'error');
             }
         }
 

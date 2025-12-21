@@ -1,42 +1,33 @@
-﻿<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-  <!-- ??5: Scheduler/Leveler ?꾨줈?몄뒪 -->
-  <rect width="100%" height="100%" fill="white"/>
-  <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
-    </marker>
-  </defs>
-
-  <!-- ?꾨㈃ 踰덊샇 -->
-  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 5: Scheduler/Leveler 처리 과정</text>
-
-  <!-- Step 1: ?꾩긽?뺣젹 71 -->
-  <rect x="100" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="200" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">도 5: Scheduler/Leveler 처리 과정</text>
-  <text x="200" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">71</text>
-
-  <!-- ?붿궡??1 -->
-  <line x1="300" y1="400" x2="350" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-  <!-- Step 2: ?щ’ ?좊떦 72 -->
-  <rect x="350" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="450" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?щ’ ?좊떦</text>
-  <text x="450" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">72</text>
-
-  <!-- ?붿궡??2 -->
-  <line x1="550" y1="400" x2="600" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-  <!-- Step 3: 鍮꾩슜?⑥닔 理쒖쟻??73 -->
-  <rect x="600" y="300" width="250" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="725" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">鍮꾩슜?⑥닔 理쒖쟻??/text>
-  <text x="725" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">73</text>
-
-  <!-- ?붿궡??3 -->
-  <line x1="850" y1="400" x2="900" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-  <!-- Step 4: ?덈꺼 ?щ같移?74 -->
-  <rect x="900" y="300" width="200" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="1000" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">?덈꺼 ?щ같移?/text>
-  <text x="1000" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">74</text>
-
-</svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="white"/>
+
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+        </marker>
+    </defs>
+    <text x="600" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 5: Scheduler/Leveler 처리 과정</text>
+    <rect x="50" y="80" width="1100" height="600" fill="white" stroke="black" stroke-width="1" rx="5"/>
+    <text x="600" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Scheduler/Leveler 모듈 (70)</text>
+    <rect x="400" y="150" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="600.0" y="200" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">위상정렬부</text>
+    <text x="600.0" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(71)</text>
+    <text x="600.0" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">DAG Topological Sort</text>
+    <line x1="600" y1="250" x2="600" y2="300" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="400" y="300" width="400" height="100" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="600.0" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">슬롯 할당부</text>
+    <text x="600.0" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(72)</text>
+    <text x="600.0" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">자원 제약 고려</text>
+    <line x1="600" y1="400" x2="600" y2="450" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="150" y="450" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="350.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">비용함수 최적화부</text>
+    <text x="350.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(73)</text>
+    <text x="350.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Min(J)</text>
+    <text x="350.0" y="600" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">J=αM+βW+γO+δR</text>
+    <line x1="550" y1="510" x2="650" y2="510" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <rect x="650" y="450" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="850.0" y="500" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">레벨 재배치부</text>
+    <text x="850.0" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(74)</text>
+    <text x="850.0" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Level Balancing</text>
+</svg>

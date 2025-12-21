@@ -197,8 +197,10 @@ Agent SDK:          코드에서 프로그래밍 방식 사용
 
 **설치:**
 ```bash
-npm install @anthropic-ai/claude-agent-sdk
+npm install @anthropic-ai/sdk
 ```
+
+> **참고**: Agent SDK는 Anthropic SDK(`@anthropic-ai/sdk`)를 기반으로 구축된다. 정확한 패키지명과 API는 공식 문서(docs.anthropic.com)에서 최신 정보를 확인하는 것을 권장한다.
 
 **API 키 설정:**
 ```bash
@@ -209,24 +211,35 @@ export ANTHROPIC_API_KEY=your-api-key
 
 **간단한 요청:**
 ```javascript
-import { ClaudeAgent } from '@anthropic-ai/claude-agent-sdk';
+import Anthropic from '@anthropic-ai/sdk';
 
-const agent = new ClaudeAgent();
+const client = new Anthropic();
 
-const result = await agent.run({
-  prompt: "이 코드를 리뷰해줘",
-  files: ["src/index.js"]
+const message = await client.messages.create({
+  model: "claude-sonnet-4-20250514",
+  max_tokens: 1024,
+  messages: [
+    { role: "user", content: "이 코드를 리뷰해줘" }
+  ]
 });
 
-console.log(result.response);
+console.log(message.content);
 ```
 
-**도구 사용:**
+**도구 사용 (Tool Use):**
 ```javascript
-const result = await agent.run({
-  prompt: "테스트 실행해줘",
-  tools: ["Bash"],
-  allowedCommands: ["npm test"]
+const message = await client.messages.create({
+  model: "claude-sonnet-4-20250514",
+  max_tokens: 1024,
+  tools: [{
+    name: "run_command",
+    description: "터미널 명령 실행",
+    input_schema: {
+      type: "object",
+      properties: { command: { type: "string" } }
+    }
+  }],
+  messages: [{ role: "user", content: "테스트 실행해줘" }]
 });
 ```
 
@@ -234,55 +247,52 @@ const result = await agent.run({
 
 **코드 리뷰 에이전트:**
 ```javascript
-import { ClaudeAgent } from '@anthropic-ai/claude-agent-sdk';
+import Anthropic from '@anthropic-ai/sdk';
+import fs from 'fs';
 
-async function reviewCode(files) {
-  const agent = new ClaudeAgent({
-    systemPrompt: `
-      당신은 코드 리뷰 전문가입니다.
-      다음 항목을 검토하세요:
-      - 보안 취약점
-      - 성능 문제
-      - 코드 품질
-    `
+const client = new Anthropic();
+
+async function reviewCode(filePath) {
+  const code = fs.readFileSync(filePath, 'utf-8');
+
+  const message = await client.messages.create({
+    model: "claude-sonnet-4-20250514",
+    max_tokens: 2048,
+    system: `당신은 코드 리뷰 전문가입니다.
+다음 항목을 검토하세요:
+- 보안 취약점
+- 성능 문제
+- 코드 품질`,
+    messages: [
+      { role: "user", content: `이 코드를 리뷰해주세요:\n\n${code}` }
+    ]
   });
 
-  const result = await agent.run({
-    prompt: "이 파일들을 리뷰해주세요",
-    files: files
-  });
-
-  return result.response;
+  return message.content[0].text;
 }
 
 // 사용
-const review = await reviewCode(["src/api/*.js"]);
+const review = await reviewCode("src/api/auth.js");
 ```
 
-**자동화 에이전트:**
+**자동화 에이전트 (개념):**
 ```javascript
+// 실제 Agent SDK가 출시되면 다음과 같은 패턴으로 사용 가능
 async function autoFix(issue) {
-  const agent = new ClaudeAgent();
-
   // 1. 이슈 분석
-  const analysis = await agent.run({
-    prompt: `이 이슈를 분석해줘: ${issue}`
-  });
+  const analysis = await analyzeIssue(issue);
 
-  // 2. 수정 사항 적용
-  const fix = await agent.run({
-    prompt: "분석 결과를 바탕으로 코드를 수정해줘",
-    tools: ["Read", "Edit"]
-  });
+  // 2. 수정 사항 적용 (Tool Use 활용)
+  const fix = await applyFix(analysis);
 
   // 3. 테스트 실행
-  const test = await agent.run({
-    prompt: "테스트를 실행해서 수정이 정상인지 확인해줘",
-    tools: ["Bash"]
-  });
+  const test = await runTests();
 
   return { analysis, fix, test };
 }
+
+// 현재는 Anthropic SDK의 Tool Use 기능으로 구현 가능
+// 공식 Agent SDK 출시 시 더 간편한 API 제공 예정
 ```
 
 ## 5. 정리
@@ -300,10 +310,11 @@ async function autoFix(issue) {
 
 | 항목 | 내용 |
 |------|------|
-| 설치 | npm install @anthropic-ai/claude-agent-sdk |
+| 설치 | npm install @anthropic-ai/sdk |
 | 용도 | 커스텀 에이전트, 자동화 |
 | 장점 | 프로그래밍 방식 제어 |
 | 대상 | 개발자, 시스템 통합 |
+| 참고 | docs.anthropic.com에서 최신 정보 확인 |
 
 ### 활용 팁
 
@@ -323,5 +334,5 @@ async function autoFix(issue) {
 
 ---
 
-**작성일: 2025-12-20 / 수정일: 2025-12-20 / 글자수: 약 3,400자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 수정일: 2025-12-22 / 글자수: 약 3,600자 / 작성자: Claude / 프롬프터: 써니**
 

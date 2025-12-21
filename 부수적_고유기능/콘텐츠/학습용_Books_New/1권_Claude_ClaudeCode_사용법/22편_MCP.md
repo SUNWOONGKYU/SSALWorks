@@ -372,7 +372,52 @@ Claude:
 - prices 테이블에 저장
 ```
 
-## 6. 정리
+## 6. MCP의 위상과 다른 AI 시스템 비교
+
+### 6-1 MCP의 업계 표준화
+
+MCP는 1년 만에 AI 업계의 사실상 표준이 되었다.
+
+**주요 이정표:**
+- **2024년 11월**: Anthropic이 오픈소스로 공개
+- **2025년 3월**: OpenAI가 MCP 채택 (ChatGPT, Agents SDK)
+- **2025년 4월**: Google이 Gemini에서 MCP 지원 발표
+- **2025년 12월**: Linux Foundation의 Agentic AI Foundation(AAIF)에 기부
+
+**현재 규모 (2025년 12월):**
+- 월간 SDK 다운로드: 9,700만 건
+- 활성 MCP 서버: 10,000개 이상
+- 지원 플랫폼: ChatGPT, Claude, Cursor, Gemini, Microsoft Copilot, VS Code
+
+### 6-2 Agentic AI Foundation (AAIF)
+
+MCP는 이제 Linux Foundation 산하 AAIF에서 관리된다.
+
+**공동 창립사:**
+- Anthropic, Block, OpenAI
+
+**후원사:**
+- Google, Microsoft, AWS, Cloudflare, Bloomberg
+
+**의미:**
+- 특정 회사 종속 없는 중립적 표준
+- Kubernetes, PyTorch, Node.js와 같은 수준의 거버넌스
+
+### 6-3 다른 AI 확장 시스템과 비교
+
+| 항목 | MCP | GPT Actions | Gemini Extensions |
+|------|-----|-------------|-------------------|
+| 표준화 | Open Standard (AAIF) | OpenAI 전용 | Google 전용 |
+| 실행 위치 | 로컬 | 클라우드 | 클라우드 |
+| 지원 범위 | 멀티플랫폼 | ChatGPT만 | Gemini만 |
+| 데이터 보안 | 높음 (로컬) | 중간 | 중간 |
+
+**MCP의 차별점:**
+- 로컬 실행으로 민감한 데이터 보호
+- 모든 주요 AI 플랫폼에서 지원
+- 오픈소스로 누구나 서버 개발 가능
+
+## 7. 정리
 
 ### MCP 서버 요약
 
@@ -420,5 +465,5 @@ Claude:
 
 ---
 
-**작성일: 2025-12-20 / 수정일: 2025-12-20 / 글자수: 약 4,300자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 수정일: 2025-12-22 / 글자수: 약 5,500자 / 작성자: Claude / 프롬프터: 써니**
 

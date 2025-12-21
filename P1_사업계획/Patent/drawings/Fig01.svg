@@ -1,50 +1,45 @@
-﻿<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
-  <!-- ??1: ?꾩껜 ?쒖뒪??援ъ꽦??-->
-  <rect width="100%" height="100%" fill="white"/>
-  <defs>
-    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-      <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
-    </marker>
-  </defs>
-
-  <!-- ?꾨㈃ 踰덊샇 -->
-  <text x="50" y="60" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 1: 전체 시스템 구성도</text>
-
-  <!-- Parser/Normalizer 50 -->
-  <rect x="100" y="150" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="250" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">도 1: 전체 시스템 구성도</text>
-  <text x="250" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">50</text>
-
-  <!-- Graph Builder 60 -->
-  <rect x="450" y="150" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Graph Builder</text>
-  <text x="600" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">60</text>
-
-  <!-- Scheduler/Leveler 70 -->
-  <rect x="800" y="150" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="950" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Scheduler/Leveler</text>
-  <text x="950" y="255" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">70</text>
-
-  <!-- 3D Renderer/UI 80 -->
-  <rect x="800" y="400" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="950" y="465" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">3D Renderer/UI</text>
-  <text x="950" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">80</text>
-
-  <!-- ID Chain Manager 90 -->
-  <rect x="100" y="400" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="250" y="465" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">ID Chain Manager</text>
-  <text x="250" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">90</text>
-
-  <!-- Reporting/Analytics 100 -->
-  <rect x="450" y="400" width="300" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-  <text x="600" y="465" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Reporting</text>
-  <text x="600" y="505" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">100</text>
-
-  <!-- ?곌껐??-->
-  <line x1="400" y1="225" x2="450" y2="225" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="750" y1="225" x2="800" y2="225" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="950" y1="300" x2="950" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="250" y1="300" x2="250" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-  <line x1="600" y1="300" x2="600" y2="400" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
-
-</svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="white"/>
+
+    <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="black"/>
+        </marker>
+    </defs>
+    <text x="600" y="40" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold">도 1: 전체 시스템 구성도</text>
+    <rect x="400" y="100" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="600.0" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">SAL 3D Grid</text>
+    <text x="600.0" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(10)</text>
+    <text x="600.0" y="220" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">Stage, Area, Level</text>
+    <text x="600.0" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">3차원 좌표계</text>
+    <rect x="100" y="300" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="250.0" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Parser/Normalizer</text>
+    <text x="250.0" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(50)</text>
+    <text x="250.0" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">SAL ID 파싱</text>
+    <rect x="450" y="300" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="600.0" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Graph Builder</text>
+    <text x="600.0" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(60)</text>
+    <text x="600.0" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">DAG 자동 구성</text>
+    <rect x="800" y="300" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="950.0" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Scheduler/Leveler</text>
+    <text x="950.0" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(70)</text>
+    <text x="950.0" y="420" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">자원/일정 최적화</text>
+    <rect x="100" y="500" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="250.0" y="550" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">3D Renderer/UI</text>
+    <text x="250.0" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(80)</text>
+    <text x="250.0" y="620" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">시각화/상호작용</text>
+    <rect x="450" y="500" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="600.0" y="550" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">ID Chain 관리</text>
+    <text x="600.0" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(90)</text>
+    <text x="600.0" y="620" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">블록체인 스타일</text>
+    <text x="600.0" y="650" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">이력 추적</text>
+    <rect x="800" y="500" width="300" height="120" fill="white" stroke="black" stroke-width="3" rx="5"/>
+    <text x="950.0" y="550" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">Reporting/Analytics</text>
+    <text x="950.0" y="585" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="bold">(100)</text>
+    <text x="950.0" y="620" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="normal">분석/리포팅</text>
+    <line x1="600" y1="250" x2="600" y2="300" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="250" y1="420" x2="250" y2="500" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="600" y1="420" x2="600" y2="500" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+    <line x1="950" y1="420" x2="950" y2="500" stroke="black" stroke-width="2" marker-end="url(#arrowhead)"/>
+</svg>

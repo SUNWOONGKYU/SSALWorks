@@ -218,7 +218,7 @@ Claude: CLAUDE.md에 추가했습니다:
 
 ### 4-3 Memory MCP 서버
 
-세션 간에 정보를 저장하고 공유하는 MCP 서버이다.
+세션 간에 정보를 저장하고 공유하는 MCP 서버이다. AI가 중요한 정보를 자동으로 감지하여 저장한다.
 
 **설정:**
 ```json
@@ -232,33 +232,254 @@ Claude: CLAUDE.md에 추가했습니다:
 }
 ```
 
-**사용:**
+**저장 위치:**
 ```
-사용자: 이 API 키를 기억해둬: sk-abc123
+Windows:
+C:\Users\[사용자명]\.local\share\@modelcontextprotocol\server-memory\memories.json
 
-Claude: [Memory 서버에 저장]
-        API 키를 기억했습니다.
+macOS:
+~/Library/Application Support/@modelcontextprotocol/server-memory/memories.json
 
---- 다른 세션 ---
+Linux:
+~/.local/share/@modelcontextprotocol/server-memory/memories.json
+```
 
-사용자: 아까 저장한 API 키 뭐였지?
+**저장되는 내용:**
 
-Claude: [Memory 서버에서 조회]
-        저장된 API 키: sk-abc123
+| 카테고리 | 예시 |
+|----------|------|
+| 사용자 선호도 | "검증을 매우 중요하게 생각함" |
+| 프로젝트 패턴 | "Supabase + Next.js 조합 사용" |
+| 반복되는 이슈 | "CORS 문제 자주 발생" |
+| 중요한 결정사항 | "테스트 커버리지 80% 이상 유지" |
+
+**사용 예시:**
+```
+[이전 세션]
+사용자: API 작성할 때 항상 입력 검증을 철저히 해줘
+
+Claude: [Memory에 자동 저장]
+        "사용자는 API 입력 검증을 중요하게 생각함"
+
+[새 세션]
+사용자: 회원가입 API 만들어줘
+
+Claude: [Memory 자동 검색 → 입력 검증 중요]
+        회원가입 API를 작성하겠습니다.
+        입력 검증을 철저히 포함합니다:
+        - 이메일 형식 검증
+        - 비밀번호 강도 검증
+        - SQL Injection 방지
 ```
 
 **CLAUDE.md vs Memory MCP:**
 
 | 구분 | CLAUDE.md | Memory MCP |
 |------|-----------|------------|
-| 저장 위치 | 프로젝트 폴더 | MCP 서버 |
+| 저장 위치 | 프로젝트 폴더 | 로컬 머신 |
 | 공유 범위 | 해당 프로젝트 | 모든 프로젝트 |
-| 형식 | 마크다운 | 구조화된 데이터 |
-| 용도 | 프로젝트 규칙 | 임시 정보 저장 |
+| 저장 방식 | 수동 | 자동 |
+| 형식 | 마크다운 | JSON |
+| 용도 | 프로젝트 규칙 | 암묵적 지식 |
+| 투명성 | 높음 (직접 확인) | 낮음 (AI 판단) |
 
-## 5. 효율적 사용 팁
+## 5. Work Log System
 
-### 5-1 컨텍스트 절약 방법
+Memory MCP가 암묵적 지식을 저장한다면, Work Log는 명시적 작업 기록을 저장한다. 세션이 끊어져도 작업 연속성을 유지하는 핵심 시스템이다.
+
+### 5-1 Work Log란
+
+Work Log는 모든 작업을 명시적으로 기록하는 마크다운 파일이다.
+
+**폴더 구조:**
+```
+.claude/work_logs/
+├── current.md          ← 현재 활성 로그 (최신 작업)
+├── 2025-12-20.md      ← 순환된 과거 로그
+├── 2025-12-19.md
+└── archive/           ← 30일 이상 된 로그
+    └── 2025-11-15.md
+```
+
+**자동 순환 시스템:**
+- current.md가 50KB를 초과하면 자동으로 날짜별 파일로 저장
+- 새로운 current.md 생성
+- 30일 이상 된 로그는 archive/로 이동
+
+### 5-2 기록 형식
+
+```markdown
+## 2025-12-20 14:30
+
+### 작업: 회원가입 API 구현
+
+**작업 내용:**
+- 회원가입 API 엔드포인트 작성 (/api/auth/signup)
+- 입력 검증 로직 추가
+- Supabase Auth 연동
+- 단위 테스트 20개 작성
+
+**생성/수정된 파일:**
+- ✅ api/auth/signup.js (생성)
+- ✅ api/auth/signup.test.js (생성)
+
+**검증 결과:**
+- ✅ Unit tests: 20/20 통과
+- ✅ Build: 성공
+
+**다음 작업:**
+- 로그인 API 구현
+- 비밀번호 재설정 API
+
+---
+```
+
+### 5-3 새 세션에서 활용
+
+```
+[새 세션 시작]
+    ↓
+Claude가 .claude/work_logs/current.md 읽기
+    ↓
+"이전 세션에서 회원가입 API 완료했고,
+ 다음은 로그인 API 구현이네"
+    ↓
+즉시 이어서 작업 시작
+```
+
+## 6. 두 시스템의 상호 보완
+
+### 6-1 역할 분담
+
+Memory MCP와 Work Log는 서로 다른 역할을 담당한다.
+
+```
+Memory MCP (암묵적)          Work Log (명시적)
+     ↓                           ↓
+"왜 그렇게 했는가"          "무엇을 했는가"
+"사용자 선호도"             "파일 목록"
+"반복 패턴"                 "검증 결과"
+"주의할 점"                 "다음 작업"
+     ↓                           ↓
+        둘 다 새 세션에서 활용
+              ↓
+        완벽한 세션 연속성
+```
+
+### 6-2 비교
+
+| 기준 | Memory MCP | Work Log |
+|------|------------|----------|
+| 자동화 | ✅ 자동 저장 | ❌ 수동 기록 |
+| 투명성 | ❌ 불투명 | ✅ 투명 |
+| 구체성 | 추상적 | 구체적 |
+| 검색 | AI 자동 | 수동 |
+| 용도 | 암묵적 지식 | 명시적 작업 |
+
+### 6-3 함께 사용하는 효과
+
+**Before (기억 시스템 없음):**
+```
+세션 1: API 15개 작성 (2시간)
+세션 종료
+    ↓
+세션 2: 어디까지 했는지 파악 (30분) ← 시간 낭비
+        이어서 작업 (2시간)
+```
+
+**After (두 시스템 함께 사용):**
+```
+세션 1: API 15개 작성 (2시간)
+        Work Log 기록 (2분)
+        Memory 자동 저장
+세션 종료
+    ↓
+세션 2: Work Log 읽기 (1분)
+        Memory 자동 로드
+        즉시 이어서 작업 (2시간)
+
+절약 시간: 약 30분 (세션당)
+```
+
+## 7. 설정 가이드
+
+Memory MCP와 Work Log System을 처음 설정하는 전체 프로세스이다.
+
+### 7-1 Step 1: Memory MCP 설치
+
+`.claude/mcp_servers.json` 파일을 생성하거나 수정한다.
+
+```json
+{
+  "mcpServers": {
+    "memory": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-memory"]
+    }
+  }
+}
+```
+
+### 7-2 Step 2: Work Logs 폴더 생성
+
+```bash
+# 폴더 생성
+mkdir -p .claude/work_logs/archive
+```
+
+### 7-3 Step 3: current.md 템플릿 생성
+
+```bash
+# 파일 생성
+touch .claude/work_logs/current.md
+```
+
+**템플릿 내용:**
+```markdown
+# 작업 로그 - Current
+
+**이 파일은 활성 로그입니다 (50KB 제한)**
+
+---
+
+## 작업 기록 시작
+
+[여기에 작업 기록 추가]
+```
+
+### 7-4 Step 4: CLAUDE.md에 규칙 추가
+
+프로젝트 루트의 CLAUDE.md에 다음 규칙을 추가한다.
+
+```markdown
+## 새 세션 시작 시 필수 확인
+
+1. `.claude/work_logs/current.md` 읽기
+2. Memory MCP 활용 (자동)
+3. 작업 이어서 진행
+
+## 작업 완료 시 필수 작업
+
+1. `current.md` 업데이트
+2. 파일 크기 확인 (50KB 초과 시 순환)
+```
+
+### 7-5 Step 5: Claude Code 재시작
+
+설정 파일 수정 후 Claude Code를 재시작하면 완료된다.
+
+```
+설정 완료 체크리스트:
+✅ Memory MCP 서버 설정
+✅ Work Logs 폴더 생성
+✅ current.md 템플릿 생성
+✅ CLAUDE.md 규칙 추가
+✅ Claude Code 재시작
+```
+
+## 8. 효율적 사용 팁
+
+### 8-1 컨텍스트 절약 방법
 
 **필요한 것만 읽기:**
 ```
@@ -278,7 +499,7 @@ Claude: [Memory 서버에서 조회]
 60% 넘으면 /compact 실행
 ```
 
-### 5-2 세션 관리 전략
+### 8-2 세션 관리 전략
 
 **작업별 세션 분리:**
 ```
@@ -304,7 +525,7 @@ Claude: [Memory 서버에서 조회]
 → 이어서 작업
 ```
 
-## 6. 정리
+## 9. 정리
 
 ### 명령어 요약
 
@@ -329,5 +550,5 @@ Claude: [Memory 서버에서 조회]
 
 ---
 
-**작성일: 2025-12-20 / 글자수: 약 3,700자 / 작성자: Claude / 프롬프터: 써니**
+**작성일: 2025-12-20 / 수정일: 2025-12-22 / 글자수: 약 7,000자 / 작성자: Claude / 프롬프터: 써니**
 
