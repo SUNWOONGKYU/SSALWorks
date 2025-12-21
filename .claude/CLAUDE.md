@@ -375,3 +375,25 @@ Order Sheet, 안내문, Manual 수정 시:
 node Production/build-web-assets.js
 ```
 
+---
+
+## ⚠️ 빌드 vs 서버 구분 (혼동 금지!)
+
+| 작업 | 사용 파일 | 용도 |
+|------|----------|------|
+| **빌드** (MD→JS 번들) | `build-web-assets.js` | 배포용 파일 생성 |
+| **서버** (실시간 API) | `inbox_server.js` | 개발용 로컬 서버 |
+
+**⛔ 혼동 금지:**
+- "Order Sheet 빌드해" → `build-web-assets.js` 실행
+- "안내문 빌드해" → `build-web-assets.js` 실행
+- **`inbox_server.js`는 빌드 도구가 아님!** (런타임 API 서버)
+
+**빌드 스크립트 위치:**
+```
+Production/build-web-assets.js          ← 통합 빌드
+P2_.../Order_Sheet_템플릿/generate-ordersheets-js.js  ← Order Sheet
+P2_.../상황별_안내문/generate-guides-js.js            ← 안내문
+P2_.../상황별_안내문/convert-guides-to-html.js        ← MD→HTML
+```
+
