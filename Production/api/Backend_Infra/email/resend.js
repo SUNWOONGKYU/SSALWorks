@@ -24,17 +24,26 @@ async function sendEmail({ to, subject, html, from = 'noreply@ssalworks.ai.kr' }
     }
 
     // 이메일 발송
-    const response = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from,
       to,
       subject,
       html,
     });
 
-    console.log('Email sent successfully:', response);
+    // Resend v2 에러 체크
+    if (error) {
+      console.error('Resend API error:', error);
+      return {
+        success: false,
+        error: error.message || 'Resend API error',
+      };
+    }
+
+    console.log('Email sent successfully:', data);
     return {
       success: true,
-      data: response,
+      data: data,  // { id: "..." }
     };
   } catch (error) {
     console.error('Failed to send email:', error);
