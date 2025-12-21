@@ -1635,6 +1635,117 @@
             transition: transform 0.2s;
         }
 
+        /* 서비스 가이드 마크다운 콘텐츠 스타일 */
+        .service-guide-content {
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #374151;
+        }
+        .service-guide-content h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1F2937;
+            margin: 0 0 16px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #F59E0B;
+        }
+        .service-guide-content h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #374151;
+            margin: 28px 0 12px 0;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .service-guide-content h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #4B5563;
+            margin: 20px 0 10px 0;
+        }
+        .service-guide-content h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #6B7280;
+            margin: 16px 0 8px 0;
+        }
+        .service-guide-content p {
+            margin: 0 0 12px 0;
+        }
+        .service-guide-content ul, .service-guide-content ol {
+            margin: 0 0 12px 0;
+            padding-left: 24px;
+        }
+        .service-guide-content li {
+            margin-bottom: 6px;
+        }
+        .service-guide-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+            font-size: 13px;
+        }
+        .service-guide-content th {
+            background: #F3F4F6;
+            font-weight: 600;
+            text-align: left;
+            padding: 10px 12px;
+            border: 1px solid #E5E7EB;
+        }
+        .service-guide-content td {
+            padding: 10px 12px;
+            border: 1px solid #E5E7EB;
+            vertical-align: top;
+        }
+        .service-guide-content code {
+            background: #F3F4F6;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 13px;
+            color: #D97706;
+        }
+        .service-guide-content pre {
+            background: #1F2937;
+            color: #E5E7EB;
+            padding: 16px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 12px 0;
+        }
+        .service-guide-content pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .service-guide-content blockquote {
+            border-left: 4px solid #F59E0B;
+            background: #FFFBEB;
+            margin: 12px 0;
+            padding: 12px 16px;
+            color: #92400E;
+            font-style: normal;
+        }
+        .service-guide-content hr {
+            border: none;
+            border-top: 1px solid #E5E7EB;
+            margin: 24px 0;
+        }
+        .service-guide-content a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+        .service-guide-content a:hover {
+            text-decoration: underline;
+        }
+        .service-guide-content strong {
+            font-weight: 600;
+            color: #1F2937;
+        }
+
         .quick-link-icon img {
             width: 100%;
             height: 100%;
@@ -10370,6 +10481,23 @@ ${result.answer}`;
         }
 
         /**
+         * 서비스 가이드 마크다운 렌더링
+         */
+        function renderServiceGuideMarkdown(mdContent) {
+            // marked.js로 마크다운을 HTML로 변환
+            if (typeof marked !== 'undefined') {
+                const html = marked.parse(mdContent);
+                // DOMPurify로 XSS 방지
+                if (typeof DOMPurify !== 'undefined') {
+                    return DOMPurify.sanitize(html);
+                }
+                return html;
+            }
+            // fallback: 원본 텍스트
+            return `<pre style="white-space: pre-wrap;">${escapeHtml(mdContent)}</pre>`;
+        }
+
+        /**
          * 외부 연동 설정 Guide 열기
          */
         async function openServiceGuide(serviceId) {
@@ -10432,8 +10560,8 @@ ${result.answer}`;
                     <div style="padding: 8px 16px; background: #FEF3C7; border-bottom: 1px solid #F59E0B; font-size: 11px; color: #92400E;">
                         💡 <strong>복사해서 사용하세요:</strong> 📋 버튼을 클릭하면 마크다운 원본이 클립보드에 복사됩니다.
                     </div>
-                    <div id="serviceGuideContent" style="flex: 1; overflow-y: auto; padding: 20px;">
-                        <pre style="white-space: pre-wrap; word-wrap: break-word; font-family: 'Noto Sans KR', monospace; font-size: 13px; line-height: 1.7; color: #374151; background: #F9FAFB; padding: 16px; border-radius: 8px; border: 1px solid #E5E7EB;">${escapeHtml(mdContent)}</pre>
+                    <div id="serviceGuideContent" class="service-guide-content" style="flex: 1; overflow-y: auto; padding: 20px;">
+                        ${renderServiceGuideMarkdown(mdContent)}
                     </div>
                 `;
 
