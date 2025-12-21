@@ -1,66 +1,108 @@
 # Progress Tracking - 진행률 추적 시스템
 
-SSALWorks 프로젝트의 Grid 이전 단계 (Phase 0~2) 진행률을 추적합니다.
+> **버전**: v2.0
+> **최종 업데이트**: 2025-12-22
+> **기준**: 사이드바 P0~S5 단계별 진행률 추적
+
+---
+
+## 🎯 진행률 추적 규칙 (핵심)
+
+| 단계 | 추적 방식 | 기준 |
+|------|----------|------|
+| **P0** 작업 디렉토리 구조 생성 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
+| **P1** 사업계획 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
+| **P2** 프로젝트 기획 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
+| **P3** 프로토타입 제작 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
+| **S0** 개발 준비 | 파일 기반 | 폴더에 산출물 파일 존재 여부 |
+| **S1** 개발 1차 | **Grid 기반** | DB Task 진행률 조회 |
+| **S2** 개발 2차 | **Grid 기반** | DB Task 진행률 조회 |
+| **S3** 개발 3차 | **Grid 기반** | DB Task 진행률 조회 |
+| **S4** 테스트/최적화 | **Grid 기반** | DB Task 진행률 조회 |
+| **S5** 운영 | **Grid 기반** | DB Task 진행률 조회 |
+
+---
 
 ## 📁 파일 구조
 
 ```
-1-0_Progress_Tracking/
-├── phase0_business_planning.json  # Phase 0: 사업계획
-├── phase1_planning.json           # Phase 1: 기획
-├── phase2_dev_preparation.json    # Phase 2: 개발 준비
+progress_data/
+├── P0_directory_structure.json    # P0: 작업 디렉토리 구조 생성
+├── P1_business_planning.json      # P1: 사업계획
+├── P2_project_planning.json       # P2: 프로젝트 기획
+├── P3_prototype.json              # P3: 프로토타입 제작
+├── S0_dev_preparation.json        # S0: 개발 준비
 └── README.md                      # 이 파일
 ```
 
-## 🎯 진행률 추적 체계
+---
 
-### Grid 이전 단계 (이 폴더에서 관리)
+## 📋 파일 기반 단계 (P0 ~ S0)
 
-#### Phase 0: 사업계획 (0% 완료)
-- **파일**: `phase0_business_planning.json`
+### P0: 작업 디렉토리 구조 생성
+- **파일**: `P0_directory_structure.json`
+- **기준 폴더**: `P0_작업_디렉토리_구조_생성/`
+- **산출물**:
+  - Project_Directory_Structure.md
+  - Project_Status.md
+
+### P1: 사업계획
+- **파일**: `P1_business_planning.json`
 - **기준 폴더**: `P1_사업계획/`
-- **항목**:
-  - ⬜ Vision & Mission 정의 (20%)
-  - ⬜ 시장 분석 (30%)
-  - ⬜ 비즈니스 모델 수립 (30%)
-  - ⬜ 타겟 사용자 페르소나 (20%)
+- **산출물**:
+  - Vision_Mission.md
+  - Market_Analysis.md
+  - Business_Model.md
+  - Target_Users.md
 
-#### Phase 1: 기획 (55% 완료)
-- **파일**: `phase1_planning.json`
+### P2: 프로젝트 기획
+- **파일**: `P2_project_planning.json`
 - **기준 폴더**: `P2_프로젝트_기획/`
-- **항목**:
-  - ✅ 프로젝트 계획 수립 (30%)
-  - ⬜ UI/UX 디자인 가이드라인 (15%)
-  - ✅ Dashboard Mockup (25%)
-  - ⬜ Database 스키마 설계 (20%)
-  - ⬜ User Flows 작성 (10%)
+- **산출물**:
+  - Project_Plan.md
+  - Requirements.md
+  - User_Flows.md
+  - Design_System.md
+  - UI_UX_Mockup/
+  - Database_Schema.md
 
-#### Phase 2: 개발 준비 (0% 완료)
-- **파일**: `phase2_dev_preparation.json`
+### P3: 프로토타입 제작
+- **파일**: `P3_prototype.json`
+- **기준 폴더**: `P3_프로토타입_제작/`
+- **산출물**:
+  - Frontend/ (HTML/CSS/JS)
+  - Database/ (SQL 스키마)
+  - Scripts/
+
+### S0: 개발 준비
+- **파일**: `S0_dev_preparation.json`
 - **기준 폴더**: `S1_개발_준비/`
-- **항목**:
-  - ⬜ 기술 스택 선정 (15%)
-  - ⬜ 시스템 아키텍처 설계 (15%)
-  - ⬜ 개발 환경 설정 (20%)
-  - ⬜ **Project Grid 생성 (40%)** ← 가장 중요!
-  - ⬜ 환경 변수 설정 (10%)
+- **산출물**:
+  - Tech_Stack.md
+  - Architecture.md
+  - Development_Setup/
+  - Project_Grid/
+  - Environment/
 
-### Grid 단계 (Project SAL Grid에서 관리)
+---
 
-Project Grid가 생성되면 다음 단계들은 Grid에서 자동으로 진행률을 추적합니다:
+## 📊 Grid 기반 단계 (S1 ~ S5)
 
-- **Phase 3: 개발**
-  - Design (P1DS, P2DS...)
-  - Backend APIs (P1BA, P2BA...)
-  - Frontend (P1FE, P2FE...)
-  - Test (P1TS, P2TS...)
-  - Deployment (P1DP, P2DP...)
+S1부터 S5까지는 **Project SAL Grid** 테이블에서 Task 진행률을 조회합니다.
 
-- **Phase 4: 운영**
-  - Monitoring
-  - Maintenance
-  - Backup
-  - Security
+### 진행률 계산 방식
+
+```javascript
+// 각 Stage의 진행률 = Stage 내 Task들의 task_progress 평균
+SELECT stage, AVG(task_progress) as progress
+FROM ssalworks_tasks  -- 또는 user_project_tasks
+WHERE stage IN (1, 2, 3, 4, 5)
+GROUP BY stage;
+```
+
+### DB 테이블
+- **SSAL Works 프로젝트**: `ssalworks_tasks`
+- **사용자 프로젝트**: `user_project_tasks` (향후 구현)
 
 ## 📊 JSON 구조
 
@@ -119,10 +161,15 @@ function calculateProgress(checklist) {
 
 Dashboard는 이 JSON 파일들을 읽어서 "진행 프로세스" 섹션에 진행률 표시:
 
-- **사업계획**: `phase0_business_planning.json` → progress 값
-- **기획**: `phase1_planning.json` → progress 값
-- **개발 준비**: `phase2_dev_preparation.json` → progress 값
-- **디자인 ~ 배포**: Project SAL Grid → Task 완료율 자동 계산
+**파일 기반 (P0~S0):**
+- **P0 작업 디렉토리**: `P0_directory_structure.json` → progress 값
+- **P1 사업계획**: `P1_business_planning.json` → progress 값
+- **P2 프로젝트 기획**: `P2_project_planning.json` → progress 값
+- **P3 프로토타입**: `P3_prototype.json` → progress 값
+- **S0 개발 준비**: `S0_dev_preparation.json` → progress 값
+
+**Grid 기반 (S1~S5):**
+- **S1~S5**: Project SAL Grid (`ssalworks_tasks` 또는 `user_project_tasks`) → Task 완료율 자동 계산
 
 ### 3. 진행률 업데이트 주기
 
@@ -130,40 +177,32 @@ Dashboard는 이 JSON 파일들을 읽어서 "진행 프로세스" 섹션에 진
 - 주요 마일스톤 달성 시
 - Dashboard 로드 시 자동 계산
 
-## 📌 현재 상태 요약 (2025-11-17)
-
-| Phase | 진행률 | 상태 | 다음 할 일 |
-|-------|--------|------|------------|
-| Phase 0: 사업계획 | 0% | ⬜ 미시작 | Vision & Mission 정의 |
-| Phase 1: 기획 | 55% | 🔄 진행 중 | UI 가이드라인, DB 설계 |
-| Phase 2: 개발 준비 | 0% | ⬜ 미시작 | **Project Grid 생성** |
-
-### 🎯 최우선 작업
-
-1. **Phase 1 완료하기** (45% 남음)
-   - Design Guidelines 작성
-   - Database 스키마 설계
-   - User Flows 문서화
-
-2. **Phase 2 시작하기** (**가장 중요!**)
-   - Project Grid 생성 (40% 가중치!)
-   - 기술 스택 문서화
-   - 개발 환경 설정
+---
 
 ## 🔗 관련 문서
 
-- **디렉토리 구조**: `PROJECT_DIRECTORY_STRUCTURE.md`
-- **프로젝트 계획**: `P2_프로젝트_기획/1-1_Project_Plan/PROJECT_PLAN.md`
-- **기능 요구사항**: `P2_프로젝트_기획/1-3_Requirements/functional_requirements.md`
-- **Dashboard 목업**: `P2_프로젝트_기획/1-6_UI_UX_Mockup/dashboard-mockup.html`
+- **개발 프로세스 워크플로우**: `DEVELOPMENT_PROCESS_WORKFLOW.md`
+- **사이드바 동기화**: `sidebar_generation/README.md`
+- **프로젝트 디렉토리 구조**: `PROJECT_DIRECTORY_STRUCTURE.md`
+
+---
 
 ## ⚠️ 주의사항
 
-- ✅ 각 Phase의 `weight` 합계는 반드시 100
+- ✅ 각 단계의 `weight` 합계는 반드시 100
 - ✅ `completed` 값은 `true` 또는 `false`만 가능
 - ✅ `last_updated` 날짜는 변경 시마다 업데이트
 - ✅ JSON 형식 오류 없도록 주의
-- ✅ 폴더/파일 경로는 `PROJECT_DIRECTORY_STRUCTURE.md` 기준
+- ✅ P0~S0는 파일 기반, S1~S5는 Grid 기반
+
+---
+
+## 📝 변경 이력
+
+| 버전 | 날짜 | 변경 내용 |
+|------|------|----------|
+| v1.0 | 2025-11-17 | 초기 문서 작성 |
+| v2.0 | 2025-12-22 | P0~S0 파일 기반, S1~S5 Grid 기반으로 규칙 정리 |
 
 ---
 
