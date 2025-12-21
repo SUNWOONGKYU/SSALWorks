@@ -206,8 +206,20 @@ module.exports = async (req, res) => {
             .select('*', { count: 'exact', head: true })
             .eq('user_id', userId);
 
+        if (countError) {
+            console.error('Project count failed:', countError);
+            return res.status(500).json({
+                success: false,
+                error: '프로젝트 수 조회 실패',
+                details: countError.message,
+                userId: userId
+            });
+        }
+
         const nextProjectNum = (projectCount || 0) + 1;
         const projectId = `${userId}-P${String(nextProjectNum).padStart(3, '0')}`;
+
+        console.log('Creating project:', { userId, projectId, projectName: projectName.trim() });
 
         // 6. 프로젝트 생성
         const { data: newProject, error: insertError } = await supabase
@@ -230,7 +242,10 @@ module.exports = async (req, res) => {
             return res.status(500).json({
                 success: false,
                 error: '프로젝트 생성에 실패했습니다',
-                details: insertError.message
+                details: insertError.message,
+                code: insertError.code,
+                userId: userId,
+                projectId: projectId
             });
         }
 
