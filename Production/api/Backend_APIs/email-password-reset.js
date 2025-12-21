@@ -6,13 +6,12 @@
 // 목적: 비밀번호 재설정 이메일 발송
 // ================================================================
 
-const { verifyAuth } = require('../Security/lib/auth/middleware');
-const { sendPasswordResetEmail } = require('../Backend_Infrastructure/email');
+const { sendPasswordResetEmail } = require('../Backend_Infra/email');
 
 /**
  * 비밀번호 재설정 이메일 발송 API
  * @method POST
- * @auth Bearer Token (Required) 또는 내부 호출용
+ * @auth 인증 불필요 (비밀번호 분실 사용자용)
  * @body {string} to - 수신자 이메일
  * @body {string} name - 사용자 이름
  * @body {string} resetToken - 재설정 토큰
@@ -33,25 +32,10 @@ module.exports = async (req, res) => {
   }
 
   // ================================================================
-  // 2. 인증 토큰 검증 (선택적 - 내부 호출 지원)
+  // 2. 요청 데이터 검증
   // ================================================================
-  // 내부 호출인지 확인 (특정 헤더 또는 IP 기반 검증 가능)
-  const isInternalCall = req.headers['x-internal-call'] === process.env.INTERNAL_API_SECRET;
-
-  if (!isInternalCall) {
-    // 외부 호출인 경우 인증 필요
-    const { user, error: authError } = await verifyAuth(req);
-
-    if (authError) {
-      return res.status(401).json({
-        error: authError
-      });
-    }
-  }
-
-  // ================================================================
-  // 3. 요청 데이터 검증
-  // ================================================================
+  // 비밀번호 재설정 요청은 인증 없이 허용 (사용자가 로그인 못한 상태)
+  // Rate limiting은 Vercel Edge에서 처리
   const { to, name, resetToken, expiryMinutes = 30 } = req.body;
 
   // 필수 필드 검증
@@ -86,7 +70,7 @@ module.exports = async (req, res) => {
   }
 
   // ================================================================
-  // 4. 비밀번호 재설정 이메일 발송
+  // 3. 비밀번호 재설정 이메일 발송
   // ================================================================
   try {
     // 재설정 URL 생성
