@@ -7521,6 +7521,11 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 
         // 새 프로젝트 추가 처리 (DOM 로드 후 실행)
         document.addEventListener('DOMContentLoaded', function() {
+            // DOMContentLoaded 스코프에서 사용할 Supabase 클라이언트
+            const SUPABASE_URL_LOCAL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
+            const SUPABASE_KEY_LOCAL = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
+            const localSupabase = supabase.createClient(SUPABASE_URL_LOCAL, SUPABASE_KEY_LOCAL);
+
             document.getElementById('newProjectForm')?.addEventListener('submit', async function (e) {
             e.preventDefault();
 
@@ -7548,7 +7553,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 // TEST_DISABLE:                     alert('⚠️ 현재 Project의 개발이 완료되지 않았습니다!\n\n모든 진행 프로세스가 100%가 되어야 새로운 Project를 시작할 수 있습니다.\n현재 진행 중인 Project를 먼저 완료해주세요.');
 // TEST_DISABLE:                     return;
 // TEST_DISABLE:                 }
-// TEST_DISABLE: 
+// TEST_DISABLE:
 // TEST_DISABLE:                 alert('⚠️ 진행 중인 Project가 이미 있습니다!\n\n한 번에 하나의 Project만 진행할 수 있습니다.\n현재 Project를 완료한 후 새로운 Project를 시작해주세요.\n\n💡 여러 Project를 동시에 진행하시려면 새로운 계정으로 로그인하세요.');
 // TEST_DISABLE:                 return;
 // TEST_DISABLE:             }
@@ -7558,7 +7563,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 
             try {
                 // Supabase 세션에서 토큰 가져오기
-                const { data: { session } } = await supabase.auth.getSession();
+                const { data: { session } } = await localSupabase.auth.getSession();
                 if (!session) {
                     alert('로그인이 필요합니다.');
                     showStatus('❌ 로그인이 필요합니다', 'error');
