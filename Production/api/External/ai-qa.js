@@ -5,7 +5,7 @@
  * 토큰 사용량을 api_usage_log 테이블에 기록
  */
 
-const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infra/ai');
+const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infrastructure/ai');
 const { createClient } = require('@supabase/supabase-js');
 
 // AI 사용 로그 저장
