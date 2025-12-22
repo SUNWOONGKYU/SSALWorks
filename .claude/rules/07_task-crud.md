@@ -12,6 +12,33 @@
 
 ---
 
+## ⚠️ 상태 전이 규칙 (필수 준수)
+
+> `.claude/CLAUDE.md` 절대 규칙 3 참조
+
+```
+task_status 전이:
+Pending → In Progress → Executed → Completed
+                                      ↑
+                              Verified 후만 가능!
+
+verification_status 전이:
+Not Verified → In Review → Verified (또는 Needs Fix)
+```
+
+**핵심**: `Completed`는 `verification_status = 'Verified'`일 때만 설정 가능!
+
+---
+
+## Task 추가 시나리오 구분
+
+| 시나리오 | 설명 | task_status | verification_status |
+|----------|------|-------------|---------------------|
+| **A. 신규 Task** | 아직 작업 안 한 Task 추가 | `Pending` | `Not Verified` |
+| **B. 완료된 Task** | 이미 작업 완료한 것을 Task로 등록 | `Completed` | `Verified` |
+
+---
+
 ## Task 신규 추가 프로세스
 
 ### Step 1: Task ID 결정
@@ -28,6 +55,10 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 
 ### Step 2: Supabase DB 추가
 
+**⚠️ 시나리오에 따라 상태값 다르게 설정!**
+
+#### 시나리오 A: 신규 Task (아직 작업 안 함)
+
 ```javascript
 // ssalworks_tasks 테이블에 INSERT
 const { data, error } = await supabase
@@ -37,14 +68,40 @@ const { data, error } = await supabase
         task_name: 'Task 이름',
         stage: 4,  // integer: 1~5
         area: 'F', // M, U, F, BI, BA, D, S, T, O, E, C
-        task_status: 'Pending',
-        task_progress: 0,
-        dependencies: 'S2BA5',  // 선행 Task ID (없으면 null)
+        task_status: 'Pending',           // ← 신규: Pending
+        task_progress: 0,                 // ← 신규: 0
+        verification_status: 'Not Verified',  // ← 필수! 명시적으로 설정
+        dependencies: 'S2BA5',
         task_instruction: 'Task 수행 지침 요약',
         task_agent: 'frontend-developer',
         verification_instruction: '검증 지침 요약',
         verification_agent: 'code-reviewer',
-        execution_type: 'AI-Only'  // AI-Only, Human-AI, Human-Assisted
+        execution_type: 'AI-Only'
+    });
+```
+
+#### 시나리오 B: 완료된 Task (이미 작업 완료, 사후 등록)
+
+```javascript
+// ssalworks_tasks 테이블에 INSERT
+const { data, error } = await supabase
+    .from('ssalworks_tasks')
+    .insert({
+        task_id: 'S4F5',
+        task_name: 'Task 이름',
+        stage: 4,
+        area: 'F',
+        task_status: 'Completed',         // ← 완료됨: Completed
+        task_progress: 100,               // ← 완료됨: 100
+        verification_status: 'Verified',  // ← 완료됨: Verified
+        generated_files: '생성된 파일 목록',  // ← 완료됨: 결과물 기록
+        dependencies: 'S2BA5',
+        task_instruction: 'Task 수행 지침 요약',
+        task_agent: 'frontend-developer',
+        verification_instruction: '검증 지침 요약',
+        verification_agent: 'code-reviewer',
+        execution_type: 'AI-Only',
+        remarks: '이미 완료된 작업. YYYY-MM-DD 완료.'
     });
 ```
 
@@ -371,17 +428,79 @@ git push
 
 ---
 
+## Task 상태 업데이트 (작업/검증 완료 시)
+
+> Task가 실행되거나 검증이 완료되면 Supabase DB 상태를 업데이트해야 함
+
+### 작업 완료 시 (Executed)
+
+```javascript
+// task_status를 Executed로 변경
+await supabase
+    .from('ssalworks_tasks')
+    .update({
+        task_status: 'Executed',
+        task_progress: 100,
+        generated_files: '생성된 파일 목록',
+        updated_at: new Date().toISOString()
+    })
+    .eq('task_id', 'S4F5');
+```
+
+### 검증 완료 시 (Verified → Completed)
+
+```javascript
+// 1. verification_status를 Verified로 변경
+await supabase
+    .from('ssalworks_tasks')
+    .update({
+        verification_status: 'Verified',
+        updated_at: new Date().toISOString()
+    })
+    .eq('task_id', 'S4F5');
+
+// 2. Verified 확인 후 task_status를 Completed로 변경
+await supabase
+    .from('ssalworks_tasks')
+    .update({
+        task_status: 'Completed'
+    })
+    .eq('task_id', 'S4F5');
+```
+
+**⚠️ 중요**: `Completed`는 반드시 `verification_status = 'Verified'` 확인 후 설정!
+
+### 상태 확인 쿼리
+
+```javascript
+// 특정 Task 상태 조회
+const { data } = await supabase
+    .from('ssalworks_tasks')
+    .select('task_id, task_status, verification_status, task_progress')
+    .eq('task_id', 'S4F5');
+
+console.log(data);
+// 예상 결과: { task_id: 'S4F5', task_status: 'Completed', verification_status: 'Verified', task_progress: 100 }
+```
+
+---
+
 ## 체크리스트
 
 ### 신규 추가 시
 
+- [ ] **시나리오 확인**: 신규(Pending) vs 완료됨(Completed)?
 - [ ] Supabase `ssalworks_tasks` 테이블에 INSERT
+  - [ ] `task_status` 설정 (Pending 또는 Completed)
+  - [ ] `verification_status` 설정 (Not Verified 또는 Verified)
+  - [ ] `task_progress` 설정 (0 또는 100)
 - [ ] task-instructions/{TaskID}_instruction.md 생성
 - [ ] verification-instructions/{TaskID}_verification.md 생성
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
 - [ ] PROJECT_SAL_GRID_MANUAL.md 버전 이력 추가
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
+- [ ] **최종 확인**: DB에서 task_status, verification_status 조회하여 검증
 
 ### 삭제 시
 
@@ -403,6 +522,13 @@ git push
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
+### 상태 업데이트 시 (작업/검증 완료)
+
+- [ ] 작업 완료 시: `task_status` = 'Executed', `task_progress` = 100
+- [ ] 검증 완료 시: `verification_status` = 'Verified'
+- [ ] 최종 완료 시: `task_status` = 'Completed' (Verified 후에만!)
+- [ ] DB 조회로 상태 확인
+
 ---
 
 ## 주의사항
@@ -413,6 +539,8 @@ git push
 4. **Order Sheet는 자동 포함**: Grid 참조 방식이므로 별도 수정 불필요
 5. **SSALWORKS_TASK_PLAN.md 수치 정확하게**: 총 Task 수, Stage별/Area별 분포 표 모두 업데이트
 6. **변경 이력 필수**: Task Plan과 Manual 모두 변경 이력 섹션에 기록
+7. **⚠️ 상태 전이 규칙 준수**: Completed는 반드시 Verified 후에만 설정 가능
+8. **⚠️ verification_status 필수**: INSERT 시 반드시 verification_status 명시적 설정
 
 ---
 
