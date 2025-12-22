@@ -44,14 +44,18 @@ async function sendGeminiMessage(message, options = {}) {
     const result = await model.generateContent(fullMessage);
     const response = await result.response;
 
+    // Gemini usageMetadata에서 토큰 정보 추출
+    const usageMetadata = response.usageMetadata || {};
+
     return {
       success: true,
       content: response.text(),
       provider: 'google',
       model: modelName,
       usage: {
-        // Gemini API는 토큰 수를 직접 제공하지 않음
-        estimated: true
+        prompt_tokens: usageMetadata.promptTokenCount,
+        completion_tokens: usageMetadata.candidatesTokenCount,
+        total_tokens: usageMetadata.totalTokenCount
       }
     };
   } catch (error) {
