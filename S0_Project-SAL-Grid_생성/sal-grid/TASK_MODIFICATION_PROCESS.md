@@ -88,7 +88,7 @@ Task 내용이 수정되면 **5단계 연쇄 동기화**가 필요합니다.
 
 ## 3단계: SSAL Grid (Seed SQL / DB) 수정
 
-**파일**: `S0_Project-SSAL-Grid_생성/supabase/seed_ssalworks_tasks.sql`
+**파일**: `S0_Project-SSAL-Grid_생성/supabase/seed_project_sal_grid.sql`
 
 **수정 항목 (22개 속성 중 관련 항목)**:
 ```sql
@@ -196,7 +196,7 @@ node sync_task_results_to_db.js
 |------|------|------|
 | 1 | Task Plan에 추가 | SSALWORKS_TASK_PLAN.md |
 | 2 | Instruction 파일 생성 | task-instructions/{ID}_instruction.md |
-| 3 | Seed SQL에 INSERT 추가 | seed_ssalworks_tasks.sql |
+| 3 | Seed SQL에 INSERT 추가 | seed_project_sal_grid.sql |
 | 4 | Verification 파일 생성 | verification-instructions/{ID}_verification.md |
 | 5 | 안내문에 Task 추가 | Order_Sheet_템플릿/{Stage}/*_안내문.md |
 
@@ -206,7 +206,7 @@ node sync_task_results_to_db.js
 |------|------|------|
 | 1 | Task Plan 수정 | SSALWORKS_TASK_PLAN.md |
 | 2 | Instruction 내용 수정 | task-instructions/{ID}_instruction.md |
-| 3 | Seed SQL UPDATE | seed_ssalworks_tasks.sql |
+| 3 | Seed SQL UPDATE | seed_project_sal_grid.sql |
 | 4 | Verification 내용 수정 | verification-instructions/{ID}_verification.md |
 | 5 | 안내문 내용 수정 | Order_Sheet_템플릿/{Stage}/*_안내문.md |
 
@@ -216,7 +216,7 @@ node sync_task_results_to_db.js
 |------|------|------|
 | 1 | Task Plan에서 제거 | SSALWORKS_TASK_PLAN.md |
 | 2 | Instruction 파일 삭제 | task-instructions/{ID}_instruction.md |
-| 3 | Seed SQL에서 DELETE | seed_ssalworks_tasks.sql |
+| 3 | Seed SQL에서 DELETE | seed_project_sal_grid.sql |
 | 4 | Verification 파일 삭제 | verification-instructions/{ID}_verification.md |
 | 5 | 안내문에서 Task 제거 | Order_Sheet_템플릿/{Stage}/*_안내문.md |
 
@@ -226,7 +226,7 @@ node sync_task_results_to_db.js
 |------|------|------|
 | 1 | Task Plan에서 Stage 변경 | SSALWORKS_TASK_PLAN.md |
 | 2 | Instruction에서 Task ID 변경 | 파일명 및 내용 |
-| 3 | Seed SQL에서 stage, task_id 변경 | seed_ssalworks_tasks.sql |
+| 3 | Seed SQL에서 stage, task_id 변경 | seed_project_sal_grid.sql |
 | 4 | Verification 파일명/내용 변경 | verification-instructions/ |
 | 5 | 이전 Stage 안내문에서 제거, 새 Stage 안내문에 추가 | 양쪽 안내문 |
 

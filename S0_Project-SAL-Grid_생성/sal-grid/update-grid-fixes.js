@@ -25,7 +25,7 @@ async function main() {
     // 1. S5O2 삭제
     console.log('1. S5O2 (도메인 연결) 삭제...');
     const { error: deleteError } = await supabase
-        .from('ssalworks_tasks')
+        .from('project_sal_grid')
         .delete()
         .eq('task_id', 'S5O2');
 
@@ -38,7 +38,7 @@ async function main() {
     // 2. 삭제 확인
     console.log('\n2. 삭제 확인...');
     const { data: checkData, error: checkError } = await supabase
-        .from('ssalworks_tasks')
+        .from('project_sal_grid')
         .select('task_id, task_name')
         .eq('task_id', 'S5O2');
 
@@ -53,7 +53,7 @@ async function main() {
     // 3. 현재 S5 Task 목록 확인
     console.log('\n3. 현재 S5 Task 목록:');
     const { data: s5Data, error: s5Error } = await supabase
-        .from('ssalworks_tasks')
+        .from('project_sal_grid')
         .select('task_id, task_name')
         .eq('stage', 5)
         .order('task_id');

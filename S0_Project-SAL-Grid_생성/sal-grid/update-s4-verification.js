@@ -207,7 +207,7 @@ async function updateTask(taskData) {
 
     try {
         const { data, error } = await supabase
-            .from('ssalworks_tasks')
+            .from('project_sal_grid')
             .update(updates)
             .eq('task_id', task_id)
             .select('task_id, task_status, verification_status');

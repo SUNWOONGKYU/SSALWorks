@@ -18,7 +18,7 @@ async function main() {
 
     // S1O1 task_name 업데이트
     const { data, error } = await supabase
-        .from('ssalworks_tasks')
+        .from('project_sal_grid')
         .update({ task_name: 'DNS 설정 및 도메인 연결' })
         .eq('task_id', 'S1O1')
         .select();

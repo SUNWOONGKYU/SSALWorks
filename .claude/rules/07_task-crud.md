@@ -3,7 +3,7 @@
 > Task 추가, 삭제, 수정 시 반드시 아래 **6개 위치**를 모두 업데이트해야 함
 >
 > **업데이트 필수 위치:**
-> 1. Supabase DB (`ssalworks_tasks` 테이블)
+> 1. Supabase DB (`project_sal_grid` 테이블)
 > 2. Task Instruction 파일
 > 3. Verification Instruction 파일
 > 4. SSALWORKS_TASK_PLAN.md
@@ -60,9 +60,9 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 #### 시나리오 A: 신규 Task (아직 작업 안 함)
 
 ```javascript
-// ssalworks_tasks 테이블에 INSERT
+// project_sal_grid 테이블에 INSERT
 const { data, error } = await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .insert({
         task_id: 'S4F5',
         task_name: 'Task 이름',
@@ -83,9 +83,9 @@ const { data, error } = await supabase
 #### 시나리오 B: 완료된 Task (이미 작업 완료, 사후 등록)
 
 ```javascript
-// ssalworks_tasks 테이블에 INSERT
+// project_sal_grid 테이블에 INSERT
 const { data, error } = await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .insert({
         task_id: 'S4F5',
         task_name: 'Task 이름',
@@ -267,7 +267,7 @@ git push
 
 ```javascript
 const { error } = await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .delete()
     .eq('task_id', 'S4F5');
 ```
@@ -367,7 +367,7 @@ sed -i 's/이전 이름/새 이름/g' SSALWORKS_TASK_PLAN.md
 
 ```bash
 # curl로 PATCH 요청
-curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/ssalworks_tasks?task_id=eq.{TaskID}" \
+curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid?task_id=eq.{TaskID}" \
   -H "apikey: {SUPABASE_ANON_KEY}" \
   -H "Authorization: Bearer {SUPABASE_ANON_KEY}" \
   -H "Content-Type: application/json" \
@@ -410,7 +410,7 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/ssalworks_tasks?
 1. task-instructions/{TaskID}_instruction.md
 2. verification-instructions/{TaskID}_verification.md
 3. SSALWORKS_TASK_PLAN.md
-4. Supabase ssalworks_tasks 테이블
+4. Supabase project_sal_grid 테이블
 5. PROJECT_SAL_GRID_MANUAL.md
 ```
 
@@ -437,7 +437,7 @@ git push
 ```javascript
 // task_status를 Executed로 변경
 await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .update({
         task_status: 'Executed',
         task_progress: 100,
@@ -452,7 +452,7 @@ await supabase
 ```javascript
 // 1. verification_status를 Verified로 변경
 await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .update({
         verification_status: 'Verified',
         updated_at: new Date().toISOString()
@@ -461,7 +461,7 @@ await supabase
 
 // 2. Verified 확인 후 task_status를 Completed로 변경
 await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .update({
         task_status: 'Completed'
     })
@@ -475,7 +475,7 @@ await supabase
 ```javascript
 // 특정 Task 상태 조회
 const { data } = await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .select('task_id, task_status, verification_status, task_progress')
     .eq('task_id', 'S4F5');
 
@@ -490,7 +490,7 @@ console.log(data);
 ### 신규 추가 시
 
 - [ ] **시나리오 확인**: 신규(Pending) vs 완료됨(Completed)?
-- [ ] Supabase `ssalworks_tasks` 테이블에 INSERT
+- [ ] Supabase `project_sal_grid` 테이블에 INSERT
   - [ ] `task_status` 설정 (Pending 또는 Completed)
   - [ ] `verification_status` 설정 (Not Verified 또는 Verified)
   - [ ] `task_progress` 설정 (0 또는 100)
@@ -504,7 +504,7 @@ console.log(data);
 
 ### 삭제 시
 
-- [ ] Supabase `ssalworks_tasks` 테이블에서 DELETE
+- [ ] Supabase `project_sal_grid` 테이블에서 DELETE
 - [ ] task-instructions/{TaskID}_instruction.md 삭제
 - [ ] verification-instructions/{TaskID}_verification.md 삭제
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 제거 + 수치 변경 + 변경 이력)
@@ -517,7 +517,7 @@ console.log(data);
 - [ ] task-instructions/{TaskID}_instruction.md 내용 수정
 - [ ] verification-instructions/{TaskID}_verification.md 내용 수정
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (해당 행 수정 + 의존성 다이어그램 + 변경 이력)
-- [ ] Supabase `ssalworks_tasks` 테이블 PATCH
+- [ ] Supabase `project_sal_grid` 테이블 PATCH
 - [ ] PROJECT_SAL_GRID_MANUAL.md 버전 이력 추가
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
@@ -553,5 +553,5 @@ console.log(data);
 | Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md` |
 | Manual | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
 | 작업 로그 | `.claude/work_logs/current.md` |
-| Supabase 테이블 | `ssalworks_tasks` |
+| Supabase 테이블 | `project_sal_grid` |
 | .env 파일 | `P3_프로토타입_제작/Database/.env` |

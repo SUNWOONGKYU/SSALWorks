@@ -62,7 +62,7 @@ const taskPlan = {
 async function main() {
     // 1. Grid 데이터 가져오기
     const { data: gridData, error } = await supabase
-        .from('ssalworks_tasks')
+        .from('project_sal_grid')
         .select('task_id, task_name')
         .order('task_id');
 

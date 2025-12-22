@@ -153,7 +153,7 @@
 
 | 용도 | 테이블명 |
 |------|---------|
-| Task 관리 | `ssalworks_tasks` |
+| Task 관리 | `project_sal_grid` |
 | Stage 검증 | `stage_verification` |
 
 ---
@@ -185,10 +185,10 @@ URL: https://{프로젝트}.supabase.co/rest/v1/{테이블명}
 
 | 작업 | HTTP | 경로 예시 |
 |------|------|----------|
-| 조회 | GET | `/rest/v1/ssalworks_tasks?select=*` |
-| 생성 | POST | `/rest/v1/ssalworks_tasks` |
-| 수정 | PATCH | `/rest/v1/ssalworks_tasks?task_id=eq.S5U2` |
-| 삭제 | DELETE | `/rest/v1/ssalworks_tasks?task_id=eq.S5U2` |
+| 조회 | GET | `/rest/v1/project_sal_grid?select=*` |
+| 생성 | POST | `/rest/v1/project_sal_grid` |
+| 수정 | PATCH | `/rest/v1/project_sal_grid?task_id=eq.S5U2` |
+| 삭제 | DELETE | `/rest/v1/project_sal_grid?task_id=eq.S5U2` |
 
 ### PO(사람)에게 요청해야 하는 경우
 
@@ -210,7 +210,7 @@ URL: https://{프로젝트}.supabase.co/rest/v1/{테이블명}
 
 ```
 🚫 Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
-✅ 작업 완료 후 반드시 ssalworks_tasks 테이블 업데이트!
+✅ 작업 완료 후 반드시 project_sal_grid 테이블 업데이트!
 ```
 
 ### 업데이트 시점
@@ -251,7 +251,7 @@ const updateData = {
 };
 
 // PATCH 요청
-fetch(SUPABASE_URL + '/rest/v1/ssalworks_tasks?task_id=eq.S4F5', {
+fetch(SUPABASE_URL + '/rest/v1/project_sal_grid?task_id=eq.S4F5', {
     method: 'PATCH',
     headers: {
         'apikey': SUPABASE_KEY,
@@ -279,7 +279,7 @@ fetch(SUPABASE_URL + '/rest/v1/ssalworks_tasks?task_id=eq.S4F5', {
 ┌─────────────────────────────────────────────────────────────────┐
 │  Task 작업 완료                                                  │
 │      ↓                                                          │
-│  ssalworks_tasks 테이블에서 해당 task_id 조회                    │
+│  project_sal_grid 테이블에서 해당 task_id 조회                    │
 │      ↓                                                          │
 │  PATCH로 상태/진행률/파일목록/수정이력 업데이트                   │
 │      ↓                                                          │
@@ -300,7 +300,7 @@ fetch(SUPABASE_URL + '/rest/v1/ssalworks_tasks?task_id=eq.S4F5', {
 - [ ] Tools에 기본 도구(Read/Write)가 없는가?
 
 ### Supabase 작업
-- [ ] 테이블명이 `ssalworks_tasks`인가? (`tasks` 아님)
+- [ ] 테이블명이 `project_sal_grid`인가? (`tasks` 아님)
 - [ ] REST API를 먼저 시도했는가?
 - [ ] .env 파일에서 SERVICE_ROLE_KEY를 사용했는가?
 - [ ] PO 요청은 3가지 방법 모두 실패 후인가?

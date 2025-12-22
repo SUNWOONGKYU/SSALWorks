@@ -276,7 +276,7 @@ verification_status 전이:
 ```
 🚫 Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
 🚫 "작업 완료했습니다" 말만 하고 DB 업데이트 안 하면 안 됨!
-✅ 작업 완료 후 반드시 ssalworks_tasks 테이블 업데이트!
+✅ 작업 완료 후 반드시 project_sal_grid 테이블 업데이트!
 ```
 
 **업데이트 시점:**
@@ -289,7 +289,7 @@ verification_status 전이:
 ```
 Task 작업 완료
      ↓
-ssalworks_tasks 테이블 PATCH 업데이트
+project_sal_grid 테이블 PATCH 업데이트
      ↓
 work_logs/current.md 기록
      ↓

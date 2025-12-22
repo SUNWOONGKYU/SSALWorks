@@ -18,7 +18,7 @@ const supabase = createClient(
 
 async function checkS4Tasks() {
   const { data, error } = await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .select('task_id, task_name, task_status, verification_status, task_progress, generated_files, test, build, integration_verification, blockers, comprehensive_verification')
     .like('task_id', 'S4%')
     .order('task_id');

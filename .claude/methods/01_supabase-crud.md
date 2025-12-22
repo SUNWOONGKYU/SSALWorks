@@ -30,10 +30,10 @@ URL: https://{프로젝트}.supabase.co/rest/v1/{테이블명}
 
 | 작업 | HTTP | 경로 예시 |
 |------|------|----------|
-| 조회 | GET | `/rest/v1/ssalworks_tasks?select=*` |
-| 생성 | POST | `/rest/v1/ssalworks_tasks` |
-| 수정 | PATCH | `/rest/v1/ssalworks_tasks?task_id=eq.S5U2` |
-| 삭제 | DELETE | `/rest/v1/ssalworks_tasks?task_id=eq.S5U2` |
+| 조회 | GET | `/rest/v1/project_sal_grid?select=*` |
+| 생성 | POST | `/rest/v1/project_sal_grid` |
+| 수정 | PATCH | `/rest/v1/project_sal_grid?task_id=eq.S5U2` |
+| 삭제 | DELETE | `/rest/v1/project_sal_grid?task_id=eq.S5U2` |
 
 **환경변수**: `P3_프로토타입_제작/Database/.env`
 

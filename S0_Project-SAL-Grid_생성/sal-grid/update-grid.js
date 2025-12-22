@@ -33,7 +33,7 @@ async function updateGrid(taskId, updates) {
 
     try {
         const { data, error } = await supabase
-            .from('ssalworks_tasks')
+            .from('project_sal_grid')
             .update(updates)
             .eq('task_id', taskId)
             .select();
@@ -64,7 +64,7 @@ async function getTask(taskId) {
 
     try {
         const { data, error } = await supabase
-            .from('ssalworks_tasks')
+            .from('project_sal_grid')
             .select('*')
             .eq('task_id', taskId)
             .single();
