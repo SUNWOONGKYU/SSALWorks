@@ -1,7 +1,7 @@
-# PROJECT SAL GRID MANUAL v3.5
+# PROJECT SAL GRID MANUAL v3.7
 
 > **작성일**: 2025-11-25
-> **최종 수정**: 2025-12-20 (v3.5 - S4F5, S5U1, S5T1 Task 추가 반영)
+> **최종 수정**: 2025-12-22 (v3.7 - S4D2, S4F6 인앱 알림 시스템 Task 추가)
 > **기반**: PROJECT_SAL_GRID_생성_가이드_V2.0.md
 > **용도**: PROJECT SAL GRID 완전 매뉴얼
 
@@ -5904,6 +5904,17 @@ A:
 ---
 
 ### PROJECT SAL GRID MANUAL 버전 이력
+
+- **v3.7 (2025-12-22)**: 인앱 알림 시스템 Task 추가
+  - S4D2 (user_notifications 테이블) Task 추가
+  - S4F6 (인앱 알림 UI) Task 추가
+  - SSALWORKS_TASK_PLAN.md v4.3 반영 (55 → 57 tasks)
+
+- **v3.6 (2025-12-22)**: S5M1 Task 삭제
+  - S5M1 (운영 매뉴얼) Task 삭제 - 비현실적 Task
+  - S5O1 Task명 변경: "프로덕션 배포" → "배포상황 최종 검증"
+  - SSALWORKS_TASK_PLAN.md v4.3 반영 (56 → 55 tasks)
+
 
 - **v3.5 (2025-12-20)**: Task 확장 반영
   - S4F5 (프로젝트 등록 API 연동) Task 추가 반영

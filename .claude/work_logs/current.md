@@ -46,6 +46,28 @@
 
 ---
 
+### S4D2, S4F6 Task 추가 ✅
+
+**추가된 Task:**
+
+| Task ID | Task Name | Area | 설명 |
+|---------|-----------|------|------|
+| S4D2 | user_notifications 테이블 | D | 인앱 알림 시스템용 DB 테이블 |
+| S4F6 | 인앱 알림 UI | F | 헤더 알림 벨, 드롭다운, 배지 |
+
+**업데이트된 파일/위치:**
+1. Supabase `ssalworks_tasks` 테이블 - INSERT 완료
+2. `task-instructions/S4D2_instruction.md` - 생성
+3. `task-instructions/S4F6_instruction.md` - 생성
+4. `verification-instructions/S4D2_verification.md` - 생성
+5. `verification-instructions/S4F6_verification.md` - 생성
+6. `SSALWORKS_TASK_PLAN.md` - v4.3 (55→57 tasks)
+7. `PROJECT_SAL_GRID_MANUAL.md` - v3.7
+
+**규칙 준수:** `.claude/rules/07_task-crud.md` 8단계 프로세스 완료
+
+---
+
 ### Bridge Server 대규모 정리 ✅
 
 **1단계: 파일명 및 변수명 변경**
@@ -411,3 +433,26 @@ mv "S5_운영" "S5_개발_마무리"
 - 관리자 대시보드 수정
 
 ---
+
+---
+
+### S5 Task 검토 및 정리 ✅
+
+**S5O1 수정:**
+- Task Name: "프로덕션 배포" → "배포상황 최종 검증"
+- 이유: 이미 배포된 상태이므로 검증으로 변경
+
+**S5M1 삭제:**
+- Task Name: 운영 매뉴얼
+- 삭제 이유: Claude가 실제 담당자 연락처, 접근 권한 등을 알 수 없음 (비현실적 Task)
+
+**업데이트된 위치:**
+1. Supabase ssalworks_tasks 테이블
+2. task-instructions/S5M1_instruction.md (삭제)
+3. verification-instructions/S5M1_verification.md (삭제)
+4. SSALWORKS_TASK_PLAN.md (55 tasks)
+5. PROJECT_SAL_GRID_MANUAL.md (v3.6)
+
+**07_task-crud.md 규칙 추가:**
+- Task 추가/삭제/수정 프로세스를 .claude/rules/에 규칙으로 추가
+- CLAUDE.md에 7대 작업 규칙으로 반영
