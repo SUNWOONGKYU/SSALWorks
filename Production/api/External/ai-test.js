@@ -3,7 +3,7 @@
  * @description AI 테스트 API - 인증 없이 직접 호출
  */
 
-const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infrastructure/ai');
+const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infra/ai');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {

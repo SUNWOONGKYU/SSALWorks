@@ -4,7 +4,7 @@
  * PO의 AI 서비스(Gemini, ChatGPT, Perplexity)가 사용 가능한지 확인
  */
 
-const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infrastructure/ai');
+const { sendMessage, VALID_PROVIDERS } = require('../Backend_Infra/ai');
 
 module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {

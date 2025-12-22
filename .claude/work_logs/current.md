@@ -6,6 +6,40 @@
 
 ## 2025-12-22 작업 내역
 
+### Order Sheet v5.4 메타데이터 수정 ✅
+
+**수정 내용:**
+- `_METADATA` 섹션 필드 값 변경:
+  - `order_id`: "ORDER-S{N}-YYYYMMDD-NNN" → "(자동 생성)"
+  - `created_at`: "YYYY-MM-DDTHH:mm:ssZ" → "(자동 생성)"
+  - `purpose`: "{이번 Stage 작업의 목적}" → "{stage_name} 전체 Task 실행 및 검증"
+
+**수정된 파일:**
+1. `Human_ClaudeCode_Bridge/Reports/ORDER_TEMPLATE_v5.4.json`
+2. `Human_ClaudeCode_Bridge/Reports/ORDER_TEMPLATE_v5.4.html`
+
+**사용자 확인:** "ok" (승인)
+
+---
+
+### S5 Stage 명칭 변경 (운영 → 개발 마무리) ✅
+
+**변경된 파일 (12개 이상):**
+1. Reports/ORDER_TEMPLATE_v5.4.html
+2. Production/PROJECT_SAL_GRID_MANUAL.md (3곳)
+3. Production/3권_프로젝트_관리_방법/01편_SAL_Grid_개요와_핵심_개념.md
+4. Production/3권_프로젝트_관리_방법/03편_5x11_Matrix.md
+5. P2_프로젝트_기획/User_Flows/2_Project_Registration/사용법_안내.md
+6. P2_프로젝트_기획/User_Flows/2_Project_Registration/작성법_안내.md
+7. P2_프로젝트_기획/User_Flows/5_Development_Process/flow.md (2곳)
+8. P2_프로젝트_기획/User_Flows/상황별_안내문/S4_개발_3차.md
+9. P2_프로젝트_기획/User_Flows/상황별_안내문/S5_개발_마무리.md (3곳)
+10. P2_프로젝트_기획/User_Flows/상황별_안내문/S4_개발_3차.html
+11. P2_프로젝트_기획/User_Flows/상황별_안내문/S5_개발_마무리.html (5곳)
+12. S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_5x11_MATRIX.md
+
+---
+
 ### API 원가 관리 UI 단순화 ✅
 
 **변경 이유:**
