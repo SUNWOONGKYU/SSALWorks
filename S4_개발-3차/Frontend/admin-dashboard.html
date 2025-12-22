@@ -1295,6 +1295,9 @@
                 <div class="menu-item" onclick="showSection('credit', event)">
                     🪙 크레딧 관리
                 </div>
+                <div class="menu-item" onclick="showSection('api', event)">
+                    🔌 API 사용량/원가
+                </div>
                 <div class="menu-item" onclick="showSection('projects', event)">
                     📁 프로젝트 관리
                 </div>
@@ -1308,9 +1311,6 @@
                 <div class="menu-section-title">통계</div>
                 <div class="menu-item" onclick="showSection('stats', event)">
                     📈 통계 및 분석
-                </div>
-                <div class="menu-item" onclick="showSection('api', event)">
-                    🔌 API 사용량
                 </div>
             </div>
 
@@ -2234,6 +2234,40 @@
                     </table>
                 </div>
 
+                <!-- API 원가 관리 -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">💵 API 원가 관리</h2>
+                        <button class="section-action" onclick="showApiCostModal()">+ 모델 추가</button>
+                    </div>
+                    <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
+                        <select id="apiCostProviderFilter" onchange="filterApiCosts()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">
+                            <option value="all">전체 Provider</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="google">Google</option>
+                        </select>
+                        <span style="color: #666; font-size: 13px;">환율: <strong id="currentExchangeRate">₩1,450</strong>/USD</span>
+                    </div>
+                    <table class="data-table" id="apiCostsTable">
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th>모델명</th>
+                                <th>Input (1M)</th>
+                                <th>Output (1M)</th>
+                                <th>마진율</th>
+                                <th>판매가 (KRW)</th>
+                                <th>상태</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody id="apiCostsBody">
+                            <tr><td colspan="8" style="text-align:center; padding: 40px; color: #999;">로딩 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <!-- API 키 관리 -->
                 <div class="content-section">
                     <div class="section-header">
@@ -2272,40 +2306,6 @@
                                 <td>무기한</td>
                                 <td><a href="#" class="action-link">수정</a></td>
                             </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- API 원가 관리 -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">💵 API 원가 관리</h2>
-                        <button class="section-action" onclick="showApiCostModal()">+ 모델 추가</button>
-                    </div>
-                    <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
-                        <select id="apiCostProviderFilter" onchange="filterApiCosts()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">
-                            <option value="all">전체 Provider</option>
-                            <option value="openai">OpenAI</option>
-                            <option value="anthropic">Anthropic</option>
-                            <option value="google">Google</option>
-                        </select>
-                        <span style="color: #666; font-size: 13px;">환율: <strong id="currentExchangeRate">₩1,450</strong>/USD</span>
-                    </div>
-                    <table class="data-table" id="apiCostsTable">
-                        <thead>
-                            <tr>
-                                <th>Provider</th>
-                                <th>모델명</th>
-                                <th>Input (1M)</th>
-                                <th>Output (1M)</th>
-                                <th>마진율</th>
-                                <th>판매가 (KRW)</th>
-                                <th>상태</th>
-                                <th>작업</th>
-                            </tr>
-                        </thead>
-                        <tbody id="apiCostsBody">
-                            <tr><td colspan="8" style="text-align:center; padding: 40px; color: #999;">로딩 중...</td></tr>
                         </tbody>
                     </table>
                 </div>
