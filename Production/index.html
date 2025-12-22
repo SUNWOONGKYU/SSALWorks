@@ -9309,9 +9309,41 @@ ${result.answer}`;
             }
         }
 
-        // Stage Gate 상태 확인 및 진행 프로세스 업데이트
+        // Stage Gate 상태 확인 및 진행 프로세스 업데이트 (SSAL Works 관리자만)
         async function loadStageGateStatus() {
             try {
+                // 1. 현재 사용자 확인
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    console.log('ℹ️ 비로그인 - Stage Gate 로드 스킵');
+                    return;
+                }
+
+                // 2. 사용자 정보 확인 (installation_fee_paid 체크)
+                const { data: userData } = await supabaseClient
+                    .from('users')
+                    .select('user_id, installation_fee_paid')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (!userData || !userData.installation_fee_paid) {
+                    console.log('ℹ️ 일반회원 - Stage Gate 로드 스킵');
+                    return;
+                }
+
+                // 3. SSAL Works 프로젝트 소유자인지 확인
+                const { data: projects } = await supabaseClient
+                    .from('projects')
+                    .select('project_name')
+                    .eq('user_id', userData.user_id)
+                    .eq('project_name', 'SSAL Works');
+
+                if (!projects || projects.length === 0) {
+                    console.log('ℹ️ SSAL Works 프로젝트 없음 - Stage Gate 로드 스킵');
+                    return;
+                }
+
+                // 4. Stage Gate 상태 조회 (SSAL Works 관리자만 여기까지 옴)
                 const { data, error } = await supabaseClient
                     .from('stage_verification')
                     .select('stage_name, stage_gate_status')
