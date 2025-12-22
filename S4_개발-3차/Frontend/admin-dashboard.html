@@ -2172,24 +2172,24 @@
                 <!-- API 사용량 통계 -->
                 <div class="stats-grid">
                     <div class="stat-card primary">
-                        <div class="stat-icon">🤖</div>
-                        <div class="stat-value">45,678</div>
-                        <div class="stat-label">총 API 호출</div>
+                        <div class="stat-icon">📥</div>
+                        <div class="stat-value" id="totalInputTokens">-</div>
+                        <div class="stat-label">Input 토큰</div>
                     </div>
                     <div class="stat-card success">
-                        <div class="stat-icon">💰</div>
-                        <div class="stat-value">$234.56</div>
-                        <div class="stat-label">이번 달 비용</div>
+                        <div class="stat-icon">📤</div>
+                        <div class="stat-value" id="totalOutputTokens">-</div>
+                        <div class="stat-label">Output 토큰</div>
                     </div>
                     <div class="stat-card warning">
                         <div class="stat-icon">📊</div>
-                        <div class="stat-value">1,523</div>
-                        <div class="stat-label">오늘 호출</div>
+                        <div class="stat-value" id="totalTokens">-</div>
+                        <div class="stat-label">총 토큰</div>
                     </div>
-                    <div class="stat-card danger">
-                        <div class="stat-icon">⚠️</div>
-                        <div class="stat-value">78%</div>
-                        <div class="stat-label">한도 사용률</div>
+                    <div class="stat-card info">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value" id="totalCostUSD">-</div>
+                        <div class="stat-label">이번 달 비용</div>
                     </div>
                 </div>
 
@@ -2337,10 +2337,6 @@
                     <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
                         <input type="checkbox" id="notifySignup">
                         <label for="notifySignup" style="font-weight: 500;">신규 가입 시 이메일 알림</label>
-                    </div>
-                    <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
-                        <input type="checkbox" id="notifyApi" checked>
-                        <label for="notifyApi" style="font-weight: 500;">API 한도 80% 도달 시 알림</label>
                     </div>
                 </div>
 
@@ -3219,6 +3215,7 @@
                 // 총계 행 추가
                 const totalInput = Object.values(stats).reduce((sum, d) => sum + d.input, 0);
                 const totalOutput = Object.values(stats).reduce((sum, d) => sum + d.output, 0);
+                const totalTokensSum = totalInput + totalOutput;
                 tbody.innerHTML += `
                     <tr style="background: #f8f9fa; font-weight: 600;">
                         <td colspan="2">📊 이번 달 합계</td>
@@ -3228,6 +3225,12 @@
                         <td></td>
                     </tr>
                 `;
+
+                // 상단 통계 카드 업데이트
+                document.getElementById('totalInputTokens').textContent = totalInput.toLocaleString();
+                document.getElementById('totalOutputTokens').textContent = totalOutput.toLocaleString();
+                document.getElementById('totalTokens').textContent = totalTokensSum.toLocaleString();
+                document.getElementById('totalCostUSD').textContent = `$${totalCostUSD.toFixed(2)}`;
 
             } catch (error) {
                 console.error('AI 사용량 통계 로드 실패:', error);
