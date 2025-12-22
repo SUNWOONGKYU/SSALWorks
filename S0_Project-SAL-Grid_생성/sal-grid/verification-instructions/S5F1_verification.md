@@ -68,7 +68,7 @@ lighthouse https://ssalworks.ai.kr --output json
 - [ ] 사용자 피드백 확인
 
 ## Expected Files
-- S5_운영/Frontend/BUG_FIX_REPORT.md
+- S5_개발_마무리/Frontend/BUG_FIX_REPORT.md
 - 수정된 HTML/CSS/JS 파일들
 
 ## Pass Criteria
@@ -80,5 +80,5 @@ lighthouse https://ssalworks.ai.kr --output json
 ---
 
 ## 저장 위치 검증 항목
-- [ ] S5_운영/Frontend/ 폴더에 보고서 저장되었는가?
+- [ ] S5_개발_마무리/Frontend/ 폴더에 보고서 저장되었는가?
 - [ ] Production/Frontend/ 폴더에 수정된 코드 저장되었는가?

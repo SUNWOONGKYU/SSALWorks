@@ -368,7 +368,7 @@ project-root/
 ├── S2_개발-1차/               # Development Phase 1 (Stage 3)
 ├── S3_개발-2차/               # Development Phase 2 (Stage 4)
 ├── S4_개발-3차/               # Development Phase 3 (Stage 5)
-└── S5_운영/                   # Operations (Stage 6)
+└── S5_개발_마무리/                   # Operations (Stage 6)
 ```
 
 ### 5.2 기획 폴더 구조 (P2_프로젝트_기획/)

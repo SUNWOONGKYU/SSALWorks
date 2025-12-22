@@ -48,7 +48,7 @@
 ├── S2_개발-1차/
 ├── S3_개발-2차/
 ├── S4_개발-3차/
-├── S5_운영/
+├── S5_개발_마무리/
 ├── Production/                   # 배포용 코드
 ├── Web_ClaudeCode_Bridge/        # AI 통신용
 └── .claude/                      # Claude Code 설정

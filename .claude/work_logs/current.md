@@ -6,6 +6,46 @@
 
 ## 2025-12-22 작업 내역
 
+### 인앱 알림 시스템 구현 완료 ✅
+
+**1. user_notifications 테이블 생성**
+- 위치: `S4_개발-3차/Database/user_notifications_table.sql`
+- Supabase Dashboard에서 SQL 실행 완료
+- RLS 정책 적용 (사용자는 자신의 알림만 조회/수정)
+
+**2. 사용자 대시보드 알림 벨 추가**
+- 파일: `Production/index.html`
+- 헤더에 🔔 알림 벨 아이콘 추가
+- 읽지 않은 알림 개수 배지 표시
+- 드롭다운 알림 목록 (최근 20개)
+- 개별/전체 읽음 처리 기능
+
+**3. 관리자 대시보드 알림 연동**
+- 파일: `Production/admin-dashboard.html`
+- 다음 기능에서 사용자 알림 자동 생성:
+  - 크레딧 입금 확인 → `deposit_confirmed`
+  - 잔액 부족 알림 → `credit_low`
+  - 개발자 계정 개설 → `system`
+  - 무료 기간 종료 예정 → `free_period_ending`
+
+**4. 알림 유형 (notification_type)**
+| 유형 | 설명 |
+|------|------|
+| `credit_low` | 잔액 부족 (1,000원 미만) |
+| `credit_charged` | 크레딧 충전 완료 |
+| `deposit_confirmed` | 입금 확인 완료 |
+| `free_period_ending` | 무료 기간 종료 예정 |
+| `payment_failed` | 자동 결제 실패 |
+| `system` | 시스템 공지/안내 |
+
+**테스트 결과:** ✅ 테스트 알림 생성 성공 (wksun999@gmail.com)
+
+**커밋:**
+- `e14a0ff`: feat: 인앱 알림 시스템 구현
+- `2d641af`: feat: 전체 알림을 인앱 알림으로 통합
+
+---
+
 ### Bridge Server 대규모 정리 ✅
 
 **1단계: 파일명 및 변수명 변경**

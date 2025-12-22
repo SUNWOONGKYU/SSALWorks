@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="2000" height="1000" viewBox="0 0 2000 1000" xmlns="http://www.w3.org/2000/svg">
+<svg width="2400" height="1400" viewBox="0 0 2400 1400" xmlns="http://www.w3.org/2000/svg">
     <rect width="100%" height="100%" fill="white"/>
 
     <defs>
-        <marker id="arrowhead" markerWidth="15" markerHeight="10.5" refX="13.5" refY="5.25" orient="auto">
-            <polygon points="0 0, 15 5.25, 0 10.5" fill="black"/>
+        <marker id="arrowhead" markerWidth="20" markerHeight="14" refX="18" refY="7" orient="auto">
+            <polygon points="0 0, 20 7, 0 14" fill="black"/>
         </marker>
     </defs>
-    <text x="1000" y="80" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="48" font-weight="bold">도 2: SAL ID 구조도</text>
-    <rect x="700" y="150" width="600" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
-    <text x="1000.0" y="210" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">SAL ID</text>
-    <text x="1000.0" y="260" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(40)</text>
-    <text x="1000.0" y="310" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">고유 식별자</text>
-    <rect x="100" y="500" width="400" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
-    <text x="300.0" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">Stage</text>
-    <text x="300.0" y="610" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(41)</text>
-    <text x="300.0" y="660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">1~2자리 정수</text>
-    <text x="300.0" y="700" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">시간/단계</text>
-    <rect x="580" y="500" width="400" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
-    <text x="780.0" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">Area</text>
-    <text x="780.0" y="610" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(42)</text>
-    <text x="780.0" y="660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">2자 대문자</text>
-    <text x="780.0" y="700" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">영역/모듈</text>
-    <rect x="1060" y="500" width="400" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
-    <text x="1260.0" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">Level</text>
-    <text x="1260.0" y="610" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(43)</text>
-    <text x="1260.0" y="660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">1~2자리 정수</text>
-    <text x="1260.0" y="700" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">의존 계층</text>
-    <rect x="1540" y="500" width="400" height="250" fill="white" stroke="black" stroke-width="4" rx="15"/>
-    <text x="1740.0" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">Variant</text>
-    <text x="1740.0" y="610" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="36" font-weight="bold">(44)</text>
-    <text x="1740.0" y="660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">1자 소문자</text>
-    <text x="1740.0" y="700" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="30" font-weight="normal">병렬 분기</text>
-    <line x1="1000" y1="350" x2="300" y2="500" stroke="black" stroke-width="3" marker-end="url(#arrowhead)"/>
-    <line x1="1000" y1="350" x2="780" y2="500" stroke="black" stroke-width="3" marker-end="url(#arrowhead)"/>
-    <line x1="1000" y1="350" x2="1260" y2="500" stroke="black" stroke-width="3" marker-end="url(#arrowhead)"/>
-    <line x1="1000" y1="350" x2="1740" y2="500" stroke="black" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <text x="1200" y="100" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="70" font-weight="bold">도 2: SAL ID 구조도</text>
+    <rect x="900" y="250" width="600" height="300" fill="white" stroke="black" stroke-width="6" rx="30"/>
+    <text x="1200.0" y="330" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">SAL ID</text>
+    <text x="1200.0" y="400" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(40)</text>
+    <text x="1200.0" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">고유 식별자</text>
+    <rect x="100" y="700" width="500" height="350" fill="white" stroke="black" stroke-width="5" rx="30"/>
+    <text x="350.0" y="780" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">Stage</text>
+    <text x="350.0" y="850" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(41)</text>
+    <text x="350.0" y="910" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">1~2자리 정수</text>
+    <text x="350.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">시간/단계</text>
+    <rect x="680" y="700" width="500" height="350" fill="white" stroke="black" stroke-width="5" rx="30"/>
+    <text x="930.0" y="780" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">Area</text>
+    <text x="930.0" y="850" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(42)</text>
+    <text x="930.0" y="910" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">2자 대문자</text>
+    <text x="930.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">영역/모듈</text>
+    <rect x="1260" y="700" width="500" height="350" fill="white" stroke="black" stroke-width="5" rx="30"/>
+    <text x="1510.0" y="780" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">Level</text>
+    <text x="1510.0" y="850" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(43)</text>
+    <text x="1510.0" y="910" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">1~2자리 정수</text>
+    <text x="1510.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">의존 계층</text>
+    <rect x="1840" y="700" width="500" height="350" fill="white" stroke="black" stroke-width="5" rx="30"/>
+    <text x="2090.0" y="780" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">Variant</text>
+    <text x="2090.0" y="850" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(44)</text>
+    <text x="2090.0" y="910" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">1자 소문자</text>
+    <text x="2090.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">병렬 분기</text>
+    <line x1="1200" y1="500" x2="350" y2="700" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
+    <line x1="1200" y1="500" x2="930" y2="700" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
+    <line x1="1200" y1="500" x2="1510" y2="700" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
+    <line x1="1200" y1="500" x2="2090" y2="700" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
 </svg>

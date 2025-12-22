@@ -2,7 +2,7 @@
 
 ---
 
-## 📌 필수 참조 규칙 파일 (2025-12-19)
+## 📌 필수 참조 규칙 파일 (2025-12-22)
 
 > **⚠️ 작업 전 반드시 아래 규칙 파일을 확인하세요!**
 
@@ -19,244 +19,73 @@
 S5O1
 
 ## Task Name
-프로덕션 배포
+배포상황 최종 검증
 
 ## Task Goal
-Vercel 프로덕션 배포 및 환경변수 확인, 최종 배포 검증
+이미 배포된 프로덕션 환경(ssalworks.ai.kr)의 최종 검증 및 문서화
 
 ## Prerequisites (Dependencies)
 - S4T2 (API 통합 테스트) 완료
 
 ## Specific Instructions
 
-### 1. 배포 전 체크리스트
+### 1. 배포 상태 확인
 
-```markdown
-## 프로덕션 배포 체크리스트
+> **참고**: Vercel 배포 및 도메인 연결은 S1F1, S1O1에서 이미 완료됨
 
-### 코드 준비
-- [ ] 모든 테스트 통과 (npm test)
-- [ ] E2E 테스트 통과
-- [ ] 린트 에러 없음 (npm run lint)
-- [ ] 빌드 성공 (npm run build)
-- [ ] 스테이징 환경 테스트 완료
+- 배포 URL: https://ssalworks.ai.kr
+- Vercel 프로젝트: ssalworks
+- 도메인 연결: 완료 (S1O1)
 
-### 환경변수
-- [ ] SUPABASE_URL 설정
-- [ ] SUPABASE_ANON_KEY 설정
-- [ ] SUPABASE_SERVICE_ROLE_KEY 설정
-- [ ] TOSS_CLIENT_KEY 설정 (live_ck_xxx)
-- [ ] TOSS_SECRET_KEY 설정 (live_sk_xxx)
-- [ ] TOSS_WEBHOOK_SECRET 설정
-- [ ] RESEND_API_KEY 설정
-- [ ] SENTRY_DSN 설정
-- [ ] CRON_SECRET 설정
+### 2. 환경변수 최종 확인
 
-### 외부 서비스
-- [ ] Supabase 프로덕션 설정 확인
-- [ ] 토스 페이먼트 라이브 모드 확인
-- [ ] Resend 도메인 인증 완료
-- [ ] Sentry 프로젝트 설정 완료
-```
+**필수 환경변수:**
+- SUPABASE_URL
+- SUPABASE_ANON_KEY
+- SUPABASE_SERVICE_ROLE_KEY
+- RESEND_API_KEY (이메일)
 
-### 2. Vercel 프로덕션 배포
+**결제 관련 (토스 페이먼트 연동 시):**
+- TOSS_CLIENT_KEY
+- TOSS_SECRET_KEY
 
-```bash
-# CLI로 배포
-vercel --prod
+### 3. 프로덕션 검증 체크리스트
 
-# 또는 Dashboard에서
-# 1. Vercel Dashboard > Project > Deployments
-# 2. Production 브랜치 (main) 선택
-# 3. Deploy 클릭
-```
+**기본 동작:**
+- 메인 페이지 로드 (https://ssalworks.ai.kr)
+- SSL 인증서 확인 (HTTPS 자물쇠)
+- 보안 헤더 확인
 
-### 3. 환경변수 설정 확인
+**페이지 접근성:**
+- 로그인/회원가입 페이지
+- My Page
+- 관리자 대시보드
 
-```bash
-# Vercel CLI로 환경변수 확인
-vercel env ls production
+**인증 기능:**
+- 이메일/비밀번호 로그인
+- Google OAuth 로그인
+- 비밀번호 재설정
 
-# 환경변수 추가 (필요시)
-vercel env add VARIABLE_NAME production
-```
+**핵심 기능:**
+- 공지사항, 학습용 콘텐츠, FAQ 표시
+- 프로젝트 관리
 
-### 4. 프로덕션 환경변수 목록
-- 위치: `docs/PRODUCTION_ENV.md`
+### 4. 검증 결과 문서화
 
-```markdown
-# 프로덕션 환경변수
-
-## Supabase
-| 변수명 | 설명 | 예시 |
-|--------|------|------|
-| SUPABASE_URL | Supabase 프로젝트 URL | https://xxx.supabase.co |
-| SUPABASE_ANON_KEY | 공개 키 | eyJxxx... |
-| SUPABASE_SERVICE_ROLE_KEY | 서버 전용 키 | eyJxxx... |
-
-## 토스 페이먼트
-| 변수명 | 설명 | 예시 |
-|--------|------|------|
-| TOSS_CLIENT_KEY | 클라이언트 키 | live_ck_xxx |
-| TOSS_SECRET_KEY | 시크릿 키 | live_sk_xxx |
-| TOSS_WEBHOOK_SECRET | 웹훅 시크릿 | xxx |
-
-## 이메일 (Resend)
-| 변수명 | 설명 | 예시 |
-|--------|------|------|
-| RESEND_API_KEY | Resend API 키 | re_xxx |
-
-## 모니터링
-| 변수명 | 설명 | 예시 |
-|--------|------|------|
-| SENTRY_DSN | Sentry DSN | https://xxx@sentry.io/xxx |
-
-## Cron
-| 변수명 | 설명 | 예시 |
-|--------|------|------|
-| CRON_SECRET | Cron 인증 키 | random-secret |
-```
-
-### 5. 배포 후 검증
-
-```markdown
-## 배포 후 검증 항목
-
-### 기본 동작
-- [ ] 메인 페이지 로드 (https://ssalworks.ai.kr)
-- [ ] SSL 인증서 확인 (자물쇠 아이콘)
-- [ ] 보안 헤더 확인 (curl -I)
-
-### 인증
-- [ ] 회원가입 테스트
-- [ ] 로그인 테스트
-- [ ] Google OAuth 테스트
-- [ ] 비밀번호 재설정 이메일 발송
-
-### 핵심 기능
-- [ ] 구독 플랜 페이지
-- [ ] 결제 페이지 (토스 위젯 로드)
-- [ ] AI Q&A 페이지 (프리미엄 사용자)
-- [ ] 관리자 대시보드 (관리자 계정)
-
-### API
-- [ ] /api/health 응답 확인
-- [ ] /api/ai/health AI 서비스 상태
-- [ ] /api/subscription/status 구독 상태
-
-### 모니터링
-- [ ] Sentry 에러 캡처 확인
-- [ ] Vercel Analytics 데이터 수집
-```
-
-### 6. 배포 검증 스크립트
-- 위치: `scripts/verify-deployment.js`
-
-```javascript
-// scripts/verify-deployment.js
-const PROD_URL = 'https://ssalworks.ai.kr';
-
-async function verifyDeployment() {
-    console.log('🚀 프로덕션 배포 검증 시작...\n');
-
-    const checks = [
-        { name: '메인 페이지', url: PROD_URL },
-        { name: 'Health Check', url: `${PROD_URL}/api/health` },
-        { name: 'AI Health', url: `${PROD_URL}/api/ai/health` },
-        { name: '로그인 페이지', url: `${PROD_URL}/pages/auth/login.html` },
-        { name: '가격 페이지', url: `${PROD_URL}/pages/subscription/pricing.html` }
-    ];
-
-    let passed = 0;
-    let failed = 0;
-
-    for (const check of checks) {
-        try {
-            const response = await fetch(check.url);
-            if (response.ok) {
-                console.log(`✅ ${check.name}: OK (${response.status})`);
-                passed++;
-            } else {
-                console.log(`❌ ${check.name}: FAIL (${response.status})`);
-                failed++;
-            }
-        } catch (error) {
-            console.log(`❌ ${check.name}: ERROR (${error.message})`);
-            failed++;
-        }
-    }
-
-    console.log(`\n📊 결과: ${passed}/${checks.length} 통과`);
-
-    if (failed > 0) {
-        console.log('⚠️ 일부 검증 실패. 확인이 필요합니다.');
-        process.exit(1);
-    } else {
-        console.log('🎉 모든 검증 통과!');
-    }
-}
-
-verifyDeployment();
-```
-
-### 7. 롤백 절차
-
-```markdown
-## 롤백 절차
-
-### Vercel Dashboard에서 롤백
-1. Vercel Dashboard > Project > Deployments
-2. 이전 성공한 배포 찾기
-3. "..." 메뉴 클릭
-4. "Promote to Production" 선택
-
-### CLI로 롤백
-```bash
-# 특정 배포로 롤백
-vercel rollback [DEPLOYMENT_URL]
-```
-
-### 롤백 후 확인
-- [ ] 메인 페이지 정상 로드
-- [ ] 주요 기능 동작 확인
-- [ ] 에러 로그 확인
-```
-
-### 8. 배포 기록
-- 위치: `docs/DEPLOYMENT_LOG.md`
-
-```markdown
-# 배포 기록
-
-## v1.0.0 - YYYY-MM-DD
-- **배포 URL**: https://ssalworks.ai.kr
-- **Git Commit**: abc1234
-- **변경 사항**:
-  - 초기 프로덕션 배포
-  - 모든 핵심 기능 포함
-- **테스트 결과**: 모든 테스트 통과
-- **배포자**: [이름]
-```
+- 위치: `S5_개발_마무리/DevOps/S5O1_deployment_verification.md`
 
 ## Expected Output Files
-- `docs/PRODUCTION_ENV.md`
-- `scripts/verify-deployment.js`
-- `docs/DEPLOYMENT_LOG.md`
-- Vercel 프로덕션 배포 완료
+- `S5_개발_마무리/DevOps/S5O1_deployment_verification.md`
 
 ## Completion Criteria
-- [ ] 모든 테스트 통과
-- [ ] 환경변수 설정 완료
-- [ ] Vercel 프로덕션 배포 성공
-- [ ] 배포 후 검증 완료
-- [ ] SSL/HTTPS 작동 확인
-- [ ] 주요 기능 동작 확인
-- [ ] 배포 기록 작성
+- [ ] 배포 상태 확인 완료
+- [ ] 환경변수 확인 완료
+- [ ] 기능 검증 완료
+- [ ] 검증 결과 문서화 완료
 
 ## Tech Stack
 - Vercel
-- GitHub
-- Node.js
+- 웹 브라우저
 
 ## Task Agent
 `devops-troubleshooter`
@@ -265,29 +94,18 @@ vercel rollback [DEPLOYMENT_URL]
 `qa-specialist`
 
 ## Tools
-- Bash (vercel CLI)
 - 웹 브라우저
+- curl (헤더 확인)
 
 ## Execution Type
-Human-Assisted
+AI-Only
 
 ## Remarks
-- 프로덕션 배포 전 스테이징 테스트 필수
-- 배포 시간은 트래픽 낮은 시간대 권장
-- 롤백 절차 숙지 후 배포
-- 배포 후 30분간 모니터링 필수
+- 이미 배포된 환경의 검증이므로 배포 작업은 불필요
+- 문제 발견 시 해당 영역 담당 Task로 이관
 
 ---
 
-## ⚠️ 작업 결과물 저장 2대 규칙
+## ⚠️ 작업 결과물 저장 규칙
 
-> **이 규칙은 반드시 준수하세요!**
-
-### 제1 규칙: Stage + Area 폴더에 저장
-- Task ID의 Stage와 Area에 해당하는 폴더에 저장
-- 예: S5O1 → `S5_개발_마무리/DevOps/`
-
-### 제2 규칙: Production 코드는 이중 저장
-- DevOps 문서/스크립트는 Stage 폴더에만 저장
-
-**Area 폴더 매핑:** M→Documentation, F→Frontend, BI→Backend_Infra, BA→Backend_APIs, D→Database, S→Security, T→Testing, O→DevOps, E→External, C→Content
+- S5O1 → `S5_개발_마무리/DevOps/`

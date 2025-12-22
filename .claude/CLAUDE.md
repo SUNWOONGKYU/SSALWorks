@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## 🚨🚨🚨 6대 작업 규칙 - 반드시 먼저 확인! 🚨🚨🚨
+## 🚨🚨🚨 7대 작업 규칙 - 반드시 먼저 확인! 🚨🚨🚨
 
 > **⛔ 파일 생성/저장 전 반드시 해당 규칙 파일을 읽어야 함!**
 > **⛔ 규칙 확인 없이 폴더 생성/파일 저장 절대 금지!**
@@ -18,6 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 4 | `04_grid-supabase.md` | **Grid/DB 작업할 때** ⭐ | Grid 작성 + Supabase CRUD |
 | 5 | `05_execution-process.md` | Task 실행할 때 | 6단계 실행 프로세스 |
 | 6 | `06_verification.md` | 검증할 때 | 검증 기준 |
+| 7 | `07_task-crud.md` | **Task 추가/삭제/수정할 때** ⭐ | Task CRUD 프로세스 |
 
 **📁 위치:** `.claude/rules/`
 

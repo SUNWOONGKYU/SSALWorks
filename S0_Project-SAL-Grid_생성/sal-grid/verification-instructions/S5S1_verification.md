@@ -74,8 +74,8 @@ node scripts/security-check.js
 - [ ] 외부 보안 스캔 도구 점검
 
 ## Expected Files
-- S5_운영/Security/SECURITY_AUDIT_REPORT.md
-- S5_운영/Security/VULNERABILITY_PATCHES.md
+- S5_개발_마무리/Security/SECURITY_AUDIT_REPORT.md
+- S5_개발_마무리/Security/VULNERABILITY_PATCHES.md
 
 ## Pass Criteria
 - Critical/High 취약점 100% 패치
@@ -85,5 +85,5 @@ node scripts/security-check.js
 ---
 
 ## 저장 위치 검증 항목
-- [ ] S5_운영/Security/ 폴더에 보고서 저장되었는가?
+- [ ] S5_개발_마무리/Security/ 폴더에 보고서 저장되었는가?
 

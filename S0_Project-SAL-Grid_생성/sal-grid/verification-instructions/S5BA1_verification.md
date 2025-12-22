@@ -67,7 +67,7 @@ npx autocannon -c 10 -d 30 https://api.ssalworks.ai.kr/api/health
 - [ ] API 응답 시간 개선 확인
 
 ## Expected Files
-- S5_운영/Backend_APIs/BUG_FIX_REPORT.md
+- S5_개발_마무리/Backend_APIs/BUG_FIX_REPORT.md
 - 수정된 API 파일들
 
 ## Pass Criteria
@@ -78,6 +78,6 @@ npx autocannon -c 10 -d 30 https://api.ssalworks.ai.kr/api/health
 ---
 
 ## 저장 위치 검증 항목
-- [ ] S5_운영/Backend_APIs/ 폴더에 보고서 저장되었는가?
+- [ ] S5_개발_마무리/Backend_APIs/ 폴더에 보고서 저장되었는가?
 - [ ] Production/Backend_APIs/ 폴더에 수정된 코드 저장되었는가?
 

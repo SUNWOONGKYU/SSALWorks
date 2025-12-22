@@ -1,9 +1,9 @@
-# Task 신규/삭제 프로세스
+# Task 추가/삭제/수정 프로세스
 
-> Task 추가 또는 삭제 시 반드시 아래 **6개 위치**를 모두 업데이트해야 함
+> Task 추가, 삭제, 수정 시 반드시 아래 **6개 위치**를 모두 업데이트해야 함
 >
 > **업데이트 필수 위치:**
-> 1. Supabase DB (`ssal_grid` 테이블)
+> 1. Supabase DB (`ssalworks_tasks` 테이블)
 > 2. Task Instruction 파일
 > 3. Verification Instruction 파일
 > 4. SSALWORKS_TASK_PLAN.md
@@ -29,9 +29,9 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 ### Step 2: Supabase DB 추가
 
 ```javascript
-// ssal_grid 테이블에 INSERT
+// ssalworks_tasks 테이블에 INSERT
 const { data, error } = await supabase
-    .from('ssal_grid')
+    .from('ssalworks_tasks')
     .insert({
         task_id: 'S4F5',
         task_name: 'Task 이름',
@@ -210,7 +210,7 @@ git push
 
 ```javascript
 const { error } = await supabase
-    .from('ssal_grid')
+    .from('ssalworks_tasks')
     .delete()
     .eq('task_id', 'S4F5');
 ```
@@ -250,11 +250,132 @@ git push
 
 ---
 
+## Task 수정 프로세스
+
+> Task 이름, 목표, 설명 등을 변경할 때 사용
+
+### Step 1: 수정 내용 정의
+
+**수정 가능 항목:**
+- task_name (Task 이름)
+- task_instruction (Task 목표/지침)
+- verification_instruction (검증 지침)
+- remarks (설명)
+- dependencies (의존성)
+- task_agent / verification_agent
+- execution_type
+- tools
+
+### Step 2: Task Instruction 파일 수정
+
+**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md`
+
+```bash
+# 파일 열어서 내용 수정
+# Task Name, Task Goal, Instructions 등 변경
+```
+
+### Step 3: Verification Instruction 파일 수정
+
+**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md`
+
+```bash
+# 검증 목표, 체크리스트 등 변경
+```
+
+### Step 4: SSALWORKS_TASK_PLAN.md 업데이트
+
+**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md`
+
+**업데이트 항목:**
+1. **해당 Task 행**: Task 이름, 설명 변경
+2. **의존성 다이어그램**: Task 이름이 변경된 경우 다이어그램도 수정
+3. **버전 및 수정일**: 버전 증가, 수정일 업데이트
+4. **변경 이력 섹션**: 변경 내용 기록
+
+```bash
+# sed 명령어로 일괄 수정 가능
+sed -i 's/이전 이름/새 이름/g' SSALWORKS_TASK_PLAN.md
+```
+
+변경 이력 추가:
+```markdown
+### v4.X (YYYY-MM-DD)
+- **Task 수정**: {TaskID} "{이전 이름}" → "{새 이름}"
+- **변경 내용**: {변경 사항 설명}
+- **이유**: {수정 이유}
+```
+
+### Step 5: Supabase DB 업데이트
+
+```bash
+# curl로 PATCH 요청
+curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/ssalworks_tasks?task_id=eq.{TaskID}" \
+  -H "apikey: {SUPABASE_ANON_KEY}" \
+  -H "Authorization: Bearer {SUPABASE_ANON_KEY}" \
+  -H "Content-Type: application/json" \
+  -H "Prefer: return=representation" \
+  -d @update.json
+```
+
+**update.json 예시:**
+```json
+{
+  "task_name": "새로운 Task 이름",
+  "remarks": "새로운 설명"
+}
+```
+
+**주의:** 한글이 포함된 JSON은 파일로 저장 후 `@파일명` 방식 사용
+
+### Step 6: PROJECT_SAL_GRID_MANUAL.md 버전 이력 업데이트
+
+**파일 위치:** `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
+
+버전 이력 섹션에 수정 내용 기록
+
+### Step 7: 작업 로그 업데이트
+
+**파일 위치:** `.claude/work_logs/current.md`
+
+```markdown
+## {TaskID} Task 수정 (YYYY-MM-DD)
+
+### 작업 상태: ✅ 완료
+
+### 수정 내용
+| 항목 | 이전 | 이후 |
+|------|------|------|
+| Task Name | {이전 이름} | {새 이름} |
+| 설명 | {이전 설명} | {새 설명} |
+
+### 업데이트된 파일/위치
+1. task-instructions/{TaskID}_instruction.md
+2. verification-instructions/{TaskID}_verification.md
+3. SSALWORKS_TASK_PLAN.md
+4. Supabase ssalworks_tasks 테이블
+5. PROJECT_SAL_GRID_MANUAL.md
+```
+
+### Step 8: Git 커밋 & 푸시
+
+```bash
+git add S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
+git add S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
+git add S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md
+git add S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md
+git add .claude/work_logs/current.md
+git commit -m "refactor: {TaskID} Task 수정 - {변경 요약}"
+git push
+```
+
+---
+
 ## 체크리스트
 
 ### 신규 추가 시
 
-- [ ] Supabase `ssal_grid` 테이블에 INSERT
+- [ ] Supabase `ssalworks_tasks` 테이블에 INSERT
 - [ ] task-instructions/{TaskID}_instruction.md 생성
 - [ ] verification-instructions/{TaskID}_verification.md 생성
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
@@ -264,10 +385,20 @@ git push
 
 ### 삭제 시
 
-- [ ] Supabase `ssal_grid` 테이블에서 DELETE
+- [ ] Supabase `ssalworks_tasks` 테이블에서 DELETE
 - [ ] task-instructions/{TaskID}_instruction.md 삭제
 - [ ] verification-instructions/{TaskID}_verification.md 삭제
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 제거 + 수치 변경 + 변경 이력)
+- [ ] PROJECT_SAL_GRID_MANUAL.md 버전 이력 추가
+- [ ] .claude/work_logs/current.md 작업 로그 기록
+- [ ] Git 커밋 & 푸시
+
+### 수정 시
+
+- [ ] task-instructions/{TaskID}_instruction.md 내용 수정
+- [ ] verification-instructions/{TaskID}_verification.md 내용 수정
+- [ ] SSALWORKS_TASK_PLAN.md 업데이트 (해당 행 수정 + 의존성 다이어그램 + 변경 이력)
+- [ ] Supabase `ssalworks_tasks` 테이블 PATCH
 - [ ] PROJECT_SAL_GRID_MANUAL.md 버전 이력 추가
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
@@ -294,5 +425,5 @@ git push
 | Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md` |
 | Manual | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
 | 작업 로그 | `.claude/work_logs/current.md` |
-| Supabase 테이블 | `ssal_grid` |
+| Supabase 테이블 | `ssalworks_tasks` |
 | .env 파일 | `P3_프로토타입_제작/Database/.env` |

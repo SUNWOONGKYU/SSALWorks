@@ -212,7 +212,7 @@ SSALWorks 프로젝트는 **8단계 프로세스**로 구성됩니다:
 
 **목적**: 프로덕션 배포 및 지속적 운영
 
-**폴더**: `S5_운영/`
+**폴더**: `S5_개발_마무리/`
 
 | 하위 항목 | 설명 |
 |----------|------|
@@ -277,7 +277,7 @@ C:\!SSAL_Works_Private\
 │   ├── Test/
 │   └── Stabilization/
 │
-└── S5_운영/                        # Stage 5
+└── S5_개발_마무리/                        # Stage 5
     ├── Deployment/
     ├── Monitoring/
     ├── Maintenance/

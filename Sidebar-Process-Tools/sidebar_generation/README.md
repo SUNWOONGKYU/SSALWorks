@@ -64,7 +64,7 @@ node update_sidebar_html.js
    - S2_개발-1차: 8개 Area
    - S3_개발-2차: 4개 Area
    - S4_개발-3차: 7개 Area
-   - S5_운영: 6개 Area
+   - S5_개발_마무리: 6개 Area
 
 📂 Production/Frontend/index.html 읽는 중...
 ✅ HTML 파일 읽기 완료
@@ -74,7 +74,7 @@ node update_sidebar_html.js
    ✅ S2_개발-1차: 8개 Area로 업데이트
    ✅ S3_개발-2차: 4개 Area로 업데이트
    ✅ S4_개발-3차: 7개 Area로 업데이트
-   ✅ S5_운영: 6개 Area로 업데이트
+   ✅ S5_개발_마무리: 6개 Area로 업데이트
 
 💾 파일 저장 중...
 ✅ Production/Frontend/index.html 업데이트 완료!
@@ -92,7 +92,7 @@ node update_sidebar_html.js
 | S2 개발 1차 | 8개 | Documentation, Frontend, Backend_Infra, Backend_APIs, Database, Security, Testing, Content_System |
 | S3 개발 2차 | 4개 | Backend_Infra, Backend_APIs, Security, External |
 | S4 개발 3차 | 7개 | Documentation, Frontend, Backend_Infra, Backend_APIs, Security, Testing, DevOps |
-| S5 운영 | 6개 | Documentation, Frontend, Backend_APIs, Database, Security, DevOps |
+| S5 개발 마무리 | 6개 | Documentation, Frontend, Backend_APIs, Database, Security, DevOps |
 
 ---
 

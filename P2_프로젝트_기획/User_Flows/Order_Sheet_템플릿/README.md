@@ -19,7 +19,7 @@ Order_Sheet_템플릿/
 │   └── ...
 ├── P3_프로토타입_제작/
 │   └── ...
-├── S1_개발_준비/ ~ S5_운영/
+├── S1_개발_준비/ ~ S5_개발_마무리/
 │   └── ...
 └── 특별단계/
     ├── SP-1_디렉토리_구조_생성.md
@@ -128,7 +128,7 @@ export default async function handler(req, res) {
 | S2_개발_1차.md | 개발 1차 Order Sheet |
 | S3_개발_2차.md | 개발 2차 Order Sheet |
 | S4_개발_3차.md | 개발 3차 Order Sheet |
-| S5_운영.md | 운영 단계 Order Sheet |
+| S5_개발_마무리.md | 운영 단계 Order Sheet |
 
 ## 빌드 방법
 

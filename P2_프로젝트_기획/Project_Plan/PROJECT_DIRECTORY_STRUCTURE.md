@@ -63,7 +63,7 @@ project-root/
 ├── S2_개발-1차/                        # Development Phase 1 (Stage 3)
 ├── S3_개발-2차/                        # Development Phase 2 (Stage 4)
 ├── S4_개발-3차/                        # Development Phase 3 (Stage 5)
-├── S5_운영/                            # Operations (Stage 6)
+├── S5_개발_마무리/                            # Operations (Stage 6)
 │
 ├── AI_Link/                           # AI 연동 관련 파일
 ├── Order_Sheet_템플릿/                # Order Sheet 템플릿
@@ -364,9 +364,9 @@ S1_개발_준비/
 └── C/  콘텐츠 생성 엔진 완성, AI 통합
 ```
 
-**S5_운영 (Operations - Stage 6):**
+**S5_개발_마무리 (Operations - Stage 6):**
 ```
-S5_운영/
+S5_개발_마무리/
 ├── M/  운영 매뉴얼, 장애 대응 가이드, 업데이트 로그
 ├── F/  버그 수정, 성능 개선, 신규 기능
 ├── BA/ 버그 수정, 성능 개선, API 추가
@@ -713,7 +713,7 @@ Thumbs.db
 - [ ] S4_개발-3차/M/ U/ F/ BI/ BA/ D/ S/ T/ O/ E/ C/
 
 **Stage 6: 운영** (9개 Area)
-- [ ] S5_운영/M/ F/ BA/ D/ S/ T/ O/ E/ C/
+- [ ] S5_개발_마무리/M/ F/ BA/ D/ S/ T/ O/ E/ C/
 
 ### 3단계: 작업 폴더 생성
 - [ ] .claude/
