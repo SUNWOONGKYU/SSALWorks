@@ -576,7 +576,8 @@ function getRechargeEmailTemplate(user) {
 
 #### 1-1. 개요
 - **실행 시간:** 매월 1일 00:00 (KST)
-- **목적:** 모든 구독 회원에게 월 사용료 ₩50,000 자동 청구
+- **목적:** 4개월차 이상 구독 회원에게 월 사용료 ₩50,000 자동 청구
+- **참고:** 1~3개월차는 무료 이용 기간 (개설비 납부 혜택)
 
 #### 1-2. 자동화 흐름
 
@@ -586,6 +587,7 @@ function getRechargeEmailTemplate(user) {
 monthly_subscriptions 조회:
   - status = 'active'
   - next_payment_date = 오늘
+  - subscription_month >= 4 (1~3개월차 제외)
     ↓
 각 회원별 결제 수단 확인
     ↓
