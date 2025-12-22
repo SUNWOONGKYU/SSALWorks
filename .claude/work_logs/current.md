@@ -6,6 +6,84 @@
 
 ## 2025-12-22 작업 내역
 
+### API 원가 관리 UI 단순화 ✅
+
+**변경 이유:**
+- Provider 필터 드롭다운이 헷갈림 (모델 추가 버튼이 있는데 왜 필터가 필요한지)
+- 환율 조회 기능 필요 (필요할 때 실시간으로 조회 가능해야 함)
+
+**수정 내용:**
+1. "전체 Provider" 필터 드롭다운 제거
+2. "🔄 환율 조회" 버튼 추가
+   - exchangerate-api.com에서 실시간 USD/KRW 환율 조회
+   - 확인 후 모든 모델의 환율 일괄 업데이트 가능
+3. 모델 목록 정렬: is_default=true인 모델이 상단에 표시
+
+**커밋:** `0fc0f1d` - fix: API 원가 관리 UI 단순화 - Provider 필터 제거, 환율 조회 기능 추가
+
+---
+
+### API 원가 관리 테이블 및 UI 추가 ✅
+
+**1. api_costs 테이블 생성**
+- 위치: `S4_개발-3차/Database/api_costs_table.sql`
+- Supabase에 직접 생성 완료
+
+**테이블 필드:**
+| 필드 | 설명 |
+|------|------|
+| provider | openai, anthropic, google 등 |
+| model_name | gpt-4o, claude-3.5-sonnet 등 |
+| input_cost_per_1m | 입력 토큰 100만개당 USD |
+| output_cost_per_1m | 출력 토큰 100만개당 USD |
+| usd_to_krw_rate | 환율 (기본 1,450) |
+| margin_percent | 마진율 (기본 30%) |
+
+**2. admin-dashboard에 UI 추가**
+- "API 사용량" 섹션에 "API 원가 관리" 테이블 추가
+- 기능: 조회, 추가, 수정, 삭제
+- Provider 필터링
+- 판매가(KRW) 자동 계산: 원가 × 환율 × (1 + 마진율)
+
+**초기 데이터:**
+- OpenAI: gpt-4o, gpt-4o-mini, o1
+- Anthropic: claude-3.5-sonnet, claude-3.5-haiku, claude-opus-4
+- Google: gemini-2.0-flash
+
+**커밋:** `d9d7cc6` - feat: API 원가 관리 테이블 및 UI 추가
+
+---
+
+### 크레딧 관리 - 수동 충전 기능 제거 ✅
+
+**변경 이유:**
+- 입금확인 대기에서 확인하면 자동으로 크레딧 충전됨
+- 사용자별 크레딧에서 별도 충전 기능 불필요
+- 수동 차감 기능만 유지 (환불 처리, 오류 정정 등)
+
+**수정 내용:**
+1. 버튼: "수동 충전/차감" → "수동 차감"
+2. 모달: creditFormOverlay → creditDeductOverlay
+3. JavaScript 함수:
+   - `showCreditForm()` → `showCreditDeductModal()`
+   - `closeCreditForm()` → `closeCreditDeductModal()`
+   - `saveCredit()` → `deductCredit()`
+4. `showCreditChargeModal()` 함수 제거
+
+**차감 기능 개선:**
+- 실제 Supabase REST API 연동
+- 사용자 이메일로 조회
+- 잔액 부족 체크
+- credit_transactions 테이블에 거래 기록 추가
+
+**수정된 파일:**
+- `Production/admin-dashboard.html`
+- `S4_개발-3차/Frontend/admin-dashboard.html`
+
+**커밋:** `a97c442` - refactor: 크레딧 관리 - 수동 충전 제거, 차감만 유지
+
+---
+
 ### 인앱 알림 시스템 구현 완료 ✅
 
 **1. user_notifications 테이블 생성**
