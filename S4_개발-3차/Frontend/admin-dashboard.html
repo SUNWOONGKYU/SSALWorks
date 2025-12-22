@@ -1794,7 +1794,7 @@
                 <div class="content-section">
                     <div class="section-header">
                         <h2 class="section-title">사용자별 크레딧</h2>
-                        <button class="section-action" onclick="showCreditChargeModal()">+ 수동 충전/차감</button>
+                        <button class="section-action" onclick="showCreditDeductModal()">수동 차감</button>
                     </div>
                     <table class="data-table">
                         <thead>
@@ -2587,34 +2587,26 @@
             </div>
         </div>
 
-        <!-- Credit Form Modal -->
-        <div id="creditFormOverlay" class="form-overlay" onclick="if(event.target === this) closeCreditForm()">
+        <!-- Credit Deduct Modal -->
+        <div id="creditDeductOverlay" class="form-overlay" onclick="if(event.target === this) closeCreditDeductModal()">
             <div class="form-modal">
-                <div class="form-header">🪙 크레딧 충전/차감</div>
-                <form onsubmit="event.preventDefault(); saveCredit();">
+                <div class="form-header">🪙 크레딧 수동 차감</div>
+                <form onsubmit="event.preventDefault(); deductCredit();">
                     <div class="form-group">
                         <label class="form-label">사용자 이메일</label>
-                        <input type="email" class="form-input" placeholder="user@example.com" required>
+                        <input type="email" id="deductEmail" class="form-input" placeholder="user@example.com" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">작업 유형</label>
-                        <select class="form-select" required>
-                            <option value="">선택하세요</option>
-                            <option value="charge">충전 (+)</option>
-                            <option value="deduct">차감 (-)</option>
-                        </select>
+                        <label class="form-label">차감 금액</label>
+                        <input type="number" id="deductAmount" class="form-input" placeholder="10000" min="1" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">금액</label>
-                        <input type="number" class="form-input" placeholder="10000" min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">사유</label>
-                        <textarea class="form-textarea" style="min-height: 80px;" placeholder="충전/차감 사유를 입력하세요..." required></textarea>
+                        <label class="form-label">차감 사유</label>
+                        <textarea id="deductReason" class="form-textarea" style="min-height: 80px;" placeholder="차감 사유를 입력하세요 (예: 환불 처리, 오류 정정 등)" required></textarea>
                     </div>
                     <div class="form-actions">
-                        <button type="button" class="form-btn form-btn-secondary" onclick="closeCreditForm()">취소</button>
-                        <button type="submit" class="form-btn form-btn-primary">적용</button>
+                        <button type="button" class="form-btn form-btn-secondary" onclick="closeCreditDeductModal()">취소</button>
+                        <button type="submit" class="form-btn form-btn-primary">차감</button>
                     </div>
                 </form>
             </div>
@@ -2943,19 +2935,23 @@
             }, 800);
         }
 
-        // Credit Form Functions
-        function showCreditForm() {
-            document.getElementById('creditFormOverlay').style.display = 'flex';
+        // Credit Deduct Functions (수동 차감만 지원 - 충전은 입금확인에서 자동 처리)
+        function showCreditDeductModal() {
+            document.getElementById('creditDeductOverlay').style.display = 'flex';
         }
 
-        function closeCreditForm() {
-            document.getElementById('creditFormOverlay').style.display = 'none';
+        function closeCreditDeductModal() {
+            document.getElementById('creditDeductOverlay').style.display = 'none';
+            // 폼 초기화
+            document.getElementById('deductEmail').value = '';
+            document.getElementById('deductAmount').value = '';
+            document.getElementById('deductReason').value = '';
         }
 
-        function saveCredit() {
-            const email = document.querySelector('#creditFormOverlay input[type="email"]').value;
-            const amount = document.querySelector('#creditFormOverlay input[type="number"]').value;
-            const reason = document.querySelector('#creditFormOverlay .form-textarea').value;
+        async function deductCredit() {
+            const email = document.getElementById('deductEmail').value.trim();
+            const amount = parseInt(document.getElementById('deductAmount').value);
+            const reason = document.getElementById('deductReason').value.trim();
 
             // 유효성 검사
             if (!validateEmail(email)) {
@@ -2963,13 +2959,13 @@
                 return;
             }
 
-            if (!validateAmount(amount)) {
-                showToast('금액은 1,000 ~ 1,000,000 사이여야 합니다.', 'error');
+            if (!amount || amount < 1) {
+                showToast('차감 금액을 입력하세요.', 'error');
                 return;
             }
 
-            if (!validateText(reason, 10, 500)) {
-                showToast('사유는 10~500자로 입력하세요.', 'error');
+            if (!reason || reason.length < 5) {
+                showToast('차감 사유를 5자 이상 입력하세요.', 'error');
                 return;
             }
 
@@ -2978,13 +2974,73 @@
             const safeReason = sanitizePlainText(reason);
 
             showLoading();
-            setTimeout(() => {
+            try {
+                // 사용자 조회
+                const userRes = await fetch(
+                    `${SUPABASE_URL}/rest/v1/users?email=eq.${encodeURIComponent(safeEmail)}&select=user_id,email,credit_balance`,
+                    { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+                );
+                const users = await userRes.json();
+
+                if (!users || users.length === 0) {
+                    showToast('해당 이메일의 사용자를 찾을 수 없습니다.', 'error');
+                    return;
+                }
+
+                const user = users[0];
+                const newBalance = (user.credit_balance || 0) - amount;
+
+                if (newBalance < 0) {
+                    showToast(`잔액 부족: 현재 ${(user.credit_balance || 0).toLocaleString()}원, 차감 요청 ${amount.toLocaleString()}원`, 'error');
+                    return;
+                }
+
+                // 크레딧 차감
+                const updateRes = await fetch(
+                    `${SUPABASE_URL}/rest/v1/users?user_id=eq.${user.user_id}`,
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify({ credit_balance: newBalance })
+                    }
+                );
+
+                if (!updateRes.ok) throw new Error('크레딧 업데이트 실패');
+
+                // 거래 기록 추가
+                await fetch(
+                    `${SUPABASE_URL}/rest/v1/credit_transactions`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            user_id: user.user_id,
+                            amount: -amount,
+                            transaction_type: 'admin_deduct',
+                            description: safeReason,
+                            balance_after: newBalance
+                        })
+                    }
+                );
+
+                showToast(`${amount.toLocaleString()}원 차감 완료! (잔액: ${newBalance.toLocaleString()}원)`, 'success');
+                closeCreditDeductModal();
+                loadCreditData(); // 목록 새로고침
+            } catch (error) {
+                console.error('크레딧 차감 실패:', error);
+                showToast('크레딧 차감 중 오류가 발생했습니다.', 'error');
+            } finally {
                 hideLoading();
-                showToast('크레딧이 적용되었습니다!', 'success');
-                closeCreditForm();
-                // TODO: Send sanitized data to backend API
-                console.log('Sanitized credit:', { email: safeEmail, amount, reason: safeReason });
-            }, 800);
+            }
         }
 
         // User Detail Functions
@@ -5888,11 +5944,7 @@
             }
         }
 
-        function showCreditChargeModal() {
-            const userId = prompt('충전할 사용자 ID를 입력하세요:');
-            if (!userId) return;
-            chargeUserCredit(userId, userId);
-        }
+        // showCreditChargeModal 제거됨 - 충전은 입금확인에서 자동 처리
 
         function exportCreditTransactions() {
             showToast('CSV 내보내기 기능은 준비 중입니다.', 'info');
