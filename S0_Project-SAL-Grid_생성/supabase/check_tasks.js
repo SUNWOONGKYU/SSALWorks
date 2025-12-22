@@ -7,7 +7,7 @@ async function checkTasks() {
   const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const { data, error } = await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .select('task_id, stage, task_status, task_progress')
     .eq('stage', 2)
     .order('task_id');

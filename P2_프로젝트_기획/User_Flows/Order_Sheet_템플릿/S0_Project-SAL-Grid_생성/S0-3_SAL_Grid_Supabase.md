@@ -23,14 +23,14 @@
 
 ### SQL 파일 작업
 - [ ] schema.sql 수정
-- [ ] seed_ssalworks_tasks.sql 수정
+- [ ] seed_project_sal_grid.sql 수정
 - [ ] 새 SQL 파일 생성
 
 ---
 
 ## 작업 대상 테이블
 
-- [ ] `ssalworks_tasks` (SSALWorks 실전 Task)
+- [ ] `project_sal_grid` (SSALWorks 실전 Task)
 - [ ] `project_ssal_grid_tasks_template` (템플릿 Task)
 - [ ] `stage_verification` (Stage Gate 검증)
 
@@ -40,7 +40,7 @@
 ```
 Project-SAL-Grid/supabase/
 ├── schema.sql                    (테이블 생성)
-├── seed_ssalworks_tasks.sql      (42개 Task 데이터)
+├── seed_project_sal_grid.sql      (42개 Task 데이터)
 └── TEMPLATE_STANDARD_...sql      (참고용 템플릿)
 ```
 
@@ -54,8 +54,8 @@ Project-SAL-Grid/supabase/
 
 ## 실행 순서 참고
 1. schema.sql 실행 (테이블 생성)
-2. seed_ssalworks_tasks.sql 실행 (데이터 삽입)
-3. 검증: `SELECT COUNT(*) FROM ssalworks_tasks;`
+2. seed_project_sal_grid.sql 실행 (데이터 삽입)
+3. 검증: `SELECT COUNT(*) FROM project_sal_grid;`
 
 ---
 

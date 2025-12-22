@@ -62,7 +62,7 @@ Project-SAL-Grid/viewer/
 ---
 
 ## 참고사항
-- Viewer는 Supabase의 `ssalworks_tasks` 테이블 데이터를 시각화합니다
+- Viewer는 Supabase의 `project_sal_grid` 테이블 데이터를 시각화합니다
 - 실시간 업데이트를 위해 Supabase Realtime 활용 가능
 
 ---

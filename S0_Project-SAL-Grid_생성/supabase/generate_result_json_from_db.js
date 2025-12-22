@@ -30,7 +30,7 @@ async function generateResultJsonFromDb(targetStage = null) {
   // Task 조회 쿼리 빌드
   // 한글/영문 상태 모두 포함
   let query = supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .select('*')
     .in('task_status', ['Completed', 'In Progress', 'AI Verified', '완료', '진행중', 'AI 검증완료']);
 

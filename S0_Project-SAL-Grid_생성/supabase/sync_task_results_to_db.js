@@ -45,7 +45,7 @@ async function syncToSupabase() {
     };
 
     const { error } = await supabase
-      .from('ssalworks_tasks')
+      .from('project_sal_grid')
       .update(updateData)
       .eq('task_id', data.task_id);
 

@@ -22,7 +22,7 @@ const data = JSON.stringify({
 const options = {
   hostname: 'zwjmfewyshhwpgwdtrus.supabase.co',
   port: 443,
-  path: '/rest/v1/ssalworks_tasks',
+  path: '/rest/v1/project_sal_grid',
   method: 'POST',
   headers: {
     'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzU3MTU1MSwiZXhwIjoyMDc5MTQ3NTUxfQ.ZMNl9_lCJQMG8lC0MEQjHrLEuYbCFJYsVsBIzvwnj1s',
