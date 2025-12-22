@@ -5,7 +5,7 @@
 - **Task Name**: 디자인 QA 및 일관성 점검
 - **Area**: U (Design)
 - **Stage**: S5 (개발 마무리)
-- **Dependencies**: S5O1 (프로덕션 배포)
+- **Dependencies**: S5O1 (배포상황 최종 검증)
 - **Task Agent**: `design-qa-specialist`
 - **Verification Agent**: `code-reviewer`
 

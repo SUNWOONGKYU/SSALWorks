@@ -93,7 +93,7 @@
 │   ├─ Authentication                 │
 │   └─ External Services              │
 │                                     │
-│ S5. 운영 및 유지보수                │
+│ S5. 개발 마무리                     │
 │   ├─ Deployment                     │
 │   ├─ Monitoring                     │
 │   └─ Maintenance                    │
@@ -427,7 +427,7 @@ Order Sheet 내용:
 | **S2. 개발 준비** | Tech Stack, Architecture, Development Setup | `일반_작업요청.md` |
 | **S3. 개발 1차** | Frontend, Backend, Database | `일반_작업요청.md` |
 | **S4. 개발 2차** | API Integration, Authentication, External Services | `일반_작업요청.md` |
-| **S5. 운영 및 유지보수** | Deployment, Monitoring, Maintenance | `일반_작업요청.md` |
+| **S5. 개발 마무리** | Deployment, Monitoring, Maintenance | `일반_작업요청.md` |
 
 **참고:**
 - 현재 `일반_작업요청.md` 템플릿 사용

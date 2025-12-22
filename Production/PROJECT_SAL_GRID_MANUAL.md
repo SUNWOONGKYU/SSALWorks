@@ -120,7 +120,7 @@ export default async function handler(req, res) {
 | S2 | 개발 1차 (Auth & Registration) | 핵심 기능, Core Features |
 | S3 | 개발 2차 (AI Integration) | AI 기능, AI Features |
 | S4 | 개발 3차 (Payment & Admin) | 결제 연동, Payment |
-| S5 | 운영 (Operations) | 배포 운영, Deployment |
+| S5 | 개발 마무리 (Final Development) | 배포 준비, Deployment |
 
 ### 📌 Area 명칭 (정확히 사용)
 
@@ -497,7 +497,7 @@ C  - Content System (콘텐츠 시스템)
 예시:
 - S1M1: Stage 1 (개발 준비) - Documentation - Task 1
 - S3F5: Stage 3 (개발 2차) - Frontend - Task 5
-- S5O1: Stage 5 (운영) - DevOps - Task 1
+- S5O1: Stage 5 (개발 마무리) - DevOps - Task 1
 ```
 
 ### 2.4 병렬 작업 표현
@@ -2665,7 +2665,7 @@ Gate 승인 시:
 □ 보안 검토 완료
 ```
 
-**S5GATE (운영):**
+**S5GATE (개발 마무리):**
 ```
 □ 배포 완료
 □ 모니터링 시스템 구축

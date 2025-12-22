@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="2000" height="2200" viewBox="0 0 2000 2200" xmlns="http://www.w3.org/2000/svg">
+<svg width="1200" height="1600" viewBox="0 0 1200 1600" xmlns="http://www.w3.org/2000/svg">
     <rect width="100%" height="100%" fill="white"/>
 
     <defs>
-        <marker id="arrowhead" markerWidth="20" markerHeight="14" refX="18" refY="7" orient="auto">
-            <polygon points="0 0, 20 7, 0 14" fill="black"/>
+        <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+            <path d="M0,0 L12,6 L0,12 L3,6 Z" fill="black"/>
         </marker>
     </defs>
-    <text x="1000" y="100" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="70" font-weight="bold">도 3: Parser/Normalizer 처리 흐름</text>
-    <rect x="50" y="200" width="1900" height="1900" fill="white" stroke="black" stroke-width="3" rx="30" stroke-dasharray="15,15"/>
-    <text x="1000" y="280" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">Parser/Normalizer 모듈 (50)</text>
-    <rect x="700" y="400" width="600" height="300" fill="white" stroke="black" stroke-width="4" rx="30"/>
-    <text x="1000.0" y="480" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">입력 수신</text>
-    <text x="1000.0" y="540" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">Raw SAL ID String</text>
-    <line x1="1000" y1="650" x2="1000" y2="750" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
-    <rect x="700" y="750" width="600" height="300" fill="white" stroke="black" stroke-width="5" rx="30"/>
-    <text x="1000.0" y="830" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">정규식 매칭부</text>
-    <text x="1000.0" y="900" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(51)</text>
-    <text x="1000.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">형식 검증</text>
-    <line x1="1000" y1="1000" x2="1000" y2="1100" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
-    <rect x="700" y="1100" width="600" height="300" fill="white" stroke="black" stroke-width="5" rx="30"/>
-    <text x="1000.0" y="1180" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">구성요소 추출부</text>
-    <text x="1000.0" y="1250" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(52)</text>
-    <text x="1000.0" y="1310" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">S, A, L, V 분리</text>
-    <line x1="1000" y1="1350" x2="500" y2="1450" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
-    <line x1="1000" y1="1350" x2="1500" y2="1450" stroke="black" stroke-width="5" marker-end="url(#arrowhead)"/>
-    <rect x="200" y="1450" width="600" height="300" fill="white" stroke="black" stroke-width="5" rx="30"/>
-    <text x="500.0" y="1530" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">유효성 검사부</text>
-    <text x="500.0" y="1600" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(53)</text>
-    <text x="500.0" y="1660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">코드표/범위 확인</text>
-    <rect x="1200" y="1450" width="600" height="300" fill="white" stroke="black" stroke-width="5" rx="30"/>
-    <text x="1500.0" y="1530" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="60" font-weight="bold">정렬키 생성부</text>
-    <text x="1500.0" y="1600" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="40" font-weight="bold">(54)</text>
-    <text x="1500.0" y="1660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, Arial, sans-serif" font-size="32" font-weight="normal">Sort Key 생성</text>
+    <text x="600" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 3: Parser/Normalizer 처리 흐름</text>
+    <rect x="50" y="100" width="1100" height="1450" fill="white" stroke="black" stroke-width="5" rx="10" stroke-dasharray="10,5"/>
+    <text x="600.0" y="150" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Parser/Normalizer (50)</text>
+    <rect x="350.0" y="200" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="600.0" y="250" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">입력 수신</text>
+    <text x="600.0" y="310" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Raw String</text>
+    <path d="M 600,350 L 600,450" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+    <rect x="350.0" y="450" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="600.0" y="500" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">정규식 매칭부</text>
+    <text x="830.0" y="490" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(51)</text>
+    <text x="600.0" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">형식 검증</text>
+    <path d="M 600,600 L 600,700" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+    <rect x="350.0" y="700" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="600.0" y="750" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">구성요소 추출부</text>
+    <text x="830.0" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(52)</text>
+    <text x="600.0" y="810" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">S, A, L, V 분리</text>
+    <path d="M 600,850 L 600,900" stroke="black" stroke-width="2" fill="none"/>
+    <path d="M 300,900 L 900,900" stroke="black" stroke-width="2" fill="none"/>
+    <rect x="100" y="950" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="300.0" y="1000" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">유효성 검사부</text>
+    <text x="480" y="990" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(53)</text>
+    <text x="300.0" y="1060" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">코드표 확인</text>
+    <path d="M 300,900 L 300,950" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+    <rect x="700" y="950" width="400" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="900.0" y="1000" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">정렬키 생성부</text>
+    <text x="1080" y="990" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(54)</text>
+    <text x="900.0" y="1060" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Sort Key 생성</text>
+    <path d="M 900,900 L 900,950" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
 </svg>

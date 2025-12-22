@@ -25,7 +25,7 @@ S5S1
 프로덕션 환경 취약점 스캔, 보안 패치 적용, 의존성 업데이트
 
 ## Prerequisites (Dependencies)
-- S5O1 (프로덕션 배포) 완료
+- S5O1 (배포상황 최종 검증) 완료
 
 ## Specific Instructions
 

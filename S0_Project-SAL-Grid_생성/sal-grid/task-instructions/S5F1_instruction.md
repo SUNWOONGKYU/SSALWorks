@@ -25,7 +25,7 @@ S5F1
 프로덕션 배포 후 보고된 프론트엔드 버그 수정 및 UI/UX 개선
 
 ## Prerequisites (Dependencies)
-- S5O1 (프로덕션 배포) 완료
+- S5O1 (배포상황 최종 검증) 완료
 
 ## Specific Instructions
 
@@ -215,6 +215,117 @@ if (!Array.prototype.includes) {
 }
 ```
 
+### 7. ⭐ UX 필수 구현 패턴 (유호현 체크리스트)
+
+#### 7.1 다중 클릭 방지 (버튼 disabled)
+```javascript
+// 폼 제출 시 버튼 disabled 처리
+async function handleSubmit(event) {
+    event.preventDefault();
+    const submitBtn = event.target.querySelector('button[type="submit"]');
+
+    // 즉시 버튼 비활성화
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner"></span> 처리 중...';
+
+    try {
+        await submitForm();
+        showToast('저장되었습니다', 'success');
+    } catch (error) {
+        showToast(error.message, 'error');
+    } finally {
+        // 버튼 복원
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '저장';
+    }
+}
+```
+
+#### 7.2 로딩 상태 (200ms 미만 스피너 숨김)
+```javascript
+// 깜빡임 방지 로딩
+let loadingTimeout;
+
+function showLoading() {
+    // 200ms 후에만 스피너 표시 (빠른 응답 시 깜빡임 방지)
+    loadingTimeout = setTimeout(() => {
+        document.querySelector('.loading-spinner').style.display = 'block';
+    }, 200);
+}
+
+function hideLoading() {
+    clearTimeout(loadingTimeout);
+    document.querySelector('.loading-spinner').style.display = 'none';
+}
+```
+
+#### 7.3 Empty 상태 처리
+```javascript
+// Empty 상태 표시
+function renderList(items, container) {
+    if (!items || items.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <img src="/images/empty.svg" alt="데이터 없음">
+                <p>아직 데이터가 없습니다</p>
+                <button class="btn-primary" onclick="createFirst()">
+                    첫 번째 항목 추가하기
+                </button>
+            </div>
+        `;
+        return;
+    }
+    // 정상 렌더링
+    container.innerHTML = items.map(renderItem).join('');
+}
+```
+
+#### 7.4 성공/실패 토스트 메시지
+```javascript
+// 토스트 메시지 (3초 후 자동 사라짐)
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+
+    document.body.appendChild(toast);
+
+    // 애니메이션
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    // 3초 후 제거
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+// 사용 예시
+showToast('저장되었습니다', 'success');
+showToast('오류가 발생했습니다', 'error');
+```
+
+#### 7.5 입력 필드 실시간 유효성 검사
+```javascript
+// 실시간 유효성 검사
+input.addEventListener('input', function() {
+    const isValid = validateField(this.value);
+
+    if (isValid) {
+        this.classList.remove('error');
+        this.nextElementSibling?.remove(); // 에러 메시지 제거
+    } else {
+        this.classList.add('error');
+        if (!this.nextElementSibling?.classList.contains('error-message')) {
+            const errorMsg = document.createElement('span');
+            errorMsg.className = 'error-message';
+            errorMsg.textContent = '올바른 값을 입력하세요';
+            this.after(errorMsg);
+        }
+    }
+});
+```
+
 ## Expected Output Files
 - 수정된 HTML/CSS/JS 파일들
 - 버그 수정 보고서 (markdown)
@@ -226,6 +337,12 @@ if (!Array.prototype.includes) {
 - [ ] 크로스 브라우저 테스트 통과
 - [ ] 모바일 반응형 테스트 통과
 - [ ] 회귀 테스트 통과
+- [ ] ⭐ UX 필수 패턴 적용 (유호현 체크리스트)
+  - [ ] 다중 클릭 방지 (버튼 disabled)
+  - [ ] 로딩 상태 표시 (200ms 지연)
+  - [ ] Empty 상태 처리
+  - [ ] 성공/실패 토스트 메시지
+  - [ ] 입력 필드 실시간 유효성 검사
 - [ ] 수정 사항 문서화
 
 ## Tech Stack

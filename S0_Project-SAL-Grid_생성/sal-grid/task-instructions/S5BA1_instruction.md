@@ -25,7 +25,7 @@ API 버그 수정 및 최적화
 Serverless API 성능 개선 및 버그 수정
 
 ## Prerequisites (Dependencies)
-- S5O1 (프로덕션 배포) 완료
+- S5O1 (배포상황 최종 검증) 완료
 
 ## Specific Instructions
 

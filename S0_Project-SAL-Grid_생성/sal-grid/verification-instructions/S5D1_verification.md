@@ -2,81 +2,40 @@
 
 ---
 
-## 📌 필수 참조 규칙 파일 (2025-12-19)
-
-> **⚠️ 검증 전 반드시 아래 규칙 파일을 확인하세요!**
-
-| 규칙 파일 | 내용 | 참조 시점 |
-|----------|------|----------|
-| `.claude/rules/04_grid-writing.md` | Grid 속성 검증 | 결과 기록 시 |
-| `.claude/rules/05_execution-process.md` | 검증 프로세스 | 검증 수행 순서 |
-| `.claude/rules/06_verification.md` | 검증 기준 | **핵심 참조** |
-
-
-
 ## Task ID
 S5D1
 
 ## Task Name
-백업 설정
+Supabase 백업 설정 확인
+
+## Verification Goal
+Supabase 자동 백업 설정 확인 결과의 정확성 검증
 
 ## Verification Checklist
 
-### 1. Supabase 백업 검증
-- [ ] 자동 백업 활성화 확인
-- [ ] 백업 보존 기간 확인 (7일+)
+### 1. Supabase 백업 상태 확인
+- [ ] 자동 백업 활성화 여부 확인
+- [ ] 백업 보존 기간 확인 (Pro: 7일)
+- [ ] 최근 백업 시점 확인
 
-### 2. 백업 스크립트 검증
-- [ ] scripts/backup-database.js 존재
-- [ ] scripts/restore-database.js 존재
-- [ ] pg_dump 명령어 사용
+### 2. 복구 절차 문서화 확인
+- [ ] S5D1_backup_verification.md 파일 존재
+- [ ] 복구 절차 기재됨
+- [ ] 스크린샷 포함 (선택)
 
-### 3. 자동 백업 Cron 검증
-- [ ] api/cron/backup.js 존재
-- [ ] vercel.json Cron 설정
-- [ ] 매일 실행 스케줄
-
-### 4. 백업 정책 문서 검증
-- [ ] BACKUP_POLICY.md 존재
-- [ ] 백업 주기 정의
-- [ ] 복원 절차 정의
-
-### 5. 백업 테스트 검증
-- [ ] 수동 백업 실행 성공
-- [ ] 복원 테스트 성공
-
-## Test Commands
-```bash
-# 스크립트 파일 확인
-ls -la scripts/backup-*.js
-ls -la scripts/restore-*.js
-
-# 수동 백업 테스트
-npm run backup
-
-# 백업 파일 확인
-ls -la backups/
-```
-
-## Expected Results
-- 백업 스크립트 존재
-- 자동 백업 설정 완료
-- 복원 절차 문서화
+### 3. PITR 설정 확인
+- [ ] Point-in-Time Recovery 지원 여부 확인
 
 ## Verification Agent
-devops-troubleshooter
+`qa-specialist`
 
 ## Pass Criteria
-- Supabase 자동 백업 활성화
-- 수동 백업 스크립트 동작
-- 복원 테스트 성공
+- Supabase 자동 백업 활성화 확인됨
+- 복구 절차 문서화 완료
+- 확인 결과 파일 존재
 
 ---
 
-## ⚠️ 저장 위치 검증 항목
+## ⚠️ 저장 위치 검증
 
-### 필수 검증
-- [ ] Task ID의 Stage에 맞는 폴더에 저장되었는가? (S1→S1_개발_준비/, S2→S2_개발-1차/, ...)
-- [ ] Task ID의 Area에 맞는 폴더에 저장되었는가? (S→Security/, F→Frontend/, ...)
-- [ ] Production 관련 코드(F, BA, D)는 Production 폴더에도 저장되었는가?
-
+- [ ] 결과 파일이 `S5_개발_마무리/Database/`에 저장되었는가?

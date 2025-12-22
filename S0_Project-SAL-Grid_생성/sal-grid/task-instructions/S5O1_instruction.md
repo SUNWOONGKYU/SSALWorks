@@ -53,8 +53,18 @@ S5O1
 
 **기본 동작:**
 - 메인 페이지 로드 (https://ssalworks.ai.kr)
-- SSL 인증서 확인 (HTTPS 자물쇠)
-- 보안 헤더 확인
+- HTTP → HTTPS 리다이렉트 확인
+
+**SSL 인증서 확인 (S5O3 통합):**
+- SSL 인증서 유효성 확인 (HTTPS 자물쇠)
+- 인증서 만료일 확인 (30일 이상 여유)
+- HSTS 헤더 적용 확인 (Strict-Transport-Security)
+- SSL Labs 등급 확인 (목표: A 이상) - https://ssllabs.com/ssltest/
+
+**보안 헤더 확인:**
+- X-Content-Type-Options: nosniff
+- X-Frame-Options: DENY
+- X-XSS-Protection: 1; mode=block
 
 **페이지 접근성:**
 - 로그인/회원가입 페이지
@@ -80,6 +90,8 @@ S5O1
 ## Completion Criteria
 - [ ] 배포 상태 확인 완료
 - [ ] 환경변수 확인 완료
+- [ ] SSL 인증서 및 HTTPS 확인 완료
+- [ ] 보안 헤더 확인 완료
 - [ ] 기능 검증 완료
 - [ ] 검증 결과 문서화 완료
 
