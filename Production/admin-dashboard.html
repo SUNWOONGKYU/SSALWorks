@@ -1414,7 +1414,7 @@
                             <div class="activity-item normal">
                                 <span class="activity-icon">🟢</span>
                                 <div class="activity-content">
-                                    <div class="activity-message">구독 갱신 완료</div>
+                                    <div class="activity-message">이용료 결제 완료</div>
                                     <div class="activity-time">1시간 전</div>
                                 </div>
                             </div>
@@ -1438,7 +1438,7 @@
                             <div class="urgent-task high" onclick="showSection('subscription', event)">
                                 <span class="urgent-task-icon">🔴</span>
                                 <div class="urgent-task-content">
-                                    <div class="urgent-task-title">미납 회원 3명 (구독 정지 예정)</div>
+                                    <div class="urgent-task-title">미납 회원 3명 (이용 정지 예정)</div>
                                     <div class="urgent-task-count">3건</div>
                                 </div>
                                 <span class="urgent-task-arrow">→</span>
@@ -1489,85 +1489,6 @@
                     </div>
                 </div>
 
-                <!-- Recent Inquiries -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">📋 최근 문의 (실시간)</h2>
-                        <button class="section-action" onclick="showSection('inquiries', event)">전체 보기</button>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>사용자</th>
-                                <th>제목</th>
-                                <th>상태</th>
-                                <th>시간</th>
-                                <th>작업</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>user@example.com</td>
-                                <td>회원가입 오류</td>
-                                <td><span class="status-badge pending">미답변</span></td>
-                                <td>2분 전</td>
-                                <td><a href="#" class="action-link">답변하기</a></td>
-                            </tr>
-                            <tr>
-                                <td>test@test.com</td>
-                                <td>API 연동 문의</td>
-                                <td><span class="status-badge pending">미답변</span></td>
-                                <td>15분 전</td>
-                                <td><a href="#" class="action-link">답변하기</a></td>
-                            </tr>
-                            <tr>
-                                <td>admin@ssal.com</td>
-                                <td>결제 문의</td>
-                                <td><span class="status-badge answered">답변완료</span></td>
-                                <td>1시간 전</td>
-                                <td><a href="#" class="action-link">보기</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Recent Users -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">👥 최근 가입 사용자</h2>
-                        <button class="section-action" onclick="showSection('users', event)">전체 보기</button>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>이메일</th>
-                                <th>이름</th>
-                                <th>상태</th>
-                                <th>가입일</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>user@example.com</td>
-                                <td>홍길동</td>
-                                <td><span class="status-badge active">활성</span></td>
-                                <td>2025-11-17</td>
-                            </tr>
-                            <tr>
-                                <td>test@test.com</td>
-                                <td>김철수</td>
-                                <td><span class="status-badge active">활성</span></td>
-                                <td>2025-11-16</td>
-                            </tr>
-                            <tr>
-                                <td>admin@ssal.com</td>
-                                <td>박영희</td>
-                                <td><span class="status-badge active">활성</span></td>
-                                <td>2025-11-15</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
             </div>
 
             <!-- Notice Section -->
@@ -2036,11 +1957,6 @@
 
                 <!-- 회원 통계 -->
                 <div class="stats-grid">
-                    <div class="stat-card primary">
-                        <div class="stat-icon">👥</div>
-                        <div class="stat-value" id="totalUsersCount">-</div>
-                        <div class="stat-label">총 회원 수</div>
-                    </div>
                     <div class="stat-card success">
                         <div class="stat-icon">✨</div>
                         <div class="stat-value">+12</div>
@@ -2049,12 +1965,7 @@
                     <div class="stat-card warning">
                         <div class="stat-icon">🔄</div>
                         <div class="stat-value">45</div>
-                        <div class="stat-label">활성 구독자</div>
-                    </div>
-                    <div class="stat-card primary">
-                        <div class="stat-icon">📝</div>
-                        <div class="stat-value">567</div>
-                        <div class="stat-label">Order 작성 수</div>
+                        <div class="stat-label">활성 이용자</div>
                     </div>
                 </div>
 
@@ -2062,7 +1973,7 @@
                 <div class="content-section">
                     <div class="section-header">
                         <h2 class="section-title">💰 매출 통계</h2>
-                        <button class="section-action">내보내기 (CSV)</button>
+                        
                     </div>
                     <div class="stats-grid" style="margin-top: 16px;">
                         <div class="stat-card success">
@@ -2084,53 +1995,6 @@
                     </div>
                 </div>
 
-                <!-- AI 사용 통계 -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">🤖 AI 사용 통계</h2>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>AI 서비스</th>
-                                <th>호출 수</th>
-                                <th>크레딧 수익</th>
-                                <th>실제 비용</th>
-                                <th>마진</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>🟠 Perplexity</td>
-                                <td>23,456</td>
-                                <td style="color: var(--success);">₩468,900</td>
-                                <td style="color: var(--danger);">₩312,000</td>
-                                <td style="color: var(--success); font-weight: 600;">₩156,900</td>
-                            </tr>
-                            <tr>
-                                <td>🟢 ChatGPT</td>
-                                <td>15,678</td>
-                                <td style="color: var(--success);">₩235,170</td>
-                                <td style="color: var(--danger);">₩156,780</td>
-                                <td style="color: var(--success); font-weight: 600;">₩78,390</td>
-                            </tr>
-                            <tr>
-                                <td>🔵 Gemini</td>
-                                <td>6,544</td>
-                                <td style="color: var(--success);">₩65,440</td>
-                                <td style="color: var(--danger);">₩32,720</td>
-                                <td style="color: var(--success); font-weight: 600;">₩32,720</td>
-                            </tr>
-                            <tr style="background: #f8f9fa; font-weight: 600;">
-                                <td>합계</td>
-                                <td>45,678</td>
-                                <td style="color: var(--success);">₩769,510</td>
-                                <td style="color: var(--danger);">₩501,500</td>
-                                <td style="color: var(--success);">₩268,010</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
 
             </div>
 
