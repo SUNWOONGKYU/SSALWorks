@@ -2275,6 +2275,40 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- API 원가 관리 -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">💵 API 원가 관리</h2>
+                        <button class="section-action" onclick="showApiCostModal()">+ 모델 추가</button>
+                    </div>
+                    <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
+                        <select id="apiCostProviderFilter" onchange="filterApiCosts()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">
+                            <option value="all">전체 Provider</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="google">Google</option>
+                        </select>
+                        <span style="color: #666; font-size: 13px;">환율: <strong id="currentExchangeRate">₩1,450</strong>/USD</span>
+                    </div>
+                    <table class="data-table" id="apiCostsTable">
+                        <thead>
+                            <tr>
+                                <th>Provider</th>
+                                <th>모델명</th>
+                                <th>Input (1M)</th>
+                                <th>Output (1M)</th>
+                                <th>마진율</th>
+                                <th>판매가 (KRW)</th>
+                                <th>상태</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody id="apiCostsBody">
+                            <tr><td colspan="8" style="text-align:center; padding: 40px; color: #999;">로딩 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Settings Section -->
@@ -2612,6 +2646,61 @@
             </div>
         </div>
 
+        <!-- API Cost Modal -->
+        <div id="apiCostOverlay" class="form-overlay" onclick="if(event.target === this) closeApiCostModal()">
+            <div class="form-modal" style="max-width: 500px;">
+                <div class="form-header" id="apiCostModalTitle">💵 API 원가 추가</div>
+                <form onsubmit="event.preventDefault(); saveApiCost();">
+                    <input type="hidden" id="apiCostId">
+                    <div class="form-group">
+                        <label class="form-label">Provider</label>
+                        <select id="apiCostProvider" class="form-input" required>
+                            <option value="">선택하세요</option>
+                            <option value="openai">OpenAI</option>
+                            <option value="anthropic">Anthropic</option>
+                            <option value="google">Google</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">모델명 (API용)</label>
+                        <input type="text" id="apiCostModelName" class="form-input" placeholder="gpt-4o, claude-3.5-sonnet" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">표시 이름</label>
+                        <input type="text" id="apiCostDisplayName" class="form-input" placeholder="GPT-4o, Claude 3.5 Sonnet">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">Input Cost ($/1M)</label>
+                            <input type="number" id="apiCostInput" class="form-input" step="0.01" min="0" placeholder="3.00" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Output Cost ($/1M)</label>
+                            <input type="number" id="apiCostOutput" class="form-input" step="0.01" min="0" placeholder="15.00" required>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label class="form-label">환율 (USD→KRW)</label>
+                            <input type="number" id="apiCostExchangeRate" class="form-input" value="1450" min="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">마진율 (%)</label>
+                            <input type="number" id="apiCostMargin" class="form-input" value="30" min="0" max="100" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">비고</label>
+                        <input type="text" id="apiCostNotes" class="form-input" placeholder="모델 설명">
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="form-btn form-btn-secondary" onclick="closeApiCostModal()">취소</button>
+                        <button type="submit" class="form-btn form-btn-primary">저장</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- User Detail Modal -->
         <div id="userDetailOverlay" class="form-overlay" onclick="if(event.target === this) closeUserDetail()">
             <div class="form-modal" style="max-width: 500px;">
@@ -2864,6 +2953,11 @@
             if (section === 'subscription') {
                 loadPlatformFeeData();
             }
+
+            // API 사용량 섹션일 때 원가 데이터 로드
+            if (section === 'api') {
+                loadApiCosts();
+            }
         }
 
         // Logout
@@ -3038,6 +3132,170 @@
             } catch (error) {
                 console.error('크레딧 차감 실패:', error);
                 showToast('크레딧 차감 중 오류가 발생했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // ========================================
+        // API 원가 관리 Functions
+        // ========================================
+        let allApiCosts = [];
+
+        async function loadApiCosts() {
+            try {
+                const res = await fetch(
+                    `${SUPABASE_URL}/rest/v1/api_costs?select=*&order=provider,model_name`,
+                    { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
+                );
+                allApiCosts = await res.json();
+                renderApiCosts(allApiCosts);
+            } catch (error) {
+                console.error('API 원가 로드 실패:', error);
+                document.getElementById('apiCostsBody').innerHTML =
+                    '<tr><td colspan="8" style="text-align:center; padding:40px; color:#dc3545;">데이터 로드 실패</td></tr>';
+            }
+        }
+
+        function filterApiCosts() {
+            const provider = document.getElementById('apiCostProviderFilter').value;
+            const filtered = provider === 'all'
+                ? allApiCosts
+                : allApiCosts.filter(c => c.provider === provider);
+            renderApiCosts(filtered);
+        }
+
+        function renderApiCosts(costs) {
+            const tbody = document.getElementById('apiCostsBody');
+            if (!costs || costs.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px; color:#999;">등록된 모델이 없습니다.</td></tr>';
+                return;
+            }
+
+            const providerIcons = { openai: '🟢', anthropic: '🟣', google: '🔵' };
+
+            tbody.innerHTML = costs.map(cost => {
+                const inputKRW = cost.input_cost_per_1m * cost.usd_to_krw_rate * (1 + cost.margin_percent / 100);
+                const outputKRW = cost.output_cost_per_1m * cost.usd_to_krw_rate * (1 + cost.margin_percent / 100);
+                return `
+                    <tr>
+                        <td>${providerIcons[cost.provider] || '⚪'} ${cost.provider}</td>
+                        <td><strong>${cost.model_display_name || cost.model_name}</strong><br><small style="color:#999;">${cost.model_name}</small></td>
+                        <td>$${cost.input_cost_per_1m.toFixed(2)}</td>
+                        <td>$${cost.output_cost_per_1m.toFixed(2)}</td>
+                        <td>${cost.margin_percent}%</td>
+                        <td><small>In: ₩${Math.round(inputKRW).toLocaleString()}<br>Out: ₩${Math.round(outputKRW).toLocaleString()}</small></td>
+                        <td><span class="status-badge ${cost.is_active ? 'active' : 'inactive'}">${cost.is_active ? '활성' : '비활성'}</span></td>
+                        <td>
+                            <a href="#" class="action-link" onclick="editApiCost('${cost.id}'); return false;">수정</a>
+                            <a href="#" class="action-link" style="color:#dc3545;" onclick="deleteApiCost('${cost.id}'); return false;">삭제</a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function showApiCostModal(costId = null) {
+            document.getElementById('apiCostId').value = '';
+            document.getElementById('apiCostProvider').value = '';
+            document.getElementById('apiCostModelName').value = '';
+            document.getElementById('apiCostDisplayName').value = '';
+            document.getElementById('apiCostInput').value = '';
+            document.getElementById('apiCostOutput').value = '';
+            document.getElementById('apiCostExchangeRate').value = '1450';
+            document.getElementById('apiCostMargin').value = '30';
+            document.getElementById('apiCostNotes').value = '';
+            document.getElementById('apiCostModalTitle').textContent = '💵 API 원가 추가';
+            document.getElementById('apiCostOverlay').style.display = 'flex';
+        }
+
+        function closeApiCostModal() {
+            document.getElementById('apiCostOverlay').style.display = 'none';
+        }
+
+        function editApiCost(id) {
+            const cost = allApiCosts.find(c => c.id === id);
+            if (!cost) return;
+
+            document.getElementById('apiCostId').value = cost.id;
+            document.getElementById('apiCostProvider').value = cost.provider;
+            document.getElementById('apiCostModelName').value = cost.model_name;
+            document.getElementById('apiCostDisplayName').value = cost.model_display_name || '';
+            document.getElementById('apiCostInput').value = cost.input_cost_per_1m;
+            document.getElementById('apiCostOutput').value = cost.output_cost_per_1m;
+            document.getElementById('apiCostExchangeRate').value = cost.usd_to_krw_rate;
+            document.getElementById('apiCostMargin').value = cost.margin_percent;
+            document.getElementById('apiCostNotes').value = cost.notes || '';
+            document.getElementById('apiCostModalTitle').textContent = '💵 API 원가 수정';
+            document.getElementById('apiCostOverlay').style.display = 'flex';
+        }
+
+        async function saveApiCost() {
+            const id = document.getElementById('apiCostId').value;
+            const data = {
+                provider: document.getElementById('apiCostProvider').value,
+                model_name: document.getElementById('apiCostModelName').value.trim(),
+                model_display_name: document.getElementById('apiCostDisplayName').value.trim() || null,
+                input_cost_per_1m: parseFloat(document.getElementById('apiCostInput').value),
+                output_cost_per_1m: parseFloat(document.getElementById('apiCostOutput').value),
+                usd_to_krw_rate: parseFloat(document.getElementById('apiCostExchangeRate').value),
+                margin_percent: parseFloat(document.getElementById('apiCostMargin').value),
+                notes: document.getElementById('apiCostNotes').value.trim() || null
+            };
+
+            showLoading();
+            try {
+                const url = id
+                    ? `${SUPABASE_URL}/rest/v1/api_costs?id=eq.${id}`
+                    : `${SUPABASE_URL}/rest/v1/api_costs`;
+
+                const res = await fetch(url, {
+                    method: id ? 'PATCH' : 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!res.ok) throw new Error('저장 실패');
+
+                showToast(id ? '원가 정보가 수정되었습니다.' : '새 모델이 추가되었습니다.', 'success');
+                closeApiCostModal();
+                loadApiCosts();
+            } catch (error) {
+                console.error('API 원가 저장 실패:', error);
+                showToast('저장 중 오류가 발생했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteApiCost(id) {
+            if (!confirm('이 모델의 원가 정보를 삭제하시겠습니까?')) return;
+
+            showLoading();
+            try {
+                const res = await fetch(
+                    `${SUPABASE_URL}/rest/v1/api_costs?id=eq.${id}`,
+                    {
+                        method: 'DELETE',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        }
+                    }
+                );
+
+                if (!res.ok) throw new Error('삭제 실패');
+
+                showToast('원가 정보가 삭제되었습니다.', 'success');
+                loadApiCosts();
+            } catch (error) {
+                console.error('API 원가 삭제 실패:', error);
+                showToast('삭제 중 오류가 발생했습니다.', 'error');
             } finally {
                 hideLoading();
             }
