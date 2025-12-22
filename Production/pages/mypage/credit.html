@@ -686,7 +686,7 @@
 
             <div style="background: #FEF3C7; border-radius: 8px; padding: 14px; margin-bottom: 24px;">
                 <div style="font-size: 13px; color: #92400E;">
-                    ⚠️ 입금 후 아래 버튼을 눌러 입금 완료를 알려주세요.
+                    ⚠️ 입금 후 아래 버튼을 눌러 입금 완료를 확인해 주세요.
                 </div>
             </div>
 
@@ -694,8 +694,8 @@
                 <button onclick="closeDepositModal()" style="flex: 1; padding: 14px; border: 1px solid var(--gray-300); border-radius: 8px; background: white; font-weight: 600; cursor: pointer;">
                     취소
                 </button>
-                <button onclick="submitDepositNotification()" style="flex: 2; padding: 14px; border: none; border-radius: 8px; background: var(--secondary); color: white; font-weight: 600; cursor: pointer;">
-                    ✓ 입금 완료 알림
+                <button onclick="submitDepositNotification()" style="flex: 2; padding: 14px; border: none; border-radius: 8px; background: #2C4A8A; color: white; font-weight: 600; cursor: pointer;">
+                    ✓ 입금 완료 확인
                 </button>
             </div>
         </div>
@@ -788,7 +788,7 @@
                 if (error) throw error;
 
                 closeDepositModal();
-                showToast('입금 완료 알림이 접수되었습니다.', 'success');
+                showToast('입금 완료 확인이 접수되었습니다.', 'success');
 
                 // 선택 초기화
                 selectedAmount = 0;
