@@ -1711,7 +1711,12 @@
                 </div>
 
                 <!-- 크레딧 통계 -->
-                <div class="stats-grid">
+                <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+                    <div class="stat-card warning">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-value" id="creditPendingDepositCount">0</div>
+                        <div class="stat-label">입금 확인 대기</div>
+                    </div>
                     <div class="stat-card primary">
                         <div class="stat-icon">💰</div>
                         <div class="stat-value" id="creditTotalBalance">₩0</div>
@@ -1729,6 +1734,32 @@
                         <div class="stat-value" id="creditAIUsageCount">0회</div>
                         <div class="stat-label">AI 사용 횟수</div>
                     </div>
+                </div>
+
+                <!-- 💳 크레딧 입금 확인 대기 -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">💳 입금 확인 대기 목록</h2>
+                        <button class="section-action" onclick="loadCreditDepositNotifications()">🔄 새로고침</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>사용자</th>
+                                <th>입금자명</th>
+                                <th>금액</th>
+                                <th>신청일</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody id="creditDepositPendingTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center; color: #6c757d; padding: 40px;">
+                                    데이터를 불러오는 중...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
 
                 <!-- AI 서비스 가격 설정 -->
@@ -5120,7 +5151,8 @@
                 loadCreditTransactions(),
                 loadAIUsageLog(),
                 loadLowBalanceUsers(),
-                loadCreditStats()
+                loadCreditStats(),
+                loadCreditDepositNotifications()
             ]);
         }
 
@@ -5166,6 +5198,192 @@
 
             } catch (error) {
                 console.error('크레딧 통계 로드 실패:', error);
+            }
+        }
+
+        // 크레딧 입금 확인 대기 목록
+        let creditDepositNotifications = [];
+
+        async function loadCreditDepositNotifications() {
+            console.log('💳 크레딧 입금 확인 대기 목록 로드');
+
+            try {
+                if (!supabaseClient) {
+                    throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
+                }
+
+                // deposit_notifications 테이블에서 크레딧 입금 요청 조회
+                const { data, error } = await supabaseClient
+                    .from('deposit_notifications')
+                    .select('*')
+                    .eq('deposit_type', 'credit')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                creditDepositNotifications = data || [];
+                console.log('✅ 크레딧 입금 대기 목록 로드 성공:', creditDepositNotifications.length, '개');
+
+                renderCreditDepositTable();
+                updateCreditDepositStats();
+
+            } catch (error) {
+                console.error('❌ 크레딧 입금 대기 목록 로드 오류:', error);
+                document.getElementById('creditDepositPendingTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #dc3545; padding: 40px;">
+                            데이터를 불러오는데 실패했습니다. (${error.message})
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function renderCreditDepositTable() {
+            const tbody = document.getElementById('creditDepositPendingTableBody');
+            const pendingList = creditDepositNotifications.filter(n => n.status === 'pending');
+
+            if (pendingList.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; color: #6c757d; padding: 40px;">
+                            입금 확인 대기 중인 건이 없습니다.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = pendingList.map(notification => `
+                <tr>
+                    <td>${DOMPurify.sanitize(notification.user_id || '-')}</td>
+                    <td>${DOMPurify.sanitize(notification.depositor_name || '-')}</td>
+                    <td style="font-weight: 600; color: var(--primary);">₩${(notification.amount || 0).toLocaleString()}</td>
+                    <td>${formatDateTime(notification.created_at)}</td>
+                    <td>
+                        <a href="#" class="action-link" style="color: var(--success);" onclick="event.preventDefault(); confirmCreditDeposit('${notification.id}', '${notification.user_id}', ${notification.amount})">✅ 입금 확인</a>
+                        <a href="#" class="action-link" style="color: var(--danger); margin-left: 8px;" onclick="event.preventDefault(); rejectCreditDeposit('${notification.id}')">❌ 거부</a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateCreditDepositStats() {
+            const pendingCount = creditDepositNotifications.filter(n => n.status === 'pending').length;
+            document.getElementById('creditPendingDepositCount').textContent = pendingCount;
+        }
+
+        async function confirmCreditDeposit(notificationId, userId, amount) {
+            if (!confirm(`입금을 확인하고 ₩${amount.toLocaleString()} 크레딧을 충전하시겠습니까?`)) {
+                return;
+            }
+
+            try {
+                showLoading();
+
+                // 1. 사용자 현재 잔액 조회
+                const { data: userData, error: userError } = await supabaseClient
+                    .from('users')
+                    .select('credit_balance')
+                    .eq('user_id', userId)
+                    .single();
+
+                if (userError) {
+                    // user_id가 아닌 id로 시도
+                    const { data: userDataById, error: userErrorById } = await supabaseClient
+                        .from('users')
+                        .select('credit_balance, user_id')
+                        .eq('id', userId)
+                        .single();
+
+                    if (userErrorById) throw new Error('사용자를 찾을 수 없습니다.');
+                    userId = userDataById.user_id || userId;
+                }
+
+                const currentBalance = userData?.credit_balance || 0;
+                const newBalance = currentBalance + amount;
+
+                // 2. 크레딧 잔액 업데이트
+                const { error: updateError } = await supabaseClient
+                    .from('users')
+                    .update({ credit_balance: newBalance })
+                    .eq('user_id', userId);
+
+                if (updateError) {
+                    // user_id로 실패시 id로 시도
+                    const { error: updateError2 } = await supabaseClient
+                        .from('users')
+                        .update({ credit_balance: newBalance })
+                        .eq('id', userId);
+                    if (updateError2) throw updateError2;
+                }
+
+                // 3. 크레딧 거래 내역 추가
+                const { error: transError } = await supabaseClient
+                    .from('credit_transactions')
+                    .insert({
+                        user_id: userId,
+                        type: 'charge',
+                        amount: amount,
+                        balance_after: newBalance,
+                        description: '무통장 입금 - 관리자 확인'
+                    });
+
+                if (transError) console.error('거래 내역 추가 오류:', transError);
+
+                // 4. 입금 요청 상태 업데이트
+                const { error: notifError } = await supabaseClient
+                    .from('deposit_notifications')
+                    .update({
+                        status: 'confirmed',
+                        confirmed_at: new Date().toISOString()
+                    })
+                    .eq('id', notificationId);
+
+                if (notifError) throw notifError;
+
+                showToast(`✅ 입금 확인 완료! ₩${amount.toLocaleString()} 크레딧이 충전되었습니다.`, 'success');
+
+                // 목록 새로고침
+                await loadCreditDepositNotifications();
+                await loadUserCredits();
+                await loadCreditStats();
+                await loadCreditTransactions();
+
+                hideLoading();
+            } catch (error) {
+                console.error('❌ 크레딧 입금 확인 오류:', error);
+                showToast('입금 확인 실패: ' + error.message, 'error');
+                hideLoading();
+            }
+        }
+
+        async function rejectCreditDeposit(notificationId) {
+            const reason = prompt('거부 사유를 입력하세요:');
+            if (!reason) return;
+
+            try {
+                showLoading();
+
+                const { error } = await supabaseClient
+                    .from('deposit_notifications')
+                    .update({
+                        status: 'rejected',
+                        rejected_at: new Date().toISOString(),
+                        reject_reason: reason
+                    })
+                    .eq('id', notificationId);
+
+                if (error) throw error;
+
+                showToast('입금 요청이 거부되었습니다.', 'info');
+                await loadCreditDepositNotifications();
+
+                hideLoading();
+            } catch (error) {
+                console.error('❌ 입금 거부 처리 오류:', error);
+                showToast('처리 실패: ' + error.message, 'error');
+                hideLoading();
             }
         }
 
