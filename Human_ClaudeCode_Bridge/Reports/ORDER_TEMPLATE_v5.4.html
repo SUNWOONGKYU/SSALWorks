@@ -162,10 +162,10 @@
     <li><strong>규칙 파일(.claude/rules/) 확인 전 파일 생성/저장 금지</strong></li>
     <li><strong>불명확한 점은 추측 금지, 반드시 질문</strong></li>
     <li><strong>6단계 작업 순서 (A2 참조) 건너뛰거나 변경 금지</strong></li>
-    <li><strong>거짓 완료 보고 절대 금지</strong></li>
+    <li><strong>거짓 기록 절대 금지</strong></li>
 </ol>
 
-<h2>A2. AI 필수 작업 순서 (6단계)</h2>
+<h2>A2. AI 작업 순서 (6단계)</h2>
 
 <div class="step-box">
     <div class="step-title"><span>1</span> Order Sheet 완전 이해</div>
@@ -173,10 +173,9 @@
         <p><strong>목적:</strong> Order Sheet의 모든 내용을 100% 파악</p>
         <p><strong>체크리스트:</strong></p>
         <ul>
-            <li>1-1. _METADATA 확인 → Stage, 목적 파악</li>
-            <li>1-2. PART_B.tasks 확인 → Task 목록 파악</li>
-            <li>1-3. PART_B.special_instructions 확인 → 특별 지시사항</li>
-            <li>1-4. PART_B.additional_context 확인 → 추가 컨텍스트</li>
+            <li>1-1. ORDER_SHEET 확인 → Stage, 목적 파악</li>
+            <li>1-2. PART_B 특별 지시사항 확인</li>
+            <li>1-3. PART_B 참고사항 확인</li>
         </ul>
         <div class="output">출력: 'Order Sheet 확인 완료. Stage: S{N}, Task: {N}개'</div>
     </div>
@@ -215,7 +214,7 @@
             <tr><td>01_file-naming.md</td><td>파일 생성 시</td></tr>
             <tr style="background:#fff3e0;"><td><strong>02_save-location.md</strong></td><td><strong>파일 저장 시 (필독!)</strong></td></tr>
             <tr><td>03_area-stage.md</td><td>폴더 선택 시</td></tr>
-            <tr><td>04_grid-writing.md</td><td>Grid 업데이트 시</td></tr>
+            <tr><td>04_grid-writing.md</td><td>SAL Grid 기록 시</td></tr>
             <tr style="background:#fff3e0;"><td><strong>05_execution-process.md</strong></td><td><strong>Task 실행 시</strong></td></tr>
             <tr><td>06_verification.md</td><td>검증 시</td></tr>
             <tr><td>07_task-crud.md</td><td>Task 추가/삭제/수정 시</td></tr>
@@ -248,39 +247,39 @@
     <div class="step-content">
         <p><strong>실행 순서:</strong></p>
         <ol>
-            <li>5-1. Dependencies 기반 Task 순서 결정 (Grid 참조)</li>
-            <li>5-2. 각 Task: 작업 → 검증 → Grid 업데이트 → 파일 저장</li>
+            <li>5-1. Dependencies 기반 Task 순서 결정 (SAL Grid 참조)</li>
+            <li>5-2. 각 Task: 작업 → 검증 → SAL Grid에 기록 → 파일 저장</li>
             <li>5-3. Stage Gate 검증</li>
         </ol>
         <p><strong>Task별 체크리스트:</strong></p>
         <ul>
-            <li>Task Instruction 읽기</li>
+            <li>Task Instruction (A5 참조) 읽기</li>
             <li>작업 수행</li>
-            <li>검증 수행 (Verification Instruction)</li>
-            <li>Grid 업데이트 (test, build, integration, blockers)</li>
-            <li>파일 저장 (02_save-location.md 준수)</li>
+            <li>검증 수행 (Verification Instruction, A5 참조)</li>
+            <li>SAL Grid에 기록 (A3 참조)</li>
+            <li>파일 저장 (A4 참조)</li>
         </ul>
-        <div class="output">출력: 각 Task 완료 보고</div>
+        <div class="output">출력: 각 Task SAL Grid에 기록</div>
     </div>
 </div>
 
 <div class="step-box">
-    <div class="step-title"><span>6</span> 완료 보고</div>
+    <div class="step-title"><span>6</span> Stage 완료 기록</div>
     <div class="step-content">
-        <p><strong>보고서 필수 항목:</strong></p>
+        <p><strong>목적:</strong> Stage 전체 작업 결과를 SAL Grid에 기록</p>
+        <p><strong>기록 항목:</strong></p>
         <ul>
             <li>완료된 Task 목록</li>
             <li>생성/수정된 파일 목록</li>
             <li>검증 결과</li>
-            <li>Grid 상태</li>
             <li>특이사항</li>
         </ul>
-        <div class="output">출력: 완료 보고서</div>
+        <div class="output">출력: SAL Grid에서 확인 가능</div>
     </div>
 </div>
 
-<h2>A3. Grid 업데이트 규칙</h2>
-<p>Task 완료 시 필수 업데이트 필드:</p>
+<h2>A3. SAL Grid 기록 규칙</h2>
+<p>Task 완료 시 SAL Grid에 기록할 필드:</p>
 <table>
     <tr><th>필드</th><th>값</th></tr>
     <tr><td>task_progress</td><td>100</td></tr>
@@ -320,25 +319,19 @@
 <h2>A5. 참조 문서</h2>
 <table>
     <tr><td>규칙 파일</td><td>.claude/rules/</td></tr>
-    <tr><td>Task Plan</td><td>S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md</td></tr>
-    <tr><td>Task Instructions</td><td>S0_Project-SAL-Grid_생성/sal-grid/task-instructions/</td></tr>
-    <tr><td>Verification Instructions</td><td>S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/</td></tr>
-    <tr><td>Grid Manual</td><td>S0_Project-SAL-Grid_생성/manual/PROJECT_SSAL_GRID_MANUAL.md</td></tr>
-    <tr><td>SAL Grid</td><td>Supabase ssalworks_tasks 테이블</td></tr>
+    <tr><td>Task_Plan</td><td>S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md</td></tr>
+    <tr><td>Task_Instruction</td><td>S0_Project-SAL-Grid_생성/sal-grid/task-instructions/</td></tr>
+    <tr><td>Verification_Instruction</td><td>S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/</td></tr>
+    <tr><td>Grid_Manual</td><td>S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md</td></tr>
+    <tr><td>SAL_Grid</td><td>Supabase project_sal_grid 테이블</td></tr>
 </table>
 
 <!-- PART B -->
 <div class="part-header">PART B: 프로젝트별 추가 내용</div>
 
-<h2>B1. Task 목록 (tasks)</h2>
-<p>실행할 Task 목록 (Grid에서 가져옴)</p>
-<pre style="background:#f5f5f5;padding:15px;">{
-  "list": [
-    { "task_id": "{Task ID}", "task_name": "{Task Name}" }
-  ]
-}</pre>
+<p><em>프로젝트별로 추가할 내용을 아래에 기재하여 주세요. Task 목록은 ORDER_SHEET의 stage에 해당하는 SAL Grid 전체 Task입니다.</em></p>
 
-<h2>B2. 특별 지시사항 (special_instructions)</h2>
+<h2>B1. 특별 지시사항</h2>
 <p>이번 Order에만 적용되는 특별한 지시 (없으면 빈 배열)</p>
 <pre style="background:#f5f5f5;padding:15px;">{ "items": [] }</pre>
 <p><strong>예시:</strong></p>
@@ -346,15 +339,13 @@
 <div class="example">'S3BA1 완료 후 반드시 API 문서 업데이트'</div>
 <div class="example">'S4T1 테스트는 Chrome, Safari 두 브라우저에서 수행'</div>
 
-<h2>B3. 추가 컨텍스트 (additional_context)</h2>
-<p>AI가 작업 전에 알아야 할 배경 정보 (없으면 빈 배열)</p>
+<h2>B2. 참고사항</h2>
+<p>AI가 작업과 관련하여 알아야 할 배경 정보 등 참고사항 (없으면 빈 배열)</p>
 <pre style="background:#f5f5f5;padding:15px;">{ "items": [] }</pre>
 <p><strong>예시:</strong></p>
-<div class="example">'이전 세션에서 S2BA1 API 응답 형식 변경함. 프론트엔드 수정 필요'</div>
-<div class="example">'Supabase RLS가 개발 모드. 프로덕션 배포 전 변경 필요'</div>
+<div class="example">'이전 세션에서 S2BA1 API 응답 형식 변경함'</div>
+<div class="example">'Supabase RLS가 개발 모드'</div>
 <div class="example">'토스 페이먼트 테스트 키가 .env에 설정됨'</div>
-<div class="example">'ssalworks.ai.kr 도메인이 Vercel에 연결됨'</div>
-<div class="example">'사용자 피드백: 로그인 로딩 느림 → S5F1 성능 개선 필요'</div>
 
 <hr style="margin:40px 0;">
 <p style="text-align:center;color:#666;">ORDER SHEET v5.4 - SSALWorks Project</p>

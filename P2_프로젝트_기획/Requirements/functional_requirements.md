@@ -979,7 +979,7 @@ const subscription = supabase
 
 **기능 ID:** FR-CREDIT-003
 
-**설명:** AI별 동적 가격 (API 원가 + 20% 마진)
+**설명:** AI별 동적 가격 (API 원가 + 30% 마진)
 
 **가격 테이블:**
 ```sql
@@ -987,7 +987,7 @@ CREATE TABLE ai_pricing (
   ai_service TEXT PRIMARY KEY,  -- 'chatgpt', 'gemini', 'perplexity'
   price_per_query INTEGER,      -- 쿼리당 가격 (원)
   api_cost INTEGER,              -- API 실제 원가 (원)
-  margin_rate DECIMAL(3,2),     -- 마진율 (0.20 = 20%)
+  margin_rate DECIMAL(3,2),     -- 마진율 (0.30 = 30%)
   last_updated TIMESTAMP
 );
 ```
@@ -996,18 +996,18 @@ CREATE TABLE ai_pricing (
 ```
 ChatGPT-4:
 - API 원가: ₩120/쿼리
-- 마진: 20%
-- 최종 가격: ₩144/쿼리 → ₩150 (10원 단위 올림)
+- 마진: 30%
+- 최종 가격: ₩156/쿼리 → ₩160 (10원 단위 올림)
 
 Gemini Pro:
 - API 원가: ₩80/쿼리
-- 마진: 20%
-- 최종 가격: ₩96/쿼리 → ₩100
+- 마진: 30%
+- 최종 가격: ₩104/쿼리 → ₩110
 
 Perplexity:
 - API 원가: ₩200/쿼리
-- 마진: 20%
-- 최종 가격: ₩240/쿼리 → ₩240
+- 마진: 30%
+- 최종 가격: ₩260/쿼리 → ₩260
 ```
 
 **UI 표시:**

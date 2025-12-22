@@ -44,7 +44,7 @@
 
 #### 1-1. 개요
 - **실행 시간:** 매일 00:00 (KST)
-- **목적:** API 원가 + 20% 마진 자동 계산하여 사용자 가격 업데이트
+- **목적:** API 원가 + 30% 마진 자동 계산하여 사용자 가격 업데이트
 - **참조:** User Flow #4 - Real-time Credit & Pricing
 
 #### 1-2. 자동화 흐름
@@ -56,7 +56,7 @@
     ↓
 API별 평균 원가 계산
     ↓
-마진 20% 적용 + 10원 단위 절상
+마진 30% 적용 + 10원 단위 절상
     ↓
 ai_pricing 테이블 업데이트
     ↓
@@ -137,8 +137,8 @@ serve(async (req) => {
 
       console.log(`${service} 최종 원가: ₩${finalApiCost.toFixed(2)}`)
 
-      // Step 3: 마진 20% 적용
-      const costWithMargin = finalApiCost * 1.20
+      // Step 3: 마진 30% 적용
+      const costWithMargin = finalApiCost * 1.30
 
       // Step 4: 10원 단위 절상
       const finalPrice = Math.ceil(costWithMargin / 10) * 10
@@ -162,7 +162,7 @@ serve(async (req) => {
           ai_service: service,
           price_per_query: finalPrice,
           api_cost: finalApiCost,
-          margin_rate: 0.20,
+          margin_rate: 0.30,
           last_updated: new Date().toISOString()
         }, {
           onConflict: 'ai_service'
@@ -226,7 +226,7 @@ ${service} AI 가격이 크게 변동되었습니다.
 
 [원인]
 - API 원가: ₩${finalApiCost.toFixed(2)}
-- 마진 20% 적용: ₩${costWithMargin.toFixed(2)}
+- 마진 30% 적용: ₩${costWithMargin.toFixed(2)}
 - 10원 단위 절상: ₩${finalPrice}
 
 Admin Dashboard에서 확인하세요.
