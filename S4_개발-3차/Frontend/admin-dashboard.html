@@ -2248,14 +2248,10 @@
                         <button class="section-action" onclick="showApiCostModal()">+ 모델 추가</button>
                     </div>
                     <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
-                        <select id="apiCostProviderFilter" onchange="filterApiCosts()" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px;">
-                            <option value="all">전체 Provider</option>
-                            <option value="openai">OpenAI</option>
-                            <option value="anthropic">Anthropic</option>
-                            <option value="google">Google</option>
-                            <option value="perplexity">Perplexity</option>
-                        </select>
-                        <span style="color: #666; font-size: 13px;">환율: <strong id="currentExchangeRate">₩1,450</strong>/USD</span>
+                        <span style="color: #666; font-size: 13px;">
+                            환율: <strong id="currentExchangeRate">₩1,450</strong>/USD
+                            <button onclick="fetchExchangeRate()" style="margin-left: 8px; padding: 4px 10px; font-size: 12px; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; background: #f8f9fa;">🔄 환율 조회</button>
+                        </span>
                     </div>
                     <table class="data-table" id="apiCostsTable">
                         <thead>
@@ -3154,11 +3150,17 @@
         async function loadApiCosts() {
             try {
                 const res = await fetch(
-                    `${SUPABASE_URL}/rest/v1/api_costs?select=*&order=provider,model_name`,
+                    `${SUPABASE_URL}/rest/v1/api_costs?select=*&order=is_default.desc,provider,model_name`,
                     { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
                 );
                 allApiCosts = await res.json();
                 renderApiCosts(allApiCosts);
+
+                // 첫 번째 모델의 환율로 표시 업데이트
+                if (allApiCosts.length > 0) {
+                    const rate = allApiCosts[0].usd_to_krw_rate;
+                    document.getElementById('currentExchangeRate').textContent = `₩${rate.toLocaleString()}`;
+                }
             } catch (error) {
                 console.error('API 원가 로드 실패:', error);
                 document.getElementById('apiCostsBody').innerHTML =
@@ -3166,12 +3168,45 @@
             }
         }
 
-        function filterApiCosts() {
-            const provider = document.getElementById('apiCostProviderFilter').value;
-            const filtered = provider === 'all'
-                ? allApiCosts
-                : allApiCosts.filter(c => c.provider === provider);
-            renderApiCosts(filtered);
+        async function fetchExchangeRate() {
+            try {
+                showLoading();
+                // 한국수출입은행 환율 API (무료)
+                const today = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+                const res = await fetch(`https://api.exchangerate-api.com/v4/latest/USD`);
+                const data = await res.json();
+
+                if (data && data.rates && data.rates.KRW) {
+                    const rate = Math.round(data.rates.KRW);
+                    document.getElementById('currentExchangeRate').textContent = `₩${rate.toLocaleString()}`;
+
+                    // 모든 모델의 환율 업데이트 확인
+                    if (confirm(`현재 환율: ₩${rate.toLocaleString()}/USD\n\n모든 모델의 환율을 업데이트하시겠습니까?`)) {
+                        await fetch(
+                            `${SUPABASE_URL}/rest/v1/api_costs`,
+                            {
+                                method: 'PATCH',
+                                headers: {
+                                    'apikey': SUPABASE_KEY,
+                                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                                    'Content-Type': 'application/json',
+                                    'Prefer': 'return=minimal'
+                                },
+                                body: JSON.stringify({ usd_to_krw_rate: rate })
+                            }
+                        );
+                        showToast(`환율이 ₩${rate.toLocaleString()}/USD로 업데이트되었습니다.`, 'success');
+                        loadApiCosts();
+                    }
+                } else {
+                    throw new Error('환율 데이터 없음');
+                }
+            } catch (error) {
+                console.error('환율 조회 실패:', error);
+                showToast('환율 조회에 실패했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
         }
 
         function renderApiCosts(costs) {
