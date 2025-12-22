@@ -9,7 +9,7 @@
     "steps": [
       "1단계: Task Plan 수정 (SSALWORKS_TASK_PLAN.md)",
       "2단계: Task Instruction 수정 (task-instructions/)",
-      "3단계: Seed SQL / DB 수정 (seed_ssalworks_tasks.sql)",
+      "3단계: Seed SQL / DB 수정 (seed_project_sal_grid.sql)",
       "4단계: Verification Instruction 수정 (verification-instructions/)",
       "5단계: Stage 안내문 / Order Sheet 수정"
     ]
@@ -46,7 +46,7 @@
       },
 
       "step_3_seed_sql": {
-        "file": "seed_ssalworks_tasks.sql",
+        "file": "seed_project_sal_grid.sql",
         "action": "UPDATE",
         "changes": {
           "task_name": "Cron Jobs 설정",
@@ -102,7 +102,7 @@
       },
 
       "step_3_seed_sql": {
-        "file": "seed_ssalworks_tasks.sql",
+        "file": "seed_project_sal_grid.sql",
         "action": "UPDATE",
         "changes": {
           "task_name": "무통장 입금 결제 API",
@@ -157,7 +157,7 @@
       },
 
       "step_3_seed_sql": {
-        "file": "seed_ssalworks_tasks.sql",
+        "file": "seed_project_sal_grid.sql",
         "action": "UPDATE",
         "changes": {
           "task_name": "입금 확인 API (관리자용)",
@@ -222,7 +222,7 @@
       },
 
       "step_3_seed_sql": {
-        "file": "seed_ssalworks_tasks.sql",
+        "file": "seed_project_sal_grid.sql",
         "action": "INSERT (이미 추가됨)",
         "note": "다른 Claude Code가 이미 Seed SQL에 추가함"
       },
@@ -273,7 +273,7 @@
       },
 
       "step_3_seed_sql": {
-        "file": "seed_ssalworks_tasks.sql",
+        "file": "seed_project_sal_grid.sql",
         "action": "UPDATE",
         "changes": {
           "task_name": "관리자 대시보드 강화",
@@ -327,7 +327,7 @@
       },
 
       "step_3_seed_sql": {
-        "file": "seed_ssalworks_tasks.sql",
+        "file": "seed_project_sal_grid.sql",
         "action": "UPDATE (minor)",
         "changes": "description 업데이트"
       },
@@ -369,7 +369,7 @@
       "S4F1_instruction.md (재작성)",
       "S3F1_instruction.md (추가)"
     ],
-    "step_3_seed_sql": ["seed_ssalworks_tasks.sql"],
+    "step_3_seed_sql": ["seed_project_sal_grid.sql"],
     "step_4_verification_instructions": [
       "S4O1_verification.md (재작성)",
       "S4BA1_verification.md (재작성)",

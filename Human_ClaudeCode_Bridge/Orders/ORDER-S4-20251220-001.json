@@ -29,7 +29,7 @@
     }
   },
   "execution_steps": [
-    "Step 1: SAL Grid 확인 (Supabase ssalworks_tasks)",
+    "Step 1: SAL Grid 확인 (Supabase project_sal_grid)",
     "Step 2: Task 실행 순서 결정 (dependencies)",
     "Step 3: 각 Task 실행 (task_agent 서브에이전트)",
     "Step 4: 검증 (verification_agent 서브에이전트)",

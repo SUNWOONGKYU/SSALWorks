@@ -90,7 +90,7 @@
           "idx_ai_usage_service_created - 서비스 + 날짜"
         ]
       },
-      "ssalworks_tasks": {
+      "project_sal_grid": {
         "existing": 5,
         "added": 2,
         "total": 7,

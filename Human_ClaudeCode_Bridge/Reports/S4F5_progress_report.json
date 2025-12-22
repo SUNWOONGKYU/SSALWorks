@@ -85,7 +85,7 @@
   "post_test_actions": [
     "index.html의 TEST_DISABLE 주석 해제",
     "create.js의 TEST_DISABLE 주석 해제",
-    "Supabase ssalworks_tasks에 결과 기록",
+    "Supabase project_sal_grid에 결과 기록",
     "verification 필드 업데이트"
   ],
 

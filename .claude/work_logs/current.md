@@ -168,7 +168,7 @@
 | S4F6 | 인앱 알림 UI | F | 헤더 알림 벨, 드롭다운, 배지 |
 
 **업데이트된 파일/위치:**
-1. Supabase `ssalworks_tasks` 테이블 - INSERT 완료
+1. Supabase `project_sal_grid` 테이블 - INSERT 완료
 2. `task-instructions/S4D2_instruction.md` - 생성
 3. `task-instructions/S4F6_instruction.md` - 생성
 4. `verification-instructions/S4D2_verification.md` - 생성
@@ -330,7 +330,7 @@ mv "S5_운영" "S5_개발_마무리"
 | Verification Agent | code-reviewer |
 
 **Supabase DB 등록 완료:**
-- 테이블: `ssalworks_tasks`
+- 테이블: `project_sal_grid`
 - Status: 201 Created
 - ID: `b857456c-cfea-4b46-b9df-a559a88df916`
 
@@ -514,7 +514,7 @@ mv "S5_운영" "S5_개발_마무리"
 - [ ] create.js의 TEST_DISABLE 주석 해제
 
 ### 3. S4F5 Task 완료 처리
-- [ ] Supabase ssalworks_tasks에 결과 기록
+- [ ] Supabase project_sal_grid에 결과 기록
 - [ ] verification 필드 업데이트
 
 ---
@@ -559,7 +559,7 @@ mv "S5_운영" "S5_개발_마무리"
 - 삭제 이유: Claude가 실제 담당자 연락처, 접근 권한 등을 알 수 없음 (비현실적 Task)
 
 **업데이트된 위치:**
-1. Supabase ssalworks_tasks 테이블
+1. Supabase project_sal_grid 테이블
 2. task-instructions/S5M1_instruction.md (삭제)
 3. verification-instructions/S5M1_verification.md (삭제)
 4. SSALWORKS_TASK_PLAN.md (55 tasks)

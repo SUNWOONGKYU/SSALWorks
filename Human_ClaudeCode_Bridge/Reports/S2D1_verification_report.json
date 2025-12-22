@@ -73,7 +73,7 @@
         "idx_ai_usage_service_created - 서비스 + 날짜 복합 인덱스"
       ]
     },
-    "ssalworks_tasks_table": {
+    "project_sal_grid_table": {
       "existing_indexes": 5,
       "new_indexes": 2,
       "added": [

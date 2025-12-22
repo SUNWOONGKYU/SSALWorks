@@ -74,7 +74,7 @@ async function updateS2BI3() {
   };
 
   const { data, error } = await supabase
-    .from('ssalworks_tasks')
+    .from('project_sal_grid')
     .update(updateData)
     .eq('task_id', 'S2BI3')
     .select('task_id, task_name, status, progress, verification_status');

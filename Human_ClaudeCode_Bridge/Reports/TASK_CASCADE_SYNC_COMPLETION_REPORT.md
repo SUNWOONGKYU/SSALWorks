@@ -78,7 +78,7 @@ Task Plan을 Single Source of Truth (SSOT)로 하여 모든 관련 문서를 동
 
 ## 3단계: Seed SQL 수정
 
-**파일**: `S0_Project-SSAL-Grid_생성/supabase/seed_ssalworks_tasks.sql`
+**파일**: `S0_Project-SSAL-Grid_생성/supabase/seed_project_sal_grid.sql`
 
 ### 작업 결과
 - 전체 재작성 (42개 → 52개)
@@ -234,7 +234,7 @@ Order Sheet 파일들은 **Grid 참조 방식**을 사용하여 Task 목록을 �
 | Task Plan (SSOT) | `S0_Project-SSAL-Grid_생성/ssal-grid/SSALWORKS_TASK_PLAN.md` |
 | Task Instructions | `S0_Project-SSAL-Grid_생성/ssal-grid/task-instructions/` |
 | Verification Instructions | `S0_Project-SSAL-Grid_생성/ssal-grid/verification-instructions/` |
-| Seed SQL | `S0_Project-SSAL-Grid_생성/supabase/seed_ssalworks_tasks.sql` |
+| Seed SQL | `S0_Project-SSAL-Grid_생성/supabase/seed_project_sal_grid.sql` |
 | Order Sheets | `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/S?_*/` |
 | 수정 프로세스 문서 | `S0_Project-SSAL-Grid_생성/ssal-grid/TASK_MODIFICATION_PROCESS.md` |
 

@@ -40,7 +40,7 @@ SSAL Grid 데이터 작성 시 다음과 같은 오류가 발생:
 - **적용 범위**: 매뉴얼을 읽는 모든 AI/사용자
 
 ### 2.3 Seed 파일 (3순위 - 데이터 생성 시)
-- **경로**: `S0_Project-SSAL-Grid_생성/supabase/seed_ssalworks_tasks.sql`
+- **경로**: `S0_Project-SSAL-Grid_생성/supabase/seed_project_sal_grid.sql`
 - **섹션**: 파일 최상단 주석 블록 (50줄)
 - **특징**: seed 데이터 생성/수정 시 규칙 참조
 - **적용 범위**: SQL seed 파일 작업 시
@@ -68,7 +68,7 @@ SSAL_Grid_배포_패키지/
 │
 ├── supabase/
 │   ├── schema.sql                   테이블 스키마
-│   └── seed_ssalworks_tasks.sql     ⭐ 상단 규칙 주석 포함
+│   └── seed_project_sal_grid.sql     ⭐ 상단 규칙 주석 포함
 │
 ├── ssal-grid/
 │   └── task-instructions/
@@ -191,7 +191,7 @@ S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/
 
 ### Step 3: Supabase 설정
 1. `schema.sql`로 테이블 생성
-2. `seed_ssalworks_tasks.sql`로 초기 데이터 삽입
+2. `seed_project_sal_grid.sql`로 초기 데이터 삽입
 
 ### Step 4: 프로젝트 맞춤 수정
 - Task 내용을 자신의 프로젝트에 맞게 수정
@@ -223,7 +223,7 @@ C:\!SSAL_Works_Private\
 ├── .claude\CLAUDE.md
 ├── S0_Project-SSAL-Grid_생성\
 │   ├── manual\PROJECT_SSAL_GRID_MANUAL.md
-│   ├── supabase\seed_ssalworks_tasks.sql
+│   ├── supabase\seed_project_sal_grid.sql
 │   ├── ssal-grid\task-instructions\TEMPLATE_instruction.md
 │   └── viewer\viewer.html
 └── SSAL_GRID_활용_및_배포_준비사항.md  ← 이 문서

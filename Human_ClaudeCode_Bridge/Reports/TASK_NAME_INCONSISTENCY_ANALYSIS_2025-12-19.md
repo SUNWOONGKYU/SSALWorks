@@ -43,9 +43,9 @@
 │                    4개의 진실 원천                           │
 ├─────────────────────────────────────────────────────────────┤
 │  1. Task Plan (MD)     → SSALWORKS_TASK_PLAN.md            │
-│  2. Seed SQL           → seed_ssalworks_tasks.sql          │
+│  2. Seed SQL           → seed_project_sal_grid.sql          │
 │  3. Task Instructions  → task-instructions/*.md            │
-│  4. Supabase DB        → ssalworks_tasks 테이블            │
+│  4. Supabase DB        → project_sal_grid 테이블            │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -250,9 +250,9 @@
 | 소스 | 파일 경로 |
 |------|----------|
 | Task Plan | `S0_Project-SSAL-Grid_생성/ssal-grid/SSALWORKS_TASK_PLAN.md` |
-| Seed SQL | `S0_Project-SSAL-Grid_생성/supabase/seed_ssalworks_tasks.sql` |
+| Seed SQL | `S0_Project-SSAL-Grid_생성/supabase/seed_project_sal_grid.sql` |
 | Task Instructions | `S0_Project-SSAL-Grid_생성/ssal-grid/task-instructions/*.md` |
-| Supabase DB | `ssalworks_tasks` 테이블 |
+| Supabase DB | `project_sal_grid` 테이블 |
 
 ---
 

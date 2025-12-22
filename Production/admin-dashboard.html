@@ -2222,7 +2222,7 @@
                 <!-- API 원가 관리 -->
                 <div class="content-section">
                     <div class="section-header">
-                        <h2 class="section-title">💵 API 원가 관리</h2>
+                        <h2 class="section-title">💵 API 원가 및 판매가 관리</h2>
                         <button class="section-action" onclick="showApiCostModal()">+ 모델 추가</button>
                     </div>
                     <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center;">
@@ -2236,16 +2236,15 @@
                             <tr>
                                 <th>Provider</th>
                                 <th>모델명</th>
-                                <th>Input (1M)</th>
-                                <th>Output (1M)</th>
+                                <th>원가 (USD/1M)</th>
                                 <th>마진율</th>
-                                <th>판매가 (KRW)</th>
+                                <th>판매가 (KRW/1M)</th>
                                 <th>상태</th>
                                 <th>작업</th>
                             </tr>
                         </thead>
                         <tbody id="apiCostsBody">
-                            <tr><td colspan="8" style="text-align:center; padding: 40px; color: #999;">로딩 중...</td></tr>
+                            <tr><td colspan="7" style="text-align:center; padding: 40px; color: #999;">로딩 중...</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -3279,7 +3278,7 @@
         function renderApiCosts(costs) {
             const tbody = document.getElementById('apiCostsBody');
             if (!costs || costs.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center; padding:40px; color:#999;">등록된 모델이 없습니다.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding:40px; color:#999;">등록된 모델이 없습니다.</td></tr>';
                 return;
             }
 
@@ -3297,8 +3296,7 @@
                             ${isDefault ? '<span style="background:#0066cc; color:white; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:6px;">기본</span>' : ''}
                             <br><small style="color:#999;">${cost.model_name}</small>
                         </td>
-                        <td>$${cost.input_cost_per_1m.toFixed(2)}</td>
-                        <td>$${cost.output_cost_per_1m.toFixed(2)}</td>
+                        <td><small>In: $${cost.input_cost_per_1m.toFixed(2)}<br>Out: $${cost.output_cost_per_1m.toFixed(2)}</small></td>
                         <td>${cost.margin_percent}%</td>
                         <td><small>In: ₩${Math.round(inputKRW).toLocaleString()}<br>Out: ₩${Math.round(outputKRW).toLocaleString()}</small></td>
                         <td><span class="status-badge ${cost.is_active ? 'active' : 'inactive'}">${cost.is_active ? '활성' : '비활성'}</span></td>
@@ -3320,9 +3318,9 @@
             document.getElementById('apiCostInput').value = '';
             document.getElementById('apiCostOutput').value = '';
             document.getElementById('apiCostExchangeRate').value = '1450';
-            document.getElementById('apiCostMargin').value = '30';
+            document.getElementById('apiCostMargin').value = '20';
             document.getElementById('apiCostNotes').value = '';
-            document.getElementById('apiCostModalTitle').textContent = '💵 API 원가 추가';
+            document.getElementById('apiCostModalTitle').textContent = '💵 원가 추가';
             document.getElementById('apiCostOverlay').style.display = 'flex';
         }
 
@@ -3343,7 +3341,7 @@
             document.getElementById('apiCostExchangeRate').value = cost.usd_to_krw_rate;
             document.getElementById('apiCostMargin').value = cost.margin_percent;
             document.getElementById('apiCostNotes').value = cost.notes || '';
-            document.getElementById('apiCostModalTitle').textContent = '💵 API 원가 수정';
+            document.getElementById('apiCostModalTitle').textContent = '💵 원가 수정';
             document.getElementById('apiCostOverlay').style.display = 'flex';
         }
 

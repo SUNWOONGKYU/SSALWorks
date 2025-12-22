@@ -105,7 +105,7 @@ WHERE stage_name = 'S1' AND project_id = 'SSALWORKS';
 SELECT
     stage,
     COUNT(CASE WHEN task_status = 'Completed' THEN 1 END) * 100 / COUNT(*) as progress
-FROM ssalworks_tasks
+FROM project_sal_grid
 WHERE stage = 1
 GROUP BY stage;
 ```
@@ -121,7 +121,7 @@ if (stage_gate_status === 'Approved') {
 
 ### DB 테이블
 - **Stage Gate 상태**: `stage_verification.stage_gate_status`
-- **Task 상태**: `ssalworks_tasks.task_status` ('Completed' 여부)
+- **Task 상태**: `project_sal_grid.task_status` ('Completed' 여부)
 - **사용자 프로젝트**: `user_project_tasks` (향후 구현)
 
 ---

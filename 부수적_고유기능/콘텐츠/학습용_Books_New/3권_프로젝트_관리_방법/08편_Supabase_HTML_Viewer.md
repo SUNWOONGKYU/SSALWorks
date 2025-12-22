@@ -26,7 +26,7 @@ SAL Grid에서는 이 문제를 데이터베이스로 해결한다. Grid 데이�
 
 SAL Grid는 세 개의 테이블을 사용한다.
 
-첫 번째는 ssalworks_tasks 테이블이다. 프로젝트의 모든 Task를 저장하는 핵심 테이블이다. 22개 속성이 컬럼으로 들어가 있다. Task ID, Task 이름, Stage, Area, 진행률, 상태, 검증 결과 등 모든 정보가 여기에 저장된다.
+첫 번째는 project_sal_grid 테이블이다. 프로젝트의 모든 Task를 저장하는 핵심 테이블이다. 22개 속성이 컬럼으로 들어가 있다. Task ID, Task 이름, Stage, Area, 진행률, 상태, 검증 결과 등 모든 정보가 여기에 저장된다.
 
 두 번째는 stage_verification 테이블이다. Stage Gate 검증 상태를 저장한다. 각 Stage가 AI 검증을 통과했는지, PO 승인을 받았는지, 최종 상태가 무엇인지 기록한다.
 
@@ -34,7 +34,7 @@ SAL Grid는 세 개의 테이블을 사용한다.
 
 ## 3. Task 테이블의 구조
 
-ssalworks_tasks 테이블은 22개 속성을 담는다. 2편에서 배운 22개 속성이 그대로 데이터베이스 컬럼이 된다.
+project_sal_grid 테이블은 22개 속성을 담는다. 2편에서 배운 22개 속성이 그대로 데이터베이스 컬럼이 된다.
 
 기본 정보 섹션에는 stage, area, task_id, task_name이 들어간다. Stage는 숫자로 저장되고(1~5), Area는 문자열로 저장된다(M, F, BA 등).
 

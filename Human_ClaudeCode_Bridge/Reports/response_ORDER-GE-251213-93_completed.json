@@ -16,7 +16,7 @@
         "S2_개발-1차/Database/S2D1_indexes.sql",
         "Production/Database/S2D1_indexes.sql"
       ],
-      "description": "12개 추가 인덱스 정의 (users, learning_contents, faqs, credit_transactions, ai_usage_log, ssalworks_tasks)",
+      "description": "12개 추가 인덱스 정의 (users, learning_contents, faqs, credit_transactions, ai_usage_log, project_sal_grid)",
       "next_action": "Supabase SQL Editor에서 실행 필요"
     },
     {
