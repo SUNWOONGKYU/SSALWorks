@@ -1950,7 +1950,7 @@
             <div id="installation-section" class="content-view" style="display:none;">
                 <div class="content-header">
                     <h1 class="content-title">🏠 개발자 계정 개설비 관리</h1>
-                    <p class="content-subtitle">개발자 계정 개설비 입금 요청을 관리하세요.</p>
+                    <p class="content-subtitle">개발자 계정 개설비 입금 확인 및 처리</p>
                 </div>
 
                 <!-- 개발자 계정 개설비 통계 -->
@@ -1958,46 +1958,39 @@
                     <div class="stat-card warning">
                         <div class="stat-icon">⏳</div>
                         <div class="stat-value" id="installationPendingCount">0</div>
-                        <div class="stat-label">대기 중</div>
+                        <div class="stat-label">입금 확인 대기</div>
                     </div>
                     <div class="stat-card success">
                         <div class="stat-icon">✅</div>
                         <div class="stat-value" id="installationApprovedCount">0</div>
-                        <div class="stat-label">승인 완료</div>
-                    </div>
-                    <div class="stat-card danger">
-                        <div class="stat-icon">❌</div>
-                        <div class="stat-value" id="installationRejectedCount">0</div>
-                        <div class="stat-label">거부</div>
+                        <div class="stat-label">입금 확인 완료</div>
                     </div>
                     <div class="stat-card primary">
                         <div class="stat-icon">💰</div>
                         <div class="stat-value" id="installationTotalAmount">₩0</div>
-                        <div class="stat-label">총 개발자 계정 개설비 매출</div>
+                        <div class="stat-label">총 개설비 매출</div>
                     </div>
                 </div>
 
-                <!-- 입금 대기 목록 -->
+                <!-- 입금 확인 대기 목록 -->
                 <div class="content-section">
                     <div class="section-header">
-                        <h2 class="section-title">⏳ 입금 대기 목록</h2>
+                        <h2 class="section-title">⏳ 입금 확인 대기 목록</h2>
                         <button class="section-action" onclick="loadInstallationRequests()">🔄 새로고침</button>
                     </div>
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>개발자 계정 ID</th>
                                 <th>이메일</th>
-                                <th>실명 (입금자명)</th>
-                                <th>입금자명 (입력)</th>
+                                <th>실명</th>
                                 <th>금액</th>
-                                <th>요청일</th>
+                                <th>신청일</th>
                                 <th>작업</th>
                             </tr>
                         </thead>
                         <tbody id="installationPendingTableBody">
                             <tr>
-                                <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
+                                <td colspan="5" style="text-align: center; color: #6c757d; padding: 40px;">
                                     데이터를 불러오는 중...
                                 </td>
                             </tr>
@@ -2005,26 +1998,25 @@
                     </table>
                 </div>
 
-                <!-- 처리 완료 목록 -->
+                <!-- 입금 확인 완료 목록 -->
                 <div class="content-section">
                     <div class="section-header">
-                        <h2 class="section-title">📋 처리 완료 목록</h2>
+                        <h2 class="section-title">✅ 입금 확인 완료 목록</h2>
                     </div>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>개발자 계정 ID</th>
                                 <th>이메일</th>
-                                <th>입금자명</th>
+                                <th>실명</th>
                                 <th>금액</th>
-                                <th>요청일</th>
-                                <th>처리일</th>
-                                <th>상태</th>
+                                <th>신청일</th>
+                                <th>확인일</th>
                             </tr>
                         </thead>
                         <tbody id="installationProcessedTableBody">
                             <tr>
-                                <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
+                                <td colspan="6" style="text-align: center; color: #6c757d; padding: 40px;">
                                     데이터를 불러오는 중...
                                 </td>
                             </tr>
@@ -4427,35 +4419,43 @@
         // 개발자 계정 개설비 관리 기능 (Agenda #5)
         // ========================================
 
-        let installationRequests = [];
+        let installationFees = [];
 
         async function loadInstallationRequests() {
-            console.log('📋 개발자 계정 개설비 요청 목록 로드 시작');
+            console.log('📋 개발자 계정 개설비 목록 로드 시작');
 
             try {
                 if (!supabaseClient) {
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
-                // 개발자 계정 개설비 요청 목록 조회
+                // installation_fees 테이블에서 users JOIN하여 조회
                 const { data, error } = await supabaseClient
-                    .from('installation_payment_requests')
-                    .select('*')
-                    .order('requested_at', { ascending: false });
+                    .from('installation_fees')
+                    .select(`
+                        *,
+                        users (
+                            id,
+                            email,
+                            real_name,
+                            user_id
+                        )
+                    `)
+                    .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
-                installationRequests = data || [];
-                console.log('✅ 개발자 계정 개설비 요청 로드 성공:', installationRequests.length, '개');
+                installationFees = data || [];
+                console.log('✅ 개설비 목록 로드 성공:', installationFees.length, '개');
 
                 renderInstallationTables();
                 updateInstallationStats();
 
             } catch (error) {
-                console.error('❌ 개발자 계정 개설비 요청 로드 오류:', error);
+                console.error('❌ 개설비 목록 로드 오류:', error);
                 document.getElementById('installationPendingTableBody').innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; color: #dc3545; padding: 40px;">
+                        <td colspan="5" style="text-align: center; color: #dc3545; padding: 40px;">
                             데이터를 불러오는데 실패했습니다. (${error.message})
                         </td>
                     </tr>
@@ -4467,70 +4467,64 @@
             const pendingTableBody = document.getElementById('installationPendingTableBody');
             const processedTableBody = document.getElementById('installationProcessedTableBody');
 
-            const pendingRequests = installationRequests.filter(r => r.status === 'pending');
-            const processedRequests = installationRequests.filter(r => r.status !== 'pending');
+            const pendingList = installationFees.filter(f => f.status === 'pending');
+            const confirmedList = installationFees.filter(f => f.status === 'confirmed');
 
-            // 대기 중 목록
-            if (pendingRequests.length === 0) {
+            // 입금 확인 대기 목록
+            if (pendingList.length === 0) {
                 pendingTableBody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
-                            대기 중인 입금 요청이 없습니다.
+                        <td colspan="5" style="text-align: center; color: #6c757d; padding: 40px;">
+                            입금 확인 대기 중인 건이 없습니다.
                         </td>
                     </tr>
                 `;
             } else {
-                pendingTableBody.innerHTML = pendingRequests.map(req => `
+                pendingTableBody.innerHTML = pendingList.map(fee => `
                     <tr>
-                        <td>${req.user_id || '-'}</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>${req.depositor_name || '-'}</td>
-                        <td>₩${(req.amount || 0).toLocaleString()}</td>
-                        <td>${formatDateTime(req.requested_at)}</td>
+                        <td>${fee.users?.email || '-'}</td>
+                        <td>${fee.users?.real_name || '-'}</td>
+                        <td>₩${(fee.amount || 0).toLocaleString()}</td>
+                        <td>${formatDateTime(fee.created_at)}</td>
                         <td>
-                            <a href="#" class="action-link" style="color: var(--success);" onclick="event.preventDefault(); approveInstallation('${req.id}')">✅ 승인</a>
-                            <a href="#" class="action-link" style="color: var(--danger); margin-left: 8px;" onclick="event.preventDefault(); rejectInstallation('${req.id}')">❌ 거부</a>
+                            <a href="#" class="action-link" style="color: var(--success);" onclick="event.preventDefault(); confirmInstallation('${fee.id}', '${fee.user_id}', ${fee.amount})">✅ 입금 확인</a>
                         </td>
                     </tr>
                 `).join('');
             }
 
-            // 처리 완료 목록
-            if (processedRequests.length === 0) {
+            // 입금 확인 완료 목록
+            if (confirmedList.length === 0) {
                 processedTableBody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
-                            처리된 요청이 없습니다.
+                        <td colspan="6" style="text-align: center; color: #6c757d; padding: 40px;">
+                            입금 확인 완료된 건이 없습니다.
                         </td>
                     </tr>
                 `;
             } else {
-                processedTableBody.innerHTML = processedRequests.map(req => `
+                processedTableBody.innerHTML = confirmedList.map(fee => `
                     <tr>
-                        <td>${req.user_id || '-'}</td>
-                        <td>-</td>
-                        <td>${req.depositor_name || '-'}</td>
-                        <td>₩${(req.amount || 0).toLocaleString()}</td>
-                        <td>${formatDateTime(req.requested_at)}</td>
-                        <td>${formatDateTime(req.processed_at)}</td>
-                        <td>${getInstallationStatusBadge(req.status)}</td>
+                        <td>${fee.users?.user_id || '-'}</td>
+                        <td>${fee.users?.email || '-'}</td>
+                        <td>${fee.users?.real_name || '-'}</td>
+                        <td>₩${(fee.amount || 0).toLocaleString()}</td>
+                        <td>${formatDateTime(fee.created_at)}</td>
+                        <td>${formatDateTime(fee.confirmed_at)}</td>
                     </tr>
                 `).join('');
             }
         }
 
         function updateInstallationStats() {
-            const pendingCount = installationRequests.filter(r => r.status === 'pending').length;
-            const approvedCount = installationRequests.filter(r => r.status === 'approved').length;
-            const rejectedCount = installationRequests.filter(r => r.status === 'rejected').length;
-            const totalAmount = installationRequests
-                .filter(r => r.status === 'approved')
-                .reduce((sum, r) => sum + (r.amount || 0), 0);
+            const pendingCount = installationFees.filter(f => f.status === 'pending').length;
+            const confirmedCount = installationFees.filter(f => f.status === 'confirmed').length;
+            const totalAmount = installationFees
+                .filter(f => f.status === 'confirmed')
+                .reduce((sum, f) => sum + (f.amount || 0), 0);
 
             document.getElementById('installationPendingCount').textContent = pendingCount;
-            document.getElementById('installationApprovedCount').textContent = approvedCount;
-            document.getElementById('installationRejectedCount').textContent = rejectedCount;
+            document.getElementById('installationApprovedCount').textContent = confirmedCount;
             document.getElementById('installationTotalAmount').textContent = '₩' + totalAmount.toLocaleString();
 
             // 메뉴 뱃지 업데이트
@@ -4545,74 +4539,88 @@
             }
         }
 
-        function getInstallationStatusBadge(status) {
-            switch (status) {
-                case 'approved':
-                    return '<span class="status-badge active">승인</span>';
-                case 'rejected':
-                    return '<span class="status-badge inactive">거부</span>';
-                default:
-                    return '<span class="status-badge pending">대기</span>';
-            }
+        /**
+         * 개발자 계정 ID 생성 (8자리)
+         * 형식: YYMMNNXX
+         */
+        async function generateDeveloperAccountId(amount) {
+            const now = new Date();
+            const year = String(now.getFullYear()).slice(-2);
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+
+            const amountCodes = {
+                3000000: 'TH', 4000000: 'FO', 5000000: 'FI',
+                6000000: 'SI', 7000000: 'SE', 8000000: 'EI', 9000000: 'NI'
+            };
+            const amountCode = amountCodes[amount] || 'TH';
+
+            const prefix = year + month;
+            const { count, error } = await supabaseClient
+                .from('users')
+                .select('*', { count: 'exact', head: true })
+                .like('user_id', `${prefix}%`);
+
+            const serialNumber = String((count || 0) + 1).padStart(2, '0');
+            return `${year}${month}${serialNumber}${amountCode}`;
         }
 
-        async function approveInstallation(requestId) {
-            if (!confirm('이 입금 요청을 승인하시겠습니까?\n\n승인 시:\n- 개발자 계정 개설비 납부 완료 처리\n- 무료 크레딧 ₩5,000 지급')) {
+        async function confirmInstallation(feeId, userId, amount) {
+            if (!confirm('입금을 확인하시겠습니까?\n\n확인 시:\n- 개발자 계정 ID 자동 부여\n- 서비스 활성화\n- 웰컴 크레딧 ₩50,000 지급')) {
                 return;
             }
 
             try {
                 showLoading();
 
-                // 요청 상태 업데이트
-                const { error } = await supabaseClient
-                    .from('installation_payment_requests')
+                // 1. 개발자 계정 ID 생성
+                const developerAccountId = await generateDeveloperAccountId(amount);
+                console.log('📌 개발자 계정 ID 생성:', developerAccountId);
+
+                // 2. installation_fees 상태 업데이트
+                const { error: feeError } = await supabaseClient
+                    .from('installation_fees')
                     .update({
-                        status: 'approved',
-                        processed_at: new Date().toISOString()
+                        status: 'confirmed',
+                        confirmed_at: new Date().toISOString()
                     })
-                    .eq('id', requestId);
+                    .eq('id', feeId);
 
-                if (error) throw error;
+                if (feeError) throw feeError;
 
-                showToast('개발자 계정 개설비 입금이 승인되었습니다!', 'success');
+                // 3. users 테이블 업데이트 (개발자 계정 ID, 서비스 활성화)
+                const { error: userError } = await supabaseClient
+                    .from('users')
+                    .update({
+                        user_id: developerAccountId,
+                        service_status: 'active',
+                        installation_fee_paid: true,
+                        installation_date: new Date().toISOString()
+                    })
+                    .eq('id', userId);
+
+                if (userError) throw userError;
+
+                // 4. 웰컴 크레딧 ₩50,000 지급
+                const { error: creditError } = await supabaseClient
+                    .from('credit_transactions')
+                    .insert({
+                        user_id: userId,
+                        transaction_type: 'grant',
+                        amount: 50000,
+                        balance_after: 50000,
+                        description: '개발자 계정 개설비 입금 확인 - 웰컴 크레딧'
+                    });
+
+                if (creditError) console.error('크레딧 지급 오류:', creditError);
+
+                showToast(`입금 확인 완료! 개발자 계정 ID: ${developerAccountId}`, 'success');
                 loadInstallationRequests();
+                loadUsers(); // 서비스 이용 현황 갱신
 
                 hideLoading();
             } catch (error) {
-                console.error('❌ 승인 오류:', error);
-                showToast('승인 실패: ' + error.message, 'error');
-                hideLoading();
-            }
-        }
-
-        async function rejectInstallation(requestId) {
-            const reason = prompt('거부 사유를 입력하세요:');
-            if (!reason) {
-                return;
-            }
-
-            try {
-                showLoading();
-
-                const { error } = await supabaseClient
-                    .from('installation_payment_requests')
-                    .update({
-                        status: 'rejected',
-                        reject_reason: reason,
-                        processed_at: new Date().toISOString()
-                    })
-                    .eq('id', requestId);
-
-                if (error) throw error;
-
-                showToast('입금 요청이 거부되었습니다.', 'success');
-                loadInstallationRequests();
-
-                hideLoading();
-            } catch (error) {
-                console.error('❌ 거부 오류:', error);
-                showToast('거부 실패: ' + error.message, 'error');
+                console.error('❌ 입금 확인 오류:', error);
+                showToast('입금 확인 실패: ' + error.message, 'error');
                 hideLoading();
             }
         }
