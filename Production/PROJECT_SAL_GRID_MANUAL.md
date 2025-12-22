@@ -223,7 +223,7 @@ Task Agent 작업 완료 ──▶ Grid 지정 Verification Agent 투입 ──�
 | `01_file-naming.md` | 파일 명명 규칙 | task_instruction |
 | `02_save-location.md` | 저장 위치 규칙 | task_instruction |
 | `03_area-stage.md` | Area/Stage 매핑 | task_instruction |
-| `04_grid-writing.md` | Grid 22개 속성 | task_instruction, verification_instruction |
+| `04_grid-writing-supabase.md` | Grid 22개 속성 | task_instruction, verification_instruction |
 | `05_execution-process.md` | 6단계 실행 프로세스 | task_instruction, verification_instruction |
 | `06_verification.md` | 검증 기준 | verification_instruction |
 
@@ -1874,7 +1874,7 @@ src/components/ProfileAvatar.tsx
 
 | 규칙 파일 | 용도 | 참조 시점 |
 |----------|------|----------|
-| `.claude/rules/04_grid-writing.md` | Grid 속성 검증 | 결과 기록 시 |
+| `.claude/rules/04_grid-writing-supabase.md` | Grid 속성 검증 | 결과 기록 시 |
 | `.claude/rules/05_execution-process.md` | 검증 프로세스 | 검증 수행 순서 |
 | `.claude/rules/06_verification.md` | 검증 기준 | **핵심 참조** |
 
@@ -1882,7 +1882,7 @@ src/components/ProfileAvatar.tsx
 ```markdown
 ## 검증 규칙
 - 검증 기준: `.claude/rules/06_verification.md` 참조
-- 결과 기록: `.claude/rules/04_grid-writing.md` 참조
+- 결과 기록: `.claude/rules/04_grid-writing-supabase.md` 참조
 - 검증 프로세스: `.claude/rules/05_execution-process.md` 참조
 ```
 

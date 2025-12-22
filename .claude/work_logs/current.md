@@ -568,3 +568,67 @@ mv "S5_운영" "S5_개발_마무리"
 **07_task-crud.md 규칙 추가:**
 - Task 추가/삭제/수정 프로세스를 .claude/rules/에 규칙으로 추가
 - CLAUDE.md에 7대 작업 규칙으로 반영
+
+---
+
+## 2025-12-23 작업 내역
+
+### 마이페이지 문의 관리 페이지 추가 ✅
+
+**배경:**
+- 관리자가 문의 상태를 "처리중"으로 변경해도 사용자가 확인할 방법이 없었음
+- 이메일 알림은 비용 문제로 사용하지 않기로 함 (Resend)
+- 마이페이지에 문의 관리 메뉴 추가하여 사용자가 직접 확인 가능하게 함
+
+**생성된 파일:**
+| 파일 | 용도 |
+|------|------|
+| `Production/Frontend/Pages/mypage/inquiries.html` | 문의 관리 페이지 (배포용) |
+| `Production/Frontend/inquiries.css` | 스타일시트 |
+| `Production/Frontend/inquiries.js` | JavaScript |
+| `S4_개발-3차/Frontend/pages/mypage/inquiries.html` | 문의 관리 페이지 (개발 기록용) |
+| `S4_개발-3차/Frontend/inquiries.css` | 스타일시트 (개발 기록용) |
+| `S4_개발-3차/Frontend/inquiries.js` | JavaScript (개발 기록용) |
+
+**기능:**
+1. 사용자 본인의 문의 목록 조회
+2. 문의 상태 배지 표시 (대기/처리중/완료)
+3. 새 문의 작성 (카테고리: 일반/기술/결제/구독/기타)
+4. 문의 상세 보기 및 관리자 답변 확인
+
+**커밋:** `2cad254` - feat: 마이페이지 문의 관리 페이지 추가
+
+---
+
+### S4F6 Task 확장 (인앱 알림 → 마이페이지 기능) ✅
+
+**변경 내용:**
+- Task Name: "인앱 알림 UI" → "마이페이지 기능 (알림/문의)"
+- Part 1: 인앱 알림 UI (기존, 2025-12-22)
+- Part 2: 마이페이지 문의 관리 (신규, 2025-12-23)
+
+**업데이트된 위치 (07_task-crud.md 프로세스):**
+1. ✅ Supabase DB (`project_sal_grid` 테이블)
+   - S4F1: modification_history 업데이트
+   - S4F6: task_name, generated_files, modification_history, remarks 업데이트
+2. ✅ Task Instruction 파일 (`S4F6_instruction.md`)
+3. ✅ Verification Instruction 파일 (`S4F6_verification.md`)
+4. ✅ SSALWORKS_TASK_PLAN.md (v3.5)
+5. ✅ PROJECT_SAL_GRID_MANUAL.md (v3.8)
+6. ✅ work_logs/current.md (현재)
+
+---
+
+## 다음 세션 TODO
+
+### 1. S4F6 마이페이지 문의 관리 테스트
+- [ ] 브라우저에서 inquiries.html 접속
+- [ ] 문의 목록 조회 확인
+- [ ] 새 문의 작성 테스트
+- [ ] 상태 배지 표시 확인
+
+### 2. 기존 TODO 이어가기
+- [ ] 학습용 Books Part 표시 이슈 해결
+- [ ] 프로젝트 등록 테스트 완료
+
+---
