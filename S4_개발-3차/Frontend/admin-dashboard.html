@@ -3186,16 +3186,22 @@
             tbody.innerHTML = costs.map(cost => {
                 const inputKRW = cost.input_cost_per_1m * cost.usd_to_krw_rate * (1 + cost.margin_percent / 100);
                 const outputKRW = cost.output_cost_per_1m * cost.usd_to_krw_rate * (1 + cost.margin_percent / 100);
+                const isDefault = cost.is_default;
                 return `
-                    <tr>
+                    <tr style="${isDefault ? 'background: #f0f7ff;' : ''}">
                         <td>${providerIcons[cost.provider] || '⚪'} ${cost.provider}</td>
-                        <td><strong>${cost.model_display_name || cost.model_name}</strong><br><small style="color:#999;">${cost.model_name}</small></td>
+                        <td>
+                            <strong>${cost.model_display_name || cost.model_name}</strong>
+                            ${isDefault ? '<span style="background:#0066cc; color:white; font-size:10px; padding:2px 6px; border-radius:10px; margin-left:6px;">기본</span>' : ''}
+                            <br><small style="color:#999;">${cost.model_name}</small>
+                        </td>
                         <td>$${cost.input_cost_per_1m.toFixed(2)}</td>
                         <td>$${cost.output_cost_per_1m.toFixed(2)}</td>
                         <td>${cost.margin_percent}%</td>
                         <td><small>In: ₩${Math.round(inputKRW).toLocaleString()}<br>Out: ₩${Math.round(outputKRW).toLocaleString()}</small></td>
                         <td><span class="status-badge ${cost.is_active ? 'active' : 'inactive'}">${cost.is_active ? '활성' : '비활성'}</span></td>
                         <td>
+                            ${!isDefault ? `<a href="#" class="action-link" style="color:#0066cc;" onclick="setDefaultModel('${cost.id}', '${cost.provider}'); return false;">기본설정</a>` : ''}
                             <a href="#" class="action-link" onclick="editApiCost('${cost.id}'); return false;">수정</a>
                             <a href="#" class="action-link" style="color:#dc3545;" onclick="deleteApiCost('${cost.id}'); return false;">삭제</a>
                         </td>
@@ -3277,6 +3283,51 @@
             } catch (error) {
                 console.error('API 원가 저장 실패:', error);
                 showToast('저장 중 오류가 발생했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function setDefaultModel(id, provider) {
+            if (!confirm(`이 모델을 ${provider}의 기본 모델로 설정하시겠습니까?`)) return;
+
+            showLoading();
+            try {
+                // 해당 provider의 모든 모델 is_default = false
+                await fetch(
+                    `${SUPABASE_URL}/rest/v1/api_costs?provider=eq.${provider}`,
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify({ is_default: false })
+                    }
+                );
+
+                // 선택한 모델만 is_default = true
+                await fetch(
+                    `${SUPABASE_URL}/rest/v1/api_costs?id=eq.${id}`,
+                    {
+                        method: 'PATCH',
+                        headers: {
+                            'apikey': SUPABASE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify({ is_default: true })
+                    }
+                );
+
+                showToast('기본 모델이 변경되었습니다.', 'success');
+                loadApiCosts();
+            } catch (error) {
+                console.error('기본 모델 설정 실패:', error);
+                showToast('기본 모델 설정 중 오류가 발생했습니다.', 'error');
             } finally {
                 hideLoading();
             }
