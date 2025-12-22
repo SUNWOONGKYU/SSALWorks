@@ -248,6 +248,25 @@ async function submitInquiry() {
 
         if (error) throw error;
 
+        // 관리자에게 이메일 알림 (설정에서 켜져있을 경우)
+        try {
+            await fetch('https://www.ssalworks.ai.kr/api/Backend_APIs/admin-notify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'inquiry',
+                    data: {
+                        email: currentUser.email,
+                        category: category,
+                        title: title,
+                        content: content
+                    }
+                })
+            });
+        } catch (notifyErr) {
+            console.log('관리자 알림 발송 실패:', notifyErr.message);
+        }
+
         closeNewInquiryModal();
         alert('문의가 등록되었습니다. 빠른 시일 내에 답변 드리겠습니다.');
         await loadInquiries();
