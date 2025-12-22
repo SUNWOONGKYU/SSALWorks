@@ -2639,7 +2639,7 @@
                                 <th>회원ID</th>
                                 <th>이메일</th>
                                 <th>닉네임</th>
-                                <th>플랜</th>
+                                <th>실명</th>
                                 <th>상태</th>
                                 <th>크레딧</th>
                                 <th>가입일</th>
@@ -2722,10 +2722,6 @@
                         <div>
                             <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">가입일</div>
                             <div style="font-size: 14px;" id="userDetailCreatedAt">-</div>
-                        </div>
-                        <div>
-                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">플랜</div>
-                            <div id="userDetailPlan">-</div>
                         </div>
                         <div>
                             <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">개발자 계정 개설비 납부</div>
@@ -4139,9 +4135,6 @@
             }
 
             tbody.innerHTML = users.map(user => {
-                // 플랜 뱃지
-                const planBadge = getPlanBadge(user.subscription_plan);
-
                 // 상태 뱃지
                 const statusBadge = getStatusBadge(user.subscription_status);
 
@@ -4167,7 +4160,7 @@
                         <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px;">${userId}</code></td>
                         <td>${sanitizePlainText(user.email || '-')}</td>
                         <td>${safeDisplayName}</td>
-                        <td>${planBadge}</td>
+                        <td>${sanitizePlainText(user.real_name || '-')}</td>
                         <td>${statusBadge}</td>
                         <td style="text-align: right; font-weight: 500;">${creditDisplay}</td>
                         <td>${createdDate}</td>
@@ -4177,21 +4170,6 @@
                     </tr>
                 `;
             }).join('');
-        }
-
-        /**
-         * 플랜 뱃지 생성
-         */
-        function getPlanBadge(plan) {
-            const planStyles = {
-                'premium': { bg: '#ffd700', color: '#000', text: 'Premium' },
-                'pro': { bg: '#6B5CCC', color: '#fff', text: 'Pro' },
-                'basic': { bg: '#d4edda', color: '#155724', text: 'Basic' },
-                'free': { bg: '#e0e0e0', color: '#555', text: 'Free' }
-            };
-
-            const style = planStyles[plan?.toLowerCase()] || planStyles['free'];
-            return `<span class="status-badge" style="background: ${style.bg}; color: ${style.color};">${style.text}</span>`;
         }
 
         /**
@@ -4342,12 +4320,6 @@
                 createdAtElem.textContent = user.created_at
                     ? new Date(user.created_at).toLocaleDateString('ko-KR')
                     : '-';
-            }
-
-            // 플랜
-            const planElem = document.getElementById('userDetailPlan');
-            if (planElem) {
-                planElem.innerHTML = getPlanBadge(user.subscription_plan);
             }
 
             // 개발자 계정 개설비 납부
