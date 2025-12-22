@@ -1707,7 +1707,7 @@
             <div id="credit-section" class="content-view" style="display:none;">
                 <div class="content-header">
                     <h1 class="content-title">크레딧 관리</h1>
-                    <p class="content-subtitle">AI 서비스 가격 설정 및 사용자 크레딧을 관리하세요.</p>
+                    <p class="content-subtitle">사용자 크레딧을 관리하세요.</p>
                 </div>
 
                 <!-- 크레딧 통계 -->
@@ -1755,34 +1755,6 @@
                         <tbody id="creditDepositPendingTableBody">
                             <tr>
                                 <td colspan="5" style="text-align: center; color: #6c757d; padding: 40px;">
-                                    데이터를 불러오는 중...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- AI 서비스 가격 설정 -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">AI 서비스 가격 설정</h2>
-                        <button class="section-action" onclick="loadAIPricing()">새로고침</button>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>서비스</th>
-                                <th>사용자 가격</th>
-                                <th>API 원가</th>
-                                <th>마진율</th>
-                                <th>설명</th>
-                                <th>상태</th>
-                                <th>작업</th>
-                            </tr>
-                        </thead>
-                        <tbody id="aiPricingTableBody">
-                            <tr>
-                                <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
                                     데이터를 불러오는 중...
                                 </td>
                             </tr>
@@ -5724,7 +5696,6 @@
 
         async function loadCreditData() {
             await Promise.all([
-                loadAIPricing(),
                 loadUserCredits(),
                 loadCreditTransactions(),
                 loadAIUsageLog(),
@@ -5978,49 +5949,6 @@
             }
         }
 
-        async function loadAIPricing() {
-            try {
-                const { data: pricing, error } = await supabaseClient
-                    .from('ai_service_pricing')
-                    .select('*')
-                    .order('price_per_use', { ascending: false });
-
-                if (error) throw error;
-
-                const tbody = document.getElementById('aiPricingTableBody');
-                if (!pricing || pricing.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#6c757d;padding:40px;">등록된 AI 서비스가 없습니다.</td></tr>';
-                    return;
-                }
-
-                const serviceIcons = {
-                    'ChatGPT': '🟢',
-                    'Gemini': '🔵',
-                    'Perplexity': '🟠'
-                };
-
-                tbody.innerHTML = pricing.map(p => `
-                    <tr>
-                        <td><strong>${serviceIcons[p.service_name] || '🤖'} ${DOMPurify.sanitize(p.service_name)}</strong></td>
-                        <td style="font-weight:600;color:var(--primary);">₩${p.price_per_use.toLocaleString()}</td>
-                        <td>₩${(p.api_cost || 0).toLocaleString()}</td>
-                        <td>${p.margin_percent || 0}%</td>
-                        <td>${DOMPurify.sanitize(p.description || '-')}</td>
-                        <td><span class="status-badge ${p.is_active ? 'active' : 'inactive'}">${p.is_active ? '활성' : '비활성'}</span></td>
-                        <td>
-                            <a href="#" class="action-link" onclick="editAIPricing('${p.service_name}')">수정</a>
-                            <a href="#" class="action-link" onclick="toggleAIPricing('${p.service_name}', ${!p.is_active})">${p.is_active ? '비활성화' : '활성화'}</a>
-                        </td>
-                    </tr>
-                `).join('');
-
-            } catch (error) {
-                console.error('AI 가격 로드 실패:', error);
-                document.getElementById('aiPricingTableBody').innerHTML =
-                    '<tr><td colspan="7" style="text-align:center;color:#dc3545;padding:40px;">데이터 로드 실패</td></tr>';
-            }
-        }
-
         async function loadUserCredits() {
             try {
                 const { data: users, error } = await supabaseClient
@@ -6258,55 +6186,6 @@
             } catch (error) {
                 console.error('전체 알림 발송 실패:', error);
                 showToast('알림 발송에 실패했습니다: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        async function toggleAIPricing(serviceName, active) {
-            if (!confirm(`${serviceName}을(를) ${active ? '활성화' : '비활성화'} 하시겠습니까?`)) return;
-
-            showLoading();
-            try {
-                const { error } = await supabaseClient
-                    .from('ai_service_pricing')
-                    .update({ is_active: active, updated_at: new Date().toISOString() })
-                    .eq('service_name', serviceName);
-
-                if (error) throw error;
-
-                showToast(`${serviceName} ${active ? '활성화' : '비활성화'} 완료`, 'success');
-                await loadAIPricing();
-
-            } catch (error) {
-                showToast('처리 실패: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        function editAIPricing(serviceName) {
-            const newPrice = prompt(`${serviceName}의 새 가격을 입력하세요 (원):`);
-            if (!newPrice || isNaN(parseInt(newPrice))) return;
-
-            updateAIPricing(serviceName, parseInt(newPrice));
-        }
-
-        async function updateAIPricing(serviceName, newPrice) {
-            showLoading();
-            try {
-                const { error } = await supabaseClient
-                    .from('ai_service_pricing')
-                    .update({ price_per_use: newPrice, updated_at: new Date().toISOString() })
-                    .eq('service_name', serviceName);
-
-                if (error) throw error;
-
-                showToast(`${serviceName} 가격이 ₩${newPrice.toLocaleString()}로 변경되었습니다.`, 'success');
-                await loadAIPricing();
-
-            } catch (error) {
-                showToast('가격 변경 실패: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
