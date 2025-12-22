@@ -1,7 +1,6 @@
 {
   "═══════════════════════════════════════════════════════════════════════════════": "",
   "║                    ORDER SHEET v5.4 - AI 작업 지시서                         ║": "",
-  "║                     S1~S5 공통 적용 / 물샐 틈 없는 버전                       ║": "",
   "═══════════════════════════════════════════════════════════════════════════════": "",
 
   "ORDER_SHEET": {
@@ -129,36 +128,42 @@
 
       "STEP_6": {
         "단계": "6단계",
-        "제목": "Stage 완료 기록",
-        "목적": "Stage 전체 작업 결과를 SAL Grid에 기록",
-        "기록_항목": [
-          "완료된 Task 목록",
-          "생성/수정된 파일 목록",
-          "검증 결과",
-          "특이사항"
+        "제목": "Stage Gate 검증",
+        "목적": "Stage 전체 완료 여부 최종 확인 후 다음 Stage 진행",
+        "검증_항목": [
+          "Stage 내 모든 Task verification_status = Verified",
+          "전체 빌드 통과",
+          "전체 테스트 통과",
+          "미해결 Blocker 없음"
         ],
-        "출력": "SAL Grid에서 확인 가능",
-        "다음단계_조건": "PO 확인"
+        "출력": "Stage Gate 통과 → PO 승인 대기",
+        "다음단계_조건": "PO 승인"
       }
     },
 
     "A3_SAL_GRID_RULES": {
       "_title": "A3. SAL Grid 기록 규칙",
-      "_description": "Task 완료 시 SAL Grid에 기록할 필드",
+      "_description": "Task 상태별 기록 필드",
 
-      "필수_필드": {
+      "작업_완료_시": {
+        "_설명": "Task 작업이 끝났을 때 (검증 전)",
+        "task_status": "Executed",
         "task_progress": "100",
+        "generated_files": "[파일 경로 목록]"
+      },
+
+      "검증_완료_시": {
+        "_설명": "Verification Agent 검증 통과 후",
+        "verification_status": "Verified",
         "task_status": "Completed",
-        "generated_files": "[파일 경로 목록]",
         "test": "{unit_test, integration_test}",
         "build": "{lint, compile}",
         "integration_verification": "{data_flow, cross_task_connection}",
         "blockers": "{status: 'No Blockers ✅'}",
-        "comprehensive_verification": "종합 결과",
-        "verification_status": "Verified"
+        "comprehensive_verification": "종합 결과"
       },
 
-      "완료_조건": "위 필드 모두 채워야 task_status=Completed 가능"
+      "상태_전이": "Executed + Verified → Completed"
     },
 
     "A4_FILE_SAVE_RULES": {

@@ -3230,7 +3230,7 @@
                 document.getElementById('totalInputTokens').textContent = totalInput.toLocaleString();
                 document.getElementById('totalOutputTokens').textContent = totalOutput.toLocaleString();
                 document.getElementById('totalTokens').textContent = totalTokensSum.toLocaleString();
-                document.getElementById('totalCostUSD').textContent = `$${totalCostUSD.toFixed(2)}`;
+                document.getElementById('totalCostUSD').textContent = `$${totalCostUSD.toFixed(4)}`;
 
             } catch (error) {
                 console.error('AI 사용량 통계 로드 실패:', error);
