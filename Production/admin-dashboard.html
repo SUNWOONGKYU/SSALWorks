@@ -1816,6 +1816,31 @@
                     </table>
                 </div>
 
+                <!-- 잔액 부족 알림 대상 -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">⚠️ 잔액 부족 알림 대상 (1,000원 미만)</h2>
+                        <button class="section-action" onclick="sendLowBalanceNotificationAll()" style="background: var(--warning); color: #000;">📧 전체 알림 발송</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>사용자</th>
+                                <th>이메일</th>
+                                <th>현재 잔액</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody id="lowBalanceTableBody">
+                            <tr>
+                                <td colspan="4" style="text-align: center; color: #6c757d; padding: 40px;">
+                                    데이터를 불러오는 중...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <!-- 크레딧 거래 내역 -->
                 <div class="content-section">
                     <div class="section-header">
@@ -1864,31 +1889,6 @@
                         <tbody id="aiUsageLogTableBody">
                             <tr>
                                 <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
-                                    데이터를 불러오는 중...
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- 잔액 부족 알림 대상 -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">⚠️ 잔액 부족 알림 대상 (1,000원 미만)</h2>
-                        <button class="section-action" onclick="sendLowBalanceNotificationAll()" style="background: var(--warning); color: #000;">📧 전체 알림 발송</button>
-                    </div>
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>사용자</th>
-                                <th>이메일</th>
-                                <th>현재 잔액</th>
-                                <th>작업</th>
-                            </tr>
-                        </thead>
-                        <tbody id="lowBalanceTableBody">
-                            <tr>
-                                <td colspan="3" style="text-align: center; color: #6c757d; padding: 40px;">
                                     데이터를 불러오는 중...
                                 </td>
                             </tr>
