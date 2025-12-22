@@ -1874,12 +1874,14 @@
                 <!-- 잔액 부족 알림 대상 -->
                 <div class="content-section">
                     <div class="section-header">
-                        <h2 class="section-title">잔액 부족 알림 대상 (1,000원 미만)</h2>
+                        <h2 class="section-title">⚠️ 잔액 부족 알림 대상 (1,000원 미만)</h2>
+                        <button class="section-action" onclick="sendLowBalanceNotificationAll()" style="background: var(--warning); color: #000;">📧 전체 알림 발송</button>
                     </div>
                     <table class="data-table">
                         <thead>
                             <tr>
                                 <th>사용자</th>
+                                <th>이메일</th>
                                 <th>현재 잔액</th>
                                 <th>작업</th>
                             </tr>
@@ -5553,28 +5555,33 @@
             }
         }
 
+        let lowBalanceUsers = [];
+
         async function loadLowBalanceUsers() {
             try {
                 const { data: users, error } = await supabaseClient
                     .from('users')
-                    .select('user_id, name, credit_balance')
+                    .select('user_id, name, email, credit_balance')
                     .lt('credit_balance', 1000)
                     .order('credit_balance', { ascending: true });
 
                 if (error) throw error;
 
+                lowBalanceUsers = users || [];
                 const tbody = document.getElementById('lowBalanceTableBody');
                 if (!users || users.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;color:#6c757d;padding:40px;">잔액 부족 사용자 없음</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#6c757d;padding:40px;">잔액 부족 사용자 없음</td></tr>';
                     return;
                 }
 
                 tbody.innerHTML = users.map(u => `
                     <tr>
                         <td>${DOMPurify.sanitize(u.name || u.user_id)}</td>
+                        <td>${DOMPurify.sanitize(u.email || '-')}</td>
                         <td style="color:var(--danger);font-weight:600;">₩${(u.credit_balance || 0).toLocaleString()}</td>
                         <td>
-                            <a href="#" class="action-link" onclick="chargeUserCredit('${u.user_id}', '${u.name || u.user_id}')">충전</a>
+                            <a href="#" class="action-link" onclick="event.preventDefault(); sendLowBalanceNotification('${u.email}', '${u.name || u.user_id}', ${u.credit_balance || 0})">📧 알림</a>
+                            <a href="#" class="action-link" style="margin-left: 8px;" onclick="event.preventDefault(); chargeUserCredit('${u.user_id}', '${u.name || u.user_id}')">충전</a>
                         </td>
                     </tr>
                 `).join('');
@@ -5582,7 +5589,97 @@
             } catch (error) {
                 console.error('잔액 부족 사용자 로드 실패:', error);
                 document.getElementById('lowBalanceTableBody').innerHTML =
-                    '<tr><td colspan="3" style="text-align:center;color:#dc3545;padding:40px;">데이터 로드 실패</td></tr>';
+                    '<tr><td colspan="4" style="text-align:center;color:#dc3545;padding:40px;">데이터 로드 실패</td></tr>';
+            }
+        }
+
+        // 잔액 부족 알림 발송 (개별)
+        async function sendLowBalanceNotification(email, userName, balance) {
+            if (!email || email === '-') {
+                showToast('이메일 주소가 없어 알림을 보낼 수 없습니다.', 'error');
+                return;
+            }
+
+            if (!confirm(`${userName}님에게 잔액 부족 알림을 발송하시겠습니까?\n\n현재 잔액: ₩${balance.toLocaleString()}`)) {
+                return;
+            }
+
+            showLoading();
+            try {
+                // TODO: Resend API 연동 후 실제 이메일 발송
+                // 현재는 알림 발송 기록만 저장
+                const { error } = await supabaseClient
+                    .from('notification_logs')
+                    .insert({
+                        notification_type: 'low_balance',
+                        recipient_email: email,
+                        recipient_name: userName,
+                        content: `잔액이 ₩${balance.toLocaleString()}으로 부족합니다. 크레딧을 충전해주세요.`,
+                        status: 'pending',
+                        created_at: new Date().toISOString()
+                    });
+
+                if (error) {
+                    console.log('알림 로그 테이블 없음 - 테이블 생성 필요:', error.message);
+                }
+
+                showToast(`📧 ${userName}님에게 잔액 부족 알림 발송 예정 (Resend 연동 필요)`, 'warning');
+                console.log('📧 잔액 부족 알림 발송:', { email, userName, balance });
+
+            } catch (error) {
+                console.error('알림 발송 실패:', error);
+                showToast('알림 발송에 실패했습니다: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 잔액 부족 알림 발송 (전체)
+        async function sendLowBalanceNotificationAll() {
+            if (lowBalanceUsers.length === 0) {
+                showToast('잔액 부족 사용자가 없습니다.', 'info');
+                return;
+            }
+
+            const usersWithEmail = lowBalanceUsers.filter(u => u.email);
+            if (usersWithEmail.length === 0) {
+                showToast('이메일 주소가 있는 사용자가 없습니다.', 'error');
+                return;
+            }
+
+            const emailList = usersWithEmail.map(u => u.email).join('\n');
+            if (!confirm(`${usersWithEmail.length}명에게 잔액 부족 알림을 발송하시겠습니까?\n\n대상자:\n${emailList}`)) {
+                return;
+            }
+
+            showLoading();
+            try {
+                // TODO: Resend API 연동 후 실제 이메일 발송
+                for (const user of usersWithEmail) {
+                    const { error } = await supabaseClient
+                        .from('notification_logs')
+                        .insert({
+                            notification_type: 'low_balance',
+                            recipient_email: user.email,
+                            recipient_name: user.name || user.user_id,
+                            content: `잔액이 ₩${(user.credit_balance || 0).toLocaleString()}으로 부족합니다. 크레딧을 충전해주세요.`,
+                            status: 'pending',
+                            created_at: new Date().toISOString()
+                        });
+
+                    if (error) {
+                        console.log('알림 로그 저장 실패:', error.message);
+                    }
+                }
+
+                showToast(`📧 ${usersWithEmail.length}명에게 잔액 부족 알림 발송 예정 (Resend 연동 필요)`, 'warning');
+                console.log('📧 전체 잔액 부족 알림 발송:', usersWithEmail);
+
+            } catch (error) {
+                console.error('전체 알림 발송 실패:', error);
+                showToast('알림 발송에 실패했습니다: ' + error.message, 'error');
+            } finally {
+                hideLoading();
             }
         }
 
