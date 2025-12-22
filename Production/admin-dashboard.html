@@ -5811,7 +5811,6 @@
                     <td>${formatDateTime(notification.created_at)}</td>
                     <td>
                         <a href="#" class="action-link" style="color: var(--success);" onclick="event.preventDefault(); confirmCreditDeposit('${notification.id}', '${notification.user_id}', ${notification.amount})">✅ 입금 확인</a>
-                        <a href="#" class="action-link" style="color: var(--danger); margin-left: 8px;" onclick="event.preventDefault(); rejectCreditDeposit('${notification.id}')">❌ 거부</a>
                     </td>
                 </tr>
             `).join('');
@@ -5920,35 +5919,6 @@
             }
         }
 
-        async function rejectCreditDeposit(notificationId) {
-            const reason = prompt('거부 사유를 입력하세요:');
-            if (!reason) return;
-
-            try {
-                showLoading();
-
-                const { error } = await supabaseClient
-                    .from('deposit_notifications')
-                    .update({
-                        status: 'rejected',
-                        rejected_at: new Date().toISOString(),
-                        reject_reason: reason
-                    })
-                    .eq('id', notificationId);
-
-                if (error) throw error;
-
-                showToast('입금 요청이 거부되었습니다.', 'info');
-                await loadCreditDepositNotifications();
-
-                hideLoading();
-            } catch (error) {
-                console.error('❌ 입금 거부 처리 오류:', error);
-                showToast('처리 실패: ' + error.message, 'error');
-                hideLoading();
-            }
-        }
-
         async function loadUserCredits() {
             try {
                 const { data: users, error } = await supabaseClient
@@ -5971,10 +5941,7 @@
                         <td>${DOMPurify.sanitize(u.name || '-')}</td>
                         <td style="font-weight:600;color:${(u.credit_balance || 0) < 1000 ? 'var(--danger)' : 'var(--success)'};">₩${(u.credit_balance || 0).toLocaleString()}</td>
                         <td>${formatDateTime(u.updated_at)}</td>
-                        <td>
-                            <a href="#" class="action-link" onclick="showUserCreditHistory('${u.user_id}')">내역</a>
-                            <a href="#" class="action-link" onclick="chargeUserCredit('${u.user_id}', '${u.name || u.user_id}')">충전</a>
-                        </td>
+                        <td><a href="#" class="action-link" onclick="event.preventDefault(); showUserCreditHistory('${u.user_id}')">내역</a></td>
                     </tr>
                 `).join('');
 
@@ -6191,8 +6158,69 @@
             }
         }
 
-        function showUserCreditHistory(userId) {
-            showToast(`${userId} 사용자의 상세 내역은 준비 중입니다.`, 'info');
+        async function showUserCreditHistory(userId) {
+            try {
+                showLoading();
+
+                // 해당 사용자의 거래 내역 조회
+                const { data: transactions, error } = await supabaseClient
+                    .from('credit_transactions')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+
+                if (error) throw error;
+
+                hideLoading();
+
+                if (!transactions || transactions.length === 0) {
+                    alert(`${userId} 사용자의 거래 내역이 없습니다.`);
+                    return;
+                }
+
+                // 거래 내역을 팝업으로 표시
+                const typeLabels = {
+                    'charge': '충전',
+                    'spend': '사용',
+                    'refund': '환불',
+                    'bonus': '보너스',
+                    'expire': '만료'
+                };
+
+                let historyHtml = `<h3 style="margin-bottom:12px;">📋 ${userId} 거래 내역</h3>`;
+                historyHtml += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+                historyHtml += '<tr style="background:#f8f9fa;"><th style="padding:8px;border:1px solid #ddd;">일시</th><th style="padding:8px;border:1px solid #ddd;">유형</th><th style="padding:8px;border:1px solid #ddd;">금액</th><th style="padding:8px;border:1px solid #ddd;">잔액</th><th style="padding:8px;border:1px solid #ddd;">설명</th></tr>';
+
+                transactions.forEach(t => {
+                    const typeText = typeLabels[t.type] || t.type;
+                    const amountColor = t.amount >= 0 ? '#28a745' : '#dc3545';
+                    historyHtml += `<tr>
+                        <td style="padding:6px;border:1px solid #ddd;">${formatDateTime(t.created_at)}</td>
+                        <td style="padding:6px;border:1px solid #ddd;">${typeText}</td>
+                        <td style="padding:6px;border:1px solid #ddd;color:${amountColor};font-weight:600;">${t.amount >= 0 ? '+' : ''}₩${t.amount.toLocaleString()}</td>
+                        <td style="padding:6px;border:1px solid #ddd;">₩${t.balance_after.toLocaleString()}</td>
+                        <td style="padding:6px;border:1px solid #ddd;">${t.description || '-'}</td>
+                    </tr>`;
+                });
+                historyHtml += '</table>';
+
+                // 간단한 모달 표시
+                const modal = document.createElement('div');
+                modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:10000;';
+                modal.innerHTML = `
+                    <div style="background:white;padding:24px;border-radius:12px;max-width:700px;max-height:80vh;overflow:auto;">
+                        ${historyHtml}
+                        <button onclick="this.closest('div').parentElement.remove()" style="margin-top:16px;padding:8px 20px;background:var(--primary);color:white;border:none;border-radius:6px;cursor:pointer;">닫기</button>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+
+            } catch (error) {
+                hideLoading();
+                console.error('사용자 거래 내역 조회 실패:', error);
+                showToast('거래 내역 조회 실패: ' + error.message, 'error');
+            }
         }
 
         async function chargeUserCredit(userId, userName) {
