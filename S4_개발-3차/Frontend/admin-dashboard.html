@@ -4544,6 +4544,19 @@
 
                 if (creditError) console.error('크레딧 지급 오류:', creditError);
 
+                // 5. 사용자에게 인앱 알림 생성
+                const { error: notifError } = await supabaseClient
+                    .from('user_notifications')
+                    .insert({
+                        user_id: userId,
+                        notification_type: 'system',
+                        title: '🎉 개발자 계정 개설 완료',
+                        message: `개발자 계정이 활성화되었습니다. 계정 ID: ${developerAccountId}\n웰컴 크레딧 ₩50,000이 지급되었습니다.`,
+                        metadata: { developer_account_id: developerAccountId, welcome_credit: 50000 }
+                    });
+
+                if (notifError) console.log('알림 생성 실패:', notifError.message);
+
                 showToast(`입금 확인 완료! 개발자 계정 ID: ${developerAccountId}`, 'success');
                 loadInstallationRequests();
                 loadUsers(); // 서비스 이용 현황 갱신
@@ -4671,18 +4684,60 @@
             document.getElementById('platformFeeMonthlyRevenue').textContent = '₩' + (paidCount * 50000).toLocaleString();
         }
 
-        // 안내문 발송 (개별)
-        function sendIndividualNotice(email, noticeType) {
+        // 안내문 발송 (개별) - 인앱 알림
+        async function sendIndividualNotice(email, noticeType) {
+            // 먼저 해당 사용자의 id 찾기
+            const { data: userData, error: userError } = await supabaseClient
+                .from('users')
+                .select('id, real_name, installation_date')
+                .eq('email', email)
+                .single();
+
+            if (userError || !userData) {
+                showToast('사용자 정보를 찾을 수 없습니다.', 'error');
+                return;
+            }
+
             const typeLabels = {
-                'free_ending': '무료 기간 종료 예정 안내',
-                'payment_failed': '결제 실패 안내',
-                'billing_required': '결제 수단 등록 안내'
+                'free_ending': '무료 기간 종료 예정',
+                'payment_failed': '결제 실패',
+                'billing_required': '결제 수단 등록 필요'
             };
-            showToast(`🚧 ${typeLabels[noticeType] || '안내'} 발송 기능은 구축 중입니다.`, 'warning');
-            console.log(`📧 안내 발송 대상: ${email}, 유형: ${noticeType}`);
+
+            const typeMessages = {
+                'free_ending': '무료 기간이 곧 종료됩니다. 자동 결제 수단을 등록해주세요.',
+                'payment_failed': '이번 달 결제가 실패했습니다. 결제 수단을 확인해주세요.',
+                'billing_required': '플랫폼 이용료 자동 결제를 위해 결제 수단을 등록해주세요.'
+            };
+
+            if (!confirm(`${userData.real_name || email}님에게 "${typeLabels[noticeType]}" 알림을 발송하시겠습니까?`)) {
+                return;
+            }
+
+            showLoading();
+            try {
+                const { error } = await supabaseClient
+                    .from('user_notifications')
+                    .insert({
+                        user_id: userData.id,
+                        notification_type: noticeType === 'free_ending' ? 'free_period_ending' : 'system',
+                        title: `📅 ${typeLabels[noticeType]}`,
+                        message: typeMessages[noticeType],
+                        metadata: { notice_type: noticeType }
+                    });
+
+                if (error) throw error;
+
+                showToast(`🔔 ${userData.real_name || email}님에게 알림을 발송했습니다.`, 'success');
+            } catch (error) {
+                console.error('알림 발송 실패:', error);
+                showToast('알림 발송에 실패했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
         }
 
-        // 안내문 발송 (7일 이내 대상자만)
+        // 안내문 발송 (7일 이내 대상자만) - 인앱 알림
         async function sendFreeEndingNotice7Days() {
             try {
                 if (!supabaseClient) {
@@ -4706,6 +4761,7 @@
                     const feeStartDate = new Date(installDate);
                     feeStartDate.setMonth(feeStartDate.getMonth() + 3);
                     const daysLeft = Math.ceil((feeStartDate - today) / (1000 * 60 * 60 * 24));
+                    user._daysLeft = daysLeft; // 나중에 메시지에 사용
                     return daysLeft > 0 && daysLeft <= 7;
                 });
 
@@ -4714,19 +4770,39 @@
                     return;
                 }
 
-                const emails = targetUsers.map(u => u.email).join(', ');
-                if (confirm(`7일 이내 전환 예정 사용자 ${targetUsers.length}명에게 안내문을 발송하시겠습니까?\n\n대상: ${emails}`)) {
-                    // TODO: 실제 이메일 발송 연동 (Resend API)
-                    showToast(`🚧 ${targetUsers.length}명 대상 안내 발송 기능은 구축 중입니다.`, 'warning');
-                    console.log('📧 7일 이내 안내 발송 대상:', targetUsers);
+                const names = targetUsers.map(u => u.real_name || u.email).join(', ');
+                if (!confirm(`7일 이내 전환 예정 사용자 ${targetUsers.length}명에게 알림을 발송하시겠습니까?\n\n대상: ${names}`)) {
+                    return;
                 }
+
+                showLoading();
+                let successCount = 0;
+
+                for (const user of targetUsers) {
+                    const { error } = await supabaseClient
+                        .from('user_notifications')
+                        .insert({
+                            user_id: user.id,
+                            notification_type: 'free_period_ending',
+                            title: '📅 무료 기간 종료 예정',
+                            message: `무료 기간이 ${user._daysLeft}일 후 종료됩니다. 자동 결제 수단을 등록해주세요.`,
+                            metadata: { days_left: user._daysLeft }
+                        });
+
+                    if (!error) successCount++;
+                }
+
+                showToast(`🔔 ${successCount}명에게 알림을 발송했습니다.`, 'success');
+                hideLoading();
+
             } catch (error) {
                 console.error('7일 이내 안내 발송 오류:', error);
                 showToast('안내 발송 처리 중 오류가 발생했습니다.', 'error');
+                hideLoading();
             }
         }
 
-        // 안내문 발송 (전체)
+        // 안내문 발송 (전체) - 인앱 알림
         async function sendFreeEndingNotice() {
             try {
                 if (!supabaseClient) {
@@ -4749,6 +4825,8 @@
                     const installDate = new Date(user.installation_date);
                     const feeStartDate = new Date(installDate);
                     feeStartDate.setMonth(feeStartDate.getMonth() + 3);
+                    const daysLeft = Math.ceil((feeStartDate - today) / (1000 * 60 * 60 * 24));
+                    user._daysLeft = daysLeft;
                     return today < feeStartDate;
                 });
 
@@ -4757,14 +4835,34 @@
                     return;
                 }
 
-                if (confirm(`무료 기간 사용자 ${targetUsers.length}명 전체에게 안내문을 발송하시겠습니까?`)) {
-                    // TODO: 실제 이메일 발송 연동 (Resend API)
-                    showToast(`🚧 ${targetUsers.length}명 대상 안내 발송 기능은 구축 중입니다.`, 'warning');
-                    console.log('📧 전체 안내 발송 대상:', targetUsers);
+                if (!confirm(`무료 기간 사용자 ${targetUsers.length}명 전체에게 알림을 발송하시겠습니까?`)) {
+                    return;
                 }
+
+                showLoading();
+                let successCount = 0;
+
+                for (const user of targetUsers) {
+                    const { error } = await supabaseClient
+                        .from('user_notifications')
+                        .insert({
+                            user_id: user.id,
+                            notification_type: 'free_period_ending',
+                            title: '📅 무료 기간 종료 예정',
+                            message: `무료 기간이 ${user._daysLeft}일 후 종료됩니다. 자동 결제 수단을 등록해주세요.`,
+                            metadata: { days_left: user._daysLeft }
+                        });
+
+                    if (!error) successCount++;
+                }
+
+                showToast(`🔔 ${successCount}명에게 알림을 발송했습니다.`, 'success');
+                hideLoading();
+
             } catch (error) {
                 console.error('전체 안내 발송 오류:', error);
                 showToast('안내 발송 처리 중 오류가 발생했습니다.', 'error');
+                hideLoading();
             }
         }
 
