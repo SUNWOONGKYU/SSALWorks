@@ -222,12 +222,57 @@ window.showRejectModal = async (installationId) => {
     }
 };
 
+/**
+ * 개발자 계정 ID 생성 (12자리)
+ * 형식: YYMMNNNNNNXX
+ * - YY: 연도 (2자리)
+ * - MM: 월 (2자리)
+ * - NNNNNN: 일련번호 (6자리, 월별)
+ * - XX: 개설비 금액 코드 (2자리)
+ */
+async function generateDeveloperAccountId(amount) {
+    const now = new Date();
+    const year = String(now.getFullYear()).slice(-2); // YY
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // MM
+
+    // 금액 코드 매핑 (단위: 만원)
+    const amountCodes = {
+        3000000: 'TH',  // 300만원 = THREE
+        4000000: 'FO',  // 400만원 = FOUR
+        5000000: 'FI',  // 500만원 = FIVE
+        6000000: 'SI',  // 600만원 = SIX
+        7000000: 'SE',  // 700만원 = SEVEN
+        8000000: 'EI',  // 800만원 = EIGHT
+        9000000: 'NI'   // 900만원 = NINE
+    };
+    const amountCode = amountCodes[amount] || 'TH'; // 기본값 TH (300만원)
+
+    // 이번 달 일련번호 조회 (user_id가 현재 연월로 시작하는 사용자 수)
+    const prefix = year + month;
+    const { count, error } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .like('user_id', `${prefix}%`);
+
+    if (error) {
+        console.error('일련번호 조회 실패:', error);
+    }
+
+    const serialNumber = String((count || 0) + 1).padStart(6, '0'); // NNNNNN
+
+    return `${year}${month}${serialNumber}${amountCode}`;
+}
+
 // Confirm installation
 async function confirmInstallation() {
     if (!currentInstallation) return;
 
     try {
-        // Update installation status
+        // 1. 개발자 계정 ID 생성
+        const developerAccountId = await generateDeveloperAccountId(currentInstallation.amount);
+        console.log('📌 개발자 계정 ID 생성:', developerAccountId);
+
+        // 2. Update installation status
         const { error: updateError } = await supabase
             .from('installation_fees')
             .update({
@@ -238,10 +283,11 @@ async function confirmInstallation() {
 
         if (updateError) throw updateError;
 
-        // Activate service and mark installation fee as paid
+        // 3. Activate service, set developer account ID, and mark installation fee as paid
         const { error: serviceError } = await supabase
             .from('users')
             .update({
+                user_id: developerAccountId,  // 개발자 계정 ID 저장
                 service_status: 'active',
                 installation_fee_paid: true,
                 installation_date: new Date().toISOString()
@@ -266,7 +312,7 @@ async function confirmInstallation() {
         // Send email notification (would call backend API)
         // await sendInstallationConfirmEmail(currentInstallation.user_id);
 
-        alert('입금 확인이 완료되었습니다.');
+        alert(`입금 확인이 완료되었습니다.\n\n개발자 계정 ID: ${developerAccountId}`);
         closeConfirmModal();
         await loadInstallations();
 

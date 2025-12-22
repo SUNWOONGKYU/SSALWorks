@@ -1,12 +1,12 @@
 /**
  * @task S4F1
- * @description 설치비 입금 확인/거부 모달 및 처리
+ * @description 개발자 계정 개설비 입금 확인/거부 모달 및 처리
  */
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
-const supabaseUrl = 'YOUR_SUPABASE_URL';
-const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+const supabaseUrl = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 let currentStatus = 'pending';
@@ -30,7 +30,7 @@ async function checkAdminAuth() {
 
     const { data: profile } = await supabase
         .from('users')
-        .select('role, full_name')
+        .select('role, name')
         .eq('id', user.id)
         .single();
 
@@ -40,7 +40,7 @@ async function checkAdminAuth() {
         return;
     }
 
-    document.getElementById('admin-name').textContent = profile.full_name || '관리자';
+    document.getElementById('admin-name').textContent = profile.name || '관리자';
 }
 
 // Load installations
@@ -51,7 +51,7 @@ async function loadInstallations() {
             .select(`
                 *,
                 users (
-                    full_name,
+                    name,
                     email
                 )
             `)
@@ -71,7 +71,7 @@ async function loadInstallations() {
         console.error('Failed to load installations:', error);
         document.getElementById('installation-list').innerHTML = `
             <tr>
-                <td colspan="7" class="error">설치비 내역을 불러오는데 실패했습니다.</td>
+                <td colspan="7" class="error">개발자 계정 개설비 내역을 불러오는데 실패했습니다.</td>
             </tr>
         `;
     }
@@ -84,7 +84,7 @@ function renderInstallations(installations) {
     if (!installations || installations.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="no-data">설치비 내역이 없습니다.</td>
+                <td colspan="7" class="no-data">개발자 계정 개설비 내역이 없습니다.</td>
             </tr>
         `;
         return;
@@ -97,7 +97,7 @@ function renderInstallations(installations) {
         return `
             <tr>
                 <td>${new Date(installation.created_at).toLocaleDateString('ko-KR')}</td>
-                <td>${installation.users?.full_name || '-'}</td>
+                <td>${installation.users?.name || '-'}</td>
                 <td>${installation.users?.email || '-'}</td>
                 <td>₩${installation.amount.toLocaleString()}</td>
                 <td>${statusBadge}</td>
@@ -141,7 +141,7 @@ window.showConfirmModal = async (installationId) => {
             .select(`
                 *,
                 users (
-                    full_name,
+                    name,
                     email
                 )
             `)
@@ -155,7 +155,7 @@ window.showConfirmModal = async (installationId) => {
         document.getElementById('confirm-details').innerHTML = `
             <div class="detail-item">
                 <span class="label">사용자:</span>
-                <span class="value">${installation.users?.full_name || '-'}</span>
+                <span class="value">${installation.users?.name || '-'}</span>
             </div>
             <div class="detail-item">
                 <span class="label">이메일:</span>
@@ -175,7 +175,7 @@ window.showConfirmModal = async (installationId) => {
 
     } catch (error) {
         console.error('Failed to load installation:', error);
-        alert('설치비 정보를 불러오는데 실패했습니다.');
+        alert('개발자 계정 개설비 정보를 불러오는데 실패했습니다.');
     }
 };
 
@@ -187,7 +187,7 @@ window.showRejectModal = async (installationId) => {
             .select(`
                 *,
                 users (
-                    full_name,
+                    name,
                     email
                 )
             `)
@@ -201,7 +201,7 @@ window.showRejectModal = async (installationId) => {
         document.getElementById('reject-details').innerHTML = `
             <div class="detail-item">
                 <span class="label">사용자:</span>
-                <span class="value">${installation.users?.full_name || '-'}</span>
+                <span class="value">${installation.users?.name || '-'}</span>
             </div>
             <div class="detail-item">
                 <span class="label">이메일:</span>
@@ -218,16 +218,61 @@ window.showRejectModal = async (installationId) => {
 
     } catch (error) {
         console.error('Failed to load installation:', error);
-        alert('설치비 정보를 불러오는데 실패했습니다.');
+        alert('개발자 계정 개설비 정보를 불러오는데 실패했습니다.');
     }
 };
+
+/**
+ * 개발자 계정 ID 생성 (12자리)
+ * 형식: YYMMNNNNNNXX
+ * - YY: 연도 (2자리)
+ * - MM: 월 (2자리)
+ * - NNNNNN: 일련번호 (6자리, 월별)
+ * - XX: 개설비 금액 코드 (2자리)
+ */
+async function generateDeveloperAccountId(amount) {
+    const now = new Date();
+    const year = String(now.getFullYear()).slice(-2); // YY
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // MM
+
+    // 금액 코드 매핑 (단위: 만원)
+    const amountCodes = {
+        3000000: 'TH',  // 300만원 = THREE
+        4000000: 'FO',  // 400만원 = FOUR
+        5000000: 'FI',  // 500만원 = FIVE
+        6000000: 'SI',  // 600만원 = SIX
+        7000000: 'SE',  // 700만원 = SEVEN
+        8000000: 'EI',  // 800만원 = EIGHT
+        9000000: 'NI'   // 900만원 = NINE
+    };
+    const amountCode = amountCodes[amount] || 'TH'; // 기본값 TH (300만원)
+
+    // 이번 달 일련번호 조회 (user_id가 현재 연월로 시작하는 사용자 수)
+    const prefix = year + month;
+    const { count, error } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .like('user_id', `${prefix}%`);
+
+    if (error) {
+        console.error('일련번호 조회 실패:', error);
+    }
+
+    const serialNumber = String((count || 0) + 1).padStart(6, '0'); // NNNNNN
+
+    return `${year}${month}${serialNumber}${amountCode}`;
+}
 
 // Confirm installation
 async function confirmInstallation() {
     if (!currentInstallation) return;
 
     try {
-        // Update installation status
+        // 1. 개발자 계정 ID 생성
+        const developerAccountId = await generateDeveloperAccountId(currentInstallation.amount);
+        console.log('📌 개발자 계정 ID 생성:', developerAccountId);
+
+        // 2. Update installation status
         const { error: updateError } = await supabase
             .from('installation_fees')
             .update({
@@ -238,11 +283,14 @@ async function confirmInstallation() {
 
         if (updateError) throw updateError;
 
-        // Activate service
+        // 3. Activate service, set developer account ID, and mark installation fee as paid
         const { error: serviceError } = await supabase
             .from('users')
             .update({
-                service_status: 'active'
+                user_id: developerAccountId,  // 개발자 계정 ID 저장
+                service_status: 'active',
+                installation_fee_paid: true,
+                installation_date: new Date().toISOString()
             })
             .eq('id', currentInstallation.user_id);
 
@@ -256,7 +304,7 @@ async function confirmInstallation() {
                 transaction_type: 'grant',
                 amount: 50000,
                 balance_after: 50000,
-                description: '설치비 입금 확인 - 웰컴 크레딧'
+                description: '개발자 계정 개설비 입금 확인 - 웰컴 크레딧'
             });
 
         if (creditError) throw creditError;
@@ -264,7 +312,7 @@ async function confirmInstallation() {
         // Send email notification (would call backend API)
         // await sendInstallationConfirmEmail(currentInstallation.user_id);
 
-        alert('입금 확인이 완료되었습니다.');
+        alert(`입금 확인이 완료되었습니다.\n\n개발자 계정 ID: ${developerAccountId}`);
         closeConfirmModal();
         await loadInstallations();
 

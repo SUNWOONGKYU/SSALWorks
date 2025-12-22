@@ -1986,7 +1986,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>회원 ID</th>
+                                <th>개발자 계정 ID</th>
                                 <th>이메일</th>
                                 <th>실명 (입금자명)</th>
                                 <th>입금자명 (입력)</th>
@@ -2013,7 +2013,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>회원 ID</th>
+                                <th>개발자 계정 ID</th>
                                 <th>이메일</th>
                                 <th>입금자명</th>
                                 <th>금액</th>
@@ -2636,7 +2636,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>회원ID</th>
+                                <th>개발자 계정 ID</th>
                                 <th>이메일</th>
                                 <th>닉네임</th>
                                 <th>실명</th>
@@ -2704,7 +2704,7 @@
                 <div style="margin-bottom: 24px;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                         <div>
-                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">회원 ID</div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">개발자 계정 ID</div>
                             <div style="font-size: 14px; font-weight: 600;" id="userDetailUserId">-</div>
                         </div>
                         <div>
@@ -4152,12 +4152,12 @@
                 const displayName = user.nickname || user.real_name || (user.email ? user.email.split('@')[0] : '-');
                 const safeDisplayName = sanitizePlainText(displayName);
 
-                // 회원 ID
-                const userId = user.user_id || '-';
+                // 개발자 계정 ID
+                const devAccountId = user.user_id || '-';
 
                 return `
                     <tr data-user-id="${user.id}">
-                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px;">${userId}</code></td>
+                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px;">${devAccountId}</code></td>
                         <td>${sanitizePlainText(user.email || '-')}</td>
                         <td>${safeDisplayName}</td>
                         <td>${sanitizePlainText(user.real_name || '-')}</td>
@@ -4288,7 +4288,7 @@
                 headerElem.textContent = `👤 회원 상세 - ${user.user_id || user.email}`;
             }
 
-            // 회원 ID
+            // 개발자 계정 ID
             const userIdElem = document.getElementById('userDetailUserId');
             if (userIdElem) {
                 userIdElem.innerHTML = user.user_id
