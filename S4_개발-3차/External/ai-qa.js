@@ -46,28 +46,37 @@ module.exports = async function handler(req, res) {
     });
   }
 
-  // Supabase 클라이언트 생성
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
-  );
+  // Supabase 클라이언트 생성 (환경변수 없으면 null)
+  let supabase = null;
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    try {
+      supabase = createClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      );
+    } catch (e) {
+      console.error('Supabase client creation failed:', e);
+    }
+  }
 
   // 사용자 ID 추출 (Authorization 헤더에서)
   let userId = null;
-  const authHeader = req.headers.authorization;
-  if (authHeader && authHeader.startsWith('Bearer ')) {
-    try {
-      const token = authHeader.substring(7);
-      const { data: { user } } = await supabase.auth.getUser(token);
-      userId = user?.id || null;
-    } catch (e) {
-      // 인증 실패해도 계속 진행 (익명 사용)
+  if (supabase) {
+    const authHeader = req.headers.authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      try {
+        const token = authHeader.substring(7);
+        const { data: { user } } = await supabase.auth.getUser(token);
+        userId = user?.id || null;
+      } catch (e) {
+        // 인증 실패해도 계속 진행 (익명 사용)
+      }
     }
   }
 
   // 학습 콘텐츠 컨텍스트 (선택적)
   let learningContext = context || '';
-  if (contentId) {
+  if (contentId && supabase) {
     try {
       const { data: content } = await supabase
         .from('learning_contents')
@@ -80,7 +89,6 @@ module.exports = async function handler(req, res) {
 내용: ${content.content || ''}`;
       }
     } catch (e) {
-      // 콘텐츠 로드 실패해도 계속 진행
       console.error('Failed to load learning content:', e);
     }
   }
@@ -103,8 +111,10 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // 사용 로그 저장 (input_tokens, output_tokens 포함)
-    await logAIUsage(supabase, userId, result.provider, result.model, result.usage, responseTimeMs);
+    // 사용 로그 저장 (Supabase 연결 시에만)
+    if (supabase) {
+      await logAIUsage(supabase, userId, result.provider, result.model, result.usage, responseTimeMs);
+    }
 
     return res.status(200).json({
       success: true,
