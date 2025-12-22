@@ -238,11 +238,13 @@ async function confirmInstallation() {
 
         if (updateError) throw updateError;
 
-        // Activate service
+        // Activate service and mark installation fee as paid
         const { error: serviceError } = await supabase
             .from('users')
             .update({
-                service_status: 'active'
+                service_status: 'active',
+                installation_fee_paid: true,
+                installation_date: new Date().toISOString()
             })
             .eq('id', currentInstallation.user_id);
 
