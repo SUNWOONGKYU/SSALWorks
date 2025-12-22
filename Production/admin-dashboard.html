@@ -1338,11 +1338,9 @@
                             <span class="stat-icon">👥</span>
                             <span class="stat-label">총 회원 수</span>
                         </div>
-                        <div class="stat-value">1,234</div>
-                        <div class="stat-change up">
-                            <span class="change-arrow">↑</span>
-                            <span class="change-value">+15</span>
-                            <span class="change-period">어제 대비</span>
+                        <div class="stat-value" id="overviewTotalUsers">-</div>
+                        <div class="stat-change">
+                            <span class="change-value" id="overviewUserChange">-</span>
                         </div>
                     </div>
                     <div class="stat-card stat-card-enhanced success">
@@ -1350,11 +1348,9 @@
                             <span class="stat-icon">💰</span>
                             <span class="stat-label">이번 달 매출</span>
                         </div>
-                        <div class="stat-value">₩5,200,000</div>
-                        <div class="stat-change up">
-                            <span class="change-arrow">↑</span>
-                            <span class="change-value">+8%</span>
-                            <span class="change-period">전월 대비</span>
+                        <div class="stat-value" id="overviewMonthlyRevenue">-</div>
+                        <div class="stat-change">
+                            <span class="change-value" id="overviewRevenueChange">-</span>
                         </div>
                     </div>
                     <div class="stat-card stat-card-enhanced warning">
@@ -1362,11 +1358,9 @@
                             <span class="stat-icon">🪙</span>
                             <span class="stat-label">크레딧 판매</span>
                         </div>
-                        <div class="stat-value">830,000 C</div>
-                        <div class="stat-change down">
-                            <span class="change-arrow">↓</span>
-                            <span class="change-value">-5%</span>
-                            <span class="change-period">전월 대비</span>
+                        <div class="stat-value" id="overviewCreditSales">-</div>
+                        <div class="stat-change">
+                            <span class="change-value" id="overviewCreditChange">-</span>
                         </div>
                     </div>
                     <div class="stat-card stat-card-enhanced danger">
@@ -1374,9 +1368,9 @@
                             <span class="stat-icon">📞</span>
                             <span class="stat-label">미처리 문의</span>
                         </div>
-                        <div class="stat-value">12</div>
+                        <div class="stat-value" id="overviewPendingInquiries">-</div>
                         <div class="stat-urgent">
-                            <span class="urgent-badge">⚠️ 긴급 3건</span>
+                            <span class="urgent-badge" id="overviewUrgentCount">-</span>
                         </div>
                     </div>
                 </div>
@@ -1390,40 +1384,8 @@
                             <span class="section-subtitle">실시간 업데이트</span>
                         </div>
                         <div class="activity-timeline" id="activityTimeline">
-                            <div class="activity-item urgent">
-                                <span class="activity-icon">🔴</span>
-                                <div class="activity-content">
-                                    <div class="activity-message">긴급 문의: 결제 오류</div>
-                                    <div class="activity-time">3분 전</div>
-                                </div>
-                            </div>
-                            <div class="activity-item normal">
-                                <span class="activity-icon">🟢</span>
-                                <div class="activity-content">
-                                    <div class="activity-message">신규 가입: 홍길동</div>
-                                    <div class="activity-time">12분 전</div>
-                                </div>
-                            </div>
-                            <div class="activity-item warning">
-                                <span class="activity-icon">🟡</span>
-                                <div class="activity-content">
-                                    <div class="activity-message">크레딧 환불 요청</div>
-                                    <div class="activity-time">25분 전</div>
-                                </div>
-                            </div>
-                            <div class="activity-item normal">
-                                <span class="activity-icon">🟢</span>
-                                <div class="activity-content">
-                                    <div class="activity-message">이용료 결제 완료</div>
-                                    <div class="activity-time">1시간 전</div>
-                                </div>
-                            </div>
-                            <div class="activity-item normal">
-                                <span class="activity-icon">🟢</span>
-                                <div class="activity-content">
-                                    <div class="activity-message">신규 가입: 김철수</div>
-                                    <div class="activity-time">2시간 전</div>
-                                </div>
+                            <div style="text-align: center; color: #999; padding: 40px;">
+                                활동 내역이 없습니다.
                             </div>
                         </div>
                     </div>
@@ -1435,37 +1397,8 @@
                             <span class="section-subtitle">우선순위 순</span>
                         </div>
                         <div class="urgent-tasks-list" id="urgentTasksList">
-                            <div class="urgent-task high" onclick="showSection('subscription', event)">
-                                <span class="urgent-task-icon">🔴</span>
-                                <div class="urgent-task-content">
-                                    <div class="urgent-task-title">미납 회원 3명 (이용 정지 예정)</div>
-                                    <div class="urgent-task-count">3건</div>
-                                </div>
-                                <span class="urgent-task-arrow">→</span>
-                            </div>
-                            <div class="urgent-task high" onclick="showSection('credit', event)">
-                                <span class="urgent-task-icon">🔴</span>
-                                <div class="urgent-task-content">
-                                    <div class="urgent-task-title">크레딧 환불 요청</div>
-                                    <div class="urgent-task-count">5건</div>
-                                </div>
-                                <span class="urgent-task-arrow">→</span>
-                            </div>
-                            <div class="urgent-task medium" onclick="showSection('credit', event)">
-                                <span class="urgent-task-icon">🟡</span>
-                                <div class="urgent-task-content">
-                                    <div class="urgent-task-title">잔액 부족 회원</div>
-                                    <div class="urgent-task-count">12명</div>
-                                </div>
-                                <span class="urgent-task-arrow">→</span>
-                            </div>
-                            <div class="urgent-task medium" onclick="showSection('inquiries', event)">
-                                <span class="urgent-task-icon">🟡</span>
-                                <div class="urgent-task-content">
-                                    <div class="urgent-task-title">신규 문의 (미답변)</div>
-                                    <div class="urgent-task-count">8건</div>
-                                </div>
-                                <span class="urgent-task-arrow">→</span>
+                            <div style="text-align: center; color: #999; padding: 40px;">
+                                긴급 처리 항목이 없습니다.
                             </div>
                         </div>
                     </div>
@@ -1959,12 +1892,12 @@
                 <div class="stats-grid">
                     <div class="stat-card success">
                         <div class="stat-icon">✨</div>
-                        <div class="stat-value">+12</div>
+                        <div class="stat-value" id="statsNewSignups">-</div>
                         <div class="stat-label">신규 가입 (기간)</div>
                     </div>
                     <div class="stat-card warning">
                         <div class="stat-icon">🔄</div>
-                        <div class="stat-value">45</div>
+                        <div class="stat-value" id="statsActiveUsers">-</div>
                         <div class="stat-label">활성 이용자</div>
                     </div>
                 </div>
@@ -1973,23 +1906,22 @@
                 <div class="content-section">
                     <div class="section-header">
                         <h2 class="section-title">💰 매출 통계</h2>
-                        
                     </div>
                     <div class="stats-grid" style="margin-top: 16px;">
                         <div class="stat-card success">
-                            <div class="stat-value">₩135M</div>
+                            <div class="stat-value" id="statsInstallRevenue">-</div>
                             <div class="stat-label">개발자 계정 개설비 매출 (누적)</div>
                         </div>
                         <div class="stat-card success">
-                            <div class="stat-value">₩2.25M</div>
+                            <div class="stat-value" id="statsMonthlyFee">-</div>
                             <div class="stat-label">월 사용료 (이번 달)</div>
                         </div>
                         <div class="stat-card warning">
-                            <div class="stat-value">₩1.24M</div>
+                            <div class="stat-value" id="statsCreditSales">-</div>
                             <div class="stat-label">크레딧 판매 (이번 달)</div>
                         </div>
                         <div class="stat-card primary">
-                            <div class="stat-value">₩3.49M</div>
+                            <div class="stat-value" id="statsTotalRevenue">-</div>
                             <div class="stat-label">이번 달 총 매출</div>
                         </div>
                     </div>
@@ -2142,16 +2074,16 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">플랫폼 이름</label>
-                        <input type="text" class="form-input" value="SSAL Works">
+                        <input type="text" class="form-input" id="settingPlatformName" value="">
                     </div>
                     <div class="form-group">
                         <label class="form-label">관리자 이메일</label>
-                        <input type="email" class="form-input" value="admin@ssal.works">
+                        <input type="email" class="form-input" id="settingAdminEmail" value="">
                     </div>
                     <div class="form-group">
                         <label class="form-label">시간대</label>
-                        <select class="form-select">
-                            <option value="Asia/Seoul" selected>Asia/Seoul (KST)</option>
+                        <select class="form-select" id="settingTimezone">
+                            <option value="Asia/Seoul">Asia/Seoul (KST)</option>
                             <option value="UTC">UTC</option>
                         </select>
                     </div>
@@ -2163,16 +2095,16 @@
                         <h2 class="section-title">🔔 알림 설정</h2>
                     </div>
                     <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
-                        <input type="checkbox" id="notifyInquiry" checked>
-                        <label for="notifyInquiry" style="font-weight: 500;">새 문의 접수 시 이메일 알림</label>
+                        <input type="checkbox" id="settingNotifyInquiry">
+                        <label for="settingNotifyInquiry" style="font-weight: 500;">새 문의 접수 시 이메일 알림</label>
                     </div>
                     <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
-                        <input type="checkbox" id="notifyPayment" checked>
-                        <label for="notifyPayment" style="font-weight: 500;">결제 완료 시 이메일 알림</label>
+                        <input type="checkbox" id="settingNotifyPayment">
+                        <label for="settingNotifyPayment" style="font-weight: 500;">결제 완료 시 이메일 알림</label>
                     </div>
                     <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
-                        <input type="checkbox" id="notifySignup">
-                        <label for="notifySignup" style="font-weight: 500;">신규 가입 시 이메일 알림</label>
+                        <input type="checkbox" id="settingNotifySignup">
+                        <label for="settingNotifySignup" style="font-weight: 500;">신규 가입 시 이메일 알림</label>
                     </div>
                 </div>
 
@@ -2183,15 +2115,15 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label">개발자 계정 개설비 (원)</label>
-                        <input type="number" class="form-input" value="3000000">
+                        <input type="number" class="form-input" id="settingInstallFee" value="">
                     </div>
                     <div class="form-group">
                         <label class="form-label">월 사용료 (원)</label>
-                        <input type="number" class="form-input" value="50000">
+                        <input type="number" class="form-input" id="settingMonthlyFee" value="">
                     </div>
                     <div class="form-group">
                         <label class="form-label">크레딧 단가 (원/크레딧)</label>
-                        <input type="number" class="form-input" value="10">
+                        <input type="number" class="form-input" id="settingCreditPrice" value="">
                     </div>
                 </div>
 
@@ -2205,13 +2137,13 @@
                         <button class="section-action" style="background: var(--warning); color: #000;">📤 데이터 복원</button>
                         <button class="section-action" style="background: var(--neutral);">📊 사용 통계 내보내기</button>
                     </div>
-                    <p style="margin-top: 12px; font-size: 12px; color: #6c757d;">
-                        마지막 백업: 2025-11-24 03:00 (자동)
+                    <p style="margin-top: 12px; font-size: 12px; color: #6c757d;" id="settingLastBackup">
+                        마지막 백업: -
                     </p>
                 </div>
 
                 <div style="margin-top: 24px; text-align: right;">
-                    <button class="form-btn form-btn-primary" onclick="showToast('설정이 저장되었습니다!', 'success')">설정 저장</button>
+                    <button class="form-btn form-btn-primary" onclick="saveAdminSettings()">설정 저장</button>
                 </div>
             </div>
 
@@ -2771,6 +2703,11 @@
             // API 사용량 섹션일 때 원가 데이터 로드
             if (section === 'api') {
                 loadApiCosts();
+            }
+
+            // 설정 섹션일 때 설정 데이터 로드
+            if (section === 'settings') {
+                loadAdminSettings();
             }
         }
 
@@ -6507,6 +6444,95 @@
             } catch (error) {
                 console.error('❌ 문의 삭제 오류:', error);
                 showToast('문의 삭제에 실패했습니다: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // ========== 설정 관리 함수 ==========
+
+        // 설정 로드
+        async function loadAdminSettings() {
+            try {
+                const { data, error } = await supabase
+                    .from('admin_settings')
+                    .select('*')
+                    .single();
+
+                if (error) {
+                    // 설정이 없으면 기본값 사용
+                    if (error.code === 'PGRST116') {
+                        setDefaultSettings();
+                        return;
+                    }
+                    throw error;
+                }
+
+                // 값 설정
+                document.getElementById('settingPlatformName').value = data.platform_name || 'SSAL Works';
+                document.getElementById('settingAdminEmail').value = data.admin_email || '';
+                document.getElementById('settingTimezone').value = data.timezone || 'Asia/Seoul';
+                document.getElementById('settingNotifyInquiry').checked = data.notify_inquiry ?? true;
+                document.getElementById('settingNotifyPayment').checked = data.notify_payment ?? true;
+                document.getElementById('settingNotifySignup').checked = data.notify_signup ?? false;
+                document.getElementById('settingInstallFee').value = data.install_fee || 3000000;
+                document.getElementById('settingMonthlyFee').value = data.monthly_fee || 50000;
+                document.getElementById('settingCreditPrice').value = data.credit_price || 10;
+
+                if (data.last_backup) {
+                    const backupDate = new Date(data.last_backup).toLocaleString('ko-KR');
+                    document.getElementById('settingLastBackup').textContent = '마지막 백업: ' + backupDate;
+                }
+
+            } catch (error) {
+                console.error('설정 로드 오류:', error);
+                setDefaultSettings();
+            }
+        }
+
+        // 기본 설정값
+        function setDefaultSettings() {
+            document.getElementById('settingPlatformName').value = 'SSAL Works';
+            document.getElementById('settingAdminEmail').value = '';
+            document.getElementById('settingTimezone').value = 'Asia/Seoul';
+            document.getElementById('settingNotifyInquiry').checked = true;
+            document.getElementById('settingNotifyPayment').checked = true;
+            document.getElementById('settingNotifySignup').checked = false;
+            document.getElementById('settingInstallFee').value = 3000000;
+            document.getElementById('settingMonthlyFee').value = 50000;
+            document.getElementById('settingCreditPrice').value = 10;
+        }
+
+        // 설정 저장
+        async function saveAdminSettings() {
+            try {
+                showLoading('설정 저장 중...');
+
+                const settings = {
+                    id: 1, // 단일 레코드
+                    platform_name: document.getElementById('settingPlatformName').value,
+                    admin_email: document.getElementById('settingAdminEmail').value,
+                    timezone: document.getElementById('settingTimezone').value,
+                    notify_inquiry: document.getElementById('settingNotifyInquiry').checked,
+                    notify_payment: document.getElementById('settingNotifyPayment').checked,
+                    notify_signup: document.getElementById('settingNotifySignup').checked,
+                    install_fee: parseInt(document.getElementById('settingInstallFee').value) || 3000000,
+                    monthly_fee: parseInt(document.getElementById('settingMonthlyFee').value) || 50000,
+                    credit_price: parseInt(document.getElementById('settingCreditPrice').value) || 10,
+                    updated_at: new Date().toISOString()
+                };
+
+                const { error } = await supabase
+                    .from('admin_settings')
+                    .upsert(settings, { onConflict: 'id' });
+
+                if (error) throw error;
+
+                showToast('설정이 저장되었습니다!', 'success');
+
+            } catch (error) {
+                console.error('설정 저장 오류:', error);
+                showToast('설정 저장에 실패했습니다: ' + error.message, 'error');
             } finally {
                 hideLoading();
             }
