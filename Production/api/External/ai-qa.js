@@ -48,12 +48,11 @@ module.exports = async function handler(req, res) {
 
   // Supabase 클라이언트 생성 (환경변수 없으면 null)
   let supabase = null;
-  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+  const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (SUPABASE_URL && SUPABASE_KEY) {
     try {
-      supabase = createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL,
-        process.env.SUPABASE_SERVICE_ROLE_KEY
-      );
+      supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     } catch (e) {
       console.error('Supabase client creation failed:', e);
     }

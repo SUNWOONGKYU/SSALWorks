@@ -28,24 +28,23 @@
         "2. 4개 소스(Order Sheet / Task Instruction / Task Plan / SAL Grid) 일치 확인 전 작업 금지",
         "3. 규칙 파일(.claude/rules/) 확인 전 파일 생성/저장 금지",
         "4. 불명확한 점은 추측 금지, 반드시 질문",
-        "5. 6단계 작업 순서를 건너뛰거나 변경 금지",
-        "6. 거짓 완료 보고 절대 금지"
+        "5. 6단계 작업 순서 (A2 참조) 건너뛰거나 변경 금지",
+        "6. 거짓 기록 절대 금지"
       ]
     },
 
-    "A2_MANDATORY_WORKFLOW": {
-      "_title": "A2. AI 필수 작업 순서 (6단계)",
-      "_description": "모든 Order Sheet 처리 시 반드시 이 순서대로 진행",
+    "A2_WORKFLOW": {
+      "_title": "A2. AI 작업 순서 (6단계)",
+      "_description": "Order Sheet 처리 시 이 순서대로 진행",
 
       "STEP_1": {
         "단계": "1단계",
         "제목": "Order Sheet 완전 이해",
         "목적": "Order Sheet의 모든 내용을 100% 파악",
         "체크리스트": [
-          "□ 1-1. _METADATA 확인 → Stage, 목적 파악",
-          "□ 1-2. PART_B.tasks 확인 → Task 목록 파악",
-          "□ 1-3. PART_B.special_instructions 확인 → 특별 지시사항",
-          "□ 1-4. PART_B.additional_context 확인 → 추가 컨텍스트"
+          "□ 1-1. ORDER_SHEET 확인 → Stage, 목적 파악",
+          "□ 1-2. PART_B 특별 지시사항 확인",
+          "□ 1-3. PART_B 참고사항 확인"
         ],
         "출력": "'Order Sheet 확인 완료. Stage: S{N}, Task: {N}개'",
         "다음단계_조건": "체크리스트 완료"
@@ -113,40 +112,39 @@
         "제목": "실행",
         "목적": "Task 순서대로 실행 및 검증",
         "실행_순서": [
-          "5-1. Dependencies 기반 Task 순서 결정 (Grid 참조)",
-          "5-2. 각 Task: 작업 → 검증 → Grid 업데이트 → 파일 저장",
+          "5-1. Dependencies 기반 Task 순서 결정 (SAL Grid 참조)",
+          "5-2. 각 Task: 작업 → 검증 → SAL Grid에 기록 → 파일 저장",
           "5-3. Stage Gate 검증"
         ],
         "Task별_체크리스트": [
-          "□ Task Instruction 읽기",
+          "□ Task Instruction (A5 참조) 읽기",
           "□ 작업 수행",
-          "□ 검증 수행 (Verification Instruction)",
-          "□ Grid 업데이트 (test, build, integration, blockers)",
-          "□ 파일 저장 (02_save-location.md 준수)"
+          "□ 검증 수행 (Verification Instruction, A5 참조)",
+          "□ SAL Grid에 기록 (A3 참조)",
+          "□ 파일 저장 (A4 참조)"
         ],
-        "출력": "각 Task 완료 보고",
+        "출력": "각 Task SAL Grid에 기록",
         "다음단계_조건": "모든 Task verification_status = Verified"
       },
 
       "STEP_6": {
         "단계": "6단계",
-        "제목": "완료 보고",
-        "목적": "작업 결과 종합 보고",
-        "보고서_필수항목": [
+        "제목": "Stage 완료 기록",
+        "목적": "Stage 전체 작업 결과를 SAL Grid에 기록",
+        "기록_항목": [
           "완료된 Task 목록",
           "생성/수정된 파일 목록",
           "검증 결과",
-          "Grid 상태",
           "특이사항"
         ],
-        "출력": "완료 보고서",
+        "출력": "SAL Grid에서 확인 가능",
         "다음단계_조건": "PO 확인"
       }
     },
 
-    "A3_GRID_UPDATE_RULES": {
-      "_title": "A3. Grid 업데이트 규칙",
-      "_description": "Task 완료 시 필수 업데이트 필드",
+    "A3_SAL_GRID_RULES": {
+      "_title": "A3. SAL Grid 기록 규칙",
+      "_description": "Task 완료 시 SAL Grid에 기록할 필드",
 
       "필수_필드": {
         "task_progress": "100",
@@ -190,10 +188,10 @@
       "_title": "A5. 참조 문서",
       "규칙_파일": ".claude/rules/",
       "Task_Plan": "S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md",
-      "Task_Instructions": "S0_Project-SAL-Grid_생성/sal-grid/task-instructions/",
-      "Verification_Instructions": "S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/",
-      "Grid_Manual": "S0_Project-SAL-Grid_생성/manual/PROJECT_SSAL_GRID_MANUAL.md",
-      "SAL_Grid": "Supabase ssalworks_tasks 테이블"
+      "Task_Instruction": "S0_Project-SAL-Grid_생성/sal-grid/task-instructions/",
+      "Verification_Instruction": "S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/",
+      "Grid_Manual": "S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md",
+      "SAL_Grid": "Supabase project_sal_grid 테이블"
     }
   },
 
@@ -202,21 +200,10 @@
   "╚═══════════════════════════════════════════════════════════════════════════════╝": " ",
 
   "PART_B_PROJECT_SPECIFIC": {
-
-    "tasks": {
-      "_title": "B1. Task 목록",
-      "_instruction": "실행할 Task 목록 (Grid에서 가져옴)",
-
-      "list": [
-        {
-          "task_id": "{Task ID}",
-          "task_name": "{Task Name}"
-        }
-      ]
-    },
+    "_instruction": "프로젝트별로 추가할 내용을 아래에 기재하여 주세요. Task 목록은 ORDER_SHEET의 stage에 해당하는 SAL Grid 전체 Task입니다.",
 
     "special_instructions": {
-      "_title": "B2. 특별 지시사항",
+      "_title": "B1. 특별 지시사항",
       "_instruction": "이번 Order에만 적용되는 특별한 지시 (없으면 빈 배열)",
 
       "items": [],
@@ -228,18 +215,16 @@
       ]
     },
 
-    "additional_context": {
-      "_title": "B3. 추가 컨텍스트",
-      "_instruction": "AI가 작업 전에 알아야 할 배경 정보 (없으면 빈 배열)",
+    "references": {
+      "_title": "B2. 참고사항",
+      "_instruction": "AI가 작업과 관련하여 알아야 할 배경 정보 등 참고사항 (없으면 빈 배열)",
 
       "items": [],
 
       "_examples": [
-        "예시: '이전 세션에서 S2BA1 API 응답 형식 변경함. 프론트엔드 수정 필요'",
-        "예시: 'Supabase RLS가 개발 모드. 프로덕션 배포 전 변경 필요'",
-        "예시: '토스 페이먼트 테스트 키가 .env에 설정됨'",
-        "예시: 'ssalworks.ai.kr 도메인이 Vercel에 연결됨'",
-        "예시: '사용자 피드백: 로그인 로딩 느림 → S5F1 성능 개선 필요'"
+        "예시: '이전 세션에서 S2BA1 API 응답 형식 변경함'",
+        "예시: 'Supabase RLS가 개발 모드'",
+        "예시: '토스 페이먼트 테스트 키가 .env에 설정됨'"
       ]
     }
   },
