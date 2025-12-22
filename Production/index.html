@@ -2267,6 +2267,25 @@
                     <!-- 로그인 후 -->
                     <div id="headerUserBtns" style="display: none; align-items: center; gap: 12px;">
                         <span id="userNickname" style="font-weight: 600; color: var(--primary);"></span>
+                        <!-- 알림 벨 -->
+                        <div class="notification-wrapper" style="position: relative;">
+                            <button id="notificationBell" class="header-btn notification-bell" onclick="toggleNotificationDropdown()" style="position: relative; padding: 8px 12px;">
+                                🔔
+                                <span id="notificationBadge" class="notification-badge" style="display: none; position: absolute; top: 2px; right: 2px; background: #EF4444; color: white; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 50%; display: none; align-items: center; justify-content: center;">0</span>
+                            </button>
+                            <!-- 알림 드롭다운 -->
+                            <div id="notificationDropdown" class="notification-dropdown" style="display: none; position: absolute; top: 100%; right: 0; width: 320px; max-height: 400px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000; margin-top: 8px; overflow: hidden;">
+                                <div style="padding: 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 700; color: #333;">🔔 알림</span>
+                                    <button onclick="markAllNotificationsRead()" style="background: none; border: none; color: #6c757d; font-size: 12px; cursor: pointer;">모두 읽음</button>
+                                </div>
+                                <div id="notificationList" style="max-height: 320px; overflow-y: auto;">
+                                    <div style="padding: 40px; text-align: center; color: #6c757d;">
+                                        알림이 없습니다.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <button id="adminModeBtn" class="header-btn" onclick="showAdminPasswordModal()" style="background: #6c757d; color: white;">관리자 모드 전환</button>
                         <button class="header-btn" onclick="logoutFromMain()">로그아웃</button>
                     </div>
@@ -9309,6 +9328,185 @@ ${result.answer}`;
             }
         }
 
+        // ========================================
+        // 🔔 인앱 알림 시스템
+        // ========================================
+
+        let userNotifications = [];
+
+        // 알림 드롭다운 토글
+        function toggleNotificationDropdown() {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+                loadUserNotifications();
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        // 드롭다운 외부 클릭 시 닫기
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.notification-wrapper');
+            const dropdown = document.getElementById('notificationDropdown');
+            if (wrapper && dropdown && !wrapper.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // 알림 로드
+        async function loadUserNotifications() {
+            try {
+                if (!supabaseClient) return;
+
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const userId = session.user.id;
+
+                // user_notifications 테이블에서 조회
+                const { data, error } = await supabaseClient
+                    .from('user_notifications')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+
+                if (error) {
+                    console.log('알림 테이블 없음 또는 오류:', error.message);
+                    renderNotificationList([]);
+                    return;
+                }
+
+                userNotifications = data || [];
+                renderNotificationList(userNotifications);
+                updateNotificationBadge();
+
+            } catch (error) {
+                console.error('알림 로드 실패:', error);
+            }
+        }
+
+        // 알림 목록 렌더링
+        function renderNotificationList(notifications) {
+            const listEl = document.getElementById('notificationList');
+
+            if (!notifications || notifications.length === 0) {
+                listEl.innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: #6c757d;">
+                        알림이 없습니다.
+                    </div>
+                `;
+                return;
+            }
+
+            const icons = {
+                'credit_low': '⚠️',
+                'credit_charged': '💰',
+                'deposit_confirmed': '✅',
+                'free_period_ending': '📅',
+                'system': '📢'
+            };
+
+            listEl.innerHTML = notifications.map(n => `
+                <div class="notification-item" style="padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; background: ${n.is_read ? 'white' : '#f8f9ff'};" onclick="markNotificationRead('${n.id}')">
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <span style="font-size: 18px;">${icons[n.notification_type] || '🔔'}</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: ${n.is_read ? '400' : '600'}; color: #333; font-size: 13px; margin-bottom: 4px;">
+                                ${DOMPurify.sanitize(n.title)}
+                            </div>
+                            <div style="color: #6c757d; font-size: 12px; margin-bottom: 4px;">
+                                ${DOMPurify.sanitize(n.message)}
+                            </div>
+                            <div style="color: #adb5bd; font-size: 11px;">
+                                ${formatTimeAgo(n.created_at)}
+                            </div>
+                        </div>
+                        ${!n.is_read ? '<span style="width: 8px; height: 8px; background: #3B82F6; border-radius: 50%;"></span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 시간 표시 (몇 분 전, 몇 시간 전)
+        function formatTimeAgo(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMin = Math.floor(diffMs / 60000);
+            const diffHour = Math.floor(diffMs / 3600000);
+            const diffDay = Math.floor(diffMs / 86400000);
+
+            if (diffMin < 1) return '방금 전';
+            if (diffMin < 60) return `${diffMin}분 전`;
+            if (diffHour < 24) return `${diffHour}시간 전`;
+            if (diffDay < 7) return `${diffDay}일 전`;
+            return date.toLocaleDateString('ko-KR');
+        }
+
+        // 알림 배지 업데이트
+        function updateNotificationBadge() {
+            const badge = document.getElementById('notificationBadge');
+            const unreadCount = userNotifications.filter(n => !n.is_read).length;
+
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // 개별 알림 읽음 처리
+        async function markNotificationRead(notificationId) {
+            try {
+                if (!supabaseClient) return;
+
+                const { error } = await supabaseClient
+                    .from('user_notifications')
+                    .update({ is_read: true })
+                    .eq('id', notificationId);
+
+                if (error) console.log('읽음 처리 실패:', error.message);
+
+                // UI 업데이트
+                const notification = userNotifications.find(n => n.id === notificationId);
+                if (notification) notification.is_read = true;
+                renderNotificationList(userNotifications);
+                updateNotificationBadge();
+
+            } catch (error) {
+                console.error('읽음 처리 오류:', error);
+            }
+        }
+
+        // 모든 알림 읽음 처리
+        async function markAllNotificationsRead() {
+            try {
+                if (!supabaseClient) return;
+
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const { error } = await supabaseClient
+                    .from('user_notifications')
+                    .update({ is_read: true })
+                    .eq('user_id', session.user.id)
+                    .eq('is_read', false);
+
+                if (error) console.log('전체 읽음 처리 실패:', error.message);
+
+                // UI 업데이트
+                userNotifications.forEach(n => n.is_read = true);
+                renderNotificationList(userNotifications);
+                updateNotificationBadge();
+
+            } catch (error) {
+                console.error('전체 읽음 처리 오류:', error);
+            }
+        }
+
         // Stage Gate 상태 확인 및 진행 프로세스 업데이트 (SSAL Works 관리자만)
         async function loadStageGateStatus() {
             try {
@@ -9604,6 +9802,9 @@ ${result.answer}`;
             if (adminModeBtn) {
                 adminModeBtn.style.display = (email === ADMIN_EMAIL) ? 'inline-block' : 'none';
             }
+
+            // 알림 로드
+            loadUserNotifications();
         }
 
         function showLoggedOutUI() {

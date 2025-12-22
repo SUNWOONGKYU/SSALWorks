@@ -5344,6 +5344,19 @@
 
                 if (notifError) throw notifError;
 
+                // 5. 사용자에게 인앱 알림 생성
+                const { error: userNotifError } = await supabaseClient
+                    .from('user_notifications')
+                    .insert({
+                        user_id: userId,
+                        notification_type: 'deposit_confirmed',
+                        title: '크레딧 충전 완료',
+                        message: `₩${amount.toLocaleString()} 크레딧이 충전되었습니다.`,
+                        metadata: { amount: amount, balance_after: newBalance }
+                    });
+
+                if (userNotifError) console.log('사용자 알림 생성 실패:', userNotifError.message);
+
                 showToast(`✅ 입금 확인 완료! ₩${amount.toLocaleString()} 크레딧이 충전되었습니다.`, 'success');
 
                 // 목록 새로고침
@@ -5593,10 +5606,12 @@
             }
         }
 
-        // 잔액 부족 알림 발송 (개별)
+        // 잔액 부족 알림 발송 (개별) - 인앱 알림
         async function sendLowBalanceNotification(email, userName, balance) {
-            if (!email || email === '-') {
-                showToast('이메일 주소가 없어 알림을 보낼 수 없습니다.', 'error');
+            // user_id 찾기
+            const user = lowBalanceUsers.find(u => u.email === email);
+            if (!user) {
+                showToast('사용자 정보를 찾을 수 없습니다.', 'error');
                 return;
             }
 
@@ -5606,25 +5621,23 @@
 
             showLoading();
             try {
-                // TODO: Resend API 연동 후 실제 이메일 발송
-                // 현재는 알림 발송 기록만 저장
+                // 인앱 알림 생성
                 const { error } = await supabaseClient
-                    .from('notification_logs')
+                    .from('user_notifications')
                     .insert({
-                        notification_type: 'low_balance',
-                        recipient_email: email,
-                        recipient_name: userName,
-                        content: `잔액이 ₩${balance.toLocaleString()}으로 부족합니다. 크레딧을 충전해주세요.`,
-                        status: 'pending',
-                        created_at: new Date().toISOString()
+                        user_id: user.user_id,
+                        notification_type: 'credit_low',
+                        title: '크레딧 잔액 부족',
+                        message: `현재 잔액이 ₩${balance.toLocaleString()}입니다. 크레딧을 충전해주세요.`,
+                        metadata: { balance: balance }
                     });
 
                 if (error) {
-                    console.log('알림 로그 테이블 없음 - 테이블 생성 필요:', error.message);
+                    console.log('인앱 알림 생성 실패:', error.message);
+                    showToast('알림 발송 실패: ' + error.message, 'error');
+                } else {
+                    showToast(`🔔 ${userName}님에게 인앱 알림을 발송했습니다.`, 'success');
                 }
-
-                showToast(`📧 ${userName}님에게 잔액 부족 알림 발송 예정 (Resend 연동 필요)`, 'warning');
-                console.log('📧 잔액 부족 알림 발송:', { email, userName, balance });
 
             } catch (error) {
                 console.error('알림 발송 실패:', error);
@@ -5634,46 +5647,37 @@
             }
         }
 
-        // 잔액 부족 알림 발송 (전체)
+        // 잔액 부족 알림 발송 (전체) - 인앱 알림
         async function sendLowBalanceNotificationAll() {
             if (lowBalanceUsers.length === 0) {
                 showToast('잔액 부족 사용자가 없습니다.', 'info');
                 return;
             }
 
-            const usersWithEmail = lowBalanceUsers.filter(u => u.email);
-            if (usersWithEmail.length === 0) {
-                showToast('이메일 주소가 있는 사용자가 없습니다.', 'error');
-                return;
-            }
-
-            const emailList = usersWithEmail.map(u => u.email).join('\n');
-            if (!confirm(`${usersWithEmail.length}명에게 잔액 부족 알림을 발송하시겠습니까?\n\n대상자:\n${emailList}`)) {
+            const userNames = lowBalanceUsers.map(u => u.name || u.user_id).join(', ');
+            if (!confirm(`${lowBalanceUsers.length}명에게 잔액 부족 알림을 발송하시겠습니까?\n\n대상자: ${userNames}`)) {
                 return;
             }
 
             showLoading();
             try {
-                // TODO: Resend API 연동 후 실제 이메일 발송
-                for (const user of usersWithEmail) {
+                let successCount = 0;
+
+                for (const user of lowBalanceUsers) {
                     const { error } = await supabaseClient
-                        .from('notification_logs')
+                        .from('user_notifications')
                         .insert({
-                            notification_type: 'low_balance',
-                            recipient_email: user.email,
-                            recipient_name: user.name || user.user_id,
-                            content: `잔액이 ₩${(user.credit_balance || 0).toLocaleString()}으로 부족합니다. 크레딧을 충전해주세요.`,
-                            status: 'pending',
-                            created_at: new Date().toISOString()
+                            user_id: user.user_id,
+                            notification_type: 'credit_low',
+                            title: '크레딧 잔액 부족',
+                            message: `현재 잔액이 ₩${(user.credit_balance || 0).toLocaleString()}입니다. 크레딧을 충전해주세요.`,
+                            metadata: { balance: user.credit_balance || 0 }
                         });
 
-                    if (error) {
-                        console.log('알림 로그 저장 실패:', error.message);
-                    }
+                    if (!error) successCount++;
                 }
 
-                showToast(`📧 ${usersWithEmail.length}명에게 잔액 부족 알림 발송 예정 (Resend 연동 필요)`, 'warning');
-                console.log('📧 전체 잔액 부족 알림 발송:', usersWithEmail);
+                showToast(`🔔 ${successCount}명에게 인앱 알림을 발송했습니다.`, 'success');
 
             } catch (error) {
                 console.error('전체 알림 발송 실패:', error);

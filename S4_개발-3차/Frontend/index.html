@@ -432,34 +432,30 @@
             margin-bottom: 2px;
         }
 
+        /* P1~S5 기본 스타일 */
         .process-major {
             display: flex;
             flex-direction: column;
             gap: 4px;
             padding: 6px 10px;
-            background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.2);
+            background: rgba(16, 185, 129, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.15);
             border-radius: 6px;
             transition: all 0.2s;
             cursor: pointer;
             margin-bottom: 6px;
         }
 
-        /* 진행률이 0일 때는 회색 배경 */
+        /* P1~S5 0% 상태: 아주 연한 녹색 */
         .process-major[data-progress="0"] {
-            background: #f8f9fa !important;
-            border: 1px solid #dee2e6 !important;
-        }
-        .process-major[data-progress="0"] .process-percent {
-            color: #6c757d;
-        }
-        .process-major[data-progress="0"] .process-progress-fill {
-            background: #dee2e6;
+            background: rgba(16, 185, 129, 0.05) !important;
+            border: 1px solid rgba(16, 185, 129, 0.15) !important;
         }
 
-        /* 진행률이 0보다 클 때만 연한 틸색 배경 (더 진하게) */
+        /* P1~S5 진행 중 (1-99%): 좀 더 진한 녹색 */
         .process-major[data-progress]:not([data-progress="0"]):not(.completed) {
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
+            background: rgba(16, 185, 129, 0.12) !important;
+            border: 1px solid rgba(16, 185, 129, 0.3) !important;
         }
 
         /* 호버 시 진한 초록색 (가장 높은 우선순위) */
@@ -473,9 +469,10 @@
             filter: brightness(2);
         }
 
+        /* P1~S5 완료 (100%): 더 진한 녹색 */
         .process-major.completed {
-            background: rgba(16, 185, 129, 0.25) !important;
-            border: 1px solid rgba(16, 185, 129, 0.5) !important;
+            background: rgba(16, 185, 129, 0.20) !important;
+            border: 1px solid rgba(16, 185, 129, 0.45) !important;
         }
 
         .process-header {
@@ -704,27 +701,25 @@
         }
 
         /* ☆ 특별단계 - process-major와 동일한 크기, 파란색 유지 */
+        /* P0, S0 기본 상태: 회색 (0%) */
         .process-special-major {
             display: flex;
             flex-direction: column;
             gap: 4px;
             padding: 6px 10px;
-            background: #dbeafe;
-            border: 1px solid #60a5fa;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
             border-radius: 6px;
             transition: all 0.2s;
             cursor: pointer;
             margin-bottom: 6px;
         }
-        .process-special-major:hover {
-            background: #2563eb !important;
-            color: white !important;
+        /* P0, S0 기본 상태에서 진행률 텍스트/바 색상 */
+        .process-special-major .process-percent {
+            color: #6c757d;
         }
-        .process-special-major:hover .process-icon,
-        .process-special-major:hover .process-name,
-        .process-special-major:hover .process-arrow,
-        .process-special-major:hover .process-percent {
-            color: white !important;
+        .process-special-major .process-progress-fill {
+            background: #dee2e6;
         }
         /* 특별단계 0%일 때도 회색 배경 */
         .process-special-major[data-progress="0"] {
@@ -741,16 +736,38 @@
         .process-special-major[data-progress="0"] .process-arrow {
             color: #6c757d;
         }
-        /* 특별단계 완료 시 (100%) 약간의 청색 배경 */
+        /* P0, S0 진행 중 (0% 초과, 100% 미만) 약간의 청색 배경 */
+        .process-special-major[data-progress]:not([data-progress="0"]):not(.completed) {
+            background: rgba(59, 130, 246, 0.1) !important;
+            border: 1px solid rgba(59, 130, 246, 0.3) !important;
+        }
+        .process-special-major[data-progress]:not([data-progress="0"]):not(.completed) .process-percent {
+            color: #3b82f6;
+        }
+        .process-special-major[data-progress]:not([data-progress="0"]):not(.completed) .process-progress-fill {
+            background: #3b82f6;
+        }
+        /* P0, S0 완료 (100%): 좀 더 진한 청색 */
         .process-special-major.completed {
-            background: rgba(59, 130, 246, 0.15) !important;
-            border: 1px solid rgba(59, 130, 246, 0.4) !important;
+            background: rgba(59, 130, 246, 0.20) !important;
+            border: 1px solid rgba(59, 130, 246, 0.5) !important;
         }
         .process-special-major.completed .process-percent {
             color: #3b82f6;
         }
         .process-special-major.completed .process-progress-fill {
             background: #3b82f6;
+        }
+        /* P0, S0 호버 시 파란색 (가장 높은 우선순위) */
+        .process-special-major:hover {
+            background: #2563eb !important;
+            color: white !important;
+        }
+        .process-special-major:hover .process-icon,
+        .process-special-major:hover .process-name,
+        .process-special-major:hover .process-arrow,
+        .process-special-major:hover .process-percent {
+            color: white !important;
         }
         .process-special-major .process-header {
             display: flex;
@@ -2250,6 +2267,25 @@
                     <!-- 로그인 후 -->
                     <div id="headerUserBtns" style="display: none; align-items: center; gap: 12px;">
                         <span id="userNickname" style="font-weight: 600; color: var(--primary);"></span>
+                        <!-- 알림 벨 -->
+                        <div class="notification-wrapper" style="position: relative;">
+                            <button id="notificationBell" class="header-btn notification-bell" onclick="toggleNotificationDropdown()" style="position: relative; padding: 8px 12px;">
+                                🔔
+                                <span id="notificationBadge" class="notification-badge" style="display: none; position: absolute; top: 2px; right: 2px; background: #EF4444; color: white; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 50%; display: none; align-items: center; justify-content: center;">0</span>
+                            </button>
+                            <!-- 알림 드롭다운 -->
+                            <div id="notificationDropdown" class="notification-dropdown" style="display: none; position: absolute; top: 100%; right: 0; width: 320px; max-height: 400px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000; margin-top: 8px; overflow: hidden;">
+                                <div style="padding: 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 700; color: #333;">🔔 알림</span>
+                                    <button onclick="markAllNotificationsRead()" style="background: none; border: none; color: #6c757d; font-size: 12px; cursor: pointer;">모두 읽음</button>
+                                </div>
+                                <div id="notificationList" style="max-height: 320px; overflow-y: auto;">
+                                    <div style="padding: 40px; text-align: center; color: #6c757d;">
+                                        알림이 없습니다.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <button id="adminModeBtn" class="header-btn" onclick="showAdminPasswordModal()" style="background: #6c757d; color: white;">관리자 모드 전환</button>
                         <button class="header-btn" onclick="logoutFromMain()">로그아웃</button>
                     </div>
@@ -2261,6 +2297,34 @@
         <div class="layout-container">
             <!-- Left Sidebar: Process -->
         <aside class="left-sidebar">
+            <!-- 마이페이지 섹션 (최상단) -->
+            <div class="left-sidebar-section" id="mypageMenuSection">
+                <h2 class="sidebar-title" style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+                    👤 마이페이지
+                    <span id="mypageMoreBtn" onclick="toggleMypageMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
+                </h2>
+                <!-- 기본 노출: 내 프로필 -->
+                <div>
+                    <a href="pages/mypage/profile.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        내 프로필
+                    </a>
+                </div>
+                <!-- 펼쳐지는 추가 메뉴들 -->
+                <div id="mypageLinks" style="display: none; margin-top: 4px;">
+                    <div style="display: flex; flex-direction: column; gap: 4px;">
+                        <a href="pages/mypage/subscription.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                            서비스 이용 현황
+                        </a>
+                        <a href="pages/mypage/credit.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                            크레딧 관리
+                        </a>
+                        <a href="pages/mypage/security.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                            보안 설정
+                        </a>
+                    </div>
+                </div>
+            </div>
+
             <!-- Project Section -->
             <div class="left-sidebar-section">
                 <h2 class="sidebar-title" style="margin-bottom: 13px;">📦 PROJECT</h2>
@@ -2273,12 +2337,12 @@
                         <span id="exampleProjectsArrow" style="font-size: 10px;">▶</span>
                     </div>
                     <div id="exampleProjectsList" style="display: none; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px;">
-                        <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/POLITICIAN_FINDER_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
-                            <span class="project-name">PoliticianFinder</span>
-                            <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
-                        </div>
                         <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/SSAL_WORKS_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
                             <span class="project-name">SSAL Works</span>
+                            <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
+                        </div>
+                        <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/POLITICIAN_FINDER_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
+                            <span class="project-name">PoliticianFinder</span>
                             <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
                         </div>
                         <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/HDH_FINTECH_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
@@ -3054,34 +3118,6 @@ The content you enter in the Control Space will be displayed here.</pre>
 
         <!-- Right Sidebar: Content & Support -->
         <aside class="right-sidebar">
-            <!-- 마이페이지 메뉴 -->
-            <div class="sidebar-section" id="mypageMenuSection">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
-                    👤 마이페이지
-                    <span id="mypageMoreBtn" onclick="toggleMypageMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
-                </h3>
-                <!-- 기본 노출: 내 프로필 -->
-                <div>
-                    <a href="pages/mypage/profile.html" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                        내 프로필
-                    </a>
-                </div>
-                <!-- 펼쳐지는 추가 메뉴들 -->
-                <div id="mypageLinks" style="display: none; margin-top: 4px;">
-                    <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <a href="pages/mypage/subscription.html" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            서비스 이용 현황
-                        </a>
-                        <a href="pages/mypage/credit.html" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            크레딧 관리
-                        </a>
-                        <a href="pages/mypage/security.html" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
-                            보안 설정
-                        </a>
-                    </div>
-                </div>
-            </div>
-
             <!-- Notices Section (공지사항 - 상단 배치) -->
             <div class="sidebar-section">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
@@ -3748,8 +3784,8 @@ The content you enter in the Control Space will be displayed here.</pre>
                         style="margin-top: 8px; font-size: 11px; color: #666; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <span>크레딧 잔액: <span style="color: #333;">₩<span
                                     id="perplexityCreditBalance">10,000</span></span></span>
-                        <button onclick="rechargeCredit()"
-                            style="padding: 4px 12px; font-size: 11px; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">충전하기</button>
+                        <a href="pages/mypage/credit.html"
+                            style="padding: 4px 12px; font-size: 11px; background: #2C4A8A; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">충전하기</a>
                     </div>
 
                     <!-- 질문 이력 버튼 -->
@@ -3963,22 +3999,7 @@ The content you enter in the Control Space will be displayed here.</pre>
         document.addEventListener('DOMContentLoaded', () => {
             // loadSidebarStructure(); // ❌ 비활성화 - HTML에 직접 작성된 진행률(55%) 사용
             console.log('✅ Using static HTML structure with progress data');
-            updateProgressBackgrounds();
-        function updateProgressBackgrounds() {
-            document.querySelectorAll('.process-major').forEach(el => {
-                const progress = parseInt(el.getAttribute('data-progress') || 0);
-                if (el.classList.contains('completed')) return;
-                const minOpacity = 0.08;
-                const maxOpacity = 0.25;
-                const opacity = minOpacity + (maxOpacity - minOpacity) * (progress / 100);
-                const minBorderOpacity = 0.2;
-                const maxBorderOpacity = 0.5;
-                const borderOpacity = minBorderOpacity + (maxBorderOpacity - minBorderOpacity) * (progress / 100);
-                el.style.backgroundColor = `rgba(16, 185, 129, ${opacity})`;
-                el.style.borderColor = `rgba(16, 185, 129, ${borderOpacity})`;
-            });
-        }
-
+            // updateProgressBackgrounds(); // ❌ 제거 - CSS에서 3단계 색상 처리
         });
 
         // Toggle process prep sub-items (준비단계 ○)
@@ -5548,10 +5569,15 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             percentTexts.forEach(text => {
                 text.textContent = '0%';
             });
-            // data-progress도 0으로
-            const progressItems = document.querySelectorAll('[data-progress]');
+            // data-progress도 0으로 + inline style 제거 (CSS가 적용되도록)
+            const progressItems = document.querySelectorAll('.process-major, .process-special-major');
             progressItems.forEach(item => {
                 item.setAttribute('data-progress', '0');
+                // 모든 inline style 제거 (background, backgroundColor, border, borderColor)
+                item.style.background = '';
+                item.style.backgroundColor = '';
+                item.style.border = '';
+                item.style.borderColor = '';
             });
             // completed 클래스 제거 (색상 원복)
             const completedItems = document.querySelectorAll('.process-major.completed, .process-special-major.completed');
@@ -7614,9 +7640,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
                     <h3 style="margin-top: 24px; color: #333;">제공되는 예시 Project</h3>
                     <ul style="padding-left: 20px; line-height: 2;">
+                        <li><strong>SSAL Works</strong> - Claude Code를 활용한 SAL Grid 기반 풀스택 웹사이트 개발 플랫폼</li>
                         <li><strong>PoliticianFinder</strong> - AI 기반 정치인 평가 플랫폼</li>
-                        <li><strong>SSAL Works</strong> - Claude Code를 활용한 SAL Grid 기반 풀스택
-      웹사이트 개발 플랫폼</li>
                         <li><strong>HDH Fintech</strong> - HDH 핀테크 솔루션 운영 지원 플랫폼</li>
                     </ul>
 
@@ -9303,9 +9328,220 @@ ${result.answer}`;
             }
         }
 
-        // Stage Gate 상태 확인 및 진행 프로세스 업데이트
+        // ========================================
+        // 🔔 인앱 알림 시스템
+        // ========================================
+
+        let userNotifications = [];
+
+        // 알림 드롭다운 토글
+        function toggleNotificationDropdown() {
+            const dropdown = document.getElementById('notificationDropdown');
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+                loadUserNotifications();
+            } else {
+                dropdown.style.display = 'none';
+            }
+        }
+
+        // 드롭다운 외부 클릭 시 닫기
+        document.addEventListener('click', function(e) {
+            const wrapper = document.querySelector('.notification-wrapper');
+            const dropdown = document.getElementById('notificationDropdown');
+            if (wrapper && dropdown && !wrapper.contains(e.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // 알림 로드
+        async function loadUserNotifications() {
+            try {
+                if (!supabaseClient) return;
+
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const userId = session.user.id;
+
+                // user_notifications 테이블에서 조회
+                const { data, error } = await supabaseClient
+                    .from('user_notifications')
+                    .select('*')
+                    .eq('user_id', userId)
+                    .order('created_at', { ascending: false })
+                    .limit(20);
+
+                if (error) {
+                    console.log('알림 테이블 없음 또는 오류:', error.message);
+                    renderNotificationList([]);
+                    return;
+                }
+
+                userNotifications = data || [];
+                renderNotificationList(userNotifications);
+                updateNotificationBadge();
+
+            } catch (error) {
+                console.error('알림 로드 실패:', error);
+            }
+        }
+
+        // 알림 목록 렌더링
+        function renderNotificationList(notifications) {
+            const listEl = document.getElementById('notificationList');
+
+            if (!notifications || notifications.length === 0) {
+                listEl.innerHTML = `
+                    <div style="padding: 40px; text-align: center; color: #6c757d;">
+                        알림이 없습니다.
+                    </div>
+                `;
+                return;
+            }
+
+            const icons = {
+                'credit_low': '⚠️',
+                'credit_charged': '💰',
+                'deposit_confirmed': '✅',
+                'free_period_ending': '📅',
+                'system': '📢'
+            };
+
+            listEl.innerHTML = notifications.map(n => `
+                <div class="notification-item" style="padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; background: ${n.is_read ? 'white' : '#f8f9ff'};" onclick="markNotificationRead('${n.id}')">
+                    <div style="display: flex; gap: 10px; align-items: flex-start;">
+                        <span style="font-size: 18px;">${icons[n.notification_type] || '🔔'}</span>
+                        <div style="flex: 1;">
+                            <div style="font-weight: ${n.is_read ? '400' : '600'}; color: #333; font-size: 13px; margin-bottom: 4px;">
+                                ${DOMPurify.sanitize(n.title)}
+                            </div>
+                            <div style="color: #6c757d; font-size: 12px; margin-bottom: 4px;">
+                                ${DOMPurify.sanitize(n.message)}
+                            </div>
+                            <div style="color: #adb5bd; font-size: 11px;">
+                                ${formatTimeAgo(n.created_at)}
+                            </div>
+                        </div>
+                        ${!n.is_read ? '<span style="width: 8px; height: 8px; background: #3B82F6; border-radius: 50%;"></span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 시간 표시 (몇 분 전, 몇 시간 전)
+        function formatTimeAgo(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMin = Math.floor(diffMs / 60000);
+            const diffHour = Math.floor(diffMs / 3600000);
+            const diffDay = Math.floor(diffMs / 86400000);
+
+            if (diffMin < 1) return '방금 전';
+            if (diffMin < 60) return `${diffMin}분 전`;
+            if (diffHour < 24) return `${diffHour}시간 전`;
+            if (diffDay < 7) return `${diffDay}일 전`;
+            return date.toLocaleDateString('ko-KR');
+        }
+
+        // 알림 배지 업데이트
+        function updateNotificationBadge() {
+            const badge = document.getElementById('notificationBadge');
+            const unreadCount = userNotifications.filter(n => !n.is_read).length;
+
+            if (unreadCount > 0) {
+                badge.textContent = unreadCount > 9 ? '9+' : unreadCount;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        // 개별 알림 읽음 처리
+        async function markNotificationRead(notificationId) {
+            try {
+                if (!supabaseClient) return;
+
+                const { error } = await supabaseClient
+                    .from('user_notifications')
+                    .update({ is_read: true })
+                    .eq('id', notificationId);
+
+                if (error) console.log('읽음 처리 실패:', error.message);
+
+                // UI 업데이트
+                const notification = userNotifications.find(n => n.id === notificationId);
+                if (notification) notification.is_read = true;
+                renderNotificationList(userNotifications);
+                updateNotificationBadge();
+
+            } catch (error) {
+                console.error('읽음 처리 오류:', error);
+            }
+        }
+
+        // 모든 알림 읽음 처리
+        async function markAllNotificationsRead() {
+            try {
+                if (!supabaseClient) return;
+
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const { error } = await supabaseClient
+                    .from('user_notifications')
+                    .update({ is_read: true })
+                    .eq('user_id', session.user.id)
+                    .eq('is_read', false);
+
+                if (error) console.log('전체 읽음 처리 실패:', error.message);
+
+                // UI 업데이트
+                userNotifications.forEach(n => n.is_read = true);
+                renderNotificationList(userNotifications);
+                updateNotificationBadge();
+
+            } catch (error) {
+                console.error('전체 읽음 처리 오류:', error);
+            }
+        }
+
+        // Stage Gate 상태 확인 및 진행 프로세스 업데이트 (SSAL Works 관리자만)
         async function loadStageGateStatus() {
             try {
+                // 1. 현재 사용자 확인
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    console.log('ℹ️ 비로그인 - Stage Gate 로드 스킵');
+                    return;
+                }
+
+                // 2. 사용자 정보 확인 (installation_fee_paid 체크)
+                const { data: userData } = await supabaseClient
+                    .from('users')
+                    .select('user_id, installation_fee_paid')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (!userData || !userData.installation_fee_paid) {
+                    console.log('ℹ️ 일반회원 - Stage Gate 로드 스킵');
+                    return;
+                }
+
+                // 3. SSAL Works 프로젝트 소유자인지 확인
+                const { data: projects } = await supabaseClient
+                    .from('projects')
+                    .select('project_name')
+                    .eq('user_id', userData.user_id)
+                    .eq('project_name', 'SSAL Works');
+
+                if (!projects || projects.length === 0) {
+                    console.log('ℹ️ SSAL Works 프로젝트 없음 - Stage Gate 로드 스킵');
+                    return;
+                }
+
+                // 4. Stage Gate 상태 조회 (SSAL Works 관리자만 여기까지 옴)
                 const { data, error } = await supabaseClient
                     .from('stage_verification')
                     .select('stage_name, stage_gate_status')
@@ -9383,13 +9619,10 @@ ${result.answer}`;
             // 이미 completed면 스킵
             if (processElement.classList.contains('completed')) return;
 
-            // completed 클래스 추가 및 스타일 직접 적용
+            // completed 클래스 추가 (CSS에서 스타일 처리)
             processElement.classList.add('completed');
             processElement.setAttribute('data-progress', '100');
-
-            // CSS specificity 문제로 인라인 스타일로 직접 적용
-            processElement.style.background = 'rgba(16, 185, 129, 0.25)';
-            processElement.style.border = '1px solid rgba(16, 185, 129, 0.5)';
+            // inline style 사용하지 않음 - CSS !important로 처리
 
             // 진행률 바 업데이트
             const progressFill = processElement.querySelector('.process-progress-fill');
@@ -9569,6 +9802,9 @@ ${result.answer}`;
             if (adminModeBtn) {
                 adminModeBtn.style.display = (email === ADMIN_EMAIL) ? 'inline-block' : 'none';
             }
+
+            // 알림 로드
+            loadUserNotifications();
         }
 
         function showLoggedOutUI() {
@@ -10597,10 +10833,12 @@ ${result.answer}`;
             { category: '효율적인 소통', title: '컨텍스트 효율적으로 제공하기', path: 'Tips/효율적인_소통/컨텍스트_효율적으로_제공하기.md' },
             { category: '효율적인 소통', title: '대용량 파일 다루기', path: 'Tips/효율적인_소통/대용량_파일_다루기.md' },
             { category: '효율적인 소통', title: '이미지 스크린샷 활용하기', path: 'Tips/효율적인_소통/이미지_스크린샷_활용하기.md' },
+            { category: '데이터베이스', title: 'SQL 주석이란 무엇인가', path: 'Tips/데이터베이스/SQL_주석이란_무엇인가.md' },
             { category: '데이터베이스', title: 'Supabase 기본 사용법', path: 'Tips/데이터베이스/Supabase_기본_사용법.md' },
             { category: '데이터베이스', title: 'SQL 쿼리 작성 요청하기', path: 'Tips/데이터베이스/SQL_쿼리_작성_요청하기.md' },
             { category: '데이터베이스', title: 'RLS 정책 설정하기', path: 'Tips/데이터베이스/RLS_정책_설정하기.md' },
             { category: '데이터베이스', title: 'DB 스키마 설계 요청하기', path: 'Tips/데이터베이스/DB_스키마_설계_요청하기.md' },
+            { category: '데이터베이스', title: 'Claude Code로 Supabase CRUD 하는 방법', path: 'Tips/데이터베이스/Claude_Code로_Supabase_CRUD_하는_방법.md' },
             { category: 'SAL Grid', title: 'SAL Grid 개념 이해하기', path: 'Tips/SAL_Grid/SAL_Grid_개념_이해하기.md' },
             { category: 'SAL Grid', title: 'Task Instruction 작성하기', path: 'Tips/SAL_Grid/Task_Instruction_작성하기.md' },
             { category: 'SAL Grid', title: 'Task Plan 작성 전 User Flow 먼저', path: 'Tips/SAL_Grid/Task_Plan_작성_전_User_Flow_먼저.md' },
