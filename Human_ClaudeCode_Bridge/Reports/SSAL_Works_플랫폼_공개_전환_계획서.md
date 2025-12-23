@@ -1,7 +1,7 @@
 # SSAL Works 플랫폼 공개 전환 계획서
 
 작성일: 2025-12-22
-수정일: 2025-12-23
+수정일: 2025-12-24
 
 ---
 
@@ -70,6 +70,11 @@
    - 2가지 모드 구현 (데모 보기 / 내 DB 연결)
    - 설정 모달 추가 (URL/Key 입력)
    - localStorage 저장 기능
+
+5. **Development_Process_Monitor 일반화** ⭐ (신규)
+   - SSALWorks 전용 설정 제거
+   - 범용 프로젝트에 적용 가능하도록 수정
+   - 사이드바 생성 도구 템플릿화
 
 ---
 
@@ -279,6 +284,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIs...';
 - [ ] **CLAUDE.md 일반화** (섹션 5 참조)
 - [ ] **Order Sheet 템플릿 일반화** (섹션 5 참조)
 - [ ] **Briefing 일반화** (섹션 5 참조)
+- [ ] **Development_Process_Monitor 일반화** ⭐ (신규)
 - [ ] **Supabase Key 하드코딩 제거**
 
 ### 검증 작업
