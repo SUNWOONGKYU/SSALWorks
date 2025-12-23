@@ -2273,6 +2273,12 @@
                                     <span>Workflows</span>
                                 </div>
                             </div>
+                            <div class="process-small" onclick="loadProcessStage('service_intro', 'Service Introduction', 'P2')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Service_Introduction</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -2351,6 +2357,18 @@
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>viewer</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_task_instructions', 'Task Instructions', 'SAL Grid')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>task-instructions</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_verification_instructions', 'Verification Instructions', 'SAL Grid')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>verification-instructions</span>
                                 </div>
                             </div>
                         </div>
@@ -4424,7 +4442,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 confirmMessage: 'Task Instructions 작업을 진행하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
-                guideUrl: 'guides/SAL_Grid_Task_Instructions.html'
+                guideUrl: 'guides/S0-5_Briefing.html'
             },
 
             'sal_grid_verification_instructions': {
@@ -4434,7 +4452,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 confirmMessage: 'Verification Instructions 작업을 진행하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
-                guideUrl: 'guides/SAL_Grid_Verification_Instructions.html'
+                guideUrl: 'guides/S0-6_Briefing.html'
             },
 
             'sal_grid_viewer': {
@@ -4864,6 +4882,16 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 `,
                 guideUrl: 'guides/P2-2-3_Briefing.html',
                 orderSheetUrl: 'templates/P2-2-3_Workflows.md'
+            },
+
+            'service_intro': {
+                stageId: 'service_intro',
+                stageName: 'Service Introduction',
+                hasAction: true,
+                confirmMessage: '서비스 소개 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/P2-5_Briefing.html'
             },
 
             // ===== P2 추가 단계 =====
