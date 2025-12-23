@@ -5480,7 +5480,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
                     // 2. Task 상태 조회
                     const { data: tasks, error } = await supabaseClient
-                        .from('ssalworks_tasks')
+                        .from('project_ssal_grid_tasks')
                         .select('stage, task_status');
 
                     if (error) {
@@ -9570,7 +9570,7 @@ ${result.answer}`;
         async function loadGridStats() {
             try {
                 const { data, error } = await supabaseClient
-                    .from('ssalworks_tasks')
+                    .from('project_ssal_grid_tasks')
                     .select('task_status, verification_status');
 
                 if (error) {
