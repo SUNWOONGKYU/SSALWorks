@@ -279,7 +279,7 @@ node Production/build-web-assets.js --guides
 - 다음 기능에서 사용자 알림 자동 생성:
   - 크레딧 입금 확인 → `deposit_confirmed`
   - 잔액 부족 알림 → `credit_low`
-  - 개발자 계정 개설 → `system`
+  - 빌더 계정 개설 → `system`
   - 무료 기간 종료 예정 → `free_period_ending`
 
 **4. 알림 유형 (notification_type)**

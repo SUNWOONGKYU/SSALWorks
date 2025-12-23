@@ -1,6 +1,6 @@
 /**
  * @task S4BA1
- * @description 개발자 계정 개설비 입금 요청 취소 API
+ * @description 빌더 계정 개설비 입금 요청 취소 API
  */
 const { createClient } = require('@supabase/supabase-js');
 

@@ -1,6 +1,6 @@
 /**
  * @task S4BA1
- * @description 개발자 계정 개설비 정보 조회 API (인증 불필요)
+ * @description 빌더 계정 개설비 정보 조회 API (인증 불필요)
  */
 
 const BANK_INFO = {
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
             success: true,
             installation_fee: {
                 amount: INSTALLATION_FEE,
-                description: '개발자 계정 개설비 (1회)',
+                description: '빌더 계정 개설비 (1회)',
                 payment_methods: ['bank_transfer']
             },
             bank_info: BANK_INFO,
@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
                 monthly_fee_description: '이후 월 이용료'
             },
             payment_process: [
-                '1. 개발자 계정 개설비 입금 요청',
+                '1. 빌더 계정 개설비 입금 요청',
                 '2. 계좌 정보 및 입금자명 확인',
                 '3. 7일 이내 입금',
                 '4. 관리자 확인 후 즉시 크레딧 지급',

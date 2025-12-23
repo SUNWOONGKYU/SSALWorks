@@ -130,9 +130,9 @@ export default async function handler(req, res) {
       const userEmail = payment.users.email;
       const projectName = payment.projects.project_name;
 
-      const emailSubject = `[SSAL Grid] 개발자 계정 개설비 입금 신청이 반려되었습니다 - ${projectName}`;
+      const emailSubject = `[SSAL Grid] 빌더 계정 개설비 입금 신청이 반려되었습니다 - ${projectName}`;
       const emailHtml = `
-        <h2>개발자 계정 개설비 입금 신청이 반려되었습니다</h2>
+        <h2>빌더 계정 개설비 입금 신청이 반려되었습니다</h2>
         <p>안녕하세요, ${payment.users.display_name || '고객'}님</p>
         <br>
         <p><strong>프로젝트:</strong> ${projectName}</p>

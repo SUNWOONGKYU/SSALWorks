@@ -42,7 +42,7 @@ module.exports = async (req, res) => {
   // ================================================================
   // 2. 요청 데이터 검증
   // ================================================================
-  const { email, password, name } = req.body;
+  const { email, password, name, nickname, real_name } = req.body;
 
   // 필수 필드 검증
   if (!email || !password || !name) {
@@ -181,6 +181,8 @@ module.exports = async (req, res) => {
         id: userId,
         email: normalizedEmail,
         name: trimmedName,
+        nickname: nickname ? nickname.trim() : null,
+        real_name: real_name ? real_name.trim() : null,
         subscription_status: 'inactive',
         role: 'user',
         created_at: now,

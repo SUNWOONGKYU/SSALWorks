@@ -87,7 +87,7 @@ const templates = {
             <table role="presentation" width="100%" style="background-color: #f8f9fa; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
                 <tr>
                     <td style="padding: 8px 0; color: #666;">결제 유형</td>
-                    <td style="padding: 8px 0; text-align: right; font-weight: 600;">${data.paymentType === 'installation_fee' ? '개발자 계정 개설비' : 'AI 크레딧 충전'}</td>
+                    <td style="padding: 8px 0; text-align: right; font-weight: 600;">${data.paymentType === 'installation_fee' ? '빌더 계정 개설비' : 'AI 크레딧 충전'}</td>
                 </tr>
                 <tr>
                     <td style="padding: 8px 0; color: #666;">결제 금액</td>

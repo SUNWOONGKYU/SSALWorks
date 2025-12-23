@@ -1,6 +1,6 @@
 /**
  * @task S4F1
- * @description 개발자 계정 개설비 입금 확인/거부 모달 및 처리
+ * @description 빌더 계정 개설비 입금 확인/거부 모달 및 처리
  */
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
@@ -71,7 +71,7 @@ async function loadInstallations() {
         console.error('Failed to load installations:', error);
         document.getElementById('installation-list').innerHTML = `
             <tr>
-                <td colspan="7" class="error">개발자 계정 개설비 내역을 불러오는데 실패했습니다.</td>
+                <td colspan="7" class="error">빌더 계정 개설비 내역을 불러오는데 실패했습니다.</td>
             </tr>
         `;
     }
@@ -84,7 +84,7 @@ function renderInstallations(installations) {
     if (!installations || installations.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="no-data">개발자 계정 개설비 내역이 없습니다.</td>
+                <td colspan="7" class="no-data">빌더 계정 개설비 내역이 없습니다.</td>
             </tr>
         `;
         return;
@@ -175,7 +175,7 @@ window.showConfirmModal = async (installationId) => {
 
     } catch (error) {
         console.error('Failed to load installation:', error);
-        alert('개발자 계정 개설비 정보를 불러오는데 실패했습니다.');
+        alert('빌더 계정 개설비 정보를 불러오는데 실패했습니다.');
     }
 };
 
@@ -218,7 +218,7 @@ window.showRejectModal = async (installationId) => {
 
     } catch (error) {
         console.error('Failed to load installation:', error);
-        alert('개발자 계정 개설비 정보를 불러오는데 실패했습니다.');
+        alert('빌더 계정 개설비 정보를 불러오는데 실패했습니다.');
     }
 };
 
@@ -258,7 +258,7 @@ async function confirmInstallation() {
                 transaction_type: 'grant',
                 amount: 50000,
                 balance_after: 50000,
-                description: '개발자 계정 개설비 입금 확인 - 웰컴 크레딧'
+                description: '빌더 계정 개설비 입금 확인 - 웰컴 크레딧'
             });
 
         if (creditError) throw creditError;

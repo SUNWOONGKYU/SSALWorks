@@ -222,7 +222,7 @@ function renderInstallationFees(installations) {
     if (!installations || installations.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="8" class="no-data">개발자 계정 개설비 내역이 없습니다.</td>
+                <td colspan="8" class="no-data">빌더 계정 개설비 내역이 없습니다.</td>
             </tr>
         `;
         return;
@@ -236,7 +236,7 @@ function renderInstallationFees(installations) {
                 <td>${new Date(installation.created_at).toLocaleDateString('ko-KR')}</td>
                 <td>INS-${installation.id.slice(0, 8)}</td>
                 <td>${installation.users?.name || installation.users?.email || '-'}</td>
-                <td>개발자 계정 개설비</td>
+                <td>빌더 계정 개설비</td>
                 <td>₩${installation.amount.toLocaleString()}</td>
                 <td>계좌이체</td>
                 <td>${statusBadge}</td>
@@ -337,7 +337,7 @@ window.showPaymentDetail = async (paymentId) => {
 // Show installation detail
 window.showInstallationDetail = async (installationId) => {
     // Similar to showPaymentDetail but for installation fees
-    alert('개발자 계정 개설비 상세 정보 (구현 예정)');
+    alert('빌더 계정 개설비 상세 정보 (구현 예정)');
 };
 
 // Handle refund

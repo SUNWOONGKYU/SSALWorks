@@ -164,7 +164,7 @@
             margin-bottom: 24px;
         }
 
-        /* 개발자 계정 개설비 안내 카드 */
+        /* 빌더 계정 개설비 안내 카드 */
         .fee-notice {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%);
             border: 2px solid var(--secondary);
@@ -401,15 +401,15 @@
             </button>
         </div>
 
-        <!-- 개발자 계정 개설비 미납 안내 -->
+        <!-- 빌더 계정 개설비 미납 안내 -->
         <div class="card fee-notice" id="feeNotice" style="display: none;">
             <div class="fee-notice-icon">🏠</div>
-            <div class="fee-notice-title">개발자 계정 개설비 납부가 필요합니다</div>
+            <div class="fee-notice-title">빌더 계정 개설비 납부가 필요합니다</div>
             <div class="fee-notice-text">
-                프로젝트를 등록하려면 먼저 개발자 계정 개설비를 납부해주세요.<br>
-                개발자 계정 개설비 납부 시 ₩5,000 무료 크레딧이 지급됩니다!
+                프로젝트를 등록하려면 먼저 빌더 계정 개설비를 납부해주세요.<br>
+                빌더 계정 개설비 납부 시 ₩5,000 무료 크레딧이 지급됩니다!
             </div>
-            <a href="../payment/installation.html" class="btn" style="background: #2C4A8A; color: white;">개발자 계정 개설비 안내 보기</a>
+            <a href="../payment/installation.html" class="btn" style="background: #2C4A8A; color: white;">빌더 계정 개설비 안내 보기</a>
         </div>
 
         <!-- 통계 -->
@@ -477,15 +477,15 @@
                 if (error) throw error;
                 userData = data;
 
-                // 개발자 계정 개설비 미납 시
+                // 빌더 계정 개설비 미납 시
                 if (!userData.installation_fee_paid) {
                     document.getElementById('feeNotice').style.display = 'block';
                     document.getElementById('newProjectBtn').disabled = true;
                     document.getElementById('projectList').innerHTML = `
                         <div class="card empty-state">
                             <div class="empty-state-icon">📋</div>
-                            <div class="empty-state-title">개발자 계정 개설비 납부 후 이용 가능합니다</div>
-                            <div class="empty-state-text">개발자 계정 개설비를 납부하시면 프로젝트를 등록할 수 있습니다.</div>
+                            <div class="empty-state-title">빌더 계정 개설비 납부 후 이용 가능합니다</div>
+                            <div class="empty-state-text">빌더 계정 개설비를 납부하시면 프로젝트를 등록할 수 있습니다.</div>
                         </div>
                     `;
                 } else {
@@ -598,7 +598,7 @@
 
         function goToNewProject() {
             if (!userData || !userData.installation_fee_paid) {
-                showToast('개발자 계정 개설비 납부 후 이용 가능합니다.', 'error');
+                showToast('빌더 계정 개설비 납부 후 이용 가능합니다.', 'error');
                 return;
             }
 
