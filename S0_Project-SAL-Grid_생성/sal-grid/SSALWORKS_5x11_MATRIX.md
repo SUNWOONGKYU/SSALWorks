@@ -43,7 +43,7 @@
 ║   Stage 2: 개발 1차 (Auth & Registration)          ← 11 Areas            ║
 ║   Stage 3: 개발 2차 (AI Integration)         ← 11 Areas            ║
 ║   Stage 4: 개발 3차 (Payment & Admin)         ← 일부 Areas          ║
-║   Stage 5: 운영 (Operations)                    ← 9 Areas             ║
+║   Stage 5: 개발 마무리 (Development Wrap-up)    ← 9 Areas             ║
 ║                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
@@ -58,7 +58,7 @@ Stage 1: Development Setup (개발 준비)
 Stage 2: Auth & Registration (개발 1차)
 Stage 3: AI Integration (개발 2차)
 Stage 4: Payment & Admin (개발 3차)
-Stage 5: Operations (운영)
+Stage 5: Development Wrap-up (개발 마무리)
 ```
 
 ### **11 Areas (영역)**
@@ -221,7 +221,7 @@ C  - Content System (콘텐츠 시스템)
 
 ---
 
-### **Stage 5: 운영 (Operations)**
+### **Stage 5: 개발 마무리 (Development Wrap-up)**
 > 9 Areas 사용 (BI, U 제외)
 
 | Area | 일반적 작업 내용 | 사용 빈도 |

@@ -192,37 +192,30 @@ export default async function handler(req, res) {
 
       // 3. 사용자 정보 업데이트 (빌더 ID + 설치비 납부 상태 + 웰컴 크레딧)
       const welcomeCredits = 50000; // ₩50,000 웰컴 크레딧
+
+      // 먼저 현재 크레딧 잔액 조회
+      const { data: currentUser } = await supabase
+        .from('users')
+        .select('credit_balance')
+        .eq('id', payment.userUUID)
+        .single();
+
+      const newBalance = (currentUser?.credit_balance || 0) + welcomeCredits;
+
+      // 사용자 정보 업데이트
       const { error: userUpdateError } = await supabase
         .from('users')
         .update({
           builder_id: generatedBuilderId,
           installation_fee_paid: true,
           installation_date: new Date().toISOString(),
-          credit_balance: supabase.raw(`COALESCE(credit_balance, 0) + ${welcomeCredits}`),
+          credit_balance: newBalance,
           subscription_status: 'active'
         })
         .eq('id', payment.userUUID);
 
       if (userUpdateError) {
         console.error('사용자 업데이트 오류:', userUpdateError);
-        // 크레딧 증가는 raw SQL이 안될 수 있으므로 별도 처리
-        const { data: currentUser } = await supabase
-          .from('users')
-          .select('credit_balance')
-          .eq('id', payment.userUUID)
-          .single();
-
-        const newBalance = (currentUser?.credit_balance || 0) + welcomeCredits;
-        await supabase
-          .from('users')
-          .update({
-            builder_id: generatedBuilderId,
-            installation_fee_paid: true,
-            installation_date: new Date().toISOString(),
-            credit_balance: newBalance,
-            subscription_status: 'active'
-          })
-          .eq('id', payment.userUUID);
       }
 
       // 4. 크레딧 거래 내역 기록

@@ -556,8 +556,8 @@
             </div>
             <div class="stat-card">
                 <div class="stat-icon">🤖</div>
-                <div class="stat-value" id="aiUsageCount">0회</div>
-                <div class="stat-label">AI 사용 횟수</div>
+                <div class="stat-value" id="tokenUsage">0</div>
+                <div class="stat-label">총 토큰 사용량</div>
             </div>
         </div>
 
@@ -774,10 +774,15 @@
             showLoading();
             try {
                 // deposit_notifications 테이블에 저장
+                if (!currentUser) {
+                    showToast('로그인이 필요합니다.', 'error');
+                    return;
+                }
+
                 const { error } = await supabaseClient
                     .from('deposit_notifications')
                     .insert({
-                        user_id: currentUser?.id || 'GUEST',
+                        user_id: currentUser.id,
                         deposit_type: 'credit',
                         amount: selectedAmount,
                         depositor_name: depositorName,
@@ -804,17 +809,24 @@
         async function checkAuth() {
             showLoading();
             try {
-                // 샘플 데이터 모드 (프로토타입)
-                await loadSampleData();
+                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                if (error || !session) {
+                    console.log('로그인되지 않음 - 샘플 데이터 표시');
+                    showSampleDataFallback();
+                    hideLoading();
+                    return;
+                }
+                currentUser = session.user;
+                await loadUserData();
             } catch (error) {
-                console.error('데이터 로드 실패:', error);
+                console.error('인증 확인 실패:', error);
                 showSampleDataFallback();
             } finally {
                 hideLoading();
             }
         }
 
-        async function loadSampleData() {
+        async function loadUserData() {
             // Load AI pricing
             try {
                 const { data: pricing } = await supabaseClient
@@ -826,20 +838,18 @@
                     pricing.forEach(p => {
                         aiPricing[p.service_name] = p.price_per_use;
                     });
-                    // 토큰 기반 가격표는 HTML에 정적으로 표시됨 (입력/출력 토큰당 가격)
-                    // renderPriceList(pricing);
                 }
             } catch (e) {
                 console.log('가격 정보 로드 실패 - 기본값 사용');
                 aiPricing = defaultPrices;
             }
 
-            // Load TEST0001 data as sample
+            // Load actual user data
             try {
-                const { data: user } = await supabaseClient
+                const { data: user, error } = await supabaseClient
                     .from('users')
                     .select('*')
-                    .eq('user_id', 'TEST0001')
+                    .eq('id', currentUser.id)
                     .single();
 
                 if (user) {
@@ -847,21 +857,21 @@
                     renderStats();
                 }
             } catch (e) {
-                console.log('사용자 데이터 로드 실패');
+                console.log('사용자 데이터 로드 실패:', e);
             }
 
-            // Load transaction history
+            // Load transaction history for logged-in user
             await loadTransactionHistory();
 
-            // Load AI usage log
+            // Load AI usage log for logged-in user
             await loadUsageLog();
         }
 
         function showSampleDataFallback() {
-            document.getElementById('creditBalance').textContent = '₩64,540';
-            document.getElementById('creditUsedMonth').textContent = '₩460';
-            document.getElementById('creditCharged').textContent = '₩60,000';
-            document.getElementById('aiUsageCount').textContent = '6회';
+            document.getElementById('creditBalance').textContent = '₩0';
+            document.getElementById('creditUsedMonth').textContent = '₩0';
+            document.getElementById('creditCharged').textContent = '₩0';
+            document.getElementById('tokenUsage').textContent = '0';
         }
 
         function renderStats() {
@@ -894,20 +904,29 @@
         }
 
         async function loadTransactionHistory() {
+            if (!currentUser) return;
+
             try {
-                const { data: transactions } = await supabaseClient
+                const { data: transactions, error } = await supabaseClient
                     .from('credit_transactions')
                     .select('*')
-                    .eq('user_id', 'TEST0001')
+                    .eq('user_id', currentUser.id)
                     .order('created_at', { ascending: false })
-                    .limit(10);
+                    .limit(20);
+
+                if (error) {
+                    console.log('거래 내역 로드 오류:', error);
+                    return;
+                }
 
                 if (transactions && transactions.length > 0) {
                     renderTransactionHistory(transactions);
                     calculateStats(transactions);
+                } else {
+                    document.getElementById('historyList').innerHTML = '<div class="history-empty">거래 내역이 없습니다.</div>';
                 }
             } catch (e) {
-                console.log('거래 내역 로드 실패');
+                console.log('거래 내역 로드 실패:', e);
             }
         }
 
@@ -954,20 +973,32 @@
         }
 
         async function loadUsageLog() {
+            if (!currentUser) return;
+
             try {
-                const { data: usage } = await supabaseClient
+                const { data: usage, error } = await supabaseClient
                     .from('ai_usage_log')
                     .select('*')
-                    .eq('user_id', 'TEST0001')
+                    .eq('user_id', currentUser.id)
                     .order('created_at', { ascending: false })
-                    .limit(10);
+                    .limit(20);
+
+                if (error) {
+                    console.log('사용 로그 로드 오류:', error);
+                    return;
+                }
 
                 if (usage && usage.length > 0) {
                     renderUsageLog(usage);
-                    document.getElementById('aiUsageCount').textContent = `${usage.length}회`;
+                    // 총 토큰 사용량 계산
+                    const totalTokens = usage.reduce((sum, u) => sum + (u.tokens_used || 0), 0);
+                    document.getElementById('tokenUsage').textContent = totalTokens.toLocaleString();
+                } else {
+                    document.getElementById('usageList').innerHTML = '<div class="history-empty">사용 기록이 없습니다.</div>';
+                    document.getElementById('tokenUsage').textContent = '0';
                 }
             } catch (e) {
-                console.log('사용 로그 로드 실패');
+                console.log('사용 로그 로드 실패:', e);
             }
         }
 
