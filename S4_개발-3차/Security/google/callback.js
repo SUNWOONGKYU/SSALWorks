@@ -101,7 +101,7 @@ export default async function handler(req, res) {
         }
       } else {
         // 신규 사용자 - user_id 생성 후 삽입
-        // 8자리 랜덤 영숫자 (예: A3B5C7D9)
+        // 8자리 랜덤 영숫자 (규칙: .claude/rules/07_id-generation.md 참조)
         const generateUserId = () => {
           const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
           let result = '';
