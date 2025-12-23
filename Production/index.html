@@ -2746,13 +2746,13 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small">
+                            <div class="process-small" onclick="loadProcessStage('project_directory_structure', 'Project Directory Structure', 'P0')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Project_Directory_Structure</span>
                                 </div>
                             </div>
-                            <div class="process-small">
+                            <div class="process-small" onclick="loadProcessStage('project_status', 'Project Status', 'P0')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Project_Status</span>
@@ -4789,6 +4789,38 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 `,
                 guideUrl: 'guides/SP-1_디렉토리_구조_생성.html',
                 orderSheetUrl: 'templates/SP-1_디렉토리_구조_생성.md'
+            },
+
+            // ===== P0 하위 항목 =====
+            'project_directory_structure': {
+                stageId: 'project_directory_structure',
+                stageName: 'Project Directory Structure',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SP-1_디렉토리_구조_생성.html'
+            },
+
+            'project_status': {
+                stageId: 'project_status',
+                stageName: 'Project Status',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/SP-1-2_Project_Status.html'
+            },
+
+            // ===== P2 하위 항목 =====
+            'service_intro': {
+                stageId: 'service_intro',
+                stageName: 'Service Introduction',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/P2-5_Service_Introduction.html'
             },
 
             // ===== ☆ 특별단계: SAL Grid 생성 =====
