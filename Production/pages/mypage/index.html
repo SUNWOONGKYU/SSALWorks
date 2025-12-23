@@ -1800,22 +1800,45 @@
 
         // ========== 메뉴 네비게이션 ==========
         function setupMenuNavigation() {
-            const menuLinks = document.querySelectorAll('.menu-link');
+            const menuLinks = document.querySelectorAll('.menu-link[data-section]');
 
             menuLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const sectionId = link.dataset.section;
-
-                    menuLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-
-                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-                    document.getElementById(`${sectionId}Section`).classList.add('active');
-
-                    if (isEditMode) toggleEditMode();
+                    navigateToSection(sectionId);
                 });
             });
+
+            // 페이지 로드 시 URL 해시 확인
+            const hash = window.location.hash.replace('#', '');
+            if (hash && document.getElementById(`${hash}Section`)) {
+                navigateToSection(hash);
+            }
+
+            // 브라우저 뒤로/앞으로 버튼 지원
+            window.addEventListener('hashchange', () => {
+                const newHash = window.location.hash.replace('#', '');
+                if (newHash && document.getElementById(`${newHash}Section`)) {
+                    navigateToSection(newHash);
+                }
+            });
+        }
+
+        function navigateToSection(sectionId) {
+            const menuLinks = document.querySelectorAll('.menu-link[data-section]');
+
+            menuLinks.forEach(l => l.classList.remove('active'));
+            const activeLink = document.querySelector(`.menu-link[data-section="${sectionId}"]`);
+            if (activeLink) activeLink.classList.add('active');
+
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`${sectionId}Section`).classList.add('active');
+
+            // URL 해시 업데이트 (히스토리에 추가하지 않음)
+            history.replaceState(null, null, `#${sectionId}`);
+
+            if (isEditMode) toggleEditMode();
         }
 
         // ========== 편집 모드 토글 ==========
