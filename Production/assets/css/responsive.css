@@ -52,8 +52,21 @@ html, body {
    ============================================ */
 
 @media (max-width: 1024px) {
-    /* 사이드바 축소 */
-    .sidebar {
+    /* SSALWorks 3열 그리드 → 2열 변환 (오른쪽 사이드바 숨김) */
+    .layout-container {
+        grid-template-columns: 200px 1fr !important;
+    }
+
+    /* 오른쪽 사이드바 숨김 */
+    .right-sidebar,
+    .right.sidebar {
+        display: none !important;
+    }
+
+    /* 왼쪽 사이드바 축소 */
+    .sidebar,
+    .left-sidebar,
+    .left.sidebar {
         width: 200px !important;
     }
 
@@ -95,7 +108,8 @@ html, body {
     .sidebar,
     .left-sidebar,
     .left.sidebar,
-    .left-sidebar,
+    .right-sidebar,
+    .right.sidebar,
     .nav-sidebar {
         display: none !important;
     }
