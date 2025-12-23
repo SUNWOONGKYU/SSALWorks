@@ -169,15 +169,102 @@ Project SAL Grid의 S4에 있는 모든 Task를 수행하라.
 
 **목적**: Stage 전체 완료 여부 최종 확인
 
-**검증 항목**:
-- [ ] Stage 내 모든 Task verification_status = Verified
-- [ ] 전체 빌드 통과
-- [ ] 전체 테스트 통과
-- [ ] 미해결 Blocker 없음
+**⛔ Main Agent 직접 실행 필수** (서브에이전트 X)
 
-**리포트 저장 위치**: `S0_Project-SAL-Grid_생성/sal-grid/stage-gates/S4GATE_verification_report.md`
+---
 
-**출력**: Stage Gate 검증 리포트 + PO 테스트 가이드
+#### 6-1. Supabase DB 상태 확인 (필수)
+
+**실행 명령**:
+```bash
+curl -X GET "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid?stage=eq.4&select=task_id,task_status,verification_status" \
+  -H "apikey: {SUPABASE_KEY}" -H "Authorization: Bearer {SUPABASE_KEY}"
+```
+
+**통과 조건**: 모든 Task가 `task_status: Completed`, `verification_status: Verified`
+
+**결과 기록 (필수)**:
+| Task ID | task_status | verification_status | 결과 |
+|---------|-------------|---------------------|------|
+| S4F1    | ?           | ?                   | ✅/❌ |
+| S4T1    | ?           | ?                   | ✅/❌ |
+| ...     | ...         | ...                 | ...  |
+
+---
+
+#### 6-2. 전체 빌드 실행 (필수)
+
+**실행 명령**:
+```bash
+cd Production && npm run build
+```
+
+**통과 조건**: 에러 0개
+
+**결과 기록 (필수)**:
+- 실행 시간: ___
+- 에러 수: ___
+- 결과: ✅ 통과 / ❌ 실패
+
+---
+
+#### 6-3. 전체 테스트 실행 (필수)
+
+**실행 명령**:
+```bash
+cd Production && npm test
+```
+
+**통과 조건**: 모든 테스트 통과 (또는 환경 이슈만 실패)
+
+**결과 기록 (필수)**:
+- 총 테스트: ___개
+- 통과: ___개
+- 실패: ___개
+- 결과: ✅ 통과 / ❌ 실패
+
+---
+
+#### 6-4. Blocker 확인
+
+**확인 방법**: 각 Task의 `blockers` 필드 확인
+
+**결과 기록 (필수)**:
+- Blocker 수: ___개
+- 상세: (있으면 기록)
+
+---
+
+#### 6-5. Stage Gate 리포트 생성 (필수)
+
+**저장 위치**: `S0_Project-SAL-Grid_생성/sal-grid/stage-gates/S4GATE_verification_report.md`
+
+**리포트 필수 포함 항목**:
+1. DB 상태 확인 결과 (6-1)
+2. 빌드 실행 결과 (6-2)
+3. 테스트 실행 결과 (6-3)
+4. Blocker 확인 결과 (6-4)
+5. 종합 판정: ✅ 통과 / ❌ 실패
+
+---
+
+#### ⛔ Stage Gate 체크포인트
+
+**다음 단계(7단계) 진행 조건**:
+- [ ] 6-1 DB 상태 확인 완료 및 기록
+- [ ] 6-2 빌드 실행 완료 및 기록
+- [ ] 6-3 테스트 실행 완료 및 기록
+- [ ] 6-4 Blocker 확인 완료
+- [ ] 6-5 리포트 생성 완료
+
+**위 5개 항목 중 하나라도 미완료 시 7단계 진행 금지**
+
+---
+
+**출력**:
+1. Stage Gate 검증 리포트 (6-5에서 생성)
+2. PO 테스트 가이드
+3. `"Stage Gate 통과"` 또는 `"Stage Gate 실패 - 사유: ___"`
 
 ---
 
