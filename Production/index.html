@@ -5463,7 +5463,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 // SSAL Works 프로젝트인 경우
                 if (projectName === 'SSAL Works') {
                     // 1. Stage Gate 상태 조회
-                    const { data: stageGates } = await supabaseClient
+                    const { data: stageGates } = await window.supabaseClient
                         .from('stage_verification')
                         .select('stage_name, stage_gate_status')
                         .eq('project_id', 'SSALWORKS');
@@ -5478,7 +5478,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     }
 
                     // 2. Task 상태 조회
-                    const { data: tasks, error } = await supabaseClient
+                    const { data: tasks, error } = await window.supabaseClient
                         .from('project_ssal_grid_tasks')
                         .select('stage, task_status');
 
@@ -9045,15 +9045,15 @@ ${result.answer}`;
         // P0~P3, S0~S5 모든 진행률을 DB에서 관리
         // ================================================================
         async function loadPhaseProgressFromDB() {
-            // supabaseClient가 초기화되지 않았으면 대기
-            if (!supabaseClient) {
+            // window.supabaseClient가 초기화되지 않았으면 대기
+            if (!window.supabaseClient) {
                 console.warn('⏳ Phase 진행률: Supabase 클라이언트 대기 중...');
                 setTimeout(loadPhaseProgressFromDB, 500);
                 return;
             }
 
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('project_phase_progress')
                     .select('phase_code, progress')
                     .eq('project_id', 'SSALWORKS');
@@ -9314,12 +9314,13 @@ ${result.answer}`;
         const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
 
-        let supabaseClient;
+        // window.supabaseClient를 window 객체에 명시적으로 선언 (크로스 스크립트 블록 접근 보장)
+        window.supabaseClient = null;
 
         // Supabase 클라이언트 초기화
         function initSupabase() {
             if (typeof supabase !== 'undefined') {
-                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
                 console.log('✅ Supabase 클라이언트 초기화 완료 (Frontend)');
                 loadNotices();
                 loadAndRenderLearningContents(); // 학습 콘텐츠도 로드
@@ -9364,15 +9365,15 @@ ${result.answer}`;
         // 알림 로드
         async function loadUserNotifications() {
             try {
-                if (!supabaseClient) return;
+                if (!window.supabaseClient) return;
 
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) return;
 
                 const userId = session.user.id;
 
                 // user_notifications 테이블에서 조회
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('user_notifications')
                     .select('*')
                     .eq('user_id', userId)
@@ -9468,9 +9469,9 @@ ${result.answer}`;
         // 개별 알림 읽음 처리
         async function markNotificationRead(notificationId) {
             try {
-                if (!supabaseClient) return;
+                if (!window.supabaseClient) return;
 
-                const { error } = await supabaseClient
+                const { error } = await window.supabaseClient
                     .from('user_notifications')
                     .update({ is_read: true })
                     .eq('id', notificationId);
@@ -9491,12 +9492,12 @@ ${result.answer}`;
         // 모든 알림 읽음 처리
         async function markAllNotificationsRead() {
             try {
-                if (!supabaseClient) return;
+                if (!window.supabaseClient) return;
 
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) return;
 
-                const { error } = await supabaseClient
+                const { error } = await window.supabaseClient
                     .from('user_notifications')
                     .update({ is_read: true })
                     .eq('user_id', session.user.id)
@@ -9518,14 +9519,14 @@ ${result.answer}`;
         async function loadStageGateStatus() {
             try {
                 // 1. 현재 사용자 확인
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) {
                     console.log('ℹ️ 비로그인 - Stage Gate 로드 스킵');
                     return;
                 }
 
                 // 2. 사용자 정보 확인 (installation_fee_paid 체크)
-                const { data: userData } = await supabaseClient
+                const { data: userData } = await window.supabaseClient
                     .from('users')
                     .select('user_id, installation_fee_paid')
                     .eq('id', session.user.id)
@@ -9537,7 +9538,7 @@ ${result.answer}`;
                 }
 
                 // 3. SSAL Works 프로젝트 소유자인지 확인
-                const { data: projects } = await supabaseClient
+                const { data: projects } = await window.supabaseClient
                     .from('projects')
                     .select('project_name')
                     .eq('user_id', userData.user_id)
@@ -9549,7 +9550,7 @@ ${result.answer}`;
                 }
 
                 // 4. Stage Gate 상태 조회 (SSAL Works 관리자만 여기까지 옴)
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('stage_verification')
                     .select('stage_name, stage_gate_status')
                     .eq('stage_gate_status', 'Approved');
@@ -9573,7 +9574,7 @@ ${result.answer}`;
         // SSAL Grid 통계 로드 (Supabase에서 실시간 조회)
         async function loadGridStats() {
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('project_ssal_grid_tasks')
                     .select('task_status, verification_status');
 
@@ -9734,13 +9735,13 @@ ${result.answer}`;
         // ========================================
         async function checkAuthStatus() {
             try {
-                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                const { data: { session }, error } = await window.supabaseClient.auth.getSession();
 
                 if (session && session.user) {
                     console.log('✅ 로그인 상태:', session.user.email);
 
                     // 사용자 이름 및 크레딧 잔액 가져오기
-                    const { data: userData, error: userError } = await supabaseClient
+                    const { data: userData, error: userError } = await window.supabaseClient
                         .from('users')
                         .select('name, nickname, credit_balance')
                         .eq('id', session.user.id)
@@ -9830,7 +9831,7 @@ ${result.answer}`;
 
         async function logoutFromMain() {
             try {
-                await supabaseClient.auth.signOut();
+                await window.supabaseClient.auth.signOut();
                 console.log('✅ 로그아웃 완료');
                 showLoggedOutUI();
                 exitAdminMode(); // 로그아웃 시 관리자 모드 해제
@@ -9921,7 +9922,7 @@ ${result.answer}`;
 
             try {
                 // 현재 로그인한 사용자 확인
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) {
                     currentProjectList.innerHTML = `
                         <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
@@ -9932,7 +9933,7 @@ ${result.answer}`;
                 }
 
                 // 사용자 정보 조회
-                const { data: userData } = await supabaseClient
+                const { data: userData } = await window.supabaseClient
                     .from('users')
                     .select('user_id, installation_fee_paid')
                     .eq('id', session.user.id)
@@ -9950,7 +9951,7 @@ ${result.answer}`;
                 }
 
                 // 사용자의 진행중 프로젝트 조회
-                const { data: projects, error } = await supabaseClient
+                const { data: projects, error } = await window.supabaseClient
                     .from('projects')
                     .select('*')
                     .eq('user_id', userData.user_id)
@@ -9999,13 +10000,13 @@ ${result.answer}`;
             if (!completedProjectsList) return;
 
             try {
-                const { data: { session } } = await supabaseClient.auth.getSession();
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) {
                     completedProjectsCount.textContent = '0';
                     return;
                 }
 
-                const { data: userData } = await supabaseClient
+                const { data: userData } = await window.supabaseClient
                     .from('users')
                     .select('user_id')
                     .eq('id', session.user.id)
@@ -10016,7 +10017,7 @@ ${result.answer}`;
                     return;
                 }
 
-                const { data: projects, error } = await supabaseClient
+                const { data: projects, error } = await window.supabaseClient
                     .from('projects')
                     .select('*')
                     .eq('user_id', userData.user_id)
@@ -10052,17 +10053,17 @@ ${result.answer}`;
         // 공지사항 로드
         async function loadNotices() {
             console.log('📋 공지사항 로드 시작 (Frontend)');
-            console.log('  - supabaseClient:', supabaseClient);
+            console.log('  - window.supabaseClient:', window.supabaseClient);
             console.log('  - URL:', SUPABASE_URL);
 
             try {
-                if (!supabaseClient) {
+                if (!window.supabaseClient) {
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
                 console.log('📤 Supabase 쿼리 시작...');
 
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('notices')
                     .select('*')
                     .order('important', { ascending: false })
@@ -10141,11 +10142,11 @@ ${result.answer}`;
             console.log('📄 공지사항 상세 보기:', noticeId);
 
             try {
-                if (!supabaseClient) {
+                if (!window.supabaseClient) {
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
-                const { data: notice, error } = await supabaseClient
+                const { data: notice, error } = await window.supabaseClient
                     .from('notices')
                     .select('*')
                     .eq('id', noticeId)
@@ -10313,13 +10314,13 @@ ${result.answer}`;
             console.log('📚 학습 콘텐츠 로드 시작 (Frontend)');
 
             try {
-                if (!supabaseClient) {
+                if (!window.supabaseClient) {
                     console.warn('⚠️ Supabase 클라이언트가 아직 초기화되지 않았습니다. 재시도 중...');
                     setTimeout(loadAndRenderLearningContents, 1000);
                     return;
                 }
 
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('learning_contents')
                     .select('*')
                     .order('depth1')
@@ -10606,13 +10607,13 @@ ${result.answer}`;
             const containerEl = document.getElementById('faqContainer');
 
             try {
-                if (!supabaseClient) {
+                if (!window.supabaseClient) {
                     console.warn('⚠️ Supabase 클라이언트가 아직 초기화되지 않았습니다. 재시도 중...');
                     setTimeout(loadAndRenderFaqs, 1000);
                     return;
                 }
 
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('faqs')
                     .select('*')
                     .order('depth1')
