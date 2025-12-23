@@ -2672,12 +2672,12 @@
                         </div>
                     </div>
 
-                    <!-- S5. 운영 -->
+                    <!-- S5. 개발 마무리 -->
                     <div class="process-item">
-                        <div class="process-major" onclick="loadProcessStage('s6_operation', 'S5. 운영', '개발단계'); toggleProcess(this)" data-progress="0">
+                        <div class="process-major" onclick="loadProcessStage('s5_wrapup', 'S5. 개발 마무리', '개발단계'); toggleProcess(this)" data-progress="0">
                             <div class="process-header">
                                 <span class="process-icon">S5.</span>
-                                <span class="process-name">운영</span>
+                                <span class="process-name">개발 마무리</span>
                                 <span class="process-arrow">▶</span>
                             </div>
                             <div class="process-progress-container">
@@ -3779,7 +3779,7 @@ The content you enter in the workspace will be displayed here.</pre>
                 { "id": "S3", "name": "개발 1차", "path": "S2_개발-1차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
                 { "id": "S4", "name": "개발 2차", "path": "S3_개발-2차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
                 { "id": "S5", "name": "개발 3차", "path": "S4_개발-3차", "areas": ["Documentation", "Design", "Frontend", "Backend_Infra", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] },
-                { "id": "S6", "name": "운영", "path": "S5_운영", "areas": ["Documentation", "Frontend", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] }
+                { "id": "S6", "name": "개발 마무리", "path": "S5_개발_마무리", "areas": ["Documentation", "Frontend", "Backend_APIs", "Database", "Security", "Testing", "DevOps", "External", "Content_System"] }
             ]
         };
 
@@ -4306,7 +4306,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [x] 프로토타입_제작 폴더
 - [x] 개발_준비 폴더
 - [x] 개발_1차~3차 폴더
-- [x] 운영 폴더
+- [x] 개발_마무리 폴더
 - [x] Web_ClaudeCode_Bridge 폴더
 
 ---
@@ -4337,7 +4337,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [ ] 프로토타입_제작 폴더
 - [ ] 개발_준비 폴더
 - [ ] 개발_1차~3차 폴더
-- [ ] 운영 폴더
+- [ ] 개발_마무리 폴더
 - [ ] Web_ClaudeCode_Bridge 폴더
 
 ---
@@ -4389,7 +4389,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 - [ ] S3: 개발 1차
 - [ ] S4: 개발 2차
 - [ ] S5: 개발 3차
-- [ ] S6: 운영
+- [ ] S6: 개발 마무리
 
 ### Area (영역)
 - [ ] Frontend
@@ -5327,17 +5327,17 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 orderSheetUrl: 'templates/S4_개발_3차.md'
             },
 
-            's6_operation': {
-                stageId: 's6_operation',
-                stageName: 'S6. 운영',
+            's5_wrapup': {
+                stageId: 's5_wrapup',
+                stageName: 'S5. 개발 마무리',
                 hasAction: true,
-                confirmMessage: '운영 단계를 위와 같이 진행하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - 운영
+                confirmMessage: '개발 마무리 단계를 위와 같이 진행하시겠습니까?',
+                orderSheetAfterExecute: `# 추가 Order Sheet - 개발 마무리
 
 ## ✅ 자동 실행된 항목
 
-- [x] 배포
-- [x] 모니터링 설정
+- [x] 배포 검증
+- [x] 최종 점검
 
 ---
 
@@ -5346,19 +5346,19 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [추가 요청사항을 작성하세요]
 
 `,
-                orderSheet: `# Order Sheet - S6. 운영
+                orderSheet: `# Order Sheet - S5. 개발 마무리
 
 ## 기본 정보
-- **Order ID**: OS-S6-A-001
+- **Order ID**: OS-S5-A-001
 - **작성일**: ${new Date().toISOString().split('T')[0]}
 
 ---
 
 ## 작업 항목
 
-- [ ] 배포
-- [ ] 모니터링 설정
-- [ ] 유지보수 계획
+- [ ] 배포 검증
+- [ ] 최종 점검
+- [ ] 문서화 완료
 
 ---
 
@@ -5367,7 +5367,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 [추가 요구사항이 있으면 여기에 작성]
 `,
                 guideUrl: 'guides/S5_Briefing.html',
-                orderSheetUrl: 'templates/S5_운영.md'
+                orderSheetUrl: 'templates/S5_개발_마무리.md'
             }
         };
 
