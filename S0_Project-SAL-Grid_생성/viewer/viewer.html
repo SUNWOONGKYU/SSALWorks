@@ -349,7 +349,7 @@
         async function loadTasks() {
             try {
                 const { data, error } = await supabase
-                    .from('ssalworks_tasks')
+                    .from('project_sal_grid')
                     .select('*')
                     .order('stage', { ascending: true })
                     .order('area', { ascending: true })

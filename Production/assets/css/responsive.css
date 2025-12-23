@@ -85,7 +85,16 @@ html, body {
     }
 
     /* 사이드바 숨김 */
+
+    /* SSALWorks 3열 그리드 → 1열 변환 */
+    .layout-container {
+        display: block !important;
+        width: 100% !important;
+    }
+
     .sidebar,
+    .left-sidebar,
+    .left.sidebar,
     .left-sidebar,
     .nav-sidebar {
         display: none !important;
@@ -263,6 +272,7 @@ html, body {
 
 @media print {
     .sidebar,
+    .left-sidebar,
     .mobile-notice,
     .no-print {
         display: none !important;
