@@ -106,83 +106,39 @@ module.exports = async (req, res) => {
             });
         }
 
-        // 3. users 테이블에서 user_id (8자리) 조회 또는 생성
-        let userId;
-
-        // 3-1. 먼저 auth.uid()로 조회
+        // 3. users 테이블에서 builder_id (12자리) 조회
+        // 빌더 계정 ID 기준으로 프로젝트 관리
         const { data: userData, error: userError } = await supabase
             .from('users')
-            .select('user_id')
+            .select('user_id, builder_id, installation_fee_paid')
             .eq('id', user.id)
             .single();
 
-        if (userData && userData.user_id) {
-            // auth.uid()로 찾음 - 정상 케이스
-            userId = userData.user_id;
-        } else {
-            // 3-2. auth.uid()로 못 찾으면 email로 조회
-            const { data: userByEmail, error: emailError } = await supabase
-                .from('users')
-                .select('id, user_id')
-                .eq('email', user.email)
-                .single();
-
-            if (userByEmail && userByEmail.user_id) {
-                // email로 찾음 - id를 auth.uid()로 업데이트
-                console.log('Found user by email, updating id:', userByEmail.id, '->', user.id);
-
-                const { error: updateError } = await supabase
-                    .from('users')
-                    .update({ id: user.id })
-                    .eq('email', user.email);
-
-                if (updateError) {
-                    console.error('Failed to update user id:', updateError);
-                }
-
-                userId = userByEmail.user_id;
-            } else {
-                // 3-3. 둘 다 없으면 신규 생성
-                console.log('Creating new user record for:', user.id, user.email);
-
-                try {
-                    const newUserId = await createUniqueUserId();
-                    const { data: newUser, error: insertUserError } = await supabase
-                        .from('users')
-                        .insert({
-                            id: user.id,
-                            email: user.email,
-                            name: user.user_metadata?.full_name || user.user_metadata?.name || user.email.split('@')[0],
-                            user_id: newUserId,
-                            avatar_url: user.user_metadata?.avatar_url || null,
-                            role: 'user',
-                            subscription_status: 'free',
-                            credit_balance: 0
-                        })
-                        .select('user_id')
-                        .single();
-
-                    if (insertUserError) {
-                        console.error('Failed to create user:', insertUserError);
-                        return res.status(500).json({
-                            success: false,
-                            error: '사용자 등록에 실패했습니다',
-                            details: insertUserError.message
-                        });
-                    }
-
-                    userId = newUser.user_id;
-                    console.log('New user created with user_id:', userId);
-                } catch (createError) {
-                    console.error('User creation error:', createError);
-                    return res.status(500).json({
-                        success: false,
-                        error: '사용자 ID 생성에 실패했습니다',
-                        details: createError.message
-                    });
-                }
-            }
+        if (!userData) {
+            return res.status(400).json({
+                success: false,
+                error: '사용자 정보를 찾을 수 없습니다'
+            });
         }
+
+        // 빌더 계정 개설비 납부 확인
+        if (!userData.installation_fee_paid) {
+            return res.status(400).json({
+                success: false,
+                error: '빌더 계정 개설비 납부 후 프로젝트를 생성할 수 있습니다'
+            });
+        }
+
+        // 빌더 계정 ID 확인
+        if (!userData.builder_id) {
+            return res.status(400).json({
+                success: false,
+                error: '빌더 계정 ID가 없습니다. 관리자에게 문의하세요.'
+            });
+        }
+
+        const builderId = userData.builder_id;
+        const userId = userData.user_id;
 
         // 4. 진행 중인 프로젝트가 있는지 확인
         // (DB에 idx_one_in_progress_per_user 제약조건 있음 - 사용자당 1개만 허용)
@@ -203,7 +159,8 @@ module.exports = async (req, res) => {
             });
         }
 
-        // 5. project_id 생성 (user_id-P001 형식)
+        // 5. project_id 생성 (builder_id-P001 형식)
+        // 빌더 계정 ID 기준으로 프로젝트 ID 생성
         const { count: projectCount, error: countError } = await supabase
             .from('projects')
             .select('*', { count: 'exact', head: true })
@@ -215,14 +172,14 @@ module.exports = async (req, res) => {
                 success: false,
                 error: '프로젝트 수 조회 실패',
                 details: countError.message,
-                userId: userId
+                builderId: builderId
             });
         }
 
         const nextProjectNum = (projectCount || 0) + 1;
-        const projectId = `${userId}-P${String(nextProjectNum).padStart(3, '0')}`;
+        const projectId = `${builderId}-P${String(nextProjectNum).padStart(3, '0')}`;
 
-        console.log('Creating project:', { userId, projectId, projectName: projectName.trim() });
+        console.log('Creating project:', { builderId, userId, projectId, projectName: projectName.trim() });
 
         // 6. 프로젝트 생성
         const { data: newProject, error: insertError } = await supabase
@@ -262,7 +219,32 @@ module.exports = async (req, res) => {
             });
         }
 
-        // 7. 성공 응답
+        // 7. project_phase_progress 초기 데이터 생성 (P0~P3, S0~S5)
+        const phaseProgressData = [
+            { project_id: projectId, phase_code: 'P0', phase_name: '작업 디렉토리 구조 생성', progress: 0, completed_items: 0, total_items: 2, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'P1', phase_name: '사업계획', progress: 0, completed_items: 0, total_items: 5, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'P2', phase_name: '프로젝트 기획', progress: 0, completed_items: 0, total_items: 6, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'P3', phase_name: '프로토타입 제작', progress: 0, completed_items: 0, total_items: 3, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'S0', phase_name: 'Project SAL Grid 생성', progress: 0, completed_items: 0, total_items: 1, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'S1', phase_name: '개발 준비', progress: 0, completed_items: 0, total_items: 10, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'S2', phase_name: '개발 1차', progress: 0, completed_items: 0, total_items: 20, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'S3', phase_name: '개발 2차', progress: 0, completed_items: 0, total_items: 15, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'S4', phase_name: '개발 3차', progress: 0, completed_items: 0, total_items: 10, status: 'Not Started' },
+            { project_id: projectId, phase_code: 'S5', phase_name: '개발 마무리', progress: 0, completed_items: 0, total_items: 5, status: 'Not Started' }
+        ];
+
+        const { error: phaseError } = await supabase
+            .from('project_phase_progress')
+            .insert(phaseProgressData);
+
+        if (phaseError) {
+            console.warn('Phase progress 생성 실패 (프로젝트는 성공):', phaseError);
+            // Phase progress 실패해도 프로젝트는 생성됨
+        } else {
+            console.log('Phase progress 초기화 완료:', projectId);
+        }
+
+        // 8. 성공 응답
         return res.status(200).json({
             success: true,
             projectId: projectId,

@@ -5474,11 +5474,12 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         };
 
         // 프로젝트 진행률 로드 (DB에서)
+        // 모든 프로젝트는 project_phase_progress 테이블에서 진행률 로드
         async function loadProjectProgress(projectName) {
             try {
-                // SSAL Works 프로젝트인 경우
-                if (projectName === 'SSAL Works') {
-                    // 1. Stage Gate 상태 조회
+                // SSAL Works 플랫폼 개발 진행률 (관리자 + Stage별 Task 기반 계산)
+                if (projectName === 'SSAL Works' && isAdminMode) {
+                    // Stage Gate 상태 조회
                     const { data: stageGates } = await window.supabaseClient
                         .from('stage_verification')
                         .select('stage_name, stage_gate_status')
@@ -5493,55 +5494,84 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         });
                     }
 
-                    // 2. Task 상태 조회
+                    // Task 상태 조회 (S1-S5용)
                     const { data: tasks, error } = await window.supabaseClient
                         .from('project_ssal_grid_tasks')
                         .select('stage, task_status');
 
-                    if (error) {
-                        console.error('진행률 로드 실패:', error);
-                        return;
-                    }
+                    if (!error && tasks) {
+                        const stageCompleted = {};
+                        const stageTotals = {};
 
-                    // 3. Stage별 진행률 계산 (Completed Task 수 / 전체 Task 수)
-                    const stageCompleted = {};
-                    const stageTotals = {};
+                        tasks.forEach(task => {
+                            const stage = task.stage;
+                            if (!stageTotals[stage]) {
+                                stageTotals[stage] = 0;
+                                stageCompleted[stage] = 0;
+                            }
+                            stageTotals[stage]++;
+                            if (task.task_status === 'Completed') {
+                                stageCompleted[stage]++;
+                            }
+                        });
 
-                    tasks.forEach(task => {
-                        const stage = task.stage;
-                        if (!stageTotals[stage]) {
-                            stageTotals[stage] = 0;
-                            stageCompleted[stage] = 0;
-                        }
-                        stageTotals[stage]++;
-                        if (task.task_status === 'Completed') {
-                            stageCompleted[stage]++;
-                        }
-                    });
-
-                    // 4. 진행률 계산
-                    const stageProgress = {};
-                    Object.keys(stageTotals).forEach(stage => {
-                        stageProgress[stage] = Math.round((stageCompleted[stage] / stageTotals[stage]) * 100);
-                    });
-
-                    // P0, P1, P2, P3, S0는 Development_Process_Monitor 서버에서 로드
-                    // (calculateSpecialProgress, calculateFolderProgress 함수에서 처리)
-
-                    // S1-S5 진행률 업데이트 (Stage Gate Approved면 100%)
-                    for (let i = 1; i <= 5; i++) {
-                        const stageName = 'S' + i;
-                        const stageGateName = 'Stage ' + i; // DB에는 'Stage 1' 형식
-                        if (approvedStages[stageGateName]) {
-                            updateStageProgress(stageName, 100);
-                        } else {
-                            const progress = stageProgress[i] || 0;
-                            updateStageProgress(stageName, progress);
+                        // S1-S5 진행률 업데이트
+                        for (let i = 1; i <= 5; i++) {
+                            const stageName = 'S' + i;
+                            const stageGateName = 'Stage ' + i;
+                            if (approvedStages[stageGateName]) {
+                                updateStageProgress(stageName, 100);
+                            } else {
+                                const progress = stageTotals[i] > 0
+                                    ? Math.round((stageCompleted[i] / stageTotals[i]) * 100)
+                                    : 0;
+                                updateStageProgress(stageName, progress);
+                            }
                         }
                     }
 
-                    console.log('📊 프로젝트 진행률 로드 완료:', stageProgress);
+                    // P0-P3, S0는 project_phase_progress에서 로드
+                    await loadPhaseProgressFromDB('SSALWORKS');
+                    console.log('📊 SSAL Works 플랫폼 진행률 로드 완료');
+                    return;
                 }
+
+                // 일반 사용자 프로젝트: project_phase_progress 테이블에서 로드
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
+                    resetAllProgressToZero();
+                    return;
+                }
+
+                const { data: userData } = await window.supabaseClient
+                    .from('users')
+                    .select('user_id')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (!userData) {
+                    resetAllProgressToZero();
+                    return;
+                }
+
+                // 사용자 프로젝트의 project_id 조회
+                const { data: project, error } = await window.supabaseClient
+                    .from('projects')
+                    .select('project_id')
+                    .eq('user_id', userData.user_id)
+                    .eq('project_name', projectName)
+                    .single();
+
+                if (error || !project) {
+                    console.log('📊 프로젝트 없음:', projectName);
+                    resetAllProgressToZero();
+                    return;
+                }
+
+                // 사용자 프로젝트의 phase_progress 로드
+                await loadPhaseProgressFromDB(project.project_id);
+                console.log('📊 사용자 프로젝트 진행률 로드:', project.project_id);
+
             } catch (error) {
                 console.error('진행률 로드 오류:', error);
             }
@@ -9059,27 +9089,74 @@ ${result.answer}`;
         // ================================================================
         // Phase 진행률 DB에서 로드 (project_phase_progress 테이블)
         // P0~P3, S0~S5 모든 진행률을 DB에서 관리
+        // 사용자 프로젝트의 project_id로 해당 프로젝트 진행률 로드
         // ================================================================
-        async function loadPhaseProgressFromDB() {
+        async function loadPhaseProgressFromDB(projectId = null) {
             // window.supabaseClient가 초기화되지 않았으면 대기
             if (!window.supabaseClient) {
                 console.warn('⏳ Phase 진행률: Supabase 클라이언트 대기 중...');
-                setTimeout(loadPhaseProgressFromDB, 500);
+                setTimeout(() => loadPhaseProgressFromDB(projectId), 500);
                 return;
             }
 
             try {
+                // projectId가 지정되지 않은 경우 현재 사용자의 프로젝트 ID 조회
+                if (!projectId) {
+                    // 관리자 모드면 SSAL Works 진행률 로드
+                    if (isAdminMode) {
+                        projectId = 'SSALWORKS';
+                    } else {
+                        // 일반 사용자: 현재 진행중인 프로젝트의 project_id 조회
+                        const { data: { session } } = await window.supabaseClient.auth.getSession();
+                        if (!session) {
+                            console.log('📊 세션 없음: 진행률 로드 스킵');
+                            resetAllProgressToZero();
+                            return;
+                        }
+
+                        // 사용자의 user_id 조회
+                        const { data: userData } = await window.supabaseClient
+                            .from('users')
+                            .select('user_id')
+                            .eq('id', session.user.id)
+                            .single();
+
+                        if (!userData) {
+                            console.log('📊 사용자 정보 없음: 진행률 로드 스킵');
+                            resetAllProgressToZero();
+                            return;
+                        }
+
+                        // 현재 진행중인 프로젝트 조회
+                        const { data: project } = await window.supabaseClient
+                            .from('projects')
+                            .select('project_id')
+                            .eq('user_id', userData.user_id)
+                            .eq('status', 'in_progress')
+                            .single();
+
+                        if (!project) {
+                            console.log('📊 진행중인 프로젝트 없음: 진행률 리셋');
+                            resetAllProgressToZero();
+                            return;
+                        }
+
+                        projectId = project.project_id;
+                        console.log('📊 사용자 프로젝트 ID:', projectId);
+                    }
+                }
+
                 const { data, error } = await window.supabaseClient
                     .from('project_phase_progress')
                     .select('phase_code, progress')
-                    .eq('project_id', 'SSALWORKS');
+                    .eq('project_id', projectId);
 
                 if (error) {
                     console.warn('Phase 진행률 DB 로드 실패:', error);
                     return;
                 }
 
-                if (data) {
+                if (data && data.length > 0) {
                     data.forEach(item => {
                         const code = item.phase_code;
                         const progress = item.progress;
@@ -9097,7 +9174,11 @@ ${result.answer}`;
                             updateStageProgress(code, progress);
                         }
                     });
-                    console.log('📊 Phase 진행률 DB 로드 완료:', data.length + '개');
+                    console.log('📊 Phase 진행률 DB 로드 완료:', projectId, data.length + '개');
+                } else {
+                    // 해당 프로젝트의 phase_progress 데이터가 없으면 0%로 초기화
+                    console.log('📊 Phase 진행률 데이터 없음:', projectId);
+                    resetAllProgressToZero();
                 }
             } catch (e) {
                 console.warn('Phase 진행률 로드 오류:', e);
