@@ -668,12 +668,12 @@
 
                 // 6. 성공
                 hideLoading();
-                showAlert(`회원가입이 완료되었습니다! 회원 ID: ${userId}`, 'success');
+                showAlert(`회원가입이 완료되었습니다! 이메일 인증 링크를 발송했습니다.`, 'success');
 
-                // 3초 후 메인 페이지로 이동
+                // 3초 후 안내 팝업
                 setTimeout(() => {
-                    alert(`환영합니다, ${nickname}님!\n\n회원 ID: ${userId}\n\n학습 콘텐츠를 무료로 이용하실 수 있습니다.\n개발자 계정 개설비 납부 후 AI 기능을 사용하실 수 있습니다.`);
-                    window.location.href = '../../index.html';
+                    alert(`환영합니다, ${nickname}님!\n\n📧 이메일 인증이 필요합니다.\n${email}로 발송된 인증 링크를 클릭해주세요.\n\n(스팸 폴더도 확인해주세요)`);
+                    window.location.href = 'login.html';
                 }, 1500);
 
             } catch (error) {
