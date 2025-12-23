@@ -4862,7 +4862,7 @@
                     .insert({
                         user_id: userId,
                         amount: welcomeCredits,
-                        type: 'welcome_bonus',
+                        type: 'bonus',
                         description: '빌더 계정 개설 웰컴 크레딧',
                         created_at: new Date().toISOString()
                     });
@@ -4871,14 +4871,14 @@
 
                 // 5. 사용자에게 알림 생성
                 const { error: notifError } = await supabaseClient
-                    .from('notifications')
+                    .from('user_notifications')
                     .insert({
                         user_id: userId,
-                        type: 'builder_account_opened',
-                        title: '빌더 계정 개설 완료',
+                        notification_type: 'system',
+                        title: '🎉 빌더 계정 개설 완료',
                         message: `빌더 계정이 개설되었습니다. (빌더 ID: ${builderId}, 웰컴 크레딧 ₩50,000 지급)`,
                         is_read: false,
-                        created_at: new Date().toISOString()
+                        metadata: { builder_id: builderId, welcome_credit: 50000 }
                     });
 
                 if (notifError) console.log('알림 생성 실패:', notifError.message);

@@ -231,27 +231,29 @@ export default async function handler(req, res) {
         .insert({
           user_id: payment.userUUID,
           amount: welcomeCredits,
-          type: 'welcome_bonus',
+          type: 'bonus',
           description: '빌더 계정 개설 웰컴 크레딧',
           created_at: new Date().toISOString()
         });
     }
 
-    // 사용자 알림 (notifications 테이블에 저장)
+    // 사용자 알림 (user_notifications 테이블에 저장)
     try {
       const notificationMessage = action === 'confirm'
         ? `빌더 계정이 개설되었습니다. (빌더 ID: ${generatedBuilderId}, 웰컴 크레딧 ₩50,000 지급)`
         : `빌더 계정 개설비 입금 신청이 반려되었습니다.${memo ? ` 사유: ${memo}` : ''}`;
 
       await supabase
-        .from('notifications')
+        .from('user_notifications')
         .insert({
           user_id: payment.userUUID,
-          type: action === 'confirm' ? 'builder_account_opened' : 'payment_rejected',
-          title: action === 'confirm' ? '빌더 계정 개설 완료' : '입금 신청 반려',
+          notification_type: 'system',
+          title: action === 'confirm' ? '🎉 빌더 계정 개설 완료' : '❌ 입금 신청 반려',
           message: notificationMessage,
           is_read: false,
-          created_at: new Date().toISOString()
+          metadata: action === 'confirm'
+            ? { builder_id: generatedBuilderId, welcome_credit: 50000 }
+            : { reject_reason: memo || null }
         });
     } catch (notifyError) {
       console.error('알림 저장 오류:', notifyError);
