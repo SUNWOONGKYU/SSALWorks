@@ -3433,26 +3433,56 @@
             }
         }
 
-        // 페이지 로드 시 차트 초기화 및 문의 배지 업데이트
+        // 페이지 로드 시 차트 초기화
         document.addEventListener('DOMContentLoaded', function() {
             initializeAdminHomeCharts();
-            // 문의 배지 초기화 (지연 로드 - supabase 초기화 후)
-            setTimeout(async () => {
-                if (typeof supabaseClient !== 'undefined' && supabaseClient) {
-                    try {
-                        const { data } = await supabaseClient.from('inquiries').select('status');
-                        if (data) {
-                            const pending = data.filter(i => i.status === 'pending').length;
-                            const badge = document.getElementById('inquiryBadge');
-                            if (badge && pending > 0) {
-                                badge.textContent = pending;
-                                badge.style.display = 'inline-flex';
-                            }
-                        }
-                    } catch (e) { console.log('문의 배지 로드 실패:', e); }
-                }
-            }, 1000);
         });
+
+        // 대시보드 홈 통계 초기화 함수
+        async function initializeDashboardHomeStats() {
+            if (!supabaseClient) {
+                console.log('⏳ Supabase 미초기화, 1초 후 재시도...');
+                setTimeout(initializeDashboardHomeStats, 1000);
+                return;
+            }
+
+            try {
+                // 1. 총 회원 수 로드
+                const { data: usersData, error: usersError } = await supabaseClient
+                    .from('users')
+                    .select('id', { count: 'exact' });
+
+                if (!usersError && usersData) {
+                    const totalUsers = usersData.length;
+                    const overviewTotalElem = document.getElementById('overviewTotalUsers');
+                    if (overviewTotalElem) {
+                        overviewTotalElem.textContent = totalUsers;
+                        console.log('✅ 총 회원 수 로드:', totalUsers);
+                    }
+                }
+
+                // 2. 미처리 문의 배지 로드
+                const { data: inquiriesData } = await supabaseClient
+                    .from('inquiries')
+                    .select('status');
+
+                if (inquiriesData) {
+                    const pending = inquiriesData.filter(i => i.status === 'pending').length;
+                    const badge = document.getElementById('inquiryBadge');
+                    if (badge) {
+                        if (pending > 0) {
+                            badge.textContent = pending;
+                            badge.style.display = 'inline-flex';
+                            console.log('✅ 미처리 문의 배지:', pending);
+                        } else {
+                            badge.style.display = 'none';
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error('대시보드 홈 통계 로드 실패:', e);
+            }
+        }
 
         // ========== Supabase 연결 ==========
         const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
@@ -3466,6 +3496,8 @@
         if (typeof supabase !== 'undefined') {
             supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('✅ Supabase 클라이언트 초기화 완료');
+            // 대시보드 홈 통계 초기화
+            initializeDashboardHomeStats();
         } else {
             console.error('❌ Supabase 라이브러리가 로드되지 않았습니다.');
         }
