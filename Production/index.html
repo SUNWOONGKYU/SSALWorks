@@ -5510,12 +5510,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         stageProgress[stage] = Math.round((stageCompleted[stage] / stageTotals[stage]) * 100);
                     });
 
-                    // P0, P1, P2, P3, S0는 SSAL Works 프로젝트에서 완료됨 (100%)
-                    updateStageProgress('P0', 100);
-                    updateStageProgress('P1', 100);
-                    updateStageProgress('P2', 100);
-                    updateStageProgress('P3', 100);
-                    updateStageProgress('S0', 100);
+                    // P0, P1, P2, P3, S0는 Development_Process_Monitor 서버에서 로드
+                    // (calculateSpecialProgress, calculateFolderProgress 함수에서 처리)
 
                     // S1-S5 진행률 업데이트 (Stage Gate Approved면 100%)
                     for (let i = 1; i <= 5; i++) {
