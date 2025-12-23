@@ -2110,6 +2110,80 @@
             padding: 24px;
         }
 
+        /* Popup Modal Styles (Centered Overlay) */
+        .popup-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-modal-overlay.active {
+            display: flex;
+        }
+
+        .popup-modal-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: popupSlideIn 0.3s ease;
+        }
+
+        @keyframes popupSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .popup-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%);
+            color: white;
+        }
+
+        .popup-modal-title {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .popup-modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .popup-modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .popup-modal-content {
+            padding: 24px;
+        }
+
         .grid-viewer-title-group {
             display: flex;
             align-items: center;
@@ -9694,32 +9768,37 @@ ${result.answer}`;
         </div>
     </div>
 
-    <!-- Add New Project Modal -->
-    <div id="addProjectModal" class="grid-fullscreen-modal">
-        <div class="grid-fullscreen-header">
-            <div class="grid-fullscreen-title"><span style="color: #10B981; font-weight: 600;">➕</span> 새로운 Project 등록
+    <!-- Add New Project Modal (Popup Style) -->
+    <div id="addProjectModal" class="popup-modal-overlay" onclick="if(event.target === this) closeAddProjectModal()">
+        <div class="popup-modal-container" style="width: 550px; max-width: 95vw;">
+            <div class="popup-modal-header">
+                <div class="popup-modal-title">➕ 새로운 Project 등록</div>
+                <button class="popup-modal-close" onclick="closeAddProjectModal()">&times;</button>
             </div>
-            <button class="grid-fullscreen-close" onclick="closeAddProjectModal()">✕ 닫기</button>
-        </div>
-        <div class="grid-fullscreen-content" style="padding: 50px; max-width: 700px; margin: 50px auto; background: white; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
-            <form id="newProjectForm" style="display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #333; font-size: 15px;">프로젝트명</label>
-                    <input type="text" id="projectName" placeholder="예: My Awesome Project"
-                        style="width: 100%; padding: 16px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; box-sizing: border-box;">
-                </div>
-                <div>
-                    <label style="display: block; margin-bottom: 10px; font-weight: 600; color: #333; font-size: 15px;">설명</label>
-                    <textarea id="projectDescription" placeholder="프로젝트에 대한 간단한 설명을 입력하세요..."
-                        style="width: 100%; padding: 16px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 16px; min-height: 180px; font-family: inherit; box-sizing: border-box; resize: vertical;"></textarea>
-                </div>
-                <div style="display: flex; gap: 16px; justify-content: flex-end; margin-top: 10px;">
-                    <button type="button" onclick="closeAddProjectModal()"
-                        style="padding: 14px 32px; background: #6c757d; border: none; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600; color: white;">취소</button>
-                    <button type="submit"
-                        style="padding: 14px 32px; background: #10B981; border: none; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600; color: white;">등록하기</button>
-                </div>
-            </form>
+            <div class="popup-modal-content">
+                <form id="newProjectForm" style="display: flex; flex-direction: column; gap: 20px;">
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">프로젝트명 <span style="color: #EF4444;">*</span></label>
+                        <input type="text" id="projectName" placeholder="예: My Awesome Project" required
+                            style="width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; box-sizing: border-box; transition: border-color 0.2s;"
+                            onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='#e0e0e0'">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">설명 <span style="color: #6c757d; font-weight: 400;">(선택)</span></label>
+                        <textarea id="projectDescription" placeholder="프로젝트에 대한 간단한 설명을 입력하세요..."
+                            style="width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; min-height: 120px; font-family: inherit; box-sizing: border-box; resize: vertical; transition: border-color 0.2s;"
+                            onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='#e0e0e0'"></textarea>
+                    </div>
+                    <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; padding-top: 16px; border-top: 1px solid #e0e0e0;">
+                        <button type="button" onclick="closeAddProjectModal()"
+                            style="padding: 12px 28px; background: #6c757d; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white; transition: background 0.2s;"
+                            onmouseover="this.style.background='#5a6268'" onmouseout="this.style.background='#6c757d'">취소</button>
+                        <button type="submit"
+                            style="padding: 12px 28px; background: #10B981; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white; transition: background 0.2s;"
+                            onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10B981'">등록하기</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
