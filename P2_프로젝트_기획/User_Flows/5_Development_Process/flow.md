@@ -174,7 +174,7 @@
 ```
 
 **Order Sheet 템플릿 경로:**
-`Order_Sheet_템플릿/준비단계_○/사업계획/Market_Analysis.md`
+`Briefings_OrderSheets/OrderSheet_Templates/준비단계_○/사업계획/Market_Analysis.md`
 
 #### Step 3: 사용자가 템플릿 수정
 
@@ -320,7 +320,7 @@
 ```
 
 **Order Sheet 템플릿 경로:**
-`Order_Sheet_템플릿/특별단계_☆/디렉토리_구조_생성.md`
+`Briefings_OrderSheets/OrderSheet_Templates/특별단계_☆/디렉토리_구조_생성.md`
 
 #### Step 2: "Order Sheet 발행" 클릭
 
@@ -339,7 +339,7 @@
 - 특별 단계 클릭 → 자동 템플릿 로드 → 발행 → 자동 완료
 
 **Order Sheet 템플릿 경로:**
-`Order_Sheet_템플릿/특별단계_☆/SAL_GRID_생성.md`
+`Briefings_OrderSheets/OrderSheet_Templates/특별단계_☆/SAL_GRID_생성.md`
 
 ---
 
@@ -406,7 +406,7 @@ Order Sheet 내용:
 ```
 
 **Order Sheet 템플릿 경로:**
-`Order_Sheet_템플릿/실행단계/S1_프로토타입_Frontend.md`
+`Briefings_OrderSheets/OrderSheet_Templates/실행단계/S1_프로토타입_Frontend.md`
 
 #### Step 3-7: 동일한 Flow 반복
 
@@ -572,7 +572,7 @@ function getTemplatePathByItem(item) {
 // 템플릿 로드
 async function loadTemplate(templatePath) {
   try {
-    const response = await fetch(`/Order_Sheet_템플릿${templatePath}`);
+    const response = await fetch(`/Briefings_OrderSheets/OrderSheet_Templates${templatePath}`);
     const template = await response.text();
     return template;
   } catch (error) {

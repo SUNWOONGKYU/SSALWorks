@@ -13,33 +13,33 @@
   "tasks": [
     {
       "task_id": "T1",
-      "task_name": "Sidebar-Process-Tools 폴더 정리",
+      "task_name": "Development_Process_Monitor 폴더 정리",
       "description": "불필요/유효하지 않은 파일 삭제",
       "status": "완료",
       "deleted_files": [
         {
           "file": "server.log",
-          "location": "Sidebar-Process-Tools/",
+          "location": "Development_Process_Monitor/",
           "reason": "불필요한 로그"
         },
         {
           "file": "watcher.log",
-          "location": "Sidebar-Process-Tools/",
+          "location": "Development_Process_Monitor/",
           "reason": "불필요한 로그"
         },
         {
           "file": "website_sidebar_process_structure.md",
-          "location": "Sidebar-Process-Tools/",
+          "location": "Development_Process_Monitor/",
           "reason": "오래된 문서"
         },
         {
           "file": "website_sidebar_structure_FINAL.md",
-          "location": "Sidebar-Process-Tools/",
+          "location": "Development_Process_Monitor/",
           "reason": "오래된 문서"
         },
         {
           "file": "sidebar_process_structure_CORRECTED.md",
-          "location": "Sidebar-Process-Tools/sidebar_generation/",
+          "location": "Development_Process_Monitor/sidebar_generation/",
           "reason": "오래된 문서"
         }
       ],
@@ -110,7 +110,7 @@
       "task_name": "sidebar_structure.json 업데이트",
       "description": "P0, S0 항목 추가",
       "status": "완료",
-      "modified_file": "Sidebar-Process-Tools/sidebar_generation/sidebar_structure.json",
+      "modified_file": "Development_Process_Monitor/sidebar_generation/sidebar_structure.json",
       "added_entries": [
         {
           "id": "S0_Project-SSAL-Grid_생성",
@@ -172,8 +172,8 @@
       "description": "sidebar_structure.json → HTML 자동 동기화 스크립트 작성",
       "status": "완료",
       "created_files": [
-        "Sidebar-Process-Tools/sidebar_generation/update_sidebar_html.js",
-        "Sidebar-Process-Tools/sidebar_generation/README.md"
+        "Development_Process_Monitor/sidebar_generation/update_sidebar_html.js",
+        "Development_Process_Monitor/sidebar_generation/README.md"
       ],
       "functionality": [
         "sidebar_structure.json 읽기",
@@ -210,7 +210,7 @@
       "Production/",
       "부수적_고유기능/",
       "Web_ClaudeCode_Bridge/",
-      "Sidebar-Process-Tools/",
+      "Development_Process_Monitor/",
       "참고자료/"
     ]
   },

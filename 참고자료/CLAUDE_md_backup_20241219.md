@@ -246,7 +246,7 @@ Main Agent → 사용자에게 작업 및 검증 결과 보고
 | `01_file-naming.md` | 파일 명명 규칙 (kebab-case, Task ID 주석) |
 | `02_save-location.md` | 저장 위치 규칙 (5개 Area 이중 저장) |
 | `03_area-stage.md` | 11개 Area, 5개 Stage 매핑 |
-| `04_grid-writing.md` | Grid 22개 속성 작성 규칙 |
+| `04_grid-writing-supabase.md` | Grid 22개 속성 작성 규칙 |
 | `05_execution-process.md` | 6단계 실행 프로세스 (PO 협력 포함) |
 | `06_verification.md` | Task/Stage Gate/PO 검증 기준 |
 
@@ -398,7 +398,7 @@ Human_ClaudeCode_Bridge/
 
    | 수정한 파일 | 실행할 명령 |
    |-------------|-------------|
-   | Order Sheet 템플릿 (`P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/*.md`) | `node Production/build-web-assets.js --ordersheets` |
+   | Order Sheet 템플릿 (`Briefings_OrderSheets/OrderSheet_Templates/*.md`) | `node Production/build-web-assets.js --ordersheets` |
    | 안내문 HTML (`P2_프로젝트_기획/User_Flows/상황별_안내문/*.html`) | `node Production/build-web-assets.js --guides` |
    | PROJECT_SAL_GRID_MANUAL.md (`S0_Project-SAL-Grid_생성/manual/`) | `node Production/build-web-assets.js --manual` |
    | 위 파일들 중 여러 개 수정 | `node Production/build-web-assets.js` (전체 빌드) |

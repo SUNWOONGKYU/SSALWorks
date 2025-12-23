@@ -33,7 +33,8 @@
       "Bash(grep:*)",
       "Bash(node:*)",
       "Bash(\"https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid?task_id=eq.S4F5\" )",
-      "WebFetch(domain:ssalworks.vercel.app)"
+      "WebFetch(domain:ssalworks.vercel.app)",
+      "Bash(git mv:*)"
     ],
     "deny": [],
     "ask": []

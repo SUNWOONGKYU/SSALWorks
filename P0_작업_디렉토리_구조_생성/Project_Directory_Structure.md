@@ -53,7 +53,7 @@ C:\!SSAL_Works_Private\
 │
 # ========== 독립 폴더 ==========
 ├── Human_ClaudeCode_Bridge/     # 사람 ↔ Claude Code 브릿지
-├── Sidebar-Process-Tools/       # 사이드바 프로세스 관리 도구
+├── Development_Process_Monitor/       # 사이드바 프로세스 관리 도구
 ├── 참고자료/                    # 참고용 파일들
 │
 # ========== 설정 폴더 ==========
@@ -191,7 +191,7 @@ P2_프로젝트_기획/
 │   ├── 3_Subscription/             # 구독 플로우
 │   ├── 4_Credit_Purchase/          # 크레딧 구매 플로우
 │   ├── 5_Development_Process/      # 개발 프로세스 플로우
-│   ├── Order_Sheet_템플릿/         # Order Sheet 템플릿
+│   ├── Briefings_OrderSheets/OrderSheet_Templates/         # Order Sheet 템플릿
 │   └── 상황별_안내문/              # 상황별 안내 메시지
 ├── Requirements/           # 기능 요구사항
 ├── Design_System/          # 디자인 시스템
@@ -501,12 +501,12 @@ Human_ClaudeCode_Bridge/
 
 ---
 
-### Sidebar-Process-Tools/
+### Development_Process_Monitor/
 
 **용도:** 플랫폼 사이드바의 프로세스 관리 도구
 
 ```
-Sidebar-Process-Tools/
+Development_Process_Monitor/
 ├── progress_data/          # 진도 추적 데이터
 └── sidebar_generation/     # 사이드바 자동 생성
 ```

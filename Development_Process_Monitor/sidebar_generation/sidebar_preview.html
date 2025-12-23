@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSALWorks 사이드바 - P1~P3, S1~S5 구조</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .sidebar {
+            max-width: 400px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .manual {
+            background: linear-gradient(135deg, #6B5CCC, #8B7BDB);
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        .manual h3 {
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        .manual p {
+            margin: 5px 0;
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        /* Section Divider */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0 15px 0;
+        }
+        .section-divider .line {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ddd, transparent);
+        }
+        .section-divider .label {
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+        .section-divider .label.preliminary {
+            background: linear-gradient(135deg, #6B5CCC, #8B7BDB);
+            color: white;
+        }
+        .section-divider .label.stage {
+            background: linear-gradient(135deg, #10B981, #34D399);
+            color: white;
+        }
+
+        /* Phase */
+        .phase {
+            margin-bottom: 15px;
+        }
+        .phase-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .phase-title.preliminary {
+            background: rgba(107, 92, 204, 0.1);
+            color: #6B5CCC;
+            border-left: 3px solid #6B5CCC;
+        }
+        .phase-title.stage {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+            border-left: 3px solid #10B981;
+        }
+        .phase-title .badge {
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .phase-title.preliminary .badge {
+            background: #6B5CCC;
+            color: white;
+        }
+        .phase-title.stage .badge {
+            background: #10B981;
+            color: white;
+        }
+
+        /* Category */
+        .category {
+            margin-left: 15px;
+            margin-bottom: 8px;
+        }
+        .category-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 4px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .category-title:hover {
+            background: #f5f5f5;
+            cursor: pointer;
+        }
+
+        /* Item */
+        .item {
+            margin-left: 30px;
+            padding: 4px 8px;
+            font-size: 13px;
+            color: #666;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .item:hover {
+            color: #6B5CCC;
+            background: rgba(107, 92, 204, 0.05);
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <!-- Manual -->
+        <div class="manual">
+            <h3>PROJECT SAL GRID 매뉴얼</h3>
+            <p>프로젝트 그리드 작성 방법, Task ID 규칙, Dual Execution System</p>
+            <p><small>S1_개발_준비/Project_Grid/manual/</small></p>
+        </div>
+
+        <!-- PRELIMINARY Section -->
+        <div class="section-divider">
+            <div class="line"></div>
+            <div class="label preliminary">PRELIMINARY</div>
+            <div class="line"></div>
+        </div>
+
+        <!-- P1: 사업계획 -->
+        <div class="phase">
+            <div class="phase-title preliminary">
+                <span class="badge">P1</span>
+                <span>사업계획</span>
+            </div>
+            <div class="category">
+                <div class="category-title">P1-1. Vision_Mission (비전과 미션)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">P1-2. Market_Analysis (시장 분석)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">P1-3. Business_Model (비즈니스 모델)</div>
+            </div>
+        </div>
+
+        <!-- P2: 프로젝트 기획 -->
+        <div class="phase">
+            <div class="phase-title preliminary">
+                <span class="badge">P2</span>
+                <span>프로젝트 기획</span>
+            </div>
+            <div class="category">
+                <div class="category-title">P2-1. Directory_Structure (디렉토리 구조)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">P2-2. Project_Plan (프로젝트 계획)</div>
+                <div class="item">requirements</div>
+                <div class="item">user_flows</div>
+                <div class="item">workflows</div>
+            </div>
+            <div class="category">
+                <div class="category-title">P2-3. UI_UX_Design (UI/UX 디자인)</div>
+                <div class="item">Design_Guidelines</div>
+                <div class="item">Mockup</div>
+                <div class="item">Prototype</div>
+            </div>
+            <div class="category">
+                <div class="category-title">P2-4. Database_Design (데이터베이스 설계)</div>
+            </div>
+        </div>
+
+        <!-- P3: 프로토타입 제작 -->
+        <div class="phase">
+            <div class="phase-title preliminary">
+                <span class="badge">P3</span>
+                <span>프로토타입 제작</span>
+            </div>
+            <div class="category">
+                <div class="category-title">P3-1. Frontend (프론트엔드)</div>
+                <div class="item">Prototype</div>
+                <div class="item">pages</div>
+            </div>
+            <div class="category">
+                <div class="category-title">P3-2. Database (데이터베이스)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">P3-3. Scripts (스크립트)</div>
+            </div>
+        </div>
+
+        <!-- STAGE Section -->
+        <div class="section-divider">
+            <div class="line"></div>
+            <div class="label stage">STAGE</div>
+            <div class="line"></div>
+        </div>
+
+        <!-- S1: 개발 준비 -->
+        <div class="phase">
+            <div class="phase-title stage">
+                <span class="badge">S1</span>
+                <span>개발 준비</span>
+            </div>
+            <div class="category">
+                <div class="category-title">S1-1. Tech_Stack (기술 스택)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S1-2. Architecture (아키텍처)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S1-3. Development_Setup (개발 환경 설정)</div>
+                <div class="item">Docker</div>
+                <div class="item">Git</div>
+                <div class="item">Node</div>
+                <div class="item">Supabase</div>
+                <div class="item">Vercel</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S1-4. Backend_Infra (백엔드 인프라)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S1-5. Project_Grid (프로젝트 그리드)</div>
+                <div class="item">manual</div>
+                <div class="item">project_grid</div>
+                <div class="item">scripts</div>
+                <div class="item">tasks</div>
+            </div>
+        </div>
+
+        <!-- S2: 개발 1차 -->
+        <div class="phase">
+            <div class="phase-title stage">
+                <span class="badge">S2</span>
+                <span>개발 1차</span>
+            </div>
+            <div class="category">
+                <div class="category-title">S2-1. Frontend (프론트엔드)</div>
+                <div class="item">css</div>
+                <div class="item">js</div>
+                <div class="item">pages</div>
+                <div class="item">public</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S2-2. Backend_APIs (백엔드 API)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S2-3. Authentication (인증)</div>
+                <div class="item">Email_Auth</div>
+                <div class="item">Google_OAuth</div>
+                <div class="item">Session_Management</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S2-4. Database (데이터베이스)</div>
+                <div class="item">migrations</div>
+                <div class="item">seeds</div>
+            </div>
+        </div>
+
+        <!-- S3: 개발 2차 -->
+        <div class="phase">
+            <div class="phase-title stage">
+                <span class="badge">S3</span>
+                <span>개발 2차</span>
+            </div>
+            <div class="category">
+                <div class="category-title">S3-1. Frontend (프론트엔드)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S3-2. Backend_APIs (백엔드 API)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S3-3. External_Services (외부 서비스)</div>
+                <div class="item">Email (Resend)</div>
+                <div class="item">Payments (TossPayments)</div>
+            </div>
+        </div>
+
+        <!-- S4: 개발 3차 -->
+        <div class="phase">
+            <div class="phase-title stage">
+                <span class="badge">S4</span>
+                <span>개발 3차</span>
+            </div>
+            <div class="category">
+                <div class="category-title">S4-1. Test (테스트)</div>
+                <div class="item">api</div>
+                <div class="item">auth</div>
+                <div class="item">e2e</div>
+                <div class="item">integration</div>
+                <div class="item">unit</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S4-2. Stabilization (안정화)</div>
+                <div class="item">Hotfix</div>
+                <div class="item">Performance_Tuning</div>
+                <div class="item">Troubleshooting</div>
+            </div>
+        </div>
+
+        <!-- S5: 운영 -->
+        <div class="phase">
+            <div class="phase-title stage">
+                <span class="badge">S5</span>
+                <span>운영</span>
+            </div>
+            <div class="category">
+                <div class="category-title">S5-1. Deployment (배포)</div>
+                <div class="item">CI_CD</div>
+                <div class="item">Environment_Variables</div>
+                <div class="item">Vercel_Deploy</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S5-2. Monitoring (모니터링)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S5-3. Maintenance (유지보수)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S5-4. Backup (백업)</div>
+            </div>
+            <div class="category">
+                <div class="category-title">S5-5. Security (보안)</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

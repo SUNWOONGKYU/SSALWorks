@@ -20,7 +20,7 @@
 ## ✅ 완료된 작업
 
 ### 1. 진행률 계산 서버 구축
-- **위치**: `C:/!SSAL_Works_Private/Sidebar-Process-Tools/`
+- **위치**: `C:/!SSAL_Works_Private/Development_Process_Monitor/`
 - **포트**: 3032
 - **기능**: 폴더 기반 진행률 자동 계산
 
@@ -60,7 +60,7 @@
 
 ### 1. 백엔드 (신규 생성)
 ```
-C:/!SSAL_Works_Private/Sidebar-Process-Tools/
+C:/!SSAL_Works_Private/Development_Process_Monitor/
 ├── progress_server.js       # Express 서버 (포트 3032)
 ├── progress_tracker.js      # 프론트엔드 모듈
 ├── package.json             # npm 의존성
@@ -174,13 +174,13 @@ setInterval(() => {
 
 ### 자동 실행 (백그라운드)
 ```bash
-cd C:/!SSAL_Works_Private/Sidebar-Process-Tools
+cd C:/!SSAL_Works_Private/Development_Process_Monitor
 node progress_server.js > server.log 2>&1 &
 ```
 
 ### 수동 실행 (로그 확인)
 ```bash
-cd C:/!SSAL_Works_Private/Sidebar-Process-Tools
+cd C:/!SSAL_Works_Private/Development_Process_Monitor
 npm start
 ```
 
@@ -260,7 +260,7 @@ curl http://localhost:3032/check-folder-progress | python -m json.tool
 ```
 C:/!SSAL_Works_Private/
 │
-├── Sidebar-Process-Tools/           # 진행률 서버
+├── Development_Process_Monitor/           # 진행률 서버
 │   ├── progress_server.js           # 실행 중 (포트 3032)
 │   ├── package.json
 │   └── README.md

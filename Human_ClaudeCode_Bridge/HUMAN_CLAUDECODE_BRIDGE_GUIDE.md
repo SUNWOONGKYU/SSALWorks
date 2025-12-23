@@ -445,7 +445,7 @@ Task 유형에 따라 적절한 규칙 파일을 참조합니다:
 |-----------|---------------|
 | **모든 Task** | `01_file-naming.md`, `02_save-location.md`, `05_execution-process.md` |
 | **F, BA, D** | + `03_area-stage.md` (Production 이중 저장) |
-| **검증 관련** | + `04_grid-writing.md`, `06_verification.md` |
+| **검증 관련** | + `04_grid-writing-supabase.md`, `06_verification.md` |
 
 ### 4.3 Reports 폴더 (결과)
 

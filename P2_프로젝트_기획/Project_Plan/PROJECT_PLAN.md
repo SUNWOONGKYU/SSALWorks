@@ -393,7 +393,7 @@ Web_ClaudeCode_Bridge/        # Web ↔ Claude Code 브릿지
 Human_ClaudeCode_Bridge/      # Human ↔ Claude Code 브릿지
     └── Orders/               # Dashboard → Claude Code
 Project-SSAL-Grid/            # PROJECT SAL GRID 관리
-Sidebar-Process-Tools/        # 사이드바 프로세스 도구
+Development_Process_Monitor/        # 사이드바 프로세스 도구
 ```
 
 **📄 전체 구조:** `PROJECT_DIRECTORY_STRUCTURE.md` (루트)

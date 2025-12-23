@@ -66,7 +66,7 @@ project-root/
 ├── S5_개발_마무리/                            # Operations (Stage 6)
 │
 ├── AI_Link/                           # AI 연동 관련 파일
-├── Order_Sheet_템플릿/                # Order Sheet 템플릿
+├── Briefings_OrderSheets/OrderSheet_Templates/                # Order Sheet 템플릿
 ├── 상황별_안내문/                     # 상황별 사용자 안내 문서
 ├── 학습용_Books/                     # 학습 자료 (Claude, 웹개발 등)
 │
@@ -82,7 +82,7 @@ project-root/
 ├── Human_ClaudeCode_Bridge/          # Human ↔ Claude Code 브릿지
 │   └── Orders/                       # Project Owner → Claude
 │
-├── Sidebar-Process-Tools/            # SSALWorks 사이드바 프로세스 도구
+├── Development_Process_Monitor/            # SSALWorks 사이드바 프로세스 도구
 │   ├── progress_data/                # 진행 상황 데이터 (JSON)
 │   └── sidebar_generation/           # 사이드바 생성 스크립트
 │

@@ -600,7 +600,7 @@ S5O1 ──> S5F1, S5BA1, S5D1, S5S1
 |------|------|
 | 5×11 매트릭스 | `Project-SSAL-Grid/ssal-grid/SSALWORKS_5x11_MATRIX.md` |
 | Task 선정 매트릭스 | `Project-SSAL-Grid/manual/references/TASK_SELECTION_MATRIX.md` |
-| 프로세스 워크플로우 | `Sidebar-Process-Tools/DEVELOPMENT_PROCESS_WORKFLOW.md` |
+| 프로세스 워크플로우 | `Development_Process_Monitor/DEVELOPMENT_PROCESS_WORKFLOW.md` |
 | PROJECT SAL GRID 매뉴얼 | `Project-SSAL-Grid/manual/PROJECT_SSAL_GRID_MANUAL.md` |
 | PoliticianFinder (참조) | `C:\Development_PoliticianFinder_com\Developement_Real_PoliticianFinder` |
 

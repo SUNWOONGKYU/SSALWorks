@@ -1,0 +1,402 @@
+{
+  "metadata": {
+    "lastUpdate": "2025-12-13",
+    "source": "SSALWORKS_TASK_PLAN.md Area 분포와 일치 + P0 추가"
+  },
+  "structure": [
+    {
+      "id": "S0_Project-SSAL-Grid_생성",
+      "name": "S0_Project-SSAL-Grid_생성",
+      "name_ko": "Project SSAL Grid 생성",
+      "categories": [
+        {
+          "id": "ssal-grid",
+          "name_en": "ssal-grid",
+          "name_ko": "SSAL Grid",
+          "items": []
+        },
+        {
+          "id": "manual",
+          "name_en": "manual",
+          "name_ko": "매뉴얼",
+          "items": []
+        },
+        {
+          "id": "supabase",
+          "name_en": "supabase",
+          "name_ko": "Supabase",
+          "items": []
+        },
+        {
+          "id": "viewer",
+          "name_en": "viewer",
+          "name_ko": "뷰어",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "P0_작업_디렉토리_구조_생성",
+      "name": "P0_작업_디렉토리_구조_생성",
+      "name_ko": "작업 디렉토리 구조 생성",
+      "categories": [
+        {
+          "id": "Project_Directory_Structure",
+          "name_en": "Project_Directory_Structure",
+          "name_ko": "디렉토리 구조",
+          "items": []
+        },
+        {
+          "id": "Project_Status",
+          "name_en": "Project_Status",
+          "name_ko": "프로젝트 상태",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "P1_사업계획",
+      "name": "P1_사업계획",
+      "name_ko": "사업계획",
+      "categories": [
+        {
+          "id": "0-1_Vision_Mission",
+          "name_en": "0-1_Vision_Mission",
+          "name_ko": "비전과 미션",
+          "items": []
+        },
+        {
+          "id": "0-2_Market_Analysis",
+          "name_en": "0-2_Market_Analysis",
+          "name_ko": "시장 분석",
+          "items": []
+        },
+        {
+          "id": "0-3_Business_Model",
+          "name_en": "0-3_Business_Model",
+          "name_ko": "비즈니스 모델",
+          "items": []
+        },
+        {
+          "id": "0-4_Patent",
+          "name_en": "0-4_Patent",
+          "name_ko": "특허",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "P2_프로젝트_기획",
+      "name": "P2_프로젝트_기획",
+      "name_ko": "프로젝트 기획",
+      "categories": [
+        {
+          "id": "1-1_Project_Plan",
+          "name_en": "1-1_Project_Plan",
+          "name_ko": "프로젝트 계획",
+          "items": []
+        },
+        {
+          "id": "1-2_User_Flows",
+          "name_en": "1-2_User_Flows",
+          "name_ko": "사용자 플로우",
+          "items": []
+        },
+        {
+          "id": "1-3_Requirements",
+          "name_en": "1-3_Requirements",
+          "name_ko": "요구사항",
+          "items": []
+        },
+        {
+          "id": "1-4_Workflows",
+          "name_en": "1-4_Workflows",
+          "name_ko": "워크플로우",
+          "items": []
+        },
+        {
+          "id": "1-5_Design_System",
+          "name_en": "1-5_Design_System",
+          "name_ko": "디자인 시스템",
+          "items": []
+        },
+        {
+          "id": "1-6_UI_UX_Mockup",
+          "name_en": "1-6_UI_UX_Mockup",
+          "name_ko": "UI/UX 목업",
+          "items": []
+        },
+        {
+          "id": "1-7_Tech_Stack",
+          "name_en": "1-7_Tech_Stack",
+          "name_ko": "기술 스택",
+          "items": []
+        },
+        {
+          "id": "1-8_Content_System",
+          "name_en": "1-8_Content_System",
+          "name_ko": "콘텐츠 시스템",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "P3_프로토타입_제작",
+      "name": "P3_프로토타입_제작",
+      "name_ko": "프로토타입 제작",
+      "categories": [
+        {
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드",
+          "items": []
+        },
+        {
+          "id": "Database",
+          "name_en": "Database",
+          "name_ko": "데이터베이스",
+          "items": []
+        },
+        {
+          "id": "Scripts",
+          "name_en": "Scripts",
+          "name_ko": "스크립트",
+          "items": []
+        },
+        {
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "S1_개발_준비",
+      "name": "S1_개발_준비",
+      "name_ko": "개발 준비",
+      "categories": [
+        {
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
+          "items": []
+        },
+        {
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드 (F)",
+          "items": []
+        },
+        {
+          "id": "Backend_Infra",
+          "name_en": "Backend_Infra",
+          "name_ko": "백엔드 인프라 (BI)",
+          "items": []
+        },
+        {
+          "id": "Database",
+          "name_en": "Database",
+          "name_ko": "데이터베이스 (D)",
+          "items": []
+        },
+        {
+          "id": "Security",
+          "name_en": "Security",
+          "name_ko": "보안 (S)",
+          "items": []
+        },
+        {
+          "id": "Testing",
+          "name_en": "Testing",
+          "name_ko": "테스트 (T)",
+          "items": []
+        },
+        {
+          "id": "DevOps",
+          "name_en": "DevOps",
+          "name_ko": "DevOps (O)",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "S2_개발-1차",
+      "name": "S2_개발-1차",
+      "name_ko": "개발 1차",
+      "categories": [
+        {
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
+          "items": []
+        },
+        {
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드 (F)",
+          "items": []
+        },
+        {
+          "id": "Backend_Infra",
+          "name_en": "Backend_Infra",
+          "name_ko": "백엔드 인프라 (BI)",
+          "items": []
+        },
+        {
+          "id": "Backend_APIs",
+          "name_en": "Backend_APIs",
+          "name_ko": "백엔드 API (BA)",
+          "items": []
+        },
+        {
+          "id": "Database",
+          "name_en": "Database",
+          "name_ko": "데이터베이스 (D)",
+          "items": []
+        },
+        {
+          "id": "Security",
+          "name_en": "Security",
+          "name_ko": "보안 (S)",
+          "items": []
+        },
+        {
+          "id": "Testing",
+          "name_en": "Testing",
+          "name_ko": "테스트 (T)",
+          "items": []
+        },
+        {
+          "id": "Content_System",
+          "name_en": "Content_System",
+          "name_ko": "콘텐츠 시스템 (C)",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "S3_개발-2차",
+      "name": "S3_개발-2차",
+      "name_ko": "개발 2차",
+      "categories": [
+        {
+          "id": "Backend_Infra",
+          "name_en": "Backend_Infra",
+          "name_ko": "백엔드 인프라 (BI)",
+          "items": []
+        },
+        {
+          "id": "Backend_APIs",
+          "name_en": "Backend_APIs",
+          "name_ko": "백엔드 API (BA)",
+          "items": []
+        },
+        {
+          "id": "Security",
+          "name_en": "Security",
+          "name_ko": "보안 (S)",
+          "items": []
+        },
+        {
+          "id": "External",
+          "name_en": "External",
+          "name_ko": "외부 연동 (E)",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "S4_개발-3차",
+      "name": "S4_개발-3차",
+      "name_ko": "개발 3차",
+      "categories": [
+        {
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
+          "items": []
+        },
+        {
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드 (F)",
+          "items": []
+        },
+        {
+          "id": "Backend_Infra",
+          "name_en": "Backend_Infra",
+          "name_ko": "백엔드 인프라 (BI)",
+          "items": []
+        },
+        {
+          "id": "Backend_APIs",
+          "name_en": "Backend_APIs",
+          "name_ko": "백엔드 API (BA)",
+          "items": []
+        },
+        {
+          "id": "Security",
+          "name_en": "Security",
+          "name_ko": "보안 (S)",
+          "items": []
+        },
+        {
+          "id": "Testing",
+          "name_en": "Testing",
+          "name_ko": "테스트 (T)",
+          "items": []
+        },
+        {
+          "id": "DevOps",
+          "name_en": "DevOps",
+          "name_ko": "DevOps (O)",
+          "items": []
+        }
+      ]
+    },
+    {
+      "id": "S5_개발_마무리",
+      "name": "S5_개발_마무리",
+      "name_ko": "운영",
+      "categories": [
+        {
+          "id": "Documentation",
+          "name_en": "Documentation",
+          "name_ko": "문서화 (M)",
+          "items": []
+        },
+        {
+          "id": "Frontend",
+          "name_en": "Frontend",
+          "name_ko": "프론트엔드 (F)",
+          "items": []
+        },
+        {
+          "id": "Backend_APIs",
+          "name_en": "Backend_APIs",
+          "name_ko": "백엔드 API (BA)",
+          "items": []
+        },
+        {
+          "id": "Database",
+          "name_en": "Database",
+          "name_ko": "데이터베이스 (D)",
+          "items": []
+        },
+        {
+          "id": "Security",
+          "name_en": "Security",
+          "name_ko": "보안 (S)",
+          "items": []
+        },
+        {
+          "id": "DevOps",
+          "name_en": "DevOps",
+          "name_ko": "DevOps (O)",
+          "items": []
+        }
+      ]
+    }
+  ]
+}

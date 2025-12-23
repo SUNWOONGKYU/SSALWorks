@@ -136,7 +136,7 @@ END IF;
 ### 리포트 저장 위치
 
 ```
-S0_Project-SSAL-Grid_생성/ssal-grid/stage-gates/
+S0_Project-SAL-Grid_생성/sal-grid/stage-gates/
 ├── S1GATE_verification_report.md
 ├── S2GATE_verification_report.md
 ├── S3GATE_verification_report.md

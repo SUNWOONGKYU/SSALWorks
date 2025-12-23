@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 1 | `01_file-naming.md` | 파일명 정할 때 | 파일 명명 규칙 |
 | 2 | `02_save-location.md` | **파일 저장할 때** ⭐ | 저장 위치 규칙 |
 | 3 | `03_area-stage.md` | 폴더 선택할 때 | Area/Stage 매핑 |
-| 4 | `04_grid-supabase.md` | **Grid/DB 작업할 때** ⭐ | Grid 작성 + Supabase CRUD |
+| 4 | `04_grid-writing-supabase.md` | **Grid/DB 작업할 때** ⭐ | Grid 작성 + Supabase CRUD |
 | 5 | `05_execution-process.md` | Task 실행할 때 | 6단계 실행 프로세스 |
 | 6 | `06_verification.md` | 검증할 때 | 검증 기준 |
 | 7 | `07_task-crud.md` | **Task 추가/삭제/수정할 때** ⭐ | Task CRUD 프로세스 |
@@ -175,32 +175,24 @@ verification_status 전이:
 
 ```
 🚫 검증만 수행하고 기록 안 하면 무의미!
-🚫 "검증했습니다" 말만 하고 DB/파일에 기록 안 하면 안 됨!
-🚫 검증 결과는 반드시 아래 3곳에 기록!
+🚫 "검증했습니다" 말만 하고 DB에 기록 안 하면 안 됨!
+✅ 검증 결과는 Supabase DB에만 기록!
 ```
 
 **검증 후 필수 기록 위치:**
 ```
-1. Supabase DB (ssal_grid 테이블)
+Supabase DB (project_sal_grid 테이블)
    → verification_status: 'Verified' 또는 'Needs Fix'
-   → verification_result: 검증 상세 결과 (JSON)
-   → verified_at: 검증 완료 시간
-
-2. work_logs/current.md
-   → 검증 결과 요약
-   → 통과/실패 항목
-   → 수정 필요 사항 (있을 경우)
-
-3. Human_ClaudeCode_Bridge/Reports/
-   → {TaskID}_verification_report.json
-   → 상세 검증 결과 저장
+   → test_result: 테스트 결과 (JSON)
+   → build_verification: 빌드 검증 (JSON)
+   → integration_verification: 통합 검증 (JSON)
+   → blockers: 차단 요소 (JSON)
+   → comprehensive_verification: 종합 결과 (JSON)
 ```
 
 **검증 기록 체크리스트:**
 - [ ] DB에 verification_status 업데이트했는가?
-- [ ] DB에 verification_result JSON 저장했는가?
-- [ ] work_logs에 검증 결과 기록했는가?
-- [ ] Reports에 검증 리포트 저장했는가?
+- [ ] DB에 검증 관련 필드(test_result, build_verification 등) 저장했는가?
 
 ---
 
@@ -296,7 +288,7 @@ work_logs/current.md 기록
 완료 보고
 ```
 
-**상세 규칙:** `.claude/rules/04_grid-supabase.md` 섹션 8 참조
+**상세 규칙:** `.claude/rules/04_grid-writing-supabase.md` 섹션 8 참조
 
 ---
 
@@ -393,7 +385,7 @@ node Production/build-web-assets.js
 **빌드 스크립트 위치:**
 ```
 Production/build-web-assets.js          ← 통합 빌드
-P2_.../Order_Sheet_템플릿/generate-ordersheets-js.js  ← Order Sheet
+Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js  ← Order Sheet
 P2_.../상황별_안내문/generate-guides-js.js            ← 안내문
 P2_.../상황별_안내문/convert-guides-to-html.js        ← MD→HTML
 ```

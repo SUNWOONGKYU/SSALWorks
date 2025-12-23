@@ -26,7 +26,7 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 // 경로 설정
 const PATHS = {
     // 소스 경로
-    ordersheetsGenerator: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/generate-ordersheets-js.js'),
+    ordersheetsGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js'),
     guidesGenerator: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/User_Flows/상황별_안내문/generate-guides-js.js'),
     serviceGuidesGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/generate-service-guides-js.js'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),

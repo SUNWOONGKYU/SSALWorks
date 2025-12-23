@@ -1,6 +1,7 @@
 # SSAL Works 플랫폼 공개 전환 계획서
 
 작성일: 2025-12-22
+수정일: 2025-12-23
 
 ---
 
@@ -60,15 +61,21 @@
    - SSALWorks 전용 항목 제거
    - 범용 프로젝트에 적용 가능하도록 수정
 
-3. **안내문 일반화**
+3. **안내문(Briefing) 일반화**
    - 브랜드명 템플릿화
    - 범용 가이드 형태로 수정
+
+4. **SAL Grid Viewer 일반화** ⭐ (신규)
+   - Supabase Key 하드코딩 제거
+   - 2가지 모드 구현 (데모 보기 / 내 DB 연결)
+   - 설정 모달 추가 (URL/Key 입력)
+   - localStorage 저장 기능
 
 ---
 
 ## 6. 패키지 정의
 
-### ssalworks development setup package
+### SSAL Works Development Setup Package
 (SSAL Works 개발 환경 설정 패키지)
 
 ---
@@ -81,13 +88,33 @@ SSAL Works 플랫폼에서 [닉네임] 개발자 님의
 
 **[패키지 내용물]**
 
-폴더:
+**기본 폴더:**
 - 표준 디렉터리 구조 (P0~P3, S0~S5, Production 등)
 - .claude 폴더 (CLAUDE.md, commands, skills, subagents, work_logs 등)
 - Human_ClaudeCode_Bridge 폴더 (bridge_server.js, Orders, Reports 등)
-- Sidebar-Process-Tools 폴더 (사이드바 생성 도구)
+- Development_Process_Monitor 폴더 (사이드바 생성 도구)
+- Briefings_OrderSheets 폴더 (Briefings/ + OrderSheet_Templates/)
 
-파일:
+**SAL Grid 폴더:** ⭐ (신규)
+```
+S0_Project-SAL-Grid_생성/
+├── manual/
+│   └── PROJECT_SAL_GRID_MANUAL.md    ⭐ AI 필수 준수 규칙 포함
+├── supabase/
+│   ├── schema.sql                     테이블 스키마
+│   └── seed_project_sal_grid.sql      ⭐ 상단 규칙 주석 포함
+├── sal-grid/
+│   ├── task-instructions/
+│   │   └── TEMPLATE_instruction.md    ⭐ 규칙 포함 템플릿
+│   ├── verification-instructions/
+│   ├── task-results/
+│   └── stage-gates/
+└── viewer/
+    ├── viewer.html                    Grid 뷰어
+    └── viewer.css                     뷰어 스타일
+```
+
+**기본 파일:**
 - Project_Directory_Structure.md (프로젝트 디렉터리 구조 안내)
 - Project_Status.md (프로젝트 진행 상태 관리)
 
@@ -131,12 +158,139 @@ npm 패키지 설치까지 자동으로 진행합니다.
 
 ---
 
-## 7. 브랜드명 표기 규칙
+## 7. SAL Grid Viewer 배포 방식 ⭐ (신규)
+
+### 문제: Supabase 계정 공유 불가
+
+현재 viewer.html에는 Supabase URL/Key가 하드코딩되어 있음:
+```javascript
+const SUPABASE_URL = 'https://xxx.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIs...';
+```
+
+→ 이대로 배포하면 모든 사용자가 **동일한 DB**에 접속하게 됨
+
+### 해결: 2가지 모드 제공
+
+```
+┌─────────────────────────────────────────────────────┐
+│                   viewer.html                        │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│   [📖 데모 보기]          [🔗 내 DB 연결]            │
+│         │                        │                  │
+│         ▼                        ▼                  │
+│   읽기 전용 샘플            Supabase 설정 안내       │
+│   (Grid 기능 체험)          (자기 계정 만들기)        │
+│                                  │                  │
+│                                  ▼                  │
+│                           자기 프로젝트에서          │
+│                           직접 Grid 운영            │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
+
+### 모드 설명
+
+| 모드 | 용도 | Supabase 필요 |
+|------|------|--------------|
+| **데모 보기** | Grid 기능 체험, 샘플 데이터 조회 | ❌ (읽기 전용) |
+| **내 DB 연결** | 자기 프로젝트에서 Grid 운영 | ✅ (자기 계정) |
+
+### 사용자 여정
+
+```
+1. viewer.html 열기
+2. "데모 보기" 클릭 → 샘플 Grid로 기능 체험
+3. 마음에 들면 "내 DB 연결" 클릭
+4. Supabase 가입/설정 안내 따라하기
+5. schema.sql 실행 (테이블 생성)
+6. 자기 URL/Key 입력
+7. 자기 프로젝트에서 Grid 운영!
+```
+
+### viewer.html 수정 필요 사항 (공개 전환 전 완료 필수)
+
+- [ ] 모드 선택 UI: 첫 화면에 "데모 보기" / "내 DB 연결" 버튼
+- [ ] 설정 모달: Supabase URL/Key 입력 폼
+- [ ] localStorage 저장: 입력한 설정 브라우저에 저장
+- [ ] Supabase 설정 가이드: 연결 방법 안내 링크/문서
+- [ ] 하드코딩된 Key 제거: 원본 제작자 Key 노출 방지
+
+### 장점
+
+- ✅ 원본 제작자의 Supabase Key 노출 안 됨
+- ✅ 각 사용자가 자신의 DB에서 독립적으로 운영
+- ✅ 데모 모드로 기능 체험 후 도입 결정 가능
+- ✅ Supabase 무료 티어로 비용 부담 없음
+
+---
+
+## 8. 다운로드 패키지 제공 방법 ⭐ (신규)
+
+### 이용자 입장
+
+- 다운로드 버튼 클릭 → ZIP 파일 받음 → 압축 해제 → 끝
+- 기술적인 부분 전혀 신경 안 써도 됨
+
+### 제작자(PO) 작업
+
+**추천 방식: GitHub Releases**
+
+```
+[만드는 방법]
+1. GitHub 레포지토리 → Releases → Create new release
+2. 버전 태그 입력 (예: v1.0.0)
+3. ZIP 파일을 Assets에 첨부
+4. Publish release
+
+[웹사이트에서]
+<a href="https://github.com/유저명/레포명/releases/latest/download/패키지.zip">
+  다운로드
+</a>
+```
+
+**장점**: 버전 관리 자동, 영구 링크, 안정적
+
+### 대안
+
+| 방법 | 장점 | 단점 |
+|------|------|------|
+| **GitHub Releases** | 버전 관리 자동, 안정적 | GitHub 계정 필요 |
+| **Google Drive** | 간단, 무료, 대용량 | 링크 복잡 |
+| **Vercel 호스팅** | 같은 도메인, 빠름 | 용량 제한 (100MB) |
+
+---
+
+## 9. 브랜드명 표기 규칙
 
 - **올바른 표기**: SSAL Works (띄어쓰기)
 - **잘못된 표기**: SSALWorks
 - **호칭**: "OOO 개발자 님" (당신 사용 금지)
 - **분류**: 플랫폼 (프로젝트 아님)
+
+---
+
+## 10. 공개 전환 전 체크리스트 ⭐ (신규)
+
+### 필수 작업
+
+- [ ] **viewer.html 2가지 모드 구현** (섹션 7 참조)
+- [ ] **CLAUDE.md 일반화** (섹션 5 참조)
+- [ ] **Order Sheet 템플릿 일반화** (섹션 5 참조)
+- [ ] **Briefing 일반화** (섹션 5 참조)
+- [ ] **Supabase Key 하드코딩 제거**
+
+### 검증 작업
+
+- [ ] 배포 패키지 구성 확인 (섹션 6 참조)
+- [ ] SAL Grid 규칙 4곳 일치 확인:
+  - .claude/CLAUDE.md
+  - S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md
+  - S0_Project-SAL-Grid_생성/supabase/seed_project_sal_grid.sql
+  - S0_Project-SAL-Grid_생성/sal-grid/task-instructions/TEMPLATE_instruction.md
+- [ ] 데모 모드 정상 작동 확인
+- [ ] 내 DB 연결 모드 정상 작동 확인
 
 ---
 

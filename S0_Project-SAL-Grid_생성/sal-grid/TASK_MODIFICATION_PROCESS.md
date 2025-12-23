@@ -156,7 +156,7 @@ node sync_task_results_to_db.js
 
 ### 5-1. Stage 안내문
 
-**파일**: `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/{Stage}/*_안내문.md`
+**파일**: `Briefings_OrderSheets/OrderSheet_Templates/{Stage}/*_Briefing.md`
 
 **수정 항목**:
 - Stage 개요
@@ -198,7 +198,7 @@ node sync_task_results_to_db.js
 | 2 | Instruction 파일 생성 | task-instructions/{ID}_instruction.md |
 | 3 | Seed SQL에 INSERT 추가 | seed_project_sal_grid.sql |
 | 4 | Verification 파일 생성 | verification-instructions/{ID}_verification.md |
-| 5 | 안내문에 Task 추가 | Order_Sheet_템플릿/{Stage}/*_안내문.md |
+| 5 | 안내문에 Task 추가 | Briefings_OrderSheets/OrderSheet_Templates/{Stage}/*_Briefing.md |
 
 ### B. Task 수정 (내용 변경)
 
@@ -208,7 +208,7 @@ node sync_task_results_to_db.js
 | 2 | Instruction 내용 수정 | task-instructions/{ID}_instruction.md |
 | 3 | Seed SQL UPDATE | seed_project_sal_grid.sql |
 | 4 | Verification 내용 수정 | verification-instructions/{ID}_verification.md |
-| 5 | 안내문 내용 수정 | Order_Sheet_템플릿/{Stage}/*_안내문.md |
+| 5 | 안내문 내용 수정 | Briefings_OrderSheets/OrderSheet_Templates/{Stage}/*_Briefing.md |
 
 ### C. Task 삭제
 
@@ -218,7 +218,7 @@ node sync_task_results_to_db.js
 | 2 | Instruction 파일 삭제 | task-instructions/{ID}_instruction.md |
 | 3 | Seed SQL에서 DELETE | seed_project_sal_grid.sql |
 | 4 | Verification 파일 삭제 | verification-instructions/{ID}_verification.md |
-| 5 | 안내문에서 Task 제거 | Order_Sheet_템플릿/{Stage}/*_안내문.md |
+| 5 | 안내문에서 Task 제거 | Briefings_OrderSheets/OrderSheet_Templates/{Stage}/*_Briefing.md |
 
 ### D. Stage 이동 (Task를 다른 Stage로)
 

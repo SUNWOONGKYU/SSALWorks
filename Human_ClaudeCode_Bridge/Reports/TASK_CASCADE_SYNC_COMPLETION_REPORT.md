@@ -125,7 +125,7 @@ Task Plan을 Single Source of Truth (SSOT)로 하여 모든 관련 문서를 동
 
 ## 5단계: Stage 안내문 / Order Sheet 수정
 
-**폴더**: `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/`
+**폴더**: `Briefings_OrderSheets/OrderSheet_Templates/`
 
 ### 작업 결과
 
@@ -235,7 +235,7 @@ Order Sheet 파일들은 **Grid 참조 방식**을 사용하여 Task 목록을 �
 | Task Instructions | `S0_Project-SSAL-Grid_생성/ssal-grid/task-instructions/` |
 | Verification Instructions | `S0_Project-SSAL-Grid_생성/ssal-grid/verification-instructions/` |
 | Seed SQL | `S0_Project-SSAL-Grid_생성/supabase/seed_project_sal_grid.sql` |
-| Order Sheets | `P2_프로젝트_기획/User_Flows/Order_Sheet_템플릿/S?_*/` |
+| Order Sheets | `Briefings_OrderSheets/OrderSheet_Templates/S?_*/` |
 | 수정 프로세스 문서 | `S0_Project-SSAL-Grid_생성/ssal-grid/TASK_MODIFICATION_PROCESS.md` |
 
 ---

@@ -17,7 +17,7 @@
 
 ## 2. 생성된 파일
 
-### A. 백엔드 서버 (Sidebar-Process-Tools/)
+### A. 백엔드 서버 (Development_Process_Monitor/)
 
 | 파일                    | 역할                             |
 |------------------------|--------------------------------|
@@ -184,7 +184,7 @@ setInterval(() => {
 ## 7. 서버 실행 방법
 
 ```bash
-cd C:/!SSAL_Works_Private/Sidebar-Process-Tools
+cd C:/!SSAL_Works_Private/Development_Process_Monitor
 npm install
 npm start
 ```
@@ -192,7 +192,7 @@ npm start
 또는 백그라운드 실행:
 
 ```bash
-cd C:/!SSAL_Works_Private/Sidebar-Process-Tools
+cd C:/!SSAL_Works_Private/Development_Process_Monitor
 node progress_server.js > server.log 2>&1 &
 ```
 
@@ -219,7 +219,7 @@ node progress_server.js > server.log 2>&1 &
 
 ```
 C:/!SSAL_Works_Private/
-├── Sidebar-Process-Tools/           # 진행률 시스템
+├── Development_Process_Monitor/           # 진행률 시스템
 │   ├── progress_server.js           # 서버 (실행 중)
 │   ├── package.json
 │   └── README.md
@@ -239,7 +239,7 @@ C:/!SSAL_Works_Private/
 
 1. **서버 실행**
    ```bash
-   cd C:/!SSAL_Works_Private/Sidebar-Process-Tools
+   cd C:/!SSAL_Works_Private/Development_Process_Monitor
    node progress_server.js
    ```
 
@@ -258,7 +258,7 @@ C:/!SSAL_Works_Private/
 
 ## 11. 전임자가 작업하던 내용 분석
 
-전임자는 `Sidebar-Process-Tools` 폴더에서 다음을 작업하고 있었습니다:
+전임자는 `Development_Process_Monitor` 폴더에서 다음을 작업하고 있었습니다:
 
 ### 완성된 것
 - `progress_data/` JSON 체크리스트 (가중치 기반 진행률)
