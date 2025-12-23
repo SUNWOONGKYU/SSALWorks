@@ -1304,14 +1304,7 @@
                 </div>
                 <div class="menu-item" onclick="showSection('inquiries', event)">
                     💬 문의 관리
-                    <span class="menu-badge">5</span>
-                </div>
-            </div>
-
-            <div class="menu-section">
-                <div class="menu-section-title">통계</div>
-                <div class="menu-item" onclick="showSection('stats', event)">
-                    📈 통계 및 분석
+                    <span class="menu-badge" id="inquiryBadge" style="display: none;">0</span>
                 </div>
             </div>
 
@@ -1871,65 +1864,7 @@
                 </div>
             </div>
 
-            <!-- Stats Section -->
-            <div id="stats-section" class="content-view" style="display:none;">
-                <div class="content-header">
-                    <h1 class="content-title">📈 통계 및 분석</h1>
-                    <p class="content-subtitle">플랫폼 내부에서 측정 가능한 통계입니다.</p>
-                </div>
-
-                <!-- 기간 선택 -->
-                <div class="content-section" style="margin-bottom: 24px;">
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <span style="font-weight: 600;">기간:</span>
-                        <button class="section-action" style="background: var(--primary);">오늘</button>
-                        <button class="section-action" style="background: var(--neutral);">7일</button>
-                        <button class="section-action" style="background: var(--neutral);">30일</button>
-                        <button class="section-action" style="background: var(--neutral);">전체</button>
-                    </div>
-                </div>
-
-                <!-- 회원 통계 -->
-                <div class="stats-grid">
-                    <div class="stat-card success">
-                        <div class="stat-icon">✨</div>
-                        <div class="stat-value" id="statsNewSignups">-</div>
-                        <div class="stat-label">신규 가입 (기간)</div>
-                    </div>
-                    <div class="stat-card warning">
-                        <div class="stat-icon">🔄</div>
-                        <div class="stat-value" id="statsActiveUsers">-</div>
-                        <div class="stat-label">활성 이용자</div>
-                    </div>
-                </div>
-
-                <!-- 매출 통계 -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">💰 매출 통계</h2>
-                    </div>
-                    <div class="stats-grid" style="margin-top: 16px;">
-                        <div class="stat-card success">
-                            <div class="stat-value" id="statsInstallRevenue">-</div>
-                            <div class="stat-label">빌더 계정 개설비 매출 (누적)</div>
-                        </div>
-                        <div class="stat-card success">
-                            <div class="stat-value" id="statsMonthlyFee">-</div>
-                            <div class="stat-label">월 사용료 (이번 달)</div>
-                        </div>
-                        <div class="stat-card warning">
-                            <div class="stat-value" id="statsCreditSales">-</div>
-                            <div class="stat-label">크레딧 판매 (이번 달)</div>
-                        </div>
-                        <div class="stat-card primary">
-                            <div class="stat-value" id="statsTotalRevenue">-</div>
-                            <div class="stat-label">이번 달 총 매출</div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
+            <!-- Stats Section removed - merged with Overview -->
 
             <!-- API Usage Section -->
             <div id="api-section" class="content-view" style="display:none;">
@@ -3498,9 +3433,25 @@
             }
         }
 
-        // 페이지 로드 시 차트 초기화
+        // 페이지 로드 시 차트 초기화 및 문의 배지 업데이트
         document.addEventListener('DOMContentLoaded', function() {
             initializeAdminHomeCharts();
+            // 문의 배지 초기화 (지연 로드 - supabase 초기화 후)
+            setTimeout(async () => {
+                if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+                    try {
+                        const { data } = await supabaseClient.from('inquiries').select('status');
+                        if (data) {
+                            const pending = data.filter(i => i.status === 'pending').length;
+                            const badge = document.getElementById('inquiryBadge');
+                            if (badge && pending > 0) {
+                                badge.textContent = pending;
+                                badge.style.display = 'inline-flex';
+                            }
+                        }
+                    } catch (e) { console.log('문의 배지 로드 실패:', e); }
+                }
+            }, 1000);
         });
 
         // ========== Supabase 연결 ==========
@@ -6208,6 +6159,17 @@
                 document.getElementById('inquiriesPendingCount').textContent = pending;
                 document.getElementById('inquiriesInProgressCount').textContent = inProgress;
                 document.getElementById('inquiriesAnsweredCount').textContent = answered;
+
+                // 사이드바 배지 업데이트
+                const inquiryBadge = document.getElementById('inquiryBadge');
+                if (inquiryBadge) {
+                    if (pending > 0) {
+                        inquiryBadge.textContent = pending;
+                        inquiryBadge.style.display = 'inline-flex';
+                    } else {
+                        inquiryBadge.style.display = 'none';
+                    }
+                }
             } catch (error) {
                 console.error('문의 통계 로드 실패:', error);
             }

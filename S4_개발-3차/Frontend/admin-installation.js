@@ -1,6 +1,6 @@
 /**
  * @task S4F1
- * @description 개발자 계정 개설비 입금 확인/거부 모달 및 처리
+ * @description 빌더 계정 개설비 입금 확인/거부 모달 및 처리
  */
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
@@ -71,7 +71,7 @@ async function loadInstallations() {
         console.error('Failed to load installations:', error);
         document.getElementById('installation-list').innerHTML = `
             <tr>
-                <td colspan="7" class="error">개발자 계정 개설비 내역을 불러오는데 실패했습니다.</td>
+                <td colspan="7" class="error">빌더 계정 개설비 내역을 불러오는데 실패했습니다.</td>
             </tr>
         `;
     }
@@ -84,7 +84,7 @@ function renderInstallations(installations) {
     if (!installations || installations.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="7" class="no-data">개발자 계정 개설비 내역이 없습니다.</td>
+                <td colspan="7" class="no-data">빌더 계정 개설비 내역이 없습니다.</td>
             </tr>
         `;
         return;
@@ -175,7 +175,7 @@ window.showConfirmModal = async (installationId) => {
 
     } catch (error) {
         console.error('Failed to load installation:', error);
-        alert('개발자 계정 개설비 정보를 불러오는데 실패했습니다.');
+        alert('빌더 계정 개설비 정보를 불러오는데 실패했습니다.');
     }
 };
 
@@ -218,12 +218,12 @@ window.showRejectModal = async (installationId) => {
 
     } catch (error) {
         console.error('Failed to load installation:', error);
-        alert('개발자 계정 개설비 정보를 불러오는데 실패했습니다.');
+        alert('빌더 계정 개설비 정보를 불러오는데 실패했습니다.');
     }
 };
 
 /**
- * 개발자 계정 ID 생성 (12자리)
+ * 빌더 계정 ID 생성 (12자리)
  * 형식: YYMMNNNNNNXX
  * - YY: 연도 (2자리)
  * - MM: 월 (2자리)
@@ -268,9 +268,9 @@ async function confirmInstallation() {
     if (!currentInstallation) return;
 
     try {
-        // 1. 개발자 계정 ID 생성
+        // 1. 빌더 계정 ID 생성
         const developerAccountId = await generateDeveloperAccountId(currentInstallation.amount);
-        console.log('📌 개발자 계정 ID 생성:', developerAccountId);
+        console.log('📌 빌더 계정 ID 생성:', developerAccountId);
 
         // 2. Update installation status
         const { error: updateError } = await supabase
@@ -287,7 +287,7 @@ async function confirmInstallation() {
         const { error: serviceError } = await supabase
             .from('users')
             .update({
-                user_id: developerAccountId,  // 개발자 계정 ID 저장
+                user_id: developerAccountId,  // 빌더 계정 ID 저장
                 service_status: 'active',
                 installation_fee_paid: true,
                 installation_date: new Date().toISOString()
@@ -304,7 +304,7 @@ async function confirmInstallation() {
                 transaction_type: 'grant',
                 amount: 50000,
                 balance_after: 50000,
-                description: '개발자 계정 개설비 입금 확인 - 웰컴 크레딧'
+                description: '빌더 계정 개설비 입금 확인 - 웰컴 크레딧'
             });
 
         if (creditError) throw creditError;
@@ -312,7 +312,7 @@ async function confirmInstallation() {
         // Send email notification (would call backend API)
         // await sendInstallationConfirmEmail(currentInstallation.user_id);
 
-        alert(`입금 확인이 완료되었습니다.\n\n개발자 계정 ID: ${developerAccountId}`);
+        alert(`입금 확인이 완료되었습니다.\n\n빌더 계정 ID: ${developerAccountId}`);
         closeConfirmModal();
         await loadInstallations();
 

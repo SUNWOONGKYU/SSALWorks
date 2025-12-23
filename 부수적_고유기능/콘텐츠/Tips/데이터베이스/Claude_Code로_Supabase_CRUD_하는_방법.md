@@ -20,13 +20,43 @@
 
 ## AI가 할 수 있는 것 vs PO(Project Owner; 사람)가 해야 하는 것
 
+### DML vs DDL 구분
+
+데이터베이스 작업은 두 종류로 나뉩니다.
+
+| 구분 | 의미 | 예시 | Claude Code 직접 실행 |
+|------|------|------|:--------------------:|
+| **DML** | 데이터 조작 | INSERT, SELECT, UPDATE, DELETE | ✅ 가능 (REST API) |
+| **DDL** | 스키마 정의 | CREATE TABLE, ALTER TABLE, CREATE FUNCTION | ❌ 불가능 |
+
 ### Claude Code가 직접 할 수 있는 작업
 
-- 테이블 생성/수정 (CREATE TABLE, ALTER TABLE)
-- RLS 정책 생성/수정
-- 데이터 CRUD (INSERT, SELECT, UPDATE, DELETE)
+**DML (Data Manipulation Language)** - REST API로 직접 실행 가능:
+- 데이터 조회 (SELECT)
+- 데이터 추가 (INSERT)
+- 데이터 수정 (UPDATE)
+- 데이터 삭제 (DELETE)
 
-### PO(Project Owner; 사람)가 직접 해야 하는 작업
+### Claude Code가 직접 할 수 없는 작업 (PO 실행 필요)
+
+**DDL (Data Definition Language)** - SQL 파일 생성 후 PO에게 요청:
+- 테이블 생성/수정 (CREATE TABLE, ALTER TABLE)
+- 컬럼 추가/삭제 (ADD COLUMN, DROP COLUMN)
+- 인덱스 생성 (CREATE INDEX)
+- 함수/트리거 생성 (CREATE FUNCTION, CREATE TRIGGER)
+- RLS 정책 생성/수정 (CREATE POLICY)
+
+**DDL을 직접 실행할 수 없는 이유:**
+1. Supabase REST API는 DML만 지원하고, DDL은 지원하지 않음
+2. Supabase MCP가 설정되어 있지 않거나 연결 불안정
+3. Supabase CLI가 설치되어 있지 않음
+
+**DDL 작업 시 Claude Code가 해야 할 일:**
+1. SQL 파일 작성 (예: `05_add_builder_id.sql`)
+2. PO에게 요청: "Supabase Dashboard > SQL Editor에서 실행해주세요"
+3. 실행할 SQL 코드를 복사 가능하게 제공
+
+### 기타 PO(Project Owner; 사람)가 직접 해야 하는 작업
 
 | 작업 | 이유 | 어디서? |
 |------|------|---------|

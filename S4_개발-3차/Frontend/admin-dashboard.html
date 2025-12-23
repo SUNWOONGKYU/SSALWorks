@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSAL Works Admin - 관리자 대시보드</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- DOMPurify for XSS Protection -->
@@ -1286,7 +1287,7 @@
                     👥 회원 관리
                 </div>
                 <div class="menu-item" onclick="showSection('installation', event)">
-                    🏠 개발자 계정 개설비 관리
+                    🏠 빌더 계정 개설비 관리
                     <span class="menu-badge" id="installationPendingBadge" style="display:none;">0</span>
                 </div>
                 <div class="menu-item" onclick="showSection('subscription', event)">
@@ -1303,14 +1304,7 @@
                 </div>
                 <div class="menu-item" onclick="showSection('inquiries', event)">
                     💬 문의 관리
-                    <span class="menu-badge">5</span>
-                </div>
-            </div>
-
-            <div class="menu-section">
-                <div class="menu-section-title">통계</div>
-                <div class="menu-item" onclick="showSection('stats', event)">
-                    📈 통계 및 분석
+                    <span class="menu-badge" id="inquiryBadge" style="display: none;">0</span>
                 </div>
             </div>
 
@@ -1723,14 +1717,14 @@
                 </div>
             </div>
 
-            <!-- Installation Fee Section (개발자 계정 개설비 관리) -->
+            <!-- Installation Fee Section (빌더 계정 개설비 관리) -->
             <div id="installation-section" class="content-view" style="display:none;">
                 <div class="content-header">
-                    <h1 class="content-title">🏠 개발자 계정 개설비 관리</h1>
-                    <p class="content-subtitle">개발자 계정 개설비 입금 확인 및 처리</p>
+                    <h1 class="content-title">🏠 빌더 계정 개설비 관리</h1>
+                    <p class="content-subtitle">빌더 계정 개설비 입금 확인 및 처리</p>
                 </div>
 
-                <!-- 개발자 계정 개설비 통계 -->
+                <!-- 빌더 계정 개설비 통계 -->
                 <div class="stats-grid">
                     <div class="stat-card warning">
                         <div class="stat-icon">⏳</div>
@@ -1783,7 +1777,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>개발자 계정 ID</th>
+                                <th>빌더 계정 ID</th>
                                 <th>이메일</th>
                                 <th>실명</th>
                                 <th>금액</th>
@@ -1870,65 +1864,7 @@
                 </div>
             </div>
 
-            <!-- Stats Section -->
-            <div id="stats-section" class="content-view" style="display:none;">
-                <div class="content-header">
-                    <h1 class="content-title">📈 통계 및 분석</h1>
-                    <p class="content-subtitle">플랫폼 내부에서 측정 가능한 통계입니다.</p>
-                </div>
-
-                <!-- 기간 선택 -->
-                <div class="content-section" style="margin-bottom: 24px;">
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <span style="font-weight: 600;">기간:</span>
-                        <button class="section-action" style="background: var(--primary);">오늘</button>
-                        <button class="section-action" style="background: var(--neutral);">7일</button>
-                        <button class="section-action" style="background: var(--neutral);">30일</button>
-                        <button class="section-action" style="background: var(--neutral);">전체</button>
-                    </div>
-                </div>
-
-                <!-- 회원 통계 -->
-                <div class="stats-grid">
-                    <div class="stat-card success">
-                        <div class="stat-icon">✨</div>
-                        <div class="stat-value" id="statsNewSignups">-</div>
-                        <div class="stat-label">신규 가입 (기간)</div>
-                    </div>
-                    <div class="stat-card warning">
-                        <div class="stat-icon">🔄</div>
-                        <div class="stat-value" id="statsActiveUsers">-</div>
-                        <div class="stat-label">활성 이용자</div>
-                    </div>
-                </div>
-
-                <!-- 매출 통계 -->
-                <div class="content-section">
-                    <div class="section-header">
-                        <h2 class="section-title">💰 매출 통계</h2>
-                    </div>
-                    <div class="stats-grid" style="margin-top: 16px;">
-                        <div class="stat-card success">
-                            <div class="stat-value" id="statsInstallRevenue">-</div>
-                            <div class="stat-label">개발자 계정 개설비 매출 (누적)</div>
-                        </div>
-                        <div class="stat-card success">
-                            <div class="stat-value" id="statsMonthlyFee">-</div>
-                            <div class="stat-label">월 사용료 (이번 달)</div>
-                        </div>
-                        <div class="stat-card warning">
-                            <div class="stat-value" id="statsCreditSales">-</div>
-                            <div class="stat-label">크레딧 판매 (이번 달)</div>
-                        </div>
-                        <div class="stat-card primary">
-                            <div class="stat-value" id="statsTotalRevenue">-</div>
-                            <div class="stat-label">이번 달 총 매출</div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
+            <!-- Stats Section removed - merged with Overview -->
 
             <!-- API Usage Section -->
             <div id="api-section" class="content-view" style="display:none;">
@@ -2114,7 +2050,7 @@
                         <h2 class="section-title">💰 요금 설정</h2>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">개발자 계정 개설비 (원)</label>
+                        <label class="form-label">빌더 계정 개설비 (원)</label>
                         <input type="number" class="form-input" id="settingInstallFee" value="">
                     </div>
                     <div class="form-group">
@@ -2210,7 +2146,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>개발자 계정 ID</th>
+                                <th>빌더 계정 ID</th>
                                 <th>이메일</th>
                                 <th>실명</th>
                                 <th>개설일</th>
@@ -2238,7 +2174,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>개발자 계정 ID</th>
+                                <th>빌더 계정 ID</th>
                                 <th>이메일</th>
                                 <th>실명</th>
                                 <th>빌링키 상태</th>
@@ -2266,7 +2202,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>개발자 계정 ID</th>
+                                <th>빌더 계정 ID</th>
                                 <th>이메일</th>
                                 <th>금액</th>
                                 <th>결제일시</th>
@@ -2317,7 +2253,7 @@
                     </div>
                     <div class="stat-card warning">
                         <div class="stat-value" id="paidUsersCount">-</div>
-                        <div class="stat-label">개발자 계정 개설비 납부</div>
+                        <div class="stat-label">빌더 계정 개설비 납부</div>
                     </div>
                     <div class="stat-card primary">
                         <div class="stat-value" id="totalCreditsCount">-</div>
@@ -2338,7 +2274,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>개발자 계정 ID</th>
+                                <th>빌더 계정 ID</th>
                                 <th>이메일</th>
                                 <th>닉네임</th>
                                 <th>실명</th>
@@ -2454,7 +2390,7 @@
                 <div style="margin-bottom: 24px;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                         <div>
-                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">개발자 계정 ID</div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">빌더 계정 ID</div>
                             <div style="font-size: 14px; font-weight: 600;" id="userDetailUserId">-</div>
                         </div>
                         <div>
@@ -2474,7 +2410,7 @@
                             <div style="font-size: 14px;" id="userDetailCreatedAt">-</div>
                         </div>
                         <div>
-                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">개발자 계정 개설비 납부</div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">빌더 계정 개설비 납부</div>
                             <div id="userDetailInstallationFee">-</div>
                         </div>
                         <div>
@@ -2675,7 +2611,7 @@
                 loadUsers();
             }
 
-            // 개발자 계정 개설비 관리 섹션일 때 데이터 로드
+            // 빌더 계정 개설비 관리 섹션일 때 데이터 로드
             if (section === 'installation') {
                 loadInstallationRequests();
             }
@@ -3279,18 +3215,59 @@
         // Admin Home Dashboard - Chart Initialization
         // ================================================================
 
-        // Chart.js 차트 초기화
-        function initializeAdminHomeCharts() {
+        // Chart.js 차트 초기화 - 실제 데이터 로드
+        async function initializeAdminHomeCharts() {
+            if (!supabaseClient) {
+                console.log('⏳ Supabase 클라이언트 대기 중...');
+                setTimeout(initializeAdminHomeCharts, 500);
+                return;
+            }
+
+            // 최근 7일 날짜 라벨 생성
+            const labels = [];
+            const today = new Date();
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
+            }
+
+            // 회원가입 데이터 조회
+            let signupData = [0, 0, 0, 0, 0, 0, 0];
+            try {
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+                sevenDaysAgo.setHours(0, 0, 0, 0);
+
+                const { data: users, error } = await supabaseClient
+                    .from('users')
+                    .select('created_at')
+                    .gte('created_at', sevenDaysAgo.toISOString());
+
+                if (!error && users) {
+                    users.forEach(user => {
+                        const createdDate = new Date(user.created_at);
+                        const dayIndex = Math.floor((createdDate - sevenDaysAgo) / (1000 * 60 * 60 * 24));
+                        if (dayIndex >= 0 && dayIndex < 7) {
+                            signupData[dayIndex]++;
+                        }
+                    });
+                    console.log('📊 회원가입 추이 데이터:', signupData);
+                }
+            } catch (err) {
+                console.error('회원가입 데이터 로드 실패:', err);
+            }
+
             // 회원 가입 추이 차트 (라인 차트)
             const memberSignupCtx = document.getElementById('memberSignupChart');
             if (memberSignupCtx) {
                 new Chart(memberSignupCtx, {
                     type: 'line',
                     data: {
-                        labels: ['11/22', '11/23', '11/24', '11/25', '11/26', '11/27', '11/28'],
+                        labels: labels,
                         datasets: [{
                             label: '신규 가입',
-                            data: [15, 18, 12, 22, 19, 25, 20],
+                            data: signupData,
                             borderColor: '#6B5CCC',
                             backgroundColor: 'rgba(107, 92, 204, 0.1)',
                             tension: 0.4,
@@ -3333,6 +3310,7 @@
                                     font: {
                                         size: 11
                                     },
+                                    stepSize: 1,
                                     callback: function(value) {
                                         return value + '명';
                                     }
@@ -3356,28 +3334,46 @@
                 });
             }
 
+            // 매출 추이 - 현재 주차 라벨 생성
+            const currentMonth = today.getMonth() + 1;
+            const revenueLabels = [`${currentMonth}월 1주`, `${currentMonth}월 2주`, `${currentMonth}월 3주`, `${currentMonth}월 4주`];
+
+            // 매출 데이터 조회 (installation_payments 테이블)
+            let revenueData = [0, 0, 0, 0];
+            try {
+                const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+                const { data: payments, error } = await supabaseClient
+                    .from('installation_payments')
+                    .select('amount, created_at')
+                    .gte('created_at', monthStart.toISOString())
+                    .eq('status', 'completed');
+
+                if (!error && payments) {
+                    payments.forEach(payment => {
+                        const payDate = new Date(payment.created_at);
+                        const weekIndex = Math.floor((payDate.getDate() - 1) / 7);
+                        if (weekIndex >= 0 && weekIndex < 4) {
+                            revenueData[weekIndex] += (payment.amount || 0);
+                        }
+                    });
+                    console.log('📊 매출 추이 데이터:', revenueData);
+                }
+            } catch (err) {
+                console.error('매출 데이터 로드 실패:', err);
+            }
+
             // 매출 추이 차트 (막대 차트)
             const revenueCtx = document.getElementById('revenueChart');
             if (revenueCtx) {
                 new Chart(revenueCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['11월 1주', '11월 2주', '11월 3주', '11월 4주'],
+                        labels: revenueLabels,
                         datasets: [{
                             label: '매출',
-                            data: [1200000, 1450000, 1380000, 1650000],
-                            backgroundColor: [
-                                'rgba(107, 92, 204, 0.8)',
-                                'rgba(107, 92, 204, 0.8)',
-                                'rgba(107, 92, 204, 0.8)',
-                                'rgba(204, 120, 92, 0.8)'
-                            ],
-                            borderColor: [
-                                '#6B5CCC',
-                                '#6B5CCC',
-                                '#6B5CCC',
-                                '#CC785C'
-                            ],
+                            data: revenueData,
+                            backgroundColor: 'rgba(107, 92, 204, 0.8)',
+                            borderColor: '#6B5CCC',
                             borderWidth: 2,
                             borderRadius: 6
                         }]
@@ -3437,9 +3433,25 @@
             }
         }
 
-        // 페이지 로드 시 차트 초기화
+        // 페이지 로드 시 차트 초기화 및 문의 배지 업데이트
         document.addEventListener('DOMContentLoaded', function() {
             initializeAdminHomeCharts();
+            // 문의 배지 초기화 (지연 로드 - supabase 초기화 후)
+            setTimeout(async () => {
+                if (typeof supabaseClient !== 'undefined' && supabaseClient) {
+                    try {
+                        const { data } = await supabaseClient.from('inquiries').select('status');
+                        if (data) {
+                            const pending = data.filter(i => i.status === 'pending').length;
+                            const badge = document.getElementById('inquiryBadge');
+                            if (badge && pending > 0) {
+                                badge.textContent = pending;
+                                badge.style.display = 'inline-flex';
+                            }
+                        }
+                    } catch (e) { console.log('문의 배지 로드 실패:', e); }
+                }
+            }, 1000);
         });
 
         // ========== Supabase 연결 ==========
@@ -4322,11 +4334,11 @@
                     ? user.credit_balance.toLocaleString()
                     : '0';
 
-                // 닉네임 (없으면 이메일 앞부분)
-                const displayName = user.nickname || user.real_name || (user.email ? user.email.split('@')[0] : '-');
+                // 닉네임 (없으면 name, real_name, 이메일 앞부분 순서로)
+                const displayName = user.nickname || user.name || user.real_name || (user.email ? user.email.split('@')[0] : '-');
                 const safeDisplayName = sanitizePlainText(displayName);
 
-                // 개발자 계정 ID
+                // 빌더 계정 ID
                 const devAccountId = user.user_id || '-';
 
                 return `
@@ -4375,6 +4387,7 @@
             const paidCount = users.filter(u => u.installation_fee_paid === true).length;
             const totalCredits = users.reduce((sum, u) => sum + (u.credit_balance || 0), 0);
 
+            // 회원 관리 탭 통계
             const totalElem = document.getElementById('totalUsersCount');
             const activeElem = document.getElementById('activeUsersCount');
             const paidElem = document.getElementById('paidUsersCount');
@@ -4384,6 +4397,10 @@
             if (activeElem) activeElem.textContent = activeCount;
             if (paidElem) paidElem.textContent = paidCount;
             if (creditsElem) creditsElem.textContent = totalCredits.toLocaleString();
+
+            // 대시보드 홈 통계도 업데이트
+            const overviewTotalElem = document.getElementById('overviewTotalUsers');
+            if (overviewTotalElem) overviewTotalElem.textContent = totalCount;
         }
 
         /**
@@ -4462,7 +4479,7 @@
                 headerElem.textContent = `👤 회원 상세 - ${user.user_id || user.email}`;
             }
 
-            // 개발자 계정 ID
+            // 빌더 계정 ID
             const userIdElem = document.getElementById('userDetailUserId');
             if (userIdElem) {
                 userIdElem.innerHTML = user.user_id
@@ -4479,7 +4496,7 @@
             // 닉네임
             const nicknameElem = document.getElementById('userDetailNickname');
             if (nicknameElem) {
-                nicknameElem.textContent = user.nickname || '-';
+                nicknameElem.textContent = user.nickname || user.name || '-';
             }
 
             // 실명
@@ -4496,7 +4513,7 @@
                     : '-';
             }
 
-            // 개발자 계정 개설비 납부
+            // 빌더 계정 개설비 납부
             const installFeeElem = document.getElementById('userDetailInstallationFee');
             if (installFeeElem) {
                 installFeeElem.innerHTML = user.installation_fee_paid
@@ -4598,13 +4615,13 @@
         }
 
         // ========================================
-        // 개발자 계정 개설비 관리 기능 (Agenda #5)
+        // 빌더 계정 개설비 관리 기능 (Agenda #5)
         // ========================================
 
         let installationFees = [];
 
         async function loadInstallationRequests() {
-            console.log('📋 개발자 계정 개설비 목록 로드 시작');
+            console.log('📋 빌더 계정 개설비 목록 로드 시작');
 
             try {
                 if (!supabaseClient) {
@@ -4722,7 +4739,7 @@
         }
 
         /**
-         * 개발자 계정 ID 생성 (8자리)
+         * 빌더 계정 ID 생성 (8자리)
          * 형식: YYMMNNXX
          */
         async function generateDeveloperAccountId(amount) {
@@ -4747,16 +4764,16 @@
         }
 
         async function confirmInstallation(feeId, userId, amount) {
-            if (!confirm('입금을 확인하시겠습니까?\n\n확인 시:\n- 개발자 계정 ID 자동 부여\n- 서비스 활성화\n- 웰컴 크레딧 ₩50,000 지급')) {
+            if (!confirm('입금을 확인하시겠습니까?\n\n확인 시:\n- 빌더 계정 ID 자동 부여\n- 서비스 활성화\n- 웰컴 크레딧 ₩50,000 지급')) {
                 return;
             }
 
             try {
                 showLoading();
 
-                // 1. 개발자 계정 ID 생성
+                // 1. 빌더 계정 ID 생성
                 const developerAccountId = await generateDeveloperAccountId(amount);
-                console.log('📌 개발자 계정 ID 생성:', developerAccountId);
+                console.log('📌 빌더 계정 ID 생성:', developerAccountId);
 
                 // 2. installation_fees 상태 업데이트
                 const { error: feeError } = await supabaseClient
@@ -4769,7 +4786,7 @@
 
                 if (feeError) throw feeError;
 
-                // 3. users 테이블 업데이트 (개발자 계정 ID, 서비스 활성화)
+                // 3. users 테이블 업데이트 (빌더 계정 ID, 서비스 활성화)
                 const { error: userError } = await supabaseClient
                     .from('users')
                     .update({
@@ -4790,7 +4807,7 @@
                         transaction_type: 'grant',
                         amount: 50000,
                         balance_after: 50000,
-                        description: '개발자 계정 개설비 입금 확인 - 웰컴 크레딧'
+                        description: '빌더 계정 개설비 입금 확인 - 웰컴 크레딧'
                     });
 
                 if (creditError) console.error('크레딧 지급 오류:', creditError);
@@ -4801,14 +4818,14 @@
                     .insert({
                         user_id: userId,
                         notification_type: 'system',
-                        title: '🎉 개발자 계정 개설 완료',
-                        message: `개발자 계정이 활성화되었습니다. 계정 ID: ${developerAccountId}\n웰컴 크레딧 ₩50,000이 지급되었습니다.`,
+                        title: '🎉 빌더 계정 개설 완료',
+                        message: `빌더 계정이 활성화되었습니다. 계정 ID: ${developerAccountId}\n웰컴 크레딧 ₩50,000이 지급되었습니다.`,
                         metadata: { developer_account_id: developerAccountId, welcome_credit: 50000 }
                     });
 
                 if (notifError) console.log('알림 생성 실패:', notifError.message);
 
-                showToast(`입금 확인 완료! 개발자 계정 ID: ${developerAccountId}`, 'success');
+                showToast(`입금 확인 완료! 빌더 계정 ID: ${developerAccountId}`, 'success');
                 loadInstallationRequests();
                 loadUsers(); // 서비스 이용 현황 갱신
 
@@ -4817,7 +4834,7 @@
                     const userEmail = await getUserEmail(userId);
                     await sendAdminNotify('payment', {
                         email: userEmail,
-                        type: '개발자 계정 개설비',
+                        type: '빌더 계정 개설비',
                         amount: amount
                     });
                 } catch (notifyErr) {
@@ -5356,7 +5373,7 @@
             const typeLabels = {
                 'platform_fee': '플랫폼 이용료',
                 'credit_purchase': '크레딧 충전',
-                'installation_fee': '개발자 계정 개설비'
+                'installation_fee': '빌더 계정 개설비'
             };
 
             tbody.innerHTML = billingHistory.map(bill => {
@@ -5391,7 +5408,7 @@
             const typeLabels = {
                 'platform_fee': '플랫폼 이용료',
                 'credit_purchase': '크레딧 충전',
-                'installation_fee': '개발자 계정 개설비'
+                'installation_fee': '빌더 계정 개설비'
             };
 
             const statusLabels = {
@@ -6142,6 +6159,17 @@
                 document.getElementById('inquiriesPendingCount').textContent = pending;
                 document.getElementById('inquiriesInProgressCount').textContent = inProgress;
                 document.getElementById('inquiriesAnsweredCount').textContent = answered;
+
+                // 사이드바 배지 업데이트
+                const inquiryBadge = document.getElementById('inquiryBadge');
+                if (inquiryBadge) {
+                    if (pending > 0) {
+                        inquiryBadge.textContent = pending;
+                        inquiryBadge.style.display = 'inline-flex';
+                    } else {
+                        inquiryBadge.style.display = 'none';
+                    }
+                }
             } catch (error) {
                 console.error('문의 통계 로드 실패:', error);
             }

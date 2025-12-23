@@ -39,5 +39,5 @@ CREATE POLICY "deposit_notifications_update_dev" ON deposit_notifications
 
 -- 코멘트
 COMMENT ON TABLE deposit_notifications IS '무통장 입금 완료 알림';
-COMMENT ON COLUMN deposit_notifications.deposit_type IS 'install_fee: 개발자 계정 개설비, credit: 크레딧 충전';
+COMMENT ON COLUMN deposit_notifications.deposit_type IS 'install_fee: 빌더 계정 개설비, credit: 크레딧 충전';
 COMMENT ON COLUMN deposit_notifications.status IS 'pending: 대기, confirmed: 확인완료, rejected: 거절';
