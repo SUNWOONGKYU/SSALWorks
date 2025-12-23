@@ -106,9 +106,9 @@ ON CONFLICT (project_id, phase_code) DO UPDATE SET
     status = EXCLUDED.status,
     updated_at = NOW();
 
--- S4: 개발 3차 (진행중)
+-- S4: 개발 3차 (완료)
 INSERT INTO project_phase_progress (project_id, phase_code, phase_name, progress, completed_items, total_items, status)
-VALUES ('SSALWORKS', 'S4', '개발 3차', 86, 6, 7, 'In Progress')
+VALUES ('SSALWORKS', 'S4', '개발 3차', 100, 18, 18, 'Completed')
 ON CONFLICT (project_id, phase_code) DO UPDATE SET
     progress = EXCLUDED.progress,
     completed_items = EXCLUDED.completed_items,
@@ -116,9 +116,9 @@ ON CONFLICT (project_id, phase_code) DO UPDATE SET
     status = EXCLUDED.status,
     updated_at = NOW();
 
--- S5: 운영 (대기)
+-- S5: 개발 마무리 (완료)
 INSERT INTO project_phase_progress (project_id, phase_code, phase_name, progress, completed_items, total_items, status)
-VALUES ('SSALWORKS', 'S5', '운영', 0, 0, 6, 'Not Started')
+VALUES ('SSALWORKS', 'S5', '개발 마무리', 100, 8, 8, 'Completed')
 ON CONFLICT (project_id, phase_code) DO UPDATE SET
     progress = EXCLUDED.progress,
     completed_items = EXCLUDED.completed_items,
