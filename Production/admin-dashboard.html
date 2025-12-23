@@ -1305,8 +1305,12 @@
                     📁 프로젝트 관리
                 </div>
                 <div class="menu-item" onclick="showSection('inquiries', event)">
-                    💬 문의 관리
+                    💬 고객센터 문의
                     <span class="menu-badge" id="inquiryBadge" style="display: none;">0</span>
+                </div>
+                <div class="menu-item" onclick="showSection('sunny-inquiries', event)">
+                    ☀️ 써니에게 묻기
+                    <span class="menu-badge" id="sunnyInquiryBadge" style="display: none;">0</span>
                 </div>
             </div>
 
@@ -1362,11 +1366,21 @@
                     <div class="stat-card stat-card-enhanced danger">
                         <div class="stat-header">
                             <span class="stat-icon">📞</span>
-                            <span class="stat-label">미처리 문의</span>
+                            <span class="stat-label">고객센터 문의</span>
                         </div>
                         <div class="stat-value" id="overviewPendingInquiries">-</div>
                         <div class="stat-urgent">
                             <span class="urgent-badge" id="overviewUrgentCount">-</span>
+                        </div>
+                    </div>
+                    <div class="stat-card stat-card-enhanced warning">
+                        <div class="stat-header">
+                            <span class="stat-icon">☀️</span>
+                            <span class="stat-label">써니에게 묻기</span>
+                        </div>
+                        <div class="stat-value" id="overviewSunnyPending">-</div>
+                        <div class="stat-urgent">
+                            <span class="urgent-badge" id="overviewSunnyCount">-</span>
                         </div>
                     </div>
                 </div>
@@ -1796,6 +1810,81 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Sunny Inquiries Section (써니에게 묻기) -->
+            <div id="sunny-inquiries-section" class="content-view" style="display:none;">
+                <div class="content-header">
+                    <h1 class="content-title">☀️ 써니에게 묻기</h1>
+                    <p class="content-subtitle">사용자들의 질문을 확인하고 답변하세요.</p>
+                </div>
+
+                <!-- 통계 -->
+                <div class="stats-grid">
+                    <div class="stat-card primary">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-value" id="sunnyTotalCount">0</div>
+                        <div class="stat-label">전체 문의</div>
+                    </div>
+                    <div class="stat-card danger">
+                        <div class="stat-icon">⏳</div>
+                        <div class="stat-value" id="sunnyPendingCount">0</div>
+                        <div class="stat-label">답변 대기</div>
+                    </div>
+                    <div class="stat-card warning">
+                        <div class="stat-icon">🔄</div>
+                        <div class="stat-value" id="sunnyInProgressCount">0</div>
+                        <div class="stat-label">처리 중</div>
+                    </div>
+                    <div class="stat-card success">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="sunnyAnsweredCount">0</div>
+                        <div class="stat-label">답변 완료</div>
+                    </div>
+                </div>
+
+                <!-- 문의 목록 -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">📋 문의 목록</h2>
+                        <div style="display: flex; gap: 8px;">
+                            <button id="btnSunnyAll" class="section-action" style="background: var(--primary);" onclick="filterSunnyInquiries('all')">전체</button>
+                            <button id="btnSunnyPending" class="section-action" style="background: var(--neutral);" onclick="filterSunnyInquiries('pending')">대기</button>
+                            <button id="btnSunnyAnswered" class="section-action" style="background: var(--neutral);" onclick="filterSunnyInquiries('answered')">완료</button>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>상태</th>
+                                <th>등록일</th>
+                                <th>작업</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sunnyInquiriesTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 40px; color: #6c757d;">
+                                    데이터를 불러오는 중...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 상세 모달 -->
+                <div id="sunnyDetailModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+                    <div style="background: white; border-radius: 12px; width: 600px; max-width: 90vw; max-height: 80vh; overflow-y: auto;">
+                        <div style="padding: 20px; border-bottom: 1px solid #dee2e6; display: flex; justify-content: space-between; align-items: center;">
+                            <h3 style="margin: 0;">☀️ 문의 상세</h3>
+                            <button onclick="closeSunnyDetail()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+                        </div>
+                        <div style="padding: 24px;" id="sunnyDetailContent">
+                            <!-- 상세 내용 동적 로드 -->
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -2637,6 +2726,11 @@
             // 문의 관리 섹션일 때 데이터 로드
             if (section === 'inquiries') {
                 loadInquiriesData();
+            }
+
+            // 써니에게 묻기 섹션일 때 데이터 로드
+            if (section === 'sunny-inquiries') {
+                loadSunnyInquiriesData();
             }
 
             // 플랫폼 이용료 관리 섹션일 때 데이터 로드
@@ -3500,7 +3594,40 @@
                         overviewUrgent.textContent = pending > 0 ? `${pending}건 대기중` : '없음';
                     }
 
-                    console.log('✅ 미처리 문의:', pending);
+                    console.log('✅ 고객센터 미처리 문의:', pending);
+                }
+
+                // 3. 써니에게 묻기 배지 로드
+                const { data: sunnyData } = await supabaseClient
+                    .from('sunny_inquiries')
+                    .select('status');
+
+                if (sunnyData) {
+                    const sunnyPending = sunnyData.filter(i => i.status === 'pending').length;
+
+                    // 사이드바 배지
+                    const sunnyBadge = document.getElementById('sunnyInquiryBadge');
+                    if (sunnyBadge) {
+                        if (sunnyPending > 0) {
+                            sunnyBadge.textContent = sunnyPending;
+                            sunnyBadge.style.display = 'inline-flex';
+                        } else {
+                            sunnyBadge.style.display = 'none';
+                        }
+                    }
+
+                    // 홈 화면 써니 문의 카드
+                    const overviewSunnyPending = document.getElementById('overviewSunnyPending');
+                    if (overviewSunnyPending) {
+                        overviewSunnyPending.textContent = sunnyPending;
+                    }
+
+                    const overviewSunnyCount = document.getElementById('overviewSunnyCount');
+                    if (overviewSunnyCount) {
+                        overviewSunnyCount.textContent = sunnyPending > 0 ? `${sunnyPending}건 대기중` : '없음';
+                    }
+
+                    console.log('✅ 써니에게 묻기 미처리:', sunnyPending);
                 }
             } catch (e) {
                 console.error('대시보드 홈 통계 로드 실패:', e);
@@ -6578,6 +6705,320 @@
 
             } catch (error) {
                 console.error('❌ 문의 삭제 오류:', error);
+                showToast('문의 삭제에 실패했습니다: ' + error.message, 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // ========== 써니에게 묻기 관리 함수 ==========
+        let allSunnyInquiries = [];
+        let currentSunnyFilter = 'all';
+
+        async function loadSunnyInquiriesData() {
+            try {
+                showLoading();
+                await Promise.all([
+                    loadSunnyInquiriesStats(),
+                    loadSunnyInquiriesList()
+                ]);
+            } catch (error) {
+                console.error('써니 문의 데이터 로드 실패:', error);
+                showToast('써니 문의 데이터를 불러오는데 실패했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function loadSunnyInquiriesStats() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('sunny_inquiries')
+                    .select('status');
+
+                if (error) throw error;
+
+                const total = data.length;
+                const pending = data.filter(i => i.status === 'pending').length;
+                const inProgress = data.filter(i => i.status === 'in_progress').length;
+                const answered = data.filter(i => i.status === 'answered' || i.status === 'closed').length;
+
+                document.getElementById('sunnyTotalCount').textContent = total;
+                document.getElementById('sunnyPendingCount').textContent = pending;
+                document.getElementById('sunnyInProgressCount').textContent = inProgress;
+                document.getElementById('sunnyAnsweredCount').textContent = answered;
+
+                // 사이드바 배지 업데이트
+                const sunnyBadge = document.getElementById('sunnyInquiryBadge');
+                if (sunnyBadge) {
+                    if (pending > 0) {
+                        sunnyBadge.textContent = pending;
+                        sunnyBadge.style.display = 'inline-flex';
+                    } else {
+                        sunnyBadge.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('써니 문의 통계 로드 실패:', error);
+            }
+        }
+
+        async function loadSunnyInquiriesList() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('sunny_inquiries')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allSunnyInquiries = data || [];
+                renderSunnyInquiriesTable(allSunnyInquiries);
+            } catch (error) {
+                console.error('써니 문의 목록 로드 실패:', error);
+                document.getElementById('sunnyInquiriesTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: #dc3545;">
+                            문의 목록을 불러오는데 실패했습니다.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function filterSunnyInquiries(filter) {
+            currentSunnyFilter = filter;
+
+            // 버튼 스타일 업데이트
+            document.getElementById('btnSunnyAll').style.background = filter === 'all' ? 'var(--primary)' : 'var(--neutral)';
+            document.getElementById('btnSunnyPending').style.background = filter === 'pending' ? 'var(--danger)' : 'var(--neutral)';
+            document.getElementById('btnSunnyAnswered').style.background = filter === 'answered' ? 'var(--success)' : 'var(--neutral)';
+
+            let filtered = allSunnyInquiries;
+
+            if (filter === 'pending') {
+                filtered = allSunnyInquiries.filter(i => i.status === 'pending' || i.status === 'in_progress');
+            } else if (filter === 'answered') {
+                filtered = allSunnyInquiries.filter(i => i.status === 'answered' || i.status === 'closed');
+            }
+
+            renderSunnyInquiriesTable(filtered);
+        }
+
+        function renderSunnyInquiriesTable(inquiries) {
+            const tbody = document.getElementById('sunnyInquiriesTableBody');
+
+            if (inquiries.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 40px; color: #6c757d;">
+                            문의가 없습니다.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const statusLabels = {
+                'pending': '<span style="color: #dc3545; font-weight: 500;">⏳ 대기</span>',
+                'in_progress': '<span style="color: #ffc107; font-weight: 500;">🔄 처리중</span>',
+                'answered': '<span style="color: #28a745; font-weight: 500;">✅ 완료</span>',
+                'closed': '<span style="color: #6c757d; font-weight: 500;">🔒 종료</span>'
+            };
+
+            tbody.innerHTML = inquiries.map(inquiry => `
+                <tr>
+                    <td>
+                        <div style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${DOMPurify.sanitize(inquiry.title || inquiry.content?.substring(0, 50) || '(제목 없음)')}
+                        </div>
+                    </td>
+                    <td>${DOMPurify.sanitize(inquiry.user_name || inquiry.user_email || '익명')}</td>
+                    <td>${statusLabels[inquiry.status] || inquiry.status}</td>
+                    <td>${formatDate(inquiry.created_at)}</td>
+                    <td>
+                        <a href="#" class="action-link" onclick="event.preventDefault(); showSunnyDetail('${inquiry.id}')">
+                            ${inquiry.status === 'pending' || inquiry.status === 'in_progress' ? '답변하기' : '보기'}
+                        </a>
+                        <a href="#" class="action-link" style="color: var(--danger); margin-left: 8px;" onclick="event.preventDefault(); deleteSunnyInquiry('${inquiry.id}')">삭제</a>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function showSunnyDetail(inquiryId) {
+            const inquiry = allSunnyInquiries.find(i => i.id === inquiryId);
+            if (!inquiry) return;
+
+            const statusLabels = {
+                'pending': '대기 중',
+                'in_progress': '처리 중',
+                'answered': '답변 완료',
+                'closed': '종료'
+            };
+
+            const priorityLabels = {
+                'low': '낮음',
+                'normal': '보통',
+                'high': '높음',
+                'urgent': '긴급'
+            };
+
+            const content = document.getElementById('sunnyDetailContent');
+            content.innerHTML = `
+                <div style="margin-bottom: 24px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+                        <div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">상태</div>
+                            <div style="font-weight: 500;">${DOMPurify.sanitize(statusLabels[inquiry.status] || inquiry.status)}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">우선순위</div>
+                            <div style="font-weight: 500;">${DOMPurify.sanitize(priorityLabels[inquiry.priority] || inquiry.priority || '보통')}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">작성자</div>
+                            <div style="font-weight: 500;">${DOMPurify.sanitize(inquiry.user_name || '익명')}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">이메일</div>
+                            <div style="font-weight: 500;">${DOMPurify.sanitize(inquiry.user_email || '-')}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">접수일</div>
+                            <div style="font-weight: 500;">${formatDateTime(inquiry.created_at)}</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">제목</div>
+                        <div style="font-weight: 600; font-size: 16px;">${DOMPurify.sanitize(inquiry.title || '(제목 없음)')}</div>
+                    </div>
+
+                    <div style="margin-bottom: 16px;">
+                        <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">질문 내용</div>
+                        <div style="background: #fff8e1; padding: 16px; border-radius: 8px; white-space: pre-wrap; border-left: 4px solid #ffc107;">${DOMPurify.sanitize(inquiry.content)}</div>
+                    </div>
+
+                    ${inquiry.attachments && inquiry.attachments.length > 0 ? `
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">첨부파일</div>
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                                ${inquiry.attachments.map(att => `
+                                    <a href="${DOMPurify.sanitize(att.url)}" target="_blank" style="padding: 8px 12px; background: #f8f9fa; border-radius: 6px; text-decoration: none; color: #333; font-size: 13px;">
+                                        📎 ${DOMPurify.sanitize(att.name)}
+                                    </a>
+                                `).join('')}
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    ${inquiry.admin_answer ? `
+                        <div style="margin-bottom: 16px;">
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">답변 (${formatDateTime(inquiry.answered_at)})</div>
+                            <div style="background: #e8f5e9; padding: 16px; border-radius: 8px; white-space: pre-wrap; border-left: 4px solid #28a745;">${DOMPurify.sanitize(inquiry.admin_answer)}</div>
+                        </div>
+                    ` : ''}
+
+                    ${inquiry.status === 'pending' || inquiry.status === 'in_progress' ? `
+                        <div style="margin-top: 24px;">
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 8px;">답변 작성</div>
+                            <textarea id="sunnyAnswerText" style="width: 100%; min-height: 150px; padding: 12px; border: 1px solid #dee2e6; border-radius: 8px; font-family: inherit; resize: vertical;" placeholder="답변 내용을 입력하세요..."></textarea>
+                            <div style="display: flex; gap: 10px; margin-top: 12px;">
+                                <button onclick="submitSunnyAnswer('${inquiry.id}')" style="flex: 1; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">☀️ 답변 저장</button>
+                                <button onclick="updateSunnyStatus('${inquiry.id}', 'in_progress')" style="padding: 12px 20px; background: var(--warning); color: white; border: none; border-radius: 8px; cursor: pointer;">처리중으로 변경</button>
+                            </div>
+                        </div>
+                    ` : ''}
+
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6; display: flex; justify-content: space-between;">
+                        <button onclick="deleteSunnyInquiry('${inquiry.id}')" style="padding: 12px 20px; background: var(--danger); color: white; border: none; border-radius: 8px; cursor: pointer;">문의 삭제</button>
+                        <button onclick="closeSunnyDetail()" style="padding: 12px 20px; background: var(--neutral); color: #333; border: none; border-radius: 8px; cursor: pointer;">닫기</button>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('sunnyDetailModal').style.display = 'flex';
+        }
+
+        function closeSunnyDetail() {
+            document.getElementById('sunnyDetailModal').style.display = 'none';
+        }
+
+        async function submitSunnyAnswer(inquiryId) {
+            const answerText = document.getElementById('sunnyAnswerText').value.trim();
+            if (!answerText) {
+                showToast('답변 내용을 입력해주세요.', 'warning');
+                return;
+            }
+
+            try {
+                showLoading();
+                const { error } = await supabaseClient
+                    .from('sunny_inquiries')
+                    .update({
+                        admin_answer: answerText,
+                        status: 'answered',
+                        answered_at: new Date().toISOString(),
+                        answered_by: 'ADMIN001'
+                    })
+                    .eq('id', inquiryId);
+
+                if (error) throw error;
+
+                showToast('답변이 저장되었습니다.', 'success');
+                closeSunnyDetail();
+                await loadSunnyInquiriesData();
+            } catch (error) {
+                console.error('답변 저장 실패:', error);
+                showToast('답변 저장에 실패했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function updateSunnyStatus(inquiryId, status) {
+            try {
+                showLoading();
+                const { error } = await supabaseClient
+                    .from('sunny_inquiries')
+                    .update({ status: status })
+                    .eq('id', inquiryId);
+
+                if (error) throw error;
+
+                showToast('상태가 변경되었습니다.', 'success');
+                closeSunnyDetail();
+                await loadSunnyInquiriesData();
+            } catch (error) {
+                console.error('상태 변경 실패:', error);
+                showToast('상태 변경에 실패했습니다.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteSunnyInquiry(inquiryId) {
+            const confirmed = confirm('정말로 이 문의를 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없습니다.');
+
+            if (!confirmed) return;
+
+            try {
+                showLoading();
+
+                const { error } = await supabaseClient
+                    .from('sunny_inquiries')
+                    .delete()
+                    .eq('id', inquiryId);
+
+                if (error) throw error;
+
+                showToast('문의가 삭제되었습니다.', 'success');
+                closeSunnyDetail();
+                await loadSunnyInquiriesData();
+
+            } catch (error) {
+                console.error('❌ 써니 문의 삭제 오류:', error);
                 showToast('문의 삭제에 실패했습니다: ' + error.message, 'error');
             } finally {
                 hideLoading();
