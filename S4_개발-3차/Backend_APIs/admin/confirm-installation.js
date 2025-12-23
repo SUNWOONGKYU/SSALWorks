@@ -6,8 +6,9 @@
  * 기능:
  * - 관리자 권한 필수 (isAdmin 체크)
  * - 입금 상태 업데이트 (confirm/reject)
- * - 프로젝트 installation_paid 플래그 업데이트
- * - 사용자 이메일 알림
+ * - 빌더 ID 생성 및 사용자 정보 업데이트
+ * - 웰컴 크레딧 ₩50,000 지급
+ * - 사용자 알림 (notifications 테이블)
  */
 
 import { createClient } from '@supabase/supabase-js';
@@ -83,13 +84,13 @@ export default async function handler(req, res) {
     }
 
     // 관리자 권한 확인
-    const { data: userData, error: userError } = await supabase
+    const { data: adminData, error: adminError } = await supabase
       .from('users')
       .select('is_admin')
       .eq('id', user.id)
       .single();
 
-    if (userError || !userData || !userData.is_admin) {
+    if (adminError || !adminData || !adminData.is_admin) {
       return res.status(403).json({ error: '관리자 권한이 필요합니다.' });
     }
 
@@ -112,27 +113,8 @@ export default async function handler(req, res) {
 
     // 입금 신청 정보 조회
     const { data: payment, error: paymentError } = await supabase
-      .from('installation_payments')
-      .select(`
-        id,
-        project_id,
-        user_id,
-        amount,
-        depositor_name,
-        bank_name,
-        status,
-        requested_at,
-        projects (
-          id,
-          project_name,
-          owner_id
-        ),
-        users (
-          id,
-          email,
-          display_name
-        )
-      `)
+      .from('installation_payment_requests')
+      .select('*')
       .eq('id', paymentId)
       .single();
 
@@ -148,14 +130,30 @@ export default async function handler(req, res) {
       });
     }
 
+    // user_id로 사용자 정보 조회
+    const { data: userData, error: userFetchError } = await supabase
+      .from('users')
+      .select('id, email, name, nickname, real_name')
+      .eq('user_id', payment.user_id)
+      .single();
+
+    if (userFetchError || !userData) {
+      console.error('사용자 조회 오류:', userFetchError);
+    }
+
+    // payment 객체에 사용자 정보 병합
+    payment.users = userData || { email: null, name: null };
+    payment.userUUID = userData?.id;
+
     // 상태 업데이트
-    const newStatus = action === 'confirm' ? 'confirmed' : 'rejected';
+    const newStatus = action === 'confirm' ? 'approved' : 'rejected';
     const { error: updateError } = await supabase
-      .from('installation_payments')
+      .from('installation_payment_requests')
       .update({
         status: newStatus,
-        confirmed_at: action === 'confirm' ? new Date().toISOString() : null,
-        admin_memo: memo || null
+        processed_at: new Date().toISOString(),
+        processed_by: user.id,
+        reject_reason: action === 'reject' ? (memo || null) : null
       })
       .eq('id', paymentId);
 
@@ -167,24 +165,10 @@ export default async function handler(req, res) {
     // confirm인 경우 추가 처리
     let generatedBuilderId = null;
     if (action === 'confirm') {
-      // 1. 프로젝트 installation_paid 플래그 업데이트
-      const { error: projectUpdateError } = await supabase
-        .from('projects')
-        .update({
-          installation_paid: true,
-          installation_paid_at: new Date().toISOString()
-        })
-        .eq('id', payment.project_id);
-
-      if (projectUpdateError) {
-        console.error('프로젝트 업데이트 오류:', projectUpdateError);
-        // 롤백 처리
-        await supabase
-          .from('installation_payments')
-          .update({ status: 'pending', confirmed_at: null })
-          .eq('id', paymentId);
-
-        return res.status(500).json({ error: '프로젝트 업데이트 중 오류가 발생했습니다.' });
+      // 사용자 UUID 확인
+      if (!payment.userUUID) {
+        console.error('사용자 UUID를 찾을 수 없습니다.');
+        return res.status(500).json({ error: '사용자 정보를 찾을 수 없습니다.' });
       }
 
       // 2. 빌더 ID 생성 (YYMMNNNNNNXX 형식)
@@ -215,7 +199,7 @@ export default async function handler(req, res) {
           credit_balance: supabase.raw(`COALESCE(credit_balance, 0) + ${welcomeCredits}`),
           subscription_status: 'active'
         })
-        .eq('id', payment.user_id);
+        .eq('id', payment.userUUID);
 
       if (userUpdateError) {
         console.error('사용자 업데이트 오류:', userUpdateError);
@@ -223,7 +207,7 @@ export default async function handler(req, res) {
         const { data: currentUser } = await supabase
           .from('users')
           .select('credit_balance')
-          .eq('id', payment.user_id)
+          .eq('id', payment.userUUID)
           .single();
 
         const newBalance = (currentUser?.credit_balance || 0) + welcomeCredits;
@@ -236,14 +220,14 @@ export default async function handler(req, res) {
             credit_balance: newBalance,
             subscription_status: 'active'
           })
-          .eq('id', payment.user_id);
+          .eq('id', payment.userUUID);
       }
 
       // 4. 크레딧 거래 내역 기록
       await supabase
         .from('credit_transactions')
         .insert({
-          user_id: payment.user_id,
+          user_id: payment.userUUID,
           amount: welcomeCredits,
           type: 'welcome_bonus',
           description: '빌더 계정 개설 웰컴 크레딧',
@@ -251,76 +235,25 @@ export default async function handler(req, res) {
         });
     }
 
-    // 사용자 이메일 알림
+    // 사용자 알림 (notifications 테이블에 저장)
     try {
-      const userEmail = payment.users.email;
-      const projectName = payment.projects.project_name;
+      const notificationMessage = action === 'confirm'
+        ? `빌더 계정이 개설되었습니다. (빌더 ID: ${generatedBuilderId}, 웰컴 크레딧 ₩50,000 지급)`
+        : `빌더 계정 개설비 입금 신청이 반려되었습니다.${memo ? ` 사유: ${memo}` : ''}`;
 
-      let emailSubject, emailHtml;
-
-      if (action === 'confirm') {
-        emailSubject = `[SSAL Works] 🎉 빌더 계정이 개설되었습니다! - ${projectName}`;
-        emailHtml = `
-          <div style="font-family: 'Pretendard', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h2 style="color: #2563eb;">🎉 빌더 계정 개설이 완료되었습니다!</h2>
-            <p>안녕하세요, <strong>${payment.users.display_name || '고객'}</strong>님</p>
-
-            <div style="background: #f8fafc; border-radius: 8px; padding: 20px; margin: 20px 0;">
-              <h3 style="margin-top: 0; color: #1e40af;">📋 계정 정보</h3>
-              <table style="width: 100%; border-collapse: collapse;">
-                <tr><td style="padding: 8px 0; color: #64748b;">빌더 계정 ID</td><td style="padding: 8px 0; font-weight: bold; color: #2563eb;">${generatedBuilderId}</td></tr>
-                <tr><td style="padding: 8px 0; color: #64748b;">프로젝트</td><td style="padding: 8px 0;">${projectName}</td></tr>
-                <tr><td style="padding: 8px 0; color: #64748b;">입금액</td><td style="padding: 8px 0;">₩${payment.amount.toLocaleString()}</td></tr>
-                <tr><td style="padding: 8px 0; color: #64748b;">입금자명</td><td style="padding: 8px 0;">${payment.depositor_name}</td></tr>
-                <tr><td style="padding: 8px 0; color: #64748b;">확인일시</td><td style="padding: 8px 0;">${new Date().toLocaleString('ko-KR')}</td></tr>
-              </table>
-            </div>
-
-            <div style="background: #ecfdf5; border-radius: 8px; padding: 20px; margin: 20px 0;">
-              <h3 style="margin-top: 0; color: #059669;">🎁 웰컴 혜택</h3>
-              <p style="margin: 0;"><strong>₩50,000 크레딧</strong>이 지급되었습니다!</p>
-              <p style="margin: 8px 0 0 0; color: #64748b; font-size: 14px;">AI Q&A (ChatGPT, Gemini, Perplexity) 이용에 사용하세요.</p>
-            </div>
-
-            ${memo ? `<p style="color: #64748b;"><strong>관리자 메모:</strong> ${memo}</p>` : ''}
-
-            <p>이제 SSAL Works의 모든 기능을 이용하실 수 있습니다.</p>
-            <p>감사합니다. 🙏</p>
-
-            <hr style="border: none; border-top: 1px solid #e2e8f0; margin: 20px 0;">
-            <p style="color: #94a3b8; font-size: 12px;">SSAL Works Team</p>
-          </div>
-        `;
-      } else {
-        emailSubject = `[SSAL Grid] 빌더 계정 개설비 입금 신청이 반려되었습니다 - ${projectName}`;
-        emailHtml = `
-          <h2>빌더 계정 개설비 입금 신청이 반려되었습니다</h2>
-          <p>안녕하세요, ${payment.users.display_name || '고객'}님</p>
-          <p><strong>프로젝트:</strong> ${projectName}</p>
-          <p><strong>입금자명:</strong> ${payment.depositor_name}</p>
-          <p><strong>반려일시:</strong> ${new Date().toLocaleString('ko-KR')}</p>
-          ${memo ? `<p><strong>반려 사유:</strong> ${memo}</p>` : ''}
-          <br>
-          <p>자세한 사항은 고객센터로 문의해주세요.</p>
-        `;
-      }
-
-      const emailResponse = await fetch(`${process.env.VERCEL_URL || 'http://localhost:3000'}/api/email/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: userEmail,
-          subject: emailSubject,
-          html: emailHtml
-        })
-      });
-
-      if (!emailResponse.ok) {
-        console.error('사용자 이메일 발송 실패:', await emailResponse.text());
-      }
-    } catch (emailError) {
-      console.error('이메일 발송 오류:', emailError);
-      // 이메일 발송 실패는 치명적이지 않으므로 계속 진행
+      await supabase
+        .from('notifications')
+        .insert({
+          user_id: payment.userUUID,
+          type: action === 'confirm' ? 'builder_account_opened' : 'payment_rejected',
+          title: action === 'confirm' ? '빌더 계정 개설 완료' : '입금 신청 반려',
+          message: notificationMessage,
+          is_read: false,
+          created_at: new Date().toISOString()
+        });
+    } catch (notifyError) {
+      console.error('알림 저장 오류:', notifyError);
+      // 알림 저장 실패는 치명적이지 않으므로 계속 진행
     }
 
     return res.status(200).json({
@@ -331,8 +264,9 @@ export default async function handler(req, res) {
       payment: {
         id: payment.id,
         status: newStatus,
-        projectId: payment.project_id,
-        projectName: payment.projects.project_name
+        userId: payment.user_id,
+        depositorName: payment.depositor_name,
+        amount: payment.amount
       },
       ...(action === 'confirm' && {
         builder: {

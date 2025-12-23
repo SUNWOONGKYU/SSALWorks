@@ -3338,19 +3338,19 @@
             const currentMonth = today.getMonth() + 1;
             const revenueLabels = [`${currentMonth}월 1주`, `${currentMonth}월 2주`, `${currentMonth}월 3주`, `${currentMonth}월 4주`];
 
-            // 매출 데이터 조회 (installation_payments 테이블)
+            // 매출 데이터 조회 (installation_payment_requests 테이블)
             let revenueData = [0, 0, 0, 0];
             try {
                 const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
                 const { data: payments, error } = await supabaseClient
-                    .from('installation_payments')
-                    .select('amount, created_at')
-                    .gte('created_at', monthStart.toISOString())
-                    .eq('status', 'completed');
+                    .from('installation_payment_requests')
+                    .select('amount, processed_at')
+                    .gte('processed_at', monthStart.toISOString())
+                    .eq('status', 'approved');
 
                 if (!error && payments) {
                     payments.forEach(payment => {
-                        const payDate = new Date(payment.created_at);
+                        const payDate = new Date(payment.processed_at);
                         const weekIndex = Math.floor((payDate.getDate() - 1) / 7);
                         if (weekIndex >= 0 && weekIndex < 4) {
                             revenueData[weekIndex] += (payment.amount || 0);
@@ -4660,19 +4660,30 @@
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
-                // installation_fees 테이블에서 users JOIN하여 조회
+                // installation_payment_requests 테이블에서 조회
                 const { data, error } = await supabaseClient
-                    .from('installation_fees')
-                    .select(`
-                        *,
-                        users (
-                            id,
-                            email,
-                            real_name,
-                            user_id
-                        )
-                    `)
-                    .order('created_at', { ascending: false });
+                    .from('installation_payment_requests')
+                    .select('*')
+                    .order('requested_at', { ascending: false });
+
+                // user_id로 users 테이블에서 추가 정보 조회
+                if (data && data.length > 0) {
+                    const userIds = [...new Set(data.map(d => d.user_id))];
+                    const { data: usersData } = await supabaseClient
+                        .from('users')
+                        .select('user_id, email, real_name')
+                        .in('user_id', userIds);
+
+                    const usersMap = {};
+                    if (usersData) {
+                        usersData.forEach(u => { usersMap[u.user_id] = u; });
+                    }
+
+                    // 사용자 정보 병합
+                    data.forEach(d => {
+                        d.users = usersMap[d.user_id] || null;
+                    });
+                }
 
                 if (error) throw error;
 
@@ -4699,7 +4710,7 @@
             const processedTableBody = document.getElementById('installationProcessedTableBody');
 
             const pendingList = installationFees.filter(f => f.status === 'pending');
-            const confirmedList = installationFees.filter(f => f.status === 'confirmed');
+            const approvedList = installationFees.filter(f => f.status === 'approved');
 
             // 입금 확인 대기 목록
             if (pendingList.length === 0) {
@@ -4713,10 +4724,10 @@
             } else {
                 pendingTableBody.innerHTML = pendingList.map(fee => `
                     <tr>
-                        <td>${fee.users?.email || '-'}</td>
-                        <td>${fee.users?.real_name || '-'}</td>
+                        <td>${fee.users?.email || fee.depositor_name || '-'}</td>
+                        <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
                         <td>₩${(fee.amount || 0).toLocaleString()}</td>
-                        <td>${formatDateTime(fee.created_at)}</td>
+                        <td>${formatDateTime(fee.requested_at)}</td>
                         <td>
                             <a href="#" class="action-link" style="color: var(--success);" onclick="event.preventDefault(); confirmInstallation('${fee.id}', '${fee.user_id}', ${fee.amount})">✅ 입금 확인</a>
                         </td>
@@ -4725,7 +4736,7 @@
             }
 
             // 입금 확인 완료 목록
-            if (confirmedList.length === 0) {
+            if (approvedList.length === 0) {
                 processedTableBody.innerHTML = `
                     <tr>
                         <td colspan="6" style="text-align: center; color: #6c757d; padding: 40px;">
@@ -4734,14 +4745,14 @@
                     </tr>
                 `;
             } else {
-                processedTableBody.innerHTML = confirmedList.map(fee => `
+                processedTableBody.innerHTML = approvedList.map(fee => `
                     <tr>
                         <td>${fee.users?.user_id || '-'}</td>
-                        <td>${fee.users?.email || '-'}</td>
-                        <td>${fee.users?.real_name || '-'}</td>
+                        <td>${fee.users?.email || fee.depositor_name || '-'}</td>
+                        <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
                         <td>₩${(fee.amount || 0).toLocaleString()}</td>
-                        <td>${formatDateTime(fee.created_at)}</td>
-                        <td>${formatDateTime(fee.confirmed_at)}</td>
+                        <td>${formatDateTime(fee.requested_at)}</td>
+                        <td>${formatDateTime(fee.processed_at)}</td>
                     </tr>
                 `).join('');
             }
@@ -4749,13 +4760,13 @@
 
         function updateInstallationStats() {
             const pendingCount = installationFees.filter(f => f.status === 'pending').length;
-            const confirmedCount = installationFees.filter(f => f.status === 'confirmed').length;
+            const approvedCount = installationFees.filter(f => f.status === 'approved').length;
             const totalAmount = installationFees
-                .filter(f => f.status === 'confirmed')
+                .filter(f => f.status === 'approved')
                 .reduce((sum, f) => sum + (f.amount || 0), 0);
 
             document.getElementById('installationPendingCount').textContent = pendingCount;
-            document.getElementById('installationApprovedCount').textContent = confirmedCount;
+            document.getElementById('installationApprovedCount').textContent = approvedCount;
             document.getElementById('installationTotalAmount').textContent = '₩' + totalAmount.toLocaleString();
 
             // 메뉴 뱃지 업데이트
@@ -4795,7 +4806,7 @@
             return `${year}${month}${serialNumber}${amountCode}`;
         }
 
-        async function confirmInstallation(feeId, userId, amount) {
+        async function confirmInstallation(paymentId, userId, amount) {
             if (!confirm('입금을 확인하시겠습니까?\n\n확인 시:\n- 빌더 계정 ID 자동 부여\n- 서비스 활성화\n- 웰컴 크레딧 ₩50,000 지급')) {
                 return;
             }
@@ -4803,75 +4814,75 @@
             try {
                 showLoading();
 
-                // 1. 빌더 계정 ID 생성
-                const developerAccountId = await generateDeveloperAccountId(amount);
-                console.log('📌 빌더 계정 ID 생성:', developerAccountId);
+                // 1. 빌더 계정 ID 생성 (YYMMNNNNNNXX 형식)
+                const builderId = await generateDeveloperAccountId(amount);
+                console.log('📌 빌더 계정 ID 생성:', builderId);
 
-                // 2. installation_fees 상태 업데이트
-                const { error: feeError } = await supabaseClient
-                    .from('installation_fees')
+                // 2. installation_payment_requests 상태 업데이트
+                const { error: paymentError } = await supabaseClient
+                    .from('installation_payment_requests')
                     .update({
-                        status: 'confirmed',
-                        confirmed_at: new Date().toISOString()
+                        status: 'approved',
+                        processed_at: new Date().toISOString()
                     })
-                    .eq('id', feeId);
+                    .eq('id', paymentId);
 
-                if (feeError) throw feeError;
+                if (paymentError) throw paymentError;
 
                 // 3. users 테이블 업데이트 (빌더 계정 ID, 서비스 활성화)
+                // 먼저 현재 크레딧 잔액 조회
+                const { data: currentUser } = await supabaseClient
+                    .from('users')
+                    .select('credit_balance')
+                    .eq('id', userId)
+                    .single();
+
+                const welcomeCredits = 50000;
+                const newBalance = (currentUser?.credit_balance || 0) + welcomeCredits;
+
                 const { error: userError } = await supabaseClient
                     .from('users')
                     .update({
-                        user_id: developerAccountId,
-                        service_status: 'active',
+                        builder_id: builderId,
+                        subscription_status: 'active',
                         installation_fee_paid: true,
-                        installation_date: new Date().toISOString()
+                        installation_date: new Date().toISOString(),
+                        credit_balance: newBalance
                     })
                     .eq('id', userId);
 
                 if (userError) throw userError;
 
-                // 4. 웰컴 크레딧 ₩50,000 지급
+                // 4. 웰컴 크레딧 거래 내역 기록
                 const { error: creditError } = await supabaseClient
                     .from('credit_transactions')
                     .insert({
                         user_id: userId,
-                        transaction_type: 'grant',
-                        amount: 50000,
-                        balance_after: 50000,
-                        description: '빌더 계정 개설비 입금 확인 - 웰컴 크레딧'
+                        amount: welcomeCredits,
+                        type: 'welcome_bonus',
+                        description: '빌더 계정 개설 웰컴 크레딧',
+                        created_at: new Date().toISOString()
                     });
 
-                if (creditError) console.error('크레딧 지급 오류:', creditError);
+                if (creditError) console.error('크레딧 거래 기록 오류:', creditError);
 
-                // 5. 사용자에게 인앱 알림 생성
+                // 5. 사용자에게 알림 생성
                 const { error: notifError } = await supabaseClient
-                    .from('user_notifications')
+                    .from('notifications')
                     .insert({
                         user_id: userId,
-                        notification_type: 'system',
-                        title: '🎉 빌더 계정 개설 완료',
-                        message: `빌더 계정이 활성화되었습니다. 계정 ID: ${developerAccountId}\n웰컴 크레딧 ₩50,000이 지급되었습니다.`,
-                        metadata: { developer_account_id: developerAccountId, welcome_credit: 50000 }
+                        type: 'builder_account_opened',
+                        title: '빌더 계정 개설 완료',
+                        message: `빌더 계정이 개설되었습니다. (빌더 ID: ${builderId}, 웰컴 크레딧 ₩50,000 지급)`,
+                        is_read: false,
+                        created_at: new Date().toISOString()
                     });
 
                 if (notifError) console.log('알림 생성 실패:', notifError.message);
 
-                showToast(`입금 확인 완료! 빌더 계정 ID: ${developerAccountId}`, 'success');
+                showToast(`입금 확인 완료! 빌더 계정 ID: ${builderId}`, 'success');
                 loadInstallationRequests();
                 loadUsers(); // 서비스 이용 현황 갱신
-
-                // 6. 관리자에게 이메일 알림 (설정에서 켜져있을 경우)
-                try {
-                    const userEmail = await getUserEmail(userId);
-                    await sendAdminNotify('payment', {
-                        email: userEmail,
-                        type: '빌더 계정 개설비',
-                        amount: amount
-                    });
-                } catch (notifyErr) {
-                    console.log('관리자 알림 발송 실패:', notifyErr.message);
-                }
 
                 hideLoading();
             } catch (error) {
