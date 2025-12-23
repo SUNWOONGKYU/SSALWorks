@@ -959,13 +959,13 @@
             container.innerHTML = transactions.map(t => `
                 <div class="history-item">
                     <div class="history-info">
-                        <div class="history-desc">${DOMPurify.sanitize(t.description)}</div>
+                        <div class="history-desc">${DOMPurify.sanitize(t.description || '-')}</div>
                         <div class="history-date">${formatDate(t.created_at)}</div>
                         ${t.related_service ? `<span class="history-service">${DOMPurify.sanitize(t.related_service)}</span>` : ''}
                     </div>
                     <div>
-                        <div class="history-amount ${t.type}">${t.amount > 0 ? '+' : ''}₩${t.amount.toLocaleString()}</div>
-                        <div class="history-balance">잔액: ₩${t.balance_after.toLocaleString()}</div>
+                        <div class="history-amount ${t.type}">${t.amount > 0 ? '+' : ''}₩${Math.abs(t.amount).toLocaleString()}</div>
+                        ${t.balance_after != null ? `<div class="history-balance">잔액: ₩${t.balance_after.toLocaleString()}</div>` : ''}
                     </div>
                 </div>
             `).join('');

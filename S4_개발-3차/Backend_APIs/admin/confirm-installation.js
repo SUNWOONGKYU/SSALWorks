@@ -226,6 +226,7 @@ export default async function handler(req, res) {
           amount: welcomeCredits,
           type: 'bonus',
           description: '빌더 계정 개설 웰컴 크레딧',
+          balance_after: newBalance,
           created_at: new Date().toISOString()
         });
     }
