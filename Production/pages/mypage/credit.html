@@ -538,7 +538,7 @@
         <h1 class="page-title">크레딧 관리</h1>
 
         <!-- Stats -->
-        <div class="stats-grid">
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
             <div class="stat-card">
                 <div class="stat-icon">💰</div>
                 <div class="stat-value credit" id="creditBalance">₩0</div>
@@ -554,9 +554,23 @@
                 <div class="stat-value success" id="creditCharged">₩0</div>
                 <div class="stat-label">총 충전액</div>
             </div>
+        </div>
+
+        <!-- Token Usage Stats -->
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr); margin-bottom: 24px;">
+            <div class="stat-card">
+                <div class="stat-icon">📥</div>
+                <div class="stat-value" id="inputTokens" style="color: #3B82F6;">0</div>
+                <div class="stat-label">인풋 토큰</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📤</div>
+                <div class="stat-value" id="outputTokens" style="color: #8B5CF6;">0</div>
+                <div class="stat-label">아웃풋 토큰</div>
+            </div>
             <div class="stat-card">
                 <div class="stat-icon">🤖</div>
-                <div class="stat-value" id="tokenUsage">0</div>
+                <div class="stat-value" id="totalTokens" style="color: #10B981;">0</div>
                 <div class="stat-label">총 토큰 사용량</div>
             </div>
         </div>
@@ -871,7 +885,9 @@
             document.getElementById('creditBalance').textContent = '₩0';
             document.getElementById('creditUsedMonth').textContent = '₩0';
             document.getElementById('creditCharged').textContent = '₩0';
-            document.getElementById('tokenUsage').textContent = '0';
+            document.getElementById('inputTokens').textContent = '0';
+            document.getElementById('outputTokens').textContent = '0';
+            document.getElementById('totalTokens').textContent = '0';
         }
 
         function renderStats() {
@@ -990,12 +1006,19 @@
 
                 if (usage && usage.length > 0) {
                     renderUsageLog(usage);
-                    // 총 토큰 사용량 계산
-                    const totalTokens = usage.reduce((sum, u) => sum + (u.tokens_used || 0), 0);
-                    document.getElementById('tokenUsage').textContent = totalTokens.toLocaleString();
+                    // 토큰 사용량 계산 (인풋, 아웃풋, 총)
+                    const inputTokens = usage.reduce((sum, u) => sum + (u.input_tokens || 0), 0);
+                    const outputTokens = usage.reduce((sum, u) => sum + (u.output_tokens || 0), 0);
+                    const totalTokens = usage.reduce((sum, u) => sum + (u.tokens_used || u.input_tokens + u.output_tokens || 0), 0);
+
+                    document.getElementById('inputTokens').textContent = inputTokens.toLocaleString();
+                    document.getElementById('outputTokens').textContent = outputTokens.toLocaleString();
+                    document.getElementById('totalTokens').textContent = totalTokens.toLocaleString();
                 } else {
                     document.getElementById('usageList').innerHTML = '<div class="history-empty">사용 기록이 없습니다.</div>';
-                    document.getElementById('tokenUsage').textContent = '0';
+                    document.getElementById('inputTokens').textContent = '0';
+                    document.getElementById('outputTokens').textContent = '0';
+                    document.getElementById('totalTokens').textContent = '0';
                 }
             } catch (e) {
                 console.log('사용 로그 로드 실패:', e);
