@@ -4373,8 +4373,8 @@
                 const displayName = user.nickname || user.name || user.real_name || (user.email ? user.email.split('@')[0] : '-');
                 const safeDisplayName = sanitizePlainText(displayName);
 
-                // 빌더 계정 ID
-                const devAccountId = user.user_id || '-';
+                // 빌더 계정 ID (12자리: YYMMNNNNNNXX 형식)
+                const devAccountId = user.builder_id || '-';
 
                 return `
                     <tr data-user-id="${user.id}">
@@ -4451,17 +4451,17 @@
                 return;
             }
 
-            // 이메일 또는 닉네임으로 필터링
+            // 이메일, 닉네임, 빌더 계정 ID로 필터링
             const filtered = allUsersData.filter(user => {
                 const email = (user.email || '').toLowerCase();
                 const nickname = (user.nickname || '').toLowerCase();
                 const realName = (user.real_name || '').toLowerCase();
-                const userId = (user.user_id || '').toLowerCase();
+                const builderId = (user.builder_id || '').toLowerCase();
 
                 return email.includes(searchTerm) ||
                        nickname.includes(searchTerm) ||
                        realName.includes(searchTerm) ||
-                       userId.includes(searchTerm);
+                       builderId.includes(searchTerm);
             });
 
             console.log(`🔍 검색 결과: "${searchTerm}" → ${filtered.length}명`);
@@ -4511,14 +4511,14 @@
             // 모달 제목 업데이트
             const headerElem = document.getElementById('userDetailHeader');
             if (headerElem) {
-                headerElem.textContent = `👤 회원 상세 - ${user.user_id || user.email}`;
+                headerElem.textContent = `👤 회원 상세 - ${user.builder_id || user.email}`;
             }
 
-            // 빌더 계정 ID
+            // 빌더 계정 ID (12자리: YYMMNNNNNNXX 형식)
             const userIdElem = document.getElementById('userDetailUserId');
             if (userIdElem) {
-                userIdElem.innerHTML = user.user_id
-                    ? `<code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px;">${user.user_id}</code>`
+                userIdElem.innerHTML = user.builder_id
+                    ? `<code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px;">${user.builder_id}</code>`
                     : '-';
             }
 
@@ -4675,7 +4675,7 @@
                     const userIds = [...new Set(data.map(d => d.user_id).filter(id => id && id !== 'GUEST'))];
                     const { data: usersData } = await supabaseClient
                         .from('users')
-                        .select('id, email, real_name, user_id')
+                        .select('id, email, real_name, user_id, builder_id')
                         .in('id', userIds);
 
                     const usersMap = {};
@@ -4752,7 +4752,7 @@
             } else {
                 processedTableBody.innerHTML = confirmedList.map(fee => `
                     <tr>
-                        <td>${fee.users?.user_id || '-'}</td>
+                        <td>${fee.users?.builder_id || '-'}</td>
                         <td>${fee.users?.email || fee.depositor_name || '-'}</td>
                         <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
                         <td>₩${(fee.amount || 0).toLocaleString()}</td>
