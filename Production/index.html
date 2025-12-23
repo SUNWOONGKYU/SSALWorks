@@ -9045,6 +9045,13 @@ ${result.answer}`;
         // P0~P3, S0~S5 모든 진행률을 DB에서 관리
         // ================================================================
         async function loadPhaseProgressFromDB() {
+            // supabaseClient가 초기화되지 않았으면 대기
+            if (!supabaseClient) {
+                console.warn('⏳ Phase 진행률: Supabase 클라이언트 대기 중...');
+                setTimeout(loadPhaseProgressFromDB, 500);
+                return;
+            }
+
             try {
                 const { data, error } = await supabaseClient
                     .from('project_phase_progress')
