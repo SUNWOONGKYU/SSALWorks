@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SSAL Works Admin - 관리자 대시보드</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- DOMPurify for XSS Protection -->
@@ -3279,18 +3280,59 @@
         // Admin Home Dashboard - Chart Initialization
         // ================================================================
 
-        // Chart.js 차트 초기화
-        function initializeAdminHomeCharts() {
+        // Chart.js 차트 초기화 - 실제 데이터 로드
+        async function initializeAdminHomeCharts() {
+            if (!supabaseClient) {
+                console.log('⏳ Supabase 클라이언트 대기 중...');
+                setTimeout(initializeAdminHomeCharts, 500);
+                return;
+            }
+
+            // 최근 7일 날짜 라벨 생성
+            const labels = [];
+            const today = new Date();
+            for (let i = 6; i >= 0; i--) {
+                const d = new Date(today);
+                d.setDate(d.getDate() - i);
+                labels.push(`${d.getMonth() + 1}/${d.getDate()}`);
+            }
+
+            // 회원가입 데이터 조회
+            let signupData = [0, 0, 0, 0, 0, 0, 0];
+            try {
+                const sevenDaysAgo = new Date();
+                sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+                sevenDaysAgo.setHours(0, 0, 0, 0);
+
+                const { data: users, error } = await supabaseClient
+                    .from('users')
+                    .select('created_at')
+                    .gte('created_at', sevenDaysAgo.toISOString());
+
+                if (!error && users) {
+                    users.forEach(user => {
+                        const createdDate = new Date(user.created_at);
+                        const dayIndex = Math.floor((createdDate - sevenDaysAgo) / (1000 * 60 * 60 * 24));
+                        if (dayIndex >= 0 && dayIndex < 7) {
+                            signupData[dayIndex]++;
+                        }
+                    });
+                    console.log('📊 회원가입 추이 데이터:', signupData);
+                }
+            } catch (err) {
+                console.error('회원가입 데이터 로드 실패:', err);
+            }
+
             // 회원 가입 추이 차트 (라인 차트)
             const memberSignupCtx = document.getElementById('memberSignupChart');
             if (memberSignupCtx) {
                 new Chart(memberSignupCtx, {
                     type: 'line',
                     data: {
-                        labels: ['11/22', '11/23', '11/24', '11/25', '11/26', '11/27', '11/28'],
+                        labels: labels,
                         datasets: [{
                             label: '신규 가입',
-                            data: [15, 18, 12, 22, 19, 25, 20],
+                            data: signupData,
                             borderColor: '#6B5CCC',
                             backgroundColor: 'rgba(107, 92, 204, 0.1)',
                             tension: 0.4,
@@ -3333,6 +3375,7 @@
                                     font: {
                                         size: 11
                                     },
+                                    stepSize: 1,
                                     callback: function(value) {
                                         return value + '명';
                                     }
@@ -3356,28 +3399,46 @@
                 });
             }
 
+            // 매출 추이 - 현재 주차 라벨 생성
+            const currentMonth = today.getMonth() + 1;
+            const revenueLabels = [`${currentMonth}월 1주`, `${currentMonth}월 2주`, `${currentMonth}월 3주`, `${currentMonth}월 4주`];
+
+            // 매출 데이터 조회 (installation_payments 테이블)
+            let revenueData = [0, 0, 0, 0];
+            try {
+                const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
+                const { data: payments, error } = await supabaseClient
+                    .from('installation_payments')
+                    .select('amount, created_at')
+                    .gte('created_at', monthStart.toISOString())
+                    .eq('status', 'completed');
+
+                if (!error && payments) {
+                    payments.forEach(payment => {
+                        const payDate = new Date(payment.created_at);
+                        const weekIndex = Math.floor((payDate.getDate() - 1) / 7);
+                        if (weekIndex >= 0 && weekIndex < 4) {
+                            revenueData[weekIndex] += (payment.amount || 0);
+                        }
+                    });
+                    console.log('📊 매출 추이 데이터:', revenueData);
+                }
+            } catch (err) {
+                console.error('매출 데이터 로드 실패:', err);
+            }
+
             // 매출 추이 차트 (막대 차트)
             const revenueCtx = document.getElementById('revenueChart');
             if (revenueCtx) {
                 new Chart(revenueCtx, {
                     type: 'bar',
                     data: {
-                        labels: ['11월 1주', '11월 2주', '11월 3주', '11월 4주'],
+                        labels: revenueLabels,
                         datasets: [{
                             label: '매출',
-                            data: [1200000, 1450000, 1380000, 1650000],
-                            backgroundColor: [
-                                'rgba(107, 92, 204, 0.8)',
-                                'rgba(107, 92, 204, 0.8)',
-                                'rgba(107, 92, 204, 0.8)',
-                                'rgba(204, 120, 92, 0.8)'
-                            ],
-                            borderColor: [
-                                '#6B5CCC',
-                                '#6B5CCC',
-                                '#6B5CCC',
-                                '#CC785C'
-                            ],
+                            data: revenueData,
+                            backgroundColor: 'rgba(107, 92, 204, 0.8)',
+                            borderColor: '#6B5CCC',
                             borderWidth: 2,
                             borderRadius: 6
                         }]
