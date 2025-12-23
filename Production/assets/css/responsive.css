@@ -225,6 +225,7 @@ html, body {
     /* 왼쪽 사이드바 → 슬라이드 패널 */
     .left-sidebar,
     .sidebar.left,
+    .sidebar:not(.right):not(.left),
     .nav-sidebar {
         position: fixed !important;
         left: -320px !important;
@@ -244,6 +245,7 @@ html, body {
 
     .left-sidebar.open,
     .sidebar.left.open,
+    .sidebar:not(.right):not(.left).open,
     .nav-sidebar.open {
         left: 0 !important;
     }

@@ -133,6 +133,7 @@
     </style>
 </head>
 <body>
+    <div class="sidebar-overlay" onclick="closeSidebar()"></div>
     <header>
         <button class="close-btn" onclick="window.history.length > 1 ? history.back() : window.close()" title="닫기">✕ 닫기</button>
         <h1>SSALWorks v1.0 - Project SAL Grid Viewer</h1>
@@ -957,5 +958,38 @@
         // Initialize - window.onload로 모든 리소스 로드 후 실행
         window.onload = loadTasks;
     </script>
+
+<script>
+// 모바일 반응형 사이드바 토글
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (sidebar) {
+        sidebar.classList.toggle('open');
+    }
+    if (overlay) {
+        overlay.classList.toggle('active');
+    }
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (sidebar) {
+        sidebar.classList.remove('open');
+    }
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+// ESC 키로 닫기
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeSidebar();
+    }
+});
+</script>
+
 </body>
 </html>

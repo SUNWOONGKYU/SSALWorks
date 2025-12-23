@@ -284,8 +284,10 @@
             }
         }
     </style>
+    <link rel="stylesheet" href="/assets/css/responsive.css">
 </head>
 <body>
+    <div class="sidebar-overlay" onclick="closeSidebar()"></div>
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-left">
@@ -428,5 +430,38 @@
         // =====================================================
         document.addEventListener('DOMContentLoaded', loadManual);
     </script>
+
+<script>
+// 모바일 반응형 사이드바 토글
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (sidebar) {
+        sidebar.classList.toggle('open');
+    }
+    if (overlay) {
+        overlay.classList.toggle('active');
+    }
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.querySelector('.sidebar-overlay');
+    if (sidebar) {
+        sidebar.classList.remove('open');
+    }
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+// ESC 키로 닫기
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeSidebar();
+    }
+});
+</script>
+
 </body>
 </html>
