@@ -4375,6 +4375,7 @@
             const paidCount = users.filter(u => u.installation_fee_paid === true).length;
             const totalCredits = users.reduce((sum, u) => sum + (u.credit_balance || 0), 0);
 
+            // 회원 관리 탭 통계
             const totalElem = document.getElementById('totalUsersCount');
             const activeElem = document.getElementById('activeUsersCount');
             const paidElem = document.getElementById('paidUsersCount');
@@ -4384,6 +4385,10 @@
             if (activeElem) activeElem.textContent = activeCount;
             if (paidElem) paidElem.textContent = paidCount;
             if (creditsElem) creditsElem.textContent = totalCredits.toLocaleString();
+
+            // 대시보드 홈 통계도 업데이트
+            const overviewTotalElem = document.getElementById('overviewTotalUsers');
+            if (overviewTotalElem) overviewTotalElem.textContent = totalCount;
         }
 
         /**
