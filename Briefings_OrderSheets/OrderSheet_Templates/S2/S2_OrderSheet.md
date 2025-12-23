@@ -18,6 +18,9 @@
 4. 불명확한 점은 추측 금지, 반드시 질문
 5. 7단계 작업 순서 (A3 참조) 건너뛰거나 변경 금지
 6. 거짓 기록 절대 금지
+7. **Main Agent는 Task 직접 수행 금지** - 반드시 Task Agent 서브에이전트 투입
+8. **Main Agent는 검증 직접 수행 금지** - 반드시 Verification Agent 서브에이전트 투입
+9. **Task Agent ≠ Verification Agent** - 작성자와 검증자 분리 필수
 
 ---
 
@@ -123,19 +126,40 @@ Project SAL Grid의 S2에 있는 모든 Task를 수행하라.
 
 **목적**: Task 순서대로 실행 및 검증
 
+**⛔ Main Agent 역할 제한**:
+- Main Agent는 **오케스트레이션만** 수행
+- Main Agent는 **직접 작업/검증 금지**
+- 반드시 **Task tool로 서브에이전트 투입**
+
 **실행 순서**:
 1. Dependencies 기반 Task 순서 결정 (SAL Grid 참조)
-2. 각 Task: 작업 → 검증 → SAL Grid에 기록 → 파일 저장
+2. 각 Task: 서브에이전트 투입 → 검증 → SAL Grid에 기록 → 파일 저장
 
-**Task별 체크리스트**:
-- [ ] Task Instruction (A6 참조) 읽기
-- [ ] task_status → `In Progress` 변경
-- [ ] 작업 수행
-- [ ] task_status → `Executed` 변경
-- [ ] 검증 수행 (Verification Instruction, A6 참조)
-- [ ] verification_status → `Verified`, task_status → `Completed` 변경
-- [ ] SAL Grid에 기록 (A4 참조)
-- [ ] 파일 저장 (A5 참조)
+**Task별 실행 순서**:
+
+1. Task Instruction (A6 참조) 읽기
+2. task_status → `In Progress` 변경
+3. **Task Agent 서브에이전트 투입** (Task tool 사용)
+   ```
+   Task tool 호출:
+   - subagent_type: Task Instruction의 task_agent 값
+   - prompt: Task Instruction 내용 전달
+   ```
+4. 작업 완료 확인 → task_status → `Executed` 변경
+5. **Verification Agent 서브에이전트 투입** (Task tool 사용)
+   ```
+   Task tool 호출:
+   - subagent_type: Task Instruction의 verification_agent 값
+   - prompt: Verification Instruction 내용 전달
+   ```
+6. 검증 통과 확인 → verification_status → `Verified`, task_status → `Completed` 변경
+7. SAL Grid에 기록 (A4 참조)
+8. 파일 저장 (A5 참조)
+
+**⛔ 절대 금지**:
+- Main Agent가 직접 코드 작성
+- Main Agent가 직접 검증 수행
+- Task Agent = Verification Agent (같은 에이전트 금지)
 
 **출력**: 각 Task SAL Grid에 기록
 
