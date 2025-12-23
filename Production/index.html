@@ -2230,6 +2230,9 @@
 </head>
 
 <body>
+    <!-- 모바일 사이드바 오버레이 -->
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+
     <!-- 비밀번호 재설정/이메일 인증 리다이렉트 처리 -->
     <script>
         (function() {
@@ -2247,6 +2250,8 @@
         <!-- Header -->
         <header class="header">
             <div class="header-inner">
+                <!-- 모바일 메뉴 버튼 -->
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
                 <div class="logo">
                     <span class="rice-logo">
                         <span class="rice-grain"></span>
@@ -2298,6 +2303,8 @@
         <div class="layout-container">
             <!-- Left Sidebar: Process -->
         <aside class="left-sidebar">
+            <!-- 사이드바 닫기 버튼 (모바일) -->
+            <button class="sidebar-close-btn" onclick="closeLeftSidebar()">✕</button>
             <!-- 마이페이지 섹션 (최상단) -->
             <div class="left-sidebar-section" id="mypageMenuSection">
                 <h2 class="sidebar-title" style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
@@ -3119,6 +3126,8 @@ The content you enter in the Control Space will be displayed here.</pre>
 
         <!-- Right Sidebar: Content & Support -->
         <aside class="right-sidebar">
+            <!-- 사이드바 닫기 버튼 (모바일) -->
+            <button class="sidebar-close-btn" onclick="closeRightSidebar()">✕</button>
             <!-- Notices Section (공지사항 - 상단 배치) -->
             <div class="sidebar-section">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
@@ -11578,6 +11587,56 @@ ${result.answer}`;
 <script src="guides.js"></script>
 <script src="ordersheets.js"></script>
 <script src="service-guides.js"></script>
+
+<!-- 모바일 사이드바 토글 스크립트 -->
+<script>
+    // 사이드바 요소
+    const leftSidebar = document.querySelector('.left-sidebar');
+    const rightSidebar = document.querySelector('.right-sidebar');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+
+    // 왼쪽 사이드바 토글
+    function toggleLeftSidebar() {
+        leftSidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('active');
+        // 오른쪽 닫기
+        rightSidebar.classList.remove('open');
+    }
+
+    // 오른쪽 사이드바 토글
+    function toggleRightSidebar() {
+        rightSidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('active');
+        // 왼쪽 닫기
+        leftSidebar.classList.remove('open');
+    }
+
+    // 왼쪽 사이드바 닫기
+    function closeLeftSidebar() {
+        leftSidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+    }
+
+    // 오른쪽 사이드바 닫기
+    function closeRightSidebar() {
+        rightSidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+    }
+
+    // 모든 사이드바 닫기
+    function closeAllSidebars() {
+        leftSidebar.classList.remove('open');
+        rightSidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('active');
+    }
+
+    // ESC 키로 닫기
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAllSidebars();
+        }
+    });
+</script>
 </body>
 
 </html>
