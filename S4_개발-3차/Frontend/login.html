@@ -662,8 +662,9 @@
             const { data: { session } } = await supabaseClient.auth.getSession();
             if (session) {
                 console.log('이미 로그인됨:', session.user.email);
-                // 이미 로그인된 경우 메인 페이지로 이동 (선택사항)
-                // window.location.href = '../../index.html';
+                // 이미 로그인된 경우 메인 페이지로 이동
+                window.location.href = '../../index.html';
+                return;
             }
 
             // Supabase 연결 확인
