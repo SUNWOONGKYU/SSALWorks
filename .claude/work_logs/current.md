@@ -47,6 +47,36 @@ Briefing:
 
 ---
 
+### guides.js 전환 작업 ✅
+
+**작업 내용:**
+상황별 안내문(guides.js)을 Briefings 기반으로 전환
+
+**변경 사항:**
+
+| 항목 | 이전 | 이후 |
+|------|------|------|
+| 소스 | 상황별 안내문 HTML | Briefings MD 파일 |
+| 생성 스크립트 | P2_프로젝트_기획/.../generate-guides-js.js | Briefings_OrderSheets/Briefings/generate-briefings-js.js |
+| 콘텐츠 | 기존 키 (P1-1_Vision_Mission 등) | 새 키 (P0-1_Briefing 등) |
+
+**최종 구성 (31개):**
+- 상황별 안내문: 5개 (BeforeSignup, Default, Welcome, Project_Example, Project_Work)
+- Briefings: 26개 (P0-1_Briefing ~ S5_Briefing)
+
+**수정된 파일:**
+1. `Briefings_OrderSheets/Briefings/generate-briefings-js.js` - 신규 생성
+2. `Production/build-web-assets.js` - guidesGenerator 경로 수정
+3. `P3_프로토타입_제작/Frontend/Prototype/index.html` - guideUrl 새 키로 변경
+4. `Production/Frontend/guides.js` - 재생성
+
+**빌드 명령:**
+```bash
+node Production/build-web-assets.js --guides
+```
+
+---
+
 ### Project_Directory_Structure.md v12.3 업데이트 ✅
 
 **수정 사항:**
