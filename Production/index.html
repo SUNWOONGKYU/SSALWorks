@@ -9328,6 +9328,7 @@ ${result.answer}`;
                 loadStageGateStatus(); // Stage Gate 상태 확인 및 진행률 업데이트
                 loadGridStats(); // SSAL Grid 통계 로드
                 setInterval(loadGridStats, 30000); // 30초마다 자동 갱신
+                loadPhaseProgressFromDB(); // P0~S5 진행률 로드
             } else {
                 console.warn('⚠️ Supabase 라이브러리가 로드되지 않았습니다.');
                 setTimeout(initSupabase, 1000); // 1초 후 재시도
