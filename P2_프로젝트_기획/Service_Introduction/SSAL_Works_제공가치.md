@@ -97,6 +97,26 @@ AI가 제멋대로 하지 않도록 7개의 규칙 파일을 제공한다:
 - Task Instruction / Verification Instruction
 - Stage Gate 검증
 
+**회계감사 경험이 녹아있는 방법론:**
+
+| 회계감사 개념 | SAL Grid 적용 |
+|--------------|--------------|
+| 감사 계획서 | Order Sheet |
+| 감사 절차서 | Task Instruction |
+| 내부통제 테스트 | Verification Instruction |
+| Working Paper | Task Results |
+| Review Process | Stage Gate 검증 |
+| 감사조서 보관 | 이중 저장 |
+| 파트너 승인 | PO 승인 |
+
+**특히 강점:**
+- 작업자와 검증자 분리 (Preparer/Reviewer 분리)
+- 모든 작업의 추적 가능성 (Audit Trail)
+- 단계별 Gate 승인 (품질 통제)
+- 문서화 철저 (증빙 확보)
+
+비개발자가 만들었지만, 개발자들이 놓치기 쉬운 **관리/통제/검증** 측면이 탄탄하다.
+
 ---
 
 ### 8. 개발에 필요한 지식을 집대성해서 제공한다
