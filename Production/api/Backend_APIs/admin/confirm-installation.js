@@ -5,7 +5,8 @@
  *
  * 기능:
  * - 관리자 권한 필수 (isAdmin 체크)
- * - 입금 상태 업데이트 (confirm/reject)
+ * - deposit_notifications 테이블에서 install_fee 타입 조회
+ * - 입금 상태 업데이트 (confirm → confirmed / reject → rejected)
  * - 빌더 ID 생성 및 사용자 정보 업데이트
  * - 웰컴 크레딧 ₩50,000 지급
  * - 사용자 알림 (notifications 테이블)
@@ -111,11 +112,12 @@ export default async function handler(req, res) {
       });
     }
 
-    // 입금 신청 정보 조회
+    // 입금 신청 정보 조회 (deposit_notifications 테이블)
     const { data: payment, error: paymentError } = await supabase
-      .from('installation_payment_requests')
+      .from('deposit_notifications')
       .select('*')
       .eq('id', paymentId)
+      .eq('deposit_type', 'install_fee')
       .single();
 
     if (paymentError || !payment) {
@@ -146,14 +148,14 @@ export default async function handler(req, res) {
     payment.userUUID = userData?.id;
 
     // 상태 업데이트
-    const newStatus = action === 'confirm' ? 'approved' : 'rejected';
+    const newStatus = action === 'confirm' ? 'confirmed' : 'rejected';
     const { error: updateError } = await supabase
-      .from('installation_payment_requests')
+      .from('deposit_notifications')
       .update({
         status: newStatus,
-        processed_at: new Date().toISOString(),
-        processed_by: user.id,
-        reject_reason: action === 'reject' ? (memo || null) : null
+        confirmed_at: action === 'confirm' ? new Date().toISOString() : null,
+        confirmed_by: user.id,
+        admin_note: memo || null
       })
       .eq('id', paymentId);
 
