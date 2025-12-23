@@ -422,6 +422,7 @@
                 <div class="profile-info">
                     <h2 id="profileName">-</h2>
                     <div class="user-id" id="profileUserId">회원 ID: -</div>
+                    <div class="user-id" id="profileBuilderId" style="color: var(--primary); font-weight: 500;">빌더 ID: -</div>
                     <span class="profile-badge badge-free" id="profileBadge">무료</span>
                 </div>
             </div>
@@ -443,6 +444,14 @@
                 <div class="info-item">
                     <div class="info-label">연락처</div>
                     <div class="info-value" id="viewPhone">-</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">회원 ID</div>
+                    <div class="info-value" id="viewUserId">-</div>
+                </div>
+                <div class="info-item" id="viewBuilderIdItem" style="display: none;">
+                    <div class="info-label">빌더 계정 ID</div>
+                    <div class="info-value" id="viewBuilderId" style="color: var(--primary); font-weight: 600;">-</div>
                 </div>
                 <div class="info-item">
                     <div class="info-label">가입일</div>
@@ -535,6 +544,7 @@
             document.getElementById('profileAvatar').textContent = 'S';
             document.getElementById('profileName').textContent = '샘플 사용자';
             document.getElementById('profileUserId').textContent = '회원 ID: SAMPLE001';
+            document.getElementById('profileBuilderId').textContent = '빌더 ID: 2501000001FI';
             document.getElementById('profileBadge').textContent = '무료';
             document.getElementById('viewEmail').textContent = 'sample@example.com';
             document.getElementById('viewNickname').textContent = '샘플닉네임';
@@ -570,6 +580,15 @@
             document.getElementById('profileName').textContent = sanitize(userData.nickname || userData.name || userData.email.split('@')[0]);
             document.getElementById('profileUserId').textContent = `회원 ID: ${sanitize(userData.user_id || '-')}`;
 
+            // 빌더 ID 표시 (있을 경우에만)
+            const builderIdEl = document.getElementById('profileBuilderId');
+            if (userData.builder_id) {
+                builderIdEl.textContent = `빌더 ID: ${sanitize(userData.builder_id)}`;
+                builderIdEl.style.display = 'block';
+            } else {
+                builderIdEl.style.display = 'none';
+            }
+
             const badge = document.getElementById('profileBadge');
             badge.textContent = getStatusText(userData.subscription_status);
             badge.className = `profile-badge badge-${userData.subscription_status || 'free'}`;
@@ -578,6 +597,16 @@
             document.getElementById('viewNickname').textContent = sanitize(userData.nickname || '-');
             document.getElementById('viewRealName').textContent = sanitize(userData.real_name || '-');
             document.getElementById('viewPhone').textContent = sanitize(userData.phone || '-');
+            document.getElementById('viewUserId').textContent = sanitize(userData.user_id || '-');
+
+            // 빌더 ID 상세 정보 영역
+            if (userData.builder_id) {
+                document.getElementById('viewBuilderId').textContent = sanitize(userData.builder_id);
+                document.getElementById('viewBuilderIdItem').style.display = 'block';
+            } else {
+                document.getElementById('viewBuilderIdItem').style.display = 'none';
+            }
+
             document.getElementById('viewCreatedAt').textContent = formatDate(userData.created_at);
             document.getElementById('viewMarketing').textContent = userData.marketing_agreed ? '동의함' : '동의 안함';
 
