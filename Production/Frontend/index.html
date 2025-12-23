@@ -2362,43 +2362,6 @@
                         </div>
                     </div>
 
-                    <!-- ☆ Briefings & OrderSheets -->
-                    <div class="process-item">
-                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="100">
-                            <div class="process-header">
-                                <span class="process-icon">☆</span>
-                                <span class="process-name">Briefings & OrderSheets</span>
-                                <span class="process-arrow">▶</span>
-                            </div>
-                            <div class="process-progress-container">
-                                <div class="process-progress">
-                                    <div class="process-progress-fill" style="width: 100%"></div>
-                                </div>
-                                <span class="process-percent">100%</span>
-                            </div>
-                        </div>
-                        <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('briefings', 'Briefings', 'Briefings')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Briefings</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="loadProcessStage('ordersheet_templates', 'OrderSheet_Templates', 'OrderSheets')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>OrderSheet_Templates</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="loadProcessStage('situational_guides', 'Situational_Guides', 'Guides')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Situational_Guides</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!-- S1. 개발 준비 (Stage Gate 완료) -->
                     <div class="process-item">
                         <div class="process-major completed" onclick="loadProcessStage('s2_dev_prep', 'S1. 개발 준비', '개발단계'); toggleProcess(this)" data-progress="100">
@@ -4486,37 +4449,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             'sal_grid': {
                 stageId: 'sal_grid',
                 stageName: 'sal-grid',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: ''
-            },
-
-            // ===== ☆ Briefings & OrderSheets =====
-            'briefings': {
-                stageId: 'briefings',
-                stageName: 'Briefings',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: ''
-            },
-
-            'ordersheet_templates': {
-                stageId: 'ordersheet_templates',
-                stageName: 'OrderSheet_Templates',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: ''
-            },
-
-            'situational_guides': {
-                stageId: 'situational_guides',
-                stageName: 'Situational_Guides',
                 hasAction: false,
                 confirmMessage: '',
                 orderSheetAfterExecute: '',
