@@ -1,7 +1,7 @@
 # SSALWorks 프로젝트 디렉토리 구조 가이드
 
-> **버전**: v12.2
-> **최종 업데이트**: 2025-12-20
+> **버전**: v12.3
+> **최종 업데이트**: 2025-12-23
 > **프로젝트**: SaaS 구독형 학습 + 프로젝트 관리 통합 플랫폼
 
 ---
@@ -26,7 +26,7 @@ C:\!SSAL_Works_Private\
 ├── P0_작업_디렉토리_구조_생성/    # 프로젝트 구조 및 상태 관리 ⭐ 핵심 문서
 │   ├── Project_Directory_Structure.md   # 이 파일!
 │   └── Project_Status.md                # 프로젝트 진행 상황
-├── S0_Project-SSAL-Grid_생성/    # 프로젝트 그리드 관리 시스템
+├── S0_Project-SAL-Grid_생성/     # 프로젝트 그리드 관리 시스템
 │
 # ========== 예비단계 (P1-P3) - GRID 범위 밖 ==========
 ├── P1_사업계획/                  # 비즈니스 계획
@@ -52,6 +52,7 @@ C:\!SSAL_Works_Private\
 │   │   └── 학습용_Books/        # 학습용 콘텐츠 (Books)
 │
 # ========== 독립 폴더 ==========
+├── Briefings_OrderSheets/       # Order Sheet 템플릿 및 브리핑
 ├── Human_ClaudeCode_Bridge/     # 사람 ↔ Claude Code 브릿지
 ├── Development_Process_Monitor/       # 사이드바 프로세스 관리 도구
 ├── 참고자료/                    # 참고용 파일들
@@ -73,7 +74,7 @@ C:\!SSAL_Works_Private\
 ### 규칙 1: 특별단계는 P0, S0
 ```
 ✅ P0_작업_디렉토리_구조_생성/    # 프로젝트 구조 문서
-✅ S0_Project-SSAL-Grid_생성/    # 프로젝트 그리드
+✅ S0_Project-SAL-Grid_생성/     # 프로젝트 그리드
 ```
 
 ### 규칙 2: 예비단계는 P + 숫자
@@ -139,7 +140,7 @@ export default async function handler(req, res) {
 ┌─────────────────────────────────────────────────────────────┐
 │                    특별단계 (프로젝트 기초)                     │
 ├─────────────────────────────────────────────────────────────┤
-│  P0_작업_디렉토리_구조_생성 + S0_Project-SSAL-Grid_생성        │
+│  P0_작업_디렉토리_구조_생성 + S0_Project-SAL-Grid_생성         │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -200,6 +201,7 @@ P2_프로젝트_기획/
 │   ├── Mockups/                    # 목업 HTML
 │   └── Design_Specs/               # 디자인 명세
 ├── Tech_Stack/             # 기술 스택
+├── Service_Introduction/   # 서비스 소개
 └── Workflows/              # 워크플로우
 ```
 
@@ -318,9 +320,11 @@ S2_개발-1차/
 
 ```
 S3_개발-2차/
-├── Backend_APIs/            # BA: AI Q&A API
+├── Backend_APIs/           # BA: AI Q&A API
 ├── Backend_Infra/          # BI: AI API 클라이언트
+├── Database/               # D: 데이터베이스 (필요시)
 ├── External/               # E: AI API 키 설정
+├── Frontend/               # F: 프론트엔드 (필요시)
 └── Security/               # S: 구독 권한 체크
 ```
 
@@ -340,10 +344,12 @@ S3_개발-2차/
 
 ```
 S4_개발-3차/
-├── Backend_APIs/            # BA: 결제 API, 웹훅
+├── Backend_APIs/           # BA: 결제 API, 웹훅
 ├── Backend_Infra/          # BI: Sentry 에러 트래킹
+├── Database/               # D: 데이터베이스 (필요시)
 ├── DevOps/                 # O: Cron Jobs 설정
 ├── Documentation/          # M: 관리자 가이드
+├── External/               # E: 외부 연동 (필요시)
 ├── Frontend/               # F: 관리자 대시보드, AI Q&A UI
 ├── Security/               # S: 관리자 권한 체크
 └── Testing/                # T: E2E 테스트, API 통합 테스트
@@ -432,19 +438,19 @@ Production/                    ← Vercel 루트 디렉토리
 
 ## 📂 독립 폴더 상세 설명
 
-### S0_Project-SSAL-Grid_생성/
+### S0_Project-SAL-Grid_생성/
 
 **용도:** 프로젝트 그리드 관리 시스템
 
 ```
-S0_Project-SSAL-Grid_생성/
+S0_Project-SAL-Grid_생성/
 ├── manual/                 # 매뉴얼
-│   ├── PROJECT_SSAL_GRID_MANUAL.md
+│   ├── PROJECT_SAL_GRID_MANUAL.md
 │   └── references/                 # 참조 문서
 │       ├── SSALWORKS_TASK_PLAN.md
 │       ├── SSALWORKS_5x11_MATRIX.md
 │       └── TASK_SELECTION_MATRIX.md
-├── ssal-grid/              # SSAL Grid 코어
+├── sal-grid/               # SAL Grid 코어
 ├── supabase/               # Supabase 연동
 └── viewer/                 # 그리드 뷰어
 ```
@@ -454,6 +460,30 @@ S0_Project-SSAL-Grid_생성/
 - X축 (Stage): S1 → S2 → S3 → S4 → S5
 - Y축 (Area): DevOps, Database, Backend, Frontend, Test 등
 - Z축 (Level): 개별 Task (S1F1, S2BA3 등)
+
+---
+
+### Briefings_OrderSheets/
+
+**용도:** Order Sheet 템플릿 및 브리핑 문서
+
+```
+Briefings_OrderSheets/
+├── Briefings/              # 브리핑 문서
+└── OrderSheet_Templates/   # Order Sheet 템플릿
+    ├── P0-S0_표준양식.md   # P0~S0용 표준 양식
+    ├── S1/                 # S1 Order Sheet
+    ├── S2/                 # S2 Order Sheet
+    ├── S3/                 # S3 Order Sheet
+    ├── S4/                 # S4 Order Sheet
+    └── S5/                 # S5 Order Sheet
+```
+
+**Order Sheet 양식:**
+| 구분 | 특징 |
+|------|------|
+| P0~S0 | SAL Grid 없음, 작업 내용 직접 기재, 5단계 프로세스 |
+| S1~S5 | SAL Grid 참조, Task 기반 작업, 7단계 프로세스 |
 
 ---
 
@@ -574,7 +604,7 @@ Development_Process_Monitor/
 참고자료/
 ├── Project_Grid_DB/                 # 프로젝트 그리드 DB 참고
 ├── references/                       # 참조 문서들
-├── PROJECT_SSAL_GRID_MANUAL.html    # SSAL Grid 매뉴얼 (HTML)
+├── PROJECT_SAL_GRID_MANUAL.html     # SAL Grid 매뉴얼 (HTML)
 └── SSALWorks참고자료.md              # SSALWorks 참고자료
 ```
 
@@ -754,10 +784,11 @@ Development_Process_Monitor/
 | v11.0 | 2025-12-18 | Web_ClaudeCode_Bridge → Human_ClaudeCode_Bridge 변경, Inbox/Outbox → Orders/Reports 변경, 파일 형식 규칙 추가 | Claude Code |
 | v12.0 | 2025-12-18 | 파일 명명 규칙 추가 (규칙 5), Production 폴더 구조 재설계 (Area별 분류) | Claude Code |
 | v12.1 | 2025-12-20 | Backend_API → Backend_APIs 용어 통일 (실제 폴더명과 일치화) | Claude Code |
-| **v12.2** | **2025-12-20** | **Production 구조 6대 규칙 일치화: API→api, Backend_Infrastructure→Backend_Infra** | Claude Code |
+| v12.2 | 2025-12-20 | Production 구조 6대 규칙 일치화: API→api, Backend_Infrastructure→Backend_Infra | Claude Code |
+| **v12.3** | **2025-12-23** | **실제 폴더 구조와 일치화: S0 SSAL→SAL, P2 Service_Introduction 추가, S3/S4 폴더 추가, S5 Backend_APIs 통일, Briefings_OrderSheets 추가** | Claude Code |
 
 ---
 
-**현재 버전:** v12.2
+**현재 버전:** v12.3
 **작성자:** SSALWorks Team
-**마지막 업데이트:** 2025-12-18
+**마지막 업데이트:** 2025-12-23

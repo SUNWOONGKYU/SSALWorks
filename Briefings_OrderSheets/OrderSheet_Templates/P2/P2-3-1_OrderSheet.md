@@ -1,115 +1,150 @@
 # Order Sheet - P2-3-1 디자인 가이드라인
 
-> **작성일**: 2025-12-17
-> **버전**: 2.0 (종합 템플릿)
-> **Stage**: P2 프로젝트 기획
-> **Task ID**: P2-3-1
+> **버전**: 5.4
+> **단계**: P2-3-1 (디자인 가이드라인)
+> **목적**: UI/UX 디자인 가이드라인 수립
 
 ---
 
-## 1. Task 개요
+# PART A: 표준 내용
 
-### 1.1 목표
-프로젝트의 UI/UX 디자인 가이드라인을 수립합니다.
+## A1. AI 준수 사항
 
-### 1.2 Task 정보
+**AI가 반드시 지켜야 할 사항:**
 
-| 항목 | 값 |
-|------|-----|
-| Task ID | P2-3-1 |
-| Task Name | 디자인 가이드라인 |
-| Stage | P2 (프로젝트 기획) |
-| Area | Design |
-| 실행 유형 | AI-Only |
-| 의존성 | P2-2 완료 |
-| Task Agent | design-specialist |
-| Verification Agent | qa-specialist |
+1. 이 Order Sheet를 100% 이해할 때까지 작업 시작 금지
+2. 규칙 파일(`.claude/rules/`) 확인 전 파일 생성/저장 금지
+3. 불명확한 점은 추측 금지, 반드시 질문
+4. 작업 순서 (A3 참조) 건너뛰거나 변경 금지
+5. 거짓 기록 절대 금지
 
 ---
 
-## 2. 작업 내용
+## A2. 작업 내용
 
-### 2.1 컬러 시스템
-- Primary/Secondary/Accent 컬러 정의
-- Semantic 컬러 (Success/Warning/Error/Info)
-- Neutral 컬러 (Background/Text/Border)
-- 다크 모드 대응 (선택)
+**수행할 작업:**
 
-### 2.2 타이포그래피
-- 폰트 패밀리 선정
-- 폰트 사이즈 체계 (H1~H6, Body, Caption)
-- 라인 높이 및 자간
-- 웹폰트 vs 시스템 폰트
+1. 컬러 시스템 정의
+   - Primary/Secondary/Accent 컬러
+   - Semantic 컬러 (Success/Warning/Error/Info)
+   - 다크 모드 대응 (선택)
 
-### 2.3 컴포넌트 스타일
-- 버튼 스타일 (Primary/Secondary/Outline/Ghost)
-- 입력 필드 스타일 (Default/Focus/Error/Disabled)
-- 카드, 모달, 토스트 등 공통 컴포넌트
-- 아이콘 라이브러리 선정
+2. 타이포그래피 정의
+   - 폰트 패밀리 선정
+   - 폰트 사이즈 체계 (H1~H6, Body)
+   - 라인 높이 및 자간
 
-### 2.4 레이아웃 시스템
-- 그리드 시스템 (12컬럼 등)
-- 브레이크포인트 정의 (Mobile/Tablet/Desktop)
-- 간격(Spacing) 체계
+3. 컴포넌트 스타일 정의
+   - 버튼 스타일 (Primary/Secondary/Outline)
+   - 입력 필드 스타일
+   - 카드, 모달, 토스트 등
+
+4. 레이아웃 시스템
+   - 그리드 시스템
+   - 브레이크포인트 (Mobile/Tablet/Desktop)
+   - 간격(Spacing) 체계
 
 ---
 
-## 3. Order Sheet 템플릿
+## A3. AI 작업 순서 (5단계)
 
-```json
-{
-  "task_id": "P2-3-1",
-  "task_name": "디자인 가이드라인",
-  "stage": "P2",
-  "area": "Design",
-  "execution_type": "AI-Only",
+### 1단계: Order Sheet 완전 이해
 
-  "task_instruction": {
-    "목표": "UI/UX 디자인 가이드라인 수립",
-    "산출물": [
-      "컬러 시스템 정의",
-      "타이포그래피 가이드",
-      "컴포넌트 스타일 가이드",
-      "레이아웃 시스템"
-    ]
-  },
+**체크리스트**:
+- [ ] A2 작업 내용 확인
+- [ ] A4 산출물 확인
+- [ ] PART_B 특별 지시사항/참고사항 확인
 
-  "user_input": {
-    "브랜드_컨셉": "[브랜드 느낌, 키워드]",
-    "참고_디자인": "[참고 사이트/앱 URL]",
-    "선호_컬러": "[선호하는 메인 컬러]"
-  },
+**출력**: `'Order Sheet 확인 완료. 단계: P2-3-1'`
 
-  "output": {
-    "파일_저장": "P2_프로젝트_기획/UI_UX_Design/Design_Guidelines.md"
-  },
+---
 
-  "task_agent": "design-specialist",
-  "verification_agent": "qa-specialist"
-}
+### 2단계: 문의사항 질문
+
+**질문 형식**:
+```
+[P2-3-1] 질문: {내용}
+옵션 A: {옵션1}
+옵션 B: {옵션2}
 ```
 
+**출력**: 질문 목록 또는 `'질문 없음'`
+
 ---
 
-## 4. 검증 기준
+### 3단계: 실행 (Execution)
 
+**체크리스트**:
+- [ ] 컬러 시스템 정의
+- [ ] 타이포그래피 정의
+- [ ] 컴포넌트 스타일 정의
+- [ ] 레이아웃 시스템 정의
+
+---
+
+### 4단계: 검증 (Verification)
+
+**체크리스트**:
 - [ ] 컬러 시스템이 일관성 있게 정의되었는가?
 - [ ] 웹 접근성 기준 (WCAG 2.1) 충족하는가?
 - [ ] 반응형 디자인이 고려되었는가?
 - [ ] 확장 가능한 시스템인가?
 
----
-
-## 5. 다음 Task
-P2-3-1 완료 → P2-3-2 (목업 제작) 진행
+**출력**: `'검증 완료'`
 
 ---
 
-| 버전 | 날짜 | 내용 |
-|------|------|------|
-| 1.0 | - | 기본 템플릿 |
-| 2.0 | 2025-12-17 | 종합 템플릿 업데이트 |
+### 5단계: 완료 보고 (Report)
+
+**보고서 생성**:
+- 파일명: `P2-3-1_completion_report.md`
+- 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
+
+**보고 내용**:
+- 완료된 작업 요약
+- 생성된 문서
+- 다음 단계 안내 (P2-3-2)
 
 ---
 
-> 본 Order Sheet는 예시입니다. Project Owner가 프로젝트에 맞게 자유롭게 수정할 수 있습니다.
+## A4. 산출물
+
+| 산출물 | 저장 위치 |
+|--------|----------|
+| `Design_Guidelines.md` | `P2_프로젝트_기획/UI_UX_Design/` |
+| 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
+
+---
+
+## A5. 참조 문서
+
+| 항목 | 위치 |
+|------|------|
+| 규칙 파일 | `.claude/rules/` |
+| 요구사항 | `P2_프로젝트_기획/Project_Plan/` |
+| Briefing | `Briefings_OrderSheets/Briefings/P2/P2-3-1_Briefing.md` |
+
+---
+
+# PART B: 프로젝트별 추가 내용
+
+## B1. 특별 지시사항
+
+> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+
+(없음)
+
+---
+
+## B2. 참고사항
+
+> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
+
+**PO로부터 입력 필요:**
+- 브랜드 컨셉/키워드
+- 참고 디자인 (사이트/앱 URL)
+- 선호하는 메인 컬러
+
+---
+
+> 본 Order Sheet는 템플릿입니다. Project Owner가 프로젝트에 맞게 자유롭게 수정할 수 있습니다.

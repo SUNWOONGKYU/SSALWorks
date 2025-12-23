@@ -1,148 +1,164 @@
-# Order Sheet - P0-1 디렉토리 구조 자동 생성
+# Order Sheet - P0-1 디렉토리 구조 생성
 
-> **작성일**: 2025-12-19
-> **버전**: 3.0
-> **Stage**: P0 (작업 디렉토리 구조 생성)
-> **Task ID**: P0-1
-
----
-
-## 1. Task 개요
-
-### 1.1 목표
-새 프로젝트를 위한 SSALWorks 표준 디렉토리 구조를 자동 생성합니다.
-
-### 1.2 Task 정보
-
-| 항목 | 값 |
-|------|-----|
-| Task ID | P0-1 |
-| Task Name | 디렉토리 구조 생성 |
-| Stage | P0 (작업 디렉토리 구조 생성) |
-| Area | Setup |
-| 실행 유형 | AI-Only |
-| 의존성 | 없음 (첫 번째 Task) |
-| Task Agent | devops-troubleshooter |
-| Verification Agent | qa-specialist |
+> **버전**: 5.4
+> **단계**: P0-1 (작업 디렉토리 구조 생성)
+> **목적**: SSALWorks 표준 디렉토리 구조 자동 생성
 
 ---
 
-## 2. 작업 내용
+# PART A: 표준 내용
 
-### 2.1 표준 디렉토리 구조 생성
-- P0~P3 예비단계 폴더
-- S0~S5 실행단계 폴더
-- 하위 폴더 구조 (Area별)
-- Production 폴더 (배포용 코드)
+## A1. AI 준수 사항
 
-### 2.2 기본 문서 생성
-- PROJECT_DIRECTORY_STRUCTURE.md
-- PROJECT_STATUS.md
-- README.md
-- .gitignore
+**AI가 반드시 지켜야 할 사항:**
 
-### 2.3 설정 파일 생성
-- .claude/CLAUDE.md (Claude Code 설정)
-- .env.example (환경 변수 템플릿)
-- Web_ClaudeCode_Bridge/ 구조
+1. 이 Order Sheet를 100% 이해할 때까지 작업 시작 금지
+2. 규칙 파일(`.claude/rules/`) 확인 전 파일 생성/저장 금지
+3. 불명확한 점은 추측 금지, 반드시 질문
+4. 작업 순서 (A3 참조) 건너뛰거나 변경 금지
+5. 거짓 기록 절대 금지
 
 ---
 
-## 3. Order Sheet 템플릿
+## A2. 작업 내용
 
-```json
-{
-  "task_id": "P0-1",
-  "task_name": "디렉토리 구조 생성",
-  "stage": "P0",
-  "area": "Setup",
-  "execution_type": "AI-Only",
+**수행할 작업:**
 
-  "task_instruction": {
-    "목표": "SSALWorks 표준 디렉토리 구조 생성",
-    "산출물": [
-      "전체 폴더 구조",
-      "PROJECT_DIRECTORY_STRUCTURE.md",
-      "PROJECT_STATUS.md",
-      ".claude/CLAUDE.md"
-    ]
-  },
+1. SSALWorks 표준 디렉토리 구조 생성
+   - P0~P3 예비단계 폴더
+   - S0~S5 실행단계 폴더
+   - Production 폴더 (배포용 코드)
+   - 부수적_고유기능 폴더
 
-  "user_input": {
-    "프로젝트명": "[새 프로젝트 이름]",
-    "저장_경로": "[프로젝트 생성 디렉토리]",
-    "프로젝트_유형": "[웹앱/API/풀스택]"
-  },
+2. 기본 문서 생성
+   - `Project_Directory_Structure.md`
+   - `Project_Status.md`
+   - `README.md`
+   - `.gitignore`
 
-  "output": {
-    "파일_저장": "[프로젝트명]/"
-  },
+3. 설정 파일 생성
+   - `.claude/CLAUDE.md` (Claude Code 설정)
+   - `.env.example` (환경 변수 템플릿)
+   - `Human_ClaudeCode_Bridge/` 구조
 
-  "task_agent": "devops-troubleshooter",
-  "verification_agent": "qa-specialist"
-}
+---
+
+## A3. AI 작업 순서 (5단계)
+
+### 1단계: Order Sheet 완전 이해
+
+**체크리스트**:
+- [ ] A2 작업 내용 확인
+- [ ] A4 산출물 확인
+- [ ] PART_B 특별 지시사항/참고사항 확인
+
+**출력**: `'Order Sheet 확인 완료. 단계: P0-1'`
+
+---
+
+### 2단계: 문의사항 질문
+
+**질문 형식**:
+```
+[P0-1] 질문: {내용}
+옵션 A: {옵션1}
+옵션 B: {옵션2}
 ```
 
+**출력**: 질문 목록 또는 `'질문 없음'`
+
 ---
 
-## 4. SSALWorks 표준 구조
+### 3단계: 실행 (Execution)
 
+**체크리스트**:
+- [ ] 표준 디렉토리 구조 생성 (A2 참조)
+- [ ] 기본 문서 생성 (A2 참조)
+- [ ] 설정 파일 생성 (A2 참조)
+
+---
+
+### 4단계: 검증 (Verification)
+
+**체크리스트**:
+- [ ] 모든 폴더가 생성되었는가?
+- [ ] 모든 문서가 생성되었는가?
+- [ ] 네이밍 규칙이 일관성 있는가?
+
+**출력**: `'검증 완료'`
+
+---
+
+### 5단계: 완료 보고 (Report)
+
+**보고서 생성**:
+- 파일명: `P0-1_completion_report.md`
+- 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
+
+**보고 내용**:
+- 완료된 작업 요약
+- 생성된 파일/폴더 목록
+- 다음 단계 안내 (P0-2)
+
+---
+
+## A4. 산출물
+
+| 산출물 | 저장 위치 |
+|--------|----------|
+| 전체 폴더 구조 | 프로젝트 루트 |
+| `Project_Directory_Structure.md` | `P0_작업_디렉토리_구조_생성/` |
+| `Project_Status.md` | `P0_작업_디렉토리_구조_생성/` |
+| `.claude/CLAUDE.md` | `.claude/` |
+| 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
+
+---
+
+## A5. 참조 문서
+
+| 항목 | 위치 |
+|------|------|
+| 규칙 파일 | `.claude/rules/` |
+| 보고서 저장 | `Human_ClaudeCode_Bridge/Reports/` |
+| Briefing | `Briefings_OrderSheets/Briefings/P0/P0-1_Briefing.md` |
+
+---
+
+# PART B: 프로젝트별 추가 내용
+
+## B1. 특별 지시사항
+
+> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+
+(없음)
+
+---
+
+## B2. 참고사항
+
+> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
+
+**표준 폴더 구조:**
 ```
 [프로젝트명]/
-├── P0_작업_디렉토리_구조_생성/    # 예비단계 (P0)
-├── S0_Project-SAL-Grid_생성/    # 실행단계 (S0)
+├── P0_작업_디렉토리_구조_생성/
 ├── P1_사업계획/
 ├── P2_프로젝트_기획/
-│   ├── Project_Plan/
-│   ├── User_Flows/
-│   └── UI_UX_Design/
 ├── P3_프로토타입_제작/
-│   ├── Frontend/
-│   ├── Database/
-│   └── Scripts/
+├── S0_Project-SAL-Grid_생성/
 ├── S1_개발_준비/
-│   ├── Documentation/
-│   ├── Security/
-│   └── Testing/
 ├── S2_개발-1차/
 ├── S3_개발-2차/
 ├── S4_개발-3차/
 ├── S5_개발_마무리/
-├── Production/                   # 배포용 코드
-│   ├── Frontend/
-│   ├── Backend_APIs/
-│   └── Database/
-├── Web_ClaudeCode_Bridge/        # AI 통신용
-│   ├── Inbox/
-│   └── Outbox/
-├── .claude/                      # Claude Code 설정
-├── PROJECT_DIRECTORY_STRUCTURE.md
-├── PROJECT_STATUS.md
-└── README.md
+├── Production/
+├── Human_ClaudeCode_Bridge/
+├── Briefings_OrderSheets/
+├── 부수적_고유기능/
+├── .claude/
+└── 참고자료/
 ```
 
 ---
 
-## 5. 검증 기준
-
-- [ ] SSALWorks 표준 구조를 준수하는가?
-- [ ] 네이밍 규칙이 일관성 있는가?
-- [ ] 기본 문서가 모두 생성되었는가?
-- [ ] .claude/CLAUDE.md 설정이 완료되었는가?
-
----
-
-## 6. 다음 Task
-P0-1 완료 → S0-1 (Project SAL Grid 생성) 진행
-
----
-
-| 버전 | 날짜 | 내용 |
-|------|------|------|
-| 1.0 | - | 기본 템플릿 |
-| 2.0 | 2025-12-17 | 종합 템플릿 업데이트 |
-| 3.0 | 2025-12-19 | P0 분리 및 Task ID 정리 |
-
----
-
-> 본 Order Sheet는 예시입니다. Project Owner가 프로젝트에 맞게 자유롭게 수정할 수 있습니다.
+> 본 Order Sheet는 템플릿입니다. Project Owner가 프로젝트에 맞게 자유롭게 수정할 수 있습니다.

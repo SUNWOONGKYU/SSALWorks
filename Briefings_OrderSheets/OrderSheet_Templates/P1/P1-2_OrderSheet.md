@@ -1,113 +1,150 @@
 # Order Sheet - P1-2 시장 분석
 
-> **작성일**: 2025-12-17
-> **버전**: 2.0 (종합 템플릿)
-> **Stage**: P1 사업계획
-> **Task ID**: P1-2
+> **버전**: 5.4
+> **단계**: P1-2 (시장 분석)
+> **목적**: 목표 시장과 경쟁 환경 분석
 
 ---
 
-## 1. Task 개요
+# PART A: 표준 내용
 
-### 1.1 목표
-목표 시장과 경쟁 환경을 분석하여 사업 전략의 기반을 마련합니다.
+## A1. AI 준수 사항
 
-### 1.2 Task 정보
+**AI가 반드시 지켜야 할 사항:**
 
-| 항목 | 값 |
-|------|-----|
-| Task ID | P1-2 |
-| Task Name | 시장 분석 |
-| Stage | P1 (사업계획) |
-| Area | Documentation |
-| 실행 유형 | AI-Only |
-| 의존성 | P1-1 완료 |
-| Task Agent | documentation-specialist |
-| Verification Agent | qa-specialist |
+1. 이 Order Sheet를 100% 이해할 때까지 작업 시작 금지
+2. 규칙 파일(`.claude/rules/`) 확인 전 파일 생성/저장 금지
+3. 불명확한 점은 추측 금지, 반드시 질문
+4. 작업 순서 (A3 참조) 건너뛰거나 변경 금지
+5. 거짓 기록 절대 금지
 
 ---
 
-## 2. 작업 내용
+## A2. 작업 내용
 
-### 2.1 시장 규모 분석 (TAM/SAM/SOM)
-- TAM (Total Addressable Market): 전체 시장 규모
-- SAM (Serviceable Available Market): 접근 가능 시장
-- SOM (Serviceable Obtainable Market): 실제 목표 시장
+**수행할 작업:**
 
-### 2.2 목표 고객 정의
-- 주요 타겟 고객 세그먼트
-- 고객 페르소나 (3-5개)
-- 고객 니즈 및 Pain Points
+1. 시장 규모 분석 (TAM/SAM/SOM)
+   - TAM: 전체 시장 규모
+   - SAM: 접근 가능 시장
+   - SOM: 실제 목표 시장
 
-### 2.3 경쟁 분석
-- 직접 경쟁사 (3-5개)
-- 간접 경쟁사
-- SWOT 분석
-- 경쟁 우위 요소
+2. 목표 고객 정의
+   - 주요 타겟 고객 세그먼트
+   - 고객 페르소나 (3-5개)
+   - 고객 니즈 및 Pain Points
 
-### 2.4 시장 트렌드
-- 현재 트렌드
-- 성장 예측
-- 기회 및 위협 요소
+3. 경쟁 분석
+   - 직접/간접 경쟁사
+   - SWOT 분석
+   - 경쟁 우위 요소
+
+4. 시장 트렌드
+   - 현재 트렌드
+   - 성장 예측
+   - 기회 및 위협 요소
 
 ---
 
-## 3. Order Sheet 템플릿
+## A3. AI 작업 순서 (5단계)
 
-```json
-{
-  "task_id": "P1-2",
-  "task_name": "시장 분석",
-  "stage": "P1",
-  "area": "Documentation",
-  "execution_type": "AI-Only",
+### 1단계: Order Sheet 완전 이해
 
-  "task_instruction": {
-    "목표": "시장 및 경쟁 환경 분석",
-    "산출물": [
-      "TAM/SAM/SOM 분석",
-      "고객 페르소나",
-      "경쟁사 분석",
-      "SWOT 분석"
-    ]
-  },
+**체크리스트**:
+- [ ] A2 작업 내용 확인
+- [ ] A4 산출물 확인
+- [ ] PART_B 특별 지시사항/참고사항 확인
 
-  "user_input": {
-    "산업_분야": "[사용자 입력]",
-    "알려진_경쟁사": "[사용자 입력]",
-    "참고_자료": "[사용자 입력]"
-  },
+**출력**: `'Order Sheet 확인 완료. 단계: P1-2'`
 
-  "output": {
-    "파일_저장": "P1_사업계획/Market_Analysis.md"
-  },
+---
 
-  "task_agent": "documentation-specialist",
-  "verification_agent": "qa-specialist"
-}
+### 2단계: 문의사항 질문
+
+**질문 형식**:
+```
+[P1-2] 질문: {내용}
+옵션 A: {옵션1}
+옵션 B: {옵션2}
 ```
 
+**출력**: 질문 목록 또는 `'질문 없음'`
+
 ---
 
-## 4. 검증 기준
+### 3단계: 실행 (Execution)
 
+**체크리스트**:
+- [ ] TAM/SAM/SOM 분석
+- [ ] 고객 페르소나 작성
+- [ ] 경쟁사 분석
+- [ ] SWOT 분석
+
+---
+
+### 4단계: 검증 (Verification)
+
+**체크리스트**:
 - [ ] TAM/SAM/SOM 수치가 합리적인가?
 - [ ] 고객 페르소나가 구체적인가?
 - [ ] 경쟁 분석이 객관적인가?
 - [ ] SWOT가 실행 가능한 인사이트를 제공하는가?
 
----
-
-## 5. 다음 Task
-P1-2 완료 → P1-3 (비즈니스 모델) 진행
+**출력**: `'검증 완료'`
 
 ---
 
-| 버전 | 날짜 | 내용 |
-|------|------|------|
-| 1.0 | - | 기본 템플릿 |
-| 2.0 | 2025-12-17 | 종합 템플릿 업데이트 |
+### 5단계: 완료 보고 (Report)
+
+**보고서 생성**:
+- 파일명: `P1-2_completion_report.md`
+- 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
+
+**보고 내용**:
+- 완료된 작업 요약
+- 생성된 문서
+- 다음 단계 안내 (P1-3)
 
 ---
 
-> 본 Order Sheet는 예시입니다. Project Owner가 프로젝트에 맞게 자유롭게 수정할 수 있습니다.
+## A4. 산출물
+
+| 산출물 | 저장 위치 |
+|--------|----------|
+| `Market_Analysis.md` | `P1_사업계획/Market_Analysis/` |
+| 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
+
+---
+
+## A5. 참조 문서
+
+| 항목 | 위치 |
+|------|------|
+| 규칙 파일 | `.claude/rules/` |
+| Vision/Mission | `P1_사업계획/Vision_Mission/` |
+| Briefing | `Briefings_OrderSheets/Briefings/P1/P1-2_Briefing.md` |
+
+---
+
+# PART B: 프로젝트별 추가 내용
+
+## B1. 특별 지시사항
+
+> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+
+(없음)
+
+---
+
+## B2. 참고사항
+
+> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
+
+**PO로부터 입력 필요:**
+- 산업 분야
+- 알려진 경쟁사
+- 참고 자료
+
+---
+
+> 본 Order Sheet는 템플릿입니다. Project Owner가 프로젝트에 맞게 자유롭게 수정할 수 있습니다.

@@ -4,6 +4,80 @@
 
 ---
 
+## 2025-12-23 작업 내역
+
+### Order Sheet/Briefing v5.4 전면 재작성 ✅
+
+**완료된 작업:**
+
+| Stage | 파일 수 | 상태 |
+|-------|--------|------|
+| P0 | 2개 (Order Sheet + Briefing) | ✅ 완료 |
+| P1 | 6개 (3쌍) | ✅ 완료 |
+| P2 | 16개 (8쌍) | ✅ 완료 |
+| P3 | 8개 (4쌍) | ✅ 완료 |
+| S0 | 8개 (4쌍) | ✅ 완료 |
+
+**총: 40개 파일 v5.4 형식으로 재작성**
+
+**v5.4 형식 구조:**
+```
+Order Sheet:
+- Header: 버전, 단계, 목적
+- PART A: A1 AI 준수사항, A2 작업내용, A3 작업순서(5단계), A4 산출물, A5 참조문서
+- PART B: B1 특별지시사항, B2 참고사항
+
+Briefing:
+- Header: 단계, 버전
+- 개요, 목적, 주요내용(테이블), 산출물, 실행조건, Order Sheet 로딩
+```
+
+**주요 변경사항:**
+- `Web_ClaudeCode_Bridge` → `Human_ClaudeCode_Bridge`
+- P0~S0 단계는 5단계 AI 작업 순서 사용 (SAL Grid Task 개념 미적용)
+- 템플릿 안내 문구 추가
+
+**S0 세부 항목:**
+- S0-1: Project SAL Grid 생성
+- S0-2: SAL Grid 매뉴얼 작성
+- S0-3: SAL Grid Supabase 연동
+- S0-4: SAL Grid Viewer 개발
+
+**다음 작업:** S1~S5 Order Sheet 검토 (pending)
+
+---
+
+### Project_Directory_Structure.md v12.3 업데이트 ✅
+
+**수정 사항:**
+
+1. **S5 폴더명 통일**: `Backend_API` → `Backend_APIs` (s 포함)
+   - 다른 Stage들(S2, S3, S4)과 일관성 유지
+
+2. **S0 폴더명/내용 수정**:
+   - `S0_Project-SSAL-Grid_생성` → `S0_Project-SAL-Grid_생성` (SSAL→SAL)
+   - `ssal-grid/` → `sal-grid/`
+   - `PROJECT_SSAL_GRID_MANUAL.md` → `PROJECT_SAL_GRID_MANUAL.md`
+
+3. **P2 폴더 추가**: `Service_Introduction/`
+
+4. **S3 폴더 추가**: `Database/`, `Frontend/`
+
+5. **S4 폴더 추가**: `Database/`, `External/`
+
+6. **루트 폴더 추가**: `Briefings_OrderSheets/`
+
+7. **참고자료 파일명 수정**:
+   - `PROJECT_SSAL_GRID_MANUAL.html` → `PROJECT_SAL_GRID_MANUAL.html`
+
+8. **Briefings_OrderSheets 상세 섹션 추가**
+
+**수정된 파일:**
+- `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md` (v12.2 → v12.3)
+- `S5_개발_마무리/Backend_API` → `S5_개발_마무리/Backend_APIs` (폴더명 변경)
+
+---
+
 ## 2025-12-22 작업 내역
 
 ### Order Sheet v5.4 메타데이터 수정 ✅
