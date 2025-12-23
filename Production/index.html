@@ -3849,7 +3849,6 @@ The content you enter in the Control Space will be displayed here.</pre>
         // 환경 감지 - 배포 환경에서는 localhost 서버 기능 비활성화
         const IS_PRODUCTION = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
         const BRIDGE_SERVER_URL = 'http://localhost:3030';
-        const PROGRESS_SERVER_URL = 'http://localhost:3032';
         const AI_SERVER_URL = 'http://localhost:3031';
 
         // 프로젝트별 Orders 경로 설정
@@ -9042,106 +9041,8 @@ ${result.answer}`;
         }
 
         // ================================================================
-        // 사이드바 진행률 자동 업데이트 (Development_Process_Monitor 연동)
-        // ================================================================
-        // PROGRESS_SERVER는 상단에서 PROGRESS_SERVER_URL로 정의됨
-
-        async function calculateFolderProgress() {
-            // 배포 환경에서는 실행하지 않음
-            if (IS_PRODUCTION) return;
-
-            try {
-                const response = await fetch(`${PROGRESS_SERVER_URL}/check-folder-progress`);
-                if (!response.ok) throw new Error('서버 연결 실패');
-                const data = await response.json();
-
-                if (data.business) updatePrepProgress('사업계획', data.business.progress);
-                if (data.planning) updatePrepProgress('프로젝트 기획', data.planning.progress);
-
-                console.log('폴더 진행률:', `사업계획 ${data.business.progress}%, 프로젝트기획 ${data.planning.progress}%`);
-            } catch (error) {
-                // 로컬 환경에서만 경고 표시
-                if (!IS_PRODUCTION) console.warn('진행률 서버 미연결:', error.message);
-            }
-        }
-
-        function updatePrepProgress(stageName, progress) {
-            document.querySelectorAll('.process-prep').forEach(el => {
-                const nameEl = el.querySelector('.process-prep-name');
-                if (nameEl && nameEl.textContent.includes(stageName)) {
-                    el.setAttribute('data-progress', progress);
-                    const fillEl = el.querySelector('.process-progress-fill');
-                    if (fillEl) fillEl.style.width = `${progress}%`;
-                    const percentEl = el.querySelector('.process-percent');
-                    if (percentEl) percentEl.textContent = `${progress}%`;
-                    if (progress === 100) el.classList.add('completed');
-                }
-            });
-        }
-
-        async function calculateStageProgress() {
-            // 배포 환경에서는 실행하지 않음
-            if (IS_PRODUCTION) return;
-
-            try {
-                const response = await fetch(`${PROGRESS_SERVER_URL}/check-stage-progress`);
-                if (!response.ok) return;
-                const data = await response.json();
-                Object.entries(data).forEach(([key, val]) => updateMajorProgressFromServer(key, val.progress));
-            } catch (e) { /* 무시 */ }
-        }
-
-        function updateMajorProgressFromServer(stageKey, progress) {
-            const map = { 's1': 'S1.', 's2': 'S2.', 's3': 'S3.', 's4': 'S4.', 's5': 'S5.', 's6': 'S6.' };
-            const icon = map[stageKey];
-            if (!icon) return;
-            document.querySelectorAll('.process-major').forEach(el => {
-                const iconEl = el.querySelector('.process-icon');
-                if (iconEl && iconEl.textContent === icon) {
-                    el.setAttribute('data-progress', progress);
-                    const fillEl = el.querySelector('.process-progress-fill');
-                    if (fillEl) fillEl.style.width = `${progress}%`;
-                    const percentEl = el.querySelector('.process-percent');
-                    if (percentEl) percentEl.textContent = `${progress}%`;
-                    if (progress === 100) el.classList.add('completed');
-                }
-            });
-        }
-
-        // ================================================================
-        // 특별단계 진행률 자동 업데이트 (P0, S0)
-        // ================================================================
-        async function calculateSpecialProgress() {
-            // 배포 환경에서는 DB에서 로드
-            if (IS_PRODUCTION) {
-                await loadPhaseProgressFromDB();
-                return;
-            }
-
-            // 로컬 환경에서는 서버에서 로드
-            try {
-                const response = await fetch(`${PROGRESS_SERVER_URL}/check-special-progress`);
-                if (!response.ok) throw new Error('서버 연결 실패');
-                const data = await response.json();
-
-                // P0 (작업 디렉토리 구조) 진행률 업데이트
-                if (data.dir_structure) {
-                    updateSpecialProgress('P0', data.dir_structure.progress);
-                }
-
-                // S0 (Project SAL Grid) 진행률 업데이트
-                if (data.sal_grid) {
-                    updateSpecialProgress('S0', data.sal_grid.progress);
-                }
-
-                console.log('📊 특별단계 진행률:', `P0 ${data.dir_structure?.progress}%, S0 ${data.sal_grid?.progress}%`);
-            } catch (error) {
-                if (!IS_PRODUCTION) console.warn('특별단계 진행률 서버 미연결:', error.message);
-            }
-        }
-
-        // ================================================================
-        // 배포 환경: DB에서 Phase 진행률 로드 (project_phase_progress 테이블)
+        // Phase 진행률 DB에서 로드 (project_phase_progress 테이블)
+        // P0~P3, S0~S5 모든 진행률을 DB에서 관리
         // ================================================================
         async function loadPhaseProgressFromDB() {
             try {
@@ -9209,20 +9110,16 @@ ${result.answer}`;
             });
         }
 
-        // 페이지 로드 시 진행률 자동 업데이트 (Stage Gate 기반)
+        // 페이지 로드 시 진행률 자동 업데이트 (DB에서 로드)
         window.addEventListener('load', () => {
             setTimeout(() => {
-                calculateFolderProgress();
-                calculateStageProgress();
-                calculateSpecialProgress();
+                loadPhaseProgressFromDB();
             }, 1500);
         });
 
         // 60초마다 자동 갱신
         setInterval(() => {
-            calculateFolderProgress();
-            calculateStageProgress();
-            calculateSpecialProgress();
+            loadPhaseProgressFromDB();
         }, 60000);
     </script>
 
