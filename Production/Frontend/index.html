@@ -2335,52 +2335,65 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('ssal_grid', 'SSAL Grid', 'SAL Grid')">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid', 'sal-grid', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>ssal-grid</span>
+                                    <span>sal-grid</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_manual', 'Manual', 'SAL Grid')">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_manual', 'manual', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>manual</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_supabase', 'Supabase', 'SAL Grid')">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_supabase', 'supabase', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>supabase</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="window.open('sal-grid-viewer.html', '_blank')">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_viewer', 'viewer', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>viewer</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_task_instructions', 'Task Instructions', 'SAL Grid')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>task-instructions</span>
-                                </div>
+                        </div>
+                    </div>
+
+                    <!-- ☆ Briefings & OrderSheets -->
+                    <div class="process-item">
+                        <div class="process-special-major" onclick="toggleProcess(this)" data-progress="100">
+                            <div class="process-header">
+                                <span class="process-icon">☆</span>
+                                <span class="process-name">Briefings & OrderSheets</span>
+                                <span class="process-arrow">▶</span>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_verification_instructions', 'Verification Instructions', 'SAL Grid')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>verification-instructions</span>
+                            <div class="process-progress-container">
+                                <div class="process-progress">
+                                    <div class="process-progress-fill" style="width: 100%"></div>
                                 </div>
+                                <span class="process-percent">100%</span>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_briefings', 'Briefings', 'SAL Grid')">
+                        </div>
+                        <div class="process-small-list">
+                            <div class="process-small" onclick="loadProcessStage('briefings', 'Briefings', 'Briefings')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Briefings</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_ordersheets', 'OrderSheet Templates', 'SAL Grid')">
+                            <div class="process-small" onclick="loadProcessStage('ordersheet_templates', 'OrderSheet_Templates', 'OrderSheets')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>OrderSheet_Templates</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('situational_guides', 'Situational_Guides', 'Guides')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Situational_Guides</span>
                                 </div>
                             </div>
                         </div>
@@ -4447,46 +4460,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 orderSheetUrl: 'templates/SAL_Grid_Supabase.md'
             },
 
-            'sal_grid_task_instructions': {
-                stageId: 'sal_grid_task_instructions',
-                stageName: 'Task Instructions',
-                hasAction: true,
-                confirmMessage: 'Task Instructions 작업을 진행하시겠습니까?',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/S0-5_Briefing.html'
-            },
-
-            'sal_grid_verification_instructions': {
-                stageId: 'sal_grid_verification_instructions',
-                stageName: 'Verification Instructions',
-                hasAction: true,
-                confirmMessage: 'Verification Instructions 작업을 진행하시겠습니까?',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/S0-6_Briefing.html'
-            },
-
-            'sal_grid_briefings': {
-                stageId: 'sal_grid_briefings',
-                stageName: 'Briefings',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: ''
-            },
-
-            'sal_grid_ordersheets': {
-                stageId: 'sal_grid_ordersheets',
-                stageName: 'OrderSheet Templates',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: ''
-            },
-
             'sal_grid_viewer': {
                 stageId: 'sal_grid_viewer',
                 stageName: 'SAL Grid Viewer',
@@ -4508,6 +4481,47 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 orderSheet: '',
                 guideUrl: 'guides/S0-1_Briefing.html',
                 orderSheetUrl: 'templates/SSAL_Grid.md'
+            },
+
+            'sal_grid': {
+                stageId: 'sal_grid',
+                stageName: 'sal-grid',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: ''
+            },
+
+            // ===== ☆ Briefings & OrderSheets =====
+            'briefings': {
+                stageId: 'briefings',
+                stageName: 'Briefings',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: ''
+            },
+
+            'ordersheet_templates': {
+                stageId: 'ordersheet_templates',
+                stageName: 'OrderSheet_Templates',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: ''
+            },
+
+            'situational_guides': {
+                stageId: 'situational_guides',
+                stageName: 'Situational_Guides',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: ''
             },
 
             // ===== ○ 사업계획: 0-1 시장조사 =====
