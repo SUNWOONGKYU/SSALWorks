@@ -18,6 +18,7 @@ const BRIEFINGS_DIR = __dirname;
 // 출력 JS 파일 위치 - Production/Frontend/guides.js (기존 파일 대체)
 const OUTPUT_FILE = path.join(__dirname, '..', '..', 'Production', 'Frontend', 'guides.js');
 
+
 /**
  * 디렉토리를 재귀적으로 탐색하여 모든 MD 파일 찾기
  */

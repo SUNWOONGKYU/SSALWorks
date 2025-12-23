@@ -9112,9 +9112,13 @@ ${result.answer}`;
         // 특별단계 진행률 자동 업데이트 (P0, S0)
         // ================================================================
         async function calculateSpecialProgress() {
-            // 배포 환경에서는 실행하지 않음
-            if (IS_PRODUCTION) return;
+            // 배포 환경에서는 DB에서 로드
+            if (IS_PRODUCTION) {
+                await loadPhaseProgressFromDB();
+                return;
+            }
 
+            // 로컬 환경에서는 서버에서 로드
             try {
                 const response = await fetch(`${PROGRESS_SERVER_URL}/check-special-progress`);
                 if (!response.ok) throw new Error('서버 연결 실패');
@@ -9133,6 +9137,55 @@ ${result.answer}`;
                 console.log('📊 특별단계 진행률:', `P0 ${data.dir_structure?.progress}%, S0 ${data.sal_grid?.progress}%`);
             } catch (error) {
                 if (!IS_PRODUCTION) console.warn('특별단계 진행률 서버 미연결:', error.message);
+            }
+        }
+
+        // ================================================================
+        // 배포 환경: DB에서 Phase 진행률 로드 (project_phase_progress 테이블)
+        // ================================================================
+        async function loadPhaseProgressFromDB() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('project_phase_progress')
+                    .select('phase_code, progress')
+                    .eq('project_id', 'SSALWORKS');
+
+                if (error) {
+                    console.warn('Phase 진행률 DB 로드 실패:', error);
+                    return;
+                }
+
+                if (data) {
+                    data.forEach(item => {
+                        const code = item.phase_code;
+                        const progress = item.progress;
+
+                        // P0, S0는 특별단계
+                        if (code === 'P0' || code === 'S0') {
+                            updateSpecialProgress(code, progress);
+                        }
+                        // P1, P2, P3는 예비단계
+                        else if (code.startsWith('P')) {
+                            updatePrepProgressByCode(code, progress);
+                        }
+                        // S1~S5는 개발단계
+                        else if (code.startsWith('S')) {
+                            updateStageProgress(code, progress);
+                        }
+                    });
+                    console.log('📊 Phase 진행률 DB 로드 완료:', data.length + '개');
+                }
+            } catch (e) {
+                console.warn('Phase 진행률 로드 오류:', e);
+            }
+        }
+
+        // P1, P2, P3 진행률 업데이트 (phase_code로)
+        function updatePrepProgressByCode(phaseCode, progress) {
+            const nameMap = { 'P1': '사업계획', 'P2': '프로젝트 기획', 'P3': '프로토타입 제작' };
+            const stageName = nameMap[phaseCode];
+            if (stageName) {
+                updatePrepProgress(stageName, progress);
             }
         }
 

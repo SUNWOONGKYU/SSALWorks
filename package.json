@@ -1,15 +1,15 @@
 {
   "dependencies": {
-    "@google/generative-ai": "^0.21.0",
     "@google-cloud/translate": "^9.3.0",
+    "@google/generative-ai": "^0.21.0",
     "@supabase/supabase-js": "^2.81.1",
-    "openai": "^4.70.0",
     "chokidar": "^4.0.3",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "marked": "^17.0.1",
-    "next": "15.1.0",
+    "next": "^15.5.9",
+    "openai": "^4.70.0",
     "pg": "^8.16.3",
     "puppeteer": "^24.30.0",
     "react": "19.0.0",
