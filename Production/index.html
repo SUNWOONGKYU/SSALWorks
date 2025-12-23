@@ -9112,11 +9112,60 @@ ${result.answer}`;
             });
         }
 
+        // ================================================================
+        // 특별단계 진행률 자동 업데이트 (P0, S0)
+        // ================================================================
+        async function calculateSpecialProgress() {
+            // 배포 환경에서는 실행하지 않음
+            if (IS_PRODUCTION) return;
+
+            try {
+                const response = await fetch(`${PROGRESS_SERVER_URL}/check-special-progress`);
+                if (!response.ok) throw new Error('서버 연결 실패');
+                const data = await response.json();
+
+                // P0 (작업 디렉토리 구조) 진행률 업데이트
+                if (data.dir_structure) {
+                    updateSpecialProgress('P0', data.dir_structure.progress);
+                }
+
+                // S0 (Project SAL Grid) 진행률 업데이트
+                if (data.sal_grid) {
+                    updateSpecialProgress('S0', data.sal_grid.progress);
+                }
+
+                console.log('📊 특별단계 진행률:', `P0 ${data.dir_structure?.progress}%, S0 ${data.sal_grid?.progress}%`);
+            } catch (error) {
+                if (!IS_PRODUCTION) console.warn('특별단계 진행률 서버 미연결:', error.message);
+            }
+        }
+
+        function updateSpecialProgress(stageId, progress) {
+            // P0. 또는 S0. 아이콘을 가진 요소 찾기
+            const iconText = stageId + '.';
+            document.querySelectorAll('.process-special-major').forEach(el => {
+                const iconEl = el.querySelector('.process-icon');
+                if (iconEl && iconEl.textContent === iconText) {
+                    el.setAttribute('data-progress', progress);
+                    const fillEl = el.querySelector('.process-progress-fill');
+                    if (fillEl) fillEl.style.width = `${progress}%`;
+                    const percentEl = el.querySelector('.process-percent');
+                    if (percentEl) percentEl.textContent = `${progress}%`;
+                    if (progress === 100) {
+                        el.classList.add('completed');
+                    } else {
+                        el.classList.remove('completed');
+                    }
+                }
+            });
+        }
+
         // 페이지 로드 시 진행률 자동 업데이트 (Stage Gate 기반)
         window.addEventListener('load', () => {
             setTimeout(() => {
                 calculateFolderProgress();
                 calculateStageProgress();
+                calculateSpecialProgress();
             }, 1500);
         });
 
@@ -9124,6 +9173,7 @@ ${result.answer}`;
         setInterval(() => {
             calculateFolderProgress();
             calculateStageProgress();
+            calculateSpecialProgress();
         }, 60000);
     </script>
 
