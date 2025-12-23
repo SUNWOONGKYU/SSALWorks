@@ -8180,19 +8180,26 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             const customerBtn = document.getElementById('tabCustomerInquiry');
             const sunnyBtn = document.getElementById('tabSunnyInquiry');
 
+            // CSS 변수 값 가져오기
+            const styles = getComputedStyle(document.documentElement);
+            const primary = styles.getPropertyValue('--primary').trim() || '#10B981';
+            const secondary = styles.getPropertyValue('--secondary').trim() || '#F59E0B';
+            const bgLight = styles.getPropertyValue('--bg-light').trim() || '#f8f9fa';
+            const neutral = styles.getPropertyValue('--neutral').trim() || '#64748B';
+
             if (tab === 'customer') {
                 customerTab.style.display = 'block';
                 sunnyTab.style.display = 'none';
-                customerBtn.style.background = '#3B82F6';
+                customerBtn.style.background = primary;
                 customerBtn.style.color = 'white';
-                sunnyBtn.style.background = '#f3f4f6';
-                sunnyBtn.style.color = '#6b7280';
+                sunnyBtn.style.background = bgLight;
+                sunnyBtn.style.color = neutral;
             } else {
                 customerTab.style.display = 'none';
                 sunnyTab.style.display = 'block';
-                customerBtn.style.background = '#f3f4f6';
-                customerBtn.style.color = '#6b7280';
-                sunnyBtn.style.background = '#F59E0B';
+                customerBtn.style.background = bgLight;
+                customerBtn.style.color = neutral;
+                sunnyBtn.style.background = secondary;
                 sunnyBtn.style.color = 'white';
             }
         }
@@ -8249,15 +8256,16 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             const container = document.getElementById('customerInquiryList');
 
             if (inquiries.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 40px;">문의 내역이 없습니다.</div>';
+                container.innerHTML = '<div style="text-align: center; color: var(--neutral); padding: 40px;">문의 내역이 없습니다.</div>';
                 return;
             }
 
+            // 프로젝트 디자인 규칙에 맞는 상태 색상
             const statusLabels = {
-                'pending': { text: '대기중', color: '#EF4444', bg: '#FEE2E2' },
-                'in_progress': { text: '처리중', color: '#F59E0B', bg: '#FEF3C7' },
-                'answered': { text: '답변완료', color: '#10B981', bg: '#D1FAE5' },
-                'closed': { text: '종료', color: '#6B7280', bg: '#F3F4F6' }
+                'pending': { text: '대기중', color: 'var(--danger)', bg: 'rgba(239, 68, 68, 0.1)' },
+                'in_progress': { text: '처리중', color: 'var(--secondary)', bg: 'rgba(245, 158, 11, 0.1)' },
+                'answered': { text: '답변완료', color: 'var(--success)', bg: 'rgba(16, 185, 129, 0.1)' },
+                'closed': { text: '종료', color: 'var(--neutral)', bg: 'var(--bg-light)' }
             };
 
             container.innerHTML = inquiries.map(inquiry => {
@@ -8265,17 +8273,17 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                 const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR');
 
                 return `
-                    <div style="background: #f9fafb; border-radius: 12px; padding: 16px; border-left: 4px solid ${status.color};">
+                    <div style="background: var(--bg-light); border-radius: var(--border-radius); padding: 16px; border-left: 4px solid ${status.color};">
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
                             <div style="font-weight: 600; color: #1f2937; font-size: 14px;">${escapeHtml(inquiry.title)}</div>
                             <span style="background: ${status.bg}; color: ${status.color}; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">${status.text}</span>
                         </div>
-                        <div style="color: #6b7280; font-size: 12px; margin-bottom: 8px;">${date}</div>
+                        <div style="color: var(--neutral); font-size: 12px; margin-bottom: 8px;">${date}</div>
                         <div style="color: #4b5563; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(inquiry.content?.substring(0, 150) || '')}${inquiry.content?.length > 150 ? '...' : ''}</div>
                         ${inquiry.answer ? `
-                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #e5e7eb;">
-                                <div style="font-size: 11px; color: #10B981; font-weight: 600; margin-bottom: 6px;">💬 답변</div>
-                                <div style="color: #374151; font-size: 13px; line-height: 1.5; background: #ECFDF5; padding: 12px; border-radius: 8px; white-space: pre-wrap;">${escapeHtml(inquiry.answer)}</div>
+                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color);">
+                                <div style="font-size: 11px; color: var(--success); font-weight: 600; margin-bottom: 6px;">💬 답변</div>
+                                <div style="color: #374151; font-size: 13px; line-height: 1.5; background: rgba(16, 185, 129, 0.08); padding: 12px; border-radius: var(--border-radius); white-space: pre-wrap;">${escapeHtml(inquiry.answer)}</div>
                             </div>
                         ` : ''}
                     </div>
@@ -8288,15 +8296,16 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             const container = document.getElementById('sunnyInquiryList');
 
             if (inquiries.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 40px;">문의 내역이 없습니다.</div>';
+                container.innerHTML = '<div style="text-align: center; color: var(--neutral); padding: 40px;">문의 내역이 없습니다.</div>';
                 return;
             }
 
+            // 프로젝트 디자인 규칙에 맞는 상태 색상
             const statusLabels = {
-                'pending': { text: '대기중', color: '#EF4444', bg: '#FEE2E2' },
-                'in_progress': { text: '처리중', color: '#F59E0B', bg: '#FEF3C7' },
-                'answered': { text: '답변완료', color: '#10B981', bg: '#D1FAE5' },
-                'closed': { text: '종료', color: '#6B7280', bg: '#F3F4F6' }
+                'pending': { text: '대기중', color: 'var(--danger)', bg: 'rgba(239, 68, 68, 0.1)' },
+                'in_progress': { text: '처리중', color: 'var(--secondary)', bg: 'rgba(245, 158, 11, 0.1)' },
+                'answered': { text: '답변완료', color: 'var(--success)', bg: 'rgba(16, 185, 129, 0.1)' },
+                'closed': { text: '종료', color: 'var(--neutral)', bg: 'var(--bg-light)' }
             };
 
             container.innerHTML = inquiries.map(inquiry => {
@@ -8304,17 +8313,17 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                 const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR');
 
                 return `
-                    <div style="background: #FFFBEB; border-radius: 12px; padding: 16px; border-left: 4px solid #F59E0B;">
+                    <div style="background: rgba(245, 158, 11, 0.05); border-radius: var(--border-radius); padding: 16px; border-left: 4px solid var(--secondary);">
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
                             <div style="font-weight: 600; color: #1f2937; font-size: 14px;">${escapeHtml(inquiry.title || '(제목 없음)')}</div>
                             <span style="background: ${status.bg}; color: ${status.color}; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">${status.text}</span>
                         </div>
-                        <div style="color: #6b7280; font-size: 12px; margin-bottom: 8px;">${date}</div>
+                        <div style="color: var(--neutral); font-size: 12px; margin-bottom: 8px;">${date}</div>
                         <div style="color: #4b5563; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(inquiry.content?.substring(0, 150) || '')}${inquiry.content?.length > 150 ? '...' : ''}</div>
                         ${inquiry.admin_answer ? `
-                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid #FCD34D;">
-                                <div style="font-size: 11px; color: #D97706; font-weight: 600; margin-bottom: 6px;">☀️ 써니의 답변</div>
-                                <div style="color: #374151; font-size: 13px; line-height: 1.5; background: #FEF3C7; padding: 12px; border-radius: 8px; white-space: pre-wrap;">${escapeHtml(inquiry.admin_answer)}</div>
+                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(245, 158, 11, 0.3);">
+                                <div style="font-size: 11px; color: var(--secondary-dark); font-weight: 600; margin-bottom: 6px;">☀️ 써니의 답변</div>
+                                <div style="color: #374151; font-size: 13px; line-height: 1.5; background: rgba(245, 158, 11, 0.08); padding: 12px; border-radius: var(--border-radius); white-space: pre-wrap;">${escapeHtml(inquiry.admin_answer)}</div>
                             </div>
                         ` : ''}
                     </div>
@@ -9433,17 +9442,17 @@ ${result.answer}`;
     <!-- My Inquiries Modal (내 문의 내역) -->
     <div id="myInquiriesModal" class="popup-modal-overlay" onclick="if(event.target===this)closeMyInquiriesModal()">
         <div class="popup-modal-box" style="width: 700px; max-width: 95vw;">
-            <div class="popup-modal-header" style="background: linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%);">
+            <div class="popup-modal-header" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);">
                 <h3>📬 내 문의 내역</h3>
                 <button class="popup-modal-close" onclick="closeMyInquiriesModal()">&times;</button>
             </div>
             <div class="popup-modal-body" style="padding: 0;">
                 <!-- 탭 버튼 -->
-                <div style="display: flex; border-bottom: 2px solid #e5e7eb;">
-                    <button id="tabCustomerInquiry" onclick="switchInquiryTab('customer')" style="flex: 1; padding: 14px; background: #3B82F6; color: white; border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                <div style="display: flex; border-bottom: 2px solid var(--border-color);">
+                    <button id="tabCustomerInquiry" onclick="switchInquiryTab('customer')" style="flex: 1; padding: 14px; background: var(--primary); color: white; border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;">
                         💬 고객센터 문의
                     </button>
-                    <button id="tabSunnyInquiry" onclick="switchInquiryTab('sunny')" style="flex: 1; padding: 14px; background: #f3f4f6; color: #6b7280; border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;">
+                    <button id="tabSunnyInquiry" onclick="switchInquiryTab('sunny')" style="flex: 1; padding: 14px; background: var(--bg-light); color: var(--neutral); border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;">
                         ☀️ 써니에게 묻기
                     </button>
                 </div>
