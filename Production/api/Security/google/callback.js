@@ -75,26 +75,61 @@ export default async function handler(req, res) {
       `sb-refresh-token=${session.refresh_token}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`,
     ]);
 
-    // users 테이블에 사용자 정보 업데이트/삽입 (upsert)
+    // users 테이블에 사용자 정보 업데이트/삽입
     try {
-      const { error: upsertError } = await supabase
+      // 기존 사용자 확인 (auth id로 조회)
+      const { data: existingUser } = await supabase
         .from('users')
-        .upsert({
-          user_id: user.id,
-          email: user.email,
-          name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
-          profile_image: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
-          updated_at: new Date().toISOString(),
-        }, {
-          onConflict: 'user_id'
-        });
+        .select('id, user_id')
+        .eq('id', user.id)
+        .single();
 
-      if (upsertError) {
-        console.error('사용자 정보 업데이트 실패:', upsertError);
-        // 오류를 로그하지만 로그인은 성공으로 처리
+      if (existingUser) {
+        // 기존 사용자 - 프로필 정보만 업데이트
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({
+            name: user.user_metadata?.full_name || user.user_metadata?.name || existingUser.name,
+            nickname: user.user_metadata?.full_name || user.user_metadata?.name || existingUser.nickname,
+            profile_image: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', user.id);
+
+        if (updateError) {
+          console.error('사용자 정보 업데이트 실패:', updateError);
+        }
+      } else {
+        // 신규 사용자 - user_id 생성 후 삽입
+        const generateUserId = () => {
+          const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+          let result = 'U';
+          for (let i = 0; i < 6; i++) {
+            result += chars.charAt(Math.floor(Math.random() * chars.length));
+          }
+          return result;
+        };
+
+        const { error: insertError } = await supabase
+          .from('users')
+          .insert({
+            id: user.id,
+            user_id: generateUserId(),
+            email: user.email,
+            name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
+            nickname: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
+            subscription_status: 'free',
+            installation_fee_paid: false,
+            credit_balance: 0,
+            role: 'user'
+          });
+
+        if (insertError) {
+          console.error('신규 사용자 생성 실패:', insertError);
+        }
       }
     } catch (dbError) {
-      console.error('DB 업데이트 중 예외 발생:', dbError);
+      console.error('DB 처리 중 예외 발생:', dbError);
       // 로그만 남기고 계속 진행
     }
 
