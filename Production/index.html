@@ -5474,69 +5474,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         };
 
         // 프로젝트 진행률 로드 (DB에서)
-        // 모든 프로젝트는 project_phase_progress 테이블에서 진행률 로드
+        // 모든 프로젝트는 project_phase_progress 테이블에서 진행률 로드 (project_id 기준)
         async function loadProjectProgress(projectName) {
             try {
-                // SSAL Works 플랫폼 개발 진행률 (관리자 + Stage별 Task 기반 계산)
-                if (projectName === 'SSAL Works' && isAdminMode) {
-                    // Stage Gate 상태 조회
-                    const { data: stageGates } = await window.supabaseClient
-                        .from('stage_verification')
-                        .select('stage_name, stage_gate_status')
-                        .eq('project_id', 'SSALWORKS');
-
-                    const approvedStages = {};
-                    if (stageGates) {
-                        stageGates.forEach(sg => {
-                            if (sg.stage_gate_status === 'Approved') {
-                                approvedStages[sg.stage_name] = true;
-                            }
-                        });
-                    }
-
-                    // Task 상태 조회 (S1-S5용)
-                    const { data: tasks, error } = await window.supabaseClient
-                        .from('project_ssal_grid_tasks')
-                        .select('stage, task_status');
-
-                    if (!error && tasks) {
-                        const stageCompleted = {};
-                        const stageTotals = {};
-
-                        tasks.forEach(task => {
-                            const stage = task.stage;
-                            if (!stageTotals[stage]) {
-                                stageTotals[stage] = 0;
-                                stageCompleted[stage] = 0;
-                            }
-                            stageTotals[stage]++;
-                            if (task.task_status === 'Completed') {
-                                stageCompleted[stage]++;
-                            }
-                        });
-
-                        // S1-S5 진행률 업데이트
-                        for (let i = 1; i <= 5; i++) {
-                            const stageName = 'S' + i;
-                            const stageGateName = 'Stage ' + i;
-                            if (approvedStages[stageGateName]) {
-                                updateStageProgress(stageName, 100);
-                            } else {
-                                const progress = stageTotals[i] > 0
-                                    ? Math.round((stageCompleted[i] / stageTotals[i]) * 100)
-                                    : 0;
-                                updateStageProgress(stageName, progress);
-                            }
-                        }
-                    }
-
-                    // P0-P3, S0는 project_phase_progress에서 로드
-                    await loadPhaseProgressFromDB('SSALWORKS');
-                    console.log('📊 SSAL Works 플랫폼 진행률 로드 완료');
-                    return;
-                }
-
-                // 일반 사용자 프로젝트: project_phase_progress 테이블에서 로드
+                // 사용자 프로젝트: project_phase_progress 테이블에서 로드
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) {
                     resetAllProgressToZero();
@@ -9102,48 +9043,43 @@ ${result.answer}`;
             try {
                 // projectId가 지정되지 않은 경우 현재 사용자의 프로젝트 ID 조회
                 if (!projectId) {
-                    // 관리자 모드면 SSAL Works 진행률 로드
-                    if (isAdminMode) {
-                        projectId = 'SSALWORKS';
-                    } else {
-                        // 일반 사용자: 현재 진행중인 프로젝트의 project_id 조회
-                        const { data: { session } } = await window.supabaseClient.auth.getSession();
-                        if (!session) {
-                            console.log('📊 세션 없음: 진행률 로드 스킵');
-                            resetAllProgressToZero();
-                            return;
-                        }
-
-                        // 사용자의 user_id 조회
-                        const { data: userData } = await window.supabaseClient
-                            .from('users')
-                            .select('user_id')
-                            .eq('id', session.user.id)
-                            .single();
-
-                        if (!userData) {
-                            console.log('📊 사용자 정보 없음: 진행률 로드 스킵');
-                            resetAllProgressToZero();
-                            return;
-                        }
-
-                        // 현재 진행중인 프로젝트 조회
-                        const { data: project } = await window.supabaseClient
-                            .from('projects')
-                            .select('project_id')
-                            .eq('user_id', userData.user_id)
-                            .eq('status', 'in_progress')
-                            .single();
-
-                        if (!project) {
-                            console.log('📊 진행중인 프로젝트 없음: 진행률 리셋');
-                            resetAllProgressToZero();
-                            return;
-                        }
-
-                        projectId = project.project_id;
-                        console.log('📊 사용자 프로젝트 ID:', projectId);
+                    // 현재 진행중인 프로젝트의 project_id 조회
+                    const { data: { session } } = await window.supabaseClient.auth.getSession();
+                    if (!session) {
+                        console.log('📊 세션 없음: 진행률 로드 스킵');
+                        resetAllProgressToZero();
+                        return;
                     }
+
+                    // 사용자의 user_id 조회
+                    const { data: userData } = await window.supabaseClient
+                        .from('users')
+                        .select('user_id')
+                        .eq('id', session.user.id)
+                        .single();
+
+                    if (!userData) {
+                        console.log('📊 사용자 정보 없음: 진행률 로드 스킵');
+                        resetAllProgressToZero();
+                        return;
+                    }
+
+                    // 현재 진행중인 프로젝트 조회
+                    const { data: project } = await window.supabaseClient
+                        .from('projects')
+                        .select('project_id')
+                        .eq('user_id', userData.user_id)
+                        .eq('status', 'in_progress')
+                        .single();
+
+                    if (!project) {
+                        console.log('📊 진행중인 프로젝트 없음: 진행률 리셋');
+                        resetAllProgressToZero();
+                        return;
+                    }
+
+                    projectId = project.project_id;
+                    console.log('📊 사용자 프로젝트 ID:', projectId);
                 }
 
                 const { data, error } = await window.supabaseClient
