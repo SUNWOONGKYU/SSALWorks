@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Permissions-Policy" content="notifications()">
     <title>SSALWorks Dashboard - 프로젝트 관리</title>
-    <link rel="stylesheet" href="/assets/css/responsive.css?v=20251224">
+    <!-- responsive.css removed, now inline -->
     <style>
         * {
             margin: 0;
@@ -2216,6 +2216,215 @@
             white-space: nowrap;
             margin-left: 4px;
         }
+
+
+        /* ============================================
+           반응형 CSS - 인라인 (프로토타입에서 가져옴)
+           ============================================ */
+        @media (min-width: 1400px) {
+            .layout-container { grid-template-columns: 280px 1fr 320px; }
+        }
+
+        /* Desktop: 1024-1399px */
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            .layout-container { grid-template-columns: 240px 1fr 280px; }
+            .header-tagline { font-size: 13px; }
+            .logo h1 { font-size: 22px; }
+        }
+
+        /* Tablet Landscape: 769-1023px */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .layout-container { grid-template-columns: 220px 1fr; }
+            .header-inner { padding: 0 16px; }
+            .header-tagline { font-size: 12px; }
+            .logo h1 { font-size: 20px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; }
+            .fab-container { display: flex; }
+            .fab-container .fab-menu { display: none; }
+
+            .left-sidebar { padding: 12px 10px; }
+            .workspace-header { padding: 12px 16px; }
+            .workspace-title { font-size: 18px; }
+            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
+        }
+
+        /* Tablet Portrait: 768px 이하 */
+        @media (max-width: 768px) {
+            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+            .mobile-menu-btn { display: flex; }
+            .header-inner { height: 60px; padding: 0 12px; }
+            .header-center { display: none; }
+            .header-right { display: none; }
+            .logo h1 { font-size: 20px; }
+
+            .left-sidebar {
+                position: fixed !important;
+                left: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .left-sidebar.open { left: 0 !important; }
+            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+            .fab-container { display: flex; }
+
+            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
+            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
+            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
+
+            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .footer-btn { min-height: 44px; }
+            .text-editor { min-height: 200px; }
+            .translation-section { padding: 8px 10px; }
+            .translation-title { font-size: 14px; }
+        }
+
+        /* Mobile: 480px 이하 */
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 10px; height: 56px; }
+            .logo { gap: 8px; }
+            .logo h1 { font-size: 18px; }
+            .rice-grain { width: 8px; height: 14px; }
+            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
+
+            .left-sidebar, .right-sidebar { width: 280px; }
+            .left-sidebar { left: -290px; }
+            .right-sidebar { right: -290px; }
+
+            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
+            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
+            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
+
+            .workspace-header { padding: 10px; }
+            .workspace-title { font-size: 16px; }
+            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
+            .workspace-content { padding: 8px; }
+            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
+
+            .translation-section { padding: 6px 8px; }
+            .translation-title { font-size: 13px; }
+            .translation-preview { font-size: 12px; }
+
+            .footer-inner { padding: 10px; }
+            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
+            .knowledge-name { font-size: 12px; }
+            .quick-link-btn { padding: 12px; min-height: 44px; }
+            .project-list-item { padding: 10px 12px; min-height: 44px; }
+            .project-name { font-size: 12px; }
+            .project-status { font-size: 10px; padding: 3px 6px; }
+
+            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
+
+            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
+            .outbox-notification-content { min-width: auto; padding: 12px; }
+            .outbox-notification-icon { font-size: 20px; }
+            .outbox-notification-title { font-size: 13px; }
+            .outbox-notification-message { font-size: 12px; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
+            .knowledge-major, .knowledge-medium, .knowledge-small,
+            .quick-link-btn, .project-menu-item, .project-list-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
+            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* 텍스트 오버플로우 */
+        .process-name, .process-prep-name, .process-special-name,
+        .knowledge-name, .project-name, .notice-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
+            .layout-container { display: block; }
+            .center-workspace { width: 100%; }
+        }
+
+    </style>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
 
     </style>
 
@@ -6346,7 +6555,216 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                                 .report-content table { width: 100%; border-collapse: collapse; margin: 16px 0; }
                                 .report-content th, .report-content td { border: 1px solid #e9ecef; padding: 10px 12px; text-align: left; }
                                 .report-content th { background: #f8f9fa; font-weight: 600; }
-                            </style>
+                        
+        /* ============================================
+           반응형 CSS - 인라인 (프로토타입에서 가져옴)
+           ============================================ */
+        @media (min-width: 1400px) {
+            .layout-container { grid-template-columns: 280px 1fr 320px; }
+        }
+
+        /* Desktop: 1024-1399px */
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            .layout-container { grid-template-columns: 240px 1fr 280px; }
+            .header-tagline { font-size: 13px; }
+            .logo h1 { font-size: 22px; }
+        }
+
+        /* Tablet Landscape: 769-1023px */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .layout-container { grid-template-columns: 220px 1fr; }
+            .header-inner { padding: 0 16px; }
+            .header-tagline { font-size: 12px; }
+            .logo h1 { font-size: 20px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; }
+            .fab-container { display: flex; }
+            .fab-container .fab-menu { display: none; }
+
+            .left-sidebar { padding: 12px 10px; }
+            .workspace-header { padding: 12px 16px; }
+            .workspace-title { font-size: 18px; }
+            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
+        }
+
+        /* Tablet Portrait: 768px 이하 */
+        @media (max-width: 768px) {
+            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+            .mobile-menu-btn { display: flex; }
+            .header-inner { height: 60px; padding: 0 12px; }
+            .header-center { display: none; }
+            .header-right { display: none; }
+            .logo h1 { font-size: 20px; }
+
+            .left-sidebar {
+                position: fixed !important;
+                left: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .left-sidebar.open { left: 0 !important; }
+            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+            .fab-container { display: flex; }
+
+            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
+            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
+            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
+
+            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .footer-btn { min-height: 44px; }
+            .text-editor { min-height: 200px; }
+            .translation-section { padding: 8px 10px; }
+            .translation-title { font-size: 14px; }
+        }
+
+        /* Mobile: 480px 이하 */
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 10px; height: 56px; }
+            .logo { gap: 8px; }
+            .logo h1 { font-size: 18px; }
+            .rice-grain { width: 8px; height: 14px; }
+            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
+
+            .left-sidebar, .right-sidebar { width: 280px; }
+            .left-sidebar { left: -290px; }
+            .right-sidebar { right: -290px; }
+
+            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
+            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
+            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
+
+            .workspace-header { padding: 10px; }
+            .workspace-title { font-size: 16px; }
+            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
+            .workspace-content { padding: 8px; }
+            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
+
+            .translation-section { padding: 6px 8px; }
+            .translation-title { font-size: 13px; }
+            .translation-preview { font-size: 12px; }
+
+            .footer-inner { padding: 10px; }
+            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
+            .knowledge-name { font-size: 12px; }
+            .quick-link-btn { padding: 12px; min-height: 44px; }
+            .project-list-item { padding: 10px 12px; min-height: 44px; }
+            .project-name { font-size: 12px; }
+            .project-status { font-size: 10px; padding: 3px 6px; }
+
+            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
+
+            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
+            .outbox-notification-content { min-width: auto; padding: 12px; }
+            .outbox-notification-icon { font-size: 20px; }
+            .outbox-notification-title { font-size: 13px; }
+            .outbox-notification-message { font-size: 12px; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
+            .knowledge-major, .knowledge-medium, .knowledge-small,
+            .quick-link-btn, .project-menu-item, .project-list-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
+            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* 텍스트 오버플로우 */
+        .process-name, .process-prep-name, .process-special-name,
+        .knowledge-name, .project-name, .notice-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
+            .layout-container { display: block; }
+            .center-workspace { width: 100%; }
+        }
+
+    </style>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
+
+    </style>
                             ${htmlContent}
                         `;
                         showReportModal(filename, styledHtml);
@@ -6782,6 +7200,215 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 font-size: 1.8em;
             }
         }
+
+        /* ============================================
+           반응형 CSS - 인라인 (프로토타입에서 가져옴)
+           ============================================ */
+        @media (min-width: 1400px) {
+            .layout-container { grid-template-columns: 280px 1fr 320px; }
+        }
+
+        /* Desktop: 1024-1399px */
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            .layout-container { grid-template-columns: 240px 1fr 280px; }
+            .header-tagline { font-size: 13px; }
+            .logo h1 { font-size: 22px; }
+        }
+
+        /* Tablet Landscape: 769-1023px */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .layout-container { grid-template-columns: 220px 1fr; }
+            .header-inner { padding: 0 16px; }
+            .header-tagline { font-size: 12px; }
+            .logo h1 { font-size: 20px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; }
+            .fab-container { display: flex; }
+            .fab-container .fab-menu { display: none; }
+
+            .left-sidebar { padding: 12px 10px; }
+            .workspace-header { padding: 12px 16px; }
+            .workspace-title { font-size: 18px; }
+            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
+        }
+
+        /* Tablet Portrait: 768px 이하 */
+        @media (max-width: 768px) {
+            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+            .mobile-menu-btn { display: flex; }
+            .header-inner { height: 60px; padding: 0 12px; }
+            .header-center { display: none; }
+            .header-right { display: none; }
+            .logo h1 { font-size: 20px; }
+
+            .left-sidebar {
+                position: fixed !important;
+                left: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .left-sidebar.open { left: 0 !important; }
+            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+            .fab-container { display: flex; }
+
+            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
+            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
+            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
+
+            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .footer-btn { min-height: 44px; }
+            .text-editor { min-height: 200px; }
+            .translation-section { padding: 8px 10px; }
+            .translation-title { font-size: 14px; }
+        }
+
+        /* Mobile: 480px 이하 */
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 10px; height: 56px; }
+            .logo { gap: 8px; }
+            .logo h1 { font-size: 18px; }
+            .rice-grain { width: 8px; height: 14px; }
+            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
+
+            .left-sidebar, .right-sidebar { width: 280px; }
+            .left-sidebar { left: -290px; }
+            .right-sidebar { right: -290px; }
+
+            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
+            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
+            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
+
+            .workspace-header { padding: 10px; }
+            .workspace-title { font-size: 16px; }
+            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
+            .workspace-content { padding: 8px; }
+            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
+
+            .translation-section { padding: 6px 8px; }
+            .translation-title { font-size: 13px; }
+            .translation-preview { font-size: 12px; }
+
+            .footer-inner { padding: 10px; }
+            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
+            .knowledge-name { font-size: 12px; }
+            .quick-link-btn { padding: 12px; min-height: 44px; }
+            .project-list-item { padding: 10px 12px; min-height: 44px; }
+            .project-name { font-size: 12px; }
+            .project-status { font-size: 10px; padding: 3px 6px; }
+
+            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
+
+            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
+            .outbox-notification-content { min-width: auto; padding: 12px; }
+            .outbox-notification-icon { font-size: 20px; }
+            .outbox-notification-title { font-size: 13px; }
+            .outbox-notification-message { font-size: 12px; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
+            .knowledge-major, .knowledge-medium, .knowledge-small,
+            .quick-link-btn, .project-menu-item, .project-list-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
+            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* 텍스트 오버플로우 */
+        .process-name, .process-prep-name, .process-special-name,
+        .knowledge-name, .project-name, .notice-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
+            .layout-container { display: block; }
+            .center-workspace { width: 100%; }
+        }
+
+    </style>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
+
     </style>
 </head>
 <body>
@@ -6872,6 +7499,215 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         a { color: #10B981; text-decoration: none; }
         a:hover { text-decoration: underline; }
         .meta { text-align: right; color: #6b7280; font-size: 14px; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; }
+
+        /* ============================================
+           반응형 CSS - 인라인 (프로토타입에서 가져옴)
+           ============================================ */
+        @media (min-width: 1400px) {
+            .layout-container { grid-template-columns: 280px 1fr 320px; }
+        }
+
+        /* Desktop: 1024-1399px */
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            .layout-container { grid-template-columns: 240px 1fr 280px; }
+            .header-tagline { font-size: 13px; }
+            .logo h1 { font-size: 22px; }
+        }
+
+        /* Tablet Landscape: 769-1023px */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .layout-container { grid-template-columns: 220px 1fr; }
+            .header-inner { padding: 0 16px; }
+            .header-tagline { font-size: 12px; }
+            .logo h1 { font-size: 20px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; }
+            .fab-container { display: flex; }
+            .fab-container .fab-menu { display: none; }
+
+            .left-sidebar { padding: 12px 10px; }
+            .workspace-header { padding: 12px 16px; }
+            .workspace-title { font-size: 18px; }
+            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
+        }
+
+        /* Tablet Portrait: 768px 이하 */
+        @media (max-width: 768px) {
+            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+            .mobile-menu-btn { display: flex; }
+            .header-inner { height: 60px; padding: 0 12px; }
+            .header-center { display: none; }
+            .header-right { display: none; }
+            .logo h1 { font-size: 20px; }
+
+            .left-sidebar {
+                position: fixed !important;
+                left: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .left-sidebar.open { left: 0 !important; }
+            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+            .fab-container { display: flex; }
+
+            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
+            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
+            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
+
+            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .footer-btn { min-height: 44px; }
+            .text-editor { min-height: 200px; }
+            .translation-section { padding: 8px 10px; }
+            .translation-title { font-size: 14px; }
+        }
+
+        /* Mobile: 480px 이하 */
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 10px; height: 56px; }
+            .logo { gap: 8px; }
+            .logo h1 { font-size: 18px; }
+            .rice-grain { width: 8px; height: 14px; }
+            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
+
+            .left-sidebar, .right-sidebar { width: 280px; }
+            .left-sidebar { left: -290px; }
+            .right-sidebar { right: -290px; }
+
+            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
+            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
+            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
+
+            .workspace-header { padding: 10px; }
+            .workspace-title { font-size: 16px; }
+            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
+            .workspace-content { padding: 8px; }
+            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
+
+            .translation-section { padding: 6px 8px; }
+            .translation-title { font-size: 13px; }
+            .translation-preview { font-size: 12px; }
+
+            .footer-inner { padding: 10px; }
+            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
+            .knowledge-name { font-size: 12px; }
+            .quick-link-btn { padding: 12px; min-height: 44px; }
+            .project-list-item { padding: 10px 12px; min-height: 44px; }
+            .project-name { font-size: 12px; }
+            .project-status { font-size: 10px; padding: 3px 6px; }
+
+            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
+
+            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
+            .outbox-notification-content { min-width: auto; padding: 12px; }
+            .outbox-notification-icon { font-size: 20px; }
+            .outbox-notification-title { font-size: 13px; }
+            .outbox-notification-message { font-size: 12px; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
+            .knowledge-major, .knowledge-medium, .knowledge-small,
+            .quick-link-btn, .project-menu-item, .project-list-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
+            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* 텍스트 오버플로우 */
+        .process-name, .process-prep-name, .process-special-name,
+        .knowledge-name, .project-name, .notice-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
+            .layout-container { display: block; }
+            .center-workspace { width: 100%; }
+        }
+
+    </style>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
+
     </style>
 </head>
 <body>
@@ -8970,6 +9806,215 @@ ${result.answer}`;
         .outbox-file-badge.markdown {
             background: #10B981;
         }
+
+        /* ============================================
+           반응형 CSS - 인라인 (프로토타입에서 가져옴)
+           ============================================ */
+        @media (min-width: 1400px) {
+            .layout-container { grid-template-columns: 280px 1fr 320px; }
+        }
+
+        /* Desktop: 1024-1399px */
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            .layout-container { grid-template-columns: 240px 1fr 280px; }
+            .header-tagline { font-size: 13px; }
+            .logo h1 { font-size: 22px; }
+        }
+
+        /* Tablet Landscape: 769-1023px */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .layout-container { grid-template-columns: 220px 1fr; }
+            .header-inner { padding: 0 16px; }
+            .header-tagline { font-size: 12px; }
+            .logo h1 { font-size: 20px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; }
+            .fab-container { display: flex; }
+            .fab-container .fab-menu { display: none; }
+
+            .left-sidebar { padding: 12px 10px; }
+            .workspace-header { padding: 12px 16px; }
+            .workspace-title { font-size: 18px; }
+            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
+        }
+
+        /* Tablet Portrait: 768px 이하 */
+        @media (max-width: 768px) {
+            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+            .mobile-menu-btn { display: flex; }
+            .header-inner { height: 60px; padding: 0 12px; }
+            .header-center { display: none; }
+            .header-right { display: none; }
+            .logo h1 { font-size: 20px; }
+
+            .left-sidebar {
+                position: fixed !important;
+                left: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .left-sidebar.open { left: 0 !important; }
+            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+            .fab-container { display: flex; }
+
+            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
+            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
+            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
+
+            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .footer-btn { min-height: 44px; }
+            .text-editor { min-height: 200px; }
+            .translation-section { padding: 8px 10px; }
+            .translation-title { font-size: 14px; }
+        }
+
+        /* Mobile: 480px 이하 */
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 10px; height: 56px; }
+            .logo { gap: 8px; }
+            .logo h1 { font-size: 18px; }
+            .rice-grain { width: 8px; height: 14px; }
+            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
+
+            .left-sidebar, .right-sidebar { width: 280px; }
+            .left-sidebar { left: -290px; }
+            .right-sidebar { right: -290px; }
+
+            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
+            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
+            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
+
+            .workspace-header { padding: 10px; }
+            .workspace-title { font-size: 16px; }
+            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
+            .workspace-content { padding: 8px; }
+            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
+
+            .translation-section { padding: 6px 8px; }
+            .translation-title { font-size: 13px; }
+            .translation-preview { font-size: 12px; }
+
+            .footer-inner { padding: 10px; }
+            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
+            .knowledge-name { font-size: 12px; }
+            .quick-link-btn { padding: 12px; min-height: 44px; }
+            .project-list-item { padding: 10px 12px; min-height: 44px; }
+            .project-name { font-size: 12px; }
+            .project-status { font-size: 10px; padding: 3px 6px; }
+
+            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
+
+            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
+            .outbox-notification-content { min-width: auto; padding: 12px; }
+            .outbox-notification-icon { font-size: 20px; }
+            .outbox-notification-title { font-size: 13px; }
+            .outbox-notification-message { font-size: 12px; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
+            .knowledge-major, .knowledge-medium, .knowledge-small,
+            .quick-link-btn, .project-menu-item, .project-list-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
+            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* 텍스트 오버플로우 */
+        .process-name, .process-prep-name, .process-special-name,
+        .knowledge-name, .project-name, .notice-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
+            .layout-container { display: block; }
+            .center-workspace { width: 100%; }
+        }
+
+    </style>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
+
     </style>
 
 
@@ -11003,7 +12048,216 @@ ${result.answer}`;
                     #tipContentArea hr { border: none; border-top: 2px solid #E5E7EB; margin: 28px 0; }
                     #tipContentArea a { color: #8B5CF6; text-decoration: none; }
                     #tipContentArea a:hover { text-decoration: underline; }
-                </style>
+            
+        /* ============================================
+           반응형 CSS - 인라인 (프로토타입에서 가져옴)
+           ============================================ */
+        @media (min-width: 1400px) {
+            .layout-container { grid-template-columns: 280px 1fr 320px; }
+        }
+
+        /* Desktop: 1024-1399px */
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            .layout-container { grid-template-columns: 240px 1fr 280px; }
+            .header-tagline { font-size: 13px; }
+            .logo h1 { font-size: 22px; }
+        }
+
+        /* Tablet Landscape: 769-1023px */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .layout-container { grid-template-columns: 220px 1fr; }
+            .header-inner { padding: 0 16px; }
+            .header-tagline { font-size: 12px; }
+            .logo h1 { font-size: 20px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; }
+            .fab-container { display: flex; }
+            .fab-container .fab-menu { display: none; }
+
+            .left-sidebar { padding: 12px 10px; }
+            .workspace-header { padding: 12px 16px; }
+            .workspace-title { font-size: 18px; }
+            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
+        }
+
+        /* Tablet Portrait: 768px 이하 */
+        @media (max-width: 768px) {
+            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+            .mobile-menu-btn { display: flex; }
+            .header-inner { height: 60px; padding: 0 12px; }
+            .header-center { display: none; }
+            .header-right { display: none; }
+            .logo h1 { font-size: 20px; }
+
+            .left-sidebar {
+                position: fixed !important;
+                left: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .left-sidebar.open { left: 0 !important; }
+            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+            .fab-container { display: flex; }
+
+            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
+            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
+            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
+
+            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .footer-btn { min-height: 44px; }
+            .text-editor { min-height: 200px; }
+            .translation-section { padding: 8px 10px; }
+            .translation-title { font-size: 14px; }
+        }
+
+        /* Mobile: 480px 이하 */
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 10px; height: 56px; }
+            .logo { gap: 8px; }
+            .logo h1 { font-size: 18px; }
+            .rice-grain { width: 8px; height: 14px; }
+            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
+
+            .left-sidebar, .right-sidebar { width: 280px; }
+            .left-sidebar { left: -290px; }
+            .right-sidebar { right: -290px; }
+
+            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
+            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
+            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
+
+            .workspace-header { padding: 10px; }
+            .workspace-title { font-size: 16px; }
+            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
+            .workspace-content { padding: 8px; }
+            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
+
+            .translation-section { padding: 6px 8px; }
+            .translation-title { font-size: 13px; }
+            .translation-preview { font-size: 12px; }
+
+            .footer-inner { padding: 10px; }
+            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
+            .knowledge-name { font-size: 12px; }
+            .quick-link-btn { padding: 12px; min-height: 44px; }
+            .project-list-item { padding: 10px 12px; min-height: 44px; }
+            .project-name { font-size: 12px; }
+            .project-status { font-size: 10px; padding: 3px 6px; }
+
+            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
+
+            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
+            .outbox-notification-content { min-width: auto; padding: 12px; }
+            .outbox-notification-icon { font-size: 20px; }
+            .outbox-notification-title { font-size: 13px; }
+            .outbox-notification-message { font-size: 12px; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
+            .knowledge-major, .knowledge-medium, .knowledge-small,
+            .quick-link-btn, .project-menu-item, .project-list-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
+            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* 텍스트 오버플로우 */
+        .process-name, .process-prep-name, .process-special-name,
+        .knowledge-name, .project-name, .notice-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
+            .layout-container { display: block; }
+            .center-workspace { width: 100%; }
+        }
+
+    </style>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
+
+    </style>
                 <div id="tipContentArea" style="padding: 20px 24px; line-height: 1.7; color: #495057; font-size: 14px; overflow-y: auto; max-height: calc(90vh - 140px);">
                     <div style="text-align: center; padding: 40px;">
                         <div style="font-size: 24px; margin-bottom: 12px;">⏳</div>
@@ -11414,7 +12668,216 @@ ${result.answer}`;
                         line-height: 1.6;
                         color: #4B5563;
                     }
-                </style>
+            
+        /* ============================================
+           반응형 CSS - 인라인 (프로토타입에서 가져옴)
+           ============================================ */
+        @media (min-width: 1400px) {
+            .layout-container { grid-template-columns: 280px 1fr 320px; }
+        }
+
+        /* Desktop: 1024-1399px */
+        @media (max-width: 1399px) and (min-width: 1024px) {
+            .layout-container { grid-template-columns: 240px 1fr 280px; }
+            .header-tagline { font-size: 13px; }
+            .logo h1 { font-size: 22px; }
+        }
+
+        /* Tablet Landscape: 769-1023px */
+        @media (max-width: 1023px) and (min-width: 769px) {
+            .layout-container { grid-template-columns: 220px 1fr; }
+            .header-inner { padding: 0 16px; }
+            .header-tagline { font-size: 12px; }
+            .logo h1 { font-size: 20px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 20px;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; }
+            .fab-container { display: flex; }
+            .fab-container .fab-menu { display: none; }
+
+            .left-sidebar { padding: 12px 10px; }
+            .workspace-header { padding: 12px 16px; }
+            .workspace-title { font-size: 18px; }
+            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
+        }
+
+        /* Tablet Portrait: 768px 이하 */
+        @media (max-width: 768px) {
+            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
+            .mobile-menu-btn { display: flex; }
+            .header-inner { height: 60px; padding: 0 12px; }
+            .header-center { display: none; }
+            .header-right { display: none; }
+            .logo h1 { font-size: 20px; }
+
+            .left-sidebar {
+                position: fixed !important;
+                left: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .left-sidebar.open { left: 0 !important; }
+            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+
+            .right-sidebar {
+                position: fixed !important;
+                right: -320px !important;
+                top: 0;
+                bottom: 0;
+                width: 300px;
+                z-index: 1001;
+                background: #f8f9fa !important;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
+                transition: right 0.3s ease;
+                overflow-y: auto;
+                padding-top: 60px;
+                -webkit-overflow-scrolling: touch;
+                grid-column: unset !important;
+                grid-row: unset !important;
+            }
+
+            .right-sidebar.open { right: 0 !important; }
+            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
+            .fab-container { display: flex; }
+
+            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
+            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
+            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
+            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
+
+            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
+            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
+            .footer-btn { min-height: 44px; }
+            .text-editor { min-height: 200px; }
+            .translation-section { padding: 8px 10px; }
+            .translation-title { font-size: 14px; }
+        }
+
+        /* Mobile: 480px 이하 */
+        @media (max-width: 480px) {
+            .header-inner { padding: 0 10px; height: 56px; }
+            .logo { gap: 8px; }
+            .logo h1 { font-size: 18px; }
+            .rice-grain { width: 8px; height: 14px; }
+            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
+
+            .left-sidebar, .right-sidebar { width: 280px; }
+            .left-sidebar { left: -290px; }
+            .right-sidebar { right: -290px; }
+
+            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
+            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
+            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
+
+            .workspace-header { padding: 10px; }
+            .workspace-title { font-size: 16px; }
+            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
+            .workspace-content { padding: 8px; }
+            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
+
+            .translation-section { padding: 6px 8px; }
+            .translation-title { font-size: 13px; }
+            .translation-preview { font-size: 12px; }
+
+            .footer-inner { padding: 10px; }
+            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
+
+            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
+            .knowledge-name { font-size: 12px; }
+            .quick-link-btn { padding: 12px; min-height: 44px; }
+            .project-list-item { padding: 10px 12px; min-height: 44px; }
+            .project-name { font-size: 12px; }
+            .project-status { font-size: 10px; padding: 3px 6px; }
+
+            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
+
+            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
+            .outbox-notification-content { min-width: auto; padding: 12px; }
+            .outbox-notification-icon { font-size: 20px; }
+            .outbox-notification-title { font-size: 13px; }
+            .outbox-notification-message { font-size: 12px; }
+        }
+
+        /* Touch-friendly */
+        @media (hover: none) and (pointer: coarse) {
+            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
+            .knowledge-major, .knowledge-medium, .knowledge-small,
+            .quick-link-btn, .project-menu-item, .project-list-item {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+            }
+            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
+            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
+        }
+
+        /* 텍스트 오버플로우 */
+        .process-name, .process-prep-name, .process-special-name,
+        .knowledge-name, .project-name, .notice-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .workspace-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        /* Print styles */
+        @media print {
+            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
+            .layout-container { display: block; }
+            .center-workspace { width: 100%; }
+        }
+
+    </style>
+
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+</head>
+
+<body>
+    <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-inner">
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
+
+    </style>
                 <div id="tipsViewerContent" style="flex: 1; overflow-y: auto; padding: 16px;">
                     <!-- Tips 목록이 여기에 렌더링됨 -->
                 </div>

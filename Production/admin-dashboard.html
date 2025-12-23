@@ -1779,6 +1779,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>회원 ID</th>
                                 <th>빌더 계정 ID</th>
                                 <th>이메일</th>
                                 <th>실명</th>
@@ -1789,7 +1790,7 @@
                         </thead>
                         <tbody id="installationProcessedTableBody">
                             <tr>
-                                <td colspan="6" style="text-align: center; color: #6c757d; padding: 40px;">
+                                <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
                                     데이터를 불러오는 중...
                                 </td>
                             </tr>
@@ -2276,6 +2277,7 @@
                     <table class="data-table">
                         <thead>
                             <tr>
+                                <th>회원 ID</th>
                                 <th>빌더 계정 ID</th>
                                 <th>이메일</th>
                                 <th>닉네임</th>
@@ -2288,7 +2290,7 @@
                         </thead>
                         <tbody id="usersTableBody">
                             <tr>
-                                <td colspan="8" style="text-align: center; padding: 40px;">
+                                <td colspan="9" style="text-align: center; padding: 40px;">
                                     데이터를 불러오는 중...
                                 </td>
                             </tr>
@@ -2392,7 +2394,11 @@
                 <div style="margin-bottom: 24px;">
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
                         <div>
-                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">빌더 계정 ID</div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">회원 ID (8자리)</div>
+                            <div style="font-size: 14px; font-weight: 600;" id="userDetailMemberId">-</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">빌더 계정 ID (12자리)</div>
                             <div style="font-size: 14px; font-weight: 600;" id="userDetailUserId">-</div>
                         </div>
                         <div>
@@ -4373,12 +4379,16 @@
                 const displayName = user.nickname || user.name || user.real_name || (user.email ? user.email.split('@')[0] : '-');
                 const safeDisplayName = sanitizePlainText(displayName);
 
+                // 회원 ID (8자리 랜덤 영숫자)
+                const userId = user.user_id || '-';
+
                 // 빌더 계정 ID (12자리: YYMMNNNNNNXX 형식)
                 const devAccountId = user.builder_id || '-';
 
                 return `
                     <tr data-user-id="${user.id}">
-                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px;">${devAccountId}</code></td>
+                        <td><code style="background: #e8f4fc; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${userId}</code></td>
+                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${devAccountId}</code></td>
                         <td>${sanitizePlainText(user.email || '-')}</td>
                         <td>${safeDisplayName}</td>
                         <td>${sanitizePlainText(user.real_name || '-')}</td>
@@ -4451,16 +4461,18 @@
                 return;
             }
 
-            // 이메일, 닉네임, 빌더 계정 ID로 필터링
+            // 이메일, 닉네임, 회원 ID, 빌더 계정 ID로 필터링
             const filtered = allUsersData.filter(user => {
                 const email = (user.email || '').toLowerCase();
                 const nickname = (user.nickname || '').toLowerCase();
                 const realName = (user.real_name || '').toLowerCase();
+                const userId = (user.user_id || '').toLowerCase();
                 const builderId = (user.builder_id || '').toLowerCase();
 
                 return email.includes(searchTerm) ||
                        nickname.includes(searchTerm) ||
                        realName.includes(searchTerm) ||
+                       userId.includes(searchTerm) ||
                        builderId.includes(searchTerm);
             });
 
@@ -4511,7 +4523,15 @@
             // 모달 제목 업데이트
             const headerElem = document.getElementById('userDetailHeader');
             if (headerElem) {
-                headerElem.textContent = `👤 회원 상세 - ${user.builder_id || user.email}`;
+                headerElem.textContent = `👤 회원 상세 - ${user.builder_id || user.user_id || user.email}`;
+            }
+
+            // 회원 ID (8자리 랜덤 영숫자)
+            const memberIdElem = document.getElementById('userDetailMemberId');
+            if (memberIdElem) {
+                memberIdElem.innerHTML = user.user_id
+                    ? `<code style="background: #e8f4fc; padding: 2px 6px; border-radius: 4px;">${user.user_id}</code>`
+                    : '-';
             }
 
             // 빌더 계정 ID (12자리: YYMMNNNNNNXX 형식)
@@ -4744,7 +4764,7 @@
             if (confirmedList.length === 0) {
                 processedTableBody.innerHTML = `
                     <tr>
-                        <td colspan="6" style="text-align: center; color: #6c757d; padding: 40px;">
+                        <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
                             입금 확인 완료된 건이 없습니다.
                         </td>
                     </tr>
@@ -4752,7 +4772,8 @@
             } else {
                 processedTableBody.innerHTML = confirmedList.map(fee => `
                     <tr>
-                        <td>${fee.users?.builder_id || '-'}</td>
+                        <td><code style="background: #e8f4fc; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${fee.users?.user_id || '-'}</code></td>
+                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${fee.users?.builder_id || '-'}</code></td>
                         <td>${fee.users?.email || fee.depositor_name || '-'}</td>
                         <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
                         <td>₩${(fee.amount || 0).toLocaleString()}</td>
