@@ -2377,6 +2377,12 @@
                                     <span>Briefings</span>
                                 </div>
                             </div>
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_ordersheets', 'OrderSheet Templates', 'SAL Grid')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>OrderSheet_Templates</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -4464,6 +4470,16 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             'sal_grid_briefings': {
                 stageId: 'sal_grid_briefings',
                 stageName: 'Briefings',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: ''
+            },
+
+            'sal_grid_ordersheets': {
+                stageId: 'sal_grid_ordersheets',
+                stageName: 'OrderSheet Templates',
                 hasAction: false,
                 confirmMessage: '',
                 orderSheetAfterExecute: '',
