@@ -48,6 +48,18 @@ SSAL Works는 다음과 같은 분들을 위한 플랫폼입니다.
 
 ---
 
+## 어떤 웹사이트를 만들 수 있나요?
+
+SSAL Works에서는 Finder World라는 이름으로 58개 이상의 웹사이트 기획을 공개하고 있습니다. 경제, 사회, 문화 전 영역을 아우릅니다.
+
+- **경제 영역**: Stock Finder, Coin Finder, House Finder, Job Finder 등
+- **사회 영역**: Trip Finder, Lawyer Finder, Food Finder, Wedding Finder 등
+- **문화 영역**: Music Finder, Game Finder, Pet Finder, Fitness Finder 등
+
+이 기획들을 참고하여 본인만의 웹사이트를 만들 수 있습니다. 이미 완성된 프로젝트(Politician Finder, HDH Fintech, SSAL Works)의 전체 소스코드와 개발 문서도 공개됩니다.
+
+---
+
 ## 빌더(Builder)란?
 
 SSAL Works에서는 사용자를 **빌더(Builder)**라고 부릅니다.
@@ -68,7 +80,7 @@ SSAL Works는 빌더를 위하여 웹사이트 개발만 지원하는 게 아닙
 
 Sunny가 직접 3개월 동안 일대일로 코칭합니다.
 
-**Sunny는 누구인가?** SSAL Works의 개발자이자 현직 공인회계사이며, 스타트업 투자 및 육성을 전문으로 하는 액셀러레이터입니다.
+**Sunny는 누구인가?** 만 19세에 18개월 만에 공인회계사에 합격했고, 경영학 수석입니다. 현직 공인회계사이며, 10년 이상 스타트업 투자 및 육성을 전문으로 하는 액셀러레이터로 활동하고 있습니다. 7개월 만에 3개의 풀스택 웹사이트(Politician Finder, HDH Fintech, SSAL Works)를 혼자서 완성했습니다.
 
 빌더 계정을 개설하면, 처음 3개월 동안 Sunny가 직접 일대일로 맞춤형 코칭을 제공합니다. 플랫폼 이용료도 처음 3개월은 면제됩니다. 이 3개월은 집중적으로 웹사이트 개발에 몰입하고, 실질적인 결과물을 만들어내기 위한 핵심 기간입니다.
 
