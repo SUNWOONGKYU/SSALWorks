@@ -9291,8 +9291,8 @@ ${result.answer}`;
                 title.textContent = titleMap[guideName] || `📖 ${guideName}`;
                 content.innerHTML = htmlContent;
 
-                // 안내문 팝업 항상 표시 (로그인 여부 무관)
-                popup.style.display = 'block';
+                // 팝업 표시 제거 - 워크스페이스에만 내용 로드
+                // popup.style.display = 'block';
 
                 console.log(`✅ ${guideName} 안내문 로드 완료`);
             } else {
