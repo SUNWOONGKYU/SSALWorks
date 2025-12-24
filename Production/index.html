@@ -9300,31 +9300,12 @@ ${result.answer}`;
             }
         }
 
-        // 페이지 로드 시 인증 상태 확인 및 적절한 안내문 로드
-        window.addEventListener('DOMContentLoaded', async () => {
-            // Supabase 클라이언트가 있는지 확인
-            if (typeof supabase !== 'undefined') {
-                try {
-                    const { data: { session } } = await supabase.auth.getSession();
-
-                    if (session) {
-                        // 로그인 상태 - Default 안내문 팝업 표시
-                        console.log('ℹ️ 로그인 상태 - Default 안내문 표시');
-                        loadGuideToWorkspace('Default');
-                    } else {
-                        // 비로그인 상태 - BeforeSignup 안내문 팝업 표시
-                        console.log('ℹ️ 비로그인 상태 - BeforeSignup 안내문 표시');
-                        loadGuideToWorkspace('BeforeSignup');
-                    }
-                } catch (error) {
-                    console.log('인증 상태 확인 실패:', error);
-                    // 인증 확인 실패 시 비로그인으로 간주
-                    loadGuideToWorkspace('BeforeSignup');
-                }
-            } else {
-                // Supabase 미설정 시 비로그인으로 간주
-                loadGuideToWorkspace('BeforeSignup');
-            }
+        // 페이지 로드 시 기본 안내문 즉시 로드 (인증 상태 확인 전)
+        // checkAuthStatus()가 나중에 정확한 안내문으로 업데이트함
+        window.addEventListener('DOMContentLoaded', () => {
+            // 일단 BeforeSignup 안내문 표시 (로그인 확인 전 기본값)
+            console.log('ℹ️ 페이지 로드 - 기본 안내문 즉시 표시');
+            loadGuideToWorkspace('BeforeSignup');
         });
 
     </script>
