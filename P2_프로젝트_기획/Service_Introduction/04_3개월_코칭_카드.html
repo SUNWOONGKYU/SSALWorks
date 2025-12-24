@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSAL Works - 3개월 일대일 맞춤형 코칭</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 28px;
+            padding: 50px;
+            max-width: 720px;
+            width: 100%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 100px rgba(102, 126, 234, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FF6B6B, #667eea, #764ba2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .rice-logo {
+            display: flex;
+            gap: 4px;
+        }
+
+        .rice-grain {
+            width: 14px;
+            height: 24px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform: rotate(-15deg);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+
+        .rice-grain:nth-child(2) {
+            transform: rotate(0deg);
+        }
+
+        .rice-grain:nth-child(3) {
+            transform: rotate(15deg);
+        }
+
+        .brand-text {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .main-title {
+            font-size: 42px;
+            font-weight: 900;
+            color: #1a1a2e;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .main-title .highlight {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .investment-box {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .investment-title {
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        .investment-content {
+            font-size: 18px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        .investment-content .number {
+            color: #FFD700;
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        .coaching-section {
+            margin-bottom: 30px;
+        }
+
+        .coaching-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .coaching-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .coaching-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 20px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .coaching-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.15);
+        }
+
+        .coaching-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .icon-main {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .icon-sub {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        }
+
+        .coaching-text {
+            font-size: 16px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .coaching-text .sub {
+            font-size: 14px;
+            color: #888;
+            font-weight: 400;
+            display: block;
+            margin-top: 3px;
+        }
+
+        .incentive-box {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .incentive-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .incentive-condition {
+            font-size: 15px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .message-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf0ff 100%);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            border: 2px dashed #667eea;
+        }
+
+        .message-text {
+            font-size: 18px;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        .message-highlight {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer-brand {
+            font-size: 18px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="brand-container">
+                <div class="rice-logo">
+                    <div class="rice-grain"></div>
+                    <div class="rice-grain"></div>
+                    <div class="rice-grain"></div>
+                </div>
+                <div class="brand-text">SSAL Works</div>
+            </div>
+            <div class="main-title">
+                <span class="highlight">3개월</span> 일대일<br>맞춤형 코칭
+            </div>
+            <div class="subtitle">플랫폼만 주고 "알아서 하세요"가 아닙니다</div>
+        </div>
+
+        <div class="investment-box">
+            <div class="investment-title">SUNNY'S INVESTMENT</div>
+            <div class="investment-content">
+                <span class="number">2,500시간</span> 이상의 시간 투입<br>
+                <span class="number">수천만 원</span>의 토큰 사용료 부담<br>
+                끊임없는 공부, AI 사용 경험, 좌절과 극복, 시행착오<br>
+                <strong>→ 이 모든 노하우를 전수합니다</strong>
+            </div>
+        </div>
+
+        <div class="coaching-section">
+            <div class="coaching-title">3개월 동안 받는 코칭</div>
+            <div class="coaching-items">
+                <div class="coaching-item">
+                    <div class="coaching-icon icon-main">🚀</div>
+                    <div class="coaching-text">
+                        풀스택 웹사이트 개발 방법
+                        <span class="sub">Claude Code, Order Sheet, SAL Grid, 배포, 도메인 설정</span>
+                    </div>
+                </div>
+                <div class="coaching-item">
+                    <div class="coaching-icon icon-sub">💼</div>
+                    <div class="coaching-text">
+                        창업 멘토링
+                        <span class="sub">사업계획서 작성, 비즈니스 모델, 시장 진입 전략</span>
+                    </div>
+                </div>
+                <div class="coaching-item">
+                    <div class="coaching-icon icon-sub">📊</div>
+                    <div class="coaching-text">
+                        복합 경영자문
+                        <span class="sub">회계 / 세무 / 법률 / 특허 / 투자</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="incentive-box">
+            <div class="incentive-title">개설비 50% 환불</div>
+            <div class="incentive-condition">
+                3개월 내 웹사이트 완성 + 런칭 + 고객 30명 확보 시<br>
+                처음 납부한 개설비의 50%를 환불해드립니다
+            </div>
+        </div>
+
+        <div class="message-box">
+            <div class="message-text">
+                혼자 유튜브 보면서 독학하면 몇 달이 걸립니다.<br>
+                일대일 코칭을 받으면 훨씬 빠릅니다.
+                <span class="message-highlight">쓸데없는 시행착오 겪지 마세요.</span>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">AI와 함께 풀스택 웹사이트를 만드는 곳</div>
+            <div class="footer-brand">황금쌀 방앗간</div>
+        </div>
+    </div>
+</body>
+</html>

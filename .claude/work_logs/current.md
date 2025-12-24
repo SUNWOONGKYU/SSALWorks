@@ -4,6 +4,74 @@
 
 ---
 
+## 2025-12-24 작업 내역
+
+### 공개_전환_업무 폴더 생성 및 문서 작성 ✅
+
+**목적:** SSAL Works 플랫폼 공개 전환을 위한 업무 폴더 정리
+
+**생성된 폴더:**
+- `공개_전환_업무/` (루트 디렉토리)
+
+**생성된 문서:**
+
+| # | 파일명 | 용도 | 버전 |
+|---|--------|------|------|
+| 01 | `01_공개_전환_계획서.md` | 기존 계획서 복사 | - |
+| 02 | `02_프로젝트_등록_후_패키지_설치_안내문.md` | 패키지 다운로드/설치 STEP 1-4 | v1.0 |
+| 03 | `03_개발환경_도구_사용_안내문.md` | Bridge, Monitor, SAL Grid 사용법 | v1.0 |
+| 04 | `04_패키지_표준_디렉토리_구조.md` | 패키지 포함/제외 항목 정의 | v1.1 |
+| 05 | `05_패키지_생성_스크립트.js` | 패키지 ZIP 생성 (초안) | v0.1 |
+
+**핵심 정리 (패키지 포함/제외):**
+
+```
+패키지 포함 (SSAL Works 제공):
+├── P0 ~ S5 폴더 전체
+├── Development_Process_Monitor
+├── Human_ClaudeCode_Bridge
+├── Project_Status.md
+├── Briefings_OrderSheets
+└── .claude (선택)
+
+별도 설치 (사용자가 직접):
+├── Git
+├── Node.js / npm
+└── Claude Code
+```
+
+**패키지 생성 스크립트 상태:**
+- ⚠️ **초안 (DRAFT)** - 아직 사용 불가
+- 일반화 작업 완료 후 사용 가능
+
+**다음 작업 (일반화 필요):**
+1. CLAUDE.md 일반화 (SSALWorks 전용 부분 제거)
+2. Order Sheet 템플릿 일반화
+3. Briefing 일반화
+4. SAL Grid Viewer 일반화 (데모/연결 모드)
+5. Supabase Key 하드코딩 제거
+
+---
+
+### vercel.json 동기화 ✅
+
+**작업 내용:**
+- root/vercel.json과 Production/vercel.json 불일치 발견
+- Production → root로 동기화 (34개 rewrites, 6개 crons, redirects)
+
+**커밋:** `405bf1b`
+
+---
+
+### guides.js 수정 ✅
+
+**문제:** guides.js 로딩 이슈
+**해결:** 불필요한 "SSAL_Grid" 엔트리 3줄 삭제
+
+**커밋:** `37f6718`
+
+---
+
 ## 2025-12-23 작업 내역
 
 ### Order Sheet/Briefing v5.4 전면 재작성 ✅
@@ -823,6 +891,24 @@ mv "S5_운영" "S5_개발_마무리"
 
 **추가된 Redirects:**
 - `ssalworks.ai.kr` → `www.ssalworks.ai.kr` (www 리다이렉트)
+
+---
+
+### 학습용 Books Part 표시 이슈 확인 ✅
+
+**확인 결과:**
+- 이전 작업 로그에서 `index.html`로 언급했으나 실제 파일은 `viewer.html`
+- Part 표시 로직이 이미 구현되어 있음 (라인 647-653)
+- `file.type === 'part'` 체크하여 `.part-header` 클래스로 Part 헤더 생성
+
+**Part 정의 현황:**
+| 권 | Part 정의 | 상태 |
+|----|----------|------|
+| 1권 (Claude 사용법) | Part 1~5 | ✅ |
+| 2권 (웹개발 지식) | 없음 | ⚠️ 추가 필요 |
+| 3권 (프로젝트 관리) | 없음 | ⚠️ 추가 필요 |
+
+**결론:** 이슈 해결됨. 2권/3권에 Part 추가는 선택사항.
 
 ---
 

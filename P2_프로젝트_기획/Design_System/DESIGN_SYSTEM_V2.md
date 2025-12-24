@@ -526,3 +526,10 @@ Border: 해당 색상 Solid (left 4px)
 
 This design system is now ready for implementation across the SSALWorks platform.
 The v3.0 color system reflects the actual implementation in `Production/index.html` with a logical 5-layer structure.
+
+## 관련 문서
+
+| 문서 | 내용 |
+| :--- | :--- |
+| `CLOSE_BUTTON_RULES.md` | 닫기 버튼 유형별 규칙 (Type A~D) |
+
