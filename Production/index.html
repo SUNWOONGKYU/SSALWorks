@@ -3496,13 +3496,13 @@
             <div class="workspace-top">
                 <div class="workspace-header">
                     <div class="workspace-title">
-                        <span>Control Space</span>
+                        <span>Control Desk</span>
                     </div>
                     <!-- Outbox 알림 박스 제거됨 -->
                     <div class="workspace-actions">
                         <button class="action-btn secondary" onclick="clearEditor()">
                             <span style="display: flex; flex-direction: column; line-height: 1.3;">
-                                <span>Control Space</span>
+                                <span>Control Desk</span>
                                 <span>지우기</span>
                             </span>
                         </button>
@@ -3521,7 +3521,10 @@
                     </div>
                 </div>
                 <div class="workspace-content">
-                    <textarea id="textEditor" class="text-editor" placeholder="여기에 Order Sheet를 작성하세요...
+                    <!-- 안내문 표시 영역 (기본 표시) -->
+                    <div id="workspaceGuide" style="padding: 20px; font-size: 13px; line-height: 1.7; color: #212529; overflow-y: auto; height: 100%;"></div>
+                    <!-- Order Sheet 작성 영역 (숨김) -->
+                    <textarea id="textEditor" class="text-editor" style="display: none;" placeholder="여기에 Order Sheet를 작성하세요...
 
 예시:
 # Order Sheet: 회원가입 API 구현
@@ -3554,9 +3557,9 @@
                         </div>
                         <div class="translation-preview" id="translationPreview" style="display: block; max-height: 65px; overflow: hidden;">
                             <pre id="translatedText" style="margin: 0; font-size: 11px; color: #868e96;">[Claude Code Only] This English translation section is for Claude Code.
-The Korean content from the Control Space above is translated here for Claude Code to read.
+The Korean content from the Control Desk above is translated here for Claude Code to read.
 ────────────────────────────────────────
-The content you enter in the Control Space will be displayed here.</pre>
+The content you enter in the Control Desk will be displayed here.</pre>
                         </div>
                     </div>
                 </div>
@@ -4591,7 +4594,7 @@ The content you enter in the Control Space will be displayed here.</pre>
 
         // Clear editor
         function clearEditor() {
-            if (confirm('Clear Control Space content?')) {
+            if (confirm('Clear Control Desk content?')) {
                 document.getElementById('textEditor').value = '';
             }
         }
@@ -4641,7 +4644,7 @@ The content you enter in the Control Space will be displayed here.</pre>
             const editor = document.getElementById('textEditor');
 
             // Ask user if they want to replace current content
-            if (editor.value.trim() && !(await customConfirm('Replace current Control Space content with this template?'))) {
+            if (editor.value.trim() && !(await customConfirm('Replace current Control Desk content with this template?'))) {
                 return;
             }
 
@@ -4742,7 +4745,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     const data = await response.json();
                     if (data.success && data.markdown) {
                         // 현재 내용이 있으면 확인
-                        if (editor.value.trim() && !(await customConfirm('Replace Control Space content with template?'))) {
+                        if (editor.value.trim() && !(await customConfirm('Replace Control Desk content with template?'))) {
                             return false;
                         }
 
@@ -6132,7 +6135,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 if (hasAction) {
                     buttonSection = `
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                        <p style="font-weight: 600; color: #333; margin-bottom: 10px;">Load Order Sheet to Control Space?</p>
+                        <p style="font-weight: 600; color: #333; margin-bottom: 10px;">Load Order Sheet to Control Desk?</p>
                         <div style="display: flex; gap: 12px;">
                             <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
                             <button onclick="closeGuidePopup()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
@@ -9264,40 +9267,35 @@ ${result.answer}`;
 
         // 워크스페이스에 안내문 로드 (GUIDE_CONTENTS에서)
         function loadGuideToWorkspace(guideName) {
-            const popup = document.getElementById('guidePopup');
-            const title = document.getElementById('guidePopupTitle');
-            const content = document.getElementById('guidePopupContent');
+            const workspaceGuide = document.getElementById('workspaceGuide');
+            const textEditor = document.getElementById('textEditor');
 
-            if (!popup || !title || !content) {
-                console.warn('안내문 팝업 요소를 찾을 수 없습니다');
+            if (!workspaceGuide) {
+                console.warn('워크스페이스 안내문 영역을 찾을 수 없습니다');
                 return;
             }
 
             if (typeof GUIDE_CONTENTS !== 'undefined' && GUIDE_CONTENTS[guideName]) {
                 const htmlContent = GUIDE_CONTENTS[guideName];
 
-                // 안내문 제목 설정
-                const titleMap = {
-                    'BeforeSignup': '🌾 SSAL Works 소개',
-                    'Default': '🌾 SSAL Works 대시보드',
-                    'Welcome': '🌾 환영합니다!',
-                    'Project_First': '🎉 첫 프로젝트 등록',
-                    'Project_Add': '➕ 프로젝트 추가',
-                    'Project_Work': '🔧 프로젝트 작업',
-                    'Project_Completed': '✅ 완료된 프로젝트',
-                    'Project_Example': '📚 예시 프로젝트'
-                };
+                // 워크스페이스에 안내문 직접 표시
+                workspaceGuide.innerHTML = htmlContent;
+                workspaceGuide.style.display = 'block';
+                if (textEditor) textEditor.style.display = 'none';
 
-                title.textContent = titleMap[guideName] || `📖 ${guideName}`;
-                content.innerHTML = htmlContent;
-
-                // 팝업 표시 제거 - 워크스페이스에만 내용 로드
-                // popup.style.display = 'block';
-
-                console.log(`✅ ${guideName} 안내문 로드 완료`);
+                console.log(`✅ ${guideName} 안내문 워크스페이스에 로드 완료`);
             } else {
                 console.warn(`안내문을 찾을 수 없습니다: ${guideName}`);
             }
+        }
+
+        // Order Sheet 작성 모드로 전환
+        function showOrderSheetEditor() {
+            const workspaceGuide = document.getElementById('workspaceGuide');
+            const textEditor = document.getElementById('textEditor');
+            if (workspaceGuide) workspaceGuide.style.display = 'none';
+            if (textEditor) textEditor.style.display = 'block';
+            textEditor.focus();
         }
 
         // 페이지 로드 시 기본 안내문 즉시 로드 (인증 상태 확인 전)
