@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAL Grid Viewer - Mobile</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --primary: #10B981;
+            --secondary: #2C4A8A;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, 'Malgun Gothic', sans-serif;
+            background: #f5f5f5;
+            font-size: 14px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--secondary), #1F3563);
+            color: white;
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 { font-size: 16px; font-weight: 600; }
+        .close-btn {
+            padding: 10px 14px;
+            min-height: 44px;
+            background: rgba(255,255,255,0.15);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        /* Connection Status */
+        .status-bar {
+            background: white;
+            padding: 10px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            font-size: 12px;
+        }
+        .status-dot {
+            width: 8px; height: 8px;
+            background: #ffc107;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+        .status-dot.connected { background: #28a745; }
+
+        /* Stage Tabs */
+        .stage-tabs {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 12px;
+            gap: 8px;
+            background: white;
+            border-bottom: 1px solid #eee;
+            -webkit-overflow-scrolling: touch;
+        }
+        .stage-tab {
+            padding: 8px 14px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 20px;
+            font-size: 12px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .stage-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 12px;
+            background: white;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 8px 4px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+        .stat-value { font-size: 18px; font-weight: 700; }
+        .stat-label { font-size: 10px; color: #666; }
+        .stat-item.pending .stat-value { color: #6c757d; }
+        .stat-item.progress .stat-value { color: #ffc107; }
+        .stat-item.executed .stat-value { color: #3B82F6; }
+        .stat-item.completed .stat-value { color: #28a745; }
+
+        /* Task List */
+        .task-list { padding: 12px; }
+        .task-card {
+            background: white;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-left: 4px solid #6c757d;
+        }
+        .task-card.Completed { border-left-color: #28a745; }
+        .task-card.Executed { border-left-color: #3B82F6; }
+        .task-card.In-Progress { border-left-color: #ffc107; }
+        .task-card.Pending { border-left-color: #6c757d; }
+
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .task-id { font-weight: 700; color: var(--secondary); font-size: 14px; }
+        .task-status {
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .status-Completed { background: #d4edda; color: #155724; }
+        .status-Executed { background: #dbeafe; color: #1e40af; }
+        .status-In-Progress { background: #fff3cd; color: #856404; }
+        .status-Pending { background: #e2e3e5; color: #383d41; }
+
+        .task-name { font-size: 13px; font-weight: 500; margin-bottom: 6px; }
+        .task-meta { font-size: 11px; color: #666; }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        /* Empty */
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>SAL Grid Viewer</h1>
+        <button class="close-btn" onclick="history.back()">← 돌아가기</button>
+    </header>
+
+    <div class="status-bar">
+        <span><span class="status-dot" id="statusDot"></span><span id="statusText">연결 중...</span></span>
+        <span id="taskCount">0개 Task</span>
+    </div>
+
+    <div class="stage-tabs" id="stageTabs">
+        <button class="stage-tab active" data-stage="all">전체</button>
+        <button class="stage-tab" data-stage="1">S1</button>
+        <button class="stage-tab" data-stage="2">S2</button>
+        <button class="stage-tab" data-stage="3">S3</button>
+        <button class="stage-tab" data-stage="4">S4</button>
+        <button class="stage-tab" data-stage="5">S5</button>
+    </div>
+
+    <div class="stats">
+        <div class="stat-item pending">
+            <div class="stat-value" id="pendingCount">0</div>
+            <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-item progress">
+            <div class="stat-value" id="progressCount">0</div>
+            <div class="stat-label">Progress</div>
+        </div>
+        <div class="stat-item executed">
+            <div class="stat-value" id="executedCount">0</div>
+            <div class="stat-label">Executed</div>
+        </div>
+        <div class="stat-item completed">
+            <div class="stat-value" id="completedCount">0</div>
+            <div class="stat-label">Completed</div>
+        </div>
+    </div>
+
+    <div class="task-list" id="taskList">
+        <div class="loading">데이터 로딩 중...</div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
+
+        let supabaseClient = null;
+        let allTasks = [];
+        let currentStage = 'all';
+
+        try {
+            const { createClient } = supabase;
+            supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY);
+        } catch (e) {
+            console.error('Supabase init error:', e);
+        }
+
+        async function loadTasks() {
+            if (!supabaseClient) {
+                document.getElementById('statusText').textContent = '연결 실패';
+                return;
+            }
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('project_sal_grid')
+                    .select('task_id, task_name, stage, area, task_status, task_progress')
+                    .order('stage')
+                    .order('task_id');
+
+                if (error) throw error;
+
+                allTasks = data || [];
+                document.getElementById('statusDot').classList.add('connected');
+                document.getElementById('statusText').textContent = '연결됨';
+                document.getElementById('taskCount').textContent = allTasks.length + '개 Task';
+
+                renderTasks();
+                updateStats();
+            } catch (err) {
+                document.getElementById('statusText').textContent = '오류: ' + err.message;
+            }
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('taskList');
+            const filtered = currentStage === 'all'
+                ? allTasks
+                : allTasks.filter(t => t.stage == currentStage);
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="empty">Task가 없습니다</div>';
+                return;
+            }
+
+            list.innerHTML = filtered.map(task => {
+                const statusClass = task.task_status.replace(' ', '-');
+                return `
+                    <div class="task-card ${statusClass}">
+                        <div class="task-header">
+                            <span class="task-id">${task.task_id}</span>
+                            <span class="task-status status-${statusClass}">${task.task_status}</span>
+                        </div>
+                        <div class="task-name">${task.task_name}</div>
+                        <div class="task-meta">Stage ${task.stage} · ${task.area} · ${task.task_progress || 0}%</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateStats() {
+            const filtered = currentStage === 'all'
+                ? allTasks
+                : allTasks.filter(t => t.stage == currentStage);
+
+            document.getElementById('pendingCount').textContent = filtered.filter(t => t.task_status === 'Pending').length;
+            document.getElementById('progressCount').textContent = filtered.filter(t => t.task_status === 'In Progress').length;
+            document.getElementById('executedCount').textContent = filtered.filter(t => t.task_status === 'Executed').length;
+            document.getElementById('completedCount').textContent = filtered.filter(t => t.task_status === 'Completed').length;
+        }
+
+        // Stage Tab Click
+        document.querySelectorAll('.stage-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentStage = tab.dataset.stage;
+                renderTasks();
+                updateStats();
+            });
+        });
+
+        // Init
+        loadTasks();
+    </script>
+</body>
+</html>

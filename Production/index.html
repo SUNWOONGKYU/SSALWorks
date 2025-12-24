@@ -526,7 +526,7 @@
         }
 
         .process-percent {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             color: #495057;
             min-width: 35px;
@@ -835,7 +835,7 @@
             transition: width 0.3s ease;
         }
         .process-special-major .process-percent {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
             color: #2563eb;
             min-width: 35px;
@@ -887,7 +887,7 @@
         }
         .process-prep-name {
             flex: 1;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             color: #212529;
         }
@@ -978,7 +978,7 @@
         }
 
         .outbox-notification-message {
-            font-size: 11px;
+            font-size: 13px;
             color: var(--neutral);
         }
 
@@ -1264,7 +1264,7 @@
 
         .stat-label {
             display: block;
-            font-size: 11px;
+            font-size: 12px;
             color: var(--neutral);
             margin-bottom: 4px;
         }
@@ -1346,7 +1346,7 @@
         .task-id {
             font-weight: 700;
             color: var(--secondary);
-            font-size: 11px;
+            font-size: 12px;
         }
 
         .status-badge {
@@ -1402,7 +1402,7 @@
         }
 
         .progress-text {
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--neutral);
         }
@@ -1866,7 +1866,7 @@
         }
 
         .credit-info {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--neutral);
             text-align: center;
         }
@@ -1900,7 +1900,7 @@
         }
 
         .support-placeholder {
-            font-size: 11px;
+            font-size: 12px;
             color: var(--neutral);
             background: #f8f9fa;
             padding: 10px;
@@ -1961,7 +1961,7 @@
         }
 
         .response-meta {
-            font-size: 11px;
+            font-size: 12px;
             color: #495057;
             margin-top: 8px;
             padding-top: 8px;
@@ -2546,8 +2546,8 @@
             }
         }
             .text-editor { min-height: 200px; }
-            .translation-section { padding: 8px 10px; }
-            .translation-title { font-size: 14px; }
+            /* English Translation - 모바일에서 숨김 (PC Order Sheet 작성용) */
+            .translation-section { display: none !important; }
         }
 
 
@@ -2648,9 +2648,8 @@
             .workspace-content { padding: 8px; }
             .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
 
-            .translation-section { padding: 6px 8px; }
-            .translation-title { font-size: 13px; }
-            .translation-preview { font-size: 12px; }
+            /* English Translation - 모바일에서 숨김 */
+            .translation-section { display: none !important; }
 
             .footer-inner { padding: 10px; }
             .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
@@ -7678,8 +7677,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // 매뉴얼 보기
         function openManual() {
-            // PROJECT SAL GRID 매뉴얼 뷰어 열기
-            window.open('manual.html', '_blank');
+            // 모바일이면 모바일 버전으로
+            const isMobile = window.innerWidth <= 768;
+            const url = isMobile ? 'manual_mobile.html' : 'manual.html';
+            window.open(url, '_blank');
         }
 
         function openLearningViewer() {
@@ -8112,8 +8113,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // Viewer 열기
         function openViewer() {
-            // viewer.html 페이지 열기 (S0_Project-SSAL-Grid_생성 폴더)
-            window.open('viewer.html', '_blank');
+            // 모바일이면 모바일 버전으로
+            const isMobile = window.innerWidth <= 768;
+            const url = isMobile ? 'viewer_mobile.html' : 'viewer.html';
+            window.open(url, '_blank');
         }
 
         // 폴더 열기 함수 (비활성화됨 - 폴더 편집 안내 기능 제거)
