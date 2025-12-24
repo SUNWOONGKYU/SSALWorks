@@ -6,6 +6,37 @@
 
 ## 2025-12-24 작업 내역
 
+### orderSheetUrl 키 불일치 수정 ✅
+
+**문제:** STAGE_DATA의 orderSheetUrl 값이 ORDER_SHEET_TEMPLATES의 키와 불일치하여 Order Sheet가 로딩되지 않음
+
+**근본 원인:**
+- STAGE_DATA: 설명적 파일명 사용 (예: `SP-1_디렉토리_구조_생성.md`, `P3-1-1_Frontend_Prototype.md`)
+- ORDER_SHEET_TEMPLATES: 표준화된 명명 규칙 (예: `P0-1_OrderSheet`, `P3-1-1_OrderSheet`)
+
+**수정 내역 (Production/index.html):**
+
+| 수정 전 | 수정 후 |
+|---------|---------|
+| `SP-1_디렉토리_구조_생성.md` | `P0-1_OrderSheet.md` |
+| `SP-2_SAL_GRID_생성.md` | `S0-1_OrderSheet.md` |
+| `SAL_Grid_Manual.md` | `S0-2_OrderSheet.md` |
+| `SAL_Grid_Supabase.md` | `S0-3_OrderSheet.md` |
+| `SAL_Grid_Viewer.md` | `S0-6_OrderSheet.md` |
+| `SSAL_Grid.md` | `S0-1_OrderSheet.md` |
+| `P3-1-2_Frontend_Pages.md` | `P3-1-2_OrderSheet.md` |
+| `P3-2_Database.md` | `P3-2_OrderSheet.md` |
+| `P3-3_Scripts.md` | `P3-3_OrderSheet.md` |
+| `P3-1-1_Frontend_Prototype.md` | `P3-1-1_OrderSheet.md` |
+
+**추가된 orderSheetUrl:**
+- `sal_grid_task_instructions`: `S0-4_OrderSheet.md` (기존에 누락)
+- `sal_grid_verification_instructions`: `S0-5_OrderSheet.md` (기존에 누락)
+
+**검증 결과:** 28개 orderSheetUrl 모두 ORDER_SHEET_TEMPLATES 키와 일치 확인
+
+---
+
 ### 공개_전환_업무 폴더 생성 및 문서 작성 ✅
 
 **목적:** SSAL Works 플랫폼 공개 전환을 위한 업무 폴더 정리
