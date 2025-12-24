@@ -362,9 +362,9 @@
         }
 
         .project-menu-item:hover {
-            background: rgba(32, 128, 141, 0.15);
-            border-color: #20808D;
-            color: #20808D;
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
             transform: translateX(3px);
         }
 
@@ -2045,7 +2045,7 @@
         }
 
         .server-status.success {
-            background: var(--secondary);
+            background: var(--success);
         }
 
         .server-status.error {
@@ -2280,13 +2280,13 @@
 
         /* ========== 모바일 반응형 CSS (인라인) ========== */
 
-        /* 모바일 메뉴 버튼 */
+        /* 모바일 메뉴 버튼 - 좌측 상단 (초록색) */
         .mobile-menu-btn {
             display: none;
             width: 44px;
             height: 44px;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: var(--primary);
+            border: none;
             border-radius: 8px;
             color: white;
             font-size: 20px;
@@ -2294,10 +2294,12 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
         }
 
         .mobile-menu-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: var(--primary-dark);
+            transform: scale(1.05);
         }
 
         /* 사이드바 닫기 버튼 */
@@ -2351,8 +2353,8 @@
         }
 
         .fab-btn:hover { transform: scale(1.1); }
-        .fab-btn.fab-menu { background: var(--primary); }
-        .fab-btn.fab-info { background: var(--info); }
+        .fab-btn.fab-menu { background: var(--primary); display: none; }
+        .fab-btn.fab-info { background: var(--secondary); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
 
         /* Large Desktop: 1400px+ */
         @media (min-width: 1400px) {
@@ -2459,6 +2461,24 @@
             .footer-btn { min-height: 44px; }
             .footer-links { flex-direction: column; gap: 8px; align-items: center; }
             .footer-link { min-height: 44px; display: flex; align-items: center; }
+
+        /* 푸터 메타데이터 모바일 스타일 */
+        .footer-business {
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .footer-business span {
+                display: block;
+                line-height: 1.8;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-business {
+                font-size: 11px !important;
+            }
+        }
             .text-editor { min-height: 200px; }
             .translation-section { padding: 8px 10px; }
             .translation-title { font-size: 14px; }
@@ -4180,7 +4200,8 @@ The content you enter in the Control Space will be displayed here.</pre>
                     <a href="pages/legal/customer_service.html" class="footer-link">고객센터</a>
                 </div>
                 <div class="footer-business" style="font-size: 12px; color: #ffffff; margin-top: 8px;">
-                    <span>파인더월드 | 대표: 선웅규 | 사업자등록번호: 354-33-01641 | 서울특별시 강남구 테헤란로63길 9</span>
+                    <span class="footer-company-info">파인더월드 | 대표: 선웅규 | 사업자등록번호: 354-33-01641</span>
+                    <span class="footer-address">서울특별시 강남구 테헤란로63길 9</span>
                 </div>
                 <div class="footer-copyright" style="font-size: 12px; color: #ffffff;">
                     <span>© 2025 SSAL Works, All Rights Reserved</span>
@@ -6001,7 +6022,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             } else {
                 console.error('안내문 로드 오류: GUIDE_CONTENTS에서 찾을 수 없음 -', guideKey);
                 popupContent.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #dc3545;">
+                    <div style="text-align: center; padding: 40px; color: #EF4444;">
                         <p>❌ 안내문을 불러오지 못했습니다.</p>
                         <p style="font-size: 11px; color: #666; margin-top: 8px;">키: ${guideKey}</p>
                     </div>
@@ -6634,10 +6655,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     html += `<div style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-weight: 500;">${escapeHtml(data.task_id)}</div>`;
                 }
                 if (data.task_name) {
-                    html += `<div style="padding: 8px 16px; background: #28a745; color: white; border-radius: 20px; font-weight: 500;">${escapeHtml(data.task_name)}</div>`;
+                    html += `<div style="padding: 8px 16px; background: #10B981; color: white; border-radius: 20px; font-weight: 500;">${escapeHtml(data.task_name)}</div>`;
                 }
                 if (data.status) {
-                    const statusColor = data.status === '완료' ? '#28a745' : data.status === '진행중' ? '#ffc107' : '#6c757d';
+                    const statusColor = data.status === '완료' ? '#10B981' : data.status === '진행중' ? '#ffc107' : '#6c757d';
                     html += `<div style="padding: 8px 16px; background: ${statusColor}; color: white; border-radius: 20px; font-weight: 500;">${escapeHtml(data.status)}</div>`;
                 }
                 html += `</div>`;
@@ -7176,9 +7197,9 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
     </div>
 
     <!-- FAB 버튼 (모바일용) -->
+    <!-- FAB 버튼 - 우측 하단 (앰버/골드, 우측 사이드바 전용) -->
     <div class="fab-container">
-        <button class="fab-btn fab-menu" onclick="toggleLeftSidebar()">☰</button>
-        <button class="fab-btn fab-info" onclick="toggleRightSidebar()">ℹ</button>
+        <button class="fab-btn fab-info" onclick="toggleRightSidebar()" title="우측 정보 패널">▶</button>
     </div>
 </body>
 </html>`;
@@ -7251,9 +7272,9 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
     </div>
 
     <!-- FAB 버튼 (모바일용) -->
+    <!-- FAB 버튼 - 우측 하단 (앰버/골드, 우측 사이드바 전용) -->
     <div class="fab-container">
-        <button class="fab-btn fab-menu" onclick="toggleLeftSidebar()">☰</button>
-        <button class="fab-btn fab-info" onclick="toggleRightSidebar()">ℹ</button>
+        <button class="fab-btn fab-info" onclick="toggleRightSidebar()" title="우측 정보 패널">▶</button>
     </div>
 </body>
 </html>
@@ -7334,7 +7355,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             if (files.length > 0) {
                 fileList.innerHTML = files.map((file, idx) => {
                     const sizeKB = (file.size / 1024).toFixed(1);
-                    return '<div style="padding: 2px 0;">📎 ' + file.name + ' (' + sizeKB + 'KB) <span onclick="removeSupportFile(' + idx + ')" style="cursor: pointer; color: #dc3545;">✕</span></div>';
+                    return '<div style="padding: 2px 0;">📎 ' + file.name + ' (' + sizeKB + 'KB) <span onclick="removeSupportFile(' + idx + ')" style="cursor: pointer; color: #EF4444;">✕</span></div>';
                 }).join('');
             } else {
                 fileList.innerHTML = '';
@@ -9220,193 +9241,10 @@ ${result.answer}`;
             <button onclick="closeServiceIntro()" style="padding: 10px 20px; background: #6B7280; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; font-family: inherit; transition: all 0.2s;">✕ 닫기</button>
         </nav>
         <div class="grid-fullscreen-content" style="padding: 40px; max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-            <div style="line-height: 1.8; color: #333;">
-                <h1 style="font-size: 28px; margin-bottom: 16px; color: #1F3563;">SSAL Works Platform:
-                    Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 실행 및 관리 플랫폼</h1>
-
-                <blockquote
-                    style="border-left: 4px solid #2C4A8A; padding-left: 16px; margin: 20px 0; color: #555; font-style: italic;">
-                    "기술은 몰라도, 내 사이트는 내가 만든다."<br>
-                    AI를 트랙터처럼 운전하며, 나만의 디지털 밭을 일구는 곳.
-                </blockquote>
-
-                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-
-                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">1. SSAL Works(쌀웍스)란?</h2>
-                <p style="margin-bottom: 16px;">
-                    <strong>SSAL Works</strong>는 비개발자가 AI(Claude Code)를 활용하여 웹사이트를 직접 개발할 수 있도록 돕는
-                    <strong>"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 실행 및 관리 플랫폼"</strong>입니다.
-                </p>
-
-                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                    <h3 style="font-size: 16px; margin-bottom: 10px; color: #2C4A8A;">🌾 이름의 유래 (Etymology)</h3>
-                    <p style="margin-bottom: 10px; font-weight: 600;">SSAL은 단순한 곡식이 아닙니다. 창립자 Sunny와 3차원 좌표계의 결합입니다.</p>
-                    <ul style="padding-left: 20px; margin: 0;">
-                        <li style="margin-bottom: 8px;"><strong>S</strong> (Sunny): 창립자이자 모든 사용자를 대변하는 페르소나</li>
-                        <li style="margin-bottom: 8px;"><strong>SAL</strong> (Spatial Coordinates): 프로젝트를 관리하는 3차원 좌표
-                            <ul style="margin-top: 4px; color: #666; font-size: 13px;">
-                                <li><strong>S</strong> (Stage): X축 (단계)</li>
-                                <li><strong>A</strong> (Area): Y축 (영역)</li>
-                                <li><strong>L</strong> (Level): Z축 (작업 레벨)</li>
-                            </ul>
-                        </li>
-                        <li><strong>Rice (쌀)</strong>: 한국인에게 밥심이 필요하듯, <strong>"디지털 창작의 주식(主食)"</strong>이 되겠다는 의지를
-                            담았습니다. 로고의 쌀알 3개는 이 3차원 좌표(S, A, L)를 상징합니다.</li>
-                    </ul>
-                </div>
-
-                <div style="background: #e3f5f8; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-                    <h3 style="font-size: 16px; margin-bottom: 10px; color: #20808D;">🚀 확장성 (Scalability)</h3>
-                    <p style="margin-bottom: 0;">
-                        SSAL Works는 <strong>"작업(Works)을 하는 공간"</strong>입니다. 현재는 웹사이트 개발(<strong>v1.0</strong>)에 집중하고 있지만,
-                        이 PROJECT SAL Grid 시스템은 모든 프로젝트에 적용 가능합니다.
-                        <br>
-                        (예: 회계 감사, 책 집필, 다양한 프로젝트 관리 등)
-                    </p>
-                </div>
-
-                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">2. 핵심 철학: "머슬 메모리(Muscle Memory)의 외주화"
-                </h2>
-                <ul style="padding-left: 20px; margin-bottom: 30px;">
-                    <li style="margin-bottom: 8px;"><strong>기존의 문제</strong>: 개발을 하려면 수많은 단축키, 문법, 툴 사용법을 손가락이 기억할 때까지
-                        익혀야 했습니다. (높은 진입장벽)</li>
-                    <li><strong>SSAL Works의 해답</strong>:
-                        <ul style="margin-top: 4px; color: #555;">
-                            <li>기술적인 <strong>"근육 기억(Muscle Memory)"</strong>은 AI(Claude Code)에게 전적으로 맡깁니다.</li>
-                            <li>사용자는 <strong>"무엇을 만들 것인가(What to Build)"</strong>라는 본질적인 <strong>기획과 지시</strong>에만
-                                집중합니다.</li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">3. SSAL Works의 5대 핵심 영역</h2>
-                <p style="margin-bottom: 16px;">화면은 <strong>진행 · 통제 · 관리 · 학습 · 질문</strong> 5가지 영역으로 구성됩니다.</p>
-
-                <!-- 화면 구조 다이어그램 -->
-                <div style="background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 12px; padding: 20px; margin-bottom: 20px; font-family: monospace; font-size: 12px;">
-                    <div style="display: grid; grid-template-columns: 120px 1fr 140px; gap: 8px; text-align: center;">
-                        <div style="background: #dbeafe; padding: 12px 8px; border-radius: 8px; border: 2px solid #3b82f6;">
-                            <strong style="color: #1e40af;">📋 진행</strong><br>
-                            <span style="font-size: 10px; color: #666;">Left Sidebar</span>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <div style="background: #fef3c7; padding: 12px 8px; border-radius: 8px; border: 2px solid #f59e0b; flex: 1;">
-                                <strong style="color: #92400e;">🎮 통제 (Control Space)</strong><br>
-                                <span style="font-size: 10px; color: #666;">Center Top</span>
-                            </div>
-                            <div style="background: #d1fae5; padding: 12px 8px; border-radius: 8px; border: 2px solid #10b981; flex: 1;">
-                                <strong style="color: #065f46;">📊 관리 (Grid)</strong><br>
-                                <span style="font-size: 10px; color: #666;">Center Bottom</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; flex-direction: column; gap: 8px;">
-                            <div style="background: #ede9fe; padding: 12px 8px; border-radius: 8px; border: 2px solid #8b5cf6; flex: 1;">
-                                <strong style="color: #5b21b6;">📚 학습</strong><br>
-                                <span style="font-size: 10px; color: #666;">Right Top</span>
-                            </div>
-                            <div style="background: #fce7f3; padding: 12px 8px; border-radius: 8px; border: 2px solid #ec4899; flex: 1;">
-                                <strong style="color: #9d174d;">❓ 질문</strong><br>
-                                <span style="font-size: 10px; color: #666;">Right Bottom</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 5대 영역 상세 설명 -->
-                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
-                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #dbeafe; border-radius: 8px; border-left: 4px solid #3b82f6;">
-                        <span style="font-size: 20px;">📋</span>
-                        <div>
-                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #1e40af;">1. 진행 (Process) — Left Sidebar</h3>
-                            <p style="font-size: 12px; color: #555; margin: 0;">프로젝트 실행 프로세스 · Stage별 진행 단계 · 네비게이션</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
-                        <span style="font-size: 20px;">🎮</span>
-                        <div>
-                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #92400e;">2. 통제 (Control) — Control Space</h3>
-                            <p style="font-size: 12px; color: #555; margin: 0;"><strong>핵심!</strong> Order Sheet 작성 → Claude Code에 작업 지시 → AI가 코드 생성</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #d1fae5; border-radius: 8px; border-left: 4px solid #10b981;">
-                        <span style="font-size: 20px;">📊</span>
-                        <div>
-                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #065f46;">3. 관리 (Management) — Grid</h3>
-                            <p style="font-size: 12px; color: #555; margin: 0;">PROJECT SAL Grid · Stage(X)-Area(Y)-Level(Z) 3차원 Task 관리</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #ede9fe; border-radius: 8px; border-left: 4px solid #8b5cf6;">
-                        <span style="font-size: 20px;">📚</span>
-                        <div>
-                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #5b21b6;">4. 학습 (Learning) — Right Top</h3>
-                            <p style="font-size: 12px; color: #555; margin: 0;">Books · Tips · FAQ · 가이드 문서 — 프로젝트 진행하며 학습</p>
-                        </div>
-                    </div>
-                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #fce7f3; border-radius: 8px; border-left: 4px solid #ec4899;">
-                        <span style="font-size: 20px;">❓</span>
-                        <div>
-                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #9d174d;">5. 질문 (Questions) — Right Bottom</h3>
-                            <p style="font-size: 12px; color: #555; margin: 0;">AI Q&A (ChatGPT · Gemini · Perplexity 3개 AI) + 써니에게 묻기 (수시 가능)</p>
-                        </div>
-                    </div>
-                </div>
-
-                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">4. 왜 SSAL Works인가?</h2>
-                <ul style="padding-left: 20px; margin-bottom: 30px;">
-                    <li style="margin-bottom: 10px;"><strong>✅ DB 없는 가벼움</strong>: "내 컴퓨터가 곧 서버다." 복잡한 DB 설치 없이 폴더와
-                        파일만으로 작동합니다.</li>
-                    <li style="margin-bottom: 10px;"><strong>✅ 실패 없는 가이드</strong>: 막막한 흰 화면은 없습니다. 단계별 템플릿이 전문가 수준의 결과물로
-                        인도합니다.</li>
-                    <li><strong>✅ 강력한 동기부여</strong>: "당신의 성공이 우리의 목표입니다." 성공 시 50% 환불 정책으로 완주를 응원합니다.</li>
-                </ul>
-
-                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-
-                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">5. 💰 과금정책</h2>
-
-                <div style="background: #fff8e1; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
-                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #92400e;">📌 빌더 계정 개설비 (최초 1회)</h3>
-                    <p style="font-size: 24px; font-weight: 700; color: #1F3563; margin-bottom: 8px;">₩3,000,000</p>
-                    <ul style="padding-left: 20px; margin: 0; font-size: 13px; color: #555;">
-                        <li>SSALWorks 플랫폼 설치 및 세팅</li>
-                        <li>초기 AI 크레딧 ₩50,000 제공</li>
-                        <li>학습 콘텐츠 무제한 액세스</li>
-                        <li>써니에게 묻기 수시 가능</li>
-                        <li>전문 비즈니스 자문 및 멘토링 요청 가능</li>
-                    </ul>
-                    <p style="margin-top: 12px; font-size: 12px; color: #666; background: #fef3c7; padding: 8px; border-radius: 4px;">
-                        🎁 <strong>특별 인센티브:</strong> 3개월 내 웹사이트 완성 + 런칭 + 고객 10명 달성 시 <strong>50% 환불 (₩1,500,000)</strong>
-                    </p>
-                </div>
-
-                <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #10b981;">
-                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #065f46;">📌 플랫폼 이용료 (월 구독)</h3>
-                    <p style="font-size: 24px; font-weight: 700; color: #1F3563; margin-bottom: 8px;">₩50,000<span style="font-size: 14px; font-weight: 400; color: #666;">/월</span></p>
-                    <p style="font-size: 14px; color: #10b981; font-weight: 600; margin-bottom: 8px;">✨ 처음 3개월 면제 (4개월차부터 과금)</p>
-                    <ul style="padding-left: 20px; margin: 0; font-size: 13px; color: #555;">
-                        <li>SSALWorks 풀 액세스</li>
-                        <li>학습 콘텐츠 무제한</li>
-                        <li>써니에게 묻기 수시 가능</li>
-                        <li>전문 비즈니스 자문 및 멘토링 요청 가능</li>
-                    </ul>
-                </div>
-
-                <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2196f3;">
-                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #1565c0;">📌 AI 크레딧</h3>
-                    <p style="font-size: 14px; color: #555; margin-bottom: 8px;">ChatGPT, Gemini, Perplexity 3개 AI 서비스 사용</p>
-                    <ul style="padding-left: 20px; margin: 0; font-size: 13px; color: #555;">
-                        <li>최초 ₩50,000 크레딧 제공 (체험용)</li>
-                        <li>추가 충전: ₩10,000 / ₩20,000 / ₩30,000 / ₩50,000</li>
-                        <li>실시간 잔액 확인 가능</li>
-                    </ul>
-                </div>
-
-                <div
-                    style="text-align: center; margin-top: 40px; padding: 20px; background: #f1f3f5; border-radius: 8px;">
-                    <p style="font-weight: 600; color: #1F3563; margin: 0;">SSAL Works Platform<br><span
-                            style="font-weight: 400; font-size: 14px; color: #666;">"기술은 몰라도, 내 사이트는 내가 만든다"<br>
-                            <strong>AI 기반 웹사이트 개발 프로젝트 실행 및 관리 플랫폼</strong>입니다.</span></p>
-                </div>
+            <!-- 서비스 소개 콘텐츠 - 4개 문서 기반으로 새로 작성 예정 -->
+            <div style="line-height: 1.8; color: #333; text-align: center; padding: 100px 20px;">
+                <h1 style="font-size: 28px; margin-bottom: 20px; color: #1F3563;">서비스 소개</h1>
+                <p style="font-size: 16px; color: #666;">콘텐츠 준비 중...</p>
             </div>
         </div>
     </div>
@@ -9566,11 +9404,11 @@ ${result.answer}`;
         }
 
         .outbox-file-badge.html {
-            background: #20808D;
+            background: #3B82F6;
         }
 
         .outbox-file-badge.json {
-            background: #CC785C;
+            background: #F59E0B;
         }
 
         .outbox-file-badge.markdown {
@@ -9828,13 +9666,13 @@ ${result.answer}`;
                             <div style="margin-top: 8px;">라고 말씀해주세요.</div>
                         </div>
                         <div style="text-align: left; background: #f8f9fa; padding: 14px; border-radius: 8px;">
-                            <strong>Order ID:</strong> <span style="color: #007bff; font-family: monospace;">${data.orderId}</span>
+                            <strong>Order ID:</strong> <span style="color: #3B82F6; font-family: monospace;">${data.orderId}</span>
                         </div>
                     </div>
                     <button class="order-confirm-btn"
-                        style="width: 100%; padding: 12px 24px; border: none; border-radius: 8px; background: #007bff; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;"
+                        style="width: 100%; padding: 12px 24px; border: none; border-radius: 8px; background: #3B82F6; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;"
                         onmouseover="this.style.background='#0056b3';"
-                        onmouseout="this.style.background='#007bff';">
+                        onmouseout="this.style.background='#3B82F6';">
                         확인
                     </button>
                 </div>
@@ -10497,7 +10335,7 @@ ${result.answer}`;
                         <button onclick="closeAdminPasswordModal()"
                                 style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer;">취소</button>
                         <button onclick="verifyAdminPassword()"
-                                style="flex: 1; padding: 10px; border: none; border-radius: 8px; background: #007bff; color: white; cursor: pointer; font-weight: 600;">확인</button>
+                                style="flex: 1; padding: 10px; border: none; border-radius: 8px; background: #3B82F6; color: white; cursor: pointer; font-weight: 600;">확인</button>
                     </div>
                 </div>
             `;
@@ -10727,7 +10565,7 @@ ${result.answer}`;
                 const noticesList = document.getElementById('noticesList');
                 if (noticesList) {
                     noticesList.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #dc3545; font-size: 11px;">
+                        <div style="text-align: center; padding: 20px; color: #EF4444; font-size: 11px;">
                             공지사항을 불러오는데 실패했습니다.<br>
                             <span style="font-size: 11px; color: #6c757d;">콘솔(F12)에서 오류를 확인하세요.</span>
                         </div>
@@ -10801,7 +10639,7 @@ ${result.answer}`;
 
                 const createdDate = new Date(notice.created_at).toLocaleDateString('ko-KR');
                 const importanceBadge = notice.important
-                    ? '<span style="display: inline-block; background: #dc3545; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">중요</span>'
+                    ? '<span style="display: inline-block; background: #EF4444; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">중요</span>'
                     : '';
 
                 // 클릭한 공지사항 항목 위치 계산
@@ -11275,7 +11113,7 @@ ${result.answer}`;
                 // 오류 메시지 표시
                 if (containerEl) {
                     containerEl.innerHTML = `
-                        <div style="padding: 12px; text-align: center; color: #dc3545; font-size: 13px;">
+                        <div style="padding: 12px; text-align: center; color: #EF4444; font-size: 13px;">
                             ❌ FAQ를 불러오는데 실패했습니다.<br/>
                             <small>${error.message}</small>
                         </div>
@@ -11655,7 +11493,7 @@ ${result.answer}`;
                 const contentArea = document.getElementById('tipContentArea');
                 if (contentArea) {
                     contentArea.innerHTML = `
-                        <div style="text-align: center; padding: 40px; color: #dc3545;">
+                        <div style="text-align: center; padding: 40px; color: #EF4444;">
                             <div style="font-size: 24px; margin-bottom: 12px;">❌</div>
                             <div>콘텐츠를 불러올 수 없습니다.</div>
                             <div style="font-size: 11px; margin-top: 8px; color: #6c757d;">${error.message}</div>
@@ -12268,9 +12106,9 @@ ${result.answer}`;
 </script>
 
     <!-- FAB 버튼 (모바일용) -->
+    <!-- FAB 버튼 - 우측 하단 (앰버/골드, 우측 사이드바 전용) -->
     <div class="fab-container">
-        <button class="fab-btn fab-menu" onclick="toggleLeftSidebar()">☰</button>
-        <button class="fab-btn fab-info" onclick="toggleRightSidebar()">ℹ</button>
+        <button class="fab-btn fab-info" onclick="toggleRightSidebar()" title="우측 정보 패널">▶</button>
     </div>
 </body>
 
