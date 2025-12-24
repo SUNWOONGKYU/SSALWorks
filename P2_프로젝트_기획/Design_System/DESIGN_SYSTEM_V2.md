@@ -1,4 +1,4 @@
-# SSALWorks Design System v2.0 (Prototype)
+# SSALWorks Design System v3.0
 
 > **Theme**: Organic Growth (유기적 성장)
 > **Keywords**: Growth, Warmth, Professional, Trust
@@ -6,29 +6,163 @@
 
 ---
 
-## 1. Color Palette (Organic Growth)
+## 1. Color Palette (4-Layer System)
 
-### Primary Colors
-| Role | Name | Hex | Usage |
+> 12개 핵심 색상으로 구성된 단순화된 색상 시스템. Badge/Alert/Toast는 규칙 기반으로 파생.
+
+---
+
+### Layer 1: Core (핵심 4색)
+
+> 브랜드 + 액션 통합. 서비스의 주요 인터랙션 색상.
+
+| Role | Name | Hex | Dark | 용도 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Brand** | Navy Blue | `#2C4A8A` | `#1F3563` | Header, Footer |
+| **Action-1** | Amber Gold | `#F59E0B` | `#D97706` | 우측 사이드바 CTA |
+| **Action-2** | Emerald | `#10B981` | `#059669` | 좌측 사이드바, Control Space, **=Success** |
+| **Action-3** | Blue | `#3B82F6` | `#2563EB` | 확인/검증, **=Info** |
+
+---
+
+### Layer 2: Accent (콘텐츠 2색)
+
+> 학습 콘텐츠, 특수 섹션 구분.
+
+| Role | Name | Hex | Gradient | 용도 |
+| :--- | :--- | :--- | :--- | :--- |
+| **Content-1** | Violet | `#8B5CF6` | `→ #7C3AED` | Tips 섹션 |
+| **Content-2** | Indigo | `#667eea` | `→ #764ba2` | Learning Books 섹션 |
+
+---
+
+### Layer 3: Semantic (상태 2색)
+
+> Success(=Emerald), Info(=Blue)는 Core에서 재사용. 추가 상태만 정의.
+
+| Role | Name | Hex | 용도 |
 | :--- | :--- | :--- | :--- |
-| **Primary** | **Emerald Green** | `#10B981` | Brand Identity, Main Actions, Active States (Growth/Rice) |
-| **Secondary** | **Amber Gold** | `#F59E0B` | Highlights, Call-to-Actions, Accents (Sun/Fruit) |
-| **Tertiary** | **Slate Navy** | `#0F172A` | Headings, Strong Text, Footer Background (Earth/Stability) |
+| **Warning** | Yellow | `#ffc107` | 진행중, 주의 |
+| **Error** | Red | `#EF4444` | 오류, 실패 |
 
-### Neutral Colors
-| Role | Name | Hex | Usage |
-| :--- | :--- | :--- | :--- |
-| **Background** | **Warm White** | `#FAFAF9` | Main Page Background (Stone-50) |
-| **Surface** | **Pure White** | `#FFFFFF` | Cards, Modals, Panels |
-| **Text Main** | **Slate 900** | `#0F172A` | Primary Text |
-| **Text Muted** | **Slate 500** | `#64748B` | Secondary Text, Descriptions |
-| **Border** | **Slate 200** | `#E2E8F0` | Dividers, Card Borders |
+---
 
-### Semantic Colors
-- **Success**: `#10B981` (Same as Primary)
-- **Warning**: `#F59E0B` (Same as Secondary)
-- **Error**: `#EF4444` (Red 500)
-- **Info**: `#3B82F6` (Blue 500)
+### Layer 4: Neutral (중립 Gray Scale)
+
+> 배경, 텍스트, 테두리 등 UI 기반.
+
+| Role | Hex | Usage |
+| :--- | :--- | :--- |
+| **Text-Primary** | `#212529` | 주요 텍스트 |
+| **Text-Secondary** | `#495057` | 보조 텍스트 |
+| **Text-Muted** | `#6c757d` | 힌트, 비활성, **=Neutral 상태** |
+| **Border** | `#dee2e6` | 테두리 |
+| **BG-Page** | `#f8f9fa` | 페이지 배경 |
+| **BG-Surface** | `#ffffff` | 카드, 모달, 패널 |
+
+---
+
+## 1.1 파생 색상 규칙
+
+> Badge, Alert, Toast는 Core/Semantic 색상에서 규칙 기반으로 파생.
+
+### Badge (뱃지)
+```
+배경: 해당 색상 + 15% 투명도
+텍스트: 해당 색상 Dark 버전
+```
+| Status | Background | Text |
+| :--- | :--- | :--- |
+| Success | `rgba(16,185,129,0.15)` | `#059669` |
+| Warning | `rgba(255,193,7,0.15)` | `#92400E` |
+| Error | `rgba(239,68,68,0.15)` | `#B91C1C` |
+| Info | `rgba(59,130,246,0.15)` | `#1D4ED8` |
+| Neutral | `rgba(108,117,125,0.15)` | `#495057` |
+
+### Toast (토스트 알림)
+```
+배경: 해당 색상 Solid
+텍스트: White (Warning만 Dark)
+```
+| Type | Background | Text |
+| :--- | :--- | :--- |
+| Success | `#10B981` | White |
+| Warning | `#ffc107` | `#212529` |
+| Error | `#EF4444` | White |
+| Info | `#3B82F6` | White |
+
+### Alert Box (알림 박스)
+```
+배경: Badge 배경과 동일
+Border: 해당 색상 Solid (left 4px)
+텍스트: Badge 텍스트와 동일
+```
+
+---
+
+## 1.2 UI Zone별 색상 맵
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  HEADER: --color-navy                                           │
+├────────────────┬───────────────────────┬────────────────────────┤
+│ LEFT SIDEBAR   │ CENTER (Control Space)│ RIGHT SIDEBAR          │
+│ --color-emerald│ --color-emerald       │ --color-amber          │
+│                │                       │ --color-violet (Tips)  │
+│ 프로세스/프로젝트│ SAL Grid Status:     │ --color-indigo (Books) │
+│                │ ✅ --color-emerald    │                        │
+│                │ ⏳ --color-warning    │ Verify: --color-blue   │
+│                │ ❌ --color-error      │                        │
+│                │ ⏸️ --text-muted       │                        │
+├────────────────┴───────────────────────┴────────────────────────┤
+│  FOOTER: --color-navy or --bg-surface                           │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 1.3 CSS Variables (단순화)
+
+```css
+:root {
+    /* ===== Layer 1: Core (4색) ===== */
+    --color-navy: #2C4A8A;
+    --color-navy-dark: #1F3563;
+    --color-amber: #F59E0B;
+    --color-amber-dark: #D97706;
+    --color-emerald: #10B981;
+    --color-emerald-dark: #059669;
+    --color-blue: #3B82F6;
+    --color-blue-dark: #2563EB;
+
+    /* ===== Layer 2: Accent (2색) ===== */
+    --color-violet: #8B5CF6;
+    --color-violet-dark: #7C3AED;
+    --color-indigo: #667eea;
+    --color-indigo-dark: #764ba2;
+
+    /* ===== Layer 3: Semantic (2색) ===== */
+    --color-warning: #ffc107;
+    --color-error: #EF4444;
+    /* Success = --color-emerald, Info = --color-blue */
+
+    /* ===== Layer 4: Neutral ===== */
+    --text-primary: #212529;
+    --text-secondary: #495057;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --bg-page: #f8f9fa;
+    --bg-surface: #ffffff;
+
+    /* ===== 호환성 Alias ===== */
+    --primary: var(--color-emerald);
+    --secondary: var(--color-amber);
+    --tertiary: var(--color-navy);
+    --success: var(--color-emerald);
+    --warning: var(--color-warning);
+    --danger: var(--color-error);
+    --info: var(--color-blue);
+}
 
 ---
 
@@ -53,10 +187,10 @@
 
 **Grid System**:
 - 4px Base Unit (Tailwind Default)
-- **Layout**: 3-Column Grid (Sidebar Left - Workspace - Sidebar Right)
-    - Left: 240px (Fixed)
-    - Center: Flex (Fluid)
-    - Right: 280px (Fixed)
+- **Layout**: 3-Column Grid (Left Sidebar - Control Space - Right Sidebar)
+    - Left: 240px (Fixed) - 프로세스/프로젝트 네비게이션
+    - Center: Flex (Fluid) - Control Space (SAL Grid, 뷰어 등)
+    - Right: 280px (Fixed) - 액션 버튼, 콘텐츠 바로가기
 
 **Margin-Bottom 4단계 규칙** (2025-12-17 확정):
 | 단계 | 용도 | 간격 | 적용 대상 |
@@ -88,20 +222,27 @@
 ## 4. Components
 
 ### Buttons
-- **Primary**: Emerald Background, White Text
-- **Secondary**: White Background, Slate Border, Slate Text
-- **Ghost**: Transparent Background, Slate Text (Hover: Slate-100)
+| Type | Background | Text | Border | Usage |
+| :--- | :--- | :--- | :--- | :--- |
+| **Brand** | Navy Blue | White | - | Header 내 주요 버튼 |
+| **Action-Primary** | Amber Gold | White | - | 우측 사이드바 CTA |
+| **Action-Secondary** | Emerald Green | White | - | 좌측/중앙 영역 액션 |
+| **Secondary** | White | Slate-700 | Slate-300 | 보조 버튼 |
+| **Ghost** | Transparent | Slate-600 | - | 텍스트 버튼 |
+| **Verify** | Blue | White | - | 확인/검증 버튼 |
 
 ### Cards
 - White Background
 - Border: 1px solid Slate-200
 - Shadow: `shadow-sm` (Tailwind)
-- Hover: `shadow-md`, `border-emerald-200`
+- Hover: `shadow-md`, `border-emerald-200` (좌측/중앙) 또는 `border-amber-200` (우측)
 
 ### Navigation
-- **Sidebar**: White Background, Border-Right Slate-200
-- **Active Item**: Emerald-50 Background, Emerald-600 Text, Emerald-500 Left Border
-- **Menu Item**: Slate-700 Text, Hover: Emerald-50 Background
+- **Left Sidebar**: White Background, Emerald-500 Active States
+- **Right Sidebar**: White Background, Amber-500 Active States
+- **Active Item (Left)**: Emerald-50 Background, Emerald-600 Text, Emerald-500 Left Border
+- **Active Item (Right)**: Amber-50 Background, Amber-600 Text
+- **Menu Item**: Slate-700 Text, Hover: 해당 영역 색상-50 Background
 - **Submenu**: Indented 16px, Slate-600 Text, Smaller Font (13px)
 
 ### Modals
@@ -246,11 +387,15 @@
 - Large: 24px
 - XLarge: 32px
 
-**Icon Colors**:
-- Default: Slate-600
-- Active: Emerald-600
-- Disabled: Slate-400
-- Error: Red-500
+**Icon Colors** (영역별):
+| 영역 | Default | Active | Disabled |
+| :--- | :--- | :--- | :--- |
+| **Header/Footer** | White | White | Slate-400 |
+| **Left Sidebar** | Slate-600 | Emerald-600 | Slate-400 |
+| **Control Space** | Slate-600 | Emerald-600 | Slate-400 |
+| **Right Sidebar** | Slate-600 | Amber-600 | Slate-400 |
+| **Content (Purple)** | White | White | Slate-400 |
+- **Error**: Red-500 (전역)
 
 ---
 
@@ -264,16 +409,19 @@
 - **2xl**: 1536px
 
 **Layout Adaptations**:
-- **Desktop (≥1024px)**: 3-Column Layout (Sidebar Left - Workspace - Sidebar Right)
-- **Tablet (768px - 1023px)**: 2-Column Layout (Workspace - Sidebar Right, Left Sidebar Collapsible)
-- **Mobile (<768px)**: 1-Column Layout (Workspace Only, Sidebars Hidden/Drawer)
+- **Desktop (≥1024px)**: 3-Column Layout (Left Sidebar - Control Space - Right Sidebar)
+- **Tablet (768px - 1023px)**: 2-Column Layout (Control Space - Right Sidebar, Left Sidebar Collapsible)
+- **Mobile (<768px)**: 1-Column Layout (Control Space Only, Sidebars Hidden/Drawer)
 
 ---
 
 ## 8. Accessibility
 
-**Focus States**:
-- All Interactive Elements: 3px solid Emerald-500 outline with 2px offset
+**Focus States** (영역별):
+- **Header/Footer**: 3px solid White outline with 2px offset
+- **Left Sidebar/Control Space**: 3px solid Emerald-500 outline with 2px offset
+- **Right Sidebar**: 3px solid Amber-500 outline with 2px offset
+- **Verification Actions**: 3px solid Blue-500 outline with 2px offset
 - Skip to Content Link (Hidden, Visible on Focus)
 
 **Color Contrast**:
@@ -318,11 +466,14 @@
 
 ### Logo
 - **Format**: SVG (Vector)
-- **Colors**: Emerald-500 + Amber-500 Gradient
+- **Primary Color**: Navy Blue (#2C4A8A)
+- **Accent Color**: Amber Gold (#F59E0B)
+- **Secondary Accent**: Emerald Green (#10B981)
 - **Variations**:
   - Full Logo (Text + Icon)
   - Icon Only (Square)
   - Wordmark Only (Text)
+  - Reversed (White on Navy background)
 
 ### Favicon
 - **Sizes**: 16×16, 32×32, 48×48, 64×64
@@ -335,11 +486,43 @@
 | Version | Date | Changes |
 | :--- | :--- | :--- |
 | v1.0 | 2025-11-10 | Initial Design System |
-| v2.0 | 2025-12-01 | Components Section Complete (Based on Prototype Analysis) |
-| v2.1 | 2025-12-17 | Spacing 4단계 규칙 추가, 사이드바 섹션 간격 표준화 (좌우 25px 통일) |
+| v2.0 | 2025-12-01 | Components Section Complete |
+| v2.1 | 2025-12-17 | Spacing 4단계 규칙 추가 |
+| v3.0 | 2025-12-24 | 6-Layer Color System 도입 |
+| **v3.1** | **2025-12-24** | **4-Layer로 단순화**: 12개 핵심 색상, 중복 제거 (Success=Emerald, Info=Blue), Badge/Alert/Toast 규칙 기반 파생 |
+
+---
+
+## 12. Color Quick Reference (빠른 참조)
+
+### 4-Layer 핵심 색상 (12개)
+
+| Layer | Role | Hex | CSS Variable |
+| :--- | :--- | :--- | :--- |
+| **Core** | Navy (Brand) | `#2C4A8A` | `--color-navy` |
+| **Core** | Amber (Action-1) | `#F59E0B` | `--color-amber` |
+| **Core** | Emerald (Action-2, Success) | `#10B981` | `--color-emerald` |
+| **Core** | Blue (Action-3, Info) | `#3B82F6` | `--color-blue` |
+| **Accent** | Violet (Tips) | `#8B5CF6` | `--color-violet` |
+| **Accent** | Indigo (Books) | `#667eea` | `--color-indigo` |
+| **Semantic** | Yellow (Warning) | `#ffc107` | `--color-warning` |
+| **Semantic** | Red (Error) | `#EF4444` | `--color-error` |
+| **Neutral** | Text Primary | `#212529` | `--text-primary` |
+| **Neutral** | Text Muted | `#6c757d` | `--text-muted` |
+| **Neutral** | Border | `#dee2e6` | `--border-color` |
+| **Neutral** | BG Page | `#f8f9fa` | `--bg-page` |
+
+### 파생 규칙 요약
+| 용도 | 규칙 |
+| :--- | :--- |
+| **Badge BG** | Core/Semantic 색상 + 15% 투명도 |
+| **Badge Text** | Core/Semantic Dark 버전 |
+| **Toast** | Core/Semantic 색상 + White 텍스트 |
+| **Alert Box** | Badge BG + Core/Semantic Border (left 4px) |
 
 ---
 
 **Document Complete**
 
-This design system is now ready for implementation across the SSALWorks platform. All components have been documented based on the actual prototype implementation in `prototype_index_최종개선.html`.
+This design system is now ready for implementation across the SSALWorks platform.
+The v3.0 color system reflects the actual implementation in `Production/index.html` with a logical 5-layer structure.

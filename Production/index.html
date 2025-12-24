@@ -16,29 +16,50 @@
         }
 
         :root {
-            /* Main Theme - Organic Growth: Emerald Green */
-            --primary: #10B981;
-            --primary-dark: #059669;
+            /* ===== 4-Layer Color System v3.1 ===== */
 
-            /* Secondary Theme - Organic Growth: Amber Gold */
-            --secondary: #F59E0B;
-            --secondary-dark: #D97706;
+            /* Layer 1: Core (4색) */
+            --color-navy: #2C4A8A;
+            --color-navy-dark: #1F3563;
+            --color-amber: #F59E0B;
+            --color-amber-dark: #D97706;
+            --color-emerald: #10B981;
+            --color-emerald-dark: #059669;
+            --color-blue: #3B82F6;
+            --color-blue-dark: #2563EB;
 
-            /* Tertiary Theme - Organic Growth: Navy Blue */
-            --tertiary: #2C4A8A;
-            --tertiary-dark: #1F3563;
+            /* Layer 2: Accent (2색) */
+            --color-violet: #8B5CF6;
+            --color-violet-dark: #7C3AED;
+            --color-indigo: #667eea;
+            --color-indigo-dark: #764ba2;
 
-            /* Status Colors */
-            --success: #10B981;
-            --warning: #ffc107;
-            --danger: #EF4444;
-            --info: #3B82F6;
-            --neutral: #64748B;
+            /* Layer 3: Semantic (2색) */
+            --color-warning: #ffc107;
+            --color-error: #EF4444;
 
-            /* Background */
-            --bg-light: #f8f9fa;
-            --bg-white: #ffffff;
+            /* Layer 4: Neutral */
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --text-muted: #6c757d;
             --border-color: #dee2e6;
+            --bg-page: #f8f9fa;
+            --bg-surface: #ffffff;
+
+            /* 호환성 Alias (기존 코드 지원) */
+            --primary: var(--color-emerald);
+            --primary-dark: var(--color-emerald-dark);
+            --secondary: var(--color-amber);
+            --secondary-dark: var(--color-amber-dark);
+            --tertiary: var(--color-navy);
+            --tertiary-dark: var(--color-navy-dark);
+            --success: var(--color-emerald);
+            --warning: var(--color-warning);
+            --danger: var(--color-error);
+            --info: var(--color-blue);
+            --neutral: var(--text-muted);
+            --bg-light: var(--bg-page);
+            --bg-white: var(--bg-surface);
 
             /* Misc */
             --border-radius: 8px;
@@ -2528,7 +2549,74 @@
         }
 
         /* Mobile: 480px 이하 */
+        @
+
+        /* 모바일 헤더 개선 */
+        .mobile-login-btn {
+            display: none;
+            width: 44px;
+            height: 44px;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.2s;
+            position: absolute;
+            right: 12px;
+        }
+
+        .mobile-login-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-login-btn {
+                display: flex;
+            }
+
+            .header-inner {
+                flex-wrap: wrap;
+                height: auto !important;
+                min-height: 60px;
+                padding-top: 8px !important;
+                padding-bottom: 8px !important;
+                position: relative;
+            }
+
+            .logo {
+                flex: 1;
+                justify-content: center;
+            }
+
+            /* 모바일 태그라인 */
+            .header-tagline-mobile {
+                display: block;
+                width: 100%;
+                text-align: center;
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.8);
+                margin-top: 4px;
+                order: 3;
+            }
+        }
+
         @media (max-width: 480px) {
+            .mobile-login-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                right: 10px;
+            }
+
+            .header-tagline-mobile {
+                font-size: 10px;
+            }
+        }media (max-width: 480px) {
             .header-inner { padding: 0 10px; height: 56px; }
             .logo { gap: 8px; }
             .logo h1 { font-size: 18px; }
@@ -2644,6 +2732,8 @@
             <div class="header-inner">
                 <!-- 모바일 메뉴 버튼 -->
                 <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">≡</button>
+                <!-- 모바일 로그인 아이콘 -->
+                <a href="pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
                 <div class="logo">
                     <span class="rice-logo">
                         <span class="rice-grain"></span>
