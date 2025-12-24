@@ -426,7 +426,7 @@
 
         .project-list-item .project-name {
             flex: 1;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             color: #212529;
         }
@@ -513,7 +513,7 @@
 
         .process-name {
             flex: 1;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             color: #212529;
         }
@@ -544,7 +544,7 @@
         }
 
         .process-arrow {
-            font-size: 10px;
+            
             transition: transform 0.3s;
             margin-right: 4px;
         }
@@ -590,12 +590,12 @@
         }
 
         .process-small-bullet {
-            font-size: 7px;
+            
             color: var(--primary);
         }
 
         .process-small-arrow {
-            font-size: 7px;
+            
             transition: transform 0.3s;
             opacity: 0.5;
         }
@@ -634,7 +634,7 @@
             color: #333;
         }
         .process-tiny-bullet {
-            font-size: 5px;
+            
             color: var(--primary);
         }
 
@@ -684,7 +684,7 @@
         }
         .process-special-name {
             flex: 1;
-            font-size: 10px;
+            
             font-weight: 600;
             color: #212529;
         }
@@ -701,7 +701,7 @@
             font-weight: bold;
         }
         .process-special-percent {
-            font-size: 9px;
+            font-size: 11px;
             font-weight: 600;
             color: #2563eb;
         }
@@ -806,12 +806,12 @@
         }
         .process-special-major .process-name {
             flex: 1;
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 600;
             color: #212529;
         }
         .process-special-major .process-arrow {
-            font-size: 10px;
+            
             color: #2563eb;
             transition: transform 0.2s;
         }
@@ -1480,13 +1480,13 @@
         .knowledge-name {
             flex: 1;
             /* H5 스타일 적용 (사용자 요청: 2단계 크기 축소) */
-            font-size: 11px;
+            font-size: 13px;
             font-weight: 700;
             color: #495057;
         }
 
         .knowledge-arrow {
-            font-size: 10px;
+            
             transition: transform 0.3s;
         }
 
@@ -1533,12 +1533,12 @@
         }
 
         .knowledge-medium-bullet {
-            font-size: 7px;
+            
             color: var(--primary);
         }
 
         .knowledge-medium-arrow {
-            font-size: 7px;
+            
             transition: transform 0.3s;
             opacity: 0.5;
         }
@@ -1579,7 +1579,7 @@
         }
 
         .knowledge-small-bullet {
-            font-size: 5px;
+            
             color: var(--primary);
         }
 
@@ -1700,7 +1700,7 @@
             color: #374151;
         }
         .service-guide-arrow {
-            font-size: 10px;
+            
             color: #F59E0B;
             transition: transform 0.2s;
         }
@@ -1894,8 +1894,9 @@
         }
 
         .support-input-area textarea::placeholder {
+            font-size: 12px;
             color: #999;
-            font-size: 10px;
+            
         }
 
         .support-placeholder {
@@ -2017,7 +2018,7 @@
             right: 32px;
             bottom: 12px;
             opacity: 0.15;
-            font-size: 9px;
+            font-size: 11px;
             transition: opacity 0.3s;
             color: rgba(255, 255, 255, 0.95);
             text-decoration: none;
@@ -2276,7 +2277,7 @@
         }
 
         .notice-bullet {
-            font-size: 7px;
+            
             color: #D97706;
         }
 
@@ -2291,7 +2292,8 @@
         }
 
         .notice-date {
-            font-size: 10px;
+            font-size: 12px; /* CHANGED from 10px */
+            
             color: #868e96;
             font-weight: 400;
             white-space: nowrap;
@@ -2511,7 +2513,7 @@
                 padding: 8px;
             }
             .stat-label {
-                font-size: 10px;
+                
             }
             .stat-value {
                 font-size: 16px;
@@ -2531,7 +2533,7 @@
                 padding: 6px;
             }
             .stat-label {
-                font-size: 9px;
+                font-size: 11px;
             }
             .stat-value {
                 font-size: 14px;
@@ -2593,8 +2595,10 @@
             }
 
             .logo {
-                flex: 1;
-                justify-content: center;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                flex: none;
             }
 
             /* 모바일 태그라인 */
@@ -2618,7 +2622,7 @@
             }
 
             .header-tagline-mobile {
-                font-size: 10px;
+                
             }
         }
 
@@ -2656,7 +2660,7 @@
             .quick-link-btn { padding: 12px; min-height: 44px; }
             .project-list-item { padding: 10px 12px; min-height: 44px; }
             .project-name { font-size: 12px; }
-            .project-status { font-size: 10px; padding: 3px 6px; }
+            .project-status {  padding: 3px 6px; }
 
             .fab-btn { width: 52px; height: 52px; font-size: 18px; }
 
@@ -11906,8 +11910,8 @@ ${result.answer}`;
                 <div class="tips-modal-header" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
                     <div style="font-size: 18px; font-weight: 700; color: white; pointer-events: none;">💡 Tips (${TIPS_CONTENTS.length}개) <span style="font-size: 11px; opacity: 0.8;">- 드래그하여 이동</span></div>
                     <button onclick="this.closest('.tips-viewer-overlay').remove()"
-                            style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 20px; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                        ×
+                            style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 13px; cursor: pointer; padding: 6px 14px; border-radius: 6px; display: flex; align-items: center; gap: 4px; font-weight: 500;">
+                        ✕ 닫기
                     </button>
                 </div>
                 <div style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB;">
@@ -11974,7 +11978,7 @@ ${result.answer}`;
                         gap: 8px;
                     }
                     .tip-accordion-arrow {
-                        font-size: 10px;
+                        
                         color: #8B5CF6;
                         transition: transform 0.2s;
                     }
