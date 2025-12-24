@@ -2502,6 +2502,28 @@
             .stats-bar {
                 display: none !important;
             }
+            /* Project SAL Grid - 타이틀만 보이게 */
+            .workspace-top {
+                flex: 1 !important;
+                min-height: 60vh !important;
+                max-height: none !important;
+            }
+            .workspace-bottom {
+                flex: none !important;
+                height: auto !important;
+                min-height: auto !important;
+            }
+            .grid-content {
+                display: none !important;
+            }
+            /* 안내문 팝업 - 모바일 대응 */
+            #guidePopup {
+                width: calc(100vw - 20px) !important;
+                max-width: none !important;
+                left: 10px !important;
+                right: 10px !important;
+                top: 70px !important;
+            }
         }
 
         @media (max-width: 480px) {
