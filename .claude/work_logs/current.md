@@ -796,6 +796,36 @@ mv "S5_운영" "S5_개발_마무리"
 
 **Git 커밋:** 2db0f96 - feat: 모바일 반응형 UX 대폭 개선
 
+## 2025-12-24 작업 내역
+
+### vercel.json 동기화 ✅
+
+**문제:** 루트 vercel.json과 Production/vercel.json이 불일치
+- 루트: 오래된 버전 (rewrites 14개, crons 없음)
+- Production: 최신 버전 (rewrites 34개, crons 6개, redirects 포함)
+
+**해결:** Production/vercel.json → 루트로 복사하여 동기화
+
+**추가된 라우팅:**
+- `/api/auth/signup`, `/api/auth/verify-email` - 회원가입/이메일 인증
+- `/api/ai/pricing`, `/api/ai/test`, `/api/ai/health` - AI 관련
+- `/api/projects/*` - 프로젝트 CRUD
+- `/api/payment/*`, `/api/admin/*`, `/api/credit/*` - 결제/관리
+- `/api/webhook/toss` - 토스 웹훅
+
+**추가된 Cron Jobs:**
+- `ai-pricing-update` - 매일 00:00
+- `subscription-expiry` - 매일 00:00
+- `pending-payment-expiry` - 매일 00:00
+- `churn-risk-alert` - 매일 09:00
+- `challenge-expiry` - 매월 1일 09:00
+- `stats-aggregate` - 매일 01:00
+
+**추가된 Redirects:**
+- `ssalworks.ai.kr` → `www.ssalworks.ai.kr` (www 리다이렉트)
+
+---
+
 ## 다음 세션 TODO
 
 ### 1. S4F6 마이페이지 문의 관리 테스트
