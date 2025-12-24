@@ -107,6 +107,8 @@ export default async function handler(req, res) {
                         <h2 style="color: #6B5CC4;">👤 신규 가입</h2>
                         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
                             <p><strong>이메일:</strong> ${data.email || '-'}</p>
+                            <p><strong>닉네임:</strong> ${data.nickname || '-'}</p>
+                            <p><strong>실명:</strong> ${data.real_name || '-'}</p>
                             <p><strong>가입 방법:</strong> ${data.provider || 'Email'}</p>
                             <p><strong>가입 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
                         </div>
