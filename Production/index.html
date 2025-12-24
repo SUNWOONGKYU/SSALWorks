@@ -4592,10 +4592,12 @@ The content you enter in the Control Desk will be displayed here.</pre>
             }
         }
 
-        // Clear editor
+        // Clear editor - textEditor 비우고 Default 안내문 복원
         function clearEditor() {
-            if (confirm('Clear Control Desk content?')) {
+            if (confirm('Control Desk 내용을 초기화하시겠습니까?')) {
                 document.getElementById('textEditor').value = '';
+                // Default 안내문 다시 표시
+                loadGuideToWorkspace('Default');
             }
         }
 
@@ -6199,6 +6201,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
             // 워크스페이스에 Order Sheet 템플릿 로드
             document.getElementById('textEditor').value = templateContent;
+
+            // workspaceGuide 숨기고 textEditor 표시
+            showOrderSheetEditor();
+
             showStatus(`✅ Order Sheet 템플릿이 워크스페이스에 로드되었습니다.`, 'success');
 
             closeGuidePopup();
@@ -6247,6 +6253,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             if (!currentStageData) return;
 
             document.getElementById('textEditor').value = currentStageData.orderSheet;
+
+            // workspaceGuide 숨기고 textEditor 표시
+            showOrderSheetEditor();
+
             showStatus(`✅ "${currentStageData.stageName}" Order Sheet를 워크스페이스에 로드했습니다. 수정 후 발행하세요.`, 'info');
             closeGuidePopup();
         }
