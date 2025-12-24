@@ -2548,8 +2548,12 @@
             .translation-title { font-size: 14px; }
         }
 
-        /* Mobile: 480px 이하 */
-        @
+
+
+        /* 태그라인 - 기본 숨김, 모바일에서만 표시 */
+        .header-tagline-mobile {
+            display: none;
+        }
 
         /* 모바일 헤더 개선 */
         .mobile-login-btn {
@@ -2595,7 +2599,7 @@
 
             /* 모바일 태그라인 */
             .header-tagline-mobile {
-                display: block;
+                display: block !important;
                 width: 100%;
                 text-align: center;
                 font-size: 11px;
@@ -2616,7 +2620,9 @@
             .header-tagline-mobile {
                 font-size: 10px;
             }
-        }media (max-width: 480px) {
+        }
+
+        @media (max-width: 480px) {
             .header-inner { padding: 0 10px; height: 56px; }
             .logo { gap: 8px; }
             .logo h1 { font-size: 18px; }
@@ -2742,6 +2748,8 @@
                     </span>
                     <h1>SSAL Works</h1>
                 </div>
+                <!-- 모바일 태그라인 -->
+                <div class="header-tagline-mobile">AI 협업 웹개발 플랫폼</div>
                 <div class="header-center">
                     <div class="header-tagline">Claude Code를 활용한 3차원 SAL Grid 기반 풀스택
       웹사이트 개발 플랫폼</div>
