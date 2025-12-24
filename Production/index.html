@@ -2457,6 +2457,8 @@
             .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
             .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
             .footer-btn { min-height: 44px; }
+            .footer-links { flex-direction: column; gap: 8px; align-items: center; }
+            .footer-link { min-height: 44px; display: flex; align-items: center; }
             .text-editor { min-height: 200px; }
             .translation-section { padding: 8px 10px; }
             .translation-title { font-size: 14px; }
@@ -7172,6 +7174,12 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             <div class="meta">✅ 처리: Claude Code</div>
         </div>
     </div>
+
+    <!-- FAB 버튼 (모바일용) -->
+    <div class="fab-container">
+        <button class="fab-btn fab-menu" onclick="toggleLeftSidebar()">☰</button>
+        <button class="fab-btn fab-info" onclick="toggleRightSidebar()">ℹ</button>
+    </div>
 </body>
 </html>`;
         }
@@ -7240,6 +7248,12 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
     <div class="markdown-body">
         ${mdData.content}
         <div class="meta">📅 ${mdData.date} | 📄 Markdown Document</div>
+    </div>
+
+    <!-- FAB 버튼 (모바일용) -->
+    <div class="fab-container">
+        <button class="fab-btn fab-menu" onclick="toggleLeftSidebar()">☰</button>
+        <button class="fab-btn fab-info" onclick="toggleRightSidebar()">ℹ</button>
     </div>
 </body>
 </html>
@@ -12252,6 +12266,12 @@ ${result.answer}`;
         }
     });
 </script>
+
+    <!-- FAB 버튼 (모바일용) -->
+    <div class="fab-container">
+        <button class="fab-btn fab-menu" onclick="toggleLeftSidebar()">☰</button>
+        <button class="fab-btn fab-info" onclick="toggleRightSidebar()">ℹ</button>
+    </div>
 </body>
 
 </html>
