@@ -9298,12 +9298,10 @@ ${result.answer}`;
             textEditor.focus();
         }
 
-        // 페이지 로드 시 기본 안내문 즉시 로드 (인증 상태 확인 전)
-        // checkAuthStatus()가 나중에 정확한 안내문으로 업데이트함
+        // 페이지 로드 시 Default 안내문 표시 (로그인 여부 무관하게 항상 동일)
         window.addEventListener('DOMContentLoaded', () => {
-            // 일단 BeforeSignup 안내문 표시 (로그인 확인 전 기본값)
-            console.log('ℹ️ 페이지 로드 - 기본 안내문 즉시 표시');
-            loadGuideToWorkspace('BeforeSignup');
+            console.log('ℹ️ 페이지 로드 - Default 안내문 표시');
+            loadGuideToWorkspace('Default');
         });
 
     </script>
@@ -10504,21 +10502,15 @@ ${result.answer}`;
                     }
 
                     showLoggedInUI(displayName, session.user.email);
-                    // 로그인 상태 - Default 안내문 로드
-                    loadGuideToWorkspace('Default');
                     // 진행중 프로젝트 로드
                     loadInProgressProject(session.user.id);
                 } else {
                     console.log('ℹ️ 로그인되지 않은 상태');
                     showLoggedOutUI();
-                    // 비로그인 상태 - BeforeSignup 안내문 로드
-                    loadGuideToWorkspace('BeforeSignup');
                 }
             } catch (error) {
                 console.error('❌ 인증 상태 확인 실패:', error);
                 showLoggedOutUI();
-                // 오류 시에도 BeforeSignup 안내문 로드
-                loadGuideToWorkspace('BeforeSignup');
             }
         }
 
