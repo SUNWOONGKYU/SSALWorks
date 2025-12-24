@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Permissions-Policy" content="notifications()">
     <title>SSALWorks Dashboard - 프로젝트 관리</title>
-    <!-- 외부 CSS 제거: 인라인 CSS 우선 -->
-    <!-- <link rel="stylesheet" href="/assets/css/responsive.css?v=20251224"> -->
+    <link rel="stylesheet" href="/assets/css/responsive.css?v=20251224">
     <style>
         * {
             margin: 0;
@@ -16,66 +15,35 @@
         }
 
         :root {
-            /* ===== 4-Layer Color System v3.1 ===== */
+            /* Main Theme - Organic Growth: Emerald Green */
+            --primary: #10B981;
+            --primary-dark: #059669;
 
-            /* Layer 1: Core (4색) */
-            --color-navy: #2C4A8A;
-            --color-navy-dark: #1F3563;
-            --color-amber: #F59E0B;
-            --color-amber-dark: #D97706;
-            --color-emerald: #10B981;
-            --color-emerald-dark: #059669;
-            --color-blue: #3B82F6;
-            --color-blue-dark: #2563EB;
+            /* Secondary Theme - Organic Growth: Amber Gold */
+            --secondary: #F59E0B;
+            --secondary-dark: #D97706;
 
-            /* Layer 2: Accent (2색) */
-            --color-violet: #8B5CF6;
-            --color-violet-dark: #7C3AED;
-            --color-indigo: #667eea;
-            --color-indigo-dark: #764ba2;
+            /* Tertiary Theme - Organic Growth: Navy Blue */
+            --tertiary: #2C4A8A;
+            --tertiary-dark: #1F3563;
 
-            /* Layer 3: Semantic (2색) */
-            --color-warning: #ffc107;
-            --color-error: #EF4444;
+            /* Status Colors */
+            --success: #10B981;
+            --warning: #ffc107;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --neutral: #64748B;
 
-            /* Layer 4: Neutral */
-            --text-primary: #212529;
-            --text-secondary: #495057;
-            --text-muted: #6c757d;
+            /* Background */
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
             --border-color: #dee2e6;
-            --bg-page: #f8f9fa;
-            --bg-surface: #ffffff;
 
-            /* 호환성 Alias (기존 코드 지원) */
-            --primary: var(--color-emerald);
-            --primary-dark: var(--color-emerald-dark);
-            --secondary: var(--color-amber);
-            --secondary-dark: var(--color-amber-dark);
-            --tertiary: var(--color-navy);
-            --tertiary-dark: var(--color-navy-dark);
-            --success: var(--color-emerald);
-            --warning: var(--color-warning);
-            --danger: var(--color-error);
-            --info: var(--color-blue);
-            --neutral: var(--text-muted);
-            --bg-light: var(--bg-page);
-            --bg-white: var(--bg-surface);
-
-/* Border Radius */
-            --radius-sm: 4px;
-            --radius-md: 8px;
-            --radius-lg: 12px;
+            /* Misc */
             --border-radius: 8px;
-
-            /* Box Shadow */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.15);
-            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.2);
-
-            /* Transition */
-            --transition-fast: 0.15s ease;
-            --transition-normal: 0.2s ease;
-            --transition-slow: 0.3s ease;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 20px rgba(0, 0, 0, 0.15);
         }
 
         /* Footer Styles */
@@ -300,7 +268,7 @@
             padding: 7px 18px;
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.4);
-            border-radius: 8px;
+            border-radius: 6px;
             color: rgba(255, 255, 255, 0.9);
             font-size: 13px;
             font-weight: 500;
@@ -393,9 +361,9 @@
         }
 
         .project-menu-item:hover {
-            background: rgba(16, 185, 129, 0.15);
-            border-color: var(--primary);
-            color: var(--primary);
+            background: rgba(32, 128, 141, 0.15);
+            border-color: #20808D;
+            color: #20808D;
             transform: translateX(3px);
         }
 
@@ -436,8 +404,8 @@
 
         .project-list-item .project-name {
             flex: 1;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
             color: #212529;
         }
 
@@ -469,14 +437,14 @@
         .process-major {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            padding: 4px 10px;
+            gap: 4px;
+            padding: 6px 10px;
             background: rgba(16, 185, 129, 0.05);
             border: 1px solid rgba(16, 185, 129, 0.15);
-            border-radius: 8px;
+            border-radius: 6px;
             transition: all 0.2s;
             cursor: pointer;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         /* P1~S5 0% 상태: 아주 연한 녹색 */
@@ -523,8 +491,8 @@
 
         .process-name {
             flex: 1;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
             color: #212529;
         }
 
@@ -536,7 +504,7 @@
         }
 
         .process-percent {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             color: #495057;
             min-width: 35px;
@@ -554,7 +522,7 @@
         }
 
         .process-arrow {
-            
+            font-size: 10px;
             transition: transform 0.3s;
             margin-right: 4px;
         }
@@ -600,12 +568,12 @@
         }
 
         .process-small-bullet {
-            
+            font-size: 7px;
             color: var(--primary);
         }
 
         .process-small-arrow {
-            
+            font-size: 7px;
             transition: transform 0.3s;
             opacity: 0.5;
         }
@@ -634,7 +602,7 @@
             font-weight: 500;
             color: #495057;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 3px;
             margin-bottom: 1px;
             transition: all 0.2s;
         }
@@ -644,7 +612,7 @@
             color: #333;
         }
         .process-tiny-bullet {
-            
+            font-size: 5px;
             color: var(--primary);
         }
 
@@ -653,7 +621,7 @@
             flex: 1;
             height: 5px;
             background: #e9ecef;
-            border-radius: 4px;
+            border-radius: 2px;
             overflow: hidden;
         }
 
@@ -681,7 +649,7 @@
             padding: 3px 6px;
             background: #dbeafe;
             border: 1px solid #60a5fa;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             margin-bottom: 4px;
             transition: all 0.2s;
@@ -694,7 +662,7 @@
         }
         .process-special-name {
             flex: 1;
-            
+            font-size: 10px;
             font-weight: 600;
             color: #212529;
         }
@@ -711,20 +679,20 @@
             font-weight: bold;
         }
         .process-special-percent {
-            font-size: 11px;
+            font-size: 9px;
             font-weight: 600;
             color: #2563eb;
         }
         .process-special-progress {
             height: 4px;
             background: rgba(37, 99, 235, 0.2);
-            border-radius: 4px;
+            border-radius: 2px;
             overflow: hidden;
         }
         .process-special-progress-fill {
             height: 100%;
             background: #2563eb;
-            border-radius: 4px;
+            border-radius: 2px;
             transition: width 0.3s ease;
         }
         /* 특별단계 완료 시에도 파란색 유지 */
@@ -738,14 +706,14 @@
         .process-special-major {
             display: flex;
             flex-direction: column;
-            gap: 2px;
-            padding: 4px 10px;
+            gap: 4px;
+            padding: 6px 10px;
             background: #f8f9fa;
             border: 1px solid #dee2e6;
-            border-radius: 8px;
+            border-radius: 6px;
             transition: all 0.2s;
             cursor: pointer;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
         /* P0, S0 기본 상태에서 진행률 텍스트/바 색상 */
         .process-special-major .process-percent {
@@ -816,12 +784,12 @@
         }
         .process-special-major .process-name {
             flex: 1;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
             color: #212529;
         }
         .process-special-major .process-arrow {
-            
+            font-size: 10px;
             color: #2563eb;
             transition: transform 0.2s;
         }
@@ -835,17 +803,17 @@
             flex: 1;
             height: 5px;
             background: rgba(37, 99, 235, 0.2);
-            border-radius: 4px;
+            border-radius: 2px;
             overflow: hidden;
         }
         .process-special-major .process-progress-fill {
             height: 100%;
             background: #2563eb;
-            border-radius: 4px;
+            border-radius: 2px;
             transition: width 0.3s ease;
         }
         .process-special-major .process-percent {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 500;
             color: #2563eb;
             min-width: 35px;
@@ -860,7 +828,7 @@
             padding: 6px 10px;
             background: rgba(16, 185, 129, 0.08);
             border: 1px solid rgba(16, 185, 129, 0.2);
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             margin-bottom: 6px;
             transition: all 0.2s;
@@ -897,8 +865,8 @@
         }
         .process-prep-name {
             flex: 1;
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 600;
             color: #212529;
         }
 
@@ -988,7 +956,7 @@
         }
 
         .outbox-notification-message {
-            font-size: 13px;
+            font-size: 11px;
             color: var(--neutral);
         }
 
@@ -1146,7 +1114,7 @@
         .translation-preview {
             background: white;
             padding: 6px 8px;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 11px;
             line-height: 1.3;
             color: #495057;
@@ -1268,13 +1236,13 @@
             text-align: center;
             padding: 10px;
             background: white;
-            border-radius: 8px;
+            border-radius: 6px;
             box-shadow: var(--shadow-sm);
         }
 
         .stat-label {
             display: block;
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral);
             margin-bottom: 4px;
         }
@@ -1356,7 +1324,7 @@
         .task-id {
             font-weight: 700;
             color: var(--secondary);
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .status-badge {
@@ -1401,7 +1369,7 @@
             flex: 1;
             height: 5px;
             background: #e9ecef;
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
         }
 
@@ -1412,7 +1380,7 @@
         }
 
         .progress-text {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
             color: var(--neutral);
         }
@@ -1473,7 +1441,7 @@
             gap: 8px;
             padding: 6px 8px;
             background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.2);
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             transition: all 0.2s;
         }
@@ -1490,13 +1458,13 @@
         .knowledge-name {
             flex: 1;
             /* H5 스타일 적용 (사용자 요청: 2단계 크기 축소) */
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 11px;
+            font-weight: 700;
             color: #495057;
         }
 
         .knowledge-arrow {
-            
+            font-size: 10px;
             transition: transform 0.3s;
         }
 
@@ -1543,12 +1511,12 @@
         }
 
         .knowledge-medium-bullet {
-            
+            font-size: 7px;
             color: var(--primary);
         }
 
         .knowledge-medium-arrow {
-            
+            font-size: 7px;
             transition: transform 0.3s;
             opacity: 0.5;
         }
@@ -1578,7 +1546,7 @@
             font-weight: 500;
             color: #495057;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 3px;
             margin-bottom: 1px;
             transition: all 0.2s;
         }
@@ -1589,7 +1557,7 @@
         }
 
         .knowledge-small-bullet {
-            
+            font-size: 5px;
             color: var(--primary);
         }
 
@@ -1607,7 +1575,7 @@
             padding: 10px 12px;
             background: white;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 6px;
             text-decoration: none;
             color: #495057;
             font-size: 11px;
@@ -1620,7 +1588,7 @@
             background: var(--bg-light);
             border-color: var(--success);
             transform: translateX(2px);
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .quick-link-btn.vscode:hover {
@@ -1705,12 +1673,12 @@
         }
         .service-guide-title {
             flex: 1;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 500;
             color: #374151;
         }
         .service-guide-arrow {
-            
+            font-size: 10px;
             color: #F59E0B;
             transition: transform 0.2s;
         }
@@ -1857,7 +1825,7 @@
 
         .ai-input-area textarea::placeholder {
             color: #999;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .ai-input-area button {
@@ -1876,7 +1844,7 @@
         }
 
         .credit-info {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral);
             text-align: center;
         }
@@ -1893,7 +1861,7 @@
         }
 
         .support-input-area textarea {
-            font-size: 12px;
+            font-size: 11px;
             width: 100%;
             padding: 12px;
             border: 1px solid var(--border-color);
@@ -1904,17 +1872,16 @@
         }
 
         .support-input-area textarea::placeholder {
-            font-size: 12px;
             color: #999;
-            
+            font-size: 10px;
         }
 
         .support-placeholder {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--neutral);
             background: #f8f9fa;
             padding: 10px;
-            border-radius: 8px;
+            border-radius: 6px;
             margin-bottom: 8px;
             line-height: 1.5;
         }
@@ -1951,7 +1918,7 @@
             background: var(--success);
             color: white;
             padding: 8px 12px;
-            border-radius: 8px 6px 0 0;
+            border-radius: 6px 6px 0 0;
             font-size: 11px;
             font-weight: 600;
             display: flex;
@@ -1971,7 +1938,7 @@
         }
 
         .response-meta {
-            font-size: 12px;
+            font-size: 11px;
             color: #495057;
             margin-top: 8px;
             padding-top: 8px;
@@ -2028,7 +1995,7 @@
             right: 32px;
             bottom: 12px;
             opacity: 0.15;
-            font-size: 11px;
+            font-size: 9px;
             transition: opacity 0.3s;
             color: rgba(255, 255, 255, 0.95);
             text-decoration: none;
@@ -2050,7 +2017,7 @@
 
         ::-webkit-scrollbar-thumb {
             background: #adb5bd;
-            border-radius: 8px;
+            border-radius: 6px;
             border: 2px solid #e9ecef;
         }
 
@@ -2066,7 +2033,7 @@
             padding: 10px 16px;
             background: var(--secondary);
             color: white;
-            border-radius: 8px;
+            border-radius: 6px;
             font-size: 11px;
             z-index: 1000;
             display: none;
@@ -2077,7 +2044,7 @@
         }
 
         .server-status.success {
-            background: var(--success);
+            background: var(--secondary);
         }
 
         .server-status.error {
@@ -2123,7 +2090,7 @@
             background: #495057;
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 600;
@@ -2162,7 +2129,7 @@
         .popup-modal-box {
             background: white;
             border-radius: 16px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 600px;
             max-width: 95vw;
             animation: popupIn 0.25s ease;
@@ -2287,7 +2254,7 @@
         }
 
         .notice-bullet {
-            
+            font-size: 7px;
             color: #D97706;
         }
 
@@ -2302,406 +2269,12 @@
         }
 
         .notice-date {
-            font-size: 12px; /* CHANGED from 10px */
-            
+            font-size: 10px;
             color: #868e96;
             font-weight: 400;
             white-space: nowrap;
             margin-left: 4px;
         }
-
-
-        /* ========== 모바일 반응형 CSS (인라인) ========== */
-
-        /* 모바일 메뉴 버튼 - 좌측 상단 (초록색) */
-        .mobile-menu-btn {
-            display: none;
-            width: 44px;
-            height: 44px;
-            background: var(--primary);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.4);
-        }
-
-        .mobile-menu-btn:hover {
-            background: var(--primary-dark);
-            transform: scale(1.05);
-        }
-
-        /* 사이드바 닫기 버튼 */
-        .sidebar-close-btn {
-            display: none;
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 36px;
-            height: 36px;
-            background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
-            border-radius: 50%;
-            color: var(--text-secondary);
-            font-size: 18px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-        }
-
-        .sidebar-close-btn:hover {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* FAB 컨테이너 */
-        .fab-container {
-            display: none;
-            position: fixed !important;
-            bottom: 20px;
-            right: 20px;
-            flex-direction: column;
-            gap: 12px;
-            z-index: 1000;
-        }
-
-        .fab-btn {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: var(--shadow-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s;
-        }
-
-        .fab-btn:hover { transform: scale(1.1); }
-        .fab-btn.fab-menu { background: var(--primary); display: none; }
-        .fab-btn.fab-info { background: var(--secondary); box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
-
-        /* Large Desktop: 1400px+ */
-        @media (min-width: 1400px) {
-            .layout-container { grid-template-columns: 280px 1fr 320px; }
-        }
-
-        /* Desktop: 1024-1399px */
-        @media (max-width: 1399px) and (min-width: 1024px) {
-            .layout-container { grid-template-columns: 240px 1fr 280px; }
-            .header-tagline { font-size: 13px; }
-            .logo h1 { font-size: 22px; }
-        }
-
-        /* Tablet Landscape: 769-1023px */
-        @media (max-width: 1023px) and (min-width: 769px) {
-            .layout-container { grid-template-columns: 220px 1fr; }
-            .header-inner { padding: 0 16px; }
-            .header-tagline { font-size: 12px; }
-            .logo h1 { font-size: 20px; }
-
-            .right-sidebar {
-                position: fixed !important;
-                right: -320px !important;
-                top: 0;
-                bottom: 0;
-                width: 300px;
-                z-index: 1001;
-                background: #f8f9fa !important;
-                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-                transition: right 0.3s ease;
-                overflow-y: auto;
-                padding-top: 20px;
-            }
-
-            .right-sidebar.open { right: 0 !important; }
-            .right-sidebar .sidebar-close-btn { display: flex; }
-            .fab-container { display: flex; }
-            .fab-container .fab-menu { display: none; }
-
-            .left-sidebar { padding: 12px 10px; }
-            .workspace-header { padding: 12px 16px; }
-            .workspace-title { font-size: 18px; }
-            .grid-viewer-title { font-size: 18px; }
-            .action-btn { padding: 8px 12px; font-size: 12px; min-height: 44px; }
-        }
-
-        /* Tablet Portrait: 768px 이하 */
-        @media (max-width: 768px) {
-            .layout-container { display: grid !important; grid-template-columns: 1fr !important; grid-template-rows: 1fr !important; }
-            .mobile-menu-btn { display: flex; }
-            .header-inner { height: 60px; padding: 0 12px; }
-            .header-center { display: none; }
-            .header-right { display: none; }
-            .logo h1 { font-size: 20px; }
-
-            .left-sidebar {
-                position: fixed !important;
-                left: -320px !important;
-                top: 0;
-                bottom: 0;
-                width: 300px;
-                z-index: 1001;
-                background: #f8f9fa !important;
-                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
-                transition: left 0.3s ease;
-                overflow-y: auto;
-                padding-top: 60px;
-                -webkit-overflow-scrolling: touch;
-                grid-column: unset !important;
-                grid-row: unset !important;
-            }
-
-            .left-sidebar.open { left: 0 !important; }
-            .left-sidebar .sidebar-close-btn { display: flex; top: 16px; }
-
-            .right-sidebar {
-                position: fixed !important;
-                right: -320px !important;
-                top: 0;
-                bottom: 0;
-                width: 300px;
-                z-index: 1001;
-                background: #f8f9fa !important;
-                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.15);
-                transition: right 0.3s ease;
-                overflow-y: auto;
-                padding-top: 60px;
-                -webkit-overflow-scrolling: touch;
-                grid-column: unset !important;
-                grid-row: unset !important;
-            }
-
-            .right-sidebar.open { right: 0 !important; }
-            .right-sidebar .sidebar-close-btn { display: flex; top: 16px; }
-            .fab-container { display: flex; }
-
-            .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
-            .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
-            .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
-            .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
-            .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
-
-            .footer-inner { flex-direction: column; gap: 12px; padding: 12px 16px; }
-            .footer-left, .footer-right { width: 100%; justify-content: center; flex-wrap: wrap; }
-            .footer-btn { min-height: 44px; }
-            .footer-links { flex-direction: column; gap: 8px; align-items: center; }
-            .footer-link { min-height: 44px; display: flex; align-items: center; }
-
-        /* 푸터 메타데이터 모바일 스타일 */
-        .footer-business {
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .footer-business span {
-                display: block;
-                line-height: 1.8;
-            }
-        }
-        /* 실행 상태 카드 - 모바일에서 숨김 (PC 전용) */
-        @media (max-width: 768px) {
-            .stats-bar {
-                display: none !important;
-            }
-            /* Project SAL Grid - 타이틀만 보이게 */
-            .workspace-top {
-                flex: 1 !important;
-                min-height: 60vh !important;
-                max-height: none !important;
-            }
-            .workspace-bottom {
-                flex: none !important;
-                height: auto !important;
-                min-height: auto !important;
-            }
-            .grid-content {
-                display: none !important;
-            }
-            /* 안내문 팝업 - 모바일 대응 */
-            #guidePopup {
-                width: calc(100vw - 20px) !important;
-                max-width: none !important;
-                left: 10px !important;
-                right: 10px !important;
-                top: 70px !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .footer-business {
-                font-size: 11px !important;
-            }
-        }
-            .text-editor { min-height: 200px; }
-            /* English Translation - 모바일에서 숨김 (PC Order Sheet 작성용) */
-            .translation-section { display: none !important; }
-        }
-
-
-
-        /* 태그라인 - 기본 숨김, 모바일에서만 표시 */
-        .header-tagline-mobile {
-            display: none;
-        }
-
-        /* 모바일 헤더 개선 */
-        .mobile-login-btn {
-            display: none;
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all 0.2s;
-            position: absolute;
-            right: 12px;
-        }
-
-        .mobile-login-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        @media (max-width: 768px) {
-            .mobile-login-btn {
-                display: flex;
-            }
-
-            .header-inner {
-                flex-wrap: wrap;
-                height: auto !important;
-                min-height: 60px;
-                padding-top: 8px !important;
-                padding-bottom: 8px !important;
-                position: relative;
-            }
-
-            .logo {
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                flex: none;
-            }
-
-            /* 모바일 태그라인 */
-            .header-tagline-mobile {
-                display: block !important;
-                width: 100%;
-                text-align: center;
-                font-size: 11px;
-                color: rgba(255, 255, 255, 0.8);
-                margin-top: 4px;
-                order: 3;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .mobile-login-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 16px;
-                right: 10px;
-            }
-
-            .header-tagline-mobile {
-                
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-inner { padding: 0 10px; height: 56px; }
-            .logo { gap: 8px; }
-            .logo h1 { font-size: 18px; }
-            .rice-grain { width: 8px; height: 14px; }
-            .mobile-menu-btn { width: 40px; height: 40px; font-size: 18px; }
-
-            .left-sidebar, .right-sidebar { width: 280px; }
-            .left-sidebar { left: -290px; }
-            .right-sidebar { right: -290px; }
-
-            .sidebar-title, .sidebar-section h3 { font-size: 13px; }
-            .process-major, .process-prep, .process-special { padding: 10px 12px; min-height: 44px; }
-            .process-name, .process-prep-name, .process-special-name { font-size: 12px; }
-
-            .workspace-header { padding: 10px; }
-            .workspace-title { font-size: 16px; }
-            .grid-viewer-title { font-size: 16px; }
-            .workspace-actions { grid-template-columns: repeat(2, 1fr); gap: 6px; }
-            .action-btn { padding: 8px 6px; font-size: 11px; min-height: 44px; }
-            .workspace-content { padding: 8px; }
-            .text-editor { min-height: 150px; padding: 10px; font-size: 13px; }
-
-            /* English Translation - 모바일에서 숨김 */
-            .translation-section { display: none !important; }
-
-            .footer-inner { padding: 10px; }
-            .footer-btn { padding: 10px 12px; font-size: 12px; min-height: 44px; }
-
-            .knowledge-major, .knowledge-medium, .knowledge-small { padding: 10px 12px; min-height: 44px; }
-            .knowledge-name { font-size: 12px; }
-            .quick-link-btn { padding: 12px; min-height: 44px; }
-            .project-list-item { padding: 10px 12px; min-height: 44px; }
-            .project-name { font-size: 12px; }
-            .project-status {  padding: 3px 6px; }
-
-            .fab-btn { width: 52px; height: 52px; font-size: 18px; }
-
-            .outbox-notification { top: auto; right: 10px; left: 10px; bottom: 80px; }
-            .outbox-notification-content { min-width: auto; padding: 12px; }
-            .outbox-notification-icon { font-size: 20px; }
-            .outbox-notification-title { font-size: 13px; }
-            .outbox-notification-message { font-size: 12px; }
-        }
-
-        /* Touch-friendly */
-        @media (hover: none) and (pointer: coarse) {
-            .process-major, .process-small, .process-tiny, .process-prep, .process-special,
-            .knowledge-major, .knowledge-medium, .knowledge-small,
-            .quick-link-btn, .project-menu-item, .project-list-item {
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-            }
-            .action-btn, .header-btn, .footer-btn, .mobile-menu-btn, .sidebar-close-btn, .fab-btn { min-height: 44px; }
-            .left-sidebar, .right-sidebar, .workspace-content { -webkit-overflow-scrolling: touch; }
-        }
-
-        /* 텍스트 오버플로우 - 모바일 */
-        .process-name, .process-prep-name, .process-special-name,
-        .knowledge-name, .project-name, .notice-title {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .workspace-title {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            max-width: 100%;
-        }
-
-        /* Print styles */
-        @media print {
-            .header, .footer, .left-sidebar, .right-sidebar, .fab-container, .sidebar-overlay, .mobile-menu-btn { display: none !important; }
-            .layout-container { display: block; }
-            .center-workspace { width: 100%; }
-        }
-
 
     </style>
 
@@ -2737,9 +2310,7 @@
         <header class="header">
             <div class="header-inner">
                 <!-- 모바일 메뉴 버튼 -->
-                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">≡</button>
-                <!-- 모바일 로그인 아이콘 -->
-                <a href="pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
+                <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">☰</button>
                 <div class="logo">
                     <span class="rice-logo">
                         <span class="rice-grain"></span>
@@ -2768,7 +2339,7 @@
                                 <span id="notificationBadge" class="notification-badge" style="display: none; position: absolute; top: 2px; right: 2px; background: #EF4444; color: white; font-size: 10px; font-weight: 700; min-width: 16px; height: 16px; border-radius: 50%; display: none; align-items: center; justify-content: center;">0</span>
                             </button>
                             <!-- 알림 드롭다운 -->
-                            <div id="notificationDropdown" class="notification-dropdown" style="display: none; position: absolute; top: 100%; right: 0; width: 320px; max-height: 400px; background: white; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 1000; margin-top: 8px; overflow: hidden;">
+                            <div id="notificationDropdown" class="notification-dropdown" style="display: none; position: absolute; top: 100%; right: 0; width: 320px; max-height: 400px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 1000; margin-top: 8px; overflow: hidden;">
                                 <div style="padding: 16px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
                                     <span style="font-weight: 700; color: #333;">🔔 알림</span>
                                     <button onclick="markAllNotificationsRead()" style="background: none; border: none; color: #6c757d; font-size: 12px; cursor: pointer;">모두 읽음</button>
@@ -2801,24 +2372,21 @@
                 </h2>
                 <!-- 기본 노출: 내 프로필 -->
                 <div>
-                    <a href="pages/mypage/profile.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                    <a href="pages/mypage/profile.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                         내 프로필
                     </a>
                 </div>
                 <!-- 펼쳐지는 추가 메뉴들 -->
                 <div id="mypageLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <a href="pages/mypage/subscription.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        <a href="pages/mypage/subscription.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                             서비스 이용 현황
                         </a>
-                        <a href="pages/mypage/credit.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        <a href="pages/mypage/credit.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                             크레딧 관리
                         </a>
-                        <a href="pages/mypage/security.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        <a href="pages/mypage/security.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                             보안 설정
-                        </a>
-                        <a href="#" onclick="event.preventDefault(); openMyInquiriesModal();" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
-                            📬 내 문의 내역
                         </a>
                     </div>
                 </div>
@@ -2828,16 +2396,24 @@
             <div class="left-sidebar-section">
                 <h2 class="sidebar-title" style="margin-bottom: 13px;">📦 PROJECT</h2>
 
-                <!-- 1. 예시 Project (1개) -->
+                <!-- 1. 예시 Project (3개) -->
                 <div style="margin-bottom: 6px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 600; color: var(--primary); padding: 6px 8px; background: rgba(16, 185, 129, 0.08); border-radius: 4px; cursor: pointer;"
                         onclick="toggleExampleProjects()">
-                        <span>📚 예시 Project (1개)</span>
+                        <span>📚 예시 Project (3개)</span>
                         <span id="exampleProjectsArrow" style="font-size: 10px;">▶</span>
                     </div>
                     <div id="exampleProjectsList" style="display: none; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px;">
                         <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/SSAL_WORKS_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
                             <span class="project-name">SSAL Works</span>
+                            <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
+                        </div>
+                        <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/POLITICIAN_FINDER_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
+                            <span class="project-name">PoliticianFinder</span>
+                            <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
+                        </div>
+                        <div class="project-list-item" onclick="window.open('https://drive.google.com/drive/folders/HDH_FINTECH_FOLDER_ID', '_blank')" style="border-left-color: var(--primary);">
+                            <span class="project-name">HDH Fintech</span>
                             <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
                         </div>
                     </div>
@@ -2900,13 +2476,13 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('project_directory_structure', 'Project Directory Structure', 'P0')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Project_Directory_Structure</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('project_status', 'Project Status', 'P0')">
+                            <div class="process-small">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Project_Status</span>
@@ -3642,7 +3218,7 @@ The content you enter in the Control Space will be displayed here.</pre>
                            id="learningSearchInput"
                            placeholder="학습용 Books 검색하기"
                            oninput="searchLearningContentsLocal(this.value)"
-                           style="width: 100%; padding: 8px 12px; border: 1px solid #667eea; border-radius: 8px; font-size: 13px;">
+                           style="width: 100%; padding: 8px 12px; border: 1px solid #667eea; border-radius: 6px; font-size: 13px;">
                 </div>
                 <!-- 검색 결과 -->
                 <div id="learningSearchResults" style="max-height: 300px; overflow-y: auto;"></div>
@@ -3662,7 +3238,7 @@ The content you enter in the Control Space will be displayed here.</pre>
                            id="tipsSearchInput"
                            placeholder="Tips 검색하기"
                            oninput="searchTipsLocal(this.value)"
-                           style="width: 100%; padding: 8px 12px; border: 1px solid #8B5CF6; border-radius: 8px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; transition: all 0.2s;">
+                           style="width: 100%; padding: 8px 12px; border: 1px solid #8B5CF6; border-radius: 6px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; transition: all 0.2s;">
                 </div>
 
                 <!-- Tips 검색 결과 영역 -->
@@ -4178,23 +3754,23 @@ The content you enter in the Control Space will be displayed here.</pre>
                 </h3>
                 <!-- 기본 노출: 데이터베이스 설정 (클릭 시 펼침 + 가이드 열기) -->
                 <div>
-                    <a onclick="toggleServiceGuideMenu(); openServiceGuide('database')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                    <a onclick="toggleServiceGuideMenu(); openServiceGuide('database')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                         데이터베이스 설정
                     </a>
                 </div>
                 <!-- 펼쳐지는 추가 메뉴들 -->
                 <div id="serviceGuideLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <a onclick="openServiceGuide('auth')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        <a onclick="openServiceGuide('auth')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             회원인증 설정
                         </a>
-                        <a onclick="openServiceGuide('email')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        <a onclick="openServiceGuide('email')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             이메일 시스템 설정
                         </a>
-                        <a onclick="openServiceGuide('deploy')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        <a onclick="openServiceGuide('deploy')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             배포/도메인 설정
                         </a>
-                        <a onclick="openServiceGuide('payment')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        <a onclick="openServiceGuide('payment')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             결제 시스템 설정
                         </a>
                     </div>
@@ -4227,20 +3803,20 @@ The content you enter in the Control Space will be displayed here.</pre>
                 </h3>
                 <!-- 기본 노출: Anthropic 공식 문서 -->
                 <div>
-                    <a onclick="window.open('https://docs.anthropic.com/en/docs/claude-code', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                    <a onclick="window.open('https://docs.anthropic.com/en/docs/claude-code', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                         Anthropic 공식 문서
                     </a>
                 </div>
                 <!-- 펼쳐지는 추가 메뉴들 -->
                 <div id="claudeCodeLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <a onclick="window.open('https://www.anthropic.com/blog', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        <a onclick="window.open('https://www.anthropic.com/blog', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             Anthropic 뉴스룸
                         </a>
-                        <a onclick="window.open('https://github.com/anthropics/claude-code', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        <a onclick="window.open('https://github.com/anthropics/claude-code', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             GitHub의 Claude Code 리포지토리
                         </a>
-                        <a onclick="window.open('https://www.aitimes.com', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
+                        <a onclick="window.open('https://www.aitimes.com', '_blank')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 11px; font-weight: 700; border-radius: 4px; background: rgba(245, 158, 11, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'" onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'">
                             국내 뉴스 - AI타임즈
                         </a>
                     </div>
@@ -4284,7 +3860,7 @@ The content you enter in the Control Space will be displayed here.</pre>
                         <span>크레딧 잔액: <span style="color: #333;">₩<span
                                     id="perplexityCreditBalance">-</span></span></span>
                         <a href="pages/mypage/credit.html"
-                            style="padding: 4px 12px; font-size: 11px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">충전하기</a>
+                            style="padding: 4px 12px; font-size: 11px; background: #2C4A8A; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">충전하기</a>
                     </div>
 
                     <!-- 질문 이력 버튼 -->
@@ -4331,8 +3907,7 @@ The content you enter in the Control Space will be displayed here.</pre>
                     <a href="pages/legal/customer_service.html" class="footer-link">고객센터</a>
                 </div>
                 <div class="footer-business" style="font-size: 12px; color: #ffffff; margin-top: 8px;">
-                    <span class="footer-company-info">파인더월드 | 대표: 선웅규 | 사업자등록번호: 354-33-01641</span>
-                    <span class="footer-address">서울특별시 강남구 테헤란로63길 9</span>
+                    <span>파인더월드 | 대표: 선웅규 | 사업자등록번호: 354-33-01641 | 서울특별시 강남구 테헤란로63길 9</span>
                 </div>
                 <div class="footer-copyright" style="font-size: 12px; color: #ffffff;">
                     <span>© 2025 SSAL Works, All Rights Reserved</span>
@@ -4944,38 +4519,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 `,
                 guideUrl: 'guides/SP-1_디렉토리_구조_생성.html',
                 orderSheetUrl: 'templates/SP-1_디렉토리_구조_생성.md'
-            },
-
-            // ===== P0 하위 항목 =====
-            'project_directory_structure': {
-                stageId: 'project_directory_structure',
-                stageName: 'Project Directory Structure',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/SP-1_디렉토리_구조_생성.html'
-            },
-
-            'project_status': {
-                stageId: 'project_status',
-                stageName: 'Project Status',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/SP-1-2_Project_Status.html'
-            },
-
-            // ===== P2 하위 항목 =====
-            'service_intro': {
-                stageId: 'service_intro',
-                stageName: 'Service Introduction',
-                hasAction: false,
-                confirmMessage: '',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/P2-5_Service_Introduction.html'
             },
 
             // ===== ☆ 특별단계: SAL Grid 생성 =====
@@ -6134,8 +5677,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
                         <p style="font-weight: 600; color: #333; margin-bottom: 10px;">Load Order Sheet to Control Space?</p>
                         <div style="display: flex; gap: 12px;">
-                            <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
-                            <button onclick="closeGuidePopup()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
+                            <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
+                            <button onclick="closeGuidePopup()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
                         </div>
                     </div>
                     `;
@@ -6143,7 +5686,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     buttonSection = `
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
                         <div style="display: flex; justify-content: center;">
-                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
+                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
                         </div>
                     </div>
                     `;
@@ -6153,13 +5696,13 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             } else {
                 console.error('안내문 로드 오류: GUIDE_CONTENTS에서 찾을 수 없음 -', guideKey);
                 popupContent.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #EF4444;">
+                    <div style="text-align: center; padding: 40px; color: #dc3545;">
                         <p>❌ 안내문을 불러오지 못했습니다.</p>
                         <p style="font-size: 11px; color: #666; margin-top: 8px;">키: ${guideKey}</p>
                     </div>
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
                         <div style="display: flex; justify-content: center;">
-                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">닫기</button>
+                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">닫기</button>
                         </div>
                     </div>
                 `;
@@ -6214,8 +5757,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
                     <p style="font-weight: 600; color: #333; margin-bottom: 10px;">${confirmMessage}</p>
                     <div style="display: flex; gap: 12px;">
-                        <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">예</button>
-                        <button onclick="loadOrderSheetToWorkspace()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">아니오</button>
+                        <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">예</button>
+                        <button onclick="loadOrderSheetToWorkspace()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">아니오</button>
                     </div>
                 </div>
                 `;
@@ -6223,7 +5766,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 buttonSection = `
                 <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
                     <div style="display: flex; justify-content: center;">
-                        <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
+                        <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
                     </div>
                 </div>
                 `;
@@ -6444,7 +5987,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10001;';
 
             const modal = document.createElement('div');
-            modal.style.cssText = 'background: white; border-radius: 16px; max-width: 500px; width: 90%; box-shadow: var(--shadow-lg); overflow: hidden;';
+            modal.style.cssText = 'background: white; border-radius: 16px; max-width: 500px; width: 90%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); overflow: hidden;';
 
             modal.innerHTML = `
                 <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; padding: 20px 24px;">
@@ -6460,7 +6003,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                             <div style="flex: 1;">
                                 <div style="font-weight: 600; font-size: 14px; color: #166534;">처음 저장 시</div>
                                 <div style="font-size: 13px; color: #4b5563; margin-top: 4px;">아래 경로를 따라 Orders 폴더에 저장하세요:</div>
-                                <div style="font-size: 12px; color: #059669; margin-top: 8px; font-family: 'D2Coding', Consolas, monospace; background: #dcfce7; padding: 10px 12px; border-radius: 8px; border: 1px solid #86efac; line-height: 1.8;">
+                                <div style="font-size: 12px; color: #059669; margin-top: 8px; font-family: 'D2Coding', Consolas, monospace; background: #dcfce7; padding: 10px 12px; border-radius: 6px; border: 1px solid #86efac; line-height: 1.8;">
                                     <span style="color: #f59e0b; font-weight: 600;">[프로젝트 폴더]</span> > <span style="color: #166534;">Human_ClaudeCode_Bridge</span> > <span style="color: #166534; font-weight: 600;">Orders</span>
                                 </div>
                             </div>
@@ -6611,7 +6154,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10002;';
 
             const modal = document.createElement('div');
-            modal.style.cssText = 'background: white; border-radius: 16px; max-width: 700px; width: 95%; max-height: 85vh; overflow: hidden; box-shadow: var(--shadow-lg);';
+            modal.style.cssText = 'background: white; border-radius: 16px; max-width: 700px; width: 95%; max-height: 85vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
 
             let headerColor, headerIcon, headerText, subText, contentLabel;
 
@@ -6653,7 +6196,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 <div style="padding: 20px 24px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <span style="font-size: 13px; color: #6b7280; font-weight: 500;">${contentLabel}</span>
-                        <button id="reCopyBtn" style="padding: 6px 12px; background: #3b82f6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 500;">
+                        <button id="reCopyBtn" style="padding: 6px 12px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500;">
                             다시 복사
                         </button>
                     </div>
@@ -6705,7 +6248,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10001;';
 
             const modal = document.createElement('div');
-            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; overflow: hidden; box-shadow: var(--shadow-lg);';
+            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
 
             modal.innerHTML = `
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
@@ -6720,7 +6263,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 </div>
                 <div style="padding: 16px 24px; border-top: 1px solid #e9ecef; display: flex; justify-content: flex-end;">
                     <button onclick="this.closest('.report-modal-overlay').remove()"
-                            style="padding: 8px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;">
+                            style="padding: 8px 20px; background: #667eea; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500;">
                         닫기
                     </button>
                 </div>
@@ -6783,14 +6326,14 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             if (data.task_id || data.status || data.task_name) {
                 html += `<div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px;">`;
                 if (data.task_id) {
-                    html += `<div style="padding: 8px 16px; background: #667eea; color: white; border-radius: 12px; font-weight: 500;">${escapeHtml(data.task_id)}</div>`;
+                    html += `<div style="padding: 8px 16px; background: #667eea; color: white; border-radius: 20px; font-weight: 500;">${escapeHtml(data.task_id)}</div>`;
                 }
                 if (data.task_name) {
-                    html += `<div style="padding: 8px 16px; background: #10B981; color: white; border-radius: 12px; font-weight: 500;">${escapeHtml(data.task_name)}</div>`;
+                    html += `<div style="padding: 8px 16px; background: #28a745; color: white; border-radius: 20px; font-weight: 500;">${escapeHtml(data.task_name)}</div>`;
                 }
                 if (data.status) {
-                    const statusColor = data.status === '완료' ? '#10B981' : data.status === '진행중' ? '#ffc107' : '#6c757d';
-                    html += `<div style="padding: 8px 16px; background: ${statusColor}; color: white; border-radius: 12px; font-weight: 500;">${escapeHtml(data.status)}</div>`;
+                    const statusColor = data.status === '완료' ? '#28a745' : data.status === '진행중' ? '#ffc107' : '#6c757d';
+                    html += `<div style="padding: 8px 16px; background: ${statusColor}; color: white; border-radius: 20px; font-weight: 500;">${escapeHtml(data.status)}</div>`;
                 }
                 html += `</div>`;
             }
@@ -7218,7 +6761,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             margin: 0 auto;
             background: white;
             border-radius: 16px;
-            box-shadow: var(--shadow-lg);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
 
@@ -7239,7 +6782,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             display: inline-block;
             background: rgba(255,255,255,0.2);
             padding: 8px 16px;
-            border-radius: 12px;
+            border-radius: 20px;
             margin-top: 15px;
             font-size: 0.9em;
         }
@@ -7326,12 +6869,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             <div class="meta">✅ 처리: Claude Code</div>
         </div>
     </div>
-
-    <!-- FAB 버튼 (모바일용) -->
-    <!-- FAB 버튼 - 우측 하단 (앰버/골드, 우측 사이드바 전용) -->
-    <div class="fab-container">
-        <button class="fab-btn fab-info" onclick="toggleRightSidebar()" title="우측 정보 패널">≡</button>
-    </div>
 </body>
 </html>`;
         }
@@ -7379,7 +6916,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             background: white;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         h1 { color: #1f2937; border-bottom: 3px solid #10B981; padding-bottom: 10px; }
         h2 { color: #374151; margin-top: 30px; border-left: 4px solid #10B981; padding-left: 12px; }
@@ -7400,12 +6937,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
     <div class="markdown-body">
         ${mdData.content}
         <div class="meta">📅 ${mdData.date} | 📄 Markdown Document</div>
-    </div>
-
-    <!-- FAB 버튼 (모바일용) -->
-    <!-- FAB 버튼 - 우측 하단 (앰버/골드, 우측 사이드바 전용) -->
-    <div class="fab-container">
-        <button class="fab-btn fab-info" onclick="toggleRightSidebar()" title="우측 정보 패널">≡</button>
     </div>
 </body>
 </html>
@@ -7486,7 +7017,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             if (files.length > 0) {
                 fileList.innerHTML = files.map((file, idx) => {
                     const sizeKB = (file.size / 1024).toFixed(1);
-                    return '<div style="padding: 2px 0;">📎 ' + file.name + ' (' + sizeKB + 'KB) <span onclick="removeSupportFile(' + idx + ')" style="cursor: pointer; color: #EF4444;">✕</span></div>';
+                    return '<div style="padding: 2px 0;">📎 ' + file.name + ' (' + sizeKB + 'KB) <span onclick="removeSupportFile(' + idx + ')" style="cursor: pointer; color: #dc3545;">✕</span></div>';
                 }).join('');
             } else {
                 fileList.innerHTML = '';
@@ -7666,10 +7197,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // 매뉴얼 보기
         function openManual() {
-            // 모바일이면 모바일 버전으로
-            const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? 'manual_mobile.html' : 'manual.html';
-            window.open(url, '_blank');
+            // PROJECT SAL GRID 매뉴얼 뷰어 열기
+            window.open('manual.html', '_blank');
         }
 
         function openLearningViewer() {
@@ -7777,7 +7306,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         margin-bottom: 6px;
                         background: white;
                         border: 1px solid #dee2e6;
-                        border-radius: 8px;
+                        border-radius: 6px;
                         cursor: pointer;
                         transition: all 0.2s;
                     " onmouseover="this.style.borderColor='#667eea'; this.style.background='#f8f9ff';"
@@ -7885,7 +7414,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                         margin-bottom: 6px;
                         background: white;
                         border: 1px solid #dee2e6;
-                        border-radius: 8px;
+                        border-radius: 6px;
                         cursor: pointer;
                         transition: all 0.2s;
                     " onmouseover="this.style.borderColor='#F59E0B'; this.style.background='#fffbeb';"
@@ -7935,7 +7464,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 width: 90%;
                 max-height: 80vh;
                 overflow-y: auto;
-                box-shadow: var(--shadow-lg);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             `;
 
             modal.innerHTML = `
@@ -7950,7 +7479,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 </div>
                 <div style="padding: 16px 20px; border-top: 1px solid #dee2e6; text-align: right;">
                     <button onclick="this.closest('div').parentElement.parentElement.remove()"
-                            style="padding: 8px 20px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px;">
+                            style="padding: 8px 20px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;">
                         닫기
                     </button>
                 </div>
@@ -8007,7 +7536,7 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 max-width: 800px;
                 max-height: 85vh;
                 overflow-y: auto;
-                box-shadow: var(--shadow-lg);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
             `;
 
             let faqHtml = '';
@@ -8015,11 +7544,11 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 faqHtml += `<div style="margin-bottom: 10px;">
                     <div style="font-weight: 600; color: #F59E0B; margin-bottom: 6px; font-size: 14px;">📂 ${category}</div>`;
                 faqByCategory[category].forEach((item, idx) => {
-                    faqHtml += `<div style="padding: 8px 12px; margin-bottom: 4px; background: #f8f9fa; border-radius: 8px; cursor: pointer; font-size: 13px;"
+                    faqHtml += `<div style="padding: 8px 12px; margin-bottom: 4px; background: #f8f9fa; border-radius: 6px; cursor: pointer; font-size: 13px;"
                         onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
                         ❓ ${item.question}
                     </div>
-                    <div style="display: none; padding: 12px; margin-bottom: 8px; background: #fff3cd; border-radius: 8px; font-size: 13px; line-height: 1.6;">
+                    <div style="display: none; padding: 12px; margin-bottom: 8px; background: #fff3cd; border-radius: 6px; font-size: 13px; line-height: 1.6;">
                         ${item.answer.replace(/\n/g, '<br>')}
                     </div>`;
                 });
@@ -8031,11 +7560,11 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 tipHtml += `<div style="margin-bottom: 10px;">
                     <div style="font-weight: 600; color: #10B981; margin-bottom: 6px; font-size: 14px;">📂 ${category}</div>`;
                 tipByCategory[category].forEach((item, idx) => {
-                    tipHtml += `<div style="padding: 8px 12px; margin-bottom: 4px; background: #f0fdf4; border-radius: 8px; cursor: pointer; font-size: 13px;"
+                    tipHtml += `<div style="padding: 8px 12px; margin-bottom: 4px; background: #f0fdf4; border-radius: 6px; cursor: pointer; font-size: 13px;"
                         onclick="this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none'">
                         💡 ${item.question}
                     </div>
-                    <div style="display: none; padding: 12px; margin-bottom: 8px; background: #d1fae5; border-radius: 8px; font-size: 13px; line-height: 1.6;">
+                    <div style="display: none; padding: 12px; margin-bottom: 8px; background: #d1fae5; border-radius: 6px; font-size: 13px; line-height: 1.6;">
                         ${item.answer.replace(/\n/g, '<br>')}
                     </div>`;
                 });
@@ -8050,10 +7579,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 </div>
                 <div style="padding: 20px;">
                     <div style="display: flex; gap: 20px; margin-bottom: 10px;">
-                        <button id="faqTabBtn" onclick="showFaqTab('faq')" style="flex: 1; padding: 10px; background: #F59E0B; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <button id="faqTabBtn" onclick="showFaqTab('faq')" style="flex: 1; padding: 10px; background: #F59E0B; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
                             ❓ FAQ (${faqItems.length}개)
                         </button>
-                        <button id="tipTabBtn" onclick="showFaqTab('tip')" style="flex: 1; padding: 10px; background: #e5e7eb; color: #374151; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                        <button id="tipTabBtn" onclick="showFaqTab('tip')" style="flex: 1; padding: 10px; background: #e5e7eb; color: #374151; border: none; border-radius: 6px; cursor: pointer; font-weight: 600;">
                             💡 Tips (${tipItems.length}개)
                         </button>
                     </div>
@@ -8102,10 +7631,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
 
         // Viewer 열기
         function openViewer() {
-            // 모바일이면 모바일 버전으로
-            const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? 'viewer_mobile.html' : 'viewer.html';
-            window.open(url, '_blank');
+            // viewer.html 페이지 열기 (S0_Project-SSAL-Grid_생성 폴더)
+            window.open('viewer.html', '_blank');
         }
 
         // 폴더 열기 함수 (비활성화됨 - 폴더 편집 안내 기능 제거)
@@ -8152,19 +7679,20 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             if (popup && title && content) {
                 title.textContent = '📚 예시 Project 안내';
                 content.innerHTML = `
-                    <h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px; font-size: 18px; margin-bottom: 16px;">📚 예시 Project 안내</h2>
-                    <p style="font-size: 14px; line-height: 1.8; color: #333;">SSAL Works 개발자인 <strong>Sunny</strong>가 직접 진행한 Project와 관련한 모든 문서 및 소스코드 파일을 열람하실 수 있습니다.</p>
+                    <h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">📚 예시 Project 안내</h2>
+                    <p style="margin-top: 16px; line-height: 1.8;">SSAL Works 개발자인 <strong>Sunny</strong>가 직접 진행한 3개 Project와 관련한 모든 문서 및 소스코드 파일을 열람하실 수 있습니다.</p>
 
-                    <h3 style="margin-top: 20px; color: #333; font-size: 15px; font-weight: 600;">제공되는 예시 Project</h3>
-                    <ul style="padding-left: 20px; line-height: 1.8; font-size: 14px; margin-top: 8px;">
+                    <h3 style="margin-top: 24px; color: #333;">제공되는 예시 Project</h3>
+                    <ul style="padding-left: 20px; line-height: 2;">
                         <li><strong>SSAL Works</strong> - Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 플랫폼</li>
+                        <li><strong>PoliticianFinder</strong> - AI 기반 정치인 평가 플랫폼</li>
+                        <li><strong>HDH Fintech</strong> - HDH 핀테크 솔루션 운영 지원 플랫폼</li>
                     </ul>
-                    <p style="margin-top: 8px; color: #888; font-size: 13px;">※ PoliticianFinder, HDH Fintech는 준비 중입니다.</p>
 
-                    <h3 style="margin-top: 20px; color: #333; font-size: 15px; font-weight: 600;">열람 방법</h3>
-                    <p style="font-size: 14px; line-height: 1.8; color: #333; margin-top: 8px;">각 Project를 클릭하시면 <strong>Google Drive</strong>로 바로 연결됩니다.</p>
+                    <h3 style="margin-top: 24px; color: #333;">열람 방법</h3>
+                    <p style="line-height: 1.8;">각 Project를 클릭하시면 <strong>Google Drive</strong>로 바로 연결됩니다.</p>
 
-                    <div style="margin-top: 20px; padding: 12px 16px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid var(--primary); font-size: 14px;">
+                    <div style="margin-top: 20px; padding: 12px 16px; background: #f0fdf4; border-radius: 8px; border-left: 4px solid var(--primary);">
                         <strong>💡 Tip:</strong> 자유롭게 참고하세요! 실제 작업을 시작하려면 "새로운 Project 등록" 버튼을 클릭하세요.
                     </div>
                 `;
@@ -8319,194 +7847,6 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 
             // 폼 초기화
             document.getElementById('newProjectForm').reset();
-        }
-
-        // ========== 내 문의 내역 모달 함수 ==========
-
-        // 내 문의 내역 모달 열기
-        async function openMyInquiriesModal() {
-            const modal = document.getElementById('myInquiriesModal');
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-
-            // 고객센터 문의 탭을 기본으로 표시
-            switchInquiryTab('customer');
-
-            // 데이터 로드
-            await loadMyInquiries();
-        }
-
-        // 내 문의 내역 모달 닫기
-        function closeMyInquiriesModal() {
-            const modal = document.getElementById('myInquiriesModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // 탭 전환
-        function switchInquiryTab(tab) {
-            const customerTab = document.getElementById('customerInquiryTab');
-            const sunnyTab = document.getElementById('sunnyInquiryTab');
-            const customerBtn = document.getElementById('tabCustomerInquiry');
-            const sunnyBtn = document.getElementById('tabSunnyInquiry');
-
-            // CSS 변수 값 가져오기
-            const styles = getComputedStyle(document.documentElement);
-            const primary = styles.getPropertyValue('--primary').trim() || '#10B981';
-            const secondary = styles.getPropertyValue('--secondary').trim() || '#F59E0B';
-            const bgLight = styles.getPropertyValue('--bg-light').trim() || '#f8f9fa';
-            const neutral = styles.getPropertyValue('--neutral').trim() || '#64748B';
-
-            if (tab === 'customer') {
-                customerTab.style.display = 'block';
-                sunnyTab.style.display = 'none';
-                customerBtn.style.background = primary;
-                customerBtn.style.color = 'white';
-                sunnyBtn.style.background = bgLight;
-                sunnyBtn.style.color = neutral;
-            } else {
-                customerTab.style.display = 'none';
-                sunnyTab.style.display = 'block';
-                customerBtn.style.background = bgLight;
-                customerBtn.style.color = neutral;
-                sunnyBtn.style.background = secondary;
-                sunnyBtn.style.color = 'white';
-            }
-        }
-
-        // 내 문의 내역 로드
-        async function loadMyInquiries() {
-            if (!window.supabaseClient) {
-                console.error('Supabase 클라이언트가 초기화되지 않았습니다.');
-                return;
-            }
-
-            try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) {
-                    document.getElementById('customerInquiryList').innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 40px;">로그인이 필요합니다.</div>';
-                    document.getElementById('sunnyInquiryList').innerHTML = '<div style="text-align: center; color: #9ca3af; padding: 40px;">로그인이 필요합니다.</div>';
-                    return;
-                }
-
-                const userEmail = session.user.email;
-                const userId = session.user.id;
-
-                // 고객센터 문의 로드 (inquiries 테이블)
-                const { data: customerData, error: customerError } = await window.supabaseClient
-                    .from('inquiries')
-                    .select('*')
-                    .eq('email', userEmail)
-                    .order('created_at', { ascending: false });
-
-                if (customerError) {
-                    console.error('고객센터 문의 로드 실패:', customerError);
-                }
-                renderCustomerInquiries(customerData || []);
-
-                // 써니에게 묻기 로드 (sunny_inquiries 테이블)
-                const { data: sunnyData, error: sunnyError } = await window.supabaseClient
-                    .from('sunny_inquiries')
-                    .select('*')
-                    .or(`user_id.eq.${userId},user_email.eq.${userEmail}`)
-                    .order('created_at', { ascending: false });
-
-                if (sunnyError) {
-                    console.error('써니 문의 로드 실패:', sunnyError);
-                }
-                renderSunnyInquiries(sunnyData || []);
-
-            } catch (error) {
-                console.error('문의 내역 로드 오류:', error);
-            }
-        }
-
-        // 고객센터 문의 렌더링
-        function renderCustomerInquiries(inquiries) {
-            const container = document.getElementById('customerInquiryList');
-
-            if (inquiries.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: var(--neutral); padding: 40px;">문의 내역이 없습니다.</div>';
-                return;
-            }
-
-            // 프로젝트 디자인 규칙에 맞는 상태 색상
-            const statusLabels = {
-                'pending': { text: '대기중', color: 'var(--danger)', bg: 'rgba(239, 68, 68, 0.1)' },
-                'in_progress': { text: '처리중', color: 'var(--secondary)', bg: 'rgba(245, 158, 11, 0.1)' },
-                'answered': { text: '답변완료', color: 'var(--success)', bg: 'rgba(16, 185, 129, 0.1)' },
-                'closed': { text: '종료', color: 'var(--neutral)', bg: 'var(--bg-light)' }
-            };
-
-            container.innerHTML = inquiries.map(inquiry => {
-                const status = statusLabels[inquiry.status] || statusLabels['pending'];
-                const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR');
-
-                return `
-                    <div style="background: var(--bg-light); border-radius: var(--border-radius); padding: 16px; border-left: 4px solid ${status.color};">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
-                            <div style="font-weight: 600; color: #1f2937; font-size: 14px;">${escapeHtml(inquiry.title)}</div>
-                            <span style="background: ${status.bg}; color: ${status.color}; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">${status.text}</span>
-                        </div>
-                        <div style="color: var(--neutral); font-size: 12px; margin-bottom: 8px;">${date}</div>
-                        <div style="color: #4b5563; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(inquiry.content?.substring(0, 150) || '')}${inquiry.content?.length > 150 ? '...' : ''}</div>
-                        ${inquiry.answer ? `
-                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-color);">
-                                <div style="font-size: 11px; color: var(--success); font-weight: 600; margin-bottom: 6px;">💬 답변</div>
-                                <div style="color: #374151; font-size: 13px; line-height: 1.5; background: rgba(16, 185, 129, 0.08); padding: 12px; border-radius: var(--border-radius); white-space: pre-wrap;">${escapeHtml(inquiry.answer)}</div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // 써니에게 묻기 렌더링
-        function renderSunnyInquiries(inquiries) {
-            const container = document.getElementById('sunnyInquiryList');
-
-            if (inquiries.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: var(--neutral); padding: 40px;">문의 내역이 없습니다.</div>';
-                return;
-            }
-
-            // 프로젝트 디자인 규칙에 맞는 상태 색상
-            const statusLabels = {
-                'pending': { text: '대기중', color: 'var(--danger)', bg: 'rgba(239, 68, 68, 0.1)' },
-                'in_progress': { text: '처리중', color: 'var(--secondary)', bg: 'rgba(245, 158, 11, 0.1)' },
-                'answered': { text: '답변완료', color: 'var(--success)', bg: 'rgba(16, 185, 129, 0.1)' },
-                'closed': { text: '종료', color: 'var(--neutral)', bg: 'var(--bg-light)' }
-            };
-
-            container.innerHTML = inquiries.map(inquiry => {
-                const status = statusLabels[inquiry.status] || statusLabels['pending'];
-                const date = new Date(inquiry.created_at).toLocaleDateString('ko-KR');
-
-                return `
-                    <div style="background: rgba(245, 158, 11, 0.05); border-radius: var(--border-radius); padding: 16px; border-left: 4px solid var(--secondary);">
-                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
-                            <div style="font-weight: 600; color: #1f2937; font-size: 14px;">${escapeHtml(inquiry.title || '(제목 없음)')}</div>
-                            <span style="background: ${status.bg}; color: ${status.color}; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">${status.text}</span>
-                        </div>
-                        <div style="color: var(--neutral); font-size: 12px; margin-bottom: 8px;">${date}</div>
-                        <div style="color: #4b5563; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">${escapeHtml(inquiry.content?.substring(0, 150) || '')}${inquiry.content?.length > 150 ? '...' : ''}</div>
-                        ${inquiry.admin_answer ? `
-                            <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(245, 158, 11, 0.3);">
-                                <div style="font-size: 11px; color: var(--secondary-dark); font-weight: 600; margin-bottom: 6px;">☀️ 써니의 답변</div>
-                                <div style="color: #374151; font-size: 13px; line-height: 1.5; background: rgba(245, 158, 11, 0.08); padding: 12px; border-radius: var(--border-radius); white-space: pre-wrap;">${escapeHtml(inquiry.admin_answer)}</div>
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-            }).join('');
-        }
-
-        // HTML 이스케이프 함수 (XSS 방지)
-        function escapeHtml(text) {
-            if (!text) return '';
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
         }
 
         // 프로젝트 완료 여부 확인 함수
@@ -9013,7 +8353,7 @@ ${result.answer}`;
                                     <div class="outbox-file-meta" style="font-size: 11px; color: #6c757d;">${dateStr}</div>
                                 </div>
                                 <button onclick="deleteHistoryItem(${index})"
-                                    style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
+                                    style="padding: 8px 16px; background: #6c757d; color: white; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s;">
                                     삭제
                                 </button>
                             </div>
@@ -9291,8 +8631,12 @@ ${result.answer}`;
                 title.textContent = titleMap[guideName] || `📖 ${guideName}`;
                 content.innerHTML = htmlContent;
 
-                // 안내문 팝업 항상 표시 (로그인 여부 무관)
-                popup.style.display = 'block';
+                // 팝업을 자동으로 표시하지 않음 - 워크스페이스에만 표시할 수 있음
+                // 비로그인 상태에서는 팝업으로, 로그인 상태에서는 워크스페이스만
+                if (guideName === 'BeforeSignup') {
+                    // 비로그인 상태 - 팝업으로 표시
+                    popup.style.display = 'block';
+                }
 
                 console.log(`✅ ${guideName} 안내문 로드 완료`);
             } else {
@@ -9308,9 +8652,9 @@ ${result.answer}`;
                     const { data: { session } } = await supabase.auth.getSession();
 
                     if (session) {
-                        // 로그인 상태 - Default 안내문 팝업 표시
-                        console.log('ℹ️ 로그인 상태 - Default 안내문 표시');
-                        loadGuideToWorkspace('Default');
+                        // 로그인 상태 - Default 안내문 로드 (워크스페이스에만)
+                        console.log('ℹ️ 로그인 상태 - Default 안내문 준비됨');
+                        // loadGuideToWorkspace('Default'); // 필요 시 활성화
                     } else {
                         // 비로그인 상태 - BeforeSignup 안내문 팝업 표시
                         console.log('ℹ️ 비로그인 상태 - BeforeSignup 안내문 표시');
@@ -9359,7 +8703,7 @@ ${result.answer}`;
     <!-- Service Introduction Modal -->
     <div id="serviceIntroModal" class="grid-fullscreen-modal" style="background: #F3F4F6;">
         <!-- Navigation Bar -->
-        <nav style="background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%); padding: 0 32px; height: 70px; display: flex; justify-content: space-between; align-items: center; box-shadow: var(--shadow-sm);">
+        <nav style="background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%); padding: 0 32px; height: 70px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
             <a href="#" onclick="closeServiceIntro(); return false;" style="display: flex; align-items: center; gap: 12px; text-decoration: none;">
                 <div style="display: flex; align-items: center; gap: 3px; transform: rotate(-15deg);">
                     <span style="width: 10px; height: 18px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(-5deg);"></span>
@@ -9370,172 +8714,200 @@ ${result.answer}`;
             </a>
             <button onclick="closeServiceIntro()" style="padding: 10px 20px; background: #6B7280; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; font-family: inherit; transition: all 0.2s;">✕ 닫기</button>
         </nav>
-        <div class="grid-fullscreen-content" style="padding: 40px; max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: var(--shadow-sm);">
-            <div style="line-height: 1.9; color: #333;">
-                <!-- 목차 -->
-                <nav style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 24px 28px; border-radius: 12px; margin-bottom: 40px; border: 1px solid #dee2e6;">
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 16px 0;">📑 목차</h3>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 24px; font-size: 14px;">
-                        <a href="#section1" style="color: #495057; text-decoration: none; padding: 4px 0;">1. SSAL Works가 뭔가요?</a>
-                        <a href="#section5" style="color: #495057; text-decoration: none; padding: 4px 0;">5. 빌더 계정이 뭔가요?</a>
-                        <a href="#section2" style="color: #495057; text-decoration: none; padding: 4px 0;">2. 누구를 위한 건가요?</a>
-                        <a href="#section6" style="color: #495057; text-decoration: none; padding: 4px 0;">6. 과금 정책</a>
-                        <a href="#section3" style="color: #495057; text-decoration: none; padding: 4px 0;">3. 왜 만들었나요?</a>
-                        <a href="#section7" style="color: #495057; text-decoration: none; padding: 4px 0;">7. 3개월 일대일 코칭</a>
-                        <a href="#section4" style="color: #495057; text-decoration: none; padding: 4px 0;">4. 12가지 가치</a>
-                        <a href="#section8" style="color: #495057; text-decoration: none; padding: 4px 0;">8. FAQ</a>
-                    </div>
-                </nav>
+        <div class="grid-fullscreen-content" style="padding: 40px; max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <div style="line-height: 1.8; color: #333;">
+                <h1 style="font-size: 28px; margin-bottom: 16px; color: #1F3563;">SSAL Works Platform:
+                    Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 실행 및 관리 플랫폼</h1>
 
-                <!-- Section 1: SSAL Works가 뭔가요? -->
-                <section id="section1" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">1. SSAL Works가 뭔가요?</h2>
-                    <p style="font-size: 15px; margin-bottom: 16px;"><strong>SSAL Works는 AI를 활용하여 풀스택 웹사이트를 만드는 협업 플랫폼입니다.</strong></p>
-                    <p style="font-size: 15px; margin-bottom: 16px;">AI와 협업하여 풀스택 웹사이트를 만들고, 만든 웹사이트를 운영하면서 수익을 창출하는 플랫폼입니다.</p>
-                    <p style="font-size: 15px; margin-bottom: 16px;">SSAL은 황금쌀이라는 뜻입니다. 황금쌀처럼 영양가 있고 값진 결과물을 만들어낸다는 의미를 담았습니다.</p>
-                    <div style="background: #FEF3C7; padding: 20px; border-radius: 8px; border-left: 4px solid #F59E0B;">
-                        <p style="font-size: 15px; margin: 0;"><strong>핵심:</strong> 코딩을 몰라도 AI와 함께 웹사이트를 만들 수 있습니다. SSAL Works가 그 방법을 알려드립니다.</p>
-                    </div>
-                </section>
+                <blockquote
+                    style="border-left: 4px solid #2C4A8A; padding-left: 16px; margin: 20px 0; color: #555; font-style: italic;">
+                    "기술은 몰라도, 내 사이트는 내가 만든다."<br>
+                    AI를 트랙터처럼 운전하며, 나만의 디지털 밭을 일구는 곳.
+                </blockquote>
 
-                <!-- Section 2: 누구를 위한 건가요? -->
-                <section id="section2" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">2. 누구를 위한 건가요?</h2>
-                    <div style="display: grid; gap: 12px;">
-                        <div style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; border-left: 4px solid #10B981;">
-                            <p style="font-size: 15px; margin: 0;"><strong>🎯 아이디어는 있는데 개발자가 없는 사람</strong><br><span style="color: #6c757d;">외주 맡기자니 비싸고, 직접 하자니 막막한 분</span></p>
-                        </div>
-                        <div style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; border-left: 4px solid #10B981;">
-                            <p style="font-size: 15px; margin: 0;"><strong>🎯 AI로 뭔가 해보고 싶은 사람</strong><br><span style="color: #6c757d;">ChatGPT는 써봤는데, 이걸로 뭘 만들 수 있을지 궁금한 분</span></p>
-                        </div>
-                        <div style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; border-left: 4px solid #10B981;">
-                            <p style="font-size: 15px; margin: 0;"><strong>🎯 창업하고 싶은데 뭘 해야 할지 모르는 사람</strong><br><span style="color: #6c757d;">막연히 창업 생각은 있는데, 구체적인 시작점이 필요한 분</span></p>
-                        </div>
-                        <div style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; border-left: 4px solid #10B981;">
-                            <p style="font-size: 15px; margin: 0;"><strong>🎯 배우면서 실제로 만들어보고 싶은 사람</strong><br><span style="color: #6c757d;">책이나 강의만으로는 부족하고, 실전 경험을 쌓고 싶은 분</span></p>
-                        </div>
-                    </div>
-                </section>
+                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
 
-                <!-- Section 3: 왜 만들었나요? -->
-                <section id="section3" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">3. 왜 만들었나요?</h2>
-                    <p style="font-size: 15px; margin-bottom: 16px;">Sunny는 개발자가 아닙니다. 그런데 AI와 함께 풀스택 웹사이트를 만들었습니다.</p>
-                    <p style="font-size: 15px; margin-bottom: 16px;">2025년 5월부터 7개월간, 2,500시간 이상을 AI와 함께 일했습니다. 수십 개의 사업기획서, 시스템 설계서 6개, 특허출원 5건, 책 3권을 만들었습니다. 그 중 <strong>웹사이트 개발은 10월부터 시작해서 3개월도 안 되는 기간에 3개를 완성</strong>했습니다.</p>
-                    <p style="font-size: 15px; margin-bottom: 16px;">이 노하우를 공유하고 싶었습니다.</p>
-                    <div style="background: linear-gradient(135deg, #1F3563 0%, #2d4a7c 100%); color: white; padding: 24px; border-radius: 12px;">
-                        <p style="font-size: 15px; margin: 0; line-height: 1.8;"><strong>"한 사람이 시행착오를 다 겪으면, 다른 사람들은 시행착오 없이 바로 시작할 수 있습니다."</strong><br><br>쓸데없는 시행착오 겪지 말고, SSAL Works에서 그냥 시작하세요.</p>
-                    </div>
-                </section>
+                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">1. SSAL Works(쌀웍스)란?</h2>
+                <p style="margin-bottom: 16px;">
+                    <strong>SSAL Works</strong>는 비개발자가 AI(Claude Code)를 활용하여 웹사이트를 직접 개발할 수 있도록 돕는
+                    <strong>"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 실행 및 관리 플랫폼"</strong>입니다.
+                </p>
 
-                <!-- Section 4: 12가지 가치 -->
-                <section id="section4" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">4. SSAL Works의 12가지 가치</h2>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-                        <div style="background: #f0fdf4; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #10B981; font-weight: 700;">01</span> 외주 비용 절감</div>
-                        <div style="background: #f0fdf4; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #10B981; font-weight: 700;">02</span> 빠른 프로토타입 제작</div>
-                        <div style="background: #f0fdf4; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #10B981; font-weight: 700;">03</span> 코딩 없이 풀스택 개발</div>
-                        <div style="background: #f0fdf4; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #10B981; font-weight: 700;">04</span> 체계적인 프로젝트 관리</div>
-                        <div style="background: #f0fdf4; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #10B981; font-weight: 700;">05</span> AI 활용 노하우 전수</div>
-                        <div style="background: #f0fdf4; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #10B981; font-weight: 700;">06</span> 일대일 맞춤형 코칭</div>
-                        <div style="background: #fff7ed; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #F59E0B; font-weight: 700;">07</span> 실전 포트폴리오 구축</div>
-                        <div style="background: #fff7ed; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #F59E0B; font-weight: 700;">08</span> 창업 멘토링</div>
-                        <div style="background: #fff7ed; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #F59E0B; font-weight: 700;">09</span> 복합 경영자문</div>
-                        <div style="background: #fff7ed; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #F59E0B; font-weight: 700;">10</span> 커뮤니티 네트워킹</div>
-                        <div style="background: #fff7ed; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #F59E0B; font-weight: 700;">11</span> 수익 창출 기회</div>
-                        <div style="background: #fff7ed; padding: 14px 16px; border-radius: 8px; font-size: 14px;"><span style="color: #F59E0B; font-weight: 700;">12</span> 지속적인 성장 지원</div>
-                    </div>
-                </section>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-bottom: 10px; color: #2C4A8A;">🌾 이름의 유래 (Etymology)</h3>
+                    <p style="margin-bottom: 10px; font-weight: 600;">SSAL은 단순한 곡식이 아닙니다. 창립자 Sunny와 3차원 좌표계의 결합입니다.</p>
+                    <ul style="padding-left: 20px; margin: 0;">
+                        <li style="margin-bottom: 8px;"><strong>S</strong> (Sunny): 창립자이자 모든 사용자를 대변하는 페르소나</li>
+                        <li style="margin-bottom: 8px;"><strong>SAL</strong> (Spatial Coordinates): 프로젝트를 관리하는 3차원 좌표
+                            <ul style="margin-top: 4px; color: #666; font-size: 13px;">
+                                <li><strong>S</strong> (Stage): X축 (단계)</li>
+                                <li><strong>A</strong> (Area): Y축 (영역)</li>
+                                <li><strong>L</strong> (Level): Z축 (작업 레벨)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Rice (쌀)</strong>: 한국인에게 밥심이 필요하듯, <strong>"디지털 창작의 주식(主食)"</strong>이 되겠다는 의지를
+                            담았습니다. 로고의 쌀알 3개는 이 3차원 좌표(S, A, L)를 상징합니다.</li>
+                    </ul>
+                </div>
 
-                <!-- Section 5: 빌더 계정이 뭔가요? -->
-                <section id="section5" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">5. 빌더 계정이 뭔가요?</h2>
-                    <p style="font-size: 15px; margin-bottom: 16px;">빌더 계정은 SSAL Works에서 웹사이트를 개발하고 운영할 수 있는 유료 계정입니다.</p>
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 16px;">
-                        <h4 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 12px 0;">빌더 계정으로 할 수 있는 것</h4>
-                        <ul style="font-size: 14px; margin: 0; padding-left: 20px; line-height: 1.8;">
-                            <li>AI와 협업하여 풀스택 웹사이트 개발</li>
-                            <li>Sunny의 3개월 일대일 맞춤형 코칭</li>
-                            <li>창업 멘토링 및 복합 경영자문</li>
-                            <li>개발한 웹사이트 운영 및 수익 창출</li>
-                            <li>빌더 커뮤니티 참여</li>
+                <div style="background: #e3f5f8; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-bottom: 10px; color: #20808D;">🚀 확장성 (Scalability)</h3>
+                    <p style="margin-bottom: 0;">
+                        SSAL Works는 <strong>"작업(Works)을 하는 공간"</strong>입니다. 현재는 웹사이트 개발(<strong>v1.0</strong>)에 집중하고 있지만,
+                        이 PROJECT SAL Grid 시스템은 모든 프로젝트에 적용 가능합니다.
+                        <br>
+                        (예: 회계 감사, 책 집필, 다양한 프로젝트 관리 등)
+                    </p>
+                </div>
+
+                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">2. 핵심 철학: "머슬 메모리(Muscle Memory)의 외주화"
+                </h2>
+                <ul style="padding-left: 20px; margin-bottom: 30px;">
+                    <li style="margin-bottom: 8px;"><strong>기존의 문제</strong>: 개발을 하려면 수많은 단축키, 문법, 툴 사용법을 손가락이 기억할 때까지
+                        익혀야 했습니다. (높은 진입장벽)</li>
+                    <li><strong>SSAL Works의 해답</strong>:
+                        <ul style="margin-top: 4px; color: #555;">
+                            <li>기술적인 <strong>"근육 기억(Muscle Memory)"</strong>은 AI(Claude Code)에게 전적으로 맡깁니다.</li>
+                            <li>사용자는 <strong>"무엇을 만들 것인가(What to Build)"</strong>라는 본질적인 <strong>기획과 지시</strong>에만
+                                집중합니다.</li>
                         </ul>
-                    </div>
-                </section>
+                    </li>
+                </ul>
 
-                <!-- Section 6: 과금 정책 -->
-                <section id="section6" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">6. 과금 정책</h2>
-                    <div style="display: grid; gap: 16px;">
-                        <div style="background: linear-gradient(135deg, #1F3563 0%, #2d4a7c 100%); color: white; padding: 24px; border-radius: 12px;">
-                            <h4 style="font-size: 18px; font-weight: 700; margin: 0 0 8px 0;">빌더 계정 개설비</h4>
-                            <p style="font-size: 28px; font-weight: 800; margin: 0 0 8px 0;">300만원 <span style="font-size: 14px; font-weight: 400; opacity: 0.8;">(1회, VAT 별도)</span></p>
-                            <p style="font-size: 14px; margin: 0; opacity: 0.9;">3개월 일대일 코칭 포함 / 3개월 플랫폼 이용료 면제</p>
-                        </div>
-                        <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; border: 2px solid #dee2e6;">
-                            <h4 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 8px 0;">월 플랫폼 이용료</h4>
-                            <p style="font-size: 24px; font-weight: 800; color: #1F3563; margin: 0 0 8px 0;">10만원 <span style="font-size: 14px; font-weight: 400; color: #6c757d;">/월 (VAT 별도)</span></p>
-                            <p style="font-size: 14px; color: #6c757d; margin: 0;">4개월차부터 적용</p>
-                        </div>
-                        <div style="background: #fef2f2; padding: 20px; border-radius: 12px; border: 2px solid #fecaca;">
-                            <h4 style="font-size: 16px; font-weight: 700; color: #DC2626; margin: 0 0 8px 0;">🎁 50% 환불 인센티브</h4>
-                            <p style="font-size: 14px; color: #333; margin: 0; line-height: 1.7;">3개월 내 웹사이트 완성 + 런칭 + 고객 30명 확보 시<br>개설비 150만원 환불 (50%)</p>
-                        </div>
-                    </div>
-                </section>
+                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">3. SSAL Works의 5대 핵심 영역</h2>
+                <p style="margin-bottom: 16px;">화면은 <strong>진행 · 통제 · 관리 · 학습 · 질문</strong> 5가지 영역으로 구성됩니다.</p>
 
-                <!-- Section 7: 3개월 일대일 코칭 -->
-                <section id="section7" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">7. 3개월 일대일 맞춤형 코칭</h2>
-                    <p style="font-size: 15px; margin-bottom: 16px;"><strong>SSAL Works의 가장 강력한 가치입니다.</strong> 플랫폼만 주고 "알아서 하세요"가 아닙니다.</p>
-                    <p style="font-size: 15px; margin-bottom: 20px;">AI를 활용하여 풀스택 웹사이트를 만드는 방법을 일대일로 전수합니다. Claude Code 사용법부터 시작하여, 표준 디렉토리 구조 설계, AI 규칙 파일 작성법, Order Sheet 작성법, Task Instruction 작성법, Project SAL Grid 작성 및 관리법, 프로젝트 진행 프로세스 관리법, Orders Reports JSON 시스템 활용법, AI 에러 대응법, 개발 영역별 실무(프로토타입, UI/UX, 프론트엔드, 백엔드 APIs, 백엔드 인프라, DB, 외부연동, 배포)까지 웹사이트 개발의 전 과정에 걸쳐 상세하게 알려드립니다.</p>
-                    <div style="background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: white; padding: 20px; border-radius: 12px;">
-                        <p style="font-size: 15px; margin: 0; line-height: 1.7;"><strong>더불어서 사업계획서 작성 등 창업 멘토링도 해드리고, 회계/세무/법률/특허/투자 등 복합적인 경영자문도 해드립니다.</strong></p>
-                    </div>
-                </section>
-
-                <!-- Section 8: FAQ -->
-                <section id="section8" style="margin-bottom: 32px;">
-                    <h2 style="font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;">8. FAQ</h2>
-                    <div style="display: grid; gap: 12px;">
-                        <details style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; cursor: pointer;">
-                            <summary style="font-weight: 600; font-size: 15px; color: #1F3563;">코딩을 전혀 몰라도 되나요?</summary>
-                            <p style="font-size: 14px; color: #495057; margin: 12px 0 0 0; padding-top: 12px; border-top: 1px solid #dee2e6;">네, 코딩을 몰라도 됩니다. AI가 코드를 작성하고, Sunny가 AI를 다루는 방법을 알려드립니다.</p>
-                        </details>
-                        <details style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; cursor: pointer;">
-                            <summary style="font-weight: 600; font-size: 15px; color: #1F3563;">3개월 안에 진짜 웹사이트를 만들 수 있나요?</summary>
-                            <p style="font-size: 14px; color: #495057; margin: 12px 0 0 0; padding-top: 12px; border-top: 1px solid #dee2e6;">네, 가능합니다. 물론 본인의 노력이 필요합니다. 코칭을 받는다고 자동으로 되는 건 아닙니다. 하지만 혼자 하는 것보다 훨씬 빠르고 효율적입니다.</p>
-                        </details>
-                        <details style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; cursor: pointer;">
-                            <summary style="font-weight: 600; font-size: 15px; color: #1F3563;">AI 토큰 비용은 별도인가요?</summary>
-                            <p style="font-size: 14px; color: #495057; margin: 12px 0 0 0; padding-top: 12px; border-top: 1px solid #dee2e6;">네, Claude Code 등 AI 도구 사용료는 빌더가 직접 부담합니다. SSAL Works 플랫폼 이용료와는 별개입니다.</p>
-                        </details>
-                        <details style="background: #f8f9fa; padding: 16px 20px; border-radius: 8px; cursor: pointer;">
-                            <summary style="font-weight: 600; font-size: 15px; color: #1F3563;">3개월 후에도 계속 이용할 수 있나요?</summary>
-                            <p style="font-size: 14px; color: #495057; margin: 12px 0 0 0; padding-top: 12px; border-top: 1px solid #dee2e6;">네, 월 10만원의 플랫폼 이용료를 내면 계속 이용할 수 있습니다. "Sunny에게 묻기" 기능으로 언제든 질문하실 수 있습니다.</p>
-                        </details>
-                    </div>
-                </section>
-
-                <!-- Footer -->
-                <div style="text-align: center; padding-top: 32px; border-top: 2px solid #e9ecef;">
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px;">
-                        <div style="display: flex; gap: 3px;">
-                            <span style="width: 8px; height: 14px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(-10deg);"></span>
-                            <span style="width: 8px; height: 14px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%;"></span>
-                            <span style="width: 8px; height: 14px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(10deg);"></span>
+                <!-- 화면 구조 다이어그램 -->
+                <div style="background: #f8f9fa; border: 2px solid #dee2e6; border-radius: 12px; padding: 20px; margin-bottom: 20px; font-family: monospace; font-size: 12px;">
+                    <div style="display: grid; grid-template-columns: 120px 1fr 140px; gap: 8px; text-align: center;">
+                        <div style="background: #dbeafe; padding: 12px 8px; border-radius: 8px; border: 2px solid #3b82f6;">
+                            <strong style="color: #1e40af;">📋 진행</strong><br>
+                            <span style="font-size: 10px; color: #666;">Left Sidebar</span>
                         </div>
-                        <span style="font-size: 20px; font-weight: 800; color: #1F3563;">SSAL Works</span>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="background: #fef3c7; padding: 12px 8px; border-radius: 8px; border: 2px solid #f59e0b; flex: 1;">
+                                <strong style="color: #92400e;">🎮 통제 (Control Space)</strong><br>
+                                <span style="font-size: 10px; color: #666;">Center Top</span>
+                            </div>
+                            <div style="background: #d1fae5; padding: 12px 8px; border-radius: 8px; border: 2px solid #10b981; flex: 1;">
+                                <strong style="color: #065f46;">📊 관리 (Grid)</strong><br>
+                                <span style="font-size: 10px; color: #666;">Center Bottom</span>
+                            </div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px;">
+                            <div style="background: #ede9fe; padding: 12px 8px; border-radius: 8px; border: 2px solid #8b5cf6; flex: 1;">
+                                <strong style="color: #5b21b6;">📚 학습</strong><br>
+                                <span style="font-size: 10px; color: #666;">Right Top</span>
+                            </div>
+                            <div style="background: #fce7f3; padding: 12px 8px; border-radius: 8px; border: 2px solid #ec4899; flex: 1;">
+                                <strong style="color: #9d174d;">❓ 질문</strong><br>
+                                <span style="font-size: 10px; color: #666;">Right Bottom</span>
+                            </div>
+                        </div>
                     </div>
-                    <p style="font-size: 14px; color: #6c757d; margin: 0;">AI와 함께 풀스택 웹사이트를 만드는 곳</p>
-                    <p style="font-size: 13px; color: #adb5bd; margin: 8px 0 0 0;">황금쌀 방앗간</p>
+                </div>
+
+                <!-- 5대 영역 상세 설명 -->
+                <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px;">
+                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #dbeafe; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                        <span style="font-size: 20px;">📋</span>
+                        <div>
+                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #1e40af;">1. 진행 (Process) — Left Sidebar</h3>
+                            <p style="font-size: 12px; color: #555; margin: 0;">프로젝트 실행 프로세스 · Stage별 진행 단계 · 네비게이션</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #fef3c7; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <span style="font-size: 20px;">🎮</span>
+                        <div>
+                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #92400e;">2. 통제 (Control) — Control Space</h3>
+                            <p style="font-size: 12px; color: #555; margin: 0;"><strong>핵심!</strong> Order Sheet 작성 → Claude Code에 작업 지시 → AI가 코드 생성</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #d1fae5; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <span style="font-size: 20px;">📊</span>
+                        <div>
+                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #065f46;">3. 관리 (Management) — Grid</h3>
+                            <p style="font-size: 12px; color: #555; margin: 0;">PROJECT SAL Grid · Stage(X)-Area(Y)-Level(Z) 3차원 Task 관리</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #ede9fe; border-radius: 8px; border-left: 4px solid #8b5cf6;">
+                        <span style="font-size: 20px;">📚</span>
+                        <div>
+                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #5b21b6;">4. 학습 (Learning) — Right Top</h3>
+                            <p style="font-size: 12px; color: #555; margin: 0;">Books · Tips · FAQ · 가이드 문서 — 프로젝트 진행하며 학습</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: flex-start; padding: 12px; background: #fce7f3; border-radius: 8px; border-left: 4px solid #ec4899;">
+                        <span style="font-size: 20px;">❓</span>
+                        <div>
+                            <h3 style="font-size: 14px; margin: 0 0 4px 0; color: #9d174d;">5. 질문 (Questions) — Right Bottom</h3>
+                            <p style="font-size: 12px; color: #555; margin: 0;">AI Q&A (ChatGPT · Gemini · Perplexity 3개 AI) + 써니에게 묻기 (수시 가능)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">4. 왜 SSAL Works인가?</h2>
+                <ul style="padding-left: 20px; margin-bottom: 30px;">
+                    <li style="margin-bottom: 10px;"><strong>✅ DB 없는 가벼움</strong>: "내 컴퓨터가 곧 서버다." 복잡한 DB 설치 없이 폴더와
+                        파일만으로 작동합니다.</li>
+                    <li style="margin-bottom: 10px;"><strong>✅ 실패 없는 가이드</strong>: 막막한 흰 화면은 없습니다. 단계별 템플릿이 전문가 수준의 결과물로
+                        인도합니다.</li>
+                    <li><strong>✅ 강력한 동기부여</strong>: "당신의 성공이 우리의 목표입니다." 성공 시 50% 환불 정책으로 완주를 응원합니다.</li>
+                </ul>
+
+                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+
+                <h2 style="font-size: 20px; margin-bottom: 10px; color: #333;">5. 💰 과금정책</h2>
+
+                <div style="background: #fff8e1; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #f59e0b;">
+                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #92400e;">📌 빌더 계정 개설비 (최초 1회)</h3>
+                    <p style="font-size: 24px; font-weight: 700; color: #1F3563; margin-bottom: 8px;">₩3,000,000</p>
+                    <ul style="padding-left: 20px; margin: 0; font-size: 13px; color: #555;">
+                        <li>SSALWorks 플랫폼 설치 및 세팅</li>
+                        <li>초기 AI 크레딧 ₩50,000 제공</li>
+                        <li>학습 콘텐츠 무제한 액세스</li>
+                        <li>써니에게 묻기 수시 가능</li>
+                        <li>전문 비즈니스 자문 및 멘토링 요청 가능</li>
+                    </ul>
+                    <p style="margin-top: 12px; font-size: 12px; color: #666; background: #fef3c7; padding: 8px; border-radius: 4px;">
+                        🎁 <strong>특별 인센티브:</strong> 3개월 내 웹사이트 완성 + 런칭 + 고객 10명 달성 시 <strong>50% 환불 (₩1,500,000)</strong>
+                    </p>
+                </div>
+
+                <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #10b981;">
+                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #065f46;">📌 플랫폼 이용료 (월 구독)</h3>
+                    <p style="font-size: 24px; font-weight: 700; color: #1F3563; margin-bottom: 8px;">₩50,000<span style="font-size: 14px; font-weight: 400; color: #666;">/월</span></p>
+                    <p style="font-size: 14px; color: #10b981; font-weight: 600; margin-bottom: 8px;">✨ 처음 3개월 면제 (4개월차부터 과금)</p>
+                    <ul style="padding-left: 20px; margin: 0; font-size: 13px; color: #555;">
+                        <li>SSALWorks 풀 액세스</li>
+                        <li>학습 콘텐츠 무제한</li>
+                        <li>써니에게 묻기 수시 가능</li>
+                        <li>전문 비즈니스 자문 및 멘토링 요청 가능</li>
+                    </ul>
+                </div>
+
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #2196f3;">
+                    <h3 style="font-size: 16px; margin-bottom: 12px; color: #1565c0;">📌 AI 크레딧</h3>
+                    <p style="font-size: 14px; color: #555; margin-bottom: 8px;">ChatGPT, Gemini, Perplexity 3개 AI 서비스 사용</p>
+                    <ul style="padding-left: 20px; margin: 0; font-size: 13px; color: #555;">
+                        <li>최초 ₩50,000 크레딧 제공 (체험용)</li>
+                        <li>추가 충전: ₩10,000 / ₩20,000 / ₩30,000 / ₩50,000</li>
+                        <li>실시간 잔액 확인 가능</li>
+                    </ul>
+                </div>
+
+                <div
+                    style="text-align: center; margin-top: 40px; padding: 20px; background: #f1f3f5; border-radius: 8px;">
+                    <p style="font-weight: 600; color: #1F3563; margin: 0;">SSAL Works Platform<br><span
+                            style="font-weight: 400; font-size: 14px; color: #666;">"기술은 몰라도, 내 사이트는 내가 만든다"<br>
+                            <strong>AI 기반 웹사이트 개발 프로젝트 실행 및 관리 플랫폼</strong>입니다.</span></p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 안내문 드래그 가능 팝업 -->
-    <div id="guidePopup" style="display: none; position: fixed; top: 80px; right: 50px; width: 748px; max-height: calc(100vh - 150px); background: white; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 1000; overflow: hidden; font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;">
+    <div id="guidePopup" style="display: none; position: fixed; top: 80px; right: 50px; width: 748px; max-height: calc(100vh - 150px); background: white; border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); z-index: 1000; overflow: hidden; font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;">
         <div id="guidePopupHeader" style="background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%); color: white; padding: 12px 16px; cursor: move; display: flex; justify-content: space-between; align-items: center; user-select: none;">
             <span id="guidePopupTitle" style="font-weight: 700; font-size: 14px;">📖 안내문</span>
             <button onclick="closeGuidePopup()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0 4px;">&times;</button>
@@ -9573,45 +8945,6 @@ ${result.answer}`;
                             style="padding: 12px 24px; background: #10B981; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white;">등록하기</button>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- My Inquiries Modal (내 문의 내역) -->
-    <div id="myInquiriesModal" class="popup-modal-overlay" onclick="if(event.target===this)closeMyInquiriesModal()">
-        <div class="popup-modal-box" style="width: 700px; max-width: 95vw;">
-            <div class="popup-modal-header" style="background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);">
-                <h3>📬 내 문의 내역</h3>
-                <button class="popup-modal-close" onclick="closeMyInquiriesModal()">&times;</button>
-            </div>
-            <div class="popup-modal-body" style="padding: 0;">
-                <!-- 탭 버튼 -->
-                <div style="display: flex; border-bottom: 2px solid var(--border-color);">
-                    <button id="tabCustomerInquiry" onclick="switchInquiryTab('customer')" style="flex: 1; padding: 14px; background: var(--primary); color: white; border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                        💬 고객센터 문의
-                    </button>
-                    <button id="tabSunnyInquiry" onclick="switchInquiryTab('sunny')" style="flex: 1; padding: 14px; background: var(--bg-light); color: var(--neutral); border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                        ☀️ 써니에게 묻기
-                    </button>
-                </div>
-
-                <!-- 고객센터 문의 탭 -->
-                <div id="customerInquiryTab" style="padding: 20px; max-height: 400px; overflow-y: auto;">
-                    <div id="customerInquiryList" style="display: flex; flex-direction: column; gap: 12px;">
-                        <div style="text-align: center; color: #9ca3af; padding: 40px;">
-                            로딩 중...
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 써니에게 묻기 탭 -->
-                <div id="sunnyInquiryTab" style="padding: 20px; max-height: 400px; overflow-y: auto; display: none;">
-                    <div id="sunnyInquiryList" style="display: flex; flex-direction: column; gap: 12px;">
-                        <div style="text-align: center; color: #9ca3af; padding: 40px;">
-                            로딩 중...
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -9689,11 +9022,11 @@ ${result.answer}`;
         }
 
         .outbox-file-badge.html {
-            background: #3B82F6;
+            background: #20808D;
         }
 
         .outbox-file-badge.json {
-            background: #F59E0B;
+            background: #CC785C;
         }
 
         .outbox-file-badge.markdown {
@@ -9704,16 +9037,16 @@ ${result.answer}`;
 
     <!-- Custom Confirm Dialog -->
     <div id="customConfirmDialog" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; align-items: center; justify-content: center;">
-        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 400px; box-shadow: var(--shadow-lg);">
+        <div style="background: white; border-radius: 12px; padding: 32px; max-width: 400px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);">
             <h3 id="confirmDialogTitle" style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #212529;">확인</h3>
             <p id="confirmDialogMessage" style="margin: 0 0 24px 0; font-size: 14px; color: #495057; line-height: 1.6;"></p>
             <div style="display: flex; gap: 12px; justify-content: flex-end;">
                 <button id="confirmDialogCancel" 
-                    style="padding: 12px 24px; background: #6c757d; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white; transition: background 0.2s;"
+                    style="padding: 12px 24px; background: #6c757d; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: white; transition: background 0.2s;"
                     onmouseover="this.style.background='#5a6268'" 
                     onmouseout="this.style.background='#6c757d'">취소</button>
                 <button id="confirmDialogConfirm" 
-                    style="padding: 12px 24px; background: var(--tertiary); border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white; transition: background 0.2s;"
+                    style="padding: 12px 24px; background: var(--tertiary); border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600; color: white; transition: background 0.2s;"
                     onmouseover="this.style.background='var(--tertiary-dark)'" 
                     onmouseout="this.style.background='var(--tertiary)'">확인</button>
             </div>
@@ -9931,7 +9264,7 @@ ${result.answer}`;
                 width: 420px;
                 background: white;
                 border-radius: 16px;
-                box-shadow: var(--shadow-lg);
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
                 z-index: 10001;
                 overflow: hidden;
                 font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
@@ -9951,13 +9284,13 @@ ${result.answer}`;
                             <div style="margin-top: 8px;">라고 말씀해주세요.</div>
                         </div>
                         <div style="text-align: left; background: #f8f9fa; padding: 14px; border-radius: 8px;">
-                            <strong>Order ID:</strong> <span style="color: #3B82F6; font-family: monospace;">${data.orderId}</span>
+                            <strong>Order ID:</strong> <span style="color: #007bff; font-family: monospace;">${data.orderId}</span>
                         </div>
                     </div>
                     <button class="order-confirm-btn"
-                        style="width: 100%; padding: 12px 24px; border: none; border-radius: 8px; background: #3B82F6; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;"
+                        style="width: 100%; padding: 12px 24px; border: none; border-radius: 8px; background: #007bff; color: white; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s;"
                         onmouseover="this.style.background='#0056b3';"
-                        onmouseout="this.style.background='#3B82F6';">
+                        onmouseout="this.style.background='#007bff';">
                         확인
                     </button>
                 </div>
@@ -10543,6 +9876,23 @@ ${result.answer}`;
             }
         }
 
+        // 워크스페이스에 안내문 로드 (GUIDE_CONTENTS에서)
+        function loadGuideToWorkspace(guideName) {
+            const editor = document.getElementById('textEditor');
+            if (!editor) return;
+
+            if (typeof GUIDE_CONTENTS !== 'undefined' && GUIDE_CONTENTS[guideName]) {
+                // HTML을 텍스트로 변환하여 표시 (태그 제거)
+                const htmlContent = GUIDE_CONTENTS[guideName];
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = htmlContent;
+                editor.value = tempDiv.textContent || tempDiv.innerText || '';
+                console.log(`✅ ${guideName} 안내문 로드 완료`);
+            } else {
+                console.warn(`⚠️ ${guideName} 안내문을 찾을 수 없습니다.`);
+            }
+        }
+
         const ADMIN_EMAIL = 'wksun999@gmail.com'; // 관리자 이메일
 
         function showLoggedInUI(nickname = '사용자', email = '') {
@@ -10603,7 +9953,7 @@ ${result.answer}`;
                         <button onclick="closeAdminPasswordModal()"
                                 style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background: white; cursor: pointer;">취소</button>
                         <button onclick="verifyAdminPassword()"
-                                style="flex: 1; padding: 10px; border: none; border-radius: 8px; background: #3B82F6; color: white; cursor: pointer; font-weight: 600;">확인</button>
+                                style="flex: 1; padding: 10px; border: none; border-radius: 8px; background: #007bff; color: white; cursor: pointer; font-weight: 600;">확인</button>
                     </div>
                 </div>
             `;
@@ -10833,7 +10183,7 @@ ${result.answer}`;
                 const noticesList = document.getElementById('noticesList');
                 if (noticesList) {
                     noticesList.innerHTML = `
-                        <div style="text-align: center; padding: 20px; color: #EF4444; font-size: 11px;">
+                        <div style="text-align: center; padding: 20px; color: #dc3545; font-size: 11px;">
                             공지사항을 불러오는데 실패했습니다.<br>
                             <span style="font-size: 11px; color: #6c757d;">콘솔(F12)에서 오류를 확인하세요.</span>
                         </div>
@@ -10907,7 +10257,7 @@ ${result.answer}`;
 
                 const createdDate = new Date(notice.created_at).toLocaleDateString('ko-KR');
                 const importanceBadge = notice.important
-                    ? '<span style="display: inline-block; background: #EF4444; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">중요</span>'
+                    ? '<span style="display: inline-block; background: #dc3545; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">중요</span>'
                     : '';
 
                 // 클릭한 공지사항 항목 위치 계산
@@ -11003,7 +10353,7 @@ ${result.answer}`;
                     width: 90%;
                     max-height: 80vh;
                     overflow-y: auto;
-                    box-shadow: var(--shadow-lg);
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
                 `;
 
                 modal.innerHTML = `
@@ -11020,7 +10370,7 @@ ${result.answer}`;
                     </div>
                     <div style="padding: 16px 24px; border-top: 1px solid #dee2e6; text-align: right;">
                         <button onclick="this.closest('.notice-modal-overlay').remove()"
-                                style="padding: 8px 24px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500;">
+                                style="padding: 8px 24px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500;">
                             닫기
                         </button>
                     </div>
@@ -11211,7 +10561,7 @@ ${result.answer}`;
                 `;
             } else {
                 let html = `
-                    <div style="margin-bottom: 10px; padding: 8px; background: rgba(245, 158, 11, 0.08); border-radius: 8px; font-size: 11px; color: #495057;">
+                    <div style="margin-bottom: 10px; padding: 8px; background: rgba(245, 158, 11, 0.08); border-radius: 6px; font-size: 11px; color: #495057;">
                         🔍 검색 결과 (${results.length}개)
                         <button onclick="clearSearch()" style="float: right; background: none; border: none; cursor: pointer; color: #6c757d; font-size: 16px;">×</button>
                     </div>
@@ -11291,7 +10641,7 @@ ${result.answer}`;
                 `;
             } else {
                 let html = `
-                    <div style="padding: 8px 12px; background: #f0f0f0; border-radius: 8px; margin-bottom: 8px; font-size: 11px; color: #666;">
+                    <div style="padding: 8px 12px; background: #f0f0f0; border-radius: 6px; margin-bottom: 8px; font-size: 11px; color: #666;">
                         🔍 검색 결과: ${results.length}개
                     </div>
                 `;
@@ -11300,12 +10650,12 @@ ${result.answer}`;
                     // 검색어 하이라이트
                     const highlightedTitle = faq.depth3.replace(
                         new RegExp(`(${searchTerm})`, 'gi'),
-                        '<span style="background: #FEF08A; padding: 0 2px; border-radius: 4px;">$1</span>'
+                        '<span style="background: #FEF08A; padding: 0 2px; border-radius: 2px;">$1</span>'
                     );
 
                     html += `
                         <div class="knowledge-small"
-                             style="padding: 10px 12px; margin-bottom: 6px; background: white; border-radius: 8px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
+                             style="padding: 10px 12px; margin-bottom: 6px; background: white; border-radius: 6px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
                              onclick="showFaqAnswer(${faq.id})"
                              onmouseover="this.style.borderColor='#2C4A8A'; this.style.background='#f8fafc';"
                              onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white';">
@@ -11381,7 +10731,7 @@ ${result.answer}`;
                 // 오류 메시지 표시
                 if (containerEl) {
                     containerEl.innerHTML = `
-                        <div style="padding: 12px; text-align: center; color: #EF4444; font-size: 13px;">
+                        <div style="padding: 12px; text-align: center; color: #dc3545; font-size: 13px;">
                             ❌ FAQ를 불러오는데 실패했습니다.<br/>
                             <small>${error.message}</small>
                         </div>
@@ -11517,7 +10867,7 @@ ${result.answer}`;
                     </div>
                     <div style="padding: 16px 24px; border-top: 1px solid #dee2e6; text-align: right; background: #f8f9fa;">
                         <button onclick="this.closest('.faq-modal-overlay').remove()"
-                                style="padding: 10px 24px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;"
+                                style="padding: 10px 24px; background: #6c757d; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s;"
                                 onmouseover="this.style.background='#5a6268'"
                                 onmouseout="this.style.background='#6c757d'">
                             닫기
@@ -11528,7 +10878,7 @@ ${result.answer}`;
                 overlay.className = 'faq-modal-overlay';
                 overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10000;';
 
-                modal.style.cssText = 'background: white; border-radius: 12px; max-width: 700px; width: 90%; box-shadow: var(--shadow-lg);';
+                modal.style.cssText = 'background: white; border-radius: 12px; max-width: 700px; width: 90%; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
 
                 overlay.appendChild(modal);
                 overlay.onclick = (e) => {
@@ -11636,14 +10986,14 @@ ${result.answer}`;
             }
 
             let html = `
-                <div style="padding: 8px 12px; background: #F5F3FF; border-radius: 8px; margin-bottom: 8px; font-size: 11px; color: #7C3AED;">
+                <div style="padding: 8px 12px; background: #F5F3FF; border-radius: 6px; margin-bottom: 8px; font-size: 11px; color: #7C3AED;">
                     🔍 검색 결과: ${results.length}개
                 </div>
             `;
 
             results.forEach(item => {
                 html += `
-                    <div style="padding: 10px 12px; margin-bottom: 6px; background: white; border-radius: 8px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
+                    <div style="padding: 10px 12px; margin-bottom: 6px; background: white; border-radius: 6px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
                          onclick="showTipDetail('${item.category}', '${item.title.replace(/'/g, "\\'")}')"
                          onmouseover="this.style.borderColor='#8B5CF6'; this.style.background='#F5F3FF';"
                          onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white';">
@@ -11674,7 +11024,7 @@ ${result.answer}`;
             overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10001;';
 
             const modal = document.createElement('div');
-            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; overflow: hidden; box-shadow: var(--shadow-lg);';
+            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; overflow: hidden; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);';
 
             // 로딩 상태 표시
             modal.innerHTML = `
@@ -11724,7 +11074,7 @@ ${result.answer}`;
                 </div>
                 <div style="padding: 12px 24px; border-top: 1px solid #dee2e6; text-align: right; background: #f8f9fa; border-radius: 0 0 12px 12px;">
                     <button onclick="this.closest('.tips-modal-overlay').remove()"
-                            style="padding: 8px 20px; background: #8B5CF6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;">
+                            style="padding: 8px 20px; background: #8B5CF6; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 500;">
                         닫기
                     </button>
                 </div>
@@ -11761,7 +11111,7 @@ ${result.answer}`;
                 const contentArea = document.getElementById('tipContentArea');
                 if (contentArea) {
                     contentArea.innerHTML = `
-                        <div style="text-align: center; padding: 40px; color: #EF4444;">
+                        <div style="text-align: center; padding: 40px; color: #dc3545;">
                             <div style="font-size: 24px; margin-bottom: 12px;">❌</div>
                             <div>콘텐츠를 불러올 수 없습니다.</div>
                             <div style="font-size: 11px; margin-top: 8px; color: #6c757d;">${error.message}</div>
@@ -11803,7 +11153,7 @@ ${result.answer}`;
 
             const modal = document.createElement('div');
             modal.className = 'service-guide-viewer-modal';
-            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); position: relative;';
+            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); position: relative;';
 
             const guideItems = [
                 { id: 'database', icon: '🗄️', title: '데이터베이스 설정', desc: 'Supabase 프로젝트 + DB + RLS' },
@@ -11912,7 +11262,7 @@ ${result.answer}`;
 
                 const modal = document.createElement('div');
                 modal.className = 'service-guide-modal';
-                modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); position: relative;';
+                modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); position: relative;';
 
                 modal.innerHTML = `
                     <div class="service-guide-modal-header" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
@@ -12023,7 +11373,7 @@ ${result.answer}`;
 
             const modal = document.createElement('div');
             modal.className = 'tips-modal-draggable';
-            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); position: relative;';
+            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3); position: relative;';
 
             // 카테고리 버튼 HTML 생성
             let categoryBtnsHtml = `<button class="tips-category-btn active" data-category="전체" onclick="filterTipsByCategory('전체')">전체</button>`;
@@ -12035,8 +11385,8 @@ ${result.answer}`;
                 <div class="tips-modal-header" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
                     <div style="font-size: 18px; font-weight: 700; color: white; pointer-events: none;">💡 Tips (${TIPS_CONTENTS.length}개) <span style="font-size: 11px; opacity: 0.8;">- 드래그하여 이동</span></div>
                     <button onclick="this.closest('.tips-viewer-overlay').remove()"
-                            style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 13px; cursor: pointer; padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 4px; font-weight: 500;">
-                        ✕ 닫기
+                            style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 20px; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                        ×
                     </button>
                 </div>
                 <div style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB;">
@@ -12103,7 +11453,7 @@ ${result.answer}`;
                         gap: 8px;
                     }
                     .tip-accordion-arrow {
-                        
+                        font-size: 10px;
                         color: #8B5CF6;
                         transition: transform 0.2s;
                     }
@@ -12372,12 +11722,6 @@ ${result.answer}`;
         }
     });
 </script>
-
-    <!-- FAB 버튼 (모바일용) -->
-    <!-- FAB 버튼 - 우측 하단 (앰버/골드, 우측 사이드바 전용) -->
-    <div class="fab-container">
-        <button class="fab-btn fab-info" onclick="toggleRightSidebar()" title="우측 정보 패널">≡</button>
-    </div>
 </body>
 
 </html>
