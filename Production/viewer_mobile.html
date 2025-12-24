@@ -402,111 +402,144 @@
                     return val;
                 };
 
-                document.getElementById('modalContent').innerHTML = `
-                    <!-- 기본 정보 -->
-                    <div class="detail-section">
-                        <div class="detail-badges">
-                            <span class="detail-badge badge-stage">Stage ${data.stage}</span>
-                            <span class="detail-badge badge-area">${data.area}</span>
-                            <span class="detail-badge" style="background:#f3e8ff;color:#7c3aed;">Level ${data.level || '-'}</span>
-                            <span class="detail-badge badge-progress">${data.task_progress || 0}%</span>
-                        </div>
-                    </div>
+                const AREA_NAMES = {
+                    'M': 'Documentation (문서화)',
+                    'U': 'Design (UI/UX 디자인)',
+                    'F': 'Frontend (프론트엔드)',
+                    'BI': 'Backend Infrastructure (백엔드 기반)',
+                    'BA': 'Backend APIs (백엔드 API)',
+                    'D': 'Database (데이터베이스)',
+                    'S': 'Security (보안/인증/인가)',
+                    'T': 'Testing (테스트)',
+                    'O': 'DevOps (운영/배포)',
+                    'E': 'External (외부 연동)',
+                    'C': 'Content System (콘텐츠 시스템)'
+                };
 
+                const STAGE_NAMES = {
+                    1: '개발 준비 (Development Setup)',
+                    2: '개발 1차 (Core Development)',
+                    3: '개발 2차 (Advanced Features)',
+                    4: '개발 3차 (QA & Optimization)',
+                    5: '운영 (Operations)'
+                };
+
+                document.getElementById('modalContent').innerHTML = `
+                    <!-- [1-4] Basic Info -->
                     <div class="detail-section">
-                        <div class="detail-label">#2 Task 이름</div>
+                        <div class="detail-label" style="color:#667eea;font-weight:700;">[1-4] Basic Info</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">1. Stage</div>
+                        <div class="detail-value">S${data.stage}: ${STAGE_NAMES[data.stage] || ''}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">2. Area</div>
+                        <div class="detail-value">${data.area}: ${AREA_NAMES[data.area] || ''}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">3. Task ID</div>
+                        <div class="detail-value">${data.task_id}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">4. Task Name</div>
                         <div class="detail-value">${data.task_name}</div>
                     </div>
 
+                    <!-- [5-9] Task Definition -->
                     <div class="detail-section">
-                        <div class="detail-label">#6 작업 상태</div>
-                        <div class="detail-value">
-                            <span class="task-status status-${statusClass}">${data.task_status}</span>
-                        </div>
+                        <div class="detail-label" style="color:#667eea;font-weight:700;">[5-9] Task Definition</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#8 의존성</div>
-                        <div class="detail-value">${data.dependencies || '-'}</div>
-                    </div>
-
-                    <div class="detail-section">
-                        <div class="detail-label">#9 Task 지침</div>
+                        <div class="detail-label">5. Task Instruction</div>
                         <div class="detail-value instruction">${data.task_instruction || '-'}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#10 Task Agent</div>
+                        <div class="detail-label">6. Task Agent</div>
                         <div class="detail-value">${data.task_agent || '-'}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#11 생성된 파일</div>
-                        <div class="detail-value">${data.generated_files || '-'}</div>
+                        <div class="detail-label">7. Tools</div>
+                        <div class="detail-value">${data.tools || '-'}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">8. Execution Type</div>
+                        <div class="detail-value">${data.execution_type || '-'}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">9. Dependencies</div>
+                        <div class="detail-value">${data.dependencies || '없음'}</div>
                     </div>
 
+                    <!-- [10-13] Task Execution -->
                     <div class="detail-section">
-                        <div class="detail-label">#12 소요 시간</div>
-                        <div class="detail-value">${data.duration || '-'}</div>
+                        <div class="detail-label" style="color:#667eea;font-weight:700;">[10-13] Task Execution</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">10. Task Progress</div>
+                        <div class="detail-value">${data.task_progress || 0}%</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">11. Task Status</div>
+                        <div class="detail-value"><span class="task-status status-${statusClass}">${data.task_status}</span></div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">12. Generated Files</div>
+                        <div class="detail-value instruction">${data.generated_files || '-'}</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">13. Modification History</div>
+                        <div class="detail-value instruction">${formatJson(data.modification_history)}</div>
                     </div>
 
+                    <!-- [14-15] Verification Definition -->
                     <div class="detail-section">
-                        <div class="detail-label">#13 빌드 결과</div>
-                        <div class="detail-value">${data.build_result || '-'}</div>
+                        <div class="detail-label" style="color:#667eea;font-weight:700;">[14-15] Verification Definition</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#14 검증 지침</div>
+                        <div class="detail-label">14. Verification Instruction</div>
                         <div class="detail-value instruction">${data.verification_instruction || '-'}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#15 Verification Agent</div>
+                        <div class="detail-label">15. Verification Agent</div>
                         <div class="detail-value">${data.verification_agent || '-'}</div>
                     </div>
 
+                    <!-- [16-19] Verification Execution -->
                     <div class="detail-section">
-                        <div class="detail-label">검증 상태</div>
-                        <div class="detail-value">${data.verification_status || 'Not Verified'}</div>
+                        <div class="detail-label" style="color:#667eea;font-weight:700;">[16-19] Verification Execution</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#16 테스트 결과</div>
-                        <div class="detail-value instruction">${formatJson(data.test_result)}</div>
+                        <div class="detail-label">16. Test</div>
+                        <div class="detail-value instruction">${formatJson(data.test_result || data.test)}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#17 빌드 검증</div>
-                        <div class="detail-value instruction">${formatJson(data.build_verification)}</div>
+                        <div class="detail-label">17. Build</div>
+                        <div class="detail-value instruction">${formatJson(data.build_verification || data.build)}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#18 통합 검증</div>
+                        <div class="detail-label">18. Integration Verification</div>
                         <div class="detail-value instruction">${formatJson(data.integration_verification)}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#19 차단 요소</div>
+                        <div class="detail-label">19. Blockers</div>
                         <div class="detail-value instruction">${formatJson(data.blockers)}</div>
                     </div>
 
+                    <!-- [20-22] Verification Completion -->
                     <div class="detail-section">
-                        <div class="detail-label">#20 종합 검증</div>
+                        <div class="detail-label" style="color:#667eea;font-weight:700;">[20-22] Verification Completion</div>
+                    </div>
+                    <div class="detail-section">
+                        <div class="detail-label">20. Comprehensive Verification</div>
                         <div class="detail-value instruction">${formatJson(data.comprehensive_verification)}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#21 AI 검증 의견</div>
-                        <div class="detail-value instruction">${data.ai_verification_note || '-'}</div>
+                        <div class="detail-label">21. Verification Status</div>
+                        <div class="detail-value">${data.verification_status || 'Not Verified'}</div>
                     </div>
-
                     <div class="detail-section">
-                        <div class="detail-label">#22 Stage Gate 상태</div>
-                        <div class="detail-value">${data.stage_gate_status || '-'}</div>
-                    </div>
-
-                    <div class="detail-section">
-                        <div class="detail-label">비고</div>
+                        <div class="detail-label">22. Remarks</div>
                         <div class="detail-value instruction">${data.remarks || '-'}</div>
                     </div>
                 `;
