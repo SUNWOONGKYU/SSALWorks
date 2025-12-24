@@ -7030,7 +7030,7 @@
         // 설정 로드
         async function loadAdminSettings() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('admin_settings')
                     .select('*')
                     .single();
@@ -7085,7 +7085,6 @@
                 showLoading('설정 저장 중...');
 
                 const settings = {
-                    id: 1, // 단일 레코드
                     platform_name: document.getElementById('settingPlatformName').value,
                     admin_email: document.getElementById('settingAdminEmail').value,
                     timezone: document.getElementById('settingTimezone').value,
@@ -7098,9 +7097,15 @@
                     updated_at: new Date().toISOString()
                 };
 
-                const { error } = await supabase
+                console.log('📤 설정 저장 요청:', settings);
+
+                const { data, error } = await supabaseClient
                     .from('admin_settings')
-                    .upsert(settings, { onConflict: 'id' });
+                    .update(settings)
+                    .eq('id', 1)
+                    .select();
+
+                console.log('📥 설정 저장 응답:', { data, error });
 
                 if (error) throw error;
 
