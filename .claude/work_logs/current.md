@@ -1276,6 +1276,68 @@ node build-progress.js       # 진행률 JSON 생성
 
 ---
 
+### PoliticianFinder 포트폴리오 프로젝트 추가 ✅
+
+**요청:** 완료 Project 섹션에 PoliticianFinder 포트폴리오 추가
+
+**구현 내용:**
+
+| 항목 | 내용 |
+|------|------|
+| 프로젝트명 | PoliticianFinder |
+| 설명 | AI 기반 정치인 평가 플랫폼 |
+| URL | https://www.politicianfinder.ai.kr/ |
+
+**수정된 파일:**
+
+1. **Production/index.html**
+   - `loadCompletedProjects()`: 포트폴리오 항목 HTML 추가 (PoliticianFinder)
+   - `togglePortfolioDetails()`: 포트폴리오 상세 펼치기/접기 함수 추가
+   - `STAGE_DATA['politician_finder']`: 안내문 연결용 Stage 데이터 추가
+
+2. **Briefings_OrderSheets/Situational_Guides/Politician_Finder_Briefing.md** (신규)
+   - PoliticianFinder 프로젝트 소개 안내문
+
+**UI 구성:**
+```
+완료 Project (클릭 → 확장)
+└── PoliticianFinder [포트폴리오] (클릭 → 확장)
+    ├── "AI 기반 정치인 평가 플랫폼" (설명)
+    ├── [사이트 바로가기] 버튼 → 새 탭으로 URL 열기
+    └── [안내문] 버튼 → Briefing 모달 표시
+```
+
+**빌드 결과:** 33개 Guides 포함 (Politician_Finder_Briefing 추가됨)
+
+---
+
+## 2025-12-25 작업 내역 (계속)
+
+### 기획 문서 정책 반영 수정 ✅
+
+**작업 배경:** 다른 Claude Code 세션에서 발견한 정책 불일치 사항 수정
+
+**수정 항목:**
+
+| 파일 | 수정 내용 |
+|------|----------|
+| USERFLOW_SUMMARY.md | 크레딧 충전 가격을 1:1 비율로 수정 (₩10K/30K/50K/100K), 결제수단을 토스페이먼츠로 통일 |
+| PLANNING_DOCUMENTS_VERIFICATION.md | 보너스 옵션 제거, 1:1 비율 충전으로 변경 |
+| Admin_Operations_Workflow.md | "결제/환불" → "결제 문의", 환불 처리 항목 및 템플릿 제거 |
+| Admin_Dashboard_Features.md | 환불 관련 모든 기능 제거 (환불 요청, 환불 내역, 환불 알림 등) |
+| functional_requirements.md | FR-CREDIT-004 크레딧 환불 기능 제거, 관리자 환불 처리 기능 제거 |
+| 환영_메시지.md | 웰컴 크레딧 ₩5,000 → ₩50,000 |
+| flow.md (2_Project_Registration) | 웰컴 크레딧 ₩5,000 → ₩50,000 |
+| ui_specs.md (2_Project_Registration) | 웰컴 크레딧 ₩5,000 → ₩50,000 |
+
+**정책 변경 요약:**
+1. **환불 정책 없음**: 크레딧 환불, 플랫폼 이용료 환불 기능 모두 제거
+2. **크레딧 충전 1:1 비율**: 보너스 없이 충전금액 = 지급크레딧
+3. **결제수단 통일**: 토스페이먼츠
+4. **웰컴 크레딧 통일**: ₩50,000
+
+---
+
 ## 다음 세션 TODO
 
 ### 1. S4F6 마이페이지 문의 관리 테스트

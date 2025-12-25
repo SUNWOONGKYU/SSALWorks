@@ -1024,77 +1024,9 @@ Perplexity:
 └─────────────────────────────────┘
 ```
 
-#### 6.4 크레딧 환불
+#### 6.4 크레딧 잔액 부족 알림
 
 **기능 ID:** FR-CREDIT-004
-
-**설명:** 사용자가 크레딧 환불 요청 (관리자 승인)
-
-**화면:**
-```
-┌─────────────────────────────────┐
-│ 크레딧 환불 신청                │
-├─────────────────────────────────┤
-│ 현재 잔액: ₩15,000              │
-│                                 │
-│ 환불 금액: [₩10,000]            │
-│                                 │
-│ 환불 사유:                      │
-│ ┌─────────────────────────────┐│
-│ │ 더 이상 사용하지 않을 예정  ││
-│ └─────────────────────────────┘│
-│                                 │
-│ 환불 계좌:                      │
-│ 은행: [신한은행▼]               │
-│ 계좌번호: [110-XXX-XXXXXX]      │
-│ 예금주: [김철수]                │
-│                                 │
-│ ℹ️  환불 처리: 영업일 3-5일     │
-│                                 │
-│ [취소]  [환불 신청]             │
-└─────────────────────────────────┘
-```
-
-**처리:**
-```sql
--- 환불 요청 생성
-INSERT INTO credit_transactions (
-  user_id, transaction_type, amount, status,
-  refund_reason, refund_bank, refund_account, refund_account_holder
-) VALUES (
-  current_user_id, 'refund', -10000, 'pending',
-  '더 이상 사용하지 않을 예정', '신한은행', '110-XXX-XXXXXX', '김철수'
-);
-
--- 잔액 차감 (환불 승인 전 예약)
-UPDATE users
-SET credit_balance = credit_balance - 10000
-WHERE user_id = current_user_id;
-```
-
-**관리자 승인 프로세스:**
-```sql
--- 승인 시
-UPDATE credit_transactions
-SET status = 'approved',
-    refund_processed_at = NOW(),
-    refund_processed_by = 'sunny'
-WHERE id = transaction_id;
-
--- 거부 시 (잔액 복구)
-UPDATE credit_transactions
-SET status = 'rejected',
-    refund_reject_reason = '환불 정책 위반'
-WHERE id = transaction_id;
-
-UPDATE users
-SET credit_balance = credit_balance + 10000
-WHERE user_id = target_user_id;
-```
-
-#### 6.5 크레딧 잔액 부족 알림
-
-**기능 ID:** FR-CREDIT-005
 
 **설명:** 잔액이 ₩1,000 미만일 때 알림
 
@@ -1482,20 +1414,20 @@ Sunny 드림
 
 **기능 ID:** FR-ADMIN-006
 
-**설명:** 모든 결제 내역 조회 및 환불 처리
+**설명:** 모든 결제 내역 조회
 
 #### 9.7 크레딧 관리
 
 **기능 ID:** FR-ADMIN-007
 
-**설명:** 크레딧 충전 승인, 환불 처리, 수동 조정
+**설명:** 크레딧 충전 승인, 수동 조정
 
 **화면:**
 ```
 ┌────────────────────────────────────────────────────────────┐
 │ 크레딧 관리                                                │
 ├────────────────────────────────────────────────────────────┤
-│ [충전 대기] [환불 요청] [사용 내역]                        │
+│ [충전 대기] [사용 내역]                                    │
 │                                                            │
 │ ━━ 충전 대기 (2건) ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
 │ ┌──────────┬──────────┬──────────┬──────────┬──────────┐  │
