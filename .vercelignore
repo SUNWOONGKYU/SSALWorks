@@ -25,9 +25,8 @@ P1_사업계획/
 P2_프로젝트_기획/
 P3_프로토타입_제작/
 
-# 내부 도구 - 배포 불필요
+# 내부 도구
 Human_ClaudeCode_Bridge/
-Development_Process_Monitor/
 Sidebar-Process-Tools/
 
 # 참고자료 - 배포 불필요
@@ -36,7 +35,8 @@ Sidebar-Process-Tools/
 
 # 캐시/임시
 .vercel/
-data/
+/data/
+!Production/data/
 *.log
 *.backup
 
