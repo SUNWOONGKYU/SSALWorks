@@ -1088,6 +1088,18 @@
             border-color: var(--primary);
         }
 
+        .viewer-btn-blue:hover {
+            background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%) !important;
+            color: white !important;
+            border-color: #2C4A8A !important;
+        }
+
+        .viewer-btn-green:hover {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%) !important;
+            color: white !important;
+            border-color: #10B981 !important;
+        }
+
         .workspace-content {
             display: flex;
             flex-direction: column;
@@ -3570,17 +3582,17 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 <div class="grid-viewer-header">
                     <div class="grid-viewer-title-group">
                         <div class="grid-viewer-title">Project SAL Grid</div>
+                        <button class="action-btn" onclick="openManual()" style="width: auto; padding: 8px 16px;">
+                            Manual 열기
+                        </button>
                     </div>
                 </div>
 
-                <div class="grid-content" style="display: flex; gap: 10px; padding: 15px; align-items: center;">
-                    <button class="action-btn" onclick="openManual()" style="background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); padding: 10px 20px; white-space: nowrap;">
-                        Manual 열기
-                    </button>
-                    <button class="action-btn" onclick="openViewer()" style="flex: 1; background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%);">
+                <div class="grid-content" style="display: flex; gap: 15px; padding: 15px;">
+                    <button class="action-btn viewer-btn-blue" onclick="openViewer()" style="flex: 1; width: auto; padding: 12px 20px; background: rgba(44, 74, 138, 0.1); border-color: #2C4A8A; color: #2C4A8A;">
                         SSAL Works(예시) Viewer 열기
                     </button>
-                    <button class="action-btn" onclick="openMyViewer()" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                    <button class="action-btn viewer-btn-green" onclick="openMyViewer()" style="flex: 1; width: auto; padding: 12px 20px;">
                         SSAL Works(진행중) Viewer 열기
                     </button>
                 </div>
@@ -8019,13 +8031,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 내 프로젝트 Viewer 열기 (CSV 기반)
         function openMyViewer() {
-            const projectName = document.getElementById('currentProjectName')?.textContent || '진행중인 프로젝트';
-
-            if (projectName === '진행중인 프로젝트') {
-                alert('프로젝트를 먼저 등록해주세요.\n\n프로젝트 등록 후 SAL Grid를 사용할 수 있습니다.');
-                return;
-            }
-
             // CSV 기반 Viewer 열기 (모바일/데스크톱)
             const isMobile = window.innerWidth <= 768;
             const url = isMobile ? 'viewer_mobile_csv.html' : 'viewer_csv.html';
