@@ -4231,7 +4231,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 </div>
             </div>
 
-            <!-- 다른 AI에게 묻기 -->
+            <!-- 다른 AI에게 질문하기 -->
             <div class="sidebar-section">
                 <h3>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
@@ -4241,7 +4241,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                         <path d="M19 3L20 6L23 7L20 8L19 11L18 8L15 7L18 6L19 3Z"
                             fill="var(--secondary)" opacity="0.7"/>
                     </svg>
-                    다른 AI에게 묻기
+                    다른 AI에게 질문하기
                 </h3>
 
                 <!-- AI 선택 버튼 -->
@@ -4262,7 +4262,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
 
                 <div class="ai-input-area">
                     <textarea id="aiQuestion" placeholder="질문을 입력하세요..." rows="4"></textarea>
-                    <button id="askAIButton" onclick="askAI()">질문하기</button>
+                    <button id="askAIButton" onclick="askAI()" style="font-size: 11px;">제출하기</button>
                     <div class="perplexity-credit-display"
                         style="margin-top: 8px; font-size: 11px; color: #666; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <span>크레딧 잔액: <span style="color: #333;">₩<span
@@ -4283,7 +4283,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
 
             <!-- Support -->
             <div class="sidebar-section">
-                <h3>☀️ Sunny에게 묻기</h3>
+                <h3>☀️ Sunny에게 질문하기</h3>
                 <div class="support-input-area">
                     <textarea id="supportQuestion"
                         placeholder="사용법 문의, 문제 해결, 버그 신고, 기능 제안, 사업계획서 검토, 비즈니스 멘토링까지! AI 활용 능력 고수 + 공인회계사 + 엑셀러레이터 인 Sunny에게 자유롭게 문의하세요!"
@@ -8834,7 +8834,7 @@ Claude Code가 작업을 완료하면:
             const aiIcon = aiIcons[selectedAI];
 
             // 버튼 비활성화 및 로딩 표시 (null 체크 포함)
-            let originalButtonText = '질문하기';
+            let originalButtonText = '제출하기';
             if (button) {
                 originalButtonText = button.textContent;
                 button.disabled = true;
@@ -9450,7 +9450,7 @@ ${result.answer}`;
                         💬 고객센터 문의
                     </button>
                     <button id="tabSunnyInquiry" onclick="switchInquiryTab('sunny')" style="flex: 1; padding: 14px; background: var(--bg-light); color: var(--neutral); border: none; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.2s;">
-                        ☀️ 써니에게 묻기
+                        ☀️ 써니에게 질문하기
                     </button>
                 </div>
 

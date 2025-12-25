@@ -6,6 +6,47 @@
 
 ## 2025-12-25 작업 내역
 
+### SAL Grid Viewer 관련 3개 Task 추가 ✅
+
+**추가된 Task:**
+
+| Task ID | Task Name | Stage | Area | Status |
+|---------|-----------|-------|------|--------|
+| S4F8 | SAL Grid Viewer UI 구현 | S4 | F | Completed |
+| S4S2 | Viewer 접근 보안 구현 | S4 | S | Pending |
+| S4BI1 | SAL Grid JSON/CSV 빌드 시스템 | S4 | BI | Completed |
+
+**S4F8 - SAL Grid Viewer UI 구현:**
+- Viewer 4종 (Desktop/Mobile × DB/CSV)
+- 22개 속성 전체 표시
+- Stage/Area 필터링
+- Task 상세 모달
+- index.html 2컬럼 레이아웃
+
+**S4S2 - Viewer 접근 보안 구현:**
+- RLS 정책 (projects, project_sal_grid)
+- 사용자 유형별 접근 제어
+- JWT 토큰 기반 인증
+- 로그인 상태별 UI 분기
+
+**S4BI1 - SAL Grid JSON/CSV 빌드 시스템:**
+- build-sal-grid-csv.js (Supabase → CSV)
+- build-progress.js (진행률 JSON)
+- json-to-csv.js, csv-to-json.js (변환)
+- project_sal_grid_template.json (템플릿)
+
+**업데이트된 파일:**
+1. SSALWORKS_TASK_PLAN.md (v4.5, 63 tasks)
+2. task-instructions/S4F8_instruction.md
+3. task-instructions/S4S2_instruction.md
+4. task-instructions/S4BI1_instruction.md
+5. verification-instructions/S4F8_verification.md
+6. verification-instructions/S4S2_verification.md
+7. verification-instructions/S4BI1_verification.md
+8. Supabase DB (project_sal_grid - 3 rows INSERT)
+
+---
+
 ### S5F2 Task 추가 ✅
 
 **Task 정보:**
