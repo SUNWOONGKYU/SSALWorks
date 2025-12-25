@@ -378,23 +378,23 @@ const templates = {
 
     // 7일차 리마인더
     'day7-reminder': (data) => ({
-        subject: '첫 달 무료는 지금이 기회!',
+        subject: '3개월 무료는 지금이 기회!',
         html: baseLayout(`
-            <h1 style="margin: 0 0 16px 0; font-size: 24px; color: #333;">무료 체험 7일차! 🎊</h1>
+            <h1 style="margin: 0 0 16px 0; font-size: 24px; color: #333;">SSALWorks 7일차! 🎊</h1>
             <p style="margin: 0 0 24px 0; color: #666; line-height: 1.6;">
                 ${data.userName}님, SSALWorks와 함께한 지 일주일이 되었어요!<br>
-                지금 구독하시면 첫 달 무료 혜택을 받으실 수 있습니다.
+                지금 설치비를 납부하시면 3개월 무료 혜택을 받으실 수 있습니다.
             </p>
 
             <div style="background-color: #fce4ec; border-radius: 8px; padding: 20px; text-align: center; margin-bottom: 24px;">
                 <p style="margin: 0 0 8px 0; font-size: 14px; color: #c2185b;">🎁 특별 혜택</p>
-                <p style="margin: 0; font-size: 28px; font-weight: 700; color: #c2185b;">첫 달 무료!</p>
-                <p style="margin: 8px 0 0 0; font-size: 12px; color: #666;">+ 3만 크레딧 보너스</p>
+                <p style="margin: 0; font-size: 28px; font-weight: 700; color: #c2185b;">3개월 무료!</p>
+                <p style="margin: 8px 0 0 0; font-size: 12px; color: #666;">+ ₩50,000 웰컴 크레딧</p>
             </div>
 
-            ${buttonComponent('지금 구독하기', 'https://ssalworks.com/subscription', '#c2185b')}
+            ${buttonComponent('설치비 납부하기', 'https://ssalworks.com/payment/installation', '#c2185b')}
         `),
-        text: `무료 체험 7일차!\n\n${data.userName}님, 지금 구독하시면 첫 달 무료 + 3만 크레딧 보너스!\n\nhttps://ssalworks.com/subscription`
+        text: `SSALWorks 7일차!\n\n${data.userName}님, 지금 설치비를 납부하시면 3개월 무료 + ₩50,000 웰컴 크레딧!\n\nhttps://ssalworks.com/payment/installation`
     }),
 
     // 챌린지 만료 안내
