@@ -5890,7 +5890,6 @@
                         <td>${formatDateTime(bill.billing_date)}</td>
                         <td>
                             <a href="#" class="action-link" onclick="event.preventDefault(); viewBillingDetail('${bill.id}')">상세</a>
-                            ${bill.status === 'paid' ? `<a href="#" class="action-link" style="color: #dc3545;" onclick="event.preventDefault(); processRefund('${bill.id}')">환불</a>` : ''}
                             ${bill.status === 'failed' ? `<a href="#" class="action-link" style="color: #f59e0b;" onclick="event.preventDefault(); retryPayment('${bill.id}')">재시도</a>` : ''}
                         </td>
                     </tr>
@@ -5914,7 +5913,6 @@
             const statusLabels = {
                 'paid': '결제 완료',
                 'failed': '결제 실패',
-                'refunded': '환불',
                 'pending': '대기 중'
             };
 
@@ -5930,53 +5928,11 @@
             if (bill.failure_reason) {
                 details += `실패 사유: ${bill.failure_reason}\n`;
             }
-            if (bill.refund_reason) {
-                details += `환불 사유: ${bill.refund_reason}\n`;
-                details += `환불 금액: ₩${(bill.refund_amount || 0).toLocaleString()}\n`;
-                details += `환불일: ${formatDateTime(bill.refund_date)}\n`;
-            }
             if (bill.receipt_url) {
                 details += `영수증: ${bill.receipt_url}\n`;
             }
 
             alert(details);
-        }
-
-        async function processRefund(billingId) {
-            const reason = prompt('환불 사유를 입력해주세요:');
-            if (!reason) return;
-
-            const bill = billingHistory.find(b => b.id === billingId);
-            if (!bill) {
-                showToast('결제 내역을 찾을 수 없습니다.', 'error');
-                return;
-            }
-
-            if (!confirm(`₩${bill.amount.toLocaleString()}을 환불 처리하시겠습니까?`)) return;
-
-            showLoading();
-            try {
-                const { error } = await supabaseClient
-                    .from('billing_history')
-                    .update({
-                        status: 'refunded',
-                        refund_amount: bill.amount,
-                        refund_date: new Date().toISOString(),
-                        refund_reason: reason
-                    })
-                    .eq('id', billingId);
-
-                if (error) throw error;
-
-                showToast('환불 처리가 완료되었습니다.', 'success');
-                loadBillingHistory();
-
-            } catch (error) {
-                console.error('환불 처리 실패:', error);
-                showToast('환불 처리에 실패했습니다: ' + error.message, 'error');
-            } finally {
-                hideLoading();
-            }
         }
 
         async function retryPayment(billingId) {
@@ -6313,9 +6269,9 @@
                 const typeLabels = {
                     'charge': { text: '충전', class: 'active' },
                     'spend': { text: '사용', class: 'warning' },
-                    'refund': { text: '환불', class: 'pending' },
                     'bonus': { text: '보너스', class: 'active' },
-                    'expire': { text: '만료', class: 'inactive' }
+                    'expire': { text: '만료', class: 'inactive' },
+                    'admin_deduct': { text: '관리자 차감', class: 'closed' }
                 };
 
                 tbody.innerHTML = transactions.map(t => {
@@ -6525,9 +6481,9 @@
                 const typeLabels = {
                     'charge': '충전',
                     'spend': '사용',
-                    'refund': '환불',
                     'bonus': '보너스',
-                    'expire': '만료'
+                    'expire': '만료',
+                    'admin_deduct': '관리자 차감'
                 };
 
                 let historyHtml = `<h3 style="margin-bottom:12px;">📋 ${userId} 거래 내역</h3>`;
@@ -6736,7 +6692,7 @@
             const typeLabels = {
                 'general': '일반 문의',
                 'technical': '기술 지원',
-                'payment': '결제/환불',
+                'payment': '결제 문의',
                 'account': '계정 관련',
                 'partnership': '제휴/협력',
                 'other': '기타'
@@ -6825,7 +6781,7 @@
             const typeLabels = {
                 'general': '일반 문의',
                 'technical': '기술 지원',
-                'payment': '결제/환불',
+                'payment': '결제 문의',
                 'account': '계정 관련',
                 'partnership': '제휴/협력',
                 'other': '기타'

@@ -8632,7 +8632,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                     // 진행중 프로젝트 목록 업데이트 (사이드바)
                     const currentProjectList = document.getElementById('currentProjectList');
                     currentProjectList.innerHTML = `
-                        <div class="project-list-item selected" onclick="loadProcessStage('project_work', '${name}', '프로젝트'); selectProject('${name}')">
+                        <div class="project-list-item selected" onclick="selectProject('${name}')">
                             <span class="project-name">${name}</span>
                             <span class="project-status">진행중</span>
                         </div>
