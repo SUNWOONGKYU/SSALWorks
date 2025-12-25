@@ -3613,17 +3613,6 @@
             document.getElementById('paymentDetailOverlay').style.display = 'none';
         }
 
-        function processRefund() {
-            if (confirm('정말로 환불 처리하시겠습니까?')) {
-                showLoading();
-                setTimeout(() => {
-                    hideLoading();
-                    showToast('환불 처리가 완료되었습니다!', 'success');
-                    closePaymentDetail();
-                }, 800);
-            }
-        }
-
         // ================================================================
         // Admin Home Dashboard - Chart Initialization
         // ================================================================
@@ -5854,20 +5843,11 @@
             // 대기 중
             const pendingCount = billingHistory.filter(b => b.status === 'pending').length;
 
-            // 환불
-            const refundedCount = billingHistory.filter(b => b.status === 'refunded').length;
-
             // 실패
             const failedCount = billingHistory.filter(b => b.status === 'failed').length;
 
-            // 통계 업데이트 (payment-section 내의 stat-card들)
-            const statCards = document.querySelectorAll('#payment-section .stat-card .stat-value');
-            if (statCards.length >= 4) {
-                statCards[0].textContent = `₩${monthlyRevenue.toLocaleString()}`;
-                statCards[1].textContent = completedCount;
-                statCards[2].textContent = pendingCount + failedCount;
-                statCards[3].textContent = refundedCount;
-            }
+            // 통계 업데이트 (subscription-section 내의 stat-card들 - 별도 관리)
+            console.log('📊 결제 통계:', { monthlyRevenue, completedCount, pendingCount, failedCount });
         }
 
         function renderBillingTable() {
@@ -5887,7 +5867,6 @@
             const statusLabels = {
                 'paid': { text: '완료', class: 'answered' },
                 'failed': { text: '실패', class: 'closed' },
-                'refunded': { text: '환불', class: 'pending' },
                 'pending': { text: '대기', class: 'pending' }
             };
 

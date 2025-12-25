@@ -3570,46 +3570,37 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 <div class="grid-viewer-header">
                     <div class="grid-viewer-title-group">
                         <div class="grid-viewer-title">Project SAL Grid</div>
-                        <div style="display: flex; gap: 12px; margin-left: auto;">
-                            <button class="action-btn" onclick="openViewer()">
-                                <span style="display: flex; flex-direction: column; line-height: 1.3;">
-                                    <span>Viewer</span>
-                                    <span>열기</span>
-                                </span>
-                            </button>
-                            <button class="action-btn" onclick="openManual()">
-                                <span style="display: flex; flex-direction: column; line-height: 1.3;">
-                                    <span>매뉴얼</span>
-                                    <span>보기</span>
-                                </span>
-                            </button>
-                        </div>
                     </div>
                 </div>
 
-                <div class="grid-content">
-                    <!-- Task Status -->
-                    <div class="stats-bar" style="margin-bottom: 8px;">
-                        <div style="font-weight: 700; font-size: 13px; color: #495057; min-width: 100px; display: flex; align-items: center;">실행 상태</div>
-                        <div class="stat-item">
-                            <span class="stat-label">○ Pending</span>
-                            <span class="stat-value pending" id="grid-stat-pending">0</span>
+                <div class="grid-content" style="display: flex; gap: 20px; padding: 15px;">
+                    <!-- 좌측: SSALWORKS 예시 (파란색) -->
+                    <div style="flex: 1; background: linear-gradient(135deg, #e8f4fd 0%, #d1e9fc 100%); border: 2px solid #2C4A8A; border-radius: 12px; padding: 20px;">
+                        <div style="font-weight: 700; font-size: 15px; color: #2C4A8A; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 18px;">📖</span> SSALWORKS 예시
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-label">● In Progress</span>
-                            <span class="stat-value in-progress" id="grid-stat-inprogress">0</span>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="action-btn" onclick="openViewer()" style="flex: 1; background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%);">
+                                Viewer 열기
+                            </button>
+                            <button class="action-btn" onclick="openManual()" style="flex: 1; background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%);">
+                                Manual 열기
+                            </button>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-label">◆ Executed</span>
-                            <span class="stat-value" style="color: #3B82F6;" id="grid-stat-executed">0</span>
+                    </div>
+
+                    <!-- 우측: 진행중인 프로젝트 (초록색) -->
+                    <div style="flex: 1; background: linear-gradient(135deg, #e6f7ef 0%, #c8f0dc 100%); border: 2px solid #10B981; border-radius: 12px; padding: 20px;">
+                        <div style="font-weight: 700; font-size: 15px; color: #059669; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 18px;">🔧</span> <span id="currentProjectName">진행중인 프로젝트</span>
                         </div>
-                        <div class="stat-item">
-                            <span class="stat-label">✓ Completed</span>
-                            <span class="stat-value completed" id="grid-stat-completed">0</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">⚠ Fixing</span>
-                            <span class="stat-value" style="color: #f59e0b;" id="grid-stat-fixing">0</span>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="action-btn" onclick="openMyViewer()" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                                Viewer 열기
+                            </button>
+                            <button class="action-btn" onclick="openMyManual()" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                                Manual 열기
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -8115,12 +8106,44 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             }
         }
 
-        // Viewer 열기
+        // Viewer 열기 (SSALWORKS 예시 - Supabase DB)
         function openViewer() {
             // 모바일이면 모바일 버전으로
             const isMobile = window.innerWidth <= 768;
             const url = isMobile ? 'viewer_mobile.html' : 'viewer.html';
             window.open(url, '_blank');
+        }
+
+        // 내 프로젝트 Viewer 열기 (CSV 기반)
+        function openMyViewer() {
+            // TODO: CSV 기반 Viewer 구현 후 경로 변경
+            // 현재는 안내 메시지 표시
+            const projectName = document.getElementById('currentProjectName')?.textContent || '진행중인 프로젝트';
+
+            if (projectName === '진행중인 프로젝트') {
+                alert('프로젝트를 먼저 등록해주세요.\n\n프로젝트 등록 후 SAL Grid를 사용할 수 있습니다.');
+                return;
+            }
+
+            // CSV Viewer 열기 (추후 구현)
+            alert(`"${projectName}" 프로젝트의 SAL Grid Viewer\n\n📋 CSV 기반 Viewer는 준비 중입니다.\n로컬 패키지 다운로드 후 사용 가능합니다.`);
+        }
+
+        // 내 프로젝트 Manual 열기
+        function openMyManual() {
+            // TODO: 사용자별 Manual 구현 후 경로 변경
+            // 현재는 동일한 Manual 열기 (공통 매뉴얼)
+            const isMobile = window.innerWidth <= 768;
+            const url = isMobile ? 'manual_mobile.html' : 'manual.html';
+            window.open(url, '_blank');
+        }
+
+        // 현재 프로젝트 이름 업데이트
+        function updateCurrentProjectName(projectName) {
+            const element = document.getElementById('currentProjectName');
+            if (element) {
+                element.textContent = projectName;
+            }
         }
 
         // 폴더 열기 함수 (비활성화됨 - 폴더 편집 안내 기능 제거)
@@ -9720,6 +9743,8 @@ ${result.answer}`;
                     if (session.user.email === ADMIN_EMAIL) {
                         projectId = DEFAULT_PROJECT_ID;
                         console.log('📊 관리자 접속: SSALWORKS 프로젝트 자동 로드');
+                        // 관리자: 프로젝트 이름을 SSALWORKS로 표시
+                        updateCurrentProjectName('SSALWORKS');
                     } else {
                         // 일반 사용자: 본인의 프로젝트 조회
                         // 사용자의 user_id 조회
@@ -9732,13 +9757,14 @@ ${result.answer}`;
                         if (!userData) {
                             console.log('📊 사용자 정보 없음: 진행률 로드 스킵');
                             resetAllProgressToZero();
+                            updateCurrentProjectName('진행중인 프로젝트');
                             return;
                         }
 
-                        // 현재 진행중인 프로젝트 조회
+                        // 현재 진행중인 프로젝트 조회 (프로젝트 이름 포함)
                         const { data: project } = await window.supabaseClient
                             .from('projects')
-                            .select('project_id')
+                            .select('project_id, project_name')
                             .eq('user_id', userData.user_id)
                             .eq('status', 'in_progress')
                             .single();
@@ -9747,11 +9773,14 @@ ${result.answer}`;
                             console.log('📊 진행중인 프로젝트 없음: 프로젝트 등록 필요');
                             console.log('💡 프로젝트를 등록하면 진행률을 확인할 수 있습니다.');
                             resetAllProgressToZero();
+                            updateCurrentProjectName('진행중인 프로젝트');
                             return;
                         }
 
                         projectId = project.project_id;
                         console.log('📊 사용자 프로젝트 ID:', projectId);
+                        // 사용자의 프로젝트 이름 표시
+                        updateCurrentProjectName(project.project_name || project.project_id);
                     }
                 }
 

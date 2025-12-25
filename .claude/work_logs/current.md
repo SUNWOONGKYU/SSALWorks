@@ -1173,6 +1173,40 @@ document.querySelectorAll('.data-table').forEach(table => {
 
 ---
 
+### SAL Grid Viewer UI 2컬럼 분리 ✅
+
+**작업 배경:**
+- 공개 배포용 멀티테넌트 지원
+- SSALWORKS (Supabase DB) = 예시 프로젝트
+- 사용자 프로젝트 (CSV) = 개인 프로젝트
+
+**UI 변경 내용:**
+1. **기존 상태바 제거** (Pending, In Progress, Executed, Completed 카운트 - 무의미)
+2. **2컬럼 레이아웃으로 변경:**
+   - 좌측: SSALWORKS 예시 (파란색, Supabase DB)
+   - 우측: 진행중인 프로젝트 (초록색, CSV 기반)
+
+**추가된 JavaScript 함수:**
+| 함수 | 용도 |
+|------|------|
+| `openMyViewer()` | 내 프로젝트 SAL Grid Viewer 열기 (CSV 기반, 준비중) |
+| `openMyManual()` | 내 프로젝트 Manual 열기 (공통 매뉴얼) |
+| `updateCurrentProjectName(name)` | 현재 프로젝트 이름 표시 업데이트 |
+
+**수정된 파일:**
+- `Production/index.html` (UI + JavaScript 함수 추가)
+
+**프로젝트 이름 자동 표시:**
+- 관리자 (wksum999@gmail.com): "SSALWORKS" 자동 표시
+- 일반 사용자: DB에서 project_name 조회하여 표시
+- 프로젝트 없음: "진행중인 프로젝트" 기본 표시
+
+**TODO (추후 구현):**
+- [ ] CSV 기반 SAL Grid Viewer 개발
+- [ ] 로컬 패키지 다운로드 시 CSV Viewer 포함
+
+---
+
 ## 다음 세션 TODO
 
 ### 1. S4F6 마이페이지 문의 관리 테스트
