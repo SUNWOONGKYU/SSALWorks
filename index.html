@@ -7654,13 +7654,13 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         function openManual() {
             // 모바일이면 모바일 버전으로
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? '/S0_Project-SAL-Grid_생성/manual/manual_mobile.html' : '/S0_Project-SAL-Grid_생성/manual/manual.html';
+            const url = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/manual/manual_mobile.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/manual/manual.html';
             window.open(url, '_blank');
         }
 
         function openLearningViewer() {
             // 학습용 콘텐츠 뷰어 열기
-            window.open('부수적_고유기능/콘텐츠/학습용_Books_New/viewer.html', '_blank');
+            window.open('%EB%B6%80%EC%88%98%EC%A0%81_%EA%B3%A0%EC%9C%A0%EA%B8%B0%EB%8A%A5/%EC%BD%98%ED%85%90%EC%B8%A0/%ED%95%99%EC%8A%B5%EC%9A%A9_Books_New/viewer.html', '_blank');
         }
 
         // 학습용 콘텐츠 목록 (로컬 검색용)
@@ -7782,7 +7782,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 특정 콘텐츠 열기
         function openLearningContent(path) {
-            window.open('/부수적_고유기능/콘텐츠/학습용_Books_New/viewer.html?path=' + encodeURIComponent(path), '_blank');
+            window.open('/%EB%B6%80%EC%88%98%EC%A0%81_%EA%B3%A0%EC%9C%A0%EA%B8%B0%EB%8A%A5/%EC%BD%98%ED%85%90%EC%B8%A0/%ED%95%99%EC%8A%B5%EC%9A%A9_Books_New/viewer.html?path=' + encodeURIComponent(path), '_blank');
         }
 
         // ================================================
@@ -8108,7 +8108,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             // TODO: 사용자별 Manual 구현 후 경로 변경
             // 현재는 동일한 Manual 열기 (공통 매뉴얼)
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? '/S0_Project-SAL-Grid_생성/manual/manual_mobile.html' : '/S0_Project-SAL-Grid_생성/manual/manual.html';
+            const url = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/manual/manual_mobile.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/manual/manual.html';
             window.open(url, '_blank');
         }
 
