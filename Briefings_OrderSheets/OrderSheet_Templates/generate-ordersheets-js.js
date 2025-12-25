@@ -12,9 +12,8 @@ const path = require('path');
 
 // Order Sheet 템플릿 폴더 위치 (스크립트가 OrderSheet_Templates 폴더에 있음)
 const TEMPLATES_DIR = __dirname;
-// 출력 JS 파일 위치 - Production/Frontend에 저장
-// OrderSheet_Templates → Briefings_OrderSheets → (root) → Production/Frontend
-const OUTPUT_FILE = path.join(__dirname, '..', '..', 'Production', 'Frontend', 'ordersheets.js');
+// 출력 JS 파일 위치 - 현재 폴더(OrderSheet_Templates)에 저장
+const OUTPUT_FILE = path.join(__dirname, 'ordersheets.js');
 
 /**
  * 디렉토리를 재귀적으로 탐색하여 모든 MD 파일 찾기

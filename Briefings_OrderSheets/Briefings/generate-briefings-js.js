@@ -17,8 +17,8 @@ const path = require('path');
 const BRIEFINGS_DIR = __dirname;
 // 상황별 안내문 폴더 위치 (Briefings/Situational/)
 const SITUATIONAL_DIR = path.join(__dirname, 'Situational');
-// 출력 JS 파일 위치 - Production/Frontend/guides.js (기존 파일 대체)
-const OUTPUT_FILE = path.join(__dirname, '..', '..', 'Production', 'Frontend', 'guides.js');
+// 출력 JS 파일 위치 - 현재 폴더(Briefings)에 저장
+const OUTPUT_FILE = path.join(__dirname, 'guides.js');
 
 
 /**
