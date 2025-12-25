@@ -1130,6 +1130,49 @@ mv "S5_운영" "S5_개발_마무리"
 
 ---
 
+### admin-dashboard.html 세부 페이지 모바일 최적화 ✅
+
+**작업 배경:**
+- 햄버거 메뉴는 수정 완료되었으나, 각 섹션(회원관리, 크레딧, 문의 등) 내용이 모바일에서 보기 어려움
+
+**추가된 모바일 CSS (768px 이하):**
+
+| 요소 | 변경 내용 |
+|------|----------|
+| stats-grid | 1열 배치, gap 12px |
+| stat-card | padding 16px, font-size 축소 |
+| section-header | 세로 배치 (flex-direction: column) |
+| data-table | 가로 스크롤, min-width 600px, 첫 번째 열 sticky |
+| form-modal | 95% width, max-height 90vh |
+| buttons | min-height 44px (터치 친화적) |
+| dual-section-grid | 1열 배치 |
+| tab-btn | flex-wrap, 최소 80px |
+
+**추가된 480px 이하 breakpoint:**
+- stats-grid-5: 1열 배치 (태블릿 2열 → 폰 1열)
+- stat-value: 20px
+- data-table: 11px
+- form-modal: 100% width, border-radius 0
+
+**수정된 인라인 스타일:**
+- `grid-template-columns: repeat(5, 1fr)` → `.stats-grid-5` 클래스로 변경
+- CSS에서 반응형 처리 가능하도록 개선
+
+**동적 테이블 래퍼 (JavaScript):**
+```javascript
+// 모바일에서 테이블 가로 스크롤 지원
+document.querySelectorAll('.data-table').forEach(table => {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-wrapper';
+    // ... 동적 래핑
+});
+```
+
+**업데이트된 문서:**
+- `S5_개발_마무리/Documentation/s5u2_update.json`
+
+---
+
 ## 다음 세션 TODO
 
 ### 1. S4F6 마이페이지 문의 관리 테스트

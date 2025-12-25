@@ -6,7 +6,8 @@
       "Mobile banner applied to 10 pages (initial)",
       "Re-evaluation: All features work on mobile",
       "Mobile banner removed from all pages",
-      "admin-dashboard.html hamburger menu fixed (slide-out sidebar + toggleSidebar function)"
+      "admin-dashboard.html hamburger menu fixed (slide-out sidebar + toggleSidebar function)",
+      "admin-dashboard.html section detail pages mobile optimization"
     ]
   },
   "mobile_banner": {
@@ -32,9 +33,32 @@
       "Mobile CSS: horizontal scroll menu -> slide-out sidebar",
       "Added toggleSidebar() and closeSidebar() functions",
       "Added ESC key to close sidebar",
-      "Sidebar overlay for mobile"
+      "Sidebar overlay for mobile",
+      "Menu item click auto-closes sidebar",
+      "Close button (X) in sidebar"
     ]
   },
-  "remarks": "Mobile-friendly service. All features available on mobile. No restriction banners needed.",
-  "updated_at": "2025-12-25T15:00:00Z"
+  "admin_sections_mobile_optimization": {
+    "file": "admin-dashboard.html",
+    "changes": [
+      "Stats cards: reduced padding/font sizes for mobile",
+      "Section headers: vertical stack on mobile",
+      "Tables: horizontal scroll with sticky first column",
+      "Dynamic table-wrapper for touch scrolling",
+      "Form modals: 95% width, max-height 90vh",
+      "Buttons: min-height 44px for touch targets",
+      "dual-section-grid: single column on mobile",
+      "5-column stats grid: 2 columns on tablet, 1 on phone",
+      "480px breakpoint for very small screens"
+    ],
+    "css_additions": [
+      "table-wrapper with overflow-x: auto",
+      "sticky first column for tables",
+      "responsive stat-card sizing",
+      "touch-friendly button sizes",
+      "480px media query for small phones"
+    ]
+  },
+  "remarks": "Mobile-friendly service. Admin dashboard fully optimized for mobile viewing.",
+  "updated_at": "2025-12-25T16:30:00Z"
 }

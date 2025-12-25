@@ -268,6 +268,10 @@
             margin-bottom: 32px;
         }
 
+        .stats-grid-5 {
+            grid-template-columns: repeat(5, 1fr);
+        }
+
         .stat-card {
             background: white;
             padding: 24px;
@@ -729,6 +733,10 @@
                 margin-bottom: 20px;
             }
 
+            .stats-grid-5 {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
             .stat-card {
                 padding: 16px;
             }
@@ -893,11 +901,94 @@
                 grid-template-columns: 1fr;
             }
 
+            /* 2열 그리드 → 1열 */
+            .dual-section-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            /* stat-card-enhanced 모바일 */
+            .stat-card-enhanced {
+                gap: 8px;
+            }
+
+            .stat-header {
+                flex-direction: row;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .stat-change, .stat-urgent {
+                font-size: 12px;
+            }
+
+            .change-value, .urgent-badge {
+                font-size: 11px;
+            }
+
+            /* 활동 타임라인 */
+            .activity-timeline {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+
+            .activity-item {
+                padding: 12px;
+                font-size: 13px;
+            }
+
+            /* 콘텐츠 헤더 */
+            .content-header {
+                margin-bottom: 16px;
+            }
+
+            .content-title {
+                font-size: 20px;
+            }
+
+            .content-subtitle {
+                font-size: 13px;
+            }
+
             /* 토스트 알림 */
             .toast {
                 left: 16px;
                 right: 16px;
                 min-width: auto;
+            }
+        }
+
+        /* 아주 작은 화면 (480px 이하) */
+        @media (max-width: 480px) {
+            .stats-grid-5 {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-value {
+                font-size: 20px;
+            }
+
+            .data-table {
+                font-size: 11px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 8px 4px;
+            }
+
+            .section-title {
+                font-size: 14px;
+            }
+
+            .content-title {
+                font-size: 18px;
+            }
+
+            .form-modal {
+                width: 100%;
+                border-radius: 0;
+                max-height: 100vh;
             }
         }
 
@@ -1789,7 +1880,7 @@
                 </div>
 
                 <!-- 크레딧 통계 -->
-                <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+                <div class="stats-grid stats-grid-5">
                     <div class="stat-card warning">
                         <div class="stat-icon">⏳</div>
                         <div class="stat-value" id="creditPendingDepositCount">0</div>
@@ -2415,7 +2506,7 @@
                 </div>
 
                 <!-- 플랫폼 이용료 통계 -->
-                <div class="stats-grid" style="grid-template-columns: repeat(5, 1fr);">
+                <div class="stats-grid stats-grid-5">
                     <div class="stat-card warning">
                         <div class="stat-icon">🆓</div>
                         <div class="stat-value" id="platformFeeFreeCount">0</div>
@@ -7406,6 +7497,20 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeSidebar();
+            }
+        });
+
+        // 모바일 테이블 가로 스크롤 wrapper 추가
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.innerWidth <= 768) {
+                document.querySelectorAll('.data-table').forEach(function(table) {
+                    if (!table.parentElement.classList.contains('table-wrapper')) {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'table-wrapper';
+                        table.parentNode.insertBefore(wrapper, table);
+                        wrapper.appendChild(table);
+                    }
+                });
             }
         });
 
