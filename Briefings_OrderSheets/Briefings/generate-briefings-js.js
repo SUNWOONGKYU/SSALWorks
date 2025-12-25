@@ -15,8 +15,8 @@ const path = require('path');
 
 // Briefings 폴더 위치 (스크립트가 Briefings 폴더에 있음)
 const BRIEFINGS_DIR = __dirname;
-// 상황별 안내문 폴더 위치
-const SITUATIONAL_DIR = path.join(__dirname, '..', 'Situational_Guides');
+// 상황별 안내문 폴더 위치 (Briefings/Situational/)
+const SITUATIONAL_DIR = path.join(__dirname, 'Situational');
 // 출력 JS 파일 위치 - Production/Frontend/guides.js (기존 파일 대체)
 const OUTPUT_FILE = path.join(__dirname, '..', '..', 'Production', 'Frontend', 'guides.js');
 
@@ -114,7 +114,7 @@ function main() {
 
     const briefings = {};
 
-    // 상황별 안내문 먼저 추가 (Situational_Guides 폴더)
+    // 상황별 안내문 먼저 추가 (Briefings/Situational 폴더)
     if (fs.existsSync(SITUATIONAL_DIR)) {
         const situationalFiles = fs.readdirSync(SITUATIONAL_DIR).filter(f => f.endsWith('.md'));
         console.log(`📌 상황별 안내문: ${situationalFiles.length}개\n`);

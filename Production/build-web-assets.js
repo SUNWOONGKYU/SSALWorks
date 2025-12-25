@@ -202,6 +202,12 @@ function buildBuilderManual() {
     log.header('빌더 계정 사용 매뉴얼 HTML 변환');
 
     try {
+        // 파일 존재 확인
+        if (!fs.existsSync(PATHS.builderManualMd)) {
+            log.info('빌더계정_사용_매뉴얼.md 파일 없음 - 건너뜀');
+            return true; // 파일 없으면 성공으로 처리 (optional)
+        }
+
         // pandoc 존재 확인
         try {
             execSync('pandoc --version', { stdio: 'ignore' });

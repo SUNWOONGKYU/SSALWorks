@@ -82,7 +82,7 @@
 |------|------|
 | 규칙 파일 | `.claude/rules/` |
 | 보고서 저장 | `Human_ClaudeCode_Bridge/Reports/` |
-| Briefing | `Briefings_OrderSheets/Situational_Guides/Completed_Project_Revision_Briefing.md` |
+| Briefing | `Briefings_OrderSheets/Briefings/Situational/Completed_Project_Revision_Briefing.md` |
 
 ---
 

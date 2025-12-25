@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- DOMPurify for XSS Protection -->
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <link rel="stylesheet" href="../../assets/css/responsive.css">
     <style>
         * {
             margin: 0;
@@ -669,6 +670,20 @@
                 // 6. 성공
                 hideLoading();
                 showAlert(`회원가입이 완료되었습니다! 이메일 인증 링크를 발송했습니다.`, 'success');
+// 7. 관리자에게 신규 가입 알림 (비동기, 실패해도 무시)
+                fetch('/api/Backend_APIs/admin-notify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'signup',
+                        data: {
+                            email: email,
+                            nickname: nickname,
+                            real_name: realName,
+                            provider: 'Email'
+                        }
+                    })
+                }).catch(err => console.log('Admin notify skipped:', err));
 
                 // 3초 후 안내 팝업
                 setTimeout(() => {
@@ -685,7 +700,7 @@
                 } else if (error.message.includes('Password')) {
                     showAlert('비밀번호가 보안 요구사항을 충족하지 않습니다.');
                 } else {
-                    showAlert('회원가입에 실패했습니다: ' + error.message);
+                    showAlert('회원가입에 실패했습니다. 잠시 후 다시 시도해주세요.');
                 }
             }
         }

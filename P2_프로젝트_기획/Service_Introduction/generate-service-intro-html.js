@@ -1,13 +1,13 @@
 /**
  * generate-service-intro-html.js
  *
- * 서비스_소개_모달_초안.md → index.html의 serviceIntroModal 콘텐츠 변환
+ * 서비스_소개_모달.md → index.html의 serviceIntroModal 콘텐츠 변환
  *
  * 사용법:
  *   node generate-service-intro-html.js
  *
  * 역할:
- *   1. 서비스_소개_모달_초안.md 읽기
+ *   1. 서비스_소개_모달.md 읽기
  *   2. Markdown → HTML 변환 (스타일 적용)
  *   3. Production/index.html의 serviceIntroModal 내용 교체
  */
@@ -17,7 +17,7 @@ const path = require('path');
 
 // 경로 설정
 const PATHS = {
-    mdSource: path.join(__dirname, '서비스_소개_모달_초안.md'),
+    mdSource: path.join(__dirname, '서비스_소개_모달.md'),
     indexHtml: path.resolve(__dirname, '../../Production/index.html')
 };
 
