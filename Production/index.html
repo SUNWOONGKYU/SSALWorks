@@ -921,11 +921,13 @@
         }
 
         .workspace-top {
-            height: 63%;
+            flex: 1;
+            min-height: 0;
             background: white;
             border-bottom: 2px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .workspace-header {
