@@ -9710,35 +9710,49 @@ ${result.answer}`;
                         return;
                     }
 
-                    // 사용자의 user_id 조회
-                    const { data: userData } = await window.supabaseClient
-                        .from('users')
-                        .select('user_id')
-                        .eq('id', session.user.id)
-                        .single();
+                    // ================================================================
+                    // 🔐 관리자 이메일: 자동으로 SSALWORKS 프로젝트 로드
+                    // 다른 사용자: 본인의 프로젝트 ID 조회 필요
+                    // ================================================================
+                    const ADMIN_EMAIL = 'wksum999@gmail.com';
+                    const DEFAULT_PROJECT_ID = 'SSALWORKS';
 
-                    if (!userData) {
-                        console.log('📊 사용자 정보 없음: 진행률 로드 스킵');
-                        resetAllProgressToZero();
-                        return;
+                    if (session.user.email === ADMIN_EMAIL) {
+                        projectId = DEFAULT_PROJECT_ID;
+                        console.log('📊 관리자 접속: SSALWORKS 프로젝트 자동 로드');
+                    } else {
+                        // 일반 사용자: 본인의 프로젝트 조회
+                        // 사용자의 user_id 조회
+                        const { data: userData } = await window.supabaseClient
+                            .from('users')
+                            .select('user_id')
+                            .eq('id', session.user.id)
+                            .single();
+
+                        if (!userData) {
+                            console.log('📊 사용자 정보 없음: 진행률 로드 스킵');
+                            resetAllProgressToZero();
+                            return;
+                        }
+
+                        // 현재 진행중인 프로젝트 조회
+                        const { data: project } = await window.supabaseClient
+                            .from('projects')
+                            .select('project_id')
+                            .eq('user_id', userData.user_id)
+                            .eq('status', 'in_progress')
+                            .single();
+
+                        if (!project) {
+                            console.log('📊 진행중인 프로젝트 없음: 프로젝트 등록 필요');
+                            console.log('💡 프로젝트를 등록하면 진행률을 확인할 수 있습니다.');
+                            resetAllProgressToZero();
+                            return;
+                        }
+
+                        projectId = project.project_id;
+                        console.log('📊 사용자 프로젝트 ID:', projectId);
                     }
-
-                    // 현재 진행중인 프로젝트 조회
-                    const { data: project } = await window.supabaseClient
-                        .from('projects')
-                        .select('project_id')
-                        .eq('user_id', userData.user_id)
-                        .eq('status', 'in_progress')
-                        .single();
-
-                    if (!project) {
-                        console.log('📊 진행중인 프로젝트 없음: 진행률 리셋');
-                        resetAllProgressToZero();
-                        return;
-                    }
-
-                    projectId = project.project_id;
-                    console.log('📊 사용자 프로젝트 ID:', projectId);
                 }
 
                 const { data, error } = await window.supabaseClient

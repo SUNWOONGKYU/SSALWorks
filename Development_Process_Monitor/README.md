@@ -1,6 +1,23 @@
 # Development Process Monitor
 
-SSALWorks 프로젝트 진행률 관리 시스템
+프로젝트 진행률 관리 시스템 (Project Progress Management System)
+
+## 사용자별 프로젝트 로드 로직
+
+```javascript
+// Production/index.html의 loadPhaseProgressFromDB() 함수
+
+// 🔐 관리자 이메일: 자동으로 기본 프로젝트 로드
+// 다른 사용자: 본인의 프로젝트 ID 조회 필요
+const ADMIN_EMAIL = 'your-admin@email.com';    // ← 본인 이메일로 변경
+const DEFAULT_PROJECT_ID = 'YOUR_PROJECT_ID';  // ← 본인 프로젝트 ID로 변경
+
+if (session.user.email === ADMIN_EMAIL) {
+    projectId = DEFAULT_PROJECT_ID;  // 관리자는 자동 로드
+} else {
+    // 일반 사용자: projects 테이블에서 본인 프로젝트 조회
+}
+```
 
 ## 구조
 
