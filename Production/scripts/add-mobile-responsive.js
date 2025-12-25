@@ -10,7 +10,7 @@ const PRODUCTION_DIR = path.join(__dirname, '..');
 const PAGES_TO_MODIFY = [
     'manual.html',
     'viewer.html',
-    'admin-dashboard.html',
+    'Frontend/admin-dashboard.html',
     'books-viewer.html',
     'learning-viewer.html',
     'tips-viewer.html',

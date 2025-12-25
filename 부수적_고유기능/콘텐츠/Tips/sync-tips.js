@@ -15,8 +15,7 @@ const PRODUCTION_DIR = path.join(__dirname, '../../../Production');
 
 const FILES = {
     source: path.join(TIPS_DIR, 'tips-list.json'),
-    viewer1: path.join(TIPS_DIR, 'viewer.html'),
-    viewer2: path.join(PRODUCTION_DIR, 'tips-viewer.html'),
+    viewer: path.join(TIPS_DIR, 'viewer.html'),
     index: path.join(PRODUCTION_DIR, 'index.html')
 };
 
@@ -138,8 +137,7 @@ function main() {
     // 3. 파일 업데이트
     console.log('📝 파일 업데이트...');
 
-    updateViewerFile(FILES.viewer1, viewerContent);
-    updateViewerFile(FILES.viewer2, viewerContent);
+    updateViewerFile(FILES.viewer, viewerContent);
     updateIndexFile(FILES.index, indexContent);
 
     console.log('');

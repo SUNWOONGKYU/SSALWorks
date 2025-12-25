@@ -7652,8 +7652,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 매뉴얼 보기
         function openManual() {
-            // SAL Grid Manual 열기
-            const url = 'S0_Project-SAL-Grid_생성/manual/manual.html';
+            // 모바일이면 모바일 버전으로
+            const isMobile = window.innerWidth <= 768;
+            const url = isMobile ? '/S0_Project-SAL-Grid_생성/manual/manual_mobile.html' : '/S0_Project-SAL-Grid_생성/manual/manual.html';
             window.open(url, '_blank');
         }
 
@@ -8106,7 +8107,8 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         function openMyManual() {
             // TODO: 사용자별 Manual 구현 후 경로 변경
             // 현재는 동일한 Manual 열기 (공통 매뉴얼)
-            const url = 'S0_Project-SAL-Grid_생성/manual/manual.html';
+            const isMobile = window.innerWidth <= 768;
+            const url = isMobile ? '/S0_Project-SAL-Grid_생성/manual/manual_mobile.html' : '/S0_Project-SAL-Grid_생성/manual/manual.html';
             window.open(url, '_blank');
         }
 
