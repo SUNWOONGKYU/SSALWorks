@@ -9691,7 +9691,7 @@ ${result.answer}`;
         async function loadPhaseProgressFromDB(projectId = null) {
             try {
                 // JSON 파일에서 진행률 데이터 로드
-                const response = await fetch('data/phase_progress.json');
+                const response = await fetch('Development_Process_Monitor/data/phase_progress.json');
                 if (!response.ok) {
                     console.warn('📊 phase_progress.json 로드 실패:', response.status);
                     resetAllProgressToZero();

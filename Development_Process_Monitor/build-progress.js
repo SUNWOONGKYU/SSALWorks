@@ -268,8 +268,8 @@ function main() {
         console.log(`${status} ${code}: ${data.completed}/${data.total} = ${data.progress}%`);
     });
 
-    // JSON 파일 저장 (프로젝트 루트/data/)
-    const outputDir = path.join(PROJECT_ROOT, 'data');
+    // JSON 파일 저장 (Development_Process_Monitor/data/)
+    const outputDir = path.join(__dirname, 'data');
     if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
     }
