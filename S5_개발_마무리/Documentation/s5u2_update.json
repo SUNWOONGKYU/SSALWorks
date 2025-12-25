@@ -3,23 +3,38 @@
     "2025-12-23": "responsive.css 301 lines, slide sidebar, hamburger menu",
     "2025-12-25": [
       "Mobile usability analysis (27 features: 8 possible, 9 view-only, 10 not possible)",
-      "Mobile banner message confirmed",
-      "10 pages banner applied"
+      "Mobile banner applied to 10 pages (initial)",
+      "Re-evaluation: All features work on mobile",
+      "Mobile banner removed from all pages",
+      "admin-dashboard.html hamburger menu fixed (slide-out sidebar + toggleSidebar function)"
     ]
   },
-  "applied_pages": [
-    "Production/index.html",
-    "Production/admin-dashboard.html",
-    "Production/viewer.html",
-    "Production/manual.html",
-    "Production/pages/auth/login.html",
-    "Production/pages/auth/signup.html",
-    "Production/pages/auth/reset-password.html",
-    "Production/books-viewer.html",
-    "Production/learning-viewer.html",
-    "Production/tips-viewer.html"
-  ],
-  "banner_message": "📱 모바일에서는 조회만 가능합니다. 작업은 PC에서 해주세요.",
-  "remarks": "PC-first service. Mobile: view only. Banner displayed on 768px and below.",
-  "updated_at": "2025-12-25T13:30:00Z"
+  "mobile_banner": {
+    "status": "removed",
+    "reason": "All pages fully functional on mobile. No features are blocked.",
+    "removed_from": [
+      "index.html",
+      "admin-dashboard.html",
+      "viewer.html",
+      "manual.html",
+      "pages/auth/login.html",
+      "pages/auth/signup.html",
+      "pages/auth/reset-password.html",
+      "books-viewer.html",
+      "learning-viewer.html",
+      "tips-viewer.html",
+      "pages/manual/index.html"
+    ]
+  },
+  "hamburger_menu_fix": {
+    "file": "admin-dashboard.html",
+    "changes": [
+      "Mobile CSS: horizontal scroll menu -> slide-out sidebar",
+      "Added toggleSidebar() and closeSidebar() functions",
+      "Added ESC key to close sidebar",
+      "Sidebar overlay for mobile"
+    ]
+  },
+  "remarks": "Mobile-friendly service. All features available on mobile. No restriction banners needed.",
+  "updated_at": "2025-12-25T15:00:00Z"
 }

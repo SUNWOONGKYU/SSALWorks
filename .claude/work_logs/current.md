@@ -1022,43 +1022,43 @@ mv "S5_운영" "S5_개발_마무리"
 
 ## 2025-12-25 작업 내역
 
-### S5U2 모바일 배너 적용 완료 ✅
+### S5U2 모바일 반응형 최종 정리 ✅
 
-**작업 배경:**
-- 모바일에서는 조회만 가능하고 실제 작업은 PC에서만 가능
-- 27개 기능 분석 결과: ✅ 가능(8), ⚠️ 조회만(9), ❌ 불가능(10)
-- 사용자에게 모바일 제한 사항을 명확히 안내 필요
+**작업 내용:**
 
-**적용된 배너 메시지:**
-```
-📱 모바일에서는 조회만 가능합니다. 작업은 PC에서 해주세요.
-```
+#### 1. admin-dashboard.html 햄버거 메뉴 수정
+- **문제:** toggleSidebar() 함수 미정의, 수평 스크롤 메뉴 방식
+- **해결:**
+  - 모바일 CSS를 슬라이드 아웃 사이드바로 변경
+  - toggleSidebar()/closeSidebar() 함수 추가
+  - ESC 키로 사이드바 닫기 기능
+  - 반투명 오버레이 배경
 
-**적용된 페이지 (10개):**
+#### 2. 모바일 배너 전체 삭제
+- **이유:** 모든 페이지에서 모바일로 할 수 없는 기능이 없음
+- **원칙:** 확실하게 안 되는 것만 배너 적용 (남발 금지)
 
-| # | 페이지 | 파일 | CSS 처리 |
-|---|--------|------|----------|
-| 1 | 메인 대시보드 | `Production/index.html` | 인라인 CSS 추가 |
-| 2 | 관리자 대시보드 | `Production/admin-dashboard.html` | responsive.css |
-| 3 | Task Viewer | `Production/viewer.html` | responsive.css |
-| 4 | Manual | `Production/manual.html` | responsive.css |
-| 5 | 로그인 | `Production/pages/auth/login.html` | responsive.css |
-| 6 | 회원가입 | `Production/pages/auth/signup.html` | responsive.css |
-| 7 | 비밀번호 재설정 | `Production/pages/auth/reset-password.html` | responsive.css |
-| 8 | Books Viewer | `Production/books-viewer.html` | responsive.css |
-| 9 | Learning Viewer | `Production/learning-viewer.html` | responsive.css |
-| 10 | Tips Viewer | `Production/tips-viewer.html` | responsive.css |
+**삭제된 배너 (11개):**
+| # | 페이지 | 삭제 이유 |
+|---|--------|----------|
+| 1 | index.html | 메인 페이지 - 배너 불필요 |
+| 2 | admin-dashboard.html | 모든 기능 가능 |
+| 3 | viewer.html | 조회 가능 |
+| 4 | manual.html | 조회 가능 |
+| 5 | login.html | 로그인 가능 |
+| 6 | signup.html | 회원가입 가능 |
+| 7 | reset-password.html | 비밀번호 재설정 가능 |
+| 8 | books-viewer.html | 조회 가능 |
+| 9 | learning-viewer.html | 조회 가능 |
+| 10 | tips-viewer.html | 조회 가능 |
+| 11 | pages/manual/index.html | 조회 가능 |
 
-**CSS 스타일 (.mobile-notice):**
-- 배경: 노란색 그라데이션 (#FEF3C7 → #FDE68A)
-- 텍스트: 갈색 (#92400E)
-- 위치: 상단 고정 (sticky, z-index: 999)
-- 기본: 숨김 (display: none)
-- 768px 이하: 표시 (display: block)
+**결론:**
+- 모바일 배너: **0개** (전체 삭제)
+- 모바일에서 모든 기능 정상 작동
 
-**Supabase 업데이트 (project_sal_grid - S5U2):**
-- modification_history에 2025-12-25 작업 기록 추가
-- s5u2_update.json 문서화 파일 업데이트
+**업데이트된 문서:**
+- `S5_개발_마무리/Documentation/s5u2_update.json`
 
 ---
 

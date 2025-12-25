@@ -53,12 +53,26 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Invalid settings data' });
             }
 
+            // DB에 존재하는 컬럼만 허용 (notify_installation_request는 아직 미추가)
+            const allowedFields = [
+                'platform_name', 'admin_email', 'timezone',
+                'notify_inquiry', 'notify_payment', 'notify_signup',
+                'install_fee', 'monthly_fee', 'credit_price', 'last_backup'
+            ];
+
+            const filteredSettings = {};
+            for (const key of allowedFields) {
+                if (settings[key] !== undefined) {
+                    filteredSettings[key] = settings[key];
+                }
+            }
+
             // updated_at 자동 설정
-            settings.updated_at = new Date().toISOString();
+            filteredSettings.updated_at = new Date().toISOString();
 
             const { data, error } = await supabase
                 .from('admin_settings')
-                .update(settings)
+                .update(filteredSettings)
                 .eq('id', 1)
                 .select();
 
