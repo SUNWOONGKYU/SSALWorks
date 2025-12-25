@@ -138,7 +138,7 @@ async function main() {
         // CSV 변환
         const csv = convertToCSV(data);
 
-        // 저장
+        // 저장 (S0_Project-SAL-Grid_생성/data/ 폴더에 저장)
         const outputDir = path.join(__dirname, 'data');
         if (!fs.existsSync(outputDir)) {
             fs.mkdirSync(outputDir, { recursive: true });

@@ -4,6 +4,172 @@
 
 ---
 
+## 2025-12-26 작업 내역
+
+### 구현 가이드 완전판 작성 ✅
+
+**배경:**
+- 기존 가이드 문서들이 "Production 폴더 참조" 방식으로 불완전
+- 다른 Claude Code가 처음부터 구현하기 어려운 상태
+
+**작업 내용:**
+
+**1. Viewer Implementation Guide 완전판 (v2.0)**
+- 파일: `S0_Project-SAL-Grid_생성/07_Viewer_Implementation_Guide.md`
+- Production 참조 제거, 모든 코드 직접 포함
+- 완전한 HTML 구조 (~130줄)
+- 완전한 CSS 스타일 (~350줄)
+- 완전한 JavaScript 함수 (~620줄)
+- DB 방식 vs CSV 방식 차이점 명시
+- 체크리스트, 트러블슈팅 포함
+
+**2. Development Process Monitor README 완전판 (v2.0)**
+- 파일: `Development_Process_Monitor/README.md`
+- 완전한 HTML 사이드바 구조 (P0~S5 전체)
+- 완전한 CSS 스타일 (녹색/파란색 단계별)
+- 완전한 JavaScript 함수 5개:
+  - loadPhaseProgressFromDB()
+  - updateStageProgress()
+  - updateSpecialProgress()
+  - updatePrepProgressByCode()
+  - resetAllProgressToZero()
+- 체크리스트, 트러블슈팅 포함
+
+**3. Viewer HTML 파일 이동**
+- Production/ → S0_Project-SAL-Grid_생성/ 이동
+- viewer_csv.html
+- viewer_database.html
+- viewer_mobile_csv.html
+- viewer_mobile_database.html
+
+**4. 공개_전환_업무 폴더 동기화**
+- 07_Viewer_Implementation_Guide.md
+- Development_Process_Monitor_README.md
+- build-progress.js
+- viewer_*.html (4개)
+
+---
+
+### 공개 전환 - 패키지 준비 작업 ✅
+
+**1. Viewer 구현 가이드 문서 작성**
+- `S0_Project-SAL-Grid_생성/07_Viewer_Implementation_Guide.md`
+- `공개_전환_업무/07_Viewer_Implementation_Guide.md` (복사)
+- DB 방식/CSV 방식 구현 상세, 코드 예시, 체크리스트
+
+**2. S0_Project-SAL-Grid_생성 폴더 정리**
+- 삭제: 중복 폴더 (supabase/supabase, CSV_Method)
+- 삭제: 일회성 스크립트 및 SQL
+- 유지: build-sal-grid-csv.js, schema.sql, task-instructions, stage-gates 등
+
+**3. 패키지 다운로드 안내문 업데이트**
+- `공개_전환_업무/02_프로젝트_등록_후_패키지_설치_안내문.md`
+- 추가: "패키지 포함 파일 체크리스트" (9개 카테고리)
+- Development_Process_Monitor, SAL Grid Viewer, .claude, Briefings 등 명시
+
+---
+
+### Vercel 배포 구조 개편 계획 수립 ✅
+
+**작업 배경:**
+- Production 폴더에 파일 복사 필요 → 원본과 동기화 문제 발생
+- Books 폴더: 원본 34개 vs Production 31개 (버전 불일치)
+- AI가 저장 위치 혼동 (Stage vs Production)
+
+**해결 방안:**
+- Vercel Root Directory: `Production/` → **비움 (루트 배포)**
+- `.vercelignore`로 개발 폴더 제외
+- `index.html`, `404.html`만 루트로 이동
+- 나머지 파일들은 해당 기능 폴더로 분산
+
+**계획서 작성 완료:**
+
+| 항목 | 내용 |
+|------|------|
+| index.html 경로 수정 | 13개 경로 → Production/ 접두사 추가 |
+| .vercelignore | 18개 폴더/패턴 제외 |
+| Production 삭제 대상 | 15개+ (Books, 테스트, 캐시 등) |
+| Production 이동 대상 | 24개 (해당 폴더로 분산) |
+| Production에 남는 것 | 8개 (api/, Config/, 빌드 스크립트) |
+
+**Production 필수 파일 유형 정의 (3개 그룹):**
+
+| 그룹 | 저장 위치 | 내용 |
+|------|----------|------|
+| **Frontend** | `pages/`, `assets/` | HTML, CSS, 클라이언트 JS |
+| **Backend API** | `api/Backend_APIs/`, `api/Security/`, `api/External/` | 서버리스 함수 |
+| **Backend Infra** | `api/Backend_Infra/` | 공용 모듈 (DB, Email, AI 클라이언트) |
+
+**생성 파일:**
+- `Human_ClaudeCode_Bridge/Reports/Deployment_Restructure_Plan.md`
+
+---
+
+### 계획서 검토 및 보완 ✅
+
+**검토 결과 (다른 Claude Code 에이전트):**
+- 전체 평가: ⚠️ 부분적 보완 필요
+- 8개 보완 항목 발견
+
+**핵심 발견 사항:**
+
+| # | 항목 | 우선순위 | 내용 |
+|---|------|:--------:|------|
+| 1 | vercel.json 수정 | 🔴 높음 | **31개 rewrites destination 수정 필요** |
+| 2 | 이동 파일 내부 경로 | 🔴 높음 | admin-dashboard, viewer 등 |
+| 3 | JS 동적 경로 | 🟡 중간 | index.html 사이드바 링크 |
+| 4 | CLAUDE.md 업데이트 | 🟡 중간 | 절대 규칙 4 수정 |
+| 5 | 폴더 구조 통일 | 🟡 중간 | 5.3 vs 6.5 불일치 |
+| 6 | 빌드 스크립트 | 🟡 중간 | copyTargets 수정 필요 |
+
+**vercel.json 분석 결과:**
+```
+루트: buildCommand = null
+Production: buildCommand = "node build-all.js"
+
+핵심 문제: rewrites destination이 /api/...로 설정됨
+루트 배포 시: /Production/api/...로 변경 필요!
+```
+
+**보완 계획서 작성:**
+- `Human_ClaudeCode_Bridge/Reports/Deployment_Restructure_Plan_Supplement.md`
+
+**수정된 예상 소요 시간:**
+- 원래: ~50분
+- 보완 후: **~3시간**
+
+**다음 단계 (수정됨):**
+1. [ ] Phase 0: 사전 검토 (이동 파일 내부 경로 분석)
+2. [ ] Phase 1: .vercelignore 파일 생성
+3. [ ] Phase 2: vercel.json 수정 (31개 rewrites)
+4. [ ] Phase 3: 파일 이동 + 내부 경로 수정
+5. [ ] Phase 4: 빌드 스크립트 수정
+6. [ ] Phase 5: index.html 경로 수정
+7. [ ] Phase 6: CLAUDE.md 규칙 업데이트
+8. [ ] Phase 7: Vercel Dashboard 설정
+9. [ ] Phase 8: 검증
+
+---
+
+### Production Books 폴더 정리 ✅
+
+**원칙 확립:**
+> "모든 뷰어나 전환 프로그램은 원본 폴더에 존재하는 걸로"
+
+**작업 내용:**
+1. Production/books-viewer.html을 원본 폴더의 viewer.html로 이동
+2. Production에서 중복 Books 폴더 삭제
+
+**삭제된 항목 (총 70개 파일):**
+- books-viewer.html
+- 1권_Claude_ClaudeCode_사용법/ (31개)
+- 2권_풀스택_웹사이트_개발_기초지식/ (25개)
+- 3권_프로젝트_관리_방법/ (12개)
+
+**원본 위치:** 부수적_고유기능/콘텐츠/학습용_Books_New/
+
+---
+
 ## 2025-12-25 작업 내역
 
 ### 로고 클릭 → 메인 화면 이동 기능 구현 ✅
@@ -1874,5 +2040,52 @@ SSAL Works 정책 변경에 따른 전체 문서 일괄 수정
 ### Reports 폴더 저장
 
 - `Human_ClaudeCode_Bridge/Reports/Policy_Update_2025-12-25.json`
+
+---
+
+### PoliticianFinder 모바일 최적화 Phase 5 완료 ✅
+
+**작업 범위:**
+- 프로젝트: PoliticianFinder (정치인 평가 플랫폼)
+- 위치: `C:\Development_PoliticianFinder_com\Developement_Real_PoliticianFinder\1_Frontend`
+- 브랜치: `feature/mobile-optimization`
+
+**5 에이전트 검증 결과:**
+| 검증 유형 | 점수/등급 | 상태 |
+|----------|----------|------|
+| 코드 품질 | 82/100 | PASS |
+| 모바일 UX | 87/100 | PASS |
+| 접근성 | 72/100 → 개선 완료 | PASS |
+| 성능 | Positive Impact | PASS |
+| 보안 | B+ → 개선 완료 | PASS |
+
+**추가 수정 완료 항목:**
+
+1. **ARIA 역할 추가** (접근성)
+   - 파일: `mypage/page.tsx`
+   - 탭 네비게이션에 `role="tablist"`, `role="tab"`, `role="tabpanel"` 추가
+
+2. **XSS Sanitizer 검증**
+   - 파일: `src/lib/utils/sanitize.ts`
+   - `textToSafeHtml` 함수 안전성 확인 완료
+
+3. **console.error 프로덕션 래핑** (4개 파일)
+   - `auth/signup/page.tsx` (1개)
+   - `mypage/page.tsx` (4개)
+   - `community/posts/create/page.tsx` (3개)
+   - `community/posts/[id]/page.tsx` (9개)
+
+4. **Textarea inputMode 추가** (2개 파일)
+   - `community/posts/create/page.tsx` (1개)
+   - `community/posts/[id]/page.tsx` (3개)
+
+**리포트 저장:**
+- `Human_ClaudeCode_Bridge/Reports/Mobile_Optimization_Final_Report.md`
+- `1_Frontend/Mobile_Optimization_Final_Report.md`
+
+**상태:**
+- 빌드 검증 성공
+- Git 커밋/푸시 완료
+- 메인 브랜치 병합 대기 (PO 승인 필요)
 
 ---
