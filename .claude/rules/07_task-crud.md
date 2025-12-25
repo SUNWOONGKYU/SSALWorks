@@ -1,14 +1,40 @@
 # Task 추가/삭제/수정 프로세스
 
-> Task 추가, 삭제, 수정 시 반드시 아래 **6개 위치**를 모두 업데이트해야 함
+> **두 가지 방식 지원:** DB Method (Supabase) | CSV Method (JSON)
 >
-> **업데이트 필수 위치:**
-> 1. Supabase DB (`project_sal_grid` 테이블)
-> 2. Task Instruction 파일
-> 3. Verification Instruction 파일
-> 4. SSALWORKS_TASK_PLAN.md
-> 5. PROJECT_SAL_GRID_MANUAL.md (버전 이력)
-> 6. 작업 로그 (work_logs/current.md)
+> Task 추가, 삭제, 수정 시 반드시 아래 **5개 위치**를 모두 업데이트해야 함
+
+---
+
+## 🔀 방식 선택 가이드
+
+| 방식 | 사용 대상 | 데이터 저장 | 도구 | Stage Gate 위치 |
+|------|----------|------------|------|----------------|
+| **DB Method** | SSAL Works (내부) | Supabase DB | REST API | `Database_Method/stage-gates/` |
+| **CSV Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `CSV_Method/stage-gates/` |
+
+**⚠️ SSAL Works는 두 방식을 동시에 사용 (내부 관리용 DB + 사용자 배포용 CSV)**
+
+### 언제 어떤 방식을 사용하는가?
+
+| 상황 | 선택 | 이유 |
+|------|------|------|
+| SSAL Works 내부 Task 관리 | DB Method | 실시간 동기화, 다중 사용자 |
+| 사용자에게 배포할 템플릿 | CSV Method | Supabase 없이 작동 |
+| 외부 이용자 프로젝트 | CSV Method | 독립 실행 가능 |
+| 두 방식 동시 적용 | **둘 다** | SSAL Works 내부 운영 |
+
+---
+
+## 📋 업데이트 필수 위치 (5개)
+
+| # | 위치 | DB Method | CSV Method |
+|---|------|-----------|------------|
+| 1 | SSALWORKS_TASK_PLAN.md | ✅ 동일 | ✅ 동일 |
+| 2 | Task Instruction 파일 | ✅ 동일 | ✅ 동일 |
+| 3 | Verification Instruction 파일 | ✅ 동일 | ✅ 동일 |
+| 4 | **데이터 저장** | Supabase DB | **JSON 파일** |
+| 5 | 작업 로그 (work_logs/current.md) | ✅ 동일 | ✅ 동일 |
 
 ---
 
@@ -53,66 +79,31 @@ Not Verified → In Review → Verified (또는 Needs Fix)
 ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 ```
 
-### Step 2: Supabase DB 추가
+### Step 2: SSALWORKS_TASK_PLAN.md 업데이트
 
-**⚠️ 시나리오에 따라 상태값 다르게 설정!**
+**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md`
 
-#### 시나리오 A: 신규 Task (아직 작업 안 함)
+**업데이트 항목:**
+1. **총 Task 수 업데이트**: 헤더의 `총 Task 수` 변경
+2. **Stage별 Task 수 표**: 해당 Stage 행 수정
+3. **Area별 분포 표**: 해당 Area 열 수정
+4. **Stage 섹션**: 해당 Stage의 Area 섹션에 Task 추가
+5. **버전 및 수정일**: 버전 증가, 수정일 업데이트
+6. **변경 이력 섹션**: 변경 내용 기록
 
-```javascript
-// project_sal_grid 테이블에 INSERT
-const { data, error } = await supabase
-    .from('project_sal_grid')
-    .insert({
-        task_id: 'S4F5',
-        task_name: 'Task 이름',
-        stage: 4,  // integer: 1~5
-        area: 'F', // M, U, F, BI, BA, D, S, T, O, E, C
-        task_status: 'Pending',           // ← 신규: Pending
-        task_progress: 0,                 // ← 신규: 0
-        verification_status: 'Not Verified',  // ← 필수! 명시적으로 설정
-        dependencies: 'S2BA5',
-        task_instruction: 'Task 수행 지침 요약',
-        task_agent: 'frontend-developer',
-        verification_instruction: '검증 지침 요약',
-        verification_agent: 'code-reviewer',
-        execution_type: 'AI-Only'
-    });
+해당 Stage의 Area 섹션에 Task 추가:
+```markdown
+| S4F5 | Task 이름 | 설명 | 의존성 |
 ```
 
-#### 시나리오 B: 완료된 Task (이미 작업 완료, 사후 등록)
-
-```javascript
-// project_sal_grid 테이블에 INSERT
-const { data, error } = await supabase
-    .from('project_sal_grid')
-    .insert({
-        task_id: 'S4F5',
-        task_name: 'Task 이름',
-        stage: 4,
-        area: 'F',
-        task_status: 'Completed',         // ← 완료됨: Completed
-        task_progress: 100,               // ← 완료됨: 100
-        verification_status: 'Verified',  // ← 완료됨: Verified
-        generated_files: '생성된 파일 목록',  // ← 완료됨: 결과물 기록
-        dependencies: 'S2BA5',
-        task_instruction: 'Task 수행 지침 요약',
-        task_agent: 'frontend-developer',
-        verification_instruction: '검증 지침 요약',
-        verification_agent: 'code-reviewer',
-        execution_type: 'AI-Only',
-        remarks: '이미 완료된 작업. YYYY-MM-DD 완료.'
-    });
+변경 이력 추가:
+```markdown
+### v4.X (YYYY-MM-DD)
+- **신규 Task 추가**: {TaskID} ({Task Name})
+- **Task 수 변경**: N → N+1 tasks
+- **S{N} Task 수**: N → N+1
+- **이유**: {추가 이유}
 ```
-
-**Stage 번호:**
-| Stage | 번호 |
-|-------|------|
-| S1 | 1 |
-| S2 | 2 |
-| S3 | 3 |
-| S4 | 4 |
-| S5 | 5 |
 
 ### Step 3: Task Instruction 파일 생성
 
@@ -188,43 +179,134 @@ const { data, error } = await supabase
 | `.claude/rules/06_verification.md` | 검증 기준 | 핵심 참조 |
 ```
 
-### Step 5: SSALWORKS_TASK_PLAN.md 업데이트
+### Step 5: 데이터 저장 (방식별 분기)
 
-**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md`
+**⚠️ 시나리오에 따라 상태값 다르게 설정!**
+**⚠️ SSAL Works는 5A + 5B 둘 다 수행!**
 
-**업데이트 항목:**
-1. **총 Task 수 업데이트**: 헤더의 `총 Task 수` 변경
-2. **Stage별 Task 수 표**: 해당 Stage 행 수정
-3. **Area별 분포 표**: 해당 Area 열 수정
-4. **Stage 섹션**: 해당 Stage의 Area 섹션에 Task 추가
-5. **버전 및 수정일**: 버전 증가, 수정일 업데이트
-6. **변경 이력 섹션**: 변경 내용 기록
+---
 
-해당 Stage의 Area 섹션에 Task 추가:
-```markdown
-| S4F5 | Task 이름 | 설명 | 의존성 |
+#### 📌 Step 5A: DB Method (Supabase)
+
+> **적용 대상:** SSAL Works 내부 관리, Supabase 사용 프로젝트
+
+##### 시나리오 A: 신규 Task (아직 작업 안 함)
+
+```javascript
+// project_sal_grid 테이블에 INSERT
+const { data, error } = await supabase
+    .from('project_sal_grid')
+    .insert({
+        task_id: 'S4F5',
+        task_name: 'Task 이름',
+        stage: 4,  // integer: 1~5
+        area: 'F', // M, U, F, BI, BA, D, S, T, O, E, C
+        task_status: 'Pending',           // ← 신규: Pending
+        task_progress: 0,                 // ← 신규: 0
+        verification_status: 'Not Verified',  // ← 필수! 명시적으로 설정
+        dependencies: 'S2BA5',
+        task_instruction: 'Task 수행 지침 요약',
+        task_agent: 'frontend-developer',
+        verification_instruction: '검증 지침 요약',
+        verification_agent: 'code-reviewer',
+        execution_type: 'AI-Only'
+    });
 ```
 
-변경 이력 추가:
-```markdown
-### v4.X (YYYY-MM-DD)
-- **신규 Task 추가**: {TaskID} ({Task Name})
-- **Task 수 변경**: N → N+1 tasks
-- **S{N} Task 수**: N → N+1
-- **이유**: {추가 이유}
+##### 시나리오 B: 완료된 Task (이미 작업 완료, 사후 등록)
+
+```javascript
+// project_sal_grid 테이블에 INSERT
+const { data, error } = await supabase
+    .from('project_sal_grid')
+    .insert({
+        task_id: 'S4F5',
+        task_name: 'Task 이름',
+        stage: 4,
+        area: 'F',
+        task_status: 'Completed',         // ← 완료됨: Completed
+        task_progress: 100,               // ← 완료됨: 100
+        verification_status: 'Verified',  // ← 완료됨: Verified
+        generated_files: '생성된 파일 목록',  // ← 완료됨: 결과물 기록
+        dependencies: 'S2BA5',
+        task_instruction: 'Task 수행 지침 요약',
+        task_agent: 'frontend-developer',
+        verification_instruction: '검증 지침 요약',
+        verification_agent: 'code-reviewer',
+        execution_type: 'AI-Only',
+        remarks: '이미 완료된 작업. YYYY-MM-DD 완료.'
+    });
 ```
 
-### Step 6: PROJECT_SAL_GRID_MANUAL.md 버전 이력 업데이트
+---
 
-**파일 위치:** `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
+#### 📌 Step 5B: CSV Method (JSON 파일)
 
-**업데이트 항목:**
-1. **헤더 버전**: v3.X → v3.(X+1)
-2. **최종 수정일**: 현재 날짜
-3. **버전 이력 섹션**: 변경 내용 추가
-4. **푸터 버전**: 동일하게 수정
+> **적용 대상:** 일반 사용자, Supabase 없는 프로젝트
 
-### Step 7: 작업 로그 업데이트
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+
+##### 시나리오 A: 신규 Task (아직 작업 안 함)
+
+```json
+// project_sal_grid.json의 tasks 배열에 추가
+{
+    "task_id": "S4F5",
+    "task_name": "Task 이름",
+    "stage": 4,
+    "area": "F",
+    "task_status": "Pending",
+    "task_progress": 0,
+    "verification_status": "Not Verified",
+    "dependencies": "S2BA5",
+    "task_instruction": "Task 수행 지침 요약",
+    "task_agent": "frontend-developer",
+    "verification_instruction": "검증 지침 요약",
+    "verification_agent": "code-reviewer",
+    "execution_type": "AI-Only"
+}
+```
+
+##### 시나리오 B: 완료된 Task (이미 작업 완료, 사후 등록)
+
+```json
+{
+    "task_id": "S4F5",
+    "task_name": "Task 이름",
+    "stage": 4,
+    "area": "F",
+    "task_status": "Completed",
+    "task_progress": 100,
+    "verification_status": "Verified",
+    "generated_files": "생성된 파일 목록",
+    "dependencies": "S2BA5",
+    "task_instruction": "Task 수행 지침 요약",
+    "task_agent": "frontend-developer",
+    "verification_instruction": "검증 지침 요약",
+    "verification_agent": "code-reviewer",
+    "execution_type": "AI-Only",
+    "remarks": "이미 완료된 작업. YYYY-MM-DD 완료."
+}
+```
+
+**Claude Code가 JSON 파일 수정:**
+```bash
+# Claude Code의 Edit 도구로 JSON 파일 직접 수정
+# tasks 배열에 새 Task 객체 추가
+```
+
+---
+
+**Stage 번호:**
+| Stage | 번호 |
+|-------|------|
+| S1 | 1 |
+| S2 | 2 |
+| S3 | 3 |
+| S4 | 4 |
+| S5 | 5 |
+
+### Step 6: 작업 로그 업데이트
 
 **파일 위치:** `.claude/work_logs/current.md`
 
@@ -240,20 +322,18 @@ const { data, error } = await supabase
 | {TaskID} | {Task Name} | {Area} | {설명} |
 
 ### 업데이트된 파일
-1. Supabase DB
+1. SSALWORKS_TASK_PLAN.md
 2. task-instructions/{TaskID}_instruction.md
 3. verification-instructions/{TaskID}_verification.md
-4. SSALWORKS_TASK_PLAN.md
-5. PROJECT_SAL_GRID_MANUAL.md
+4. Supabase DB (project_sal_grid)
 ```
 
-### Step 8: Git 커밋 & 푸시
+### Step 7: Git 커밋 & 푸시
 
 ```bash
 git add S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
 git add S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
 git add S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md
-git add S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md
 git add .claude/work_logs/current.md
 git commit -m "feat: {TaskID} {Task Name} Task 추가"
 git push
@@ -263,23 +343,7 @@ git push
 
 ## Task 삭제 프로세스
 
-### Step 1: Supabase DB 삭제
-
-```javascript
-const { error } = await supabase
-    .from('project_sal_grid')
-    .delete()
-    .eq('task_id', 'S4F5');
-```
-
-### Step 2: Instruction 파일 삭제
-
-```bash
-rm S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
-rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
-```
-
-### Step 3: SSALWORKS_TASK_PLAN.md에서 제거
+### Step 1: SSALWORKS_TASK_PLAN.md에서 제거
 
 **업데이트 항목:**
 1. **총 Task 수**: 감소
@@ -289,15 +353,40 @@ rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verifi
 5. **버전 및 수정일**: 버전 증가, 수정일 업데이트
 6. **변경 이력 섹션**: 삭제 내용 기록
 
-### Step 4: PROJECT_SAL_GRID_MANUAL.md 버전 이력 업데이트
+### Step 2: Instruction 파일 삭제
 
-버전 이력 섹션에 삭제 내용 기록
+```bash
+rm S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
+rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
+```
 
-### Step 5: 작업 로그 업데이트
+### Step 3: 데이터 삭제 (방식별 분기)
+
+**⚠️ SSAL Works는 3A + 3B 둘 다 수행!**
+
+#### 📌 Step 3A: DB Method (Supabase)
+
+```javascript
+const { error } = await supabase
+    .from('project_sal_grid')
+    .delete()
+    .eq('task_id', 'S4F5');
+```
+
+#### 📌 Step 3B: CSV Method (JSON 파일)
+
+```bash
+# Claude Code의 Edit 도구로 JSON 파일에서 해당 Task 객체 삭제
+# project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 제거
+```
+
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+
+### Step 4: 작업 로그 업데이트
 
 `.claude/work_logs/current.md`에 삭제 내용 기록
 
-### Step 6: Git 커밋 & 푸시
+### Step 5: Git 커밋 & 푸시
 
 ```bash
 git add -A
@@ -323,24 +412,7 @@ git push
 - execution_type
 - tools
 
-### Step 2: Task Instruction 파일 수정
-
-**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md`
-
-```bash
-# 파일 열어서 내용 수정
-# Task Name, Task Goal, Instructions 등 변경
-```
-
-### Step 3: Verification Instruction 파일 수정
-
-**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md`
-
-```bash
-# 검증 목표, 체크리스트 등 변경
-```
-
-### Step 4: SSALWORKS_TASK_PLAN.md 업데이트
+### Step 2: SSALWORKS_TASK_PLAN.md 업데이트
 
 **파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md`
 
@@ -350,17 +422,29 @@ git push
 3. **버전 및 수정일**: 버전 증가, 수정일 업데이트
 4. **변경 이력 섹션**: 변경 내용 기록
 
-```bash
-# sed 명령어로 일괄 수정 가능
-sed -i 's/이전 이름/새 이름/g' SSALWORKS_TASK_PLAN.md
-```
-
 변경 이력 추가:
 ```markdown
 ### v4.X (YYYY-MM-DD)
 - **Task 수정**: {TaskID} "{이전 이름}" → "{새 이름}"
 - **변경 내용**: {변경 사항 설명}
 - **이유**: {수정 이유}
+```
+
+### Step 3: Task Instruction 파일 수정
+
+**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md`
+
+```bash
+# 파일 열어서 내용 수정
+# Task Name, Task Goal, Instructions 등 변경
+```
+
+### Step 4: Verification Instruction 파일 수정
+
+**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md`
+
+```bash
+# 검증 목표, 체크리스트 등 변경
 ```
 
 ### Step 5: Supabase DB 업데이트
@@ -385,13 +469,7 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 
 **주의:** 한글이 포함된 JSON은 파일로 저장 후 `@파일명` 방식 사용
 
-### Step 6: PROJECT_SAL_GRID_MANUAL.md 버전 이력 업데이트
-
-**파일 위치:** `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
-
-버전 이력 섹션에 수정 내용 기록
-
-### Step 7: 작업 로그 업데이트
+### Step 6: 작업 로그 업데이트
 
 **파일 위치:** `.claude/work_logs/current.md`
 
@@ -407,20 +485,18 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 | 설명 | {이전 설명} | {새 설명} |
 
 ### 업데이트된 파일/위치
-1. task-instructions/{TaskID}_instruction.md
-2. verification-instructions/{TaskID}_verification.md
-3. SSALWORKS_TASK_PLAN.md
+1. SSALWORKS_TASK_PLAN.md
+2. task-instructions/{TaskID}_instruction.md
+3. verification-instructions/{TaskID}_verification.md
 4. Supabase project_sal_grid 테이블
-5. PROJECT_SAL_GRID_MANUAL.md
 ```
 
-### Step 8: Git 커밋 & 푸시
+### Step 7: Git 커밋 & 푸시
 
 ```bash
 git add S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
 git add S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
 git add S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md
-git add S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md
 git add .claude/work_logs/current.md
 git commit -m "refactor: {TaskID} Task 수정 - {변경 요약}"
 git push
@@ -490,35 +566,32 @@ console.log(data);
 ### 신규 추가 시
 
 - [ ] **시나리오 확인**: 신규(Pending) vs 완료됨(Completed)?
+- [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
+- [ ] task-instructions/{TaskID}_instruction.md 생성
+- [ ] verification-instructions/{TaskID}_verification.md 생성
 - [ ] Supabase `project_sal_grid` 테이블에 INSERT
   - [ ] `task_status` 설정 (Pending 또는 Completed)
   - [ ] `verification_status` 설정 (Not Verified 또는 Verified)
   - [ ] `task_progress` 설정 (0 또는 100)
-- [ ] task-instructions/{TaskID}_instruction.md 생성
-- [ ] verification-instructions/{TaskID}_verification.md 생성
-- [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
-- [ ] PROJECT_SAL_GRID_MANUAL.md 버전 이력 추가
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 - [ ] **최종 확인**: DB에서 task_status, verification_status 조회하여 검증
 
 ### 삭제 시
 
-- [ ] Supabase `project_sal_grid` 테이블에서 DELETE
+- [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 제거 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 삭제
 - [ ] verification-instructions/{TaskID}_verification.md 삭제
-- [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 제거 + 수치 변경 + 변경 이력)
-- [ ] PROJECT_SAL_GRID_MANUAL.md 버전 이력 추가
+- [ ] Supabase `project_sal_grid` 테이블에서 DELETE
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
 ### 수정 시
 
+- [ ] SSALWORKS_TASK_PLAN.md 업데이트 (해당 행 수정 + 의존성 다이어그램 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 내용 수정
 - [ ] verification-instructions/{TaskID}_verification.md 내용 수정
-- [ ] SSALWORKS_TASK_PLAN.md 업데이트 (해당 행 수정 + 의존성 다이어그램 + 변경 이력)
 - [ ] Supabase `project_sal_grid` 테이블 PATCH
-- [ ] PROJECT_SAL_GRID_MANUAL.md 버전 이력 추가
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -533,12 +606,12 @@ console.log(data);
 
 ## 주의사항
 
-1. **6개 위치 모두 수행**: 하나라도 빠지면 불일치 발생
+1. **5개 위치 모두 수행**: 하나라도 빠지면 불일치 발생
 2. **Task ID 중복 금지**: 기존 Task 확인 후 번호 결정
 3. **Stage 번호는 integer**: S4 → 4 (문자열 아님)
 4. **Order Sheet는 자동 포함**: Grid 참조 방식이므로 별도 수정 불필요
 5. **SSALWORKS_TASK_PLAN.md 수치 정확하게**: 총 Task 수, Stage별/Area별 분포 표 모두 업데이트
-6. **변경 이력 필수**: Task Plan과 Manual 모두 변경 이력 섹션에 기록
+6. **변경 이력 필수**: Task Plan에 변경 이력 섹션에 기록
 7. **⚠️ 상태 전이 규칙 준수**: Completed는 반드시 Verified 후에만 설정 가능
 8. **⚠️ verification_status 필수**: INSERT 시 반드시 verification_status 명시적 설정
 
@@ -548,10 +621,9 @@ console.log(data);
 
 | 항목 | 위치 |
 |------|------|
+| Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md` |
 | Task Instructions | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
 | Verification Instructions | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
-| Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md` |
-| Manual | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
-| 작업 로그 | `.claude/work_logs/current.md` |
 | Supabase 테이블 | `project_sal_grid` |
+| 작업 로그 | `.claude/work_logs/current.md` |
 | .env 파일 | `P3_프로토타입_제작/Database/.env` |

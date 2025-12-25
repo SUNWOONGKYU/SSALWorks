@@ -4,6 +4,46 @@
 
 ---
 
+## 2025-12-25 작업 내역
+
+### S5F2 Task 추가 ✅
+
+**Task 정보:**
+| 항목 | 값 |
+|------|-----|
+| Task ID | S5F2 |
+| Task Name | 프로젝트 완료 처리 및 완료 프로젝트 관리 |
+| Stage | S5 (개발 마무리) |
+| Area | F (Frontend) |
+| 상태 | Completed (Verified) |
+
+**구현 내용:**
+1. **프로젝트 완료 기능** - `completeProject()` 함수
+   - 진행중 프로젝트 클릭 시 완료 처리 확인
+   - DB 업데이트 (status: 'completed', progress: 100, completed_at)
+2. **PoliticianFinder 완료 프로젝트 표시**
+   - 사이트/안내문 버튼 2개
+   - 안내문에서 확인 → Order Sheet 로드
+3. **STAGE_DATA['politician_finder']** 설정
+   - hasAction: true
+   - orderSheetUrl: 'templates/Completed_Project_Revision_OrderSheet.md'
+
+**업데이트된 파일:**
+1. SSALWORKS_TASK_PLAN.md (v4.4, 60 tasks)
+2. task-instructions/S5F2_instruction.md
+3. verification-instructions/S5F2_verification.md
+4. Supabase DB (project_sal_grid)
+5. Production/index.html
+
+### 07_task-crud.md 수정 ✅
+
+**변경 내용:**
+- 6개 위치 → 5개 위치 (PROJECT_SAL_GRID_MANUAL.md 제거)
+- Step 순서 변경: TASK_PLAN → Instruction → DB INSERT
+- 체크리스트 정리
+
+---
+
 ## 2025-12-24 작업 내역
 
 ### orderSheetUrl 키 불일치 수정 ✅

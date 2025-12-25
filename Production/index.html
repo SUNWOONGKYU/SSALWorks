@@ -4780,12 +4780,12 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             'politician_finder': {
                 stageId: 'politician_finder',
                 stageName: 'PoliticianFinder 안내',
-                hasAction: false,
+                hasAction: true,
                 confirmMessage: '',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
                 guideUrl: 'guides/Politician_Finder_Briefing.html',
-                orderSheetUrl: ''
+                orderSheetUrl: 'templates/Completed_Project_Revision_OrderSheet.md'
             },
 
             // ===== ☆ 특별단계: 디렉토리 구조 생성 =====
@@ -10614,7 +10614,6 @@ ${result.answer}`;
                         <div style="display: flex; gap: 4px;">
                             <button onclick="window.open('https://www.politicianfinder.ai.kr/', '_blank')" style="flex: 1; padding: 4px 6px; font-size: 9px; background: var(--success); color: white; border: none; border-radius: 3px; cursor: pointer;">사이트</button>
                             <button onclick="loadProcessStage('politician_finder', 'PoliticianFinder', '완료 프로젝트')" style="flex: 1; padding: 4px 6px; font-size: 9px; background: #6b7280; color: white; border: none; border-radius: 3px; cursor: pointer;">안내문</button>
-                            <button onclick="loadProcessStage('completed_project_revision', 'PoliticianFinder', '완료 프로젝트')" style="flex: 1; padding: 4px 6px; font-size: 9px; background: #3b82f6; color: white; border: none; border-radius: 3px; cursor: pointer;">Order Sheet</button>
                         </div>
                     </div>
                 `;
