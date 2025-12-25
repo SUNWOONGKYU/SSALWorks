@@ -597,7 +597,7 @@
                 } else if (error.message.includes('Email not confirmed')) {
                     showAlert('이메일 인증이 완료되지 않았습니다. 이메일을 확인해주세요.');
                 } else {
-                    showAlert('로그인에 실패했습니다: ' + error.message);
+                    showAlert('로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
                 }
             }
         }
@@ -621,7 +621,7 @@
             } catch (error) {
                 hideLoading();
                 console.error('Google 로그인 실패:', error);
-                showAlert('Google 로그인에 실패했습니다: ' + error.message);
+                showAlert('Google 로그인에 실패했습니다. 잠시 후 다시 시도해주세요.');
             }
         }
 
@@ -646,7 +646,7 @@
 
             } catch (error) {
                 console.error('비밀번호 재설정 실패:', error);
-                alert('비밀번호 재설정 요청에 실패했습니다: ' + error.message);
+                alert('비밀번호 재설정 요청에 실패했습니다. 잠시 후 다시 시도해주세요.');
             }
         }
 

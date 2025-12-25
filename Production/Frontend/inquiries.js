@@ -274,7 +274,7 @@ async function submitInquiry() {
     } catch (error) {
         hideLoading();
         console.error('문의 등록 오류:', error);
-        alert('문의 등록 중 오류가 발생했습니다: ' + error.message);
+        alert('문의 등록 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
     }
 }
 

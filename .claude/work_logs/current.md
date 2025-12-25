@@ -31,11 +31,18 @@
 1. ✅ `executeStageAction()` 함수에 빌더 체크 추가 (`index.html:6084`)
 2. ✅ `deliverOrderSheet()` 함수에 빌더 체크 추가 (`index.html:6379`)
 3. ✅ `loadFromReportsWithFileAPI()` 함수에 빌더 체크 추가 (`index.html:6768`)
-4. 🔜 마이페이지에 매뉴얼 다운로드 기능 신규 구현 (예정)
+4. ✅ 마이페이지에 매뉴얼 다운로드 기능 신규 구현
 
 **수정 파일:**
 - `Production/index.html` (3개 함수 수정)
+- `Production/pages/mypage/index.html` (매뉴얼 다운로드 카드 + 함수 추가)
 - `P2_프로젝트_기획/Service_Introduction/회원등급별_접근권한.md` (문서 업데이트)
+
+**매뉴얼 다운로드 기능 상세:**
+- 마이페이지에 "📚 매뉴얼 다운로드" 카드 추가
+- 빌더 계정: PDF/ZIP 다운로드 버튼
+- 일반 회원: 잠금 안내 + 빌더 계정 개설 유도
+- `renderManualDownload()`, `downloadManual(type)` 함수 구현
 
 ---
 

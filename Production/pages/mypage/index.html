@@ -1171,6 +1171,47 @@
                         </div>
                     </div>
 
+                    <!-- Builder Only: Manual Download -->
+                    <div class="card" style="margin-top: 24px;" id="manualDownloadCard">
+                        <div class="card-header">
+                            <h3 class="card-title">📚 매뉴얼 다운로드</h3>
+                            <span id="manualBuilderBadge" style="font-size: 11px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600;">빌더 전용</span>
+                        </div>
+                        <div id="manualDownloadContent">
+                            <!-- 빌더 계정: 다운로드 버튼 표시 -->
+                            <div id="manualBuilderContent" style="display: none;">
+                                <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 16px; line-height: 1.6;">
+                                    SSAL Works 사용 매뉴얼을 PDF 또는 ZIP 파일로 다운로드하여 오프라인에서도 활용하세요.
+                                </p>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                                    <button onclick="downloadManual('pdf')" class="btn-edit" style="background: var(--danger); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                        📕 PDF 다운로드
+                                    </button>
+                                    <button onclick="downloadManual('zip')" class="btn-edit" style="background: var(--primary); display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                        📦 ZIP 다운로드
+                                    </button>
+                                </div>
+                                <p style="font-size: 12px; color: var(--gray-500); margin-top: 12px; text-align: center;">
+                                    ※ 매뉴얼은 정기적으로 업데이트됩니다. 최신 버전을 다운로드하세요.
+                                </p>
+                            </div>
+                            <!-- 일반 회원: 안내 메시지 -->
+                            <div id="manualGuestContent" style="display: none;">
+                                <div style="text-align: center; padding: 20px; background: var(--gray-50); border-radius: 12px; border: 1px dashed var(--gray-300);">
+                                    <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
+                                    <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 8px; font-weight: 600;">빌더 계정 전용 기능입니다</p>
+                                    <p style="font-size: 13px; color: var(--gray-500); line-height: 1.6;">
+                                        빌더 계정 개설비 납부 후 매뉴얼을 다운로드할 수 있습니다.<br>
+                                        웹에서는 누구나 매뉴얼을 열람할 수 있습니다.
+                                    </p>
+                                    <a href="../payment/installation.html" class="btn-edit" style="display: inline-block; margin-top: 16px; text-decoration: none; background: var(--secondary);">
+                                        빌더 계정 개설하기 →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Transaction History -->
                     <div class="card" style="margin-top: 24px;">
                         <div class="card-header">
@@ -1319,6 +1360,7 @@
                 renderCredit();
                 renderSecurity();
                 updateQuickStats();
+                renderManualDownload();
 
             } catch (error) {
                 console.error('Failed to load user data:', error);
@@ -1622,6 +1664,85 @@
                     </div>
                 </div>
             `).join('');
+        }
+
+        // ========== 매뉴얼 다운로드 렌더링 ==========
+        function renderManualDownload() {
+            if (!userData) return;
+
+            const builderContent = document.getElementById('manualBuilderContent');
+            const guestContent = document.getElementById('manualGuestContent');
+            const builderBadge = document.getElementById('manualBuilderBadge');
+
+            if (userData.installation_fee_paid) {
+                // 빌더 계정: 다운로드 버튼 표시
+                builderContent.style.display = 'block';
+                guestContent.style.display = 'none';
+                builderBadge.textContent = '다운로드 가능';
+                builderBadge.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
+            } else {
+                // 일반 회원: 안내 메시지 표시
+                builderContent.style.display = 'none';
+                guestContent.style.display = 'block';
+                builderBadge.textContent = '빌더 전용';
+                builderBadge.style.background = 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)';
+            }
+        }
+
+        // ========== 매뉴얼 다운로드 ==========
+        async function downloadManual(type) {
+            if (!userData || !userData.installation_fee_paid) {
+                alert('빌더 계정 개설 후 이용 가능합니다.');
+                return;
+            }
+
+            try {
+                showLoading();
+
+                // 매뉴얼 파일 URL (Google Drive 직접 다운로드 링크)
+                // 형식: https://drive.google.com/uc?export=download&id=FILE_ID
+                const manualUrls = {
+                    pdf: 'https://drive.google.com/uc?export=download&id=YOUR_PDF_FILE_ID',
+                    zip: 'https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID'
+                };
+                // TODO: 위 YOUR_PDF_FILE_ID, YOUR_ZIP_FILE_ID를 실제 Google Drive 파일 ID로 교체
+
+                const url = manualUrls[type];
+                if (!url) {
+                    throw new Error('잘못된 파일 형식입니다.');
+                }
+
+                // 다운로드 링크 생성 및 클릭
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = type === 'pdf' ? 'SSAL_Works_Manual.pdf' : 'SSAL_Works_Manual.zip';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                showToast(`📥 ${type.toUpperCase()} 매뉴얼 다운로드를 시작합니다.`, 'success');
+
+                // 다운로드 기록 저장 (선택적)
+                try {
+                    await supabaseClient
+                        .from('user_activity_logs')
+                        .insert({
+                            user_id: userData.user_id,
+                            activity_type: 'manual_download',
+                            activity_data: { file_type: type },
+                            created_at: new Date().toISOString()
+                        });
+                } catch (logError) {
+                    console.log('다운로드 기록 저장 실패 (무시):', logError);
+                }
+
+            } catch (error) {
+                console.error('매뉴얼 다운로드 오류:', error);
+                showToast('매뉴얼 다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.', 'error');
+            } finally {
+                hideLoading();
+            }
         }
 
         // ========== 크레딧 렌더링 ==========

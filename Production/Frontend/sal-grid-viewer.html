@@ -357,7 +357,7 @@
 
                 if (error) {
                     console.error('Supabase error:', error);
-                    alert('데이터 로딩 실패: ' + error.message);
+                    alert('데이터 로딩 실패. 잠시 후 다시 시도해주세요.');
                     return;
                 }
 
@@ -373,7 +373,7 @@
                 await loadStageGates();
             } catch (err) {
                 console.error('Load error:', err);
-                alert('데이터 로딩 오류: ' + err.message);
+                alert('데이터 로딩 오류. 잠시 후 다시 시도해주세요.');
             }
         }
 
@@ -498,7 +498,7 @@
                     approval_user: user,
                     approval_date: new Date().toISOString()
                 }));
-                alert(`Stage ${currentGateStage} Gate 승인 정보가 로컬에 저장되었습니다.\n(DB 저장 실패: ${err.message})`);
+                alert(`Stage ${currentGateStage} Gate 승인 정보가 로컬에 저장되었습니다.\n(DB 저장에 실패했습니다. 잠시 후 다시 시도해주세요.)`);
             }
         }
 
@@ -537,7 +537,7 @@
                     verification_report_path: reportPath,
                     ai_verification_date: new Date().toISOString()
                 }));
-                alert(`Stage ${currentGateStage} AI 검증 정보가 로컬에 저장되었습니다.\n(DB 저장 실패: ${err.message})`);
+                alert(`Stage ${currentGateStage} AI 검증 정보가 로컬에 저장되었습니다.\n(DB 저장에 실패했습니다. 잠시 후 다시 시도해주세요.)`);
             }
         }
 

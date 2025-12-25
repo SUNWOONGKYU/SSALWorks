@@ -6864,8 +6864,8 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
                 console.error('파일 로드 실패:', error);
-                showStatus(`❌ 파일 로드 실패: ${error.message}`, 'error');
-                alert(`❌ 파일 로드에 실패했습니다.\n\n${error.message}`);
+                showStatus('❌ 파일 로드 실패', 'error');
+                alert('❌ 파일 로드에 실패했습니다.\n\n잠시 후 다시 시도해주세요.');
             }
         }
 
@@ -7028,8 +7028,8 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             } catch (error) {
                 console.error('파일 로드 실패:', error);
-                showStatus(`❌ 파일 로드 실패: ${error.message}`, 'error');
-                alert(`❌ 파일 로드에 실패했습니다.\n\n${error.message}`);
+                showStatus('❌ 파일 로드 실패', 'error');
+                alert('❌ 파일 로드에 실패했습니다.\n\n잠시 후 다시 시도해주세요.');
             }
         }
 
@@ -7515,7 +7515,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             } catch (error) {
                 console.error('문의 제출 실패:', error);
-                alert('문의 제출 중 오류가 발생했습니다: ' + error.message);
+                alert('문의 제출 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
             }
         }
 
@@ -8766,8 +8766,8 @@ Claude Code가 작업을 완료하면:
 
             } catch (error) {
                 console.error('프로젝트 생성 오류:', error);
-                showStatus(`❌ 프로젝트 생성 실패: ${error.message}`, 'error');
-                alert(`프로젝트 생성 중 오류가 발생했습니다:\n\n${error.message}`);
+                showStatus('❌ 프로젝트 생성 실패', 'error');
+                alert('프로젝트 생성 중 오류가 발생했습니다.\n\n잠시 후 다시 시도해주세요.');
             }
             });
         }); // DOMContentLoaded 끝
