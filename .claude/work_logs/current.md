@@ -6,6 +6,33 @@
 
 ## 2025-12-26 작업 내역
 
+### Production 폴더 재구조화 후 경로 수정 ✅
+
+**문제:**
+- pages 폴더를 Production/pages/ → Production/Frontend/pages/로 이동 후
+- HTML 파일들의 상대 경로가 깨짐 (로그인 화면 미표시)
+
+**원인 분석:**
+- 파일 위치: `Production/Frontend/pages/{category}/{file}.html`
+- 기존 경로: `../../index.html` → `Production/Frontend/` (잘못됨)
+- 올바른 경로: `../../../../index.html` → `/` (root)
+
+**수정 파일:**
+
+| 폴더 | 파일 수 | 변경 내용 |
+|------|--------|----------|
+| auth/ | 5개 | CSS/JS `../../` → `../../../`, index → `../../../../` |
+| legal/ | 3개 | index 경로 수정 |
+| manual/ | 1개 | index 경로 수정 |
+| mypage/ | 6개 | index 경로 수정 |
+| payment/ | 1개 | index 경로 수정 |
+| projects/ | 2개 | index 경로 수정 |
+| subscription/ | 4개 | index 경로 수정 |
+
+**검증:** `grep` 검색으로 잘못된 경로 0건 확인
+
+---
+
 ### 구현 가이드 완전판 작성 ✅
 
 **배경:**

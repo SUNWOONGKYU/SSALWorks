@@ -6,7 +6,7 @@
     <title>로그인 - SSAL Works</title>
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="../../assets/css/responsive.css">
+    <link rel="stylesheet" href="../../../assets/css/responsive.css">
     <style>
         * {
             margin: 0;
@@ -418,7 +418,7 @@
 <body>
     <div class="login-container">
         <div class="logo">
-            <a href="../../index.html" class="logo-inner" style="text-decoration: none;">
+            <a href="../../../../index.html" class="logo-inner" style="text-decoration: none;">
                 <div class="rice-logo">
                     <span class="rice-grain"></span>
                     <span class="rice-grain"></span>
@@ -585,7 +585,7 @@
 
                 // 메인 페이지로 이동
                 setTimeout(() => {
-                    window.location.href = '../../index.html';
+                    window.location.href = '../../../../index.html';
                 }, 1000);
 
             } catch (error) {
@@ -664,7 +664,7 @@
             if (session) {
                 console.log('이미 로그인됨:', session.user.email);
                 // 이미 로그인된 경우 메인 페이지로 이동
-                window.location.href = '../../index.html';
+                window.location.href = '../../../../index.html';
                 return;
             }
 
