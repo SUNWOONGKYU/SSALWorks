@@ -940,7 +940,7 @@ if (transaction_type === 'installation') {
     })
     .eq('user_id', user_id)
 
-  // 2. monthly_subscriptions 생성 (첫 달 무료)
+  // 2. monthly_subscriptions 생성 (1~3개월 무료, 4개월차부터 결제)
   const nextMonth = new Date()
   nextMonth.setMonth(nextMonth.getMonth() + 1)
 

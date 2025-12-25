@@ -10553,6 +10553,34 @@ ${result.answer}`;
             }
         }
 
+
+        // 프로젝트 완료 처리
+        async function completeProject(projectId, projectName) {
+            if (!confirm(`"${projectName}" 프로젝트를 완료 처리하시겠습니까?\n\n완료된 프로젝트는 '완료 Project' 섹션으로 이동됩니다.`)) {
+                return;
+            }
+
+            try {
+                const { error } = await window.supabaseClient
+                    .from('projects')
+                    .update({
+                        status: 'completed',
+                        progress: 100,
+                        completed_at: new Date().toISOString()
+                    })
+                    .eq('project_id', projectId);
+
+                if (error) throw error;
+
+                alert(`"${projectName}" 프로젝트가 완료되었습니다!`);
+                await loadCurrentProject();
+                await loadCompletedProjects();
+            } catch (error) {
+                console.error('프로젝트 완료 처리 실패:', error);
+                alert('프로젝트 완료 처리 중 오류가 발생했습니다.');
+            }
+        }
+
         async function loadCompletedProjects() {
             const completedProjectsList = document.getElementById('completedProjectsList');
             const completedProjectsCount = document.getElementById('completedProjectsCount');
