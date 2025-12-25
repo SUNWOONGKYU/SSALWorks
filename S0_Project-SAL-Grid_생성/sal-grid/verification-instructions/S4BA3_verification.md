@@ -4,7 +4,7 @@
 S4BA3
 
 ## Task Name
-토스 페이먼트 결제 API
+토스페이먼츠 결제 API
 
 ## Verification Agent
 code-reviewer
@@ -18,7 +18,7 @@ code-reviewer
 - [ ] PUT /api/subscription/payment-method/:id/default - 기본 설정
 
 ### 2. 빌링키 발급 검증
-- [ ] 토스 페이먼트 빌링키 발급 API 호출
+- [ ] 토스페이먼츠 빌링키 발급 API 호출
 - [ ] billingKey 저장
 - [ ] 카드 정보 마스킹 저장
 

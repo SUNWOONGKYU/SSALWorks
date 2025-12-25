@@ -81,7 +81,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        // 토스 페이먼트 결제 승인
+        // 토스페이먼츠 결제 승인
         const tossResponse = await fetch(`${TOSS_API_URL}/payments/confirm`, {
             method: 'POST',
             headers: {
@@ -372,13 +372,13 @@ export default async function handler(req, res) {
 - [ ] GET /api/credit/balance 잔액 조회
 - [ ] GET /api/credit/history 이용 내역 조회
 - [ ] GET /api/credit/packages 패키지 목록 조회
-- [ ] 토스 페이먼트 결제 승인 연동
+- [ ] 토스페이먼츠 결제 승인 연동
 - [ ] 크레딧 이력 기록
 
 ## Tech Stack
 - Vercel Serverless Functions
 - Supabase
-- 토스 페이먼트 API
+- 토스페이먼츠 API
 
 ## Task Agent
 `backend-developer`

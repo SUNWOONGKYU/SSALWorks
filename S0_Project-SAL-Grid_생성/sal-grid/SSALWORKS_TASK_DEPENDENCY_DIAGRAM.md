@@ -288,7 +288,7 @@ S1F1 → S1BI1 → S1S1 → S2BA1 → S2S1 → S3S1
 | 26 | S4F1 | 관리자 대시보드 강화 | F | S4BA2 |
 | 27 | S4F2 | AI Q&A 인터페이스 | F | S3BA1 |
 | 28 | S4BI1 | Sentry 에러 트래킹 설정 | BI | S1BI1 |
-| 29 | S4BA1 | 결제 API (토스 페이먼트) | BA | S2BA3 |
+| 29 | S4BA1 | 결제 API (토스페이먼츠) | BA | S2BA3 |
 | 30 | S4BA2 | 결제 웹훅 API | BA | S4BA1 |
 | 31 | S4S1 | 관리자 권한 체크 | S | S2S1 |
 | 32 | S4T1 | E2E 테스트 | T | S4F1 |

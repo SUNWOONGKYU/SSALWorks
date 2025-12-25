@@ -466,14 +466,14 @@ function getUserName() {
 ## Completion Criteria
 - [ ] 패키지 선택 UI (3종: 베이직, 스탠다드, 프리미엄)
 - [ ] 현재 크레딧 잔액 표시
-- [ ] 토스 페이먼트 위젯 연동
+- [ ] 토스페이먼츠 위젯 연동
 - [ ] 결제 요약 정보 표시
 - [ ] 결제 성공/실패 처리
 - [ ] 반응형 디자인
 
 ## Tech Stack
 - HTML/CSS/JavaScript
-- 토스 페이먼트 SDK
+- 토스페이먼츠 SDK
 
 ## Task Agent
 `frontend-developer`

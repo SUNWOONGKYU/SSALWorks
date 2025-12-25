@@ -19,16 +19,16 @@
 S4BA3
 
 ## Task Name
-토스 페이먼트 결제 API
+토스페이먼츠 결제 API
 
 ## Task Goal
-크레딧 충전 및 월 이용료 자동결제를 위한 토스 페이먼트 API 구현
+크레딧 충전 및 월 이용료 자동결제를 위한 토스페이먼츠 API 구현
 
-## SSALWorks 토스 페이먼트 결제 체계
+## SSALWorks 토스페이먼츠 결제 체계
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│               토스 페이먼트 결제 항목                         │
+│               토스페이먼츠 결제 항목                         │
 ├─────────────────────────────────────────────────────────────┤
 │                                                             │
 │  [크레딧 충전] ────────→ 일회성 결제                         │
@@ -47,7 +47,7 @@ S4BA3
 ## Prerequisites (Dependencies)
 - S4BA2 (설치비 입금 확인 API) 완료
 - S4D1 (결제/크레딧 테이블) 완료
-- 토스 페이먼트 가맹점 등록 완료
+- 토스페이먼츠 가맹점 등록 완료
 
 ## Specific Instructions
 
@@ -133,7 +133,7 @@ module.exports = async (req, res) => {
             throw new Error('Failed to create payment request');
         }
 
-        // 토스 페이먼트 결제 정보 반환
+        // 토스페이먼츠 결제 정보 반환
         res.status(200).json({
             success: true,
             payment_id: payment.id,
@@ -206,7 +206,7 @@ module.exports = async (req, res) => {
             return res.redirect('/pages/payment/fail.html?error=amount_mismatch');
         }
 
-        // 2. 토스 페이먼트 결제 승인
+        // 2. 토스페이먼츠 결제 승인
         const tossResponse = await fetch(`${TOSS_API_URL}/payments/confirm`, {
             method: 'POST',
             headers: {
@@ -307,7 +307,7 @@ module.exports = async (req, res) => {
     res.status(200).json({
         payment_type: 'credit',
         payment_method: 'toss',
-        description: 'AI 크레딧 충전 (토스 페이먼트)',
+        description: 'AI 크레딧 충전 (토스페이먼츠)',
         options: [
             { amount: 10000, credit: 10000, label: '₩10,000' },
             { amount: 20000, credit: 20000, label: '₩20,000' },
@@ -374,7 +374,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-        // 토스 페이먼트 빌링키 발급 요청
+        // 토스페이먼츠 빌링키 발급 요청
         const tossResponse = await fetch(`${TOSS_API_URL}/billing/authorizations/issue`, {
             method: 'POST',
             headers: {
@@ -645,14 +645,14 @@ module.exports = async (req, res) => {
 };
 ```
 
-### 6. 토스 페이먼트 웹훅 API
+### 6. 토스페이먼츠 웹훅 API
 - 위치: `api/webhook/toss.js`
 
 ```javascript
 // api/webhook/toss.js
 /**
  * @task S4BA3
- * 토스 페이먼트 웹훅 수신 API
+ * 토스페이먼츠 웹훅 수신 API
  * POST /api/webhook/toss
  */
 
@@ -808,7 +808,7 @@ CREATE INDEX IF NOT EXISTS idx_payment_methods_user_id ON payment_methods(user_i
 - [ ] 크레딧 충전 옵션 조회 API
 - [ ] 빌링키 발급 API
 - [ ] 월 이용료 자동결제 API
-- [ ] 토스 페이먼트 웹훅 수신
+- [ ] 토스페이먼츠 웹훅 수신
 - [ ] 결제 성공 시 크레딧 충전
 - [ ] 결제 실패 시 에러 처리
 - [ ] 환경변수 설정 (TOSS_CLIENT_KEY, TOSS_SECRET_KEY, TOSS_WEBHOOK_SECRET)
@@ -817,7 +817,7 @@ CREATE INDEX IF NOT EXISTS idx_payment_methods_user_id ON payment_methods(user_i
 ## Tech Stack
 - Vercel Serverless Functions
 - Supabase
-- 토스 페이먼트 API
+- 토스페이먼츠 API
 
 ## Task Agent
 `backend-developer`
@@ -831,12 +831,12 @@ CREATE INDEX IF NOT EXISTS idx_payment_methods_user_id ON payment_methods(user_i
 - /mcp__supabase__*
 
 ## Execution Type
-Human-AI (토스 페이먼트 가맹점 등록 필요)
+Human-AI (토스페이먼츠 가맹점 등록 필요)
 
 ## Remarks
 - **크레딧 충전**: ₩10,000 / ₩20,000 / ₩30,000 / ₩50,000 (일회성)
 - **월 이용료**: ₩50,000/월 (4개월차부터, 자동결제)
-- 토스 페이먼트 가맹점 등록 필요 (PO 작업)
+- 토스페이먼츠 가맹점 등록 필요 (PO 작업)
 - 빌링키는 암호화 저장 권장
 - 웹훅 서명 검증 필수
 - 결제 3회 연속 실패 시 구독 정지 (S4O1에서 처리)

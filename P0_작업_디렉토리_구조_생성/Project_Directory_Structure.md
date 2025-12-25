@@ -567,7 +567,7 @@ Development_Process_Monitor/
 ├── 02_회원인증_설정.md         # Google OAuth + Supabase Auth
 ├── 03_이메일_시스템_설정.md    # Resend + SMTP + 템플릿
 ├── 04_배포_도메인_설정.md      # Vercel + DNS 설정
-└── 05_결제_시스템_설정.md      # 토스 페이먼트
+└── 05_결제_시스템_설정.md      # 토스페이먼츠
 ```
 
 **특징:**
@@ -702,7 +702,7 @@ Development_Process_Monitor/
 
 ### External Services
 - **Resend**: 이메일
-- **토스 페이먼트**: 결제
+- **토스페이먼츠**: 결제
 - **Google OAuth**: 소셜 로그인
 
 ### AI & Automation
@@ -763,7 +763,7 @@ Development_Process_Monitor/
 
 ### 주의 사항
 - ⚠️ 개발용 RLS 정책 적용 중 (프로덕션 배포 전 교체 필요)
-- ⚠️ 토스 페이먼트 연동 대기 (가맹점 등록 필요)
+- ⚠️ 토스페이먼츠 연동 대기 (가맹점 등록 필요)
 
 ---
 

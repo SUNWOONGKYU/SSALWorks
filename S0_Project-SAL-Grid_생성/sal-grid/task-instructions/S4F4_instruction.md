@@ -80,7 +80,7 @@ S4F4
             <h3>안내 사항</h3>
             <ul>
                 <li>기본 결제 수단으로 정기 결제가 진행됩니다</li>
-                <li>카드 정보는 토스 페이먼트에서 안전하게 관리됩니다</li>
+                <li>카드 정보는 토스페이먼츠에서 안전하게 관리됩니다</li>
                 <li>결제 수단 삭제 시 진행 중인 정기 결제에 영향을 줄 수 있습니다</li>
             </ul>
         </section>
@@ -534,7 +534,7 @@ function getAccessToken() {
 ## Completion Criteria
 - [ ] 등록된 결제 수단 목록 표시
 - [ ] 새 결제 수단 등록 모달
-- [ ] 토스 페이먼트 빌링 위젯 연동
+- [ ] 토스페이먼츠 빌링 위젯 연동
 - [ ] 기본 결제 수단 설정 기능
 - [ ] 결제 수단 삭제 기능
 - [ ] 빈 상태 UI
@@ -542,7 +542,7 @@ function getAccessToken() {
 
 ## Tech Stack
 - HTML/CSS/JavaScript
-- 토스 페이먼트 SDK
+- 토스페이먼츠 SDK
 
 ## Task Agent
 `frontend-developer`

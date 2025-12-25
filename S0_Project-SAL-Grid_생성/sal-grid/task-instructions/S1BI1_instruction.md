@@ -51,7 +51,7 @@ OPENAI_API_KEY=your-openai-api-key
 GOOGLE_AI_API_KEY=your-gemini-api-key
 PERPLEXITY_API_KEY=your-perplexity-api-key
 
-# 토스 페이먼트
+# 토스페이먼츠
 TOSS_CLIENT_KEY=your-toss-client-key
 TOSS_SECRET_KEY=your-toss-secret-key
 

@@ -151,7 +151,7 @@
 - AI 서비스 연동 (Perplexity)
 
 ### S4 개발-3차 (고급 기능)
-- 토스 페이먼트 연동
+- 토스페이먼츠 연동
 - 관리자 기능 강화
 - QA 및 최적화
 
@@ -316,7 +316,7 @@ P3_프로토타입_제작/Frontend/Prototype/
 - Vercel (Frontend + Serverless)
 
 ### 외부 서비스 (예정)
-- 토스 페이먼트 (결제)
+- 토스페이먼츠 (결제)
 - Google OAuth (소셜 로그인)
 - Resend (이메일)
 - Perplexity/OpenAI/Gemini API (AI Q&A)
@@ -337,7 +337,7 @@ P3_프로토타입_제작/Frontend/Prototype/
 4. **환경 변수 설정** - .env.production
 
 ### 본개발 단계 TODO (S2~S4)
-1. 토스 페이먼트 API 연동 (가맹점 등록 필요, 1-2주 소요)
+1. 토스페이먼츠 API 연동 (가맹점 등록 필요, 1-2주 소요)
 2. PG 이용약관 동의 체크박스 구현
 3. Google OAuth 연동
 4. Resend 이메일 서비스 연동

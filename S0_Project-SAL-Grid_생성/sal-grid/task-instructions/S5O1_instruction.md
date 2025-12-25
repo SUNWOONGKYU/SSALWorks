@@ -45,7 +45,7 @@ S5O1
 - SUPABASE_SERVICE_ROLE_KEY
 - RESEND_API_KEY (이메일)
 
-**결제 관련 (토스 페이먼트 연동 시):**
+**결제 관련 (토스페이먼츠 연동 시):**
 - TOSS_CLIENT_KEY
 - TOSS_SECRET_KEY
 
