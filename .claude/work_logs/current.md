@@ -6,6 +6,31 @@
 
 ## 2025-12-25 작업 내역
 
+### 로고 클릭 → 메인 화면 이동 기능 구현 ✅
+
+**작업 내용:**
+사용자 요청에 따라 모든 페이지에서 SSAL Works 로고를 클릭하면 메인 화면(index.html)으로 이동하는 기능 점검 및 누락 페이지 수정
+
+**점검 결과:**
+| 페이지 | 기존 상태 | 수정 내용 |
+|--------|:--------:|----------|
+| Production/pages/* (14개) | ✅ 구현됨 | - |
+| Production/pages/auth/login.html | ✅ 구현됨 | - |
+| Production/pages/auth/signup.html | ✅ 구현됨 | - |
+| Production/404.html | ✅ 구현됨 | - |
+| Production/admin-dashboard.html | ❌ 누락 | **수정 완료** |
+| Production/Frontend/Pages/auth/signup.html | ❌ 누락 | **수정 완료** |
+| Production/Frontend/Pages/auth/verify-email.html | ❌ 누락 | **수정 완료** |
+
+**수정 파일:**
+1. `Production/admin-dashboard.html` - 로고에 `<a href="index.html">` 추가
+2. `Production/Frontend/Pages/auth/signup.html` - 로고에 `<a href="../../../index.html">` 추가
+3. `Production/Frontend/Pages/auth/verify-email.html` - 로고에 `<a href="../../../index.html">` 추가
+
+**커밋:** `19b6a0c` - feat: 로고 클릭 시 메인 화면으로 이동하는 기능 추가
+
+---
+
 ### 회원등급별 접근권한 문서 작성 및 구현 현황 검증 ✅
 
 **작업 내용:**
