@@ -32,12 +32,14 @@ const PATHS = {
     serviceIntroMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/서비스_소개_모달.md'),
     indexHtml: path.join(PROJECT_ROOT, 'Production/index.html'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),
+    builderManualMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/빌더계정_사용_매뉴얼.md'),
 
     // 출력 경로
     ordersheetsOutput: path.join(PROJECT_ROOT, 'Production/Frontend/ordersheets.js'),
     guidesOutput: path.join(PROJECT_ROOT, 'Production/Frontend/guides.js'),
     serviceGuidesOutput: path.join(PROJECT_ROOT, 'Production/Frontend/service-guides.js'),
     manualHtml: path.join(PROJECT_ROOT, '참고자료/PROJECT_SAL_GRID_MANUAL.html'),
+    builderManualHtml: path.join(PROJECT_ROOT, 'Production/pages/mypage/manual.html'),
 
     // 복사 대상 경로
     copyTargets: {
@@ -349,6 +351,93 @@ function buildManual() {
     }
 }
 
+// 빌더 계정 사용 매뉴얼 HTML 변환
+function buildBuilderManual() {
+    log.header('빌더 계정 사용 매뉴얼 HTML 변환');
+
+    try {
+        // 파일 존재 확인
+        if (!fs.existsSync(PATHS.builderManualMd)) {
+            log.info('빌더계정_사용_매뉴얼.md 파일 없음 - 건너뜀');
+            return true;
+        }
+
+        // pandoc 존재 확인
+        try {
+            execSync('pandoc --version', { stdio: 'ignore' });
+        } catch {
+            log.error('pandoc이 설치되어 있지 않습니다.');
+            return false;
+        }
+
+        log.info('MD 파일 읽는 중...');
+
+        // pandoc으로 MD → HTML body 변환
+        log.info('pandoc으로 MD → HTML 변환 중...');
+        const tempHtml = path.join(path.dirname(PATHS.builderManualHtml), 'temp_manual.html');
+        execSync(`pandoc "${PATHS.builderManualMd}" -o "${tempHtml}" --standalone`, { stdio: 'inherit' });
+
+        // 변환된 HTML 읽기
+        let htmlContent = fs.readFileSync(tempHtml, 'utf-8');
+        const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+        const bodyContent = bodyMatch ? bodyMatch[1] : htmlContent;
+
+        // 스타일이 적용된 HTML 생성
+        const styledHtml = `<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빌더 계정 사용 매뉴얼 - SSAL Works</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); min-height: 100vh; padding: 40px 20px; line-height: 1.8; color: #1f2937; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 20px; padding: 40px; color: white; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3); }
+        header h1 { font-size: 2.2rem; font-weight: 700; }
+        header p { margin-top: 10px; opacity: 0.9; }
+        section { background: white; border-radius: 16px; padding: 35px; margin-bottom: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1, h2 { color: #10B981; border-bottom: 2px solid #10B981; padding-bottom: 10px; margin-bottom: 20px; }
+        h3 { color: #059669; margin: 25px 0 15px; }
+        p { margin-bottom: 15px; }
+        ul, ol { margin: 15px 0 15px 25px; }
+        li { margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; }
+        th, td { border: 1px solid #e5e7eb; padding: 12px 15px; text-align: left; }
+        th { background: #f0fdf4; color: #059669; font-weight: 600; }
+        tr:hover { background: #f9fafb; }
+        code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.9em; }
+        blockquote { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 0 10px 10px 0; }
+        a { color: #10B981; }
+        footer { text-align: center; padding: 30px; color: #6b7280; font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 20px 15px; } header { padding: 30px 20px; } header h1 { font-size: 1.6rem; } section { padding: 25px 20px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>빌더 계정 사용 매뉴얼</h1>
+            <p>SSAL Works 플랫폼 완벽 가이드</p>
+        </header>
+        ${bodyContent}
+        <footer>
+            <p>&copy; 2025 SSAL Works. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>`;
+
+        fs.writeFileSync(PATHS.builderManualHtml, styledHtml, 'utf-8');
+        if (fs.existsSync(tempHtml)) fs.unlinkSync(tempHtml);
+
+        log.success(`빌더 계정 매뉴얼 HTML 생성됨: ${PATHS.builderManualHtml}`);
+        return true;
+    } catch (err) {
+        log.error(`빌더 계정 매뉴얼 빌드 실패: ${err.message}`);
+        return false;
+    }
+}
+
 // 전체 빌드
 function buildAll() {
     log.header('웹 배포 파일 전체 빌드 시작');
@@ -359,7 +448,8 @@ function buildAll() {
         guides: buildGuides(),
         serviceGuides: buildServiceGuides(),
         serviceIntro: buildServiceIntro(),
-        manual: buildManual()
+        manual: buildManual(),
+        builderManual: buildBuilderManual()
     };
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -373,6 +463,7 @@ function buildAll() {
     console.log(`  Service Guides:   ${results.serviceGuides ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Service Intro:    ${results.serviceIntro ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Manual:           ${results.manual ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  Builder Manual:   ${results.builderManual ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  소요 시간:        ${elapsed}초`);
     console.log('='.repeat(50) + '\n');
 
@@ -395,6 +486,7 @@ if (args.includes('--help') || args.includes('-h')) {
   --service-guides   외부 연동 설정 가이드만 빌드
   --service-intro    서비스 소개 모달만 빌드
   --manual           PROJECT SAL GRID Manual HTML만 빌드
+  --builder-manual   빌더 계정 사용 매뉴얼 HTML만 빌드
   --help, -h         도움말 표시
 
 옵션 없이 실행하면 전체 빌드를 수행합니다.
@@ -422,6 +514,9 @@ if (args.length === 0) {
     }
     if (args.includes('--manual')) {
         success = buildManual() && success;
+    }
+    if (args.includes('--builder-manual')) {
+        success = buildBuilderManual() && success;
     }
 }
 

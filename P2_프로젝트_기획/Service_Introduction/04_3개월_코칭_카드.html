@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSAL Works - 3개월 1:1 맞춤형 코칭</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        .card {
+            background: linear-gradient(145deg, #ffffff 0%, #f8f9ff 100%);
+            border-radius: 20px;
+            padding: 28px 32px;
+            max-width: 680px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.35);
+            position: relative;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FFD700, #FFA500, #FF6B6B, #667eea, #764ba2);
+            border-radius: 20px 20px 0 0;
+        }
+
+        /* Header */
+        .header { text-align: center; margin-bottom: 18px; }
+        .brand-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .rice-logo { display: flex; gap: 2px; }
+        .rice-grain {
+            width: 8px; height: 14px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+        .rice-grain:nth-child(1) { transform: rotate(-12deg); }
+        .rice-grain:nth-child(3) { transform: rotate(12deg); }
+        .brand-text {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .main-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1a1a2e;
+            line-height: 1.2;
+        }
+        .main-title .highlight {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Achievement + Incentive Row */
+        .top-row {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .achievement-box {
+            background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: white;
+        }
+        .achievement-title {
+            font-size: 10px;
+            color: #aaa;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .achievement-content {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .achievement-content .num {
+            color: #FFD700;
+            font-weight: 700;
+        }
+        .achievement-content .highlight-text {
+            color: #10B981;
+            font-weight: 700;
+        }
+        .incentive-box {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            border-radius: 12px;
+            padding: 14px 16px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        .incentive-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .incentive-desc {
+            font-size: 10px;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+
+        /* Coaching Grid */
+        .coaching-section { margin-bottom: 14px; }
+        .coaching-header {
+            font-size: 13px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+            padding-left: 10px;
+            border-left: 3px solid #667eea;
+        }
+        .coaching-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+        }
+        .coaching-tag {
+            background: #f0f4ff;
+            padding: 8px 4px;
+            border-radius: 6px;
+            font-size: 9px;
+            font-weight: 600;
+            color: #444;
+            text-align: center;
+            line-height: 1.25;
+        }
+        .coaching-tag.purple {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .coaching-tag.gold {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+        }
+
+        /* Dev Areas */
+        .dev-row {
+            background: #f8f9ff;
+            border-radius: 8px;
+            padding: 10px 12px;
+            margin-bottom: 14px;
+        }
+        .dev-label {
+            font-size: 10px;
+            color: #667eea;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .dev-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        .dev-tag {
+            background: white;
+            border: 1px solid #dee2e6;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            color: #495057;
+        }
+
+        /* Bottom Row */
+        .bottom-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+        .mentoring-box {
+            background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+            border-radius: 10px;
+            padding: 12px 14px;
+            color: white;
+        }
+        .mentoring-title {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .mentoring-list {
+            font-size: 10px;
+            opacity: 0.95;
+            line-height: 1.4;
+        }
+        .message-box {
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf0ff 100%);
+            border-radius: 10px;
+            padding: 12px 14px;
+            border: 1.5px dashed #667eea;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .message-text {
+            font-size: 11px;
+            color: #444;
+            line-height: 1.5;
+            text-align: center;
+        }
+        .message-highlight {
+            font-size: 12px;
+            font-weight: 700;
+            color: #667eea;
+            margin-top: 3px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding-top: 12px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+        }
+        .footer-text { font-size: 11px; color: #888; }
+        .footer-brand {
+            font-size: 13px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Header -->
+        <div class="header">
+            <div class="brand-row">
+                <div class="rice-logo">
+                    <div class="rice-grain"></div>
+                    <div class="rice-grain"></div>
+                    <div class="rice-grain"></div>
+                </div>
+                <div class="brand-text">SSAL Works</div>
+            </div>
+            <div class="main-title">
+                <span class="highlight">3개월</span> 1:1 맞춤형 코칭 프로그램
+            </div>
+            <div class="subtitle">플랫폼만 주고 "알아서 하세요"가 아닙니다</div>
+        </div>
+
+        <!-- Achievement + Incentive -->
+        <div class="top-row">
+            <div class="achievement-box">
+                <div class="achievement-title">7개월간 2,500시간 투입의 성과물</div>
+                <div class="achievement-content">
+                    사업기획서 <span class="num">수십 개</span> · 시스템설계서 <span class="num">6개</span> · 특허 <span class="num">5건</span> · 책 <span class="num">3권</span><br>
+                    그 중 <span class="highlight-text">웹사이트 개발은 10월부터 → 3개월 만에 3개 완성</span><br>
+                    <strong>→ 이 노하우를 전수합니다</strong>
+                </div>
+            </div>
+            <div class="incentive-box">
+                <div class="incentive-title">Who is Sunny?</div>
+                <div class="incentive-desc">
+                    현직 공인회계사<br>스타트업 액셀러레이터
+                </div>
+            </div>
+        </div>
+
+        <!-- Coaching Grid -->
+        <div class="coaching-section">
+            <div class="coaching-header">웹사이트 개발의 전 과정을 상세하게 알려드립니다</div>
+            <div class="coaching-grid">
+                <div class="coaching-tag purple">Claude Code<br>사용법</div>
+                <div class="coaching-tag">표준 디렉토리<br>구조 설계</div>
+                <div class="coaching-tag">AI 규칙 파일<br>작성법</div>
+                <div class="coaching-tag">Order Sheet<br>작성법</div>
+                <div class="coaching-tag">Task Instruction<br>작성법</div>
+                <div class="coaching-tag gold">Project<br>SAL Grid</div>
+                <div class="coaching-tag">프로젝트 진행<br>프로세스</div>
+                <div class="coaching-tag">Orders Reports<br>JSON 시스템</div>
+                <div class="coaching-tag">AI 에러<br>대응법</div>
+                <div class="coaching-tag purple">개발 영역별<br>실무</div>
+            </div>
+        </div>
+
+        <!-- Dev Areas -->
+        <div class="dev-row">
+            <div class="dev-label">개발 영역별 실무</div>
+            <div class="dev-tags">
+                <span class="dev-tag">프로토타입</span>
+                <span class="dev-tag">UI/UX</span>
+                <span class="dev-tag">프론트엔드</span>
+                <span class="dev-tag">백엔드 APIs</span>
+                <span class="dev-tag">백엔드 인프라</span>
+                <span class="dev-tag">DB</span>
+                <span class="dev-tag">외부연동</span>
+                <span class="dev-tag">배포</span>
+            </div>
+        </div>
+
+        <!-- Bottom Row -->
+        <div class="bottom-row">
+            <div class="mentoring-box">
+                <div class="mentoring-title">+ 추가 혜택</div>
+                <div class="mentoring-list">
+                    사업계획서 작성 등 <strong>창업 멘토링</strong><br>
+                    회계/세무/법률/특허/투자 <strong>복합 경영자문</strong>
+                </div>
+            </div>
+            <div class="message-box">
+                <div class="message-text">
+                    혼자 독학하면 몇 달이 걸립니다.<br>
+                    SSAL Works를 사용하고 1:1 코칭을 받으면<br>
+                    <strong>훨씬 빠릅니다.</strong>
+                    <div class="message-highlight">쓸데없는 시행착오 겪지 마세요.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div class="footer-text">AI와 함께 풀스택 웹사이트를 만드는 곳</div>
+            <div class="footer-brand">황금쌀 방앗간</div>
+        </div>
+    </div>
+</body>
+</html>

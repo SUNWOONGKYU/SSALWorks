@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSAL Works - 웹사이트 개발부터 비즈니스 실현까지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 50px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .rice-logo {
+            display: flex;
+            gap: 4px;
+        }
+
+        .rice-grain {
+            width: 12px;
+            height: 20px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transform: rotate(-15deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .rice-grain:nth-child(2) {
+            transform: rotate(0deg);
+        }
+
+        .rice-grain:nth-child(3) {
+            transform: rotate(15deg);
+        }
+
+        .brand-text {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            display: inline-block;
+            line-height: 1.8;
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .title-label {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .title-text {
+            font-size: 28px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .title-highlight {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .flow-section {
+            background: #f8f9ff;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .flow-box {
+            padding: 15px 25px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .flow-start {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .flow-arrow {
+            font-size: 24px;
+            color: #667eea;
+        }
+
+        .flow-end {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #333;
+        }
+
+        .builder-message {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf0ff 100%);
+            border-radius: 16px;
+            border-left: 4px solid #667eea;
+        }
+
+        .builder-text {
+            font-size: 18px;
+            color: #444;
+            line-height: 1.7;
+        }
+
+        .builder-highlight {
+            font-size: 22px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .support-section {
+            margin-bottom: 25px;
+        }
+
+        .support-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .support-items {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .support-item {
+            background: white;
+            border: 2px solid #667eea;
+            border-radius: 12px;
+            padding: 15px 20px;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .support-number {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .support-name {
+            font-size: 16px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer-brand {
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="header">
+            <div class="brand-container">
+                <div class="rice-logo">
+                    <div class="rice-grain"></div>
+                    <div class="rice-grain"></div>
+                    <div class="rice-grain"></div>
+                </div>
+                <div class="brand-text">SSAL Works</div>
+            </div>
+            <div class="tagline">풀스택 웹사이트로 창업하는 사람 (스타트업, 직장인 부업, 은퇴자 새로운 일거리)<br>기존 사업에 풀스택 웹사이트를 도입하는 사람<br><span style="font-size: 20px; font-weight: 700;">당신은 빌더(Builder)입니다.</span></div>
+        </div>
+
+        <div class="main-title">
+            <div class="title-text">
+                웹사이트 개발부터 <span class="title-highlight">비즈니스 실현</span>까지
+            </div>
+        </div>
+
+        <div class="builder-message">
+            <div class="builder-text">
+                웹사이트 개발만 지원하는 게 아닙니다.<br>
+                비즈니스 실현을 위한 후속적인 지원을 합니다.
+            </div>
+        </div>
+
+        <div class="support-section">
+            <div class="support-title">3가지 지원 영역</div>
+            <div class="support-items">
+                <div class="support-item">
+                    <div class="support-number">[1]</div>
+                    <div class="support-name">웹사이트 개발</div>
+                </div>
+                <div class="support-item">
+                    <div class="support-number">[2]</div>
+                    <div class="support-name">창업 멘토링</div>
+                </div>
+                <div class="support-item">
+                    <div class="support-number">[3]</div>
+                    <div class="support-name">회계/세무/특허/법률/마케/투자/경영지원</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="footer-text">AI와 함께 풀스택 웹사이트를 만드는 곳</div>
+            <div class="footer-brand">황금쌀 방앗간</div>
+        </div>
+    </div>
+</body>
+</html>
