@@ -196,68 +196,72 @@ Supabase DB (project_sal_grid 테이블)
 
 ---
 
-### 절대 규칙 4: Production 폴더에만 저장 (루트 배포 구조)
+### 절대 규칙 4: Production 코드는 이중 저장
 
-> **적용 대상**: Frontend, Backend_APIs, Security, External API 코드 파일 생성/수정 시
-> **변경일**: 2025-12-26 (루트 배포 구조 개편)
-
-```
-✅ 배포 코드는 Production 폴더에만 저장!
-✅ Stage 폴더는 이력/참고용 (복사 불필요)
-✅ 중복 제거로 관리 단순화
-```
-
-**루트 배포 구조:**
+> **적용 대상**: Frontend, Backend_APIs, Database 코드 파일 생성/수정 시
 
 ```
-프로젝트 루트/
-├── index.html              ← 메인 페이지 (루트)
-├── 404.html                ← 에러 페이지 (루트)
-├── vercel.json             ← 배포 설정 (루트)
-├── .vercelignore           ← 배포 제외 목록
-│
-├── Production/             ← 모든 배포 코드
-│   ├── pages/              # Frontend 페이지
-│   ├── api/                # Backend APIs
-│   ├── assets/             # 정적 자산
-│   └── ...
-│
-└── S?_*/                   ← Stage 폴더 (개발 이력용, 배포 제외)
+🚫 Stage 폴더에만 저장하고 Production 폴더 복사 생략 금지!
+🚫 코드 파일은 반드시 두 곳에 존재해야 함! (이중 저장)
+🚫 Production 폴더가 최신 상태가 아니면 배포 불가!
 ```
 
-**저장 규칙:**
-| 유형 | 저장 위치 | 비고 |
-|------|----------|------|
-| Frontend 페이지 | `Production/pages/` | HTML, CSS, JS |
-| Backend API | `Production/api/Backend_APIs/` | Serverless Functions |
-| Security API | `Production/api/Security/` | 인증/인가 |
-| External API | `Production/api/External/` | AI, 외부 연동 |
-| 정적 자산 | `Production/assets/` | 이미지, 폰트 |
+**이중 저장 규칙:**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  코드 파일 생성/수정 시                                       │
+├─────────────────────────────────────────────────────────────┤
+│  1. Stage/Area 폴더에 저장 (작업 이력용)                      │
+│     예: S2_개발-1차/Frontend/login.html                      │
+│                                                              │
+│  2. Production 폴더에 복사 (배포용) ⭐ 필수!                   │
+│     예: Production/Frontend/login.html                       │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**대상 Area:**
+| Area | Stage 폴더 | Production 폴더 |
+|------|------------|-----------------|
+| F (Frontend) | `S?_*/Frontend/` | `Production/Frontend/` |
+| BA (Backend_APIs) | `S?_*/Backend_APIs/` | `Production/api/Backend_APIs/` |
+| S (Security) | `S?_*/Security/` | `Production/api/Security/` |
+| BI (Backend_Infra) | `S?_*/Backend_Infra/` | `Production/api/Backend_Infra/` |
+| E (External) | `S?_*/External/` | `Production/api/External/` |
 
 **필수 프로세스:**
 ```
-1. Production 폴더에 코드 저장
+1. Stage 폴더에 코드 저장
      ↓
-2. 완료 보고 시 Production 경로 명시
+2. Production 폴더로 복사/이동
+     ↓
+3. 두 파일이 동일한지 확인
+     ↓
+4. 완료 보고 시 두 경로 모두 명시
 ```
 
 **완료 보고 양식:**
 ```
 "코드 파일 저장 완료
 
-📁 Production: Production/pages/auth/login.html
+📁 Stage 폴더: S2_개발-1차/Frontend/login.html
+📁 Production: Production/Frontend/login.html
 
-✅ 배포 준비 완료"
+✅ 두 파일 동기화 완료"
 ```
 
 **❌ 절대 금지 행동:**
-- Stage 폴더에만 저장하고 Production 폴더 저장 안 함
-- Production 외부에 배포 코드 저장
+- Stage 폴더에만 저장하고 Production 폴더 무시
+- Production 폴더 복사 생략
+- 두 파일 버전 불일치 상태로 방치
 
-**Production 저장 체크리스트:**
-- [ ] Production 폴더에 코드를 저장했는가?
-- [ ] 경로가 올바른가? (pages/, api/, assets/)
-- [ ] Stage 폴더에 중복 저장하지 않았는가?
+**Production 폴더 동기화 체크리스트:**
+- [ ] Frontend 코드 → Production/Frontend/ 복사했는가?
+- [ ] Backend API 코드 → Production/api/Backend_APIs/ 복사했는가?
+- [ ] Security 코드 → Production/api/Security/ 복사했는가?
+- [ ] Backend Infra 코드 → Production/api/Backend_Infra/ 복사했는가?
+- [ ] External 코드 → Production/api/External/ 복사했는가?
+- [ ] 두 파일이 동일한지 확인했는가?
 
 ---
 
