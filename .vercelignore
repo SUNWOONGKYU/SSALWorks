@@ -9,7 +9,10 @@
 node_modules/
 
 # Stage 폴더 (개발 이력) - 배포 불필요
-S0_Project-SAL-Grid_생성/
+S0_Project-SAL-Grid_생성/*
+!S0_Project-SAL-Grid_생성/viewer_database.html
+!S0_Project-SAL-Grid_생성/viewer_mobile_database.html
+!S0_Project-SAL-Grid_생성/manual/
 S1_개발_준비/
 S2_개발-1차/
 S3_개발-2차/
