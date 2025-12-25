@@ -123,8 +123,8 @@ UPDATE users SET
   subscription_status = 'active',
   installation_fee_paid = true,
   installation_date = NOW(),
-  platform_fee_start_date = NOW() + INTERVAL '30 days',
-  credit_balance = 5000
+  platform_fee_start_date = NOW() + INTERVAL '90 days',
+  credit_balance = 50000
 WHERE id = 'uuid';
 ```
 
