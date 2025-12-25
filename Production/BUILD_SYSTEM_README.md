@@ -44,7 +44,7 @@ node Production/build-all.js
 
 ### 출력
 ```
-Production/data/phase_progress.json
+Development_Process_Monitor/data/phase_progress.json
 ```
 
 ### 입력 소스
@@ -56,7 +56,7 @@ Production/data/phase_progress.json
 | P2 | `P2_프로젝트_기획/` | 8개 |
 | P3 | `P3_프로토타입_제작/` | Database, Documentation, Frontend |
 | S0 | `S0_Project-SAL-Grid_생성/` | CSV_Method, Database_Method, manual, sal-grid |
-| S1~S5 | `Production/data/sal_grid.csv` | Task 상태 기반 |
+| S1~S5 | `S0_Project-SAL-Grid_생성/data/sal_grid.csv` | Task 상태 기반 |
 
 ---
 
@@ -86,10 +86,9 @@ Markdown 파일들을 JavaScript 번들로 변환
 | Situational/ | Completed_Project_Revision_OrderSheet.md |
 | (루트) | P0-S0_표준양식.md, S1-S5_표준양식.md |
 
-**출력:** `Production/Frontend/ordersheets.js`
+**출력:** `Briefings_OrderSheets/OrderSheet_Templates/ordersheets.js`
 
 **복사 위치:**
-- `Production/ordersheets.js`
 - `P3_프로토타입_제작/Frontend/Prototype/ordersheets.js`
 
 ---
@@ -111,10 +110,9 @@ Markdown 파일들을 JavaScript 번들로 변환
 | S4/ | S4_Briefing.md |
 | S5/ | S5_Briefing.md |
 
-**출력:** `Production/Frontend/guides.js`
+**출력:** `Briefings_OrderSheets/Briefings/guides.js`
 
 **복사 위치:**
-- `Production/guides.js`
 - `P3_프로토타입_제작/Frontend/Prototype/guides.js`
 
 ---
@@ -131,10 +129,9 @@ Markdown 파일들을 JavaScript 번들로 변환
 | 04_배포_도메인_설정.md |
 | 05_결제_시스템_설정.md |
 
-**출력:** `Production/Frontend/service-guides.js`
+**출력:** `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/service-guides.js`
 
 **복사 위치:**
-- `Production/service-guides.js`
 - `P3_프로토타입_제작/Frontend/Prototype/service-guides.js`
 
 ---
@@ -147,7 +144,7 @@ Markdown 파일들을 JavaScript 번들로 변환
 |------|
 | 서비스_소개_모달.md |
 
-**출력:** `Production/index.html` 내 서비스 소개 모달 섹션 업데이트
+**출력:** `index.html` (루트) 내 서비스 소개 모달 섹션 업데이트
 
 ---
 
@@ -170,14 +167,14 @@ Supabase `project_sal_grid` 테이블에서 데이터를 가져와 CSV 생성
 ```
 Supabase DB (project_sal_grid 테이블, 61개 Task)
     ↓
-Production/data/sal_grid.csv
+S0_Project-SAL-Grid_생성/data/sal_grid.csv
     ↓
 build-progress.js에서 S1~S5 진행률 계산에 사용
 ```
 
 ### 출력
 ```
-Production/data/sal_grid.csv
+S0_Project-SAL-Grid_생성/data/sal_grid.csv
 ```
 
 ### 포함 컬럼 (10개)
@@ -199,51 +196,68 @@ Production/data/sal_grid.csv
 ```
 Production/
 ├── build-all.js              ← 통합 빌드 (이것만 실행)
-├── build-progress.js         ← 진행률 계산
 ├── build-web-assets.js       ← MD → JS 번들
-│   (build-sal-grid-csv.js는 S0_Project-SAL-Grid_생성/ 폴더에 위치)
-├── vercel.json               ← buildCommand: "node build-all.js"
-│
-├── data/
-│   ├── phase_progress.json   ← 진행률 (P0~S5)
-│   └── sal_grid.csv          ← SAL Grid (61개 Task)
-│
-├── Frontend/
-│   ├── ordersheets.js        ← 32개 Order Sheet
-│   ├── guides.js             ← 29개 Briefing
-│   └── service-guides.js     ← 5개 Service Guide
-│
-├── ordersheets.js            ← 복사본
-├── guides.js                 ← 복사본
-└── service-guides.js         ← 복사본
+├── BUILD_SYSTEM_README.md    ← 이 문서
+└── vercel.json               ← buildCommand: "node Production/build-all.js"
+
+Development_Process_Monitor/
+└── data/
+    └── phase_progress.json   ← 진행률 (P0~S5)
+
+S0_Project-SAL-Grid_생성/
+├── build-sal-grid-csv.js     ← SAL Grid CSV 생성
+└── data/
+    └── sal_grid.csv          ← SAL Grid (61개 Task)
 
 Briefings_OrderSheets/
-├── OrderSheet_Templates/     ← Order Sheet 소스 (32개 MD)
-└── Briefings/                ← Briefing 소스 (29개 MD)
+├── OrderSheet_Templates/
+│   ├── *.md                  ← Order Sheet 소스 (32개 MD)
+│   └── ordersheets.js        ← 생성된 JS 번들
+└── Briefings/
+    ├── *.md                  ← Briefing 소스 (29개 MD)
+    └── guides.js             ← 생성된 JS 번들
 
 부수적_고유기능/콘텐츠/
-└── 외부_연동_설정_Guide/     ← Service Guide 소스 (5개 MD)
+└── 외부_연동_설정_Guide/
+    ├── *.md                  ← Service Guide 소스 (5개 MD)
+    └── service-guides.js     ← 생성된 JS 번들
 
 P2_프로젝트_기획/
 └── Service_Introduction/     ← 서비스 소개 소스 (1개 MD)
 
-S0_Project-SAL-Grid_생성/
-└── manual/                   ← Manual 소스 (1개 MD)
+P3_프로토타입_제작/Frontend/Prototype/
+├── ordersheets.js            ← 복사본 (배포용)
+├── guides.js                 ← 복사본 (배포용)
+└── service-guides.js         ← 복사본 (배포용)
+
+index.html                    ← 루트 (Vercel 배포 대상)
 ```
+
+---
+
+## Vercel 배포 구조
+
+```
+vercel.json:
+  "buildCommand": "node Production/build-all.js"
+  "outputDirectory": "."  ← 프로젝트 루트 전체 배포
+```
+
+배포 시 `P3_프로토타입_제작/Frontend/Prototype/`의 JS 파일들이 사용됨.
 
 ---
 
 ## 요약
 
-| 빌드 | 소스 파일 수 | 출력 |
-|------|-------------|------|
-| Order Sheets | 32개 MD | ordersheets.js |
-| Briefings | 29개 MD | guides.js |
-| Service Guides | 5개 MD | service-guides.js |
-| Service Intro | 1개 MD | index.html 모달 |
-| Manual | 1개 MD | HTML |
-| 진행률 | 폴더 구조 + CSV | phase_progress.json |
-| SAL Grid | Supabase DB | sal_grid.csv |
+| 빌드 | 소스 파일 수 | 출력 위치 |
+|------|-------------|----------|
+| Order Sheets | 32개 MD | `Briefings_OrderSheets/OrderSheet_Templates/ordersheets.js` |
+| Briefings | 29개 MD | `Briefings_OrderSheets/Briefings/guides.js` |
+| Service Guides | 5개 MD | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/service-guides.js` |
+| Service Intro | 1개 MD | `index.html` 모달 |
+| Manual | 1개 MD | `참고자료/PROJECT_SAL_GRID_MANUAL.html` |
+| 진행률 | 폴더 구조 + CSV | `Development_Process_Monitor/data/phase_progress.json` |
+| SAL Grid | Supabase DB | `S0_Project-SAL-Grid_생성/data/sal_grid.csv` |
 
 **총합:** 68개 MD 파일 + DB 데이터
 
