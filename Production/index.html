@@ -2313,24 +2313,6 @@
 
         /* ========== 모바일 반응형 CSS (인라인) ========== */
 
-        /* 모바일 안내 배너 */
-        .mobile-notice {
-            display: none;
-            background: linear-gradient(135deg, #FEF3C7, #FDE68A);
-            color: #92400E;
-            padding: 12px 16px;
-            text-align: center;
-            font-size: 14px;
-            font-weight: 500;
-            position: sticky;
-            top: 0;
-            z-index: 999;
-        }
-
-        @media (max-width: 768px) {
-            .mobile-notice { display: block; }
-        }
-
         /* 모바일 메뉴 버튼 - 좌측 상단 (초록색) */
         .mobile-menu-btn {
             display: none;
@@ -2734,11 +2716,6 @@
 </head>
 
 <body>
-    <!-- 모바일 안내 배너 -->
-    <div class="mobile-notice">
-        📱 모바일에서는 조회만 가능합니다. 작업은 PC에서 해주세요.
-    </div>
-
     <!-- 모바일 사이드바 오버레이 -->
     <div class="sidebar-overlay" onclick="closeAllSidebars()"></div>
 
