@@ -339,8 +339,8 @@ function buildManual() {
         try {
             execSync('pandoc --version', { stdio: 'ignore' });
         } catch {
-            log.error('pandoc이 설치되어 있지 않습니다. pandoc을 설치해주세요.');
-            return false;
+            log.info('pandoc 미설치 - 건너뜀 (Vercel 환경에서는 정상)');
+            return true;  // pandoc 없으면 건너뛰고 성공 처리
         }
 
         log.info('pandoc으로 MD → HTML 변환 중...');
@@ -371,8 +371,8 @@ function buildBuilderManual() {
         try {
             execSync('pandoc --version', { stdio: 'ignore' });
         } catch {
-            log.error('pandoc이 설치되어 있지 않습니다.');
-            return false;
+            log.info('pandoc 미설치 - 건너뜀 (Vercel 환경에서는 정상)');
+            return true;  // pandoc 없으면 건너뛰고 성공 처리
         }
 
         log.info('MD 파일 읽는 중...');
