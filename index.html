@@ -8927,7 +8927,12 @@ Claude Code가 작업을 완료하면:
                 if (result.success) {
                     // Workspace에 질문과 답변 표시
                     const workspace = document.getElementById('textEditor');
+                    const workspaceGuide = document.getElementById('workspaceGuide');
+
+                    // Control Desk: 안내문 숨기고 텍스트 에디터 표시
+                    if (workspaceGuide) workspaceGuide.style.display = 'none';
                     if (workspace) {
+                        workspace.style.display = 'block';
                         workspace.value = `${aiIcon} ${aiName}에게 질문:
 ${question}
 
