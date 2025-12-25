@@ -10529,15 +10529,9 @@ ${result.answer}`;
                 // 진행중 프로젝트 표시
                 const project = projects[0];
                 currentProjectList.innerHTML = `
-                    <div class="project-list-item selected" style="flex-direction: column; align-items: stretch;">
-                        <div onclick="selectProject('${project.project_name}')" style="display: flex; justify-content: space-between; align-items: center;">
-                            <span class="project-name">${project.project_name}</span>
-                            <span class="project-status">진행중</span>
-                        </div>
-                        <button onclick="event.stopPropagation(); completeProject('${project.project_id}', '${project.project_name}')"
-                            style="margin-top: 6px; padding: 4px 8px; font-size: 10px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">
-                            프로젝트 완료
-                        </button>
+                    <div class="project-list-item selected" onclick="completeProject('${project.project_id}', '${project.project_name}')">
+                        <span class="project-name">${project.project_name}</span>
+                        <span class="project-status">진행중</span>
                     </div>
                 `;
                 console.log('✅ 프로젝트 로드:', project.project_name);
