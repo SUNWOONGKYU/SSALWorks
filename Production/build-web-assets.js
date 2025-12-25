@@ -25,10 +25,10 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 
 // 경로 설정
 const PATHS = {
-    // 소스 경로
-    ordersheetsGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js'),
-    guidesGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings/generate-briefings-js.js'),
-    serviceGuidesGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/generate-service-guides-js.js'),
+    // 소스 폴더 (MD 파일들 위치)
+    ordersheetsDir: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates'),
+    guidesDir: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings'),
+    serviceGuidesDir: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide'),
     serviceIntroMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/서비스_소개_모달.md'),
     indexHtml: path.join(PROJECT_ROOT, 'Production/index.html'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),

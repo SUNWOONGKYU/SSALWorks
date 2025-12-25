@@ -1,0 +1,56 @@
+# ===== Vercel Deployment Ignore =====
+# 개발/내부용 폴더 제외, 배포 필요 폴더만 포함
+# 작성일: 2025-12-26
+
+# 개발 환경
+.claude/
+.git/
+.github/
+node_modules/
+
+# Stage 폴더 (개발 이력) - 배포 불필요
+S0_Project-SAL-Grid_생성/
+S1_개발_준비/
+S2_개발-1차/
+S3_개발-2차/
+S4_개발-3차/
+S5_개발_마무리/
+
+# Phase 폴더 (기획/문서) - 배포 불필요
+P0_작업_디렉토리_구조_생성/
+P1_사업계획/
+P2_프로젝트_기획/
+P3_프로토타입_제작/
+
+# 내부 도구 - 배포 불필요
+Human_ClaudeCode_Bridge/
+Development_Process_Monitor/
+Sidebar-Process-Tools/
+
+# 참고자료 - 배포 불필요
+참고자료/
+공개_전환_업무/
+
+# 캐시/임시
+.vercel/
+data/
+*.log
+*.backup
+
+# 테스트
+tests/
+test-results/
+playwright-report/
+jest.config.js
+playwright.config.js
+
+# 스크린샷/임시 이미지
+screenshot_*.png
+
+# ===== 배포 포함 대상 =====
+# index.html (루트)
+# 404.html (루트)
+# vercel.json (루트)
+# Production/ (API, 페이지, 설정)
+# 부수적_고유기능/ (콘텐츠)
+# Briefings_OrderSheets/ (빌드 결과물)

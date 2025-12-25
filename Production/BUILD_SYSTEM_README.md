@@ -29,7 +29,7 @@ node Production/build-all.js
 |---|---------|------|----------|
 | 1 | `build-progress.js` | 진행률 계산 | `data/phase_progress.json` |
 | 2 | `build-web-assets.js` | MD → JS 번들 | `ordersheets.js`, `guides.js`, `service-guides.js` |
-| 3 | `build-sal-grid-csv.js` | SAL Grid CSV 생성 | `data/sal_grid.csv` |
+| 3 | `S0_.../build-sal-grid-csv.js` | SAL Grid CSV 생성 | `data/sal_grid.csv` |
 
 ---
 
@@ -161,6 +161,8 @@ Markdown 파일들을 JavaScript 번들로 변환
 
 ## 3. build-sal-grid-csv.js (SAL Grid CSV)
 
+**위치:** `S0_Project-SAL-Grid_생성/build-sal-grid-csv.js`
+
 ### 역할
 Supabase `project_sal_grid` 테이블에서 데이터를 가져와 CSV 생성
 
@@ -199,7 +201,7 @@ Production/
 ├── build-all.js              ← 통합 빌드 (이것만 실행)
 ├── build-progress.js         ← 진행률 계산
 ├── build-web-assets.js       ← MD → JS 번들
-├── build-sal-grid-csv.js     ← SAL Grid CSV
+│   (build-sal-grid-csv.js는 S0_Project-SAL-Grid_생성/ 폴더에 위치)
 ├── vercel.json               ← buildCommand: "node build-all.js"
 │
 ├── data/

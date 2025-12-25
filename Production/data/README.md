@@ -18,8 +18,7 @@ data/
 Supabase에서 데이터를 가져와 CSV로 변환합니다.
 
 ```bash
-cd Production
-node build-sal-grid-csv.js
+node S0_Project-SAL-Grid_생성/build-sal-grid-csv.js
 ```
 
 ### phase_progress.json (공통)

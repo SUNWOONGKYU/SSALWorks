@@ -27,7 +27,7 @@ const buildScripts = [
     {
         name: '진행률 계산',
         script: 'build-progress.js',
-        dir: PRODUCTION_DIR
+        dir: path.join(PROJECT_ROOT, 'Development_Process_Monitor')
     },
     {
         name: 'Web Assets 빌드 (Order Sheet, 안내문)',
@@ -37,7 +37,7 @@ const buildScripts = [
     {
         name: 'SAL Grid CSV 생성',
         script: 'build-sal-grid-csv.js',
-        dir: PRODUCTION_DIR
+        dir: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성')
     }
 ];
 
