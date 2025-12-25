@@ -113,7 +113,7 @@ async function selectPackage(packageType) {
         // 결제 요약 업데이트
         updatePaymentSummary(pkg);
 
-        // 토스 페이먼트 위젯 초기화
+        // 토스페이먼츠 위젯 초기화
         await initializePaymentWidget(pkg);
 
         // UI 표시
@@ -139,14 +139,14 @@ function updatePaymentSummary(pkg) {
     document.getElementById('totalPrice').textContent = `${pkg.price.toLocaleString()}원`;
 }
 
-// 토스 페이먼트 위젯 초기화
+// 토스페이먼츠 위젯 초기화
 async function initializePaymentWidget(pkg) {
     try {
         // 환경 변수에서 클라이언트 키 가져오기
         const clientKey = import.meta.env.VITE_TOSS_CLIENT_KEY || process.env.TOSS_CLIENT_KEY;
 
         if (!clientKey) {
-            throw new Error('토스 페이먼트 클라이언트 키가 설정되지 않았습니다.');
+            throw new Error('토스페이먼츠 클라이언트 키가 설정되지 않았습니다.');
         }
 
         // 기존 위젯이 있으면 제거
@@ -170,7 +170,7 @@ async function initializePaymentWidget(pkg) {
         document.getElementById('payButton').disabled = false;
 
     } catch (error) {
-        console.error('토스 페이먼트 위젯 초기화 오류:', error);
+        console.error('토스페이먼츠 위젯 초기화 오류:', error);
         alert('결제 위젯 초기화에 실패했습니다. 페이지를 새로고침 해주세요.');
         document.getElementById('payButton').disabled = true;
     }

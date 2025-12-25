@@ -1,6 +1,6 @@
 /**
  * @task S4BA3
- * @description 토스 페이먼트 웹훅 수신 API
+ * @description 토스페이먼츠 웹훅 수신 API
  * @route POST /api/webhook/toss
  */
 

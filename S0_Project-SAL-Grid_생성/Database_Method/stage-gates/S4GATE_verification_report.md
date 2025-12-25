@@ -12,9 +12,9 @@
 | Task ID | Task Name | Status | Verification | Blockers |
 |---------|-----------|--------|--------------|----------|
 | S4D1 | 결제/크레딧 테이블 | ✅ Completed | ✅ Verified | None |
-| S4BA1 | 결제 API (토스 페이먼트) | ✅ Completed | ✅ Verified | None |
+| S4BA1 | 결제 API (토스페이먼츠) | ✅ Completed | ✅ Verified | None |
 | S4BA2 | 결제 웹훅 API | ✅ Completed | ✅ Verified | None |
-| S4BA3 | 토스 페이먼트 결제 API | ✅ Completed | ✅ Verified | None |
+| S4BA3 | 토스페이먼츠 결제 API | ✅ Completed | ✅ Verified | None |
 | S4BA4 | 크레딧 충전 API | ✅ Completed | ✅ Verified | None |
 | S4BA5 | 설치비 입금 확인 API | ✅ Completed | ✅ Verified | None |
 | S4BA6 | 결제/알림 이메일 템플릿 | ✅ Completed | ✅ Verified | None |
@@ -58,7 +58,7 @@
 
 S4 Stage의 모든 16개 Task가 완료되었습니다.
 
-- 결제 시스템 (토스 페이먼트, 무통장 입금)
+- 결제 시스템 (토스페이먼츠, 무통장 입금)
 - 크레딧 충전 시스템
 - 관리자 대시보드
 - Cron Jobs 스케줄러

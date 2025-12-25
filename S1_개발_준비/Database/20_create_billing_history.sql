@@ -44,7 +44,7 @@ CREATE TABLE public.billing_history (
     refund_date TIMESTAMPTZ,
     refund_reason TEXT,
 
-    -- 토스 페이먼트 결제 키
+    -- 토스페이먼츠 결제 키
     toss_payment_key TEXT,
 
     -- 메모
@@ -89,7 +89,7 @@ COMMENT ON COLUMN public.billing_history.retry_count IS '결제 재시도 횟수
 COMMENT ON COLUMN public.billing_history.refund_amount IS '환불 금액';
 COMMENT ON COLUMN public.billing_history.refund_date IS '환불일시';
 COMMENT ON COLUMN public.billing_history.refund_reason IS '환불 사유';
-COMMENT ON COLUMN public.billing_history.toss_payment_key IS '토스 페이먼트 결제 키';
+COMMENT ON COLUMN public.billing_history.toss_payment_key IS '토스페이먼츠 결제 키';
 
 -- 완료 확인
 SELECT 'billing_history 테이블 생성 완료' as status;

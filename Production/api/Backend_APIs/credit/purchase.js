@@ -97,7 +97,7 @@ module.exports = async (req, res) => {
             });
         }
 
-        // 5. 토스 페이먼트 결제 승인
+        // 5. 토스페이먼츠 결제 승인
         const tossResponse = await fetch(`${TOSS_API_URL}/payments/confirm`, {
             method: 'POST',
             headers: {

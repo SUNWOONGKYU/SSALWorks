@@ -432,9 +432,9 @@ INSERT INTO ssalworks_tasks (
   NULL, 'Not Verified', '카드/계좌 정보 입력 페이지'
 ),
 
--- S4BA1: 결제 API (토스 페이먼트)
+-- S4BA1: 결제 API (토스페이먼츠)
 (
-  4, 'BA', 'S4BA1', '결제 API (토스 페이먼트)',
+  4, 'BA', 'S4BA1', '결제 API (토스페이먼츠)',
   'task-instructions/S4BA1_instruction.md', 'backend-developer', 'npm, vercel-cli, toss-payments-sdk', 'AI-Only', 'S2BA3',
   0, 'Pending', NULL, NULL,
   'verification-instructions/S4BA1_verification.md', 'code-reviewer',
@@ -680,10 +680,10 @@ INSERT INTO ssalworks_tasks (
   NULL, 'Not Verified', 'AI 모델 선택, 질문 입력, 답변 표시 UI'
 ),
 
--- S4BA3: 토스 페이먼트 결제 API
+-- S4BA3: 토스페이먼츠 결제 API
 (
-  4, 'BA', 'S4BA3', '토스 페이먼트 결제 API',
-  'task-instructions/S4BA3_instruction.md', 'backend-developer', '토스 페이먼트 API, supabase-js', 'Human-AI', 'S4BA2, S4D1',
+  4, 'BA', 'S4BA3', '토스페이먼츠 결제 API',
+  'task-instructions/S4BA3_instruction.md', 'backend-developer', '토스페이먼츠 API, supabase-js', 'Human-AI', 'S4BA2, S4D1',
   0, 'Pending', NULL, NULL,
   'verification-instructions/S4BA3_verification.md', 'code-reviewer',
   NULL, NULL, NULL, NULL,

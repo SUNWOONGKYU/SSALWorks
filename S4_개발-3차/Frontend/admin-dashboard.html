@@ -5516,7 +5516,7 @@
 
             showLoading();
             try {
-                // 재시도 횟수 증가 (실제 결제 재시도는 토스 페이먼트 연동 필요)
+                // 재시도 횟수 증가 (실제 결제 재시도는 토스페이먼츠 연동 필요)
                 const bill = billingHistory.find(b => b.id === billingId);
 
                 const { error } = await supabaseClient
@@ -5528,7 +5528,7 @@
 
                 if (error) throw error;
 
-                showToast('결제 재시도가 요청되었습니다. (토스 페이먼트 연동 필요)', 'info');
+                showToast('결제 재시도가 요청되었습니다. (토스페이먼츠 연동 필요)', 'info');
                 loadBillingHistory();
 
             } catch (error) {

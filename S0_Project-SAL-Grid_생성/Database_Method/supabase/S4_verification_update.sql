@@ -44,7 +44,7 @@ UPDATE tasks SET
     updated_at = NOW()
 WHERE task_id = 'S4BA2';
 
--- S4BA3: 토스 페이먼트 결제 API
+-- S4BA3: 토스페이먼츠 결제 API
 UPDATE tasks SET
     task_progress = 100,
     task_status = 'Executed',

@@ -22,16 +22,20 @@
 | 새로운 프로젝트 등록 | ✅ | `pages/projects/new.html:572` |
 | 프로젝트 생성 API | ✅ | `api/Backend_APIs/projects/create.js:125` |
 | 진행 프로세스 관리 | ✅ | `index.html:10504-10515` |
-| 예시 프로젝트 Google Drive | ❌ | 빌더 체크 없음 - 수정 필요 |
-| Order Sheet 전달하기 | ❌ | 빌더 체크 없음 - 수정 필요 |
-| Reports 불러오기 | ❌ | 빌더 체크 없음 - 수정 필요 |
-| 매뉴얼 다운로드 | ❌ | 기능 미구현 |
+| 예시 프로젝트 Google Drive | ✅ | 빌더 체크 추가 완료 |
+| Order Sheet 전달하기 | ✅ | 빌더 체크 추가 완료 |
+| Reports 불러오기 | ✅ | 빌더 체크 추가 완료 |
+| 매뉴얼 다운로드 | 🔜 | 기능 미구현 (예정) |
 
-**수정 필요 사항:**
-1. `executeStageAction()` 함수에 빌더 체크 추가
-2. `deliverOrderSheet()` 함수에 빌더 체크 추가
-3. `loadFromReportsWithFileAPI()` 함수에 빌더 체크 추가
-4. 마이페이지에 매뉴얼 다운로드 기능 신규 구현
+**수정 완료:**
+1. ✅ `executeStageAction()` 함수에 빌더 체크 추가 (`index.html:6084`)
+2. ✅ `deliverOrderSheet()` 함수에 빌더 체크 추가 (`index.html:6379`)
+3. ✅ `loadFromReportsWithFileAPI()` 함수에 빌더 체크 추가 (`index.html:6768`)
+4. 🔜 마이페이지에 매뉴얼 다운로드 기능 신규 구현 (예정)
+
+**수정 파일:**
+- `Production/index.html` (3개 함수 수정)
+- `P2_프로젝트_기획/Service_Introduction/회원등급별_접근권한.md` (문서 업데이트)
 
 ---
 

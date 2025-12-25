@@ -273,7 +273,7 @@ S2 (개발 1차 - Auth & Registration): 12개 Task
 2. 외부 연동 준비
    - Google OAuth: Credentials 설정 필요 (Human-Assisted)
    - Resend API: API Key 발급 필요
-   - 토스 페이먼트: S4에서 가맹점 등록 필요
+   - 토스페이먼츠: S4에서 가맹점 등록 필요
 
 3. 환경변수
    - 개발/프로덕션 환경변수 분리 관리

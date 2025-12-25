@@ -30,7 +30,7 @@ CREATE TABLE public.payment_methods (
     -- 기본 결제 수단 여부
     is_default BOOLEAN DEFAULT true,
 
-    -- 토스 페이먼트 빌링키 (자동결제용)
+    -- 토스페이먼츠 빌링키 (자동결제용)
     toss_billing_key TEXT,
 
     -- 타임스탬프
@@ -72,7 +72,7 @@ COMMENT ON COLUMN public.payment_methods.card_company IS '카드사명';
 COMMENT ON COLUMN public.payment_methods.bank_name IS '은행명';
 COMMENT ON COLUMN public.payment_methods.account_last4 IS '계좌번호 마지막 4자리';
 COMMENT ON COLUMN public.payment_methods.is_default IS '기본 결제 수단 여부';
-COMMENT ON COLUMN public.payment_methods.toss_billing_key IS '토스 페이먼트 빌링키 (자동결제용)';
+COMMENT ON COLUMN public.payment_methods.toss_billing_key IS '토스페이먼츠 빌링키 (자동결제용)';
 
 -- 완료 확인
 SELECT 'payment_methods 테이블 생성 완료' as status;

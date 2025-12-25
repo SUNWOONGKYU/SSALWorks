@@ -57,7 +57,7 @@ GOOGLE_CLIENT_SECRET=[client-secret]
 2. OAuth 2.0 Client ID 생성 또는 확인
 3. Authorized redirect URIs 설정 필요
 
-### 2.3 결제 (토스 페이먼트)
+### 2.3 결제 (토스페이먼츠)
 
 ```env
 # TossPayments
@@ -66,7 +66,7 @@ TOSS_SECRET_KEY=test_sk_[key]
 ```
 
 **값 확인 방법:**
-1. 토스 페이먼트 개발자센터 → 내 개발 정보
+1. 토스페이먼츠 개발자센터 → 내 개발 정보
 2. 테스트 키 또는 라이브 키 복사
 
 ### 2.4 이메일 (Resend)
