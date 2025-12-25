@@ -7,7 +7,7 @@ const fs = require('fs');
 const path = require('path');
 
 const inputDir = __dirname;
-const outputFile = path.join(__dirname, '..', '..', '..', 'Production', 'Frontend', 'service-guides.js');
+const outputFile = path.join(__dirname, 'service-guides.js');
 
 console.log('📋 service-guides.js 생성 시작...');
 
