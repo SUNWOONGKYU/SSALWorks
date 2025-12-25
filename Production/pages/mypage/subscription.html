@@ -637,6 +637,20 @@
 
                 if (error) throw error;
 
+                // 관리자에게 입금 확인 요청 알림 발송 (비동기, 실패해도 무시)
+                fetch('/api/Backend_APIs/admin-notify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'installation_request',
+                        data: {
+                            email: currentUser?.email || 'Unknown',
+                            depositor_name: depositorName,
+                            amount: currentDepositAmount
+                        }
+                    })
+                }).catch(err => console.log('Admin notify skipped:', err));
+
                 closeDepositModal();
                 showToast('입금 완료 확인이 접수되었습니다.', 'success');
             } catch (error) {

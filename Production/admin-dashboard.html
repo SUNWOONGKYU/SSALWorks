@@ -1186,6 +1186,11 @@
     </style>
 </head>
 <body>
+    <!-- 모바일 안내 배너 -->
+    <div class="mobile-notice">
+        📱 모바일에서는 조회만 가능합니다. 작업은 PC에서 해주세요.
+    </div>
+
     <div class="sidebar-overlay" onclick="closeSidebar()"></div>
     <!-- 공지사항 작성/수정 모달 -->
     <div id="noticeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
@@ -2133,6 +2138,10 @@
                     <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
                         <input type="checkbox" id="settingNotifySignup">
                         <label for="settingNotifySignup" style="font-weight: 500;">신규 가입 시 이메일 알림</label>
+                    </div>
+                    <div class="form-group" style="display: flex; align-items: center; gap: 12px;">
+                        <input type="checkbox" id="settingNotifyInstallationRequest" checked>
+                        <label for="settingNotifyInstallationRequest" style="font-weight: 500;">빌더 계정 개설비 입금 확인 요청 시 이메일 알림</label>
                     </div>
                 </div>
 
@@ -7051,6 +7060,7 @@
                 document.getElementById('settingNotifyInquiry').checked = data.notify_inquiry ?? true;
                 document.getElementById('settingNotifyPayment').checked = data.notify_payment ?? true;
                 document.getElementById('settingNotifySignup').checked = data.notify_signup ?? false;
+                document.getElementById('settingNotifyInstallationRequest').checked = data.notify_installation_request ?? true;
                 document.getElementById('settingInstallFee').value = data.install_fee || 3000000;
                 document.getElementById('settingMonthlyFee').value = data.monthly_fee || 50000;
                 document.getElementById('settingCreditPrice').value = data.credit_price || 10;
@@ -7074,6 +7084,7 @@
             document.getElementById('settingNotifyInquiry').checked = true;
             document.getElementById('settingNotifyPayment').checked = true;
             document.getElementById('settingNotifySignup').checked = false;
+            document.getElementById('settingNotifyInstallationRequest').checked = true;
             document.getElementById('settingInstallFee').value = 3000000;
             document.getElementById('settingMonthlyFee').value = 50000;
             document.getElementById('settingCreditPrice').value = 10;
@@ -7091,6 +7102,7 @@
                     notify_inquiry: document.getElementById('settingNotifyInquiry').checked,
                     notify_payment: document.getElementById('settingNotifyPayment').checked,
                     notify_signup: document.getElementById('settingNotifySignup').checked,
+                    notify_installation_request: document.getElementById('settingNotifyInstallationRequest').checked,
                     install_fee: parseInt(document.getElementById('settingInstallFee').value) || 3000000,
                     monthly_fee: parseInt(document.getElementById('settingMonthlyFee').value) || 50000,
                     credit_price: parseInt(document.getElementById('settingCreditPrice').value) || 10,
