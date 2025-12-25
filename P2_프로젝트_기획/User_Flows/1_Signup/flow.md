@@ -95,6 +95,10 @@ INSERT INTO users (
 );
 ```
 
+> **💡 참고:** 회원가입 시 `credit_balance`는 0입니다.
+> 설치비 납부 완료 시 ₩50,000 웰컴 크레딧이 지급됩니다.
+> → 상세: `2_Project_Registration/flow.md` Step 5 참조
+
 **API Response:**
 ```json
 {
