@@ -123,12 +123,11 @@
 | - DB 기반 동적 가격 표시 | Price fetched from ai_pricing table | ✅ |
 | - API 원가 + 마진 20% 계산 | Pricing calculation logic | ✅ |
 | - 가격 변경 시 알림 | Price change notification | ✅ |
-| **충전 금액 옵션** | | |
-| - ₩5,000 (보너스 없음) | Option in credit purchase modal | ✅ |
-| - ₩10,000 (+₩1,000 보너스) | 10% bonus option | ✅ |
-| - ₩30,000 (+₩5,000 보너스) | 16.7% bonus option | ✅ |
-| - ₩50,000 (+₩10,000 보너스) | 20% bonus option | ✅ |
-| - ₩100,000 (+₩25,000 보너스) | 25% bonus option | ✅ |
+| **충전 금액 옵션 (1:1 비율)** | | |
+| - ₩10,000 = 10,000 크레딧 | Option in credit purchase modal | ✅ |
+| - ₩30,000 = 30,000 크레딧 | Option in credit purchase modal | ✅ |
+| - ₩50,000 = 50,000 크레딧 | Option in credit purchase modal | ✅ |
+| - ₩100,000 = 100,000 크레딧 | Option in credit purchase modal | ✅ |
 | **트랜잭션 기반 안전성** | | |
 | - FOR UPDATE 잠금 (정확한 잔액 관리) | Transaction logic in API | ✅ |
 | - Race Condition 방지 | Atomic operations | ✅ |

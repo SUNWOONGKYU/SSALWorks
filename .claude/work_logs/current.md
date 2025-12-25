@@ -1207,6 +1207,75 @@ document.querySelectorAll('.data-table').forEach(table => {
 
 ---
 
+## 2025-12-25 작업 내역
+
+### Development Process Monitor JSON 기반으로 전환 ✅
+
+**배경:**
+- 기존: Supabase DB(project_phase_progress 테이블)에서 진행률 로드
+- 문제: 사용자가 로컬에서 작업하는데 원격 DB에 진행률 저장하기 어려움
+- 해결: 로컬 파일 기반으로 전환
+
+**새로운 아키텍처:**
+
+```
+P0~S0 (기획/준비 단계)          S1~S5 (개발 단계)
+     ↓                              ↓
+폴더/파일 존재 여부 검사         SAL Grid CSV 파일
+     ↓                              ↓
+     └──────────┬──────────────────┘
+                ↓
+         build-progress.js
+                ↓
+         phase_progress.json
+                ↓
+         index.html (fetch)
+```
+
+**생성된 빌드 스크립트:**
+
+| 파일 | 용도 |
+|------|------|
+| `Production/build-sal-grid-csv.js` | Supabase → CSV (57개 Task) |
+| `Production/build-progress.js` | 폴더/CSV → JSON (P0~S5 진행률) |
+
+**진행률 계산 로직:**
+- **P0**: 파일에 내용 있음 = 완료 (`fs.statSync().size > 0`)
+- **P1~S0**: 폴더 내 파일 1개 이상 = 완료
+- **S1~S5**: CSV에서 `task_status === 'Completed'` 비율 계산
+
+**생성된 데이터 파일:**
+- `Production/data/phase_progress.json` - P0~S5 진행률 (10개 단계)
+- `Production/data/sal_grid.csv` - SAL Grid Task 목록 (57개)
+
+**index.html 수정:**
+- `loadPhaseProgressFromDB()` 함수: Supabase 쿼리 → JSON fetch로 변경
+- 60초 자동 갱신 제거 (정적 파일이므로 불필요)
+- 로딩 딜레이 1500ms → 500ms로 단축
+
+**현재 진행률 결과:**
+| Phase | 이름 | 진행률 | 완료/전체 |
+|-------|------|--------|----------|
+| P0 | 작업 디렉토리 구조 생성 | 100% | 2/2 |
+| P1 | 사업계획 | 100% | 5/5 |
+| P2 | 프로젝트 기획 | 100% | 8/8 |
+| P3 | 프로토타입 제작 | 67% | 2/3 |
+| S0 | Project SAL Grid 생성 | 100% | 4/4 |
+| S1 | 개발 준비 | 100% | 9/9 |
+| S2 | 개발 1차 | 100% | 16/16 |
+| S3 | 개발 2차 | 100% | 6/6 |
+| S4 | 개발 3차 | 100% | 18/18 |
+| S5 | 개발 마무리 | 100% | 8/8 |
+
+**빌드 명령:**
+```bash
+cd Production
+node build-sal-grid-csv.js  # Supabase에서 CSV 생성
+node build-progress.js       # 진행률 JSON 생성
+```
+
+---
+
 ## 다음 세션 TODO
 
 ### 1. S4F6 마이페이지 문의 관리 테스트

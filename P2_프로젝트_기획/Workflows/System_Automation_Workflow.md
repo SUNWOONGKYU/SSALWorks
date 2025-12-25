@@ -543,12 +543,12 @@ function getRechargeEmailTemplate(user) {
       <p>현재 잔액이 <strong>${user.credit_balance.toLocaleString()} C</strong>로 부족할 수 있어요.</p>
 
       <div class="highlight-box">
-        <h3 style="margin-top: 0;">🎉 이번 주 특별 이벤트!</h3>
-        <p><strong>충전하시면 10% 보너스를 드립니다!</strong></p>
+        <h3 style="margin-top: 0;">💡 AI 크레딧 충전</h3>
+        <p><strong>토스페이먼츠로 간편하게 충전하세요!</strong></p>
         <ul>
-          <li>기간: 이번 주 일요일까지</li>
-          <li>혜택: 충전 금액의 10% 보너스 크레딧</li>
-          <li>예시: ₩100,000 충전 → <strong>110,000 C 지급</strong></li>
+          <li>충전 금액: ₩10,000 / ₩30,000 / ₩50,000 / ₩100,000</li>
+          <li>결제 방식: 토스페이먼츠</li>
+          <li>충전 즉시 사용 가능</li>
         </ul>
       </div>
 
@@ -999,8 +999,6 @@ if (transaction_type === 'credit_recharge') {
 | 크레딧 부족 | 잔액 < 1,000 C | 사용자 | low_credit |
 | 이탈 방지 | 7일 미로그인 | 사용자 | churn_prevention |
 | 문의 답변 | 답변 완료 | 사용자 | inquiry_answered |
-| 환불 승인 | 환불 완료 | 사용자 | refund_approved |
-| 환불 거부 | 환불 거부 | 사용자 | refund_rejected |
 | 구독 정지 | 7일 미납 | 사용자 | subscription_suspended |
 | 가격 변동 | ±10% 초과 | 관리자 | price_change_alert |
 | 시스템 장애 | 장애 발생 | 관리자 | system_failure |

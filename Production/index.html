@@ -4763,49 +4763,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // ========== 전체 Stage 데이터 정의 ==========
         const STAGE_DATA = {
-            // ===== 로그인 시 환영 =====
-            'welcome': {
-                stageId: 'welcome',
-                stageName: '환영합니다',
-                hasAction: false,  // 단순 안내 - [확인] 버튼만
-                confirmMessage: '',
-                orderSheetAfterExecute: `# SSAL Works 시작 가이드
-
-## ✅ 환영합니다!
-
-SSAL Works에 오신 것을 환영합니다.
-AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
-
----
-
-## 📝 첫 번째 할 일
-
-1. 좌측 사이드바에서 프로젝트를 선택하세요
-2. 진행 프로세스에서 현재 단계를 확인하세요
-3. Order Sheet를 작성하여 작업을 요청하세요
-
----
-
-## 추가 요청사항
-
-[여기에 추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - 시작 가이드
-
-## 기본 정보
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 요청사항
-
-[여기에 요청사항을 작성하세요]
-
-`,
-                guideUrl: 'guides/Welcome.html'
-            },
-
             // ===== 예시 프로젝트 (SSAL Works 예시) =====
             'project_example': {
                 stageId: 'project_example',
@@ -4817,63 +4774,16 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 guideUrl: 'guides/Project_Example.html'
             },
 
-            // ===== 실제 프로젝트 선택 =====
-            'project_work': {
-                stageId: 'project_work',
-                stageName: '프로젝트 작업',
-                hasAction: true,  // 실제 행위 - [예]/[아니오] 버튼
-                confirmMessage: '이 프로젝트에 Order Sheet를 발행하시겠습니까?',
-                orderSheetAfterExecute: `# 프로젝트 작업 Order Sheet
-
-## ✅ 프로젝트가 선택되었습니다
-
-선택한 프로젝트에서 작업을 진행합니다.
-
----
-
-## 📝 추가 요청사항
-
-[프로젝트 관련 추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - 프로젝트 작업 요청
-
-## 기본 정보
-- **Order ID**: OS-PRJ-[SEQ]
-- **프로젝트명**: [프로젝트명]
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-- **우선순위**: 보통
-
----
-
-## 작업 요청 내용
-
-### 요청 유형
-- [ ] 새로운 기능 개발
-- [ ] 기존 기능 수정
-- [ ] 버그 수정
-- [ ] 디자인 변경
-- [ ] 문서 작성
-- [ ] 기타
-
-### 상세 요청사항
-
-[구체적인 작업 내용을 작성하세요]
-
----
-
-## 참고 자료
-
-- 관련 파일: [파일 경로]
-- 참고 링크: [URL]
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
-                guideUrl: 'guides/Project_Work.html'
+            // ===== 완료된 프로젝트 수정 =====
+            'completed_project_revision': {
+                stageId: 'completed_project_revision',
+                stageName: '완료 프로젝트 수정',
+                hasAction: true,
+                confirmMessage: 'Order Sheet를 Control Desk에 로드하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/Completed_Project_Revision_Briefing.html',
+                orderSheetUrl: 'templates/Completed_Project_Revision_OrderSheet.md'
             },
 
             // ===== ☆ 특별단계: 디렉토리 구조 생성 =====
@@ -9710,94 +9620,32 @@ ${result.answer}`;
         }
 
         // ================================================================
-        // Phase 진행률 DB에서 로드 (project_phase_progress 테이블)
-        // P0~P3, S0~S5 모든 진행률을 DB에서 관리
-        // 사용자 프로젝트의 project_id로 해당 프로젝트 진행률 로드
+        // Phase 진행률 JSON 파일에서 로드 (data/phase_progress.json)
+        // P0~S5 모든 진행률을 빌드 시 생성된 JSON 파일에서 로드
+        // 빌드 스크립트: node build-progress.js
+        // - P0~S0: 폴더/파일 존재 여부 기반
+        // - S1~S5: SAL Grid CSV의 Task 완료율 기반
         // ================================================================
         async function loadPhaseProgressFromDB(projectId = null) {
-            // window.supabaseClient가 초기화되지 않았으면 대기
-            if (!window.supabaseClient) {
-                console.warn('⏳ Phase 진행률: Supabase 클라이언트 대기 중...');
-                setTimeout(() => loadPhaseProgressFromDB(projectId), 500);
-                return;
-            }
-
             try {
-                // projectId가 지정되지 않은 경우 현재 사용자의 프로젝트 ID 조회
-                if (!projectId) {
-                    // 현재 진행중인 프로젝트의 project_id 조회
-                    const { data: { session } } = await window.supabaseClient.auth.getSession();
-                    if (!session) {
-                        console.log('📊 세션 없음: 진행률 로드 스킵');
-                        resetAllProgressToZero();
-                        return;
-                    }
-
-                    // ================================================================
-                    // 🔐 관리자 이메일: 자동으로 SSALWORKS 프로젝트 로드
-                    // 다른 사용자: 본인의 프로젝트 ID 조회 필요
-                    // ================================================================
-                    const ADMIN_EMAIL = 'wksum999@gmail.com';
-                    const DEFAULT_PROJECT_ID = 'SSALWORKS';
-
-                    if (session.user.email === ADMIN_EMAIL) {
-                        projectId = DEFAULT_PROJECT_ID;
-                        console.log('📊 관리자 접속: SSALWORKS 프로젝트 자동 로드');
-                        // 관리자: 프로젝트 이름을 SSALWORKS로 표시
-                        updateCurrentProjectName('SSALWORKS');
-                    } else {
-                        // 일반 사용자: 본인의 프로젝트 조회
-                        // 사용자의 user_id 조회
-                        const { data: userData } = await window.supabaseClient
-                            .from('users')
-                            .select('user_id')
-                            .eq('id', session.user.id)
-                            .single();
-
-                        if (!userData) {
-                            console.log('📊 사용자 정보 없음: 진행률 로드 스킵');
-                            resetAllProgressToZero();
-                            updateCurrentProjectName('진행중인 프로젝트');
-                            return;
-                        }
-
-                        // 현재 진행중인 프로젝트 조회 (프로젝트 이름 포함)
-                        const { data: project } = await window.supabaseClient
-                            .from('projects')
-                            .select('project_id, project_name')
-                            .eq('user_id', userData.user_id)
-                            .eq('status', 'in_progress')
-                            .single();
-
-                        if (!project) {
-                            console.log('📊 진행중인 프로젝트 없음: 프로젝트 등록 필요');
-                            console.log('💡 프로젝트를 등록하면 진행률을 확인할 수 있습니다.');
-                            resetAllProgressToZero();
-                            updateCurrentProjectName('진행중인 프로젝트');
-                            return;
-                        }
-
-                        projectId = project.project_id;
-                        console.log('📊 사용자 프로젝트 ID:', projectId);
-                        // 사용자의 프로젝트 이름 표시
-                        updateCurrentProjectName(project.project_name || project.project_id);
-                    }
-                }
-
-                const { data, error } = await window.supabaseClient
-                    .from('project_phase_progress')
-                    .select('phase_code, progress')
-                    .eq('project_id', projectId);
-
-                if (error) {
-                    console.warn('Phase 진행률 DB 로드 실패:', error);
+                // JSON 파일에서 진행률 데이터 로드
+                const response = await fetch('data/phase_progress.json');
+                if (!response.ok) {
+                    console.warn('📊 phase_progress.json 로드 실패:', response.status);
+                    resetAllProgressToZero();
                     return;
                 }
 
-                if (data && data.length > 0) {
-                    data.forEach(item => {
-                        const code = item.phase_code;
-                        const progress = item.progress;
+                const jsonData = await response.json();
+
+                // 프로젝트 이름 업데이트
+                updateCurrentProjectName(jsonData.project_id || 'SSALWORKS');
+                console.log('📊 프로젝트:', jsonData.project_id, '/ 업데이트:', jsonData.updated_at);
+
+                // phases 객체에서 진행률 적용
+                if (jsonData.phases) {
+                    Object.entries(jsonData.phases).forEach(([code, phaseData]) => {
+                        const progress = phaseData.progress || 0;
 
                         // P0, S0는 특별단계
                         if (code === 'P0' || code === 'S0') {
@@ -9812,14 +9660,14 @@ ${result.answer}`;
                             updateStageProgress(code, progress);
                         }
                     });
-                    console.log('📊 Phase 진행률 DB 로드 완료:', projectId, data.length + '개');
+                    console.log('📊 Phase 진행률 JSON 로드 완료:', Object.keys(jsonData.phases).length + '개 단계');
                 } else {
-                    // 해당 프로젝트의 phase_progress 데이터가 없으면 0%로 초기화
-                    console.log('📊 Phase 진행률 데이터 없음:', projectId);
+                    console.log('📊 Phase 진행률 데이터 없음');
                     resetAllProgressToZero();
                 }
             } catch (e) {
                 console.warn('Phase 진행률 로드 오류:', e);
+                resetAllProgressToZero();
             }
         }
 
@@ -9849,17 +9697,12 @@ ${result.answer}`;
             });
         }
 
-        // 페이지 로드 시 진행률 자동 업데이트 (DB에서 로드)
+        // 페이지 로드 시 진행률 자동 업데이트 (JSON 파일에서 로드)
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadPhaseProgressFromDB();
-            }, 1500);
+            }, 500);  // JSON 파일은 빠르게 로드 가능
         });
-
-        // 60초마다 자동 갱신
-        setInterval(() => {
-            loadPhaseProgressFromDB();
-        }, 60000);
     </script>
 
     <!-- Socket.io for real-time Order Sheet notifications -->
@@ -10683,7 +10526,7 @@ ${result.answer}`;
                 // 진행중 프로젝트 표시
                 const project = projects[0];
                 currentProjectList.innerHTML = `
-                    <div class="project-list-item selected" onclick="loadProcessStage('project_work', '${project.project_name}', '프로젝트'); selectProject('${project.project_name}')">
+                    <div class="project-list-item selected" onclick="selectProject('${project.project_name}')">
                         <span class="project-name">${project.project_name}</span>
                         <span class="project-status">진행중</span>
                     </div>
@@ -10747,7 +10590,7 @@ ${result.answer}`;
                 }
 
                 completedProjectsList.innerHTML = projects.map(p => `
-                    <div class="project-list-item" onclick="selectProject('${p.project_name}')" style="opacity: 0.7;">
+                    <div class="project-list-item" onclick="loadProcessStage('completed_project_revision', '${p.project_name}', '완료 프로젝트'); selectProject('${p.project_name}')" style="opacity: 0.7;">
                         <span class="project-name">${p.project_name}</span>
                         <span class="project-status" style="background: var(--success); color: white;">완료</span>
                     </div>
