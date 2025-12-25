@@ -145,7 +145,7 @@ Markdown 파일들을 JavaScript 번들로 변환
 
 | 파일 |
 |------|
-| 서비스_소개_모달_초안.md |
+| 서비스_소개_모달.md |
 
 **출력:** `Production/index.html` 내 서비스 소개 모달 섹션 업데이트
 
