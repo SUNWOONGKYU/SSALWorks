@@ -600,41 +600,68 @@
 
             .layout-container {
                 grid-template-columns: 1fr;
-                grid-template-rows: 70px auto auto 60px;
+                grid-template-rows: 70px auto 60px;
                 box-shadow: none;
             }
 
             .sidebar {
-                grid-column: 1;
-                grid-row: 2;
-                border-right: none;
-                border-bottom: 2px solid var(--border-color);
-                display: flex;
-                overflow-x: auto;
-                padding: 10px 0;
+                position: fixed !important;
+                left: -280px;
+                top: 0;
+                width: 280px !important;
+                height: 100vh;
+                background: white;
+                z-index: 1000;
+                transition: left 0.3s ease;
+                overflow-y: auto;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.15);
+                padding: 70px 0 20px 0;
+                display: block;
+            }
+
+            .sidebar.open {
+                left: 0 !important;
             }
 
             .menu-section {
-                display: flex;
-                flex-direction: row;
-                gap: 8px;
-                margin-bottom: 0;
-                margin-right: 16px;
+                display: block;
+                margin-bottom: 16px;
+                padding: 0 16px;
             }
 
             .menu-section-title {
-                display: none;
+                display: block;
+                font-size: 12px;
+                color: var(--neutral);
+                margin-bottom: 8px;
             }
 
             .menu-item {
-                white-space: nowrap;
-                padding: 8px 12px;
-                font-size: 12px;
+                display: block;
+                padding: 10px 12px;
+                font-size: 13px;
+                border-radius: 6px;
+                margin-bottom: 4px;
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 999;
+            }
+
+            .sidebar-overlay.active {
+                display: block;
             }
 
             .main-content {
                 grid-column: 1;
-                grid-row: 3;
+                grid-row: 2;
                 padding: 16px;
             }
 
@@ -661,6 +688,7 @@
 
             .footer {
                 grid-column: 1;
+                grid-row: 3;
                 padding: 8px 16px;
             }
 
@@ -1186,11 +1214,6 @@
     </style>
 </head>
 <body>
-    <!-- 모바일 안내 배너 -->
-    <div class="mobile-notice">
-        📱 모바일에서는 조회만 가능합니다. 작업은 PC에서 해주세요.
-    </div>
-
     <div class="sidebar-overlay" onclick="closeSidebar()"></div>
     <!-- 공지사항 작성/수정 모달 -->
     <div id="noticeModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
@@ -7063,7 +7086,7 @@
                 document.getElementById('settingNotifyInstallationRequest').checked = data.notify_installation_request ?? true;
                 document.getElementById('settingInstallFee').value = data.install_fee || 3000000;
                 document.getElementById('settingMonthlyFee').value = data.monthly_fee || 50000;
-                document.getElementById('settingCreditPrice').value = data.credit_price || 10;
+                document.getElementById('settingCreditPrice').value = data.credit_price || 1;
 
                 if (data.last_backup) {
                     const backupDate = new Date(data.last_backup).toLocaleString('ko-KR');
@@ -7087,10 +7110,10 @@
             document.getElementById('settingNotifyInstallationRequest').checked = true;
             document.getElementById('settingInstallFee').value = 3000000;
             document.getElementById('settingMonthlyFee').value = 50000;
-            document.getElementById('settingCreditPrice').value = 10;
+            document.getElementById('settingCreditPrice').value = 1;
         }
 
-        // 설정 저장
+        // 설정 저장 (서버 API 사용)
         async function saveAdminSettings() {
             try {
                 showLoading('설정 저장 중...');
@@ -7105,21 +7128,23 @@
                     notify_installation_request: document.getElementById('settingNotifyInstallationRequest').checked,
                     install_fee: parseInt(document.getElementById('settingInstallFee').value) || 3000000,
                     monthly_fee: parseInt(document.getElementById('settingMonthlyFee').value) || 50000,
-                    credit_price: parseInt(document.getElementById('settingCreditPrice').value) || 10,
-                    updated_at: new Date().toISOString()
+                    credit_price: parseInt(document.getElementById('settingCreditPrice').value) || 1
                 };
 
                 console.log('📤 설정 저장 요청:', settings);
 
-                const { data, error } = await supabaseClient
-                    .from('admin_settings')
-                    .update(settings)
-                    .eq('id', 1)
-                    .select();
+                const response = await fetch('/api/Backend_APIs/admin/settings', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(settings)
+                });
 
-                console.log('📥 설정 저장 응답:', { data, error });
+                const result = await response.json();
+                console.log('📥 설정 저장 응답:', result);
 
-                if (error) throw error;
+                if (!response.ok || !result.success) {
+                    throw new Error(result.error || '저장 실패');
+                }
 
                 showToast('설정이 저장되었습니다!', 'success');
 
@@ -7164,6 +7189,36 @@
                 .single();
             return data?.email || 'Unknown';
         }
+
+        // ========== 모바일 사이드바 토글 함수 ==========
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (sidebar) {
+                sidebar.classList.toggle('open');
+            }
+            if (overlay) {
+                overlay.classList.toggle('active');
+            }
+        }
+
+        function closeSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            if (sidebar) {
+                sidebar.classList.remove('open');
+            }
+            if (overlay) {
+                overlay.classList.remove('active');
+            }
+        }
+
+        // ESC 키로 사이드바 닫기
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeSidebar();
+            }
+        });
 
     </script>
 </body>

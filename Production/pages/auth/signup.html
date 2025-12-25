@@ -670,6 +670,20 @@
                 // 6. 성공
                 hideLoading();
                 showAlert(`회원가입이 완료되었습니다! 이메일 인증 링크를 발송했습니다.`, 'success');
+// 7. 관리자에게 신규 가입 알림 (비동기, 실패해도 무시)
+                fetch('/api/Backend_APIs/admin-notify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        type: 'signup',
+                        data: {
+                            email: email,
+                            nickname: nickname,
+                            real_name: realName,
+                            provider: 'Email'
+                        }
+                    })
+                }).catch(err => console.log('Admin notify skipped:', err));
 
                 // 3초 후 안내 팝업
                 setTimeout(() => {

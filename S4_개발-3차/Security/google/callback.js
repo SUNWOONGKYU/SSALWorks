@@ -90,8 +90,8 @@ export default async function handler(req, res) {
           .from('users')
           .update({
             name: user.user_metadata?.full_name || user.user_metadata?.name || existingUser.name,
-            nickname: user.user_metadata?.full_name || user.user_metadata?.name || existingUser.nickname,
-            profile_image: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
+            nickname: user.user_metadata?.nickname || user.user_metadata?.full_name || user.user_metadata?.name || existingUser.nickname,
+            avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
             updated_at: new Date().toISOString(),
           })
           .eq('id', user.id);
@@ -101,7 +101,7 @@ export default async function handler(req, res) {
         }
       } else {
         // 신규 사용자 - user_id 생성 후 삽입
-        // 8자리 랜덤 영숫자 (규칙: .claude/rules/07_id-generation.md 참조)
+        // 8자리 랜덤 영숫자 (예: A3B5C7D9)
         const generateUserId = () => {
           const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
           let result = '';
@@ -118,7 +118,9 @@ export default async function handler(req, res) {
             user_id: generateUserId(),
             email: user.email,
             name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
-            nickname: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
+            nickname: user.user_metadata?.nickname || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
+            real_name: user.user_metadata?.real_name || null,
+            avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
             subscription_status: 'free',
             installation_fee_paid: false,
             credit_balance: 0,
@@ -127,6 +129,20 @@ export default async function handler(req, res) {
 
         if (insertError) {
           console.error('신규 사용자 생성 실패:', insertError);
+        } else {
+          // 신규 가입 알림 (비동기, 실패해도 무시)
+          fetch(`${process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'}/api/Backend_APIs/admin-notify`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'signup',
+              data: {
+                email: user.email,
+                nickname: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
+                provider: 'Google'
+              }
+            })
+          }).catch(err => console.log('Admin notify skipped:', err));
         }
       }
     } catch (dbError) {

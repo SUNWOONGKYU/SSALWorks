@@ -11,7 +11,7 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // 기본 크레딧 단가 (원/크레딧)
-const DEFAULT_CREDIT_PRICE = 10;
+const DEFAULT_CREDIT_PRICE = 1;
 
 // 충전 옵션 기본 금액 (원)
 const CHARGE_AMOUNTS = [10000, 20000, 30000, 50000];

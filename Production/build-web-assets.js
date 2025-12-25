@@ -29,6 +29,7 @@ const PATHS = {
     ordersheetsGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js'),
     guidesGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings/generate-briefings-js.js'),
     serviceGuidesGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/generate-service-guides-js.js'),
+    serviceIntroGenerator: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/generate-service-intro-html.js'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),
 
     // 출력 경로
@@ -149,6 +150,25 @@ function buildServiceGuides() {
     }
 }
 
+// Service Intro Modal 빌드 (MD → HTML → index.html)
+function buildServiceIntro() {
+    log.header('Service Intro Modal 빌드');
+
+    try {
+        log.info('generate-service-intro-html.js 실행 중...');
+        execSync(`node "${PATHS.serviceIntroGenerator}"`, {
+            stdio: 'inherit',
+            cwd: path.dirname(PATHS.serviceIntroGenerator)
+        });
+
+        log.success('Service Intro Modal 빌드 완료!');
+        return true;
+    } catch (err) {
+        log.error(`Service Intro Modal 빌드 실패: ${err.message}`);
+        return false;
+    }
+}
+
 // Manual HTML 변환
 function buildManual() {
     log.header('PROJECT_SAL_GRID_MANUAL HTML 변환');
@@ -184,6 +204,7 @@ function buildAll() {
         ordersheets: buildOrdersheets(),
         guides: buildGuides(),
         serviceGuides: buildServiceGuides(),
+        serviceIntro: buildServiceIntro(),
         manual: buildManual()
     };
 
@@ -196,6 +217,7 @@ function buildAll() {
     console.log(`  Order Sheets:   ${results.ordersheets ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Guides:         ${results.guides ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Service Guides: ${results.serviceGuides ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  Service Intro:  ${results.serviceIntro ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Manual:         ${results.manual ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  소요 시간:      ${elapsed}초`);
     console.log('='.repeat(50) + '\n');
@@ -217,6 +239,7 @@ if (args.includes('--help') || args.includes('-h')) {
   --ordersheets      Order Sheet 템플릿만 빌드
   --guides           안내문(Guides)만 빌드
   --service-guides   외부 연동 설정 가이드만 빌드
+  --service-intro    서비스 소개 모달만 빌드
   --manual           Manual HTML만 빌드
   --help, -h         도움말 표시
 
@@ -239,6 +262,9 @@ if (args.length === 0) {
     }
     if (args.includes('--service-guides')) {
         success = buildServiceGuides() && success;
+    }
+    if (args.includes('--service-intro')) {
+        success = buildServiceIntro() && success;
     }
     if (args.includes('--manual')) {
         success = buildManual() && success;
