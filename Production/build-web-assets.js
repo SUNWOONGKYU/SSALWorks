@@ -39,25 +39,22 @@ const PATHS = {
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),
     builderManualMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/빌더계정_사용_매뉴얼.md'),
 
-    // 출력 경로
-    ordersheetsOutput: path.join(PROJECT_ROOT, 'Production/Frontend/ordersheets.js'),
-    guidesOutput: path.join(PROJECT_ROOT, 'Production/Frontend/guides.js'),
-    serviceGuidesOutput: path.join(PROJECT_ROOT, 'Production/Frontend/service-guides.js'),
+    // 출력 경로 (해당 폴더에 직접 저장)
+    ordersheetsOutput: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/ordersheets.js'),
+    guidesOutput: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings/guides.js'),
+    serviceGuidesOutput: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/service-guides.js'),
     manualHtml: path.join(PROJECT_ROOT, '참고자료/PROJECT_SAL_GRID_MANUAL.html'),
     builderManualHtml: path.join(PROJECT_ROOT, 'Production/pages/mypage/manual.html'),
 
-    // 복사 대상 경로
+    // 복사 대상 경로 (프로토타입용)
     copyTargets: {
         ordersheets: [
-            path.join(PROJECT_ROOT, 'Production/ordersheets.js'),
             path.join(PROJECT_ROOT, 'P3_프로토타입_제작/Frontend/Prototype/ordersheets.js')
         ],
         guides: [
-            path.join(PROJECT_ROOT, 'Production/guides.js'),
             path.join(PROJECT_ROOT, 'P3_프로토타입_제작/Frontend/Prototype/guides.js')
         ],
         serviceGuides: [
-            path.join(PROJECT_ROOT, 'Production/service-guides.js'),
             path.join(PROJECT_ROOT, 'P3_프로토타입_제작/Frontend/Prototype/service-guides.js')
         ]
     }
