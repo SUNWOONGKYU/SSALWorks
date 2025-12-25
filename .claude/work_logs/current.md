@@ -1378,6 +1378,52 @@ node build-progress.js       # 진행률 JSON 생성
 
 ---
 
+### 07_task-crud.md DB Method + CSV Method 이중 지원 업데이트 ✅
+
+**작업 배경:**
+- SSAL Works는 DB Method (Supabase)와 CSV Method (JSON) 두 가지를 동시에 사용
+- 일반 사용자는 Supabase 없이 JSON/CSV 기반으로 SAL Grid 관리
+- 두 가지 방식을 동시에 적용하는 사용자도 있을 수 있음
+
+**수정된 파일:** `.claude/rules/07_task-crud.md`
+
+**주요 변경 내용:**
+
+| 섹션 | 변경 내용 |
+|------|----------|
+| 헤더 | "두 가지 방식 지원: DB Method / CSV Method" 명시 |
+| 방식 선택 가이드 | 사용 대상, 데이터 저장, 도구, Stage Gate 위치 비교표 추가 |
+| 업데이트 필수 위치 | 4번 "데이터 저장"을 DB/JSON으로 분기 |
+| Step 5 (신규 추가) | 5A: DB Method (Supabase INSERT), 5B: CSV Method (JSON 파일 Edit) |
+| Step 3 (삭제) | 3A: DB Method (DELETE), 3B: CSV Method (JSON 파일 제거) |
+| Step 5 (수정) | 5A: DB Method (PATCH), 5B: CSV Method (JSON 필드 수정) |
+| Task 상태 업데이트 | DB Method / CSV Method 섹션 분리 |
+| 체크리스트 | 모든 항목에 "방식 확인" 추가 |
+| 주의사항 | #9: 두 방식 동시 적용 시 양쪽 모두 업데이트, #10: Stage Gate 경로 구분 |
+| 관련 파일 | 공통/DB Method/CSV Method 3개 섹션으로 분리 |
+
+**폴더 구조 (계획):**
+```
+S0_Project-SAL-Grid_생성/
+├── sal-grid/                      ← 공통 (Task Plan, Instructions)
+├── Database_Method/               ← DB 방식
+│   ├── supabase/
+│   └── stage-gates/
+├── CSV_Method/                    ← CSV 방식
+│   ├── scripts/
+│   ├── templates/
+│   ├── stage-gates/
+│   └── data/project_sal_grid.json
+└── manual/                        ← 통합 매뉴얼
+```
+
+**핵심 원칙:**
+- SSAL Works는 5A + 5B 둘 다 수행
+- 일반 사용자는 CSV Method만 사용
+- Stage Gate 저장 위치가 방식별로 다름
+
+---
+
 ## 다음 세션 TODO
 
 ### 1. S4F6 마이페이지 문의 관리 테스트

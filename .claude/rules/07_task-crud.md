@@ -447,7 +447,11 @@ git push
 # 검증 목표, 체크리스트 등 변경
 ```
 
-### Step 5: Supabase DB 업데이트
+### Step 5: 데이터 업데이트 (방식별 분기)
+
+**⚠️ SSAL Works는 5A + 5B 둘 다 수행!**
+
+#### 📌 Step 5A: DB Method (Supabase)
 
 ```bash
 # curl로 PATCH 요청
@@ -468,6 +472,24 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 ```
 
 **주의:** 한글이 포함된 JSON은 파일로 저장 후 `@파일명` 방식 사용
+
+#### 📌 Step 5B: CSV Method (JSON 파일)
+
+```bash
+# Claude Code의 Edit 도구로 JSON 파일에서 해당 Task 필드 수정
+# project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 찾아 수정
+```
+
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+
+**수정 예시:**
+```json
+// 기존
+{ "task_id": "S4F5", "task_name": "이전 이름", ... }
+
+// 수정 후
+{ "task_id": "S4F5", "task_name": "새로운 Task 이름", ... }
+```
 
 ### Step 6: 작업 로그 업데이트
 
@@ -506,9 +528,14 @@ git push
 
 ## Task 상태 업데이트 (작업/검증 완료 시)
 
-> Task가 실행되거나 검증이 완료되면 Supabase DB 상태를 업데이트해야 함
+> Task가 실행되거나 검증이 완료되면 데이터 상태를 업데이트해야 함
+> **⚠️ SSAL Works는 DB + JSON 둘 다 업데이트!**
 
-### 작업 완료 시 (Executed)
+---
+
+### 📌 DB Method (Supabase)
+
+#### 작업 완료 시 (Executed)
 
 ```javascript
 // task_status를 Executed로 변경
@@ -523,7 +550,7 @@ await supabase
     .eq('task_id', 'S4F5');
 ```
 
-### 검증 완료 시 (Verified → Completed)
+#### 검증 완료 시 (Verified → Completed)
 
 ```javascript
 // 1. verification_status를 Verified로 변경
@@ -544,9 +571,7 @@ await supabase
     .eq('task_id', 'S4F5');
 ```
 
-**⚠️ 중요**: `Completed`는 반드시 `verification_status = 'Verified'` 확인 후 설정!
-
-### 상태 확인 쿼리
+#### 상태 확인 쿼리
 
 ```javascript
 // 특정 Task 상태 조회
@@ -561,46 +586,95 @@ console.log(data);
 
 ---
 
+### 📌 CSV Method (JSON 파일)
+
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+
+#### 작업 완료 시 (Executed)
+
+```json
+// Claude Code Edit 도구로 해당 Task 필드 수정
+{
+    "task_id": "S4F5",
+    "task_status": "Executed",
+    "task_progress": 100,
+    "generated_files": "생성된 파일 목록",
+    "updated_at": "2025-12-25T12:00:00Z"
+}
+```
+
+#### 검증 완료 시 (Verified → Completed)
+
+```json
+// 1단계: verification_status 변경
+{
+    "task_id": "S4F5",
+    "verification_status": "Verified"
+}
+
+// 2단계: task_status를 Completed로 변경
+{
+    "task_id": "S4F5",
+    "task_status": "Completed"
+}
+```
+
+---
+
+**⚠️ 중요**: `Completed`는 반드시 `verification_status = 'Verified'` 확인 후 설정!
+
+---
+
 ## 체크리스트
 
 ### 신규 추가 시
 
 - [ ] **시나리오 확인**: 신규(Pending) vs 완료됨(Completed)?
+- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 생성
 - [ ] verification-instructions/{TaskID}_verification.md 생성
-- [ ] Supabase `project_sal_grid` 테이블에 INSERT
+- [ ] **[DB Method]** Supabase `project_sal_grid` 테이블에 INSERT
   - [ ] `task_status` 설정 (Pending 또는 Completed)
   - [ ] `verification_status` 설정 (Not Verified 또는 Verified)
   - [ ] `task_progress` 설정 (0 또는 100)
+- [ ] **[CSV Method]** `project_sal_grid.json`에 Task 추가
+  - [ ] tasks 배열에 새 Task 객체 추가
+  - [ ] 동일한 상태값 설정
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
-- [ ] **최종 확인**: DB에서 task_status, verification_status 조회하여 검증
+- [ ] **최종 확인**: DB 또는 JSON에서 상태 확인
 
 ### 삭제 시
 
+- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 제거 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 삭제
 - [ ] verification-instructions/{TaskID}_verification.md 삭제
-- [ ] Supabase `project_sal_grid` 테이블에서 DELETE
+- [ ] **[DB Method]** Supabase `project_sal_grid` 테이블에서 DELETE
+- [ ] **[CSV Method]** `project_sal_grid.json`에서 Task 제거
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
 ### 수정 시
 
+- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (해당 행 수정 + 의존성 다이어그램 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 내용 수정
 - [ ] verification-instructions/{TaskID}_verification.md 내용 수정
-- [ ] Supabase `project_sal_grid` 테이블 PATCH
+- [ ] **[DB Method]** Supabase `project_sal_grid` 테이블 PATCH
+- [ ] **[CSV Method]** `project_sal_grid.json`에서 해당 Task 필드 수정
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
 ### 상태 업데이트 시 (작업/검증 완료)
 
+- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
 - [ ] 작업 완료 시: `task_status` = 'Executed', `task_progress` = 100
 - [ ] 검증 완료 시: `verification_status` = 'Verified'
 - [ ] 최종 완료 시: `task_status` = 'Completed' (Verified 후에만!)
-- [ ] DB 조회로 상태 확인
+- [ ] **[DB Method]** DB 조회로 상태 확인
+- [ ] **[CSV Method]** JSON 파일에서 상태 확인
 
 ---
 
@@ -614,16 +688,36 @@ console.log(data);
 6. **변경 이력 필수**: Task Plan에 변경 이력 섹션에 기록
 7. **⚠️ 상태 전이 규칙 준수**: Completed는 반드시 Verified 후에만 설정 가능
 8. **⚠️ verification_status 필수**: INSERT 시 반드시 verification_status 명시적 설정
+9. **⚠️ SSAL Works는 DB + CSV 둘 다**: 두 방식 동시 적용 시 반드시 양쪽 모두 업데이트
+10. **⚠️ Stage Gate 경로 구분**: DB Method와 CSV Method의 Stage Gate 저장 위치가 다름
 
 ---
 
 ## 관련 파일
+
+### 공통 파일
 
 | 항목 | 위치 |
 |------|------|
 | Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md` |
 | Task Instructions | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
 | Verification Instructions | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
-| Supabase 테이블 | `project_sal_grid` |
+| 통합 매뉴얼 | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
 | 작업 로그 | `.claude/work_logs/current.md` |
+
+### DB Method 전용 파일
+
+| 항목 | 위치 |
+|------|------|
+| Supabase 테이블 | `project_sal_grid` |
+| Stage Gates | `S0_Project-SAL-Grid_생성/Database_Method/stage-gates/` |
 | .env 파일 | `P3_프로토타입_제작/Database/.env` |
+
+### CSV Method 전용 파일
+
+| 항목 | 위치 |
+|------|------|
+| JSON 데이터 | `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json` |
+| Stage Gates | `S0_Project-SAL-Grid_생성/CSV_Method/stage-gates/` |
+| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/CSV_Method/scripts/` |
+| JSON 템플릿 | `S0_Project-SAL-Grid_생성/CSV_Method/templates/` |
