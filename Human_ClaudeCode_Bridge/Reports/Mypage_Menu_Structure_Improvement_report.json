@@ -1,0 +1,62 @@
+{
+  "report_id": "mypage_menu_structure_20251225",
+  "report_date": "2025-12-25",
+  "task_id": "S4F6",
+  "task_name": "마이페이지 기능 (알림/문의)",
+  "work_summary": "마이페이지 메뉴 구조 개선 및 이모티콘 정리",
+  "status": "completed",
+  "changes": {
+    "files_modified": [
+      {
+        "file": "Production/index.html",
+        "changes": [
+          "내 문의 내역 📬 이모티콘 제거",
+          "마이페이지 섹션에 내 프로젝트 메뉴 항목 추가"
+        ]
+      },
+      {
+        "file": "Production/pages/mypage/index.html",
+        "changes": [
+          "자료실 섹션 (resourcesSection) 신규 추가",
+          "사용 매뉴얼 다운로드 기능 크레딧 섹션에서 분리",
+          "모든 메뉴 이모티콘 제거",
+          "메뉴 순서 조정: 내 프로젝트 → 사용 매뉴얼 다운로드 → 서비스 이용 현황"
+        ]
+      }
+    ],
+    "menu_structure": {
+      "before": [
+        "👤 내 프로필",
+        "📁 내 프로젝트",
+        "📋 서비스 이용 현황",
+        "💰 크레딧 관리 (매뉴얼 다운로드 포함)",
+        "🔒 보안 설정",
+        "📨 문의 관리"
+      ],
+      "after": [
+        "내 프로필",
+        "내 프로젝트",
+        "사용 매뉴얼 다운로드",
+        "서비스 이용 현황",
+        "크레딧 관리",
+        "보안 설정",
+        "문의 관리"
+      ]
+    }
+  },
+  "git_commit": {
+    "hash": "082887e",
+    "message": "fix: 마이페이지 메뉴 구조 개선 및 이모티콘 정리"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      "메뉴 항목 클릭 시 해당 섹션 표시 정상",
+      "자료실 섹션 내 매뉴얼 다운로드 기능 정상",
+      "모바일 반응형 CSS 기존 적용 확인",
+      "이모티콘 제거 완료"
+    ]
+  },
+  "created_by": "Claude Code",
+  "created_at": "2025-12-25T23:00:00+09:00"
+}
