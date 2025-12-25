@@ -90,7 +90,7 @@
 |------------|-------------------|--------|
 | **결제 수단 등록** | | |
 | - 월 이용료 ₩50,000 명시 | Subscription pricing info | ✅ |
-| - 첫 달 무료 안내 | Free trial badge | ✅ |
+| - 1~3개월 무료 안내 | Free trial badge | ✅ |
 | - 계좌 자동이체 옵션 | Payment method selection | ✅ |
 | - 신용/체크카드 자동결제 옵션 | Card payment option | ✅ |
 | **결제 알림** | | |

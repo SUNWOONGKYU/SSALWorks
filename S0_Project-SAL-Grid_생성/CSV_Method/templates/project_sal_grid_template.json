@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "project_name": "",
+    "project_id": "",
+    "created_at": "",
+    "updated_at": "",
+    "version": "1.0"
+  },
+  "tasks": [
+    {
+      "task_id": "S1D1",
+      "task_name": "Task 이름",
+      "stage": 1,
+      "area": "D",
+      "task_status": "Pending",
+      "task_progress": 0,
+      "verification_status": "Not Verified",
+      "dependencies": "",
+      "task_instruction": "Task 수행 지침",
+      "task_agent": "database-specialist",
+      "verification_instruction": "검증 지침",
+      "verification_agent": "code-reviewer",
+      "execution_type": "AI-Only",
+      "generated_files": "",
+      "duration": "",
+      "build_result": "",
+      "test_result": "",
+      "build_verification": "",
+      "integration_verification": "",
+      "blockers": "",
+      "comprehensive_verification": "",
+      "ai_verification_note": "",
+      "remarks": ""
+    }
+  ],
+  "stage_gates": {
+    "S1": { "status": "Pending", "verified_at": null },
+    "S2": { "status": "Pending", "verified_at": null },
+    "S3": { "status": "Pending", "verified_at": null },
+    "S4": { "status": "Pending", "verified_at": null },
+    "S5": { "status": "Pending", "verified_at": null }
+  }
+}

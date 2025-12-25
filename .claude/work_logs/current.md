@@ -1424,6 +1424,59 @@ S0_Project-SAL-Grid_생성/
 
 ---
 
+### S0 및 Production 폴더 구조 재구성 ✅
+
+**작업 배경:**
+- 07_task-crud.md에 DB Method + CSV Method 이중 지원 추가에 따른 폴더 구조 정리
+- Supabase 없는 사용자를 위한 CSV Method 폴더 생성
+
+**S0_Project-SAL-Grid_생성 폴더 변경:**
+
+```
+S0_Project-SAL-Grid_생성/
+├── sal-grid/                      ← 공통 (Task Plan, Instructions)
+│   ├── SSALWORKS_TASK_PLAN.md
+│   ├── task-instructions/
+│   └── verification-instructions/
+├── Database_Method/               ← DB 방식 (신규)
+│   ├── supabase/ (기존 이동)
+│   └── stage-gates/ (기존 이동)
+├── CSV_Method/                    ← CSV 방식 (신규)
+│   ├── scripts/
+│   │   ├── json-to-csv.js
+│   │   └── csv-to-json.js
+│   ├── templates/
+│   │   └── project_sal_grid_template.json
+│   ├── stage-gates/
+│   │   └── STAGE_GATE_TEMPLATE.md
+│   └── data/
+│       └── README.md
+├── manual/                        ← 유지
+└── (viewer/ 삭제 - Production에 있음)
+```
+
+**주요 변경:**
+1. `supabase/` → `Database_Method/supabase/` 이동
+2. `sal-grid/stage-gates/` → `Database_Method/stage-gates/` 이동
+3. `CSV_Method/` 폴더 신규 생성 (scripts, templates, stage-gates, data)
+4. `viewer/` 폴더 삭제 (Production에 중복)
+
+**생성된 파일:**
+| 파일 | 용도 |
+|------|------|
+| `CSV_Method/scripts/json-to-csv.js` | JSON → CSV 변환 |
+| `CSV_Method/scripts/csv-to-json.js` | CSV → JSON 변환 |
+| `CSV_Method/templates/project_sal_grid_template.json` | JSON 템플릿 |
+| `CSV_Method/stage-gates/STAGE_GATE_TEMPLATE.md` | Stage Gate 템플릿 |
+| `CSV_Method/data/README.md` | 데이터 폴더 설명 |
+| `Production/data/README.md` | Production 데이터 설명 |
+
+**Production 폴더:**
+- 기존 구조 유지 (viewer_database.html, viewer_csv.html 등)
+- `data/README.md` 추가로 구조 문서화
+
+---
+
 ## 다음 세션 TODO
 
 ### 1. S4F6 마이페이지 문의 관리 테스트
