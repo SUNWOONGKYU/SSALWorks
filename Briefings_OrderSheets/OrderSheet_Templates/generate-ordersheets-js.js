@@ -60,7 +60,7 @@ function main() {
         console.log(`✅ ${relativePath}`);
     });
 
-    // JavaScript 파일 생성
+    // JavaScript 파일 생성 (var 사용하여 전역 접근 가능하게)
     const jsContent = `/**
  * Order Sheet 표준 템플릿 MD 콘텐츠
  * 자동 생성됨 - 직접 수정하지 마세요
@@ -69,7 +69,7 @@ function main() {
  * 사용법: ORDER_SHEET_TEMPLATES['P1-1_Vision_Mission']
  */
 
-const ORDER_SHEET_TEMPLATES = ${JSON.stringify(templates, null, 2)};
+var ORDER_SHEET_TEMPLATES = ${JSON.stringify(templates, null, 2)};
 `;
 
     fs.writeFileSync(OUTPUT_FILE, jsContent, 'utf8');
