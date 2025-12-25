@@ -7,131 +7,131 @@
   "rewrites": [
     {
       "source": "/api/auth/signup",
-      "destination": "/api/Backend_APIs/auth/signup"
+      "destination": "/Production/api/Backend_APIs/auth/signup"
     },
     {
       "source": "/api/auth/verify-email",
-      "destination": "/api/Backend_APIs/auth/verify-email"
+      "destination": "/Production/api/Backend_APIs/auth/verify-email"
     },
     {
       "source": "/api/ai/pricing",
-      "destination": "/api/Backend_APIs/ai/pricing"
+      "destination": "/Production/api/Backend_APIs/ai/pricing"
     },
     {
       "source": "/api/projects/create",
-      "destination": "/api/Backend_APIs/projects/create"
+      "destination": "/Production/api/Backend_APIs/projects/create"
     },
     {
       "source": "/api/projects/list",
-      "destination": "/api/Backend_APIs/projects/list"
+      "destination": "/Production/api/Backend_APIs/projects/list"
     },
     {
       "source": "/api/projects/update",
-      "destination": "/api/Backend_APIs/projects/update"
+      "destination": "/Production/api/Backend_APIs/projects/update"
     },
     {
       "source": "/api/projects/complete",
-      "destination": "/api/Backend_APIs/projects/complete"
+      "destination": "/Production/api/Backend_APIs/projects/complete"
     },
     {
       "source": "/api/email/send",
-      "destination": "/api/Backend_APIs/email-send"
+      "destination": "/Production/api/Backend_APIs/email-send"
     },
     {
       "source": "/api/email/welcome",
-      "destination": "/api/Backend_APIs/email-welcome"
+      "destination": "/Production/api/Backend_APIs/email-welcome"
     },
     {
       "source": "/api/email/password-reset",
-      "destination": "/api/Backend_APIs/email-password-reset"
+      "destination": "/Production/api/Backend_APIs/email-password-reset"
     },
     {
       "source": "/api/subscription/status",
-      "destination": "/api/Backend_APIs/subscription-status"
+      "destination": "/Production/api/Backend_APIs/subscription-status"
     },
     {
       "source": "/api/subscription/create",
-      "destination": "/api/Backend_APIs/subscription-create"
+      "destination": "/Production/api/Backend_APIs/subscription-create"
     },
     {
       "source": "/api/subscription/cancel",
-      "destination": "/api/Backend_APIs/subscription-cancel"
+      "destination": "/Production/api/Backend_APIs/subscription-cancel"
     },
     {
       "source": "/api/auth/google",
-      "destination": "/api/Security/google-login"
+      "destination": "/Production/api/Security/google-login"
     },
     {
       "source": "/api/auth/google/callback",
-      "destination": "/api/Security/google/callback"
+      "destination": "/Production/api/Security/google/callback"
     },
     {
       "source": "/api/auth/logout",
-      "destination": "/api/Security/logout"
+      "destination": "/Production/api/Security/logout"
     },
     {
       "source": "/api/subscription/check",
-      "destination": "/api/Security/subscription/check"
+      "destination": "/Production/api/Security/subscription/check"
     },
     {
       "source": "/api/ai/qa",
-      "destination": "/api/External/ai-qa"
+      "destination": "/Production/api/External/ai-qa"
     },
     {
       "source": "/api/ai/usage",
-      "destination": "/api/External/ai-usage"
+      "destination": "/Production/api/External/ai-usage"
     },
     {
       "source": "/api/ai/faq-suggest",
-      "destination": "/api/External/ai-faq-suggest"
+      "destination": "/Production/api/External/ai-faq-suggest"
     },
     {
       "source": "/api/ai/test",
-      "destination": "/api/External/ai-test"
+      "destination": "/Production/api/External/ai-test"
     },
     {
       "source": "/api/ai/health",
-      "destination": "/api/External/ai-health"
+      "destination": "/Production/api/External/ai-health"
     },
     {
       "source": "/api/payment/installation-request",
-      "destination": "/api/Backend_APIs/payment/installation-request"
+      "destination": "/Production/api/Backend_APIs/payment/installation-request"
     },
     {
       "source": "/api/payment/installation/:action",
-      "destination": "/api/Backend_APIs/payment/installation/:action"
+      "destination": "/Production/api/Backend_APIs/payment/installation/:action"
     },
     {
       "source": "/api/admin/confirm-installation",
-      "destination": "/api/Backend_APIs/admin/confirm-installation"
+      "destination": "/Production/api/Backend_APIs/admin/confirm-installation"
     },
     {
       "source": "/api/admin/installation-list",
-      "destination": "/api/Backend_APIs/admin/installation-list"
+      "destination": "/Production/api/Backend_APIs/admin/installation-list"
     },
     {
       "source": "/api/admin/installation/:action",
-      "destination": "/api/Backend_APIs/admin/installation/:action"
+      "destination": "/Production/api/Backend_APIs/admin/installation/:action"
     },
     {
       "source": "/api/credit/:action",
-      "destination": "/api/Backend_APIs/credit/:action"
+      "destination": "/Production/api/Backend_APIs/credit/:action"
     },
     {
       "source": "/api/payment/billing/:action",
-      "destination": "/api/Backend_APIs/payment/billing/:action"
+      "destination": "/Production/api/Backend_APIs/payment/billing/:action"
     },
     {
       "source": "/api/payment/credit/:action",
-      "destination": "/api/Backend_APIs/payment/credit/:action"
+      "destination": "/Production/api/Backend_APIs/payment/credit/:action"
     },
     {
       "source": "/api/webhook/toss",
-      "destination": "/api/Backend_APIs/webhook/toss"
+      "destination": "/Production/api/Backend_APIs/webhook/toss"
     },
     {
       "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "destination": "/Production/api/:path*"
     }
   ],
   "headers": [
@@ -175,7 +175,7 @@
     }
   ],
   "functions": {
-    "api/**/*.js": {
+    "Production/api/**/*.js": {
       "maxDuration": 30,
       "memory": 1024
     }
