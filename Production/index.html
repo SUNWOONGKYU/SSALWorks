@@ -3573,36 +3573,16 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     </div>
                 </div>
 
-                <div class="grid-content" style="display: flex; gap: 20px; padding: 15px;">
-                    <!-- 좌측: SSALWORKS 예시 (파란색) -->
-                    <div style="flex: 1; background: linear-gradient(135deg, #e8f4fd 0%, #d1e9fc 100%); border: 2px solid #2C4A8A; border-radius: 12px; padding: 20px;">
-                        <div style="font-weight: 700; font-size: 15px; color: #2C4A8A; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 18px;">📖</span> SSALWORKS 예시
-                        </div>
-                        <div style="display: flex; gap: 10px;">
-                            <button class="action-btn" onclick="openViewer()" style="flex: 1; background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%);">
-                                Viewer 열기
-                            </button>
-                            <button class="action-btn" onclick="openManual()" style="flex: 1; background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%);">
-                                Manual 열기
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- 우측: 진행중인 프로젝트 (초록색) -->
-                    <div style="flex: 1; background: linear-gradient(135deg, #e6f7ef 0%, #c8f0dc 100%); border: 2px solid #10B981; border-radius: 12px; padding: 20px;">
-                        <div style="font-weight: 700; font-size: 15px; color: #059669; margin-bottom: 15px; display: flex; align-items: center; gap: 8px;">
-                            <span style="font-size: 18px;">🔧</span> <span id="currentProjectName">진행중인 프로젝트</span>
-                        </div>
-                        <div style="display: flex; gap: 10px;">
-                            <button class="action-btn" onclick="openMyViewer()" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
-                                Viewer 열기
-                            </button>
-                            <button class="action-btn" onclick="openMyManual()" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
-                                Manual 열기
-                            </button>
-                        </div>
-                    </div>
+                <div class="grid-content" style="display: flex; gap: 10px; padding: 15px; align-items: center;">
+                    <button class="action-btn" onclick="openManual()" style="background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); padding: 10px 20px; white-space: nowrap;">
+                        Manual 열기
+                    </button>
+                    <button class="action-btn" onclick="openViewer()" style="flex: 1; background: linear-gradient(135deg, #2C4A8A 0%, #1F3563 100%);">
+                        SSAL Works(예시) Viewer 열기
+                    </button>
+                    <button class="action-btn" onclick="openMyViewer()" style="flex: 1; background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                        SSAL Works(진행중) Viewer 열기
+                    </button>
                 </div>
             </div>
         </main>
@@ -4784,6 +4764,18 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheet: '',
                 guideUrl: 'guides/Completed_Project_Revision_Briefing.html',
                 orderSheetUrl: 'templates/Completed_Project_Revision_OrderSheet.md'
+            },
+
+            // ===== 포트폴리오: PoliticianFinder =====
+            'politician_finder': {
+                stageId: 'politician_finder',
+                stageName: 'PoliticianFinder 안내',
+                hasAction: false,
+                confirmMessage: '',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/Politician_Finder_Briefing.html',
+                orderSheetUrl: ''
             },
 
             // ===== ☆ 특별단계: 디렉토리 구조 생성 =====
@@ -8018,16 +8010,15 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // Viewer 열기 (SSALWORKS 예시 - Supabase DB)
         function openViewer() {
+            // SSALWorks 관리자용 - DB 기반 Viewer
             // 모바일이면 모바일 버전으로
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? 'viewer_mobile.html' : 'viewer.html';
+            const url = isMobile ? 'viewer_mobile_database.html' : 'viewer_database.html';
             window.open(url, '_blank');
         }
 
         // 내 프로젝트 Viewer 열기 (CSV 기반)
         function openMyViewer() {
-            // TODO: CSV 기반 Viewer 구현 후 경로 변경
-            // 현재는 안내 메시지 표시
             const projectName = document.getElementById('currentProjectName')?.textContent || '진행중인 프로젝트';
 
             if (projectName === '진행중인 프로젝트') {
@@ -8035,8 +8026,10 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 return;
             }
 
-            // CSV Viewer 열기 (추후 구현)
-            alert(`"${projectName}" 프로젝트의 SAL Grid Viewer\n\n📋 CSV 기반 Viewer는 준비 중입니다.\n로컬 패키지 다운로드 후 사용 가능합니다.`);
+            // CSV 기반 Viewer 열기 (모바일/데스크톱)
+            const isMobile = window.innerWidth <= 768;
+            const url = isMobile ? 'viewer_mobile_csv.html' : 'viewer_csv.html';
+            window.open(url, '_blank');
         }
 
         // 내 프로젝트 Manual 열기
@@ -8131,6 +8124,14 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             } else {
                 list.style.display = 'none';
                 arrow.textContent = '▶';
+            }
+        }
+
+        // 포트폴리오 프로젝트 상세 펼치기/접기
+        function togglePortfolioDetails(projectId) {
+            const details = document.getElementById(projectId + 'Details');
+            if (details) {
+                details.style.display = details.style.display === 'none' ? 'block' : 'none';
             }
         }
 
@@ -10580,21 +10581,38 @@ ${result.answer}`;
 
                 completedProjectsCount.textContent = projects?.length || 0;
 
-                if (!projects || projects.length === 0) {
-                    completedProjectsList.innerHTML = `
-                        <div style="padding: 8px; font-size: 11px; color: #6c757d; text-align: center;">
-                            완료된 프로젝트 없음
+                // 포트폴리오 프로젝트 HTML (항상 표시)
+                const portfolioHTML = `
+                    <div class="portfolio-project-item" style="margin-bottom: 4px;">
+                        <div class="project-list-item" onclick="togglePortfolioDetails('politicianFinder')" style="opacity: 0.9; cursor: pointer;">
+                            <span class="project-name">PoliticianFinder</span>
+                            <span class="project-status" style="background: #6366f1; color: white;">포트폴리오</span>
                         </div>
-                    `;
+                        <div id="politicianFinderDetails" style="display: none; padding: 8px 12px; background: rgba(99, 102, 241, 0.05); border-radius: 0 0 6px 6px; margin-top: -2px;">
+                            <div style="font-size: 11px; color: #4b5563; margin-bottom: 8px;">AI 기반 정치인 평가 플랫폼</div>
+                            <div style="display: flex; gap: 6px;">
+                                <button onclick="event.stopPropagation(); window.open('https://www.politicianfinder.ai.kr/', '_blank')" style="flex: 1; padding: 6px 8px; font-size: 10px; background: #6366f1; color: white; border: none; border-radius: 4px; cursor: pointer;">사이트 바로가기</button>
+                                <button onclick="event.stopPropagation(); loadProcessStage('politician_finder', 'PoliticianFinder', '포트폴리오')" style="flex: 1; padding: 6px 8px; font-size: 10px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">안내문</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                if (!projects || projects.length === 0) {
+                    // 사용자 프로젝트 없어도 포트폴리오는 표시
+                    completedProjectsList.innerHTML = portfolioHTML;
                     return;
                 }
 
-                completedProjectsList.innerHTML = projects.map(p => `
+                // 사용자 완료 프로젝트
+                const userProjectsHTML = projects.map(p => `
                     <div class="project-list-item" onclick="loadProcessStage('completed_project_revision', '${p.project_name}', '완료 프로젝트'); selectProject('${p.project_name}')" style="opacity: 0.7;">
                         <span class="project-name">${p.project_name}</span>
                         <span class="project-status" style="background: var(--success); color: white;">완료</span>
                     </div>
                 `).join('');
+
+                completedProjectsList.innerHTML = portfolioHTML + userProjectsHTML;
 
             } catch (error) {
                 console.error('완료 프로젝트 로드 실패:', error);
