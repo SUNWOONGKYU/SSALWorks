@@ -1214,6 +1214,7 @@
         .workspace-bottom {
             flex: none;
             background: white;
+            padding-bottom: 24px;
         }
 
         .grid-viewer-header {
@@ -10611,19 +10612,16 @@ ${result.answer}`;
 
                 completedProjectsCount.textContent = projects?.length || 0;
 
-                // 포트폴리오 프로젝트 HTML (항상 표시)
+                // 완료 프로젝트: PoliticianFinder (항상 표시)
                 const portfolioHTML = `
-                    <div class="portfolio-project-item" style="margin-bottom: 4px;">
-                        <div class="project-list-item" onclick="togglePortfolioDetails('politicianFinder')" style="opacity: 0.9; cursor: pointer;">
+                    <div class="project-list-item" style="opacity: 0.7; flex-direction: column; align-items: stretch; gap: 6px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
                             <span class="project-name">PoliticianFinder</span>
-                            <span class="project-status" style="background: #6366f1; color: white;">포트폴리오</span>
+                            <span class="project-status" style="background: var(--success); color: white;">완료</span>
                         </div>
-                        <div id="politicianFinderDetails" style="display: none; padding: 8px 12px; background: rgba(99, 102, 241, 0.05); border-radius: 0 0 6px 6px; margin-top: -2px;">
-                            <div style="font-size: 11px; color: #4b5563; margin-bottom: 8px;">AI 기반 정치인 평가 플랫폼</div>
-                            <div style="display: flex; gap: 6px;">
-                                <button onclick="event.stopPropagation(); window.open('https://www.politicianfinder.ai.kr/', '_blank')" style="flex: 1; padding: 6px 8px; font-size: 10px; background: #6366f1; color: white; border: none; border-radius: 4px; cursor: pointer;">사이트 바로가기</button>
-                                <button onclick="event.stopPropagation(); loadProcessStage('politician_finder', 'PoliticianFinder', '포트폴리오')" style="flex: 1; padding: 6px 8px; font-size: 10px; background: #10b981; color: white; border: none; border-radius: 4px; cursor: pointer;">안내문</button>
-                            </div>
+                        <div style="display: flex; gap: 4px;">
+                            <button onclick="window.open('https://www.politicianfinder.ai.kr/', '_blank')" style="flex: 1; padding: 4px 6px; font-size: 9px; background: var(--success); color: white; border: none; border-radius: 3px; cursor: pointer;">사이트 바로가기</button>
+                            <button onclick="loadProcessStage('politician_finder', 'PoliticianFinder', '완료 프로젝트')" style="flex: 1; padding: 4px 6px; font-size: 9px; background: #6b7280; color: white; border: none; border-radius: 3px; cursor: pointer;">안내문</button>
                         </div>
                     </div>
                 `;
