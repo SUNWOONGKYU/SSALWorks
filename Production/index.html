@@ -3587,7 +3587,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 </div>
 
                 <div class="grid-content" style="display: flex; gap: 12px; padding: 8px 15px 8px 15px;">
-                    <button class="action-btn viewer-btn-blue" onclick="openViewer()" style="flex: 1; width: auto; font-size: 11px; font-weight: 700; background: rgba(44, 74, 138, 0.1); border: 1px solid #2C4A8A; color: #2C4A8A;">
+                    <button class="action-btn viewer-btn-blue" onclick="openViewer()" style="flex: 1; width: auto; font-size: 11px; font-weight: 700; background: #bfdbfe; border: 1px solid #60a5fa; color: #000;">
                         SSAL Works(예시) Viewer 열기
                     </button>
                     <button id="myViewerBtn" class="action-btn" onclick="openMyViewer()" style="flex: 1; width: auto; font-size: 11px; font-weight: 700; display: none;">
@@ -6764,9 +6764,26 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             return html;
         }
 
-        // File System Access API로 Reports 불러오기 (프로덕션용)
+        // File System Access API로 Reports 불러오기 (프로덕션용) - 빌더 계정만 가능
         async function loadFromReportsWithFileAPI() {
             try {
+                // 빌더 계정 확인
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
+                    alert('로그인이 필요합니다.');
+                    return;
+                }
+                const { data: userData } = await window.supabaseClient
+                    .from('users')
+                    .select('installation_fee_paid')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (!userData || !userData.installation_fee_paid) {
+                    alert('빌더 계정 개설 후 이용 가능합니다.\n\nReports 불러오기 기능은 빌더 계정 개설자만 사용할 수 있습니다.');
+                    return;
+                }
+
                 // File System Access API 지원 확인
                 if (!('showOpenFilePicker' in window)) {
                     alert('이 브라우저는 파일 선택 기능을 지원하지 않습니다.\n\nChrome, Edge 등 최신 브라우저를 사용해주세요.');

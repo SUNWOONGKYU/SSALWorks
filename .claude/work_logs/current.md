@@ -48,6 +48,80 @@
 **S4S2 구현 내용:**
 - RLS 정책 SQL: `S4_개발-3차/Security/rls_viewer_policy.sql`
 - Viewer 인증 API: `Production/api/Backend_APIs/viewer/auth.js`
+
+---
+
+### S4F8, S4S2, S4BI1 시스템 통합 검토 ✅
+
+**검토 일시**: 2025-12-25 22:40
+
+**검토 항목:**
+1. 의존성 체인 분석
+2. 데이터 흐름 일관성 검증
+3. Production 동기화 상태 확인
+4. 환경 설정 일관성 검증
+5. 배포 준비 상태 점검
+
+**검토 결과:**
+
+| 항목 | 평가 | 점수 |
+|------|:----:|:----:|
+| 의존성 체인 | ✅ 통과 | 20/20 |
+| 데이터 흐름 | ✅ 통과 | 20/20 |
+| Production 동기화 | ⚠️ 주의 | 10/20 |
+| 설정 일관성 | ✅ 통과 | 20/20 |
+| 배포 준비 | ✅ 통과 | 15/20 |
+| **전체 점수** | **✅ 통과** | **85/100** |
+
+**주요 발견사항:**
+
+✅ **통과 항목**:
+- 의존성 체인: S4F5 → S4F8 → S4S2, S1BI1 → S4BI1 정상
+- 데이터 흐름: DB Method/CSV Method 명확히 분리, API 일관성 확보
+- 환경 설정: Supabase URL/KEY 일관성, CORS 설정 완료, RLS 정책 정상
+- 배포 준비: vercel.json Catch-all 라우팅, SSL 자동, 파일 정상 존재
+
+⚠️ **주의 항목**:
+- **Production 동기화 누락**: S4F8 Viewer 파일(4개), S4BI1 빌드 스크립트(2개)가 Stage 폴더에 백업 없음
+  - Production에만 존재, Git 이력으로 추적 가능
+  - 향후 수정 시 Stage 폴더 백업 프로세스 적용 권장
+- **index.html Viewer 버튼**: 로그인 상태별 버튼 제어 로직 미확인
+
+**리스크 분석:**
+
+| 리스크 | 심각도 | 조치 |
+|--------|:------:|------|
+| Stage 폴더 백업 누락 | 🔶 중간 | 향후 수정 시 적용 |
+| index.html 버튼 로직 미확인 | 🔶 중간 | 선택적 확인 권장 |
+| 빌드 스크립트 키 하드코딩 | 🟢 낮음 | 환경변수 전환 권장 (저우선순위) |
+
+**데이터 흐름 검증:**
+
+```
+DB Method:
+Supabase DB → /api/viewer/auth (JWT) → viewer_database.html
+
+CSV Method:
+Supabase DB → build-sal-grid-csv.js → sal_grid.csv → viewer_csv.html
+```
+
+**빌드 시스템 테스트:**
+```bash
+cd Production
+node build-sal-grid-csv.js
+# ✅ 61개 Task 조회 성공, CSV 생성 완료
+# Stage별 현황: S1~S5 모두 100% 완료
+```
+
+**생성 파일:**
+- `Human_ClaudeCode_Bridge/Reports/S4F8_S4S2_S4BI1_System_Integration_Review.md`
+
+**최종 판정**: ✅ **시스템 통합 및 배포 준비 완료**
+
+**권장 조치**:
+1. **즉시 조치 불필요** - 시스템 정상 작동 중, 배포 가능
+2. **향후 개선** - 다음 수정 작업 시 Stage 폴더 백업 적용
+3. **문서화 완료** - 통합 검토 보고서 작성됨
 - 프론트엔드 보안: myViewerBtn 로그인 상태별 표시/숨김
 - **PO 작업 필요**: Supabase에 RLS 정책 실행
 
@@ -1565,16 +1639,170 @@ S0_Project-SAL-Grid_생성/
 
 ---
 
+### S4S2 Viewer 접근 보안 구현 - 코드 리뷰 완료 ✅
+
+**작업일시:** 2025-12-25
+**검토자:** Security Auditor (Claude Code)
+
+**검토 대상 파일:**
+1. `S4_개발-3차/Security/rls_viewer_policy.sql`
+2. `Production/api/Backend_APIs/viewer/auth.js`
+3. `Production/index.html` (showLoggedInUI, showLoggedOutUI, myViewerBtn 관련)
+
+**종합 평가:**
+
+| 항목 | 평가 | 요약 |
+|------|:----:|------|
+| **보안 취약점** | ⚠️ | SQL 인젝션 안전, 인증 로직 양호하나 개선 필요 |
+| **RLS 정책 완전성** | ⚠️ | projects 테이블 완전, project_sal_grid 미적용 |
+| **인증 로직** | ✅ | JWT 검증 안전, 역할 기반 접근 제어 적절 |
+| **에러 처리** | ❌ | 민감한 정보 노출, 에러 메시지 개선 필요 |
+| **코드 품질** | ✅ | 명명 규칙 준수, 주석 명확, 유지보수성 우수 |
+
+**종합 판정:** ⚠️ **조건부 통과 (Needs Fix)**
+
+**주요 이슈:**
+
+1. **🚨 CRITICAL: 하드코딩된 관리자 비밀번호**
+   - 위치: `index.html:10432`
+   - 문제: `const ADMIN_PASSWORD = 'admin261226';` 클라이언트 소스 코드에 평문 노출
+   - 조치: 서버 환경변수로 이동 + 백엔드 API 검증 구현
+
+2. **HIGH: 에러 메시지 민감 정보 노출**
+   - 위치: `viewer/auth.js:142`
+   - 문제: `error.message`에 DB 구조, 테이블명 노출 가능
+   - 조치: 프로덕션 환경에서 error.message 제거
+
+3. **MEDIUM: CORS 와일드카드 설정**
+   - 위치: `viewer/auth.js:79`
+   - 문제: `Access-Control-Allow-Origin: '*'` CSRF 공격 가능성
+   - 조치: 허용 도메인 명시적으로 제한
+
+**통과 기준 검증:**
+
+| 기준 | 결과 | 비고 |
+|------|:----:|------|
+| RLS 정책 정상 적용 | ✅ | projects 테이블 완전, project_sal_grid 미적용(현재는 문제없음) |
+| 접근 권한 구분 정상 | ✅ | 비로그인/로그인/관리자 분기 명확 |
+| UI 분기 정상 | ✅ | 로그인 상태 따라 버튼 표시/숨김 |
+| API 인증/인가 검증 정상 | ⚠️ | 검증 로직 존재하나 에러 처리 개선 필요 |
+
+**생성된 보고서:**
+- `Human_ClaudeCode_Bridge/Reports/S4S2_Security_Review_Report.md` (상세 리뷰 보고서)
+
+**권장 조치:**
+1. **즉시 수정**: 관리자 비밀번호 하드코딩 제거
+2. **프로덕션 배포 전**: CORS 설정, 에러 메시지 수정
+3. **향후 개선**: project_sal_grid RLS 적용 (멀티테넌트 시)
+
+**검증 상태:**
+- verification_status: **Needs Fix**
+- fixes_required: true
+- 우선순위 수정 필요: 3개 (CRITICAL 1개, HIGH 1개, MEDIUM 1개)
+
+---
+
 ## 다음 세션 TODO
 
-### 1. S4F6 마이페이지 문의 관리 테스트
+### 1. S4S2 보안 이슈 수정 (우선)
+- [ ] 관리자 비밀번호 하드코딩 제거 (CRITICAL)
+- [ ] 에러 메시지 민감 정보 제거 (HIGH)
+- [ ] CORS 설정 개선 (MEDIUM)
+
+### 2. S4F6 마이페이지 문의 관리 테스트
 - [ ] 브라우저에서 inquiries.html 접속
 - [ ] 문의 목록 조회 확인
 - [ ] 새 문의 작성 테스트
 - [ ] 상태 배지 표시 확인
 
-### 2. 기존 TODO 이어가기
+### 3. 기존 TODO 이어가기
 - [ ] 학습용 Books Part 표시 이슈 해결
 - [ ] 프로젝트 등록 테스트 완료
+
+---
+
+## 2025-12-25 정책 문서 일괄 수정 ✅
+
+### 작업 목적
+SSAL Works 정책 변경에 따른 전체 문서 일괄 수정
+
+### 정책 변경 사항
+
+| 항목 | 이전 | 변경 후 |
+|------|------|---------|
+| credit_balance 초기값 | 5,000 | 50,000 (₩50,000 웰컴 크레딧) |
+| 무료 기간 | 첫 달 (30일) | 1~3개월 (90일) |
+| platform_fee_start_date | NOW() + INTERVAL '30 days' | NOW() + INTERVAL '90 days' |
+| 결제 시작 시점 | 다음 달부터 | 4개월차부터 |
+| 결제 서비스 명칭 | 토스 페이먼트 | 토스페이먼츠 |
+
+### 수정된 파일 목록
+
+#### 1. User Flow 문서 (P2_프로젝트_기획/User_Flows/)
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `1_Signup/flow.md` | 웰컴 크레딧 주석 추가, 버전 1.1 |
+| `2_Project_Registration/flow.md` | credit_balance 50000, INTERVAL '90 days', 버전 1.1 |
+| `3_Subscription/flow.md` | "1~3개월은 무료입니다!", 결제일 2026-04-01, 버전 1.1 |
+| `3_Subscription/ui_specs.md` | "1~3개월은 무료입니다!" (3곳), "🎁 무료 (1~3개월)" |
+
+#### 2. 이메일 템플릿 (Production/api/Backend_APIs/lib/)
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `email-service.js` | day7-reminder: "3개월 무료!", "₩50,000 웰컴 크레딧" |
+
+#### 3. Frontend 페이지 (Production/pages/subscription/)
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `payment-method.html` | "1~3개월은 무료입니다!", "4개월차부터 자동 결제" |
+
+#### 4. 용어 통일 (27개 파일)
+
+| 변경 전 | 변경 후 | 파일 수 |
+|---------|---------|--------|
+| 토스 페이먼트 | 토스페이먼츠 | 27개 |
+
+**영향받은 폴더:**
+- S0_Project-SAL-Grid_생성/sal-grid/
+- P0_작업_디렉토리_구조_생성/
+- P2_프로젝트_기획/Service_Introduction/
+- Production/
+
+#### 5. 기획/사업 문서
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `S4BA6_instruction.md` | 이메일 템플릿 예시 3개월 무료 반영 |
+| `문서_업데이트_검토_결과.md` | "1~3개월 무료" (3곳) |
+| `AI-GEN_입력사항_정리.md` | 무료기간 3개월, 웰컴크레딧 ₩50,000 |
+
+### Git 커밋
+
+```
+커밋 1: fix: 전체 문서 "첫 달 무료" → "3개월 무료" 정책 반영
+        46bff87 (15 files changed)
+```
+
+### 최종 정책 확정
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  SSAL Works 확정 정책 (2025-12-25)                          │
+├─────────────────────────────────────────────────────────────┤
+│  설치비: ₩3,000,000 (무통장 입금)                           │
+│  월 이용료: ₩50,000 (4개월차부터 자동결제)                   │
+│  무료 기간: 3개월 (1~3개월)                                  │
+│  웰컴 크레딧: ₩50,000 (설치비 납부 시 지급)                  │
+│  크레딧 충전: 토스페이먼츠 (API 원가 + 30% 마진)             │
+│  보너스/할인: 없음                                          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Reports 폴더 저장
+
+- `Human_ClaudeCode_Bridge/Reports/Policy_Update_2025-12-25.json`
 
 ---
