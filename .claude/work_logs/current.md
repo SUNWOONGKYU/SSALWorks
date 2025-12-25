@@ -6,6 +6,35 @@
 
 ## 2025-12-25 작업 내역
 
+### 회원등급별 접근권한 문서 작성 및 구현 현황 검증 ✅
+
+**작업 내용:**
+- 일반 회원과 빌더 계정 개설자의 접근 권한 비교 문서 작성
+- `installation_fee_paid` 필드 기반 기능 제한 구현 현황 점검
+
+**생성 파일:**
+- `P2_프로젝트_기획/Service_Introduction/회원등급별_접근권한.md`
+
+**검증 결과:**
+
+| 기능 | 구현 상태 | 비고 |
+|------|:--------:|------|
+| 새로운 프로젝트 등록 | ✅ | `pages/projects/new.html:572` |
+| 프로젝트 생성 API | ✅ | `api/Backend_APIs/projects/create.js:125` |
+| 진행 프로세스 관리 | ✅ | `index.html:10504-10515` |
+| 예시 프로젝트 Google Drive | ❌ | 빌더 체크 없음 - 수정 필요 |
+| Order Sheet 전달하기 | ❌ | 빌더 체크 없음 - 수정 필요 |
+| Reports 불러오기 | ❌ | 빌더 체크 없음 - 수정 필요 |
+| 매뉴얼 다운로드 | ❌ | 기능 미구현 |
+
+**수정 필요 사항:**
+1. `executeStageAction()` 함수에 빌더 체크 추가
+2. `deliverOrderSheet()` 함수에 빌더 체크 추가
+3. `loadFromReportsWithFileAPI()` 함수에 빌더 체크 추가
+4. 마이페이지에 매뉴얼 다운로드 기능 신규 구현
+
+---
+
 ### SAL Grid Viewer 관련 3개 Task 실행 및 검증 ✅
 
 **Task 상태 (최종):**

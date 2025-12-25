@@ -6084,8 +6084,27 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         async function executeStageAction() {
             if (!currentStageData) return;
 
-            // externalUrl이 있으면 외부 링크 열기 (예: Google Drive)
+            // externalUrl이 있으면 외부 링크 열기 (예: Google Drive) - 빌더 계정만 가능
             if (currentStageData.externalUrl) {
+                // 빌더 계정 확인
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
+                    alert('로그인이 필요합니다.');
+                    closeGuidePopup();
+                    return;
+                }
+                const { data: userData } = await window.supabaseClient
+                    .from('users')
+                    .select('installation_fee_paid')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (!userData || !userData.installation_fee_paid) {
+                    alert('빌더 계정 개설 후 이용 가능합니다.\n\n예시 프로젝트 Google Drive 열람은 빌더 계정 개설자만 가능합니다.');
+                    closeGuidePopup();
+                    return;
+                }
+
                 window.open(currentStageData.externalUrl, '_blank');
                 showStatus(`✅ 외부 링크를 새 탭에서 열었습니다.`, 'success');
                 closeGuidePopup();
@@ -6356,8 +6375,25 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             return result.join('\n');
         }
 
-        // Order Sheet 전달하기 (안내 모달 후 저장)
-        function deliverOrderSheet() {
+        // Order Sheet 전달하기 (안내 모달 후 저장) - 빌더 계정만 가능
+        async function deliverOrderSheet() {
+            // 빌더 계정 확인
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+            const { data: userData } = await window.supabaseClient
+                .from('users')
+                .select('installation_fee_paid')
+                .eq('id', session.user.id)
+                .single();
+
+            if (!userData || !userData.installation_fee_paid) {
+                alert('빌더 계정 개설 후 이용 가능합니다.\n\nOrder Sheet 전달 기능은 빌더 계정 개설자만 사용할 수 있습니다.\n\n일반 회원은 Order Sheet 템플릿을 열람만 가능합니다.');
+                return;
+            }
+
             const content = document.getElementById('textEditor').value;
 
             if (!content.trim()) {
