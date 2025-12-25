@@ -48,6 +48,10 @@
 
 ---
 
+> **관련된 Order Sheet를 Control Desk에 로딩하시겠습니까?**
+
+---
+
 ## 완료 후 다음 단계
 
 → **S0-5 Task Instructions 작성**으로 이동

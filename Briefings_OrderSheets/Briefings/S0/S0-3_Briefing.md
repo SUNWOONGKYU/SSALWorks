@@ -47,6 +47,10 @@ SAL Grid 정보를 Supabase에 저장하여 언제든 조회할 수 있게 하�
 
 ---
 
+> **관련된 Order Sheet를 Control Desk에 로딩하시겠습니까?**
+
+---
+
 ## 완료 후 다음 단계
 
 → **S0-4 SAL Grid Viewer 개발**로 이동

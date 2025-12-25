@@ -47,6 +47,10 @@ Order Sheet를 로딩하여 AI에게 지시하면 됩니다.
 
 ---
 
+> **관련된 Order Sheet를 Control Desk에 로딩하시겠습니까?**
+
+---
+
 ## 완료 후 다음 단계
 
 → **P1-1 Vision & Mission**으로 이동 (사업계획 시작)

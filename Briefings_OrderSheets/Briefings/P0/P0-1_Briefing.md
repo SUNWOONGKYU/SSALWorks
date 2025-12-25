@@ -36,6 +36,10 @@ Order Sheet를 로딩하여 AI에게 지시하면 됩니다.
 
 ---
 
+> **관련된 Order Sheet를 Control Desk에 로딩하시겠습니까?**
+
+---
+
 ## 완료 후 다음 단계
 
 → **P0-2 Project Status 관리**로 이동
