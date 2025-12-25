@@ -53,10 +53,11 @@ export default async function handler(req, res) {
                 return res.status(400).json({ error: 'Invalid settings data' });
             }
 
-            // DB에 존재하는 컬럼만 허용 (notify_installation_request는 아직 미추가)
+            // DB에 존재하는 컬럼만 허용
             const allowedFields = [
                 'platform_name', 'admin_email', 'timezone',
                 'notify_inquiry', 'notify_payment', 'notify_signup',
+                'notify_installation_request',
                 'install_fee', 'monthly_fee', 'credit_price', 'last_backup'
             ];
 
