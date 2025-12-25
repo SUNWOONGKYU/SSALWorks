@@ -73,30 +73,30 @@
 │                                     │
 │ ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
 │                                     │
-│ S1. 프로토타입 제작                 │
-│   ├─ Frontend                       │
-│   ├─ Backend                        │
-│   └─ Integration                    │
+│ S1. 개발 준비                       │
+│   ├─ Vercel 설정                    │
+│   ├─ 환경변수                       │
+│   └─ 도메인 연결                    │
 │                                     │
-│ S2. 개발 준비                       │
-│   ├─ Tech Stack                     │
-│   ├─ Architecture                   │
-│   └─ Development Setup              │
+│ S2. 개발 1차                        │
+│   ├─ OAuth                          │
+│   ├─ 이메일                         │
+│   └─ 회원가입                       │
 │                                     │
-│ S3. 개발 1차                        │
-│   ├─ Frontend                       │
-│   ├─ Backend                        │
-│   └─ Database                       │
+│ S3. 개발 2차                        │
+│   ├─ AI 연동                        │
+│   ├─ 구독 권한                      │
+│   └─ AI Q&A UI                      │
 │                                     │
-│ S4. 개발 2차                        │
-│   ├─ API Integration                │
-│   ├─ Authentication                 │
-│   └─ External Services              │
+│ S4. 개발 3차                        │
+│   ├─ 결제                           │
+│   ├─ 관리자 대시보드                │
+│   └─ 크레딧                         │
 │                                     │
 │ S5. 개발 마무리                     │
-│   ├─ Deployment                     │
-│   ├─ Monitoring                     │
-│   └─ Maintenance                    │
+│   ├─ 프로덕션 배포                  │
+│   ├─ QA                             │
+│   └─ 안정화                         │
 │                                     │
 └─────────────────────────────────────┘
 ```

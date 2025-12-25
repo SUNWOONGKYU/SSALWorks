@@ -58,12 +58,12 @@ project-root/
 │
 ├── P1_사업계획/                        # Business Plan (GRID 범위 외)
 ├── P2_프로젝트_기획/                   # Planning (GRID 범위 외)
-├── P3_프로토타입_제작/                 # Prototype (Stage 1)
-├── S1_개발_준비/                       # Development Preparation (Stage 2)
-├── S2_개발-1차/                        # Development Phase 1 (Stage 3)
-├── S3_개발-2차/                        # Development Phase 2 (Stage 4)
-├── S4_개발-3차/                        # Development Phase 3 (Stage 5)
-├── S5_개발_마무리/                            # Operations (Stage 6)
+├── P3_프로토타입_제작/                 # Prototype (GRID 범위 외)
+├── S1_개발_준비/                       # Development Preparation (Stage 1)
+├── S2_개발-1차/                        # Development Phase 1 (Stage 2)
+├── S3_개발-2차/                        # Development Phase 2 (Stage 3)
+├── S4_개발-3차/                        # Development Phase 3 (Stage 4)
+├── S5_개발_마무리/                     # Development Stabilization (Stage 5)
 │
 ├── AI_Link/                           # AI 연동 관련 파일
 ├── Briefings_OrderSheets/OrderSheet_Templates/                # Order Sheet 템플릿

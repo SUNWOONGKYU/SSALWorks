@@ -37,6 +37,26 @@
 
 ---
 
+### Order Sheet 로드 시 UI 전환 수정 ✅
+
+**문제:**
+1. Order Sheet 로드 시 Default 안내문("SSAL Works에 오신 것을 환영합니다")이 안 지워짐
+2. "Control Desk 지우기" 버튼이 제대로 동작하지 않음
+
+**원인:**
+- `executeStageAction()`: `textEditor`에 내용만 넣고 `workspaceGuide` 숨기기 누락
+- `loadOrderSheetToWorkspace()`: 마찬가지로 UI 전환 누락
+- `clearEditor()`: `textEditor`만 비우고 Default 안내문 복원 누락
+
+**수정 내역:**
+| 함수 | 수정 내용 |
+|------|----------|
+| `executeStageAction()` | `showOrderSheetEditor()` 호출 추가 |
+| `loadOrderSheetToWorkspace()` | `showOrderSheetEditor()` 호출 추가 |
+| `clearEditor()` | `loadGuideToWorkspace('Default')` 호출 추가 |
+
+---
+
 ### 공개_전환_업무 폴더 생성 및 문서 작성 ✅
 
 **목적:** SSAL Works 플랫폼 공개 전환을 위한 업무 폴더 정리
@@ -940,6 +960,173 @@ mv "S5_운영" "S5_개발_마무리"
 | 3권 (프로젝트 관리) | 없음 | ⚠️ 추가 필요 |
 
 **결론:** 이슈 해결됨. 2권/3권에 Part 추가는 선택사항.
+
+---
+
+### S5 Stage Gate 최종 검증 및 PO 승인 요청 ✅
+
+**작업일시:** 2025-12-24
+
+#### 1. S5 Task 현황 확인
+| Task ID | Task Name | Status | Verification |
+|---------|-----------|--------|--------------|
+| S5S1 | 보안 점검 및 패치 | ✅ Completed | ✅ Verified |
+| S5U1 | 디자인 QA 및 일관성 점검 | ✅ Completed | ✅ Verified |
+| S5T1 | 프로덕션 완성도 점검 | ✅ Completed | ✅ Verified |
+| S5F1 | 버그 수정 (프론트엔드) | ✅ Completed | ✅ Verified |
+| S5O1 | 배포상황 최종 검증 | ✅ Completed | ✅ Verified |
+| S5U2 | 반응형 디자인 최적화 | ✅ Completed | ✅ Verified |
+| S5BA1 | API 버그 수정 및 최적화 | ✅ Completed | ✅ Verified |
+| S5D1 | Supabase 백업 설정 확인 | ✅ Completed | ✅ Verified |
+
+**총 Task: 8개 / 완료: 8개 (100%)**
+
+#### 2. 모바일 반응형 최종 검증 (Playwright)
+| 페이지 | 상태 | 확인 내용 |
+|--------|------|----------|
+| 메인 (index.html) | ✅ | 햄버거 메뉴, 로고, FAB, 안내문 |
+| 로그인 | ✅ | 폼, Google 로그인 |
+| 회원가입 | ✅ | 모든 입력 필드 |
+| 매뉴얼 (manual_mobile.html) | ✅ | 목차, FAB |
+| 뷰어 (viewer_mobile.html) | ✅ | 57개 Task, Stage 필터 |
+| 마이페이지 | ✅ | 프로필, 아바타 |
+
+#### 3. 업데이트된 파일
+1. **S5GATE_verification_report.md** - 섹션 10, 11 추가 (모바일 검증 결과, 최종 결론)
+2. **stage_verification 테이블** - S5 Stage Gate 검증 결과 업데이트
+
+#### 4. Supabase DB 업데이트 (stage_verification)
+```json
+{
+  "stage_gate_status": "Pending Approval",
+  "auto_verification_status": "Verified",
+  "auto_verification_result": "PASS - 8/8 Tasks Completed, Mobile Responsive Verified",
+  "ai_verification_note": "S5 Stage 8개 Task 모두 완료 (100%). 모바일 반응형 전체 검증 완료. 프로덕션 준비도 92.5% (A등급). Critical Blocker 없음. Stage Gate 통과 권장. PO 최종 승인 대기.",
+  "verification_report_path": "S0_Project-SAL-Grid_생성/sal-grid/stage-gates/S5GATE_verification_report.md"
+}
+```
+
+#### 5. Stage Gate 최종 상태
+| 항목 | 결과 |
+|------|------|
+| Task 완료율 | **100%** (8/8) |
+| 검증 통과율 | **100%** (8/8) |
+| Critical 버그 | **0개** |
+| 프로덕션 준비도 | **92.5%** (A등급) |
+| 모바일 호환성 | **✅ 검증 완료** |
+| 출시 권고 | **✅ 출시 가능** |
+
+**🔔 PO 승인 대기 중**
+
+---
+
+## 2025-12-25 작업 내역
+
+### S5U2 모바일 배너 적용 완료 ✅
+
+**작업 배경:**
+- 모바일에서는 조회만 가능하고 실제 작업은 PC에서만 가능
+- 27개 기능 분석 결과: ✅ 가능(8), ⚠️ 조회만(9), ❌ 불가능(10)
+- 사용자에게 모바일 제한 사항을 명확히 안내 필요
+
+**적용된 배너 메시지:**
+```
+📱 모바일에서는 조회만 가능합니다. 작업은 PC에서 해주세요.
+```
+
+**적용된 페이지 (10개):**
+
+| # | 페이지 | 파일 | CSS 처리 |
+|---|--------|------|----------|
+| 1 | 메인 대시보드 | `Production/index.html` | 인라인 CSS 추가 |
+| 2 | 관리자 대시보드 | `Production/admin-dashboard.html` | responsive.css |
+| 3 | Task Viewer | `Production/viewer.html` | responsive.css |
+| 4 | Manual | `Production/manual.html` | responsive.css |
+| 5 | 로그인 | `Production/pages/auth/login.html` | responsive.css |
+| 6 | 회원가입 | `Production/pages/auth/signup.html` | responsive.css |
+| 7 | 비밀번호 재설정 | `Production/pages/auth/reset-password.html` | responsive.css |
+| 8 | Books Viewer | `Production/books-viewer.html` | responsive.css |
+| 9 | Learning Viewer | `Production/learning-viewer.html` | responsive.css |
+| 10 | Tips Viewer | `Production/tips-viewer.html` | responsive.css |
+
+**CSS 스타일 (.mobile-notice):**
+- 배경: 노란색 그라데이션 (#FEF3C7 → #FDE68A)
+- 텍스트: 갈색 (#92400E)
+- 위치: 상단 고정 (sticky, z-index: 999)
+- 기본: 숨김 (display: none)
+- 768px 이하: 표시 (display: block)
+
+**Supabase 업데이트 (project_sal_grid - S5U2):**
+- modification_history에 2025-12-25 작업 기록 추가
+- s5u2_update.json 문서화 파일 업데이트
+
+---
+
+### 빌더 계정 개설자용 사용 매뉴얼 업데이트 및 S1~S5 정보 수정 ✅
+
+**작업 배경:**
+- "빌더용 사용 매뉴얼" 업데이트 작업 중 타당성 검증 수행
+- `SSALWORKS_TASK_PLAN.md`와 비교 시 S1~S5 정보 불일치 발견
+
+**문제점:**
+- 여러 기획 문서에서 S1=프로토타입 제작으로 잘못 기재됨
+- 올바른 정의: S1=개발 준비, S2=개발 1차, S3=개발 2차, S4=개발 3차, S5=개발 마무리
+
+**수정된 파일 (4개):**
+
+| # | 파일 | 수정 내용 |
+|---|------|----------|
+| 1 | `P2_프로젝트_기획/Service_Introduction/빌더용_사용_매뉴얼.md` | 제목 변경 + S1~S5 테이블 수정 |
+| 2 | `P2_프로젝트_기획/User_Flows/5_Development_Process/flow.md` | S1~S5 다이어그램 전면 수정 |
+| 3 | `P2_프로젝트_기획/Project_Plan/PROJECT_PLAN.md` | Stage 번호 매핑 수정 |
+| 4 | `P2_프로젝트_기획/Project_Plan/PROJECT_DIRECTORY_STRUCTURE.md` | Stage 번호 매핑 수정 |
+
+**핵심 변경:**
+- P3 프로토타입 제작: Stage 1 → GRID 범위 외
+- S1~S5: Stage 2-6 → Stage 1-5
+
+**리포트 저장:**
+- `Human_ClaudeCode_Bridge/Reports/S1-S5_Stage_Correction_Report.md`
+
+---
+
+### 크레딧 충전 문서 간소화 ✅
+
+**작업 배경:**
+- `빌더용_사용_매뉴얼.md`와 `4_Credit_Purchase/flow.md` 간 크레딧 정보 불일치 발견
+- 사용자 확인: 보너스, 할인율, 특별혜택 일체 없음
+- 결제수단: 토스페이먼트 단일
+
+**수정 내용:**
+
+| 항목 | 이전 | 이후 |
+|------|------|------|
+| 충전 금액 | 5개 (₩5,000 포함) | 4개 (₩10,000/30,000/50,000/100,000) |
+| 보너스 | 계정 개설 보너스 ₩5,000 등 | **없음** (삭제) |
+| 할인율 | 패키지별 차등 할인 | **없음** (삭제) |
+| 결제수단 | 카드, 계좌이체, 통장 등 | 토스페이먼트 |
+| 특별혜택 | 유연한 충전, 실시간 가격 등 | **삭제** (군더더기) |
+
+**수정된 파일:**
+
+| # | 파일 | 변경 내용 |
+|---|------|----------|
+| 1 | `P2_프로젝트_기획/Service_Introduction/빌더용_사용_매뉴얼.md` | 충전 금액 간소화, 특별혜택 섹션 삭제 |
+| 2 | `P2_프로젝트_기획/User_Flows/4_Credit_Purchase/flow.md` | **1065줄 → 52줄** 전면 재작성 |
+
+**flow.md 최종 구조 (52줄):**
+```markdown
+1. 플로우 개요 (목적, 전제조건, 시작/종료)
+2. 충전 금액 (₩10,000/30,000/50,000/100,000)
+3. 결제 수단 (토스페이먼트)
+4. 기본 플로우 (4단계)
+5. AI 사용 가격 (수시 변동 안내)
+```
+
+**핵심 원칙 (사용자 지시):**
+- 충전금액 = 지급크레딧 (구분 금지)
+- 가격은 수시로 변동될 수 있음 언급
+- 불필요한 기술 설명 제거
 
 ---
 
