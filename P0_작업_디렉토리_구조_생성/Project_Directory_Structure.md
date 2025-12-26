@@ -1,7 +1,7 @@
 # SSALWorks 프로젝트 디렉토리 구조 가이드
 
-> **버전**: v12.3
-> **최종 업데이트**: 2025-12-23
+> **버전**: v12.4
+> **최종 업데이트**: 2025-12-26
 > **프로젝트**: SaaS 구독형 학습 + 프로젝트 관리 통합 플랫폼
 
 ---
@@ -61,6 +61,13 @@ C:\!SSAL_Works_Private\
 ├── .claude/                     # Claude Code 설정
 ├── .git/                        # Git 저장소
 ├── .github/                     # GitHub 설정 (Actions, etc.)
+│
+# ========== 자동화 스크립트 ==========
+├── scripts/                         # Pre-commit Hook 자동화 스크립트
+│   ├── build-web-assets.js          # 1~7번 자동화 통합 실행
+│   └── sync-to-root.js              # 8번: Stage → Root 자동 복사
+├── data/                            # 자동 생성 데이터
+│   └── phase_progress.json          # P0~S5 진행률 (자동 생성)
 │
 # ========== 루트 파일 ==========
 ├── .gitignore                       # Git 제외 파일 목록
@@ -428,11 +435,64 @@ Production/                    ← Vercel 루트 디렉토리
 - `Documentation/` - 문서 (개발용)
 - `Database/` - SQL 파일 (Supabase에서 실행)
 
-**워크플로우:**
-1. 각 Stage(S1-S5)에서 작업 수행
-2. 작업 완료 후 Production/에 Area별로 복사
-3. Production/은 항상 배포 가능한 최신 상태 유지
+**워크플로우 (Pre-commit Hook 자동화):**
+```
+1. Stage 폴더에서 작업 수행 (원본)
+      ↓
+2. git commit 실행
+      ↓
+3. Pre-commit Hook 자동 실행 (scripts/sync-to-root.js)
+      ↓
+4. Production 폴더로 자동 복사 (배포용)
+```
 
+**핵심:** Stage가 원본, Production은 Pre-commit Hook으로 자동 생성되는 복사본
+
+---
+
+## 🔄 Pre-commit Hook 자동화 (8가지)
+
+> git commit 실행 시 자동으로 실행되는 8가지 자동화
+
+### 자동화 목록
+
+| # | 자동화 내용 | 소스 파일 | 출력 파일 |
+|---|------------|----------|----------|
+| 1 | Order Sheets MD → JS 번들링 | `Briefings_OrderSheets/OrderSheet_Templates/*.md` | `ordersheets.js` |
+| 2 | Briefings (상황별 안내문) MD → JS 번들링 | `Briefings_OrderSheets/Briefings/**/*.md` | `guides.js` |
+| 3 | 외부 연동 설정 가이드 MD → JS 번들링 | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/*.md` | `service-guides.js` |
+| 4 | 서비스 소개 모달 MD → index.html 삽입 | `P2_.../Service_Introduction/서비스_소개_모달.md` | `index.html` |
+| 5 | SAL Grid 매뉴얼 MD → HTML 변환 | `S0_.../manual/PROJECT_SAL_GRID_MANUAL.md` | `참고자료/*.html` |
+| 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `Production/pages/mypage/manual.html` |
+| 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `data/phase_progress.json` |
+| 8 | Stage 폴더 → 배포 폴더 자동 복사 | `S?_*/Frontend/`, `S?_*/Backend_APIs/` 등 | `pages/`, `api/` |
+
+### 스크립트 위치
+
+```
+개별 폴더 스크립트 (단일 대상):
+├── Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js
+├── Briefings_OrderSheets/Briefings/generate-briefings-js.js
+└── 부수적_고유기능/콘텐츠/외부_연동_설정_Guide/generate-service-guides-js.js
+
+루트 scripts/ 폴더 스크립트 (복수 대상):
+├── scripts/build-web-assets.js     ← 1~7번 통합 실행
+└── scripts/sync-to-root.js         ← 8번: Stage → Root 자동 복사
+```
+
+### Stage → Root 매핑 (8번 자동화)
+
+| Area | Stage 폴더 | Root 폴더 |
+|------|-----------|----------|
+| F | `S?_*/Frontend/` | `pages/` |
+| BA | `S?_*/Backend_APIs/` | `api/Backend_APIs/` |
+| S | `S?_*/Security/` | `api/Security/` |
+| BI | `S?_*/Backend_Infra/` | `api/Backend_Infra/` |
+| E | `S?_*/External/` | `api/External/` |
+
+### 참조 문서
+
+> `.claude/pre-commit-hooks.md` - Pre-commit Hook 상세 문서
 
 ---
 
@@ -785,10 +845,11 @@ Development_Process_Monitor/
 | v12.0 | 2025-12-18 | 파일 명명 규칙 추가 (규칙 5), Production 폴더 구조 재설계 (Area별 분류) | Claude Code |
 | v12.1 | 2025-12-20 | Backend_API → Backend_APIs 용어 통일 (실제 폴더명과 일치화) | Claude Code |
 | v12.2 | 2025-12-20 | Production 구조 6대 규칙 일치화: API→api, Backend_Infrastructure→Backend_Infra | Claude Code |
-| **v12.3** | **2025-12-23** | **실제 폴더 구조와 일치화: S0 SSAL→SAL, P2 Service_Introduction 추가, S3/S4 폴더 추가, S5 Backend_APIs 통일, Briefings_OrderSheets 추가** | Claude Code |
+| v12.3 | 2025-12-23 | 실제 폴더 구조와 일치화: S0 SSAL→SAL, P2 Service_Introduction 추가, S3/S4 폴더 추가, S5 Backend_APIs 통일, Briefings_OrderSheets 추가 | Claude Code |
+| **v12.4** | **2025-12-26** | **Pre-commit Hook 8가지 자동화 섹션 추가, scripts/data/ 폴더 추가, Production 워크플로우를 Pre-commit Hook 자동 복사로 업데이트** | Claude Code |
 
 ---
 
-**현재 버전:** v12.3
+**현재 버전:** v12.4
 **작성자:** SSALWorks Team
-**마지막 업데이트:** 2025-12-23
+**마지막 업데이트:** 2025-12-26

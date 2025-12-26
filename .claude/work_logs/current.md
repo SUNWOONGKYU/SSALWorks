@@ -6,6 +6,37 @@
 
 ## 2025-12-26 작업 내역
 
+### PoliticianFinder 모바일 최적화 종합 평가 ✅
+
+**평가 결과: 95/100 (A+ 등급)**
+
+| 항목 | 점수 | 상태 |
+|------|------|------|
+| 터치 타겟 | 24/25 (96%) | ✅ |
+| 버튼 크기 | 20/20 (100%) | ✅ |
+| 가로 스크롤 | 15/15 (100%) | ✅ |
+| Typography | 15/15 (100%) | ✅ |
+| 레이아웃 | 15/15 (100%) | ✅ |
+| 접근성 | 6/10 (60%) | ⚠️ |
+
+**리포트:** `Human_ClaudeCode_Bridge/Reports/Mobile_Optimization_Final_Evaluation.md`
+
+---
+
+### PoliticianFinder 버튼 크기 최적화 ✅
+
+**문제:**
+- 모바일에서 버튼 높이가 업계 평균보다 8-12px 큼 (52px vs 44px)
+
+**수정 파일:**
+- `src/app/page.tsx`, `src/app/community/page.tsx`, `src/app/politicians/page.tsx`
+
+**변경:** `py-3` → `py-2.5`/`py-2` (버튼 52px → 48px, 탭 48px → 40px)
+
+**결과:** Commit `d25aa47`, 리포트 `Human_ClaudeCode_Bridge/Reports/Mobile_Button_Size_Optimization_Report.md`
+
+---
+
 ### PoliticianFinder Footer 높이 수정 ✅
 
 **문제:**
@@ -212,6 +243,61 @@ Production: buildCommand = "node build-all.js"
 - 3권_프로젝트_관리_방법/ (12개)
 
 **원본 위치:** 부수적_고유기능/콘텐츠/학습용_Books_New/
+
+---
+
+### Pre-commit Hook 8가지 자동화 체계 정비 ✅
+
+**작업 내용:**
+
+1. **Pre-commit Hook 참조 문서 생성**
+   - `.claude/pre-commit-hooks.md` 생성 (8가지 자동화 목록)
+
+2. **build-web-assets.js 수정**
+   - 7번 자동화 추가: P0~S5 진행률 JSON 생성 (buildProgress 함수)
+   - 빌더 매뉴얼 파일명 수정: `빌더계정_사용_매뉴얼.md` → `빌더용_사용_매뉴얼.md`
+
+3. **sync-to-root.js 생성**
+   - 8번 자동화: Stage → Root 자동 복사 스크립트
+
+4. **관련 문서 업데이트**
+   - `공개_전환_업무/08_필수_도구_설치_안내문.md`: 7가지 → 8가지
+   - Tips 콘텐츠: `도구_활용/Pre-commit_Hook으로_반복작업_자동화하기.md` 생성
+
+**8가지 자동화 목록:**
+| # | 자동화 |
+|---|-------|
+| 1 | Order Sheets MD → JS |
+| 2 | Briefings MD → JS |
+| 3 | Service Guides MD → JS |
+| 4 | 서비스 소개 모달 MD → index.html |
+| 5 | SAL Grid 매뉴얼 MD → HTML |
+| 6 | 빌더 매뉴얼 MD → HTML |
+| 7 | P0~S5 진행률 → JSON |
+| 8 | Stage → Root 자동 복사 |
+
+---
+
+### Project_Directory_Structure.md v12.4 업데이트 ✅
+
+**작업 내용:**
+
+1. **scripts/, data/ 폴더 추가**
+   - 루트 디렉토리 구조에 scripts/, data/ 폴더 명시
+
+2. **Pre-commit Hook 8가지 자동화 섹션 추가**
+   - 자동화 목록 표
+   - 스크립트 위치 트리
+   - Stage → Root 매핑
+
+3. **Production 워크플로우 업데이트**
+   - 수동 복사 → Pre-commit Hook 자동 복사로 변경
+
+4. **버전 이력**
+   - v12.3 → v12.4 (2025-12-26)
+
+**연관 파일 수정:**
+- `공개_전환_업무/04_패키지_표준_디렉토리_구조.md`: data/ 폴더 추가
 
 ---
 
