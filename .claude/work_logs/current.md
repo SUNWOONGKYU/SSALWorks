@@ -6,6 +6,38 @@
 
 ## 2025-12-26 작업 내역
 
+### Pre-commit Hook 워크플로우 문서 통일 ✅
+
+**작업 배경:**
+- 디렉토리 변경 및 작업 규칙 변경에 따라 관련 문서 불일치 발견
+- "이중 저장" → "Pre-commit Hook 자동화"로 워크플로우 변경됨
+
+**업데이트된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `부수적_고유기능/콘텐츠/Tips/개발_실무/파일_저장_위치_확인하기.md` | "이중 저장" → "Pre-commit Hook 자동화" 워크플로우 |
+| `부수적_고유기능/콘텐츠/학습용_Books_New/3권.../11편_AI_작업_6대_규칙.md` | Stage 저장 + Pre-commit Hook 자동 복사 설명 |
+| `.claude/rules/02_save-location.md` | 전면 개편 - Pre-commit Hook 워크플로우 |
+| `.claude/CLAUDE.md` | 절대 규칙 4 - Pre-commit Hook 자동 복사로 변경 |
+
+**핵심 변경:**
+```
+이전: Stage 폴더에 코드 저장 금지, 루트 폴더에 직접 저장
+이후: Stage 폴더에 먼저 저장 → Pre-commit Hook → Production 자동 복사
+```
+
+**Stage → Production 매핑:**
+| Area | Stage 폴더 | Production 폴더 |
+|------|-----------|-----------------|
+| F | S?_*/Frontend/ | Production/pages/ |
+| BA | S?_*/Backend_APIs/ | Production/api/Backend_APIs/ |
+| S | S?_*/Security/ | Production/api/Security/ |
+| BI | S?_*/Backend_Infra/ | Production/api/Backend_Infra/ |
+| E | S?_*/External/ | Production/api/External/ |
+
+---
+
 ### PoliticianFinder 모바일 최적화 종합 평가 ✅
 
 **평가 결과: 95/100 (A+ 등급)**

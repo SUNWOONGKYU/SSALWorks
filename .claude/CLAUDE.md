@@ -196,72 +196,54 @@ Supabase DB (project_sal_grid 테이블)
 
 ---
 
-### 절대 규칙 4: Production 코드는 이중 저장
+### 절대 규칙 4: Stage 폴더에 먼저 저장 → Pre-commit Hook 자동 복사
 
-> **적용 대상**: Frontend, Backend_APIs, Database 코드 파일 생성/수정 시
-
-```
-🚫 Stage 폴더에만 저장하고 Production 폴더 복사 생략 금지!
-🚫 코드 파일은 반드시 두 곳에 존재해야 함! (이중 저장)
-🚫 Production 폴더가 최신 상태가 아니면 배포 불가!
-```
-
-**이중 저장 규칙:**
+> **적용 대상**: Frontend, Backend_APIs, Security, Backend_Infra, External 코드 파일 생성/수정 시
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  코드 파일 생성/수정 시                                       │
-├─────────────────────────────────────────────────────────────┤
-│  1. Stage/Area 폴더에 저장 (작업 이력용)                      │
-│     예: S2_개발-1차/Frontend/login.html                      │
-│                                                              │
-│  2. Production 폴더에 복사 (배포용) ⭐ 필수!                   │
-│     예: Production/Frontend/login.html                       │
-└─────────────────────────────────────────────────────────────┘
+✅ Stage 폴더에 먼저 저장 (원본, 프로세스 관리용)
+✅ git commit 시 Pre-commit Hook이 자동으로 Production 폴더에 복사
+🚫 수동으로 이중 저장 금지 - 자동화에 맡겨라!
 ```
 
-**대상 Area:**
-| Area | Stage 폴더 | Production 폴더 |
-|------|------------|-----------------|
-| F (Frontend) | `S?_*/Frontend/` | `Production/Frontend/` |
+**저장 순서:**
+
+```
+1. Stage 폴더에 저장 (원본)
+      ↓
+2. git commit 실행
+      ↓
+3. Pre-commit Hook 자동 실행 (scripts/sync-to-root.js)
+      ↓
+4. Production 폴더로 자동 복사 (배포용)
+```
+
+**Stage → Production 매핑:**
+| Area | Stage 폴더 | Production 폴더 (자동 복사) |
+|------|-----------|---------------------------|
+| F (Frontend) | `S?_*/Frontend/` | `Production/pages/` |
 | BA (Backend_APIs) | `S?_*/Backend_APIs/` | `Production/api/Backend_APIs/` |
 | S (Security) | `S?_*/Security/` | `Production/api/Security/` |
 | BI (Backend_Infra) | `S?_*/Backend_Infra/` | `Production/api/Backend_Infra/` |
 | E (External) | `S?_*/External/` | `Production/api/External/` |
 
-**필수 프로세스:**
-```
-1. Stage 폴더에 코드 저장
-     ↓
-2. Production 폴더로 복사/이동
-     ↓
-3. 두 파일이 동일한지 확인
-     ↓
-4. 완료 보고 시 두 경로 모두 명시
-```
-
 **완료 보고 양식:**
 ```
 "코드 파일 저장 완료
 
-📁 Stage 폴더: S2_개발-1차/Frontend/login.html
-📁 Production: Production/Frontend/login.html
+📁 Stage 저장: S2_개발-1차/Frontend/pages/auth/login.html (원본)
+📁 자동 복사: Production/pages/auth/login.html (배포용)
 
-✅ 두 파일 동기화 완료"
+✅ git commit 시 자동 동기화됨"
 ```
 
 **❌ 절대 금지 행동:**
-- Stage 폴더에만 저장하고 Production 폴더 무시
-- Production 폴더 복사 생략
-- 두 파일 버전 불일치 상태로 방치
+- Production 폴더에 직접 저장 (Stage 거치지 않고)
+- 수동으로 이중 저장 (자동화 무시)
 
-**Production 폴더 동기화 체크리스트:**
-- [ ] Frontend 코드 → Production/Frontend/ 복사했는가?
-- [ ] Backend API 코드 → Production/api/Backend_APIs/ 복사했는가?
-- [ ] Security 코드 → Production/api/Security/ 복사했는가?
-- [ ] Backend Infra 코드 → Production/api/Backend_Infra/ 복사했는가?
-- [ ] External 코드 → Production/api/External/ 복사했는가?
-- [ ] 두 파일이 동일한지 확인했는가?
+**⚠️ 폴더명 변경 금지:** Vercel이 `api` 이름을 인식함
+
+**상세 규칙:** `.claude/rules/02_save-location.md` 참조
 
 ---
 
@@ -369,7 +351,7 @@ work_logs/current.md 기록
 
 Order Sheet, 안내문, Manual 수정 시:
 ```bash
-node Production/build-web-assets.js
+node scripts/build-web-assets.js
 ```
 
 ---
@@ -386,11 +368,16 @@ node Production/build-web-assets.js
 - "안내문 빌드해" → `build-web-assets.js` 실행
 - **`bridge_server.js`는 빌드 도구가 아님!** (런타임 API 서버)
 
+**스크립트 저장 원칙:**
+```
+1. 단일 대상 스크립트 → 해당 폴더에 저장
+2. 복수 대상 스크립트 → 루트 scripts/에 저장
+```
+
 **빌드 스크립트 위치:**
 ```
-Production/build-web-assets.js          ← 통합 빌드
-Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js  ← Order Sheet
-P2_.../상황별_안내문/generate-guides-js.js            ← 안내문
-P2_.../상황별_안내문/convert-guides-to-html.js        ← MD→HTML
+scripts/build-web-assets.js             ← 통합 빌드 (복수 대상)
+Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js  ← Order Sheet (단일)
+Briefings_OrderSheets/Briefings/generate-briefings-js.js               ← Briefings (단일)
 ```
 
