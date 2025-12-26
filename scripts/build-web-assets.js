@@ -155,15 +155,15 @@ function buildServiceGuides() {
     }
 }
 
-// Service Intro 스타일 상수
+// Service Intro 스타일 상수 (v4.1 - 폰트 크기 균형 조정)
 const SERVICE_INTRO_STYLES = {
-    sectionTitle: 'font-size: 22px; font-weight: 800; color: #1F3563; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 3px solid #F59E0B;',
-    subsectionTitle: 'font-size: 18px; font-weight: 700; color: #1F3563; margin: 24px 0 12px 0;',
-    paragraph: 'font-size: 15px; margin-bottom: 16px;',
-    list: 'font-size: 14px; margin: 0; padding-left: 20px; line-height: 1.8;',
-    table: 'width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;',
-    tableHeader: 'background: #f8f9fa; padding: 12px; border: 1px solid #dee2e6; font-weight: 600; text-align: left;',
-    tableCell: 'padding: 12px; border: 1px solid #dee2e6;'
+    sectionTitle: 'font-size: 20px; font-weight: 800; color: #1F3563; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 3px solid #F59E0B;',
+    subsectionTitle: 'font-size: 16px; font-weight: 700; color: #1F3563; margin: 20px 0 10px 0;',
+    paragraph: 'font-size: 14px; margin-bottom: 14px; line-height: 1.8;',
+    list: 'font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;',
+    table: 'width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px;',
+    tableHeader: 'background: #f8f9fa; padding: 10px; border: 1px solid #dee2e6; font-weight: 600; text-align: left;',
+    tableCell: 'padding: 10px; border: 1px solid #dee2e6;'
 };
 
 // MD 파싱 (v4.0 구조: [개요] + [상세] with numbered sections)
@@ -225,9 +225,9 @@ function convertServiceIntroSection(section) {
     // 2. 인라인 코드 변환 (`code`)
     html = html.replace(/`([^`]+)`/g, '<code style="background: #f1f5f9; color: #0f172a; padding: 2px 6px; border-radius: 4px; font-family: Consolas, Monaco, monospace; font-size: 0.9em;">$1</code>');
 
-    // 3. 헤더 변환 (####, ###, ## 순서로)
-    html = html.replace(/^#### (.+)$/gm, '<h5 style="font-size: 15px; font-weight: 600; color: #374151; margin: 16px 0 8px 0;">$1</h5>');
-    html = html.replace(/^### (.+)$/gm, '<h4 style="font-size: 16px; font-weight: 600; color: #1F3563; margin: 20px 0 10px 0;">$1</h4>');
+    // 3. 헤더 변환 (####, ###, ## 순서로) - 폰트 크기 축소
+    html = html.replace(/^#### (.+)$/gm, '<h5 style="font-size: 13px; font-weight: 600; color: #374151; margin: 14px 0 6px 0;">$1</h5>');
+    html = html.replace(/^### (.+)$/gm, '<h4 style="font-size: 14px; font-weight: 600; color: #1F3563; margin: 16px 0 8px 0;">$1</h4>');
     html = html.replace(/^## (\d+-\d+)\. (.+)$/gm, `<h3 style="${SERVICE_INTRO_STYLES.subsectionTitle}">$1. $2</h3>`);
     html = html.replace(/^## (.+)$/gm, `<h3 style="${SERVICE_INTRO_STYLES.subsectionTitle}">$1</h3>`);
 
@@ -268,9 +268,17 @@ function convertServiceIntroSection(section) {
     html = html.replace(/^━+$/gm, '<hr style="border: none; border-top: 2px solid #e5e7eb; margin: 24px 0;">');
     html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;">');
 
-    // 9. 단락 변환 (개선된 버전)
+    // 9. 단락 변환 (v4.1 - 볼드 단독 줄도 paragraph 스타일 적용)
     const lines = html.split('\n');
     let result = '', inParagraph = false;
+
+    // 블록 요소인지 확인 (p 태그로 감싸면 안 되는 것들)
+    const isBlockElement = (line) => {
+        const blockTags = ['<h2', '<h3', '<h4', '<h5', '<table', '<thead', '<tbody', '<tr', '<th', '<td',
+                          '<ul', '<ol', '<li', '<hr', '<pre', '<nav', '<section', '<details', '<summary'];
+        return blockTags.some(tag => line.startsWith(tag) || line.startsWith('</' + tag.slice(1)));
+    };
+
     for (const line of lines) {
         const trimmed = line.trim();
 
@@ -280,8 +288,22 @@ function convertServiceIntroSection(section) {
             continue;
         }
 
-        // HTML 태그로 시작하면 단락 닫고 그대로 추가
-        if (trimmed.startsWith('<')) {
+        // 블록 요소면 단락 닫고 그대로 추가
+        if (isBlockElement(trimmed)) {
+            if (inParagraph) { result += '</p>\n'; inParagraph = false; }
+            result += trimmed + '\n';
+            continue;
+        }
+
+        // <strong>만 있는 줄은 paragraph로 감싸서 추가
+        if (trimmed.startsWith('<strong>') && trimmed.endsWith('</strong>')) {
+            if (inParagraph) { result += '</p>\n'; inParagraph = false; }
+            result += `<p style="${SERVICE_INTRO_STYLES.paragraph}">${trimmed}</p>\n`;
+            continue;
+        }
+
+        // <p>로 시작하는 기존 paragraph면 그대로 추가
+        if (trimmed.startsWith('<p ')) {
             if (inParagraph) { result += '</p>\n'; inParagraph = false; }
             result += trimmed + '\n';
             continue;
@@ -309,21 +331,21 @@ function generateServiceIntroModalHtml(sections) {
 
     let html = `
                 <!-- 목차 -->
-                <nav style="background: #f8f9fa; padding: 24px 28px; border-radius: 12px; margin-bottom: 40px; border: 1px solid #e9ecef;">
-                    <h3 style="font-size: 18px; font-weight: 700; color: #1F3563; margin: 0 0 20px 0;">📑 목차</h3>
+                <nav style="background: #f8f9fa; padding: 20px 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #e9ecef;">
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 16px 0;">📑 목차</h3>
 
                     <!-- 개요 -->
-                    <div style="margin-bottom: 20px;">
-                        <h4 style="font-size: 15px; font-weight: 600; color: #F59E0B; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #F59E0B;">📋 개요</h4>
-                        <div style="padding-left: 12px;">
-                            <a href="#section0" style="color: #495057; text-decoration: none; font-size: 14px;">→ SSAL Works 소개</a>
+                    <div style="margin-bottom: 16px;">
+                        <h4 style="font-size: 13px; font-weight: 600; color: #F59E0B; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #F59E0B;">📋 개요</h4>
+                        <div style="padding-left: 10px;">
+                            <a href="#section0" style="color: #495057; text-decoration: none; font-size: 13px;">→ SSAL Works 소개</a>
                         </div>
                     </div>
 
                     <!-- 상세 안내 -->
                     <div>
-                        <h4 style="font-size: 15px; font-weight: 600; color: #1F3563; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #1F3563;">📖 상세 안내</h4>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 20px; font-size: 14px; padding-left: 12px;">
+                        <h4 style="font-size: 13px; font-weight: 600; color: #1F3563; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #1F3563;">📖 상세 안내</h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px 16px; font-size: 13px; padding-left: 10px;">
                             ${detailSections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none;">${s.number}. ${s.title}</a>`).join('\n                            ')}
                         </div>
                     </div>
@@ -340,16 +362,16 @@ function generateServiceIntroModalHtml(sections) {
     });
     html += `
                 <!-- Footer -->
-                <div style="text-align: center; padding-top: 32px; border-top: 2px solid #e9ecef;">
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px;">
+                <div style="text-align: center; padding-top: 28px; border-top: 2px solid #e9ecef;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
                         <div style="display: flex; gap: 3px;">
-                            <span style="width: 8px; height: 14px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(-10deg);"></span>
-                            <span style="width: 8px; height: 14px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%;"></span>
-                            <span style="width: 8px; height: 14px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(10deg);"></span>
+                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(-10deg);"></span>
+                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%;"></span>
+                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(10deg);"></span>
                         </div>
-                        <span style="font-size: 20px; font-weight: 800; color: #1F3563;">SSAL Works</span>
+                        <span style="font-size: 18px; font-weight: 800; color: #1F3563;">SSAL Works</span>
                     </div>
-                    <p style="font-size: 14px; color: #6c757d; margin: 0;">AI와 함께 풀스택 웹사이트를 만드는 곳</p>
+                    <p style="font-size: 12px; color: #6c757d; margin: 0;">AI와 함께 풀스택 웹사이트를 만드는 곳</p>
                 </div>
 `;
     return html;
