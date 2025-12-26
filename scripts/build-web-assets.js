@@ -208,10 +208,30 @@ function parseServiceIntroMd(content) {
 // 섹션 → HTML 변환
 function convertServiceIntroSection(section) {
     let html = section.content;
-    html = html.replace(/^## (\d+-\d+)\. (.+)$/gm, `<h3 style="${SERVICE_INTRO_STYLES.subsectionTitle}">$1. $2</h3>`);
-    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
-    // 테이블 변환
+    // 1. 코드 블록 변환 (```로 감싸진 블록) - 내부 줄바꿈을 보존
+    html = html.replace(/```([a-z]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+        const escapedCode = code.trim()
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/\n/g, '&#10;'); // 줄바꿈을 엔티티로 변환해서 나중에 파싱되지 않도록
+        return `<pre style="background: #1e293b; color: #e2e8f0; padding: 16px 20px; border-radius: 8px; margin: 16px 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; overflow-x: auto; white-space: pre; line-height: 1.6;"><code>${escapedCode}</code></pre>`;
+    });
+
+    // 2. 인라인 코드 변환 (`code`)
+    html = html.replace(/`([^`]+)`/g, '<code style="background: #f1f5f9; color: #0f172a; padding: 2px 6px; border-radius: 4px; font-family: Consolas, Monaco, monospace; font-size: 0.9em;">$1</code>');
+
+    // 3. 헤더 변환 (####, ###, ## 순서로)
+    html = html.replace(/^#### (.+)$/gm, '<h5 style="font-size: 15px; font-weight: 600; color: #374151; margin: 16px 0 8px 0;">$1</h5>');
+    html = html.replace(/^### (.+)$/gm, '<h4 style="font-size: 16px; font-weight: 600; color: #1F3563; margin: 20px 0 10px 0;">$1</h4>');
+    html = html.replace(/^## (\d+-\d+)\. (.+)$/gm, `<h3 style="${SERVICE_INTRO_STYLES.subsectionTitle}">$1. $2</h3>`);
+    html = html.replace(/^## (.+)$/gm, `<h3 style="${SERVICE_INTRO_STYLES.subsectionTitle}">$1</h3>`);
+
+    // 4. 볼드/이탤릭 변환
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+    // 5. 테이블 변환
     html = html.replace(/\|(.+)\|\n\|[-| ]+\|\n((?:\|.+\|\n?)+)/g, (match, header, rows) => {
         const headerCells = header.split('|').filter(c => c.trim());
         const rowLines = rows.trim().split('\n');
@@ -227,28 +247,53 @@ function convertServiceIntroSection(section) {
         return tableHtml + '</tbody></table>';
     });
 
-    // 리스트 변환
-    html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-    html = html.replace(/(<li>.+<\/li>\n?)+/g, match => `<ul style="${SERVICE_INTRO_STYLES.list}">${match}</ul>`);
+    // 6. 번호 리스트 변환 (1. 2. 3.)
+    html = html.replace(/^(\d+)\. (.+)$/gm, '<li value="$1">$2</li>');
+    html = html.replace(/(<li value="\d+">.+<\/li>\n?)+/g, match => `<ol style="${SERVICE_INTRO_STYLES.list}">${match}</ol>`);
 
-    // 단락 변환
+    // 7. 불릿 리스트 변환
+    html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+    html = html.replace(/(<li>[^<].+<\/li>\n?)+/g, match => {
+        if (!match.includes('value=')) {
+            return `<ul style="${SERVICE_INTRO_STYLES.list}">${match}</ul>`;
+        }
+        return match;
+    });
+
+    // 8. 구분선 변환
+    html = html.replace(/^━+$/gm, '<hr style="border: none; border-top: 2px solid #e5e7eb; margin: 24px 0;">');
+    html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;">');
+
+    // 9. 단락 변환 (개선된 버전)
     const lines = html.split('\n');
     let result = '', inParagraph = false;
     for (const line of lines) {
         const trimmed = line.trim();
-        if (trimmed === '' || trimmed === '---') {
-            if (inParagraph) { result += '</p>'; inParagraph = false; }
+
+        // 빈 줄이면 단락 닫기
+        if (trimmed === '') {
+            if (inParagraph) { result += '</p>\n'; inParagraph = false; }
             continue;
         }
+
+        // HTML 태그로 시작하면 단락 닫고 그대로 추가
         if (trimmed.startsWith('<')) {
-            if (inParagraph) { result += '</p>'; inParagraph = false; }
-            result += trimmed;
+            if (inParagraph) { result += '</p>\n'; inParagraph = false; }
+            result += trimmed + '\n';
             continue;
         }
-        if (!inParagraph) { result += `<p style="${SERVICE_INTRO_STYLES.paragraph}">`; inParagraph = true; }
+
+        // 일반 텍스트는 단락으로 감싸기
+        if (!inParagraph) {
+            result += `<p style="${SERVICE_INTRO_STYLES.paragraph}">`;
+            inParagraph = true;
+        } else {
+            result += '<br>'; // 단락 내 줄바꿈
+        }
         result += trimmed + ' ';
     }
     if (inParagraph) result += '</p>';
+
     return result;
 }
 
