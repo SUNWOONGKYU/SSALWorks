@@ -56,7 +56,7 @@ SAL은 SSAL Works의 핵심 프로젝트 관리 체계입니다. 웹사이트 �
 
 ### Level (Z축) - 작업 순서
 
-각 Task는 Stage별, Area별 순서를 나타냅니다.
+Level은 각 Task의 Stage별, Area별 순서를 나타냅니다.
 
 ### SAL Grid의 장점
 
