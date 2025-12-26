@@ -9689,16 +9689,16 @@ ${result.answer}`;
         }
 
         // ================================================================
-        // Phase 진행률 JSON 파일에서 로드 (data/phase_progress.json)
+        // Phase 진행률 JSON 파일에서 로드
         // P0~S5 모든 진행률을 빌드 시 생성된 JSON 파일에서 로드
-        // 빌드 스크립트: node build-progress.js
+        // 빌드 스크립트: node Development_Process_Monitor/build-progress.js
         // - P0~S0: 폴더/파일 존재 여부 기반
         // - S1~S5: SAL Grid CSV의 Task 완료율 기반
         // ================================================================
         async function loadPhaseProgressFromDB(projectId = null) {
             try {
                 // JSON 파일에서 진행률 데이터 로드
-                const response = await fetch('data/phase_progress.json');
+                const response = await fetch('Development_Process_Monitor/data/phase_progress.json');
                 if (!response.ok) {
                     console.warn('📊 phase_progress.json 로드 실패:', response.status);
                     resetAllProgressToZero();
