@@ -6,6 +6,24 @@
 
 ## 2025-12-26 작업 내역
 
+### PoliticianFinder Footer 높이 수정 ✅
+
+**문제:**
+- 모바일에서 Footer 영역이 너무 큼 (약 150-200px)
+
+**수정 (`1_Frontend/src/app/components/footer.tsx`):**
+- 컨테이너 패딩: `py-4 sm:py-6` → `py-2 sm:py-4`
+- 링크 레이아웃: `flex-wrap` 제거 → 한 줄 가로 스크롤
+- 텍스트 크기: `text-sm` → `text-xs`
+- Copyright 최소화: `pt-2 pb-1`
+
+**결과:**
+- Footer 높이: **88px** (기존 대비 50%+ 감소)
+- Commit: `8e29d01`
+- Branch: `feature/mobile-optimization`
+
+---
+
 ### Production 폴더 재구조화 후 경로 수정 ✅
 
 **문제:**
@@ -2114,5 +2132,144 @@ SSAL Works 정책 변경에 따른 전체 문서 일괄 수정
 - 빌드 검증 성공
 - Git 커밋/푸시 완료
 - 메인 브랜치 병합 대기 (PO 승인 필요)
+
+---
+
+## 2025-12-26 작업 내역
+
+### S1~S5 Order Sheet 키 불일치 문제 해결 ✅
+
+**문제:**
+- S1~S5 Order Sheet가 마지막 부분만 표시되고 앞부분이 잘림
+
+**근본 원인:**
+- index.html의 `orderSheetUrl` 키와 ordersheets.js 키 불일치
+  - index.html: `templates/S1_개발_준비.md` → 키: `S1_개발_준비`
+  - ordersheets.js: `S1_OrderSheet`
+- 키 매칭 실패로 fallback인 짧은 `orderSheetAfterExecute`만 표시됨
+
+**수정 내용:**
+| Stage | 이전 | 이후 |
+|-------|------|------|
+| S1 | `templates/S1_개발_준비.md` | `templates/S1_OrderSheet.md` |
+| S2 | `templates/S2_개발_1차.md` | `templates/S2_OrderSheet.md` |
+| S3 | `templates/S3_개발_2차.md` | `templates/S3_OrderSheet.md` |
+| S4 | `templates/S4_개발_3차.md` | `templates/S4_OrderSheet.md` |
+| S5 | `templates/S5_개발_마무리.md` | `templates/S5_OrderSheet.md` |
+
+**검증 결과 (5개 항목 모두 통과):**
+1. ✅ index.html에 S1-S5 orderSheetUrl 5개 존재
+2. ✅ ordersheets.js에 5개 키 모두 존재
+3. ✅ 모든 내용 6000자 이상 (완전한 내용)
+4. ✅ 시작/끝 패턴 일치
+5. ✅ var 키워드 사용으로 전역 접근 가능
+
+**추가 수정:**
+- pre-commit hook 경로 수정: `Production/build-web-assets.js` → `scripts/build-web-assets.js`
+
+**Git 커밋:**
+- `4524ee6 fix: S1~S5 Order Sheet 키 불일치 문제 해결`
+
+**상태:** Vercel 자동 배포 완료
+
+---
+
+### 공개_전환_업무 폴더 규칙 파일 업데이트 ✅
+
+**목적:**
+- 새로운 폴더 구조 (4폴더 + 2HTML) 반영
+- Production 폴더 제거, 루트에 직접 저장 방식으로 변경
+
+**수정된 파일 (3개):**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `04_패키지_표준_디렉토리_구조.md` | Production 폴더 대신 api/, pages/, assets/, scripts/ 구조로 변경, React 참조 섹션 추가 |
+| `.claude/rules/02_save-location.md` | 이중 저장 → 루트 폴더 직접 저장으로 전면 개편, React 매핑 참조 추가 |
+| `CLAUDE.md` | 절대 규칙 4 변경 (이중 저장 → 루트 직접 저장), 스크립트 저장 원칙 추가 |
+
+**핵심 변경사항:**
+```
+기존: Production/ 폴더에 코드 저장 + Stage 폴더에 이중 저장
+신규: 루트 폴더에 직접 저장 (이중 저장 없음)
+
+새로운 구조:
+루트/
+├── api/                    ← 백엔드 인터페이스 (배포)
+├── pages/                  ← 화면/페이지 (배포)
+├── assets/                 ← 정적 자원 (배포)
+├── scripts/                ← 자동화 도구 (개발용)
+├── index.html              ← 메인 페이지
+└── 404.html                ← 에러 페이지
+```
+
+**추가 규칙:**
+- 스크립트 저장 원칙: 단일 대상 → 해당 폴더, 복수 대상 → scripts/
+- React 전환 시 참조할 Vanilla → React 매핑 추가
+
+**상태:** 완료
+
+---
+
+### Pages/Assets 폴더 루트로 마이그레이션 ✅
+
+**작업 목표:**
+- `Production/Frontend/pages/` → `/pages/` 이동
+- `Production/Frontend/Assets/` + `Production/assets/` → `/assets/` 병합
+- Production 폴더 완전 삭제
+- 모든 경로 참조 수정
+
+**마이그레이션 파일 (25개 HTML):**
+
+| 폴더 | 파일 수 | 파일명 |
+|------|--------|--------|
+| auth/ | 5 | login, signup, forgot-password, reset-password, google-login |
+| legal/ | 3 | terms, privacy, customer_service |
+| mypage/ | 7 | index, profile, credit, subscription, security, manual, payment-methods |
+| payment/ | 1 | installation |
+| projects/ | 2 | index, new |
+| subscription/ | 4 | billing-history, credit-purchase, credit-success, payment-method |
+| manual/ | 1 | index |
+| ai/ | 1 | qa |
+| 루트 | 1 | admin-dashboard |
+
+**경로 수정 작업:**
+
+| 수정 대상 | 변경 전 | 변경 후 | 건수 |
+|----------|--------|--------|------|
+| 상대 경로 (pages/) | `../../../../index.html` | `../../index.html` | 46건 |
+| assets 참조 | `../../../assets/` | `../../assets/` | 다수 |
+| 대소문자 | `../../Assets/` | `../../assets/` | 2건 |
+| index.html 링크 | `/Production/Frontend/pages/` | `/pages/` | 15건 |
+| admin-dashboard | `/Production/admin-dashboard.html` | `/pages/admin-dashboard.html` | 1건 |
+| responsive.css | `/Production/assets/css/` | `/assets/css/` | 3건 |
+
+**수정된 설정 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `vercel.json` | buildCommand: `node Production/build-all.js` → `node scripts/build-all.js` |
+| `scripts/add-mobile-responsive.js` | CSS 경로 및 admin-dashboard 경로 수정 |
+
+**검증:**
+- 로컬 서버 (`npx serve`) 테스트: HTTP 200 확인
+- Vercel 배포 검증: https://ssalworks.vercel.app 정상 작동
+
+**Git 커밋:**
+- `a5049fd refactor: pages/assets 폴더를 루트로 이동` (40 files)
+- `efaf455 chore: Production 폴더 삭제` (16 files deleted)
+
+**최종 폴더 구조:**
+```
+루트/
+├── api/           ← API (Vercel serverless)
+├── pages/         ← HTML 페이지 (25개)
+├── assets/        ← CSS/JS (병합됨)
+├── scripts/       ← 빌드 스크립트
+├── index.html     ← 메인 대시보드
+└── vercel.json    ← Vercel 설정
+```
+
+**상태:** 완료 ✅
 
 ---
