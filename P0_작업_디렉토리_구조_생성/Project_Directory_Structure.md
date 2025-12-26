@@ -68,8 +68,6 @@ C:\!SSAL_Works_Private\
 ├── scripts/                         # Pre-commit Hook 자동화 스크립트
 │   ├── build-web-assets.js          # 1~7번 자동화 통합 실행
 │   └── sync-to-root.js              # 8번: Stage → Root 자동 복사
-├── data/                            # 자동 생성 데이터
-│   └── phase_progress.json          # P0~S5 진행률 (자동 생성)
 │
 # ========== 루트 파일 ==========
 ├── .gitignore                       # Git 제외 파일 목록
@@ -477,7 +475,7 @@ S5_개발_마무리/
 | 4 | 서비스 소개 모달 MD → index.html 삽입 | `P2_.../Service_Introduction/서비스_소개_모달.md` | `index.html` |
 | 5 | SAL Grid 매뉴얼 MD → HTML 변환 | `S0_.../manual/PROJECT_SAL_GRID_MANUAL.md` | `참고자료/*.html` |
 | 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `pages/mypage/manual.html` |
-| 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `data/phase_progress.json` |
+| 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `Development_Process_Monitor/data/phase_progress.json` |
 | 8 | Stage 폴더 → 배포 폴더 자동 복사 | `S?_*/Frontend/`, `S?_*/Backend_APIs/` 등 | `pages/`, `api/` |
 
 ### 스크립트 위치
