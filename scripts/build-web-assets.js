@@ -353,6 +353,32 @@ function buildManual() {
     }
 }
 
+// P0~S5 진행률 JSON 생성
+function buildProgress() {
+    log.header('P0~S5 진행률 JSON 생성');
+
+    try {
+        const progressScript = path.join(PROJECT_ROOT, 'Development_Process_Monitor', 'build-progress.js');
+
+        if (!fs.existsSync(progressScript)) {
+            log.info('build-progress.js 파일 없음 - 건너뜀');
+            return true;
+        }
+
+        log.info('build-progress.js 실행 중...');
+        execSync(`node "${progressScript}"`, {
+            stdio: 'inherit',
+            cwd: path.dirname(progressScript)
+        });
+
+        log.success('진행률 JSON 생성 완료!');
+        return true;
+    } catch (err) {
+        log.error(`진행률 빌드 실패: ${err.message}`);
+        return false;
+    }
+}
+
 // 빌더 계정 사용 매뉴얼 HTML 변환
 function buildBuilderManual() {
     log.header('빌더 계정 사용 매뉴얼 HTML 변환');
@@ -451,7 +477,8 @@ function buildAll() {
         serviceGuides: buildServiceGuides(),
         serviceIntro: buildServiceIntro(),
         manual: buildManual(),
-        builderManual: buildBuilderManual()
+        builderManual: buildBuilderManual(),
+        progress: buildProgress()
     };
 
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
@@ -466,6 +493,7 @@ function buildAll() {
     console.log(`  Service Intro:    ${results.serviceIntro ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Manual:           ${results.manual ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Builder Manual:   ${results.builderManual ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  Progress:         ${results.progress ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  소요 시간:        ${elapsed}초`);
     console.log('='.repeat(50) + '\n');
 
@@ -489,6 +517,7 @@ if (args.includes('--help') || args.includes('-h')) {
   --service-intro    서비스 소개 모달만 빌드
   --manual           PROJECT SAL GRID Manual HTML만 빌드
   --builder-manual   빌더 계정 사용 매뉴얼 HTML만 빌드
+  --progress         P0~S5 진행률 JSON만 빌드
   --help, -h         도움말 표시
 
 옵션 없이 실행하면 전체 빌드를 수행합니다.
@@ -519,6 +548,9 @@ if (args.length === 0) {
     }
     if (args.includes('--builder-manual')) {
         success = buildBuilderManual() && success;
+    }
+    if (args.includes('--progress')) {
+        success = buildProgress() && success;
     }
 }
 

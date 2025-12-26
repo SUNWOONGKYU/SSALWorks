@@ -1,10 +1,10 @@
 # Pre-commit Hook 자동화 목록
 
-> git commit 실행 시 자동으로 실행되는 7가지 자동화
+> git commit 실행 시 자동으로 실행되는 8가지 자동화
 
 ---
 
-## 자동화 항목 (7개)
+## 자동화 항목 (8개)
 
 | # | 자동화 내용 | 소스 파일 | 출력 파일 |
 |---|------------|----------|----------|
@@ -14,7 +14,8 @@
 | 4 | 서비스 소개 모달 MD → index.html 삽입 | `P2_.../Service_Introduction/서비스_소개_모달.md` | `index.html` |
 | 5 | SAL Grid 매뉴얼 MD → HTML 변환 | `S0_.../manual/PROJECT_SAL_GRID_MANUAL.md` | `참고자료/*.html` |
 | 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `Production/pages/mypage/manual.html` |
-| 7 | Stage 폴더 → 배포 폴더 자동 복사 | `S?_*/Frontend/`, `S?_*/Backend_APIs/` 등 | `pages/`, `api/` |
+| 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `data/phase_progress.json` |
+| 8 | Stage 폴더 → 배포 폴더 자동 복사 | `S?_*/Frontend/`, `S?_*/Backend_APIs/` 등 | `pages/`, `api/` |
 
 ---
 
@@ -32,12 +33,12 @@
 
 | # | 스크립트 | 담당 |
 |---|---------|------|
-| 1-6 | `build-web-assets.js` | 1~6번 통합 실행 (4-6번 내장) |
-| 7 | `sync-to-root.js` | Stage → Root 자동 복사 |
+| 1-7 | `build-web-assets.js` | 1~7번 통합 실행 (4-7번 내장) |
+| 8 | `sync-to-root.js` | Stage → Root 자동 복사 |
 
 ---
 
-## Stage → Root 매핑 (7번 자동화)
+## Stage → Root 매핑 (8번 자동화)
 
 | Area | Stage 폴더 | Root 폴더 |
 |------|-----------|----------|
