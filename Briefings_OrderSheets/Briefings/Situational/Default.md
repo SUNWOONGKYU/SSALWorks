@@ -4,7 +4,7 @@
 
 ## SSAL Works란 무엇인가
 
-SSAL Works는 **Claude Code를 활용한 풀스택 웹사이트 개발 플랫폼**입니다.
+SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 플랫폼"**입니다.
 
 **Claude Code**는 Anthropic이 개발한 AI 도구입니다. 터미널에서 실행되며, 사용자의 지시를 받아 코드를 작성하고, 파일을 만들고, 프로젝트를 관리합니다. SSAL Works는 이 Claude Code를 핵심 도구로 사용합니다.
 
