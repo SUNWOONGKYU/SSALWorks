@@ -202,7 +202,7 @@ Supabase DB (project_sal_grid 테이블)
 
 ```
 ✅ Stage 폴더에 먼저 저장 (원본, 프로세스 관리용)
-✅ git commit 시 Pre-commit Hook이 자동으로 Production 폴더에 복사
+✅ git commit 시 Pre-commit Hook이 자동으로 루트 폴더에 복사
 🚫 수동으로 이중 저장 금지 - 자동화에 맡겨라!
 ```
 
@@ -215,30 +215,30 @@ Supabase DB (project_sal_grid 테이블)
       ↓
 3. Pre-commit Hook 자동 실행 (scripts/sync-to-root.js)
       ↓
-4. Production 폴더로 자동 복사 (배포용)
+4. 루트 폴더로 자동 복사 (배포용)
 ```
 
-**Stage → Production 매핑:**
-| Area | Stage 폴더 | Production 폴더 (자동 복사) |
-|------|-----------|---------------------------|
-| F (Frontend) | `S?_*/Frontend/` | `Production/pages/` |
-| BA (Backend_APIs) | `S?_*/Backend_APIs/` | `Production/api/Backend_APIs/` |
-| S (Security) | `S?_*/Security/` | `Production/api/Security/` |
-| BI (Backend_Infra) | `S?_*/Backend_Infra/` | `Production/api/Backend_Infra/` |
-| E (External) | `S?_*/External/` | `Production/api/External/` |
+**Stage → 루트 매핑:**
+| Area | Stage 폴더 | 루트 폴더 (자동 복사) |
+|------|-----------|---------------------|
+| F (Frontend) | `S?_*/Frontend/` | `pages/` |
+| BA (Backend_APIs) | `S?_*/Backend_APIs/` | `api/Backend_APIs/` |
+| S (Security) | `S?_*/Security/` | `api/Security/` |
+| BI (Backend_Infra) | `S?_*/Backend_Infra/` | `api/Backend_Infra/` |
+| E (External) | `S?_*/External/` | `api/External/` |
 
 **완료 보고 양식:**
 ```
 "코드 파일 저장 완료
 
 📁 Stage 저장: S2_개발-1차/Frontend/pages/auth/login.html (원본)
-📁 자동 복사: Production/pages/auth/login.html (배포용)
+📁 자동 복사: pages/auth/login.html (배포용)
 
 ✅ git commit 시 자동 동기화됨"
 ```
 
 **❌ 절대 금지 행동:**
-- Production 폴더에 직접 저장 (Stage 거치지 않고)
+- 루트 폴더에 직접 저장 (Stage 거치지 않고)
 - 수동으로 이중 저장 (자동화 무시)
 
 **⚠️ 폴더명 변경 금지:** Vercel이 `api` 이름을 인식함

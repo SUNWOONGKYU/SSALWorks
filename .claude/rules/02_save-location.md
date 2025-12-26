@@ -21,7 +21,7 @@
 ## 2. 배포 구조 (루트 디렉토리)
 
 ```
-Production/
+루트/
 ├── api/                    ← 백엔드 인터페이스 (배포)
 ├── pages/                  ← 화면/페이지 (배포)
 ├── assets/                 ← 정적 자원 (배포)
@@ -38,11 +38,11 @@ Production/
 
 | Area | Stage 폴더 | Root 폴더 (자동 복사) |
 |------|-----------|----------------------|
-| **F** | `S?_*/Frontend/` | `Production/pages/` |
-| **BA** | `S?_*/Backend_APIs/` | `Production/api/Backend_APIs/` |
-| **S** | `S?_*/Security/` | `Production/api/Security/` |
-| **BI** | `S?_*/Backend_Infra/` | `Production/api/Backend_Infra/` |
-| **E** | `S?_*/External/` | `Production/api/External/` |
+| **F** | `S?_*/Frontend/` | `pages/` |
+| **BA** | `S?_*/Backend_APIs/` | `api/Backend_APIs/` |
+| **S** | `S?_*/Security/` | `api/Security/` |
+| **BI** | `S?_*/Backend_Infra/` | `api/Backend_Infra/` |
+| **E** | `S?_*/External/` | `api/External/` |
 
 ---
 
@@ -54,7 +54,7 @@ Task: S2F1
 File: google-login.html
 
 1. 저장: S2_개발-1차/Frontend/pages/auth/google-login.html  ← 원본
-2. 자동복사: Production/pages/auth/google-login.html        ← 배포
+2. 자동복사: pages/auth/google-login.html                    ← 배포
 ```
 
 ### Backend APIs (BA Area)
@@ -63,7 +63,7 @@ Task: S2BA1
 File: subscription-cancel.js
 
 1. 저장: S2_개발-1차/Backend_APIs/subscription-cancel.js    ← 원본
-2. 자동복사: Production/api/Backend_APIs/subscription-cancel.js  ← 배포
+2. 자동복사: api/Backend_APIs/subscription-cancel.js        ← 배포
 ```
 
 ### Security (S Area)
@@ -72,7 +72,7 @@ Task: S2S1
 File: google-callback.js
 
 1. 저장: S2_개발-1차/Security/google-callback.js            ← 원본
-2. 자동복사: Production/api/Security/google-callback.js     ← 배포
+2. 자동복사: api/Security/google-callback.js                ← 배포
 ```
 
 ---
@@ -112,7 +112,7 @@ echo "✅ 동기화 완료! 커밋을 진행합니다."
 **동작:**
 1. `git commit` 실행
 2. Pre-commit hook이 `sync-to-root.js` 자동 실행
-3. Stage 폴더 → Production 폴더 복사
+3. Stage 폴더 → 루트 폴더 복사
 4. 복사 성공 시 커밋 진행
 
 ---
@@ -170,7 +170,7 @@ assets/
 - [ ] Stage 폴더에 저장했는가? (원본)
 - [ ] 올바른 Stage/Area 폴더인가?
 - [ ] git commit 시 자동 복사 확인했는가?
-- [ ] Production 폴더에 복사되었는가? (배포용)
+- [ ] 루트 폴더에 복사되었는가? (배포용)
 
 ---
 
