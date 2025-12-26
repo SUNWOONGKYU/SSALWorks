@@ -248,7 +248,7 @@ S2 (개발 1차 - Auth & Registration): 12개 Task
 
 주요 작업:
 - S2M1: 기능 명세서
-- S2F1: 마이페이지 UI
+- S2F1: My Page UI
 - S2F2: 구독 플랜 페이지
 - S2BI1: 인증 클라이언트 모듈
 - S2BI2: 구독 클라이언트 모듈

@@ -63,7 +63,7 @@ Resend가 요구하는 DNS 레코드를 확인합니다:
 ```
 Whois 로그인 (https://whois.co.kr)
   ↓
-마이페이지 → 도메인 관리
+My Page → 도메인 관리
   ↓
 ssalworks.ai.kr 선택
   ↓

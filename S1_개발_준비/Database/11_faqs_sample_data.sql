@@ -38,7 +38,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer, description) VALUES
 ('로그인/회원가입', '계정 관리', '계정 삭제 방법',
 '<p><strong>계정 삭제 절차:</strong></p>
 <ol>
-<li>로그인 → 마이페이지</li>
+<li>로그인 → My Page</li>
 <li>설정 → "계정 관리"</li>
 <li>하단의 "계정 삭제" 버튼</li>
 <li>비밀번호 입력하여 확인</li>
@@ -49,7 +49,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer, description) VALUES
 ('로그인/회원가입', '계정 관리', '프로필 수정',
 '<p>프로필 정보 수정:</p>
 <ul>
-<li>마이페이지 → "프로필 수정"</li>
+<li>My Page → "프로필 수정"</li>
 <li>닉네임, 프로필 사진, 자기소개 변경 가능</li>
 <li>"저장" 버튼으로 변경사항 적용</li>
 </ul>
@@ -59,7 +59,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer, description) VALUES
 ('로그인/회원가입', '계정 관리', '이메일 변경',
 '<p>이메일 주소 변경 방법:</p>
 <ol>
-<li>마이페이지 → 설정</li>
+<li>My Page → 설정</li>
 <li>"이메일 변경" 선택</li>
 <li>새 이메일 입력 및 인증</li>
 <li>기존 비밀번호 입력하여 확인</li>
@@ -133,7 +133,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer) VALUES
 
 ('로그인/회원가입', '로그인 문제', '다중 기기 로그인',
 '<p>최대 3개 기기에서 동시 로그인 가능합니다.</p>
-<p>마이페이지 → 보안 → "활성 세션"에서 다른 기기 로그아웃 가능</p>'),
+<p>My Page → 보안 → "활성 세션"에서 다른 기기 로그아웃 가능</p>'),
 
 ('로그인/회원가입', '로그인 문제', '보안 알림',
 '<p>다음 경우 보안 알림이 발송됩니다:</p>
@@ -146,7 +146,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer) VALUES
 ('로그인/회원가입', '로그인 문제', '2단계 인증',
 '<p><strong>2단계 인증 설정:</strong></p>
 <ol>
-<li>마이페이지 → 보안</li>
+<li>My Page → 보안</li>
 <li>"2단계 인증 활성화"</li>
 <li>인증 앱(Google Authenticator) 등록</li>
 <li>로그인 시 인증코드 추가 입력</li>
@@ -168,7 +168,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer) VALUES
 <p>변경 시기가 되면 로그인 시 알림이 표시됩니다.</p>'),
 
 ('로그인/회원가입', '보안 설정', '로그인 기록',
-'<p>마이페이지 → 보안 → "로그인 기록"에서 확인 가능:</p>
+'<p>My Page → 보안 → "로그인 기록"에서 확인 가능:</p>
 <ul>
 <li>로그인 일시</li>
 <li>접속 기기</li>
@@ -367,7 +367,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer) VALUES
 ('Order 작성', 'Order 히스토리', '히스토리 확인',
 '<p>Order 히스토리 보는 법:</p>
 <ol>
-<li>마이페이지 → "Order 히스토리"</li>
+<li>My Page → "Order 히스토리"</li>
 <li>날짜, 상태별 필터링 가능</li>
 <li>Order 클릭 → 상세 내역 확인</li>
 </ol>'),
@@ -569,7 +569,7 @@ INSERT INTO faqs (depth1, depth2, depth3, answer) VALUES
 '<p>크레딧 잔액 확인:</p>
 <ul>
 <li>우측 사이드바에 항상 표시</li>
-<li>마이페이지 → "크레딧 내역"</li>
+<li>My Page → "크레딧 내역"</li>
 <li>부족 시 자동 알림</li>
 </ul>'),
 

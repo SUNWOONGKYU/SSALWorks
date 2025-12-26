@@ -150,7 +150,7 @@ api/
 pages/
 ├── auth/                   ← 인증 관련
 ├── subscription/           ← 구독 관련
-└── mypage/                 ← 마이페이지
+└── mypage/                 ← My Page
 ```
 
 ### assets/ (정적 자원)

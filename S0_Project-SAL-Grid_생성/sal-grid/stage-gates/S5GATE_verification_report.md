@@ -356,7 +356,7 @@ Tests:       12 passed, 12 total
 | 회원가입 | ✅ 정상 | 모든 입력 필드 |
 | 매뉴얼 (manual_mobile.html) | ✅ 정상 | 헤더, 목차(27개), FAB 버튼 |
 | 뷰어 (viewer_mobile.html) | ✅ 정상 | 57개 Task, Stage 필터 |
-| 마이페이지 | ✅ 정상 | 프로필, 아바타 |
+| My Page | ✅ 정상 | 프로필, 아바타 |
 
 **모바일 검증: ✅ 6/6 페이지 정상**
 

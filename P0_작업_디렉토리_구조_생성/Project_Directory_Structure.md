@@ -238,7 +238,7 @@ P3_프로토타입_제작/
     │   ├── admin-dashboard.html    # 관리자 대시보드
     │   └── pages/                  # 하위 페이지들
     │       ├── auth/               # 로그인/회원가입
-    │       ├── mypage/             # 마이페이지
+    │       ├── mypage/             # My Page
     │       ├── projects/           # 프로젝트
     │       ├── payment/            # 결제
     │       ├── subscription/       # 구독
@@ -407,7 +407,7 @@ S5_개발_마무리/
 │
 ├── pages/                     ← 화면 (F Area)
 │   ├── auth/                  # 인증 관련
-│   ├── mypage/                # 마이페이지
+│   ├── mypage/                # My Page
 │   └── subscription/          # 구독 관련
 │
 ├── assets/                    ← 정적 자원

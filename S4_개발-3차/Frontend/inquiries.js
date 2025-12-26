@@ -1,6 +1,6 @@
 /**
  * @task S4F6
- * @description 마이페이지 문의 관리 - JavaScript
+ * @description My Page 문의 관리 - JavaScript
  */
 
 // Supabase 설정

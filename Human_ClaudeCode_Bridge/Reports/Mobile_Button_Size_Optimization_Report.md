@@ -62,7 +62,7 @@ py-2 = 8px (상) + 8px (하) = 16px 패딩
 | 플로팅 평가 버튼 | `p-3 min-w-[48px] min-h-[48px]` | `p-2.5 min-w-[44px] min-h-[44px]` |
 | 검색 입력창 | `py-3` | `py-2.5 min-h-[44px]` |
 | 검색 버튼 | `px-6 sm:px-8 py-3` | `px-5 sm:px-6 py-2.5` |
-| 마이페이지 링크 | `py-3` | `py-2.5 min-h-[44px]` |
+| My Page 링크 | `py-3` | `py-2.5 min-h-[44px]` |
 
 #### 2. `src/app/community/page.tsx` (커뮤니티)
 | 요소 | 변경 전 | 변경 후 |

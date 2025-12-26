@@ -176,7 +176,7 @@ const baseStyles = 'flex h-11 sm:h-12 w-full rounded-lg border px-3 sm:px-4 py-2
 3. 메타정보: 2줄 분리 (flex-col sm:flex-row)
 4. 검색 & 정렬: 모바일 세로 스택
 
-### 3.2 마이페이지 (`app/mypage/page.tsx`)
+### 3.2 My Page (`app/mypage/page.tsx`)
 
 **수정 사항**:
 1. 탭 네비게이션: `overflow-x-auto scrollbar-hide min-w-max`
@@ -268,7 +268,7 @@ const baseStyles = 'flex h-11 sm:h-12 w-full rounded-lg border px-3 sm:px-4 py-2
 9. `src/app/politicians/page.tsx` - 정치인 목록
 10. `src/app/politicians/[id]/page.tsx` - 정치인 상세
 11. `src/app/community/page.tsx` - 커뮤니티
-12. `src/app/mypage/page.tsx` - 마이페이지
+12. `src/app/mypage/page.tsx` - My Page
 13. `src/app/auth/login/page.tsx` - 로그인
 14. `src/app/auth/signup/page.tsx` - 회원가입
 
@@ -283,7 +283,7 @@ const baseStyles = 'flex h-11 sm:h-12 w-full rounded-lg border px-3 sm:px-4 py-2
 |-------|------|----------|
 | Phase 1 | 기반 작업 (Tailwind, CSS, 공통 컴포넌트) | 6시간 |
 | Phase 2 | 핵심 페이지 (Header, Footer, 홈, 정치인) | 16시간 |
-| Phase 3 | 추가 페이지 (커뮤니티, 마이페이지, Auth) | 9시간 |
+| Phase 3 | 추가 페이지 (커뮤니티, My Page, Auth) | 9시간 |
 | Phase 4 | 프로토타입 누락 기능 | 16시간 |
 | Phase 5 | 테스트 및 검증 | 4시간 |
 | **총계** | | **51시간 (6-7일)** |
@@ -367,7 +367,7 @@ fix(mobile): 정치인 페이지 카드 레이아웃 버그 수정
 1. **1일차**: Phase 1 전체 (Tailwind config, globals.css, 공통 컴포넌트)
 2. **2일차**: Phase 2.1-2.3 (Header, Footer, 홈페이지)
 3. **3일차**: Phase 2.4-2.5 (정치인 목록, 정치인 상세)
-4. **4일차**: Phase 3 전체 (커뮤니티, 마이페이지, Auth)
+4. **4일차**: Phase 3 전체 (커뮤니티, My Page, Auth)
 5. **5-6일차**: Phase 4 (게시글 작성/상세, 필터 초기화)
 6. **7일차**: Phase 5 (테스트 및 버그 수정)
 
@@ -378,6 +378,6 @@ fix(mobile): 정치인 페이지 카드 레이아웃 버그 수정
 | 1일차 | Phase 1 커밋 | 기본 스타일 적용 여부 |
 | 2일차 | Phase 2.1-2.3 커밋 | Header, Footer, 홈페이지 모바일 뷰 |
 | 3일차 | Phase 2.4-2.5 커밋 | 정치인 페이지 모바일 뷰 |
-| 4일차 | Phase 3 커밋 | 커뮤니티, 마이페이지, Auth 모바일 뷰 |
+| 4일차 | Phase 3 커밋 | 커뮤니티, My Page, Auth 모바일 뷰 |
 | 5-6일차 | Phase 4 커밋 | 신규 페이지 기능 테스트 |
 | 7일차 | Phase 5 커밋 | **최종 전체 테스트** → main 병합

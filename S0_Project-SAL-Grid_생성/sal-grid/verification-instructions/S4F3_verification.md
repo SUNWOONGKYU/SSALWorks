@@ -52,7 +52,7 @@ npx playwright test credit-purchase.spec.js
 ## Integration Verification
 - [ ] S4BA4 크레딧 충전 API와 연동
 - [ ] S4F4 결제 수단 등록 UI와 연동
-- [ ] 마이페이지 크레딧 표시와 연동
+- [ ] My Page 크레딧 표시와 연동
 
 ## Expected Files
 - Production/Frontend/pages/credit/purchase.html

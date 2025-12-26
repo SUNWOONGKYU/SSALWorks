@@ -16,7 +16,7 @@
       "Admin Dashboard 회원 관리 JavaScript 함수 직접 구현 - 완료",
       "회원가입 페이지 프론트엔드 - 완료",
       "로그인 페이지 프론트엔드 - 완료",
-      "마이페이지 프론트엔드 - 완료"
+      "My Page 프론트엔드 - 완료"
     ]
   },
 
@@ -148,7 +148,7 @@
       },
       {
         "path": "P3_프로토타입_제작/Frontend/Prototype/mypage.html",
-        "description": "마이페이지 - 프로필 관리, 크레딧, 설치비 상태",
+        "description": "My Page - 프로필 관리, 크레딧, 설치비 상태",
         "status": "completed"
       }
     ]

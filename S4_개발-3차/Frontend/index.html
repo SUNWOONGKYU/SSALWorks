@@ -2803,10 +2803,10 @@
         <aside class="left-sidebar">
             <!-- 사이드바 닫기 버튼 (모바일) -->
             <button class="sidebar-close-btn" onclick="closeLeftSidebar()">✕</button>
-            <!-- 마이페이지 섹션 (최상단) -->
+            <!-- My Page 섹션 (최상단) -->
             <div class="left-sidebar-section" id="mypageMenuSection">
                 <h2 class="sidebar-title" style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-                    👤 마이페이지
+                    👤 My Page
                     <span id="mypageMoreBtn" onclick="toggleMypageMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
                 </h2>
                 <!-- 기본 노출: 내 프로필 -->
@@ -7793,11 +7793,11 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             // 구독/결제
             { type: 'FAQ', category: '구독/결제', question: '토스페이먼츠 빌링키 설정', answer: '프로토타입은 더미 빌링키(test_billing_key_001) 사용 중입니다. 본개발 시 토스 가맹점 등록(1-2주), 빌링키 발급 API, 자동결제 API 연동이 필요합니다.' },
-            { type: 'FAQ', category: '구독/결제', question: '서비스 상태 관리 방법', answer: 'users 테이블의 subscription_status 컬럼 사용: active(정상), paused(일시정지), cancelled(해지), expired(만료). 마이페이지 > 서비스 이용 현황에서 관리합니다.' },
+            { type: 'FAQ', category: '구독/결제', question: '서비스 상태 관리 방법', answer: 'users 테이블의 subscription_status 컬럼 사용: active(정상), paused(일시정지), cancelled(해지), expired(만료). My Page > 서비스 이용 현황에서 관리합니다.' },
             { type: 'FAQ', category: '구독/결제', question: 'PG 이용약관 동의 구현', answer: '결제 시 전자금융거래 이용약관, 개인정보 제3자 제공 동의 체크박스가 법적 필수입니다. 프로토타입에는 미구현, 본개발 시 추가 필요합니다.' },
 
             // 크레딧
-            { type: 'FAQ', category: '크레딧', question: '크레딧 사용처와 충전 방법', answer: 'AI 질문(1크레딧), 코드 생성(3-5크레딧), 문서 자동화(2크레딧). 마이페이지 > 크레딧 관리에서 카드 결제로 충전. 유효기간: 충전일로부터 1년.' },
+            { type: 'FAQ', category: '크레딧', question: '크레딧 사용처와 충전 방법', answer: 'AI 질문(1크레딧), 코드 생성(3-5크레딧), 문서 자동화(2크레딧). My Page > 크레딧 관리에서 카드 결제로 충전. 유효기간: 충전일로부터 1년.' },
             { type: 'FAQ', category: '크레딧', question: 'API 키 보안 관리', answer: 'API 키는 절대 코드에 하드코딩하지 마세요. 환경변수(process.env)로 관리하고, .env 파일은 .gitignore에 추가하세요. SERVICE_ROLE_KEY는 서버에서만 사용!' },
 
             // Claude Code
@@ -10327,10 +10327,10 @@ ${result.answer}`;
         }
 
         // ========================================
-        // 마이페이지 메뉴 토글
+        // My Page 메뉴 토글
         // ========================================
         function toggleMypageMenu() {
-            console.log('마이페이지 메뉴 토글 클릭');
+            console.log('My Page 메뉴 토글 클릭');
             const links = document.getElementById('mypageLinks');
             const btn = document.getElementById('mypageMoreBtn');
 

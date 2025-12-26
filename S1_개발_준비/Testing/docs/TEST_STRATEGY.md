@@ -104,7 +104,7 @@ const mockSupabase = createMockSupabase({
 - 로그인/로그아웃 플로우
 - 구독 신청 프로세스
 - 결제 플로우 (테스트 환경)
-- 마이페이지 기능
+- My Page 기능
 - 반응형 레이아웃
 - 접근성
 
@@ -203,7 +203,7 @@ npx playwright install
 | 로그인/로그아웃 | 4 | P1 |
 | 구독 신청 | 3 | P1 |
 | 결제 플로우 | 2 | P1 |
-| 마이페이지 | 5 | P2 |
+| My Page | 5 | P2 |
 | 반응형 | 3 | P2 |
 | 접근성 | 2 | P2 |
 

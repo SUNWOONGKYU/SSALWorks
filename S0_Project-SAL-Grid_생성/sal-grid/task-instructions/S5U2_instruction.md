@@ -39,7 +39,7 @@ SSALWorks 플랫폼이 PC 중심이지만, 모바일 기기에서도 콘텐츠�
 1. index.html (메인 대시보드)
 2. viewer.html (Grid Viewer)
 3. pages/auth/*.html (인증 페이지)
-4. pages/mypage/*.html (마이페이지)
+4. pages/mypage/*.html (My Page)
 5. admin-dashboard.html (관리자)
 
 ## CSS 미디어 쿼리 예시

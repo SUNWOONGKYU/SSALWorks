@@ -94,7 +94,7 @@
 ### 구현되지 않은 기능
 1. ❌ **공지사항** 섹션 없음
 2. ❌ **결제/구독** 섹션 없음
-3. ❌ **마이페이지** 없음
+3. ❌ **My Page** 없음
 
 ---
 
@@ -114,7 +114,7 @@
 | 10 | 💬 문의 관리 | **💬 문의하기** | ✅ **있음** | ✅ 완료 |
 | 11 | 📈 통계 및 분석 | _(Admin 전용)_ | - | - |
 | 12 | 🔌 API 사용량 | _(Admin 전용)_ | - | - |
-| 13 | ⚙️ 설정 | **⚙️ 마이페이지/설정** | ❌ **없음** | 🟡 MEDIUM |
+| 13 | ⚙️ 설정 | **⚙️ My Page/설정** | ❌ **없음** | 🟡 MEDIUM |
 
 ---
 
@@ -245,17 +245,17 @@
 - ✅ DOMPurify로 Sanitization 필수
 ```
 
-#### 2-2. 마이페이지 (NEW)
+#### 2-2. My Page (NEW)
 **목적**: 사용자 정보, 구독 상태, 결제 내역 확인
 
 **구현 내용**:
 ```
-📍 위치: Header - "👤 마이페이지" (신규 버튼)
+📍 위치: Header - "👤 My Page" (신규 버튼)
 📍 섹션 ID: `section-mypage`
 
 구조:
 ┌─────────────────────────────────────┐
-│  👤 마이페이지                        │
+│  👤 My Page                        │
 ├─────────────────────────────────────┤
 │  📋 내 정보                          │
 │    이메일: user@example.com         │
@@ -360,7 +360,7 @@
 
 ### 🟡 IMPORTANT (빠르게 구현)
 3. ✅ **FAQ 완성** - 고객 지원 자동화
-4. ✅ **마이페이지** - 사용자 편의성
+4. ✅ **My Page** - 사용자 편의성
 5. ✅ **결제/구독 시스템** - 수익화 필수
 
 ### 🟢 OPTIONAL (필요시 구현)
@@ -427,9 +427,9 @@
     </div>
 </div>
 
-<!-- 마이페이지 섹션 -->
+<!-- My Page 섹션 -->
 <div id="section-mypage" class="content-section" style="display:none;">
-    <h2>👤 마이페이지</h2>
+    <h2>👤 My Page</h2>
     <!-- 사용자 정보, 구독 상태, 결제 내역 -->
 </div>
 ```
@@ -487,7 +487,7 @@ function toggleFAQ(element) {
     answer.style.display = answer.style.display === 'none' ? 'block' : 'none';
 }
 
-// ========== 마이페이지 ==========
+// ========== My Page ==========
 async function loadMyPage() {
     const profile = await fetch('/api/user/profile').then(r => r.json());
     const subscription = await fetch('/api/user/subscription').then(r => r.json());
@@ -589,7 +589,7 @@ async function loadMyPage() {
     border-top: 1px solid #e9ecef;
 }
 
-/* ========== 마이페이지 ========== */
+/* ========== My Page ========== */
 .mypage-section {
     background: white;
     padding: 24px;
@@ -666,7 +666,7 @@ Frontend (사용자)
 
 ### Phase 2 완료 조건
 - [ ] FAQ Accordion 완성
-- [ ] 마이페이지 UI/API 연동
+- [ ] My Page UI/API 연동
 - [ ] 결제 모듈 통합
 - [ ] E2E 테스트 통과
 
@@ -686,7 +686,7 @@ Frontend (사용자)
 
 2. **Frontend 구현** (이 계획서 기반)
    - Phase 1: 공지사항 + 학습용 콘텐츠
-   - Phase 2: FAQ + 마이페이지 + 결제
+   - Phase 2: FAQ + My Page + 결제
    - Phase 3: 안내문 팝업 (선택)
 
 3. **통합 테스트**

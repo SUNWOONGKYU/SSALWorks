@@ -315,7 +315,7 @@
 #### 필수 테스트 항목
 1. **로그인 테스트**: https://www.ssalworks.ai.kr/pages/auth/login.html
 2. **회원가입 테스트**: https://www.ssalworks.ai.kr/pages/auth/signup.html
-3. **프로필 수정 테스트**: 로그인 후 마이페이지
+3. **프로필 수정 테스트**: 로그인 후 My Page
 
 #### 테스트 방법
 1. 각 페이지 접속하여 폼 입력

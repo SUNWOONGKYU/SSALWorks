@@ -411,7 +411,7 @@ INSERT INTO faqs (category, question, answer, order_num) VALUES
 
 ---
 
-## 📋 아젠다 #4: 마이페이지 & 결제/구독 (Phase 2)
+## 📋 아젠다 #4: My Page & 결제/구독 (Phase 2)
 
 ### 1️⃣ Admin Dashboard
 
@@ -437,10 +437,10 @@ INSERT INTO faqs (category, question, answer, order_num) VALUES
 
 ### 3️⃣ Frontend (표시)
 
-**마이페이지 화면**:
+**My Page 화면**:
 ```
 ┌─────────────────────────────────────┐
-│  👤 마이페이지                        │
+│  👤 My Page                        │
 ├─────────────────────────────────────┤
 │  📋 내 정보                          │
 │    이메일: user@example.com         │
@@ -467,13 +467,13 @@ INSERT INTO faqs (category, question, answer, order_num) VALUES
 - 크레딧 잔액 조회
 - 결제 내역 조회
 
-**현재 구현 상태**: ❌ 마이페이지 없음 (신규 추가 필요)
+**현재 구현 상태**: ❌ My Page 없음 (신규 추가 필요)
 
 ---
 
 ### ✅ 아젠다 #4 검토 질문
 
-**Q1. 마이페이지에 표시할 정보가 충분한가?**
+**Q1. My Page에 표시할 정보가 충분한가?**
 - 현재: 내 정보, 구독 상태, 크레딧, 결제 내역
 - 추가 필요: 프로필 사진? 알림 설정?
 
@@ -492,7 +492,7 @@ INSERT INTO faqs (category, question, answer, order_num) VALUES
 
 ### Phase 2 (빠르게 구현)
 3. ✅ **아젠다 #3: FAQ** - Admin 입력 → DB 저장 → Frontend 표시
-4. ✅ **아젠다 #4: 마이페이지 & 결제** - 기존 DB 활용 → Frontend 표시
+4. ✅ **아젠다 #4: My Page & 결제** - 기존 DB 활용 → Frontend 표시
 
 ---
 

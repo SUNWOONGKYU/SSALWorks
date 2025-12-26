@@ -336,7 +336,7 @@ submitted → reviewing → approved → paid → completed
 ### 8.2 인앱 알림
 
 - 심사 결과 인앱 알림 발송
-- 마이페이지에서 신청 상태 확인 가능
+- My Page에서 신청 상태 확인 가능
 
 ---
 

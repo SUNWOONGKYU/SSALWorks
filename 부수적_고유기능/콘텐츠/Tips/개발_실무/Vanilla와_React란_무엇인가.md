@@ -40,7 +40,7 @@ Vercel에 배포하면 이 폴더 안의 JavaScript 파일들이 자동으로 AP
 하위 구조 예시:
 - pages/auth/ - 로그인, 회원가입, 비밀번호 찾기
 - pages/subscription/ - 구독 관리, 결제
-- pages/mypage/ - 마이페이지, 설정
+- pages/mypage/ - My Page, 설정
 
 각 HTML 파일이 하나의 화면입니다. signup.html은 회원가입 화면, login.html은 로그인 화면입니다.
 

@@ -57,7 +57,7 @@ npx axe pages/subscription/payment-method.html
 ## Integration Verification
 - [ ] S4BA3 결제 수단 등록 API와 연동
 - [ ] S4F3 크레딧 충전 UI와 연동
-- [ ] 마이페이지 결제 수단 섹션과 연동
+- [ ] My Page 결제 수단 섹션과 연동
 
 ## Expected Files
 - Production/Frontend/pages/subscription/payment-method.html

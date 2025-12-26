@@ -143,7 +143,7 @@ grep -r "responsive.css" Production/
 | 로그인 | pages/auth/login.html | ❌ | ✅ | 인라인 스타일 |
 | 회원가입 | pages/auth/signup.html | ❌ | ✅ | 인라인 스타일 |
 | 비밀번호 재설정 | pages/auth/reset-password.html | 미확인 | - | - |
-| 마이페이지 | pages/mypage/*.html | 미확인 | - | - |
+| My Page | pages/mypage/*.html | 미확인 | - | - |
 | Admin Dashboard | admin-dashboard.html | 미확인 | - | - |
 
 ### 6.3 분석

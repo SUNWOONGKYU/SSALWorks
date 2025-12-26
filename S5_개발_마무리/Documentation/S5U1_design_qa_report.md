@@ -21,7 +21,7 @@
 ### 추가 분석 페이지
 - `Production/pages/auth/reset-password.html`
 - `Production/pages/legal/*.html` (약관, 개인정보처리방침)
-- `Production/pages/mypage/*.html` (마이페이지)
+- `Production/pages/mypage/*.html` (My Page)
 - `Production/pages/subscription/*.html` (구독 관리)
 
 ---

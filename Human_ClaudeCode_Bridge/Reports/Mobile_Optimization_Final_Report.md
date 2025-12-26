@@ -13,7 +13,7 @@ PoliticianFinder 프론트엔드의 완벽한 모바일 최적화 (Phase 1-5)
 
 ### 작업 범위
 - `C:\Development_PoliticianFinder_com\Developement_Real_PoliticianFinder\1_Frontend`
-- 주요 대상: 커뮤니티, 인증, 마이페이지 등 사용자 대면 페이지
+- 주요 대상: 커뮤니티, 인증, My Page 등 사용자 대면 페이지
 
 ---
 
@@ -44,7 +44,7 @@ PoliticianFinder 프론트엔드의 완벽한 모바일 최적화 (Phase 1-5)
 
 ### Phase 3: 추가 페이지 개선
 - [x] 커뮤니티 (`community/page.tsx`): 탭 스크롤, 카드 레이아웃
-- [x] 마이페이지 (`mypage/page.tsx`): 탭 네비게이션 개선
+- [x] My Page (`mypage/page.tsx`): 탭 네비게이션 개선
 - [x] Auth 페이지 (로그인/회원가입): 입력 필드 최적화
 
 ### Phase 4: 프로토타입 누락 기능
@@ -66,7 +66,7 @@ PoliticianFinder 프론트엔드의 완벽한 모바일 최적화 (Phase 1-5)
 
 ```tsx
 // 탭 네비게이션에 ARIA 역할 추가
-<nav role="tablist" aria-label="마이페이지 섹션">
+<nav role="tablist" aria-label="My Page 섹션">
   <button role="tab" id="tab-posts" aria-selected={...} aria-controls="panel-posts">
   <button role="tab" id="tab-comments" aria-selected={...} aria-controls="panel-comments">
   ...

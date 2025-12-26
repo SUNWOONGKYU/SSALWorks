@@ -1927,7 +1927,7 @@ grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
 | Task ID | Task Instruction | Verification Instruction (잘못됨) |
 |---------|-----------------|----------------------------------|
 | S1BI1 | 환경변수 설정 | ~~Supabase 클라이언트 설정~~ |
-| S2F1 | Google 소셜 로그인 UI | ~~마이페이지 UI~~ |
+| S2F1 | Google 소셜 로그인 UI | ~~My Page UI~~ |
 | S2BI2 | 에러 핸들링 시스템 | ~~구독 클라이언트 모듈~~ |
 
 **불일치 시 발생하는 문제:**
@@ -5906,8 +5906,8 @@ A:
 ### PROJECT SAL GRID MANUAL 버전 이력
 
 - **v3.8 (2025-12-23)**: S4F6 Task 확장
-  - S4F6 Task 이름 변경: "인앱 알림 UI" -> "마이페이지 기능 (알림/문의)"
-  - 마이페이지 문의 관리 페이지 추가
+  - S4F6 Task 이름 변경: "인앱 알림 UI" -> "My Page 기능 (알림/문의)"
+  - My Page 문의 관리 페이지 추가
   - S4F1 modification_history 업데이트 (크레딧 관리 섹션 개선)
   - SSALWORKS_TASK_PLAN.md v3.5 반영
 

@@ -15,7 +15,7 @@ SSALWorks v1.0의 데이터베이스 스키마 문서입니다. Supabase (Postgr
 | `notice_reads` | 공지사항 읽음 기록 | #1 공지사항 |
 | `learning_contents` | 학습용 콘텐츠 | #2 학습용 콘텐츠 |
 | `faqs` | 자주 묻는 질문 | #3 FAQ |
-| `projects` | 사용자 프로젝트 | #5 마이페이지 |
+| `projects` | 사용자 프로젝트 | #5 My Page |
 | `manuals` | 플랫폼 매뉴얼 | #8 매뉴얼 |
 | `payment_methods` | 결제 수단 | #6 결제 관리 |
 | `billing_history` | 결제 내역 | #6 결제 관리 |
