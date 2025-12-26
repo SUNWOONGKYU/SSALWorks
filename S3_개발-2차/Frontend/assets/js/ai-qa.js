@@ -40,9 +40,9 @@ function initElements() {
 }
 
 /**
- * 인증 확인
+ * 인증 확인 및 빌더 계정 체크
  */
-function checkAuth() {
+async function checkAuth() {
     const token = getAccessToken();
     if (!token) {
         window.location.href = '/pages/auth/login.html?redirect=' + encodeURIComponent(window.location.pathname);
@@ -55,6 +55,115 @@ function checkAuth() {
     if (userNameEl) {
         userNameEl.textContent = userName;
     }
+
+    // 빌더 계정 체크 - 일반 회원은 Sunny에게 묻기 사용 불가
+    await checkBuilderAccess();
+}
+
+/**
+ * 빌더 계정 접근 권한 체크
+ * 일반 회원(무료)은 AI Q&A(Sunny에게 묻기) 기능 사용 불가
+ */
+async function checkBuilderAccess() {
+    try {
+        // Supabase 세션 확인
+        const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
+
+        // 현재 세션의 사용자 정보 가져오기
+        const sessionResponse = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+            headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${getAccessToken()}`
+            }
+        });
+
+        if (!sessionResponse.ok) {
+            console.log('세션 확인 실패 - 로그인 페이지로 이동');
+            window.location.href = '/pages/auth/login.html?redirect=' + encodeURIComponent(window.location.pathname);
+            return;
+        }
+
+        const sessionUser = await sessionResponse.json();
+
+        // users 테이블에서 installation_fee_paid 확인
+        const userResponse = await fetch(
+            `${SUPABASE_URL}/rest/v1/users?id=eq.${sessionUser.id}&select=installation_fee_paid,user_id`,
+            {
+                headers: {
+                    'apikey': SUPABASE_ANON_KEY,
+                    'Authorization': `Bearer ${getAccessToken()}`
+                }
+            }
+        );
+
+        if (!userResponse.ok) {
+            throw new Error('사용자 정보 조회 실패');
+        }
+
+        const users = await userResponse.json();
+        const userData = users[0];
+
+        if (!userData || !userData.installation_fee_paid) {
+            // 일반 회원 - 기능 차단
+            showBuilderOnlyMessage();
+            return;
+        }
+
+        // 빌더 계정 - 정상 진행
+        console.log('✅ 빌더 계정 확인됨 - AI Q&A 기능 활성화');
+
+    } catch (error) {
+        console.error('빌더 계정 확인 실패:', error);
+        // 오류 시 기능 차단 (안전하게)
+        showBuilderOnlyMessage();
+    }
+}
+
+/**
+ * 빌더 전용 기능 안내 메시지 표시
+ */
+function showBuilderOnlyMessage() {
+    const container = document.querySelector('.qa-container') || document.body;
+
+    container.innerHTML = `
+        <div style="
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            text-align: center;
+            padding: 40px;
+        ">
+            <div style="font-size: 64px; margin-bottom: 24px;">🔒</div>
+            <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 16px; color: #1F3563;">
+                빌더 계정 전용 기능입니다
+            </h2>
+            <p style="font-size: 16px; color: #6B7280; margin-bottom: 32px; max-width: 400px; line-height: 1.6;">
+                "Sunny에게 묻기" 기능은 빌더 계정 개설자만 이용할 수 있습니다.<br>
+                빌더 계정을 개설하시면 3개월간 1:1 맞춤형 코칭을 받으실 수 있습니다.
+            </p>
+            <div style="display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;">
+                <a href="/index.html" style="
+                    padding: 14px 28px;
+                    background: #E5E7EB;
+                    color: #374151;
+                    border-radius: 8px;
+                    text-decoration: none;
+                    font-weight: 600;
+                ">홈으로 돌아가기</a>
+                <a href="/pages/subscription/builder.html" style="
+                    padding: 14px 28px;
+                    background: #2C4A8A;
+                    color: white;
+                    border-radius: 8px;
+                    text-decoration: none;
+                    font-weight: 600;
+                ">빌더 계정 개설하기</a>
+            </div>
+        </div>
+    `;
 }
 
 /**
