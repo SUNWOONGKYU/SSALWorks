@@ -1259,46 +1259,12 @@
                     </div>
                 </section>
 
-                <!-- Resources Section (사용 매뉴얼 보기) -->
+                <!-- Resources Section (다운로드) -->
                 <section class="section" id="resourcesSection">
-                    <div class="card" id="manualDownloadCard">
+                    <!-- Dev Package 다운로드 카드 (위) -->
+                    <div class="card" id="devPackageCard">
                         <div class="card-header">
-                            <h3 class="card-title">빌더 계정 사용 매뉴얼 보기</h3>
-                            <span id="manualBuilderBadge" style="font-size: 11px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600;">빌더 전용</span>
-                        </div>
-                        <div id="manualDownloadContent">
-                            <!-- 빌더 계정: 매뉴얼 보기 버튼 표시 -->
-                            <div id="manualBuilderContent" style="display: none;">
-                                <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 16px; line-height: 1.6;">
-                                    SSAL Works 사용 매뉴얼을 웹에서 바로 확인하세요.
-                                </p>
-                                <a href="manual.html" target="_blank" class="btn-edit" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); text-decoration: none; width: 100%;">
-                                    📖 매뉴얼 보기
-                                </a>
-                                <p style="font-size: 12px; color: var(--gray-500); margin-top: 12px; text-align: center;">
-                                    ※ 매뉴얼은 정기적으로 업데이트됩니다.
-                                </p>
-                            </div>
-                            <!-- 일반 회원: 안내 메시지 -->
-                            <div id="manualGuestContent" style="display: none;">
-                                <div style="text-align: center; padding: 20px; background: var(--gray-50); border-radius: 12px; border: 1px dashed var(--gray-300);">
-                                    <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
-                                    <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 8px; font-weight: 600;">빌더 계정 전용 기능입니다</p>
-                                    <p style="font-size: 13px; color: var(--gray-500); line-height: 1.6;">
-                                        빌더 계정 개설비 납부 후 매뉴얼을 열람할 수 있습니다.
-                                    </p>
-                                    <a href="../payment/installation.html" class="btn-edit" style="display: inline-block; margin-top: 16px; text-decoration: none; background: var(--secondary);">
-                                        빌더 계정 개설하기 →
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Dev Package 다운로드 카드 -->
-                    <div class="card" id="devPackageCard" style="margin-top: 16px;">
-                        <div class="card-header">
-                            <h3 class="card-title">📦 SSAL Works Dev Package 다운로드</h3>
+                            <h3 class="card-title">SSAL Works Dev Package 다운로드</h3>
                             <span id="devPackageBadge" style="font-size: 11px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600;">빌더 전용</span>
                         </div>
                         <div id="devPackageContent">
@@ -1309,7 +1275,7 @@
                                     프로젝트 시작 시 이 패키지를 설치하면 AI 협업 개발 환경이 자동으로 구성됩니다.
                                 </p>
                                 <button onclick="downloadDevPackage()" class="btn-edit" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); width: 100%; border: none; cursor: pointer;">
-                                    📥 Dev Package 다운로드 (ZIP)
+                                    Dev Package 다운로드 (ZIP)
                                 </button>
                                 <p style="font-size: 12px; color: var(--gray-500); margin-top: 12px; text-align: center;">
                                     ※ 패키지 크기: 약 12MB | 설치 안내는 패키지 내 README 참조
@@ -1322,6 +1288,41 @@
                                     <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 8px; font-weight: 600;">빌더 계정 전용 기능입니다</p>
                                     <p style="font-size: 13px; color: var(--gray-500); line-height: 1.6;">
                                         빌더 계정 개설비 납부 후 Dev Package를 다운로드할 수 있습니다.
+                                    </p>
+                                    <a href="../payment/installation.html" class="btn-edit" style="display: inline-block; margin-top: 16px; text-decoration: none; background: var(--secondary);">
+                                        빌더 계정 개설하기 →
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 빌더 계정 매뉴얼 다운로드 카드 (아래) -->
+                    <div class="card" id="manualDownloadCard" style="margin-top: 16px;">
+                        <div class="card-header">
+                            <h3 class="card-title">빌더 계정 매뉴얼 다운로드</h3>
+                            <span id="manualBuilderBadge" style="font-size: 11px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600;">빌더 전용</span>
+                        </div>
+                        <div id="manualDownloadContent">
+                            <!-- 빌더 계정: 매뉴얼 보기 버튼 표시 -->
+                            <div id="manualBuilderContent" style="display: none;">
+                                <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 16px; line-height: 1.6;">
+                                    SSAL Works 사용 매뉴얼을 웹에서 바로 확인하세요.
+                                </p>
+                                <a href="manual.html" target="_blank" class="btn-edit" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); text-decoration: none; width: 100%;">
+                                    매뉴얼 보기
+                                </a>
+                                <p style="font-size: 12px; color: var(--gray-500); margin-top: 12px; text-align: center;">
+                                    ※ 매뉴얼은 정기적으로 업데이트됩니다.
+                                </p>
+                            </div>
+                            <!-- 일반 회원: 안내 메시지 -->
+                            <div id="manualGuestContent" style="display: none;">
+                                <div style="text-align: center; padding: 20px; background: var(--gray-50); border-radius: 12px; border: 1px dashed var(--gray-300);">
+                                    <div style="font-size: 32px; margin-bottom: 12px;">🔒</div>
+                                    <p style="font-size: 14px; color: var(--gray-700); margin-bottom: 8px; font-weight: 600;">빌더 계정 전용 기능입니다</p>
+                                    <p style="font-size: 13px; color: var(--gray-500); line-height: 1.6;">
+                                        빌더 계정 개설비 납부 후 매뉴얼을 열람할 수 있습니다.
                                     </p>
                                     <a href="../payment/installation.html" class="btn-edit" style="display: inline-block; margin-top: 16px; text-decoration: none; background: var(--secondary);">
                                         빌더 계정 개설하기 →
