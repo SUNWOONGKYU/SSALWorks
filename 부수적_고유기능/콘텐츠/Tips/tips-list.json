@@ -72,7 +72,8 @@
         { "name": "MCP Tool 결과 해석하기", "file": "MCP_Tool_결과_해석하기.md" },
         { "name": "MCP Server 종류별 용도 정리", "file": "MCP_Server_종류별_용도_정리.md" },
         { "name": "Slash Commands로 자주 쓰는 명령 자동화", "file": "Slash_Commands로_자주_쓰는_명령_자동화.md" },
-        { "name": "Multi-Role AI 시스템과 Multi-Agent 시스템 비교", "file": "Multi-Role_AI_시스템과_Multi-Agent_시스템_비교.md" }
+        { "name": "Multi-Role AI 시스템과 Multi-Agent 시스템 비교", "file": "Multi-Role_AI_시스템과_Multi-Agent_시스템_비교.md" },
+        { "name": "Pre-commit Hook으로 반복작업 자동화하기", "file": "Pre-commit_Hook으로_반복작업_자동화하기.md" }
       ]
     },
     {

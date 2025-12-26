@@ -37,7 +37,7 @@ const PATHS = {
     serviceIntroMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/서비스_소개_모달.md'),
     indexHtml: path.join(PROJECT_ROOT, 'index.html'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),
-    builderManualMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/빌더계정_사용_매뉴얼.md'),
+    builderManualMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/빌더용_사용_매뉴얼.md'),
 
     // 출력 경로 (해당 폴더에 직접 저장)
     ordersheetsOutput: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/ordersheets.js'),
@@ -360,7 +360,7 @@ function buildBuilderManual() {
     try {
         // 파일 존재 확인
         if (!fs.existsSync(PATHS.builderManualMd)) {
-            log.info('빌더계정_사용_매뉴얼.md 파일 없음 - 건너뜀');
+            log.info('빌더용_사용_매뉴얼.md 파일 없음 - 건너뜀');
             return true;
         }
 

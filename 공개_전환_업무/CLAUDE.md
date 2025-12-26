@@ -181,42 +181,48 @@ Database (project_task_grid table)
 
 ---
 
-### Absolute Rule 4: Save Only to Production Folder (Root Deployment Structure)
+### Absolute Rule 4: Stage First → Auto-copy to Root
 
 > **Applies to**: Frontend, Backend APIs, Security, External API code file creation/modification
 
 ```
-Save deployment code ONLY in Production folder!
-Stage folders are for history/reference (no duplication needed)
-Simplified management through deduplication
+1. Save code files to Stage folder FIRST (original, process management)
+2. Pre-commit hook auto-copies to Root (deployment)
+3. Stage = source of truth, Root = auto-generated copy
 ```
+
+**Save order:**
+```
+Stage 폴더에 저장 (원본)
+      ↓
+git commit 실행
+      ↓
+Pre-commit Hook 자동 실행 (scripts/sync-to-root.js)
+      ↓
+루트 폴더로 자동 복사 (배포용)
+```
+
+**Stage → Root mapping:**
+| Area | Stage Folder | Root Folder (auto-copy) |
+|------|--------------|------------------------|
+| F | `S?_*/Frontend/` | `pages/` |
+| BA | `S?_*/Backend_APIs/` | `api/Backend_APIs/` |
+| S | `S?_*/Security/` | `api/Security/` |
+| BI | `S?_*/Backend_Infra/` | `api/Backend_Infra/` |
+| E | `S?_*/External/` | `api/External/` |
 
 **Root deployment structure:**
-
 ```
 Project Root/
-|-- index.html              <- Main page (root)
-|-- 404.html                <- Error page (root)
-|-- vercel.json             <- Deployment config (root)
-|-- .vercelignore           <- Deployment exclusion list
-|
-|-- Production/             <- All deployment code
-|   |-- pages/              # Frontend pages
-|   |-- api/                # Backend APIs
-|   |-- assets/             # Static assets
-|   |-- ...
-|
-|-- S?_*/                   <- Stage folders (dev history, excluded from deployment)
+├── api/                    ← Backend interface (deploy)
+├── pages/                  ← Pages/screens (deploy)
+├── assets/                 ← Static resources (deploy)
+├── scripts/                ← Automation tools (dev only)
+├── index.html              ← Main page
+└── 404.html                ← Error page
 ```
 
-**Save rules:**
-| Type | Save Location | Notes |
-|------|--------------|-------|
-| Frontend pages | `Production/pages/` | HTML, CSS, JS |
-| Backend API | `Production/api/Backend_APIs/` | Serverless Functions |
-| Security API | `Production/api/Security/` | Auth/Authorization |
-| External API | `Production/api/External/` | AI, External integrations |
-| Static assets | `Production/assets/` | Images, fonts |
+**WARNING:** Vercel recognizes the `api` folder name - do not rename!
 
 ---
 
@@ -322,7 +328,19 @@ AI MUST execute directly via REST API!
 
 When modifying Order Sheets, Guides, or Manuals:
 ```bash
-node Production/build-web-assets.js
+node scripts/build-web-assets.js
+```
+
+---
+
+## Script Storage Principle
+
+```
+1. Single-target scripts → Save in respective folder
+   Example: generate-ordersheets-js.js → OrderSheet_Templates/
+
+2. Multi-target scripts → Save in root scripts/
+   Example: build-web-assets.js → scripts/
 ```
 
 ---
