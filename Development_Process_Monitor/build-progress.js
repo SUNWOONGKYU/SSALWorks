@@ -47,14 +47,22 @@ function hasContent(filePath) {
     }
 }
 
-// 폴더 안에 파일이 1개 이상 있는지 확인
+// 폴더 안에 파일이 1개 이상 있는지 확인 (하위 폴더 포함)
 function hasFiles(folderPath) {
     try {
         const items = fs.readdirSync(folderPath);
         return items.some(item => {
             const itemPath = path.join(folderPath, item);
             try {
-                return fs.statSync(itemPath).isFile();
+                const stats = fs.statSync(itemPath);
+                if (stats.isFile()) {
+                    return true;
+                }
+                // 하위 폴더도 재귀적으로 확인
+                if (stats.isDirectory() && !item.startsWith('.') && !item.startsWith('_')) {
+                    return hasFiles(itemPath);
+                }
+                return false;
             } catch (e) {
                 return false;
             }
