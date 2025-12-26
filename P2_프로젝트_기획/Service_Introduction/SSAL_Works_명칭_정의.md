@@ -30,10 +30,10 @@ SAL Grid의 3개 축:
 
 ### Stage 목록 (5개)
 1. S1: 개발 준비 (Development Setup)
-2. S2: 개발 1차 (Core Development)
-3. S3: 개발 2차 (Advanced Features)
-4. S4: 개발 3차 (QA & Optimization)
-5. S5: 운영 (Operations)
+2. S2: 개발 1차 (Auth & Registration)
+3. S3: 개발 2차 (AI Integration)
+4. S4: 개발 3차 (Payment & Admin)
+5. S5: 개발 마무리 (Development Stabilization)
 
 ### Area 목록 (11개)
 - M: Documentation (문서화)
