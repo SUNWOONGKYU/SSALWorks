@@ -1,6 +1,6 @@
 # SSALWorks 프로젝트 디렉토리 구조 가이드
 
-> **버전**: v12.4
+> **버전**: v12.5
 > **최종 업데이트**: 2025-12-26
 > **프로젝트**: SaaS 구독형 학습 + 프로젝트 관리 통합 플랫폼
 
@@ -395,44 +395,55 @@ S5_개발_마무리/
 
 ---
 
-## 📦 Production/ (종합집결지 - Vercel 배포)
+## 📦 배포 구조 (루트 폴더 - Vercel 배포)
 
 **용도:** S1-S5 작업 결과가 모이는 실제 배포용 코드 (Vercel Root Directory)
 
 ```
-Production/                    ← Vercel 루트 디렉토리
-├── Frontend/                  ← 화면 (F Area)
-│   ├── pages/                 # HTML 페이지
-│   └── assets/                # CSS, JS, 이미지
-│
-├── api/                       ← 서버 (Area별 분류)
+루트/                           ← Vercel 루트 디렉토리
+├── api/                       ← 백엔드 API (Area별 분류)
 │   ├── Backend_APIs/          # BA Area (구독, 이메일 등)
 │   ├── Security/              # S Area (인증, 권한)
 │   ├── Backend_Infra/         # BI Area (공통 라이브러리)
 │   └── External/              # E Area (외부 연동)
 │
+├── pages/                     ← 화면 (F Area)
+│   ├── auth/                  # 인증 관련
+│   ├── mypage/                # 마이페이지
+│   └── subscription/          # 구독 관련
+│
+├── assets/                    ← 정적 자원
+│   ├── css/                   # 스타일시트
+│   ├── js/                    # JavaScript
+│   └── images/                # 이미지
+│
+├── scripts/                   ← 자동화 스크립트 (개발용)
+├── index.html                 ← 메인 페이지
+├── 404.html                   ← 에러 페이지
 ├── vercel.json                ← Vercel 설정
 └── package.json               ← 패키지 설정
 ```
 
+**핵심:** 4개 폴더 (api/, pages/, assets/, scripts/) + 2개 HTML
+
 **Area별 API 분류:**
-| Area | Production 폴더 | 예시 |
-|------|----------------|------|
+| Area | 루트 폴더 | 예시 |
+|------|----------|------|
 | BA (Backend_APIs) | `api/Backend_APIs/` | 구독, 이메일 API |
 | S (Security) | `api/Security/` | 로그인, 인증 |
 | BI (Backend_Infra) | `api/Backend_Infra/` | 공통 라이브러리 |
 | E (External) | `api/External/` | 외부 서비스 연동 |
 
-**Stage → Production 복사 규칙:**
-| Stage 폴더 | Production 위치 |
-|------------|-----------------|
-| `S?_*/Frontend/` | `Production/Frontend/` |
-| `S?_*/Backend_APIs/` | `Production/api/Backend_APIs/` |
-| `S?_*/Security/` (API) | `Production/api/Security/` |
-| `S?_*/Backend_Infra/` (API) | `Production/api/Backend_Infra/` |
-| `S?_*/External/` (API) | `Production/api/External/` |
+**Stage → 루트 복사 규칙:**
+| Stage 폴더 | 루트 위치 |
+|------------|----------|
+| `S?_*/Frontend/` | `pages/` |
+| `S?_*/Backend_APIs/` | `api/Backend_APIs/` |
+| `S?_*/Security/` | `api/Security/` |
+| `S?_*/Backend_Infra/` | `api/Backend_Infra/` |
+| `S?_*/External/` | `api/External/` |
 
-**Production에 넣지 않는 것:**
+**배포 폴더에 넣지 않는 것:**
 - `Testing/` - 테스트 코드 (개발용)
 - `Documentation/` - 문서 (개발용)
 - `Database/` - SQL 파일 (Supabase에서 실행)
@@ -445,10 +456,10 @@ Production/                    ← Vercel 루트 디렉토리
       ↓
 3. Pre-commit Hook 자동 실행 (scripts/sync-to-root.js)
       ↓
-4. Production 폴더로 자동 복사 (배포용)
+4. 루트 폴더로 자동 복사 (배포용)
 ```
 
-**핵심:** Stage가 원본, Production은 Pre-commit Hook으로 자동 생성되는 복사본
+**핵심:** Stage가 원본, 루트 폴더는 Pre-commit Hook으로 자동 생성되는 복사본
 
 ---
 
@@ -465,7 +476,7 @@ Production/                    ← Vercel 루트 디렉토리
 | 3 | 외부 연동 설정 가이드 MD → JS 번들링 | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/*.md` | `service-guides.js` |
 | 4 | 서비스 소개 모달 MD → index.html 삽입 | `P2_.../Service_Introduction/서비스_소개_모달.md` | `index.html` |
 | 5 | SAL Grid 매뉴얼 MD → HTML 변환 | `S0_.../manual/PROJECT_SAL_GRID_MANUAL.md` | `참고자료/*.html` |
-| 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `Production/pages/mypage/manual.html` |
+| 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `pages/mypage/manual.html` |
 | 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `data/phase_progress.json` |
 | 8 | Stage 폴더 → 배포 폴더 자동 복사 | `S?_*/Frontend/`, `S?_*/Backend_APIs/` 등 | `pages/`, `api/` |
 
