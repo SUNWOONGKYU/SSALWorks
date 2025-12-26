@@ -166,14 +166,14 @@ const SERVICE_INTRO_STYLES = {
     tableCell: 'padding: 12px; border: 1px solid #dee2e6;'
 };
 
-// MD 파싱 (v3.0 구조: [요약본] + [상세본] with 파트)
+// MD 파싱 (v4.0 구조: [개요] + [상세] with 파트)
 function parseServiceIntroMd(content) {
     const parts = content.split(/^---$/m);
     const mainContent = parts.length > 1 ? parts.slice(1).join('---') : content;
     const sections = [];
 
-    // "# [요약본]", "# [상세본]", "# 파트 N:" 모두 인식
-    const sectionRegex = /^# (?:\[(요약본|상세본)\].*|파트 (\d+): (.+)|섹션 (\d+): (.+))$/gm;
+    // "# [개요]", "# [상세]", "# 파트 N:" 모두 인식
+    const sectionRegex = /^# (?:\[(개요|상세)\].*|파트 (\d+): (.+)|섹션 (\d+): (.+))$/gm;
     const matches = [...mainContent.matchAll(sectionRegex)];
 
     for (let i = 0; i < matches.length; i++) {
@@ -183,9 +183,9 @@ function parseServiceIntroMd(content) {
 
         let number, title;
         if (match[1]) {
-            // [요약본] 또는 [상세본]
-            number = match[1] === '요약본' ? '0' : '99';
-            title = match[1] === '요약본' ? 'SSAL Works 한눈에 보기' : 'SSAL Works 완전 가이드';
+            // [개요] 또는 [상세]
+            number = match[1] === '개요' ? '0' : '99';
+            title = match[1] === '개요' ? 'SSAL Works 소개' : 'SSAL Works 완전 가이드';
         } else if (match[2]) {
             // 파트 N: 제목
             number = match[2];
@@ -209,13 +209,13 @@ function parseServiceIntroMd(content) {
 function convertServiceIntroSection(section) {
     let html = section.content;
 
-    // 1. 코드 블록 변환 (```로 감싸진 블록) - 내부 줄바꿈을 보존
+    // 1. 코드 블록 변환 (```로 감싸진 블록) - 밝은 배경, 내부 줄바꿈 보존
     html = html.replace(/```([a-z]*)\n?([\s\S]*?)```/g, (match, lang, code) => {
         const escapedCode = code.trim()
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .replace(/\n/g, '&#10;'); // 줄바꿈을 엔티티로 변환해서 나중에 파싱되지 않도록
-        return `<pre style="background: #1e293b; color: #e2e8f0; padding: 16px 20px; border-radius: 8px; margin: 16px 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; overflow-x: auto; white-space: pre; line-height: 1.6;"><code>${escapedCode}</code></pre>`;
+        return `<pre style="background: #f8f9fa; color: #1f2937; padding: 16px 20px; border-radius: 8px; margin: 16px 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 13px; overflow-x: auto; white-space: pre; line-height: 1.6; border: 1px solid #e5e7eb;"><code>${escapedCode}</code></pre>`;
     });
 
     // 2. 인라인 코드 변환 (`code`)
@@ -299,13 +299,29 @@ function convertServiceIntroSection(section) {
 
 // 모달 HTML 생성
 function generateServiceIntroModalHtml(sections) {
-    const tocItems = sections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none; padding: 4px 0;">${s.number}. ${s.title}</a>`);
+    // 개요 (section 0)와 상세 (section 1~12) 분리
+    const overviewSection = sections.find(s => s.number === '0');
+    const detailSections = sections.filter(s => s.number !== '0' && s.number !== '99');
+
     let html = `
                 <!-- 목차 -->
-                <nav style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 24px 28px; border-radius: 12px; margin-bottom: 40px; border: 1px solid #dee2e6;">
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 16px 0;">📑 목차</h3>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 24px; font-size: 14px;">
-                        ${tocItems.join('\n                        ')}
+                <nav style="background: #f8f9fa; padding: 24px 28px; border-radius: 12px; margin-bottom: 40px; border: 1px solid #e9ecef;">
+                    <h3 style="font-size: 18px; font-weight: 700; color: #1F3563; margin: 0 0 20px 0;">📑 목차</h3>
+
+                    <!-- 개요 -->
+                    <div style="margin-bottom: 20px;">
+                        <h4 style="font-size: 15px; font-weight: 600; color: #F59E0B; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #F59E0B;">📋 개요</h4>
+                        <div style="padding-left: 12px;">
+                            <a href="#section0" style="color: #495057; text-decoration: none; font-size: 14px;">→ SSAL Works 소개</a>
+                        </div>
+                    </div>
+
+                    <!-- 상세 안내 -->
+                    <div>
+                        <h4 style="font-size: 15px; font-weight: 600; color: #1F3563; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #1F3563;">📖 상세 안내</h4>
+                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 20px; font-size: 14px; padding-left: 12px;">
+                            ${detailSections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none;">파트 ${s.number}. ${s.title}</a>`).join('\n                            ')}
+                        </div>
                     </div>
                 </nav>
 `;
