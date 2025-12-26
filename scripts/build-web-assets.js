@@ -44,7 +44,7 @@ const PATHS = {
     guidesOutput: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings/guides.js'),
     serviceGuidesOutput: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/service-guides.js'),
     manualHtml: path.join(PROJECT_ROOT, '참고자료/PROJECT_SAL_GRID_MANUAL.html'),
-    builderManualHtml: path.join(PROJECT_ROOT, 'Production/pages/mypage/manual.html'),
+    builderManualHtml: path.join(PROJECT_ROOT, 'pages/mypage/manual.html'),
 
     // 복사 대상 경로 (프로토타입용)
     copyTargets: {
