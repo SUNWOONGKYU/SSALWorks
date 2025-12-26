@@ -10,7 +10,7 @@ const PRODUCTION_DIR = path.join(__dirname, '..');
 const PAGES_TO_MODIFY = [
     'manual.html',
     'viewer.html',
-    'Frontend/admin-dashboard.html',
+    'pages/admin-dashboard.html',
     'books-viewer.html',
     'learning-viewer.html',
     'tips-viewer.html',
@@ -18,7 +18,7 @@ const PAGES_TO_MODIFY = [
 ];
 
 // 추가할 CSS 링크
-const CSS_LINK = '<link rel="stylesheet" href="/Production/assets/css/responsive.css">';
+const CSS_LINK = '<link rel="stylesheet" href="/assets/css/responsive.css">';
 
 // 추가할 오버레이와 모바일 버튼
 const OVERLAY_HTML = '<div class="sidebar-overlay" onclick="closeSidebar()"></div>';

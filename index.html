@@ -2735,10 +2735,10 @@
             const hash = window.location.hash;
             if (hash && hash.includes('type=recovery')) {
                 // 비밀번호 재설정 페이지로 리다이렉트
-                window.location.href = '/Production/Frontend/pages/auth/reset-password.html' + hash;
+                window.location.href = '/pages/auth/reset-password.html' + hash;
             } else if (hash && hash.includes('type=signup')) {
                 // 회원가입 완료 - 로그인 페이지로 리다이렉트
-                window.location.href = '/Production/Frontend/pages/auth/login.html' + hash;
+                window.location.href = '/pages/auth/login.html' + hash;
             }
         })();
     </script>
@@ -2749,7 +2749,7 @@
                 <!-- 모바일 메뉴 버튼 -->
                 <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">≡</button>
                 <!-- 모바일 로그인 아이콘 -->
-                <a href="Production/Frontend/pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
+                <a href="pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
                 <div class="logo">
                     <span class="rice-logo">
                         <span class="rice-grain"></span>
@@ -2765,8 +2765,8 @@
                 <div class="header-right">
                     <!-- 로그인 전 -->
                     <div id="headerGuestBtns" style="display: flex; gap: 12px;">
-                        <a href="Production/Frontend/pages/auth/login.html" class="header-btn" style="text-decoration: none;">로그인</a>
-                        <a href="Production/Frontend/pages/auth/signup.html" class="header-btn" style="text-decoration: none;">회원가입</a>
+                        <a href="pages/auth/login.html" class="header-btn" style="text-decoration: none;">로그인</a>
+                        <a href="pages/auth/signup.html" class="header-btn" style="text-decoration: none;">회원가입</a>
                     </div>
                     <!-- 로그인 후 -->
                     <div id="headerUserBtns" style="display: none; align-items: center; gap: 12px;">
@@ -2811,26 +2811,26 @@
                 </h2>
                 <!-- 기본 노출: 내 프로필, 내 프로젝트, 사용 매뉴얼 보기 -->
                 <div style="display: flex; flex-direction: column; gap: 4px;">
-                    <a href="Production/Frontend/pages/mypage/profile.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                    <a href="pages/mypage/profile.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                         내 프로필
                     </a>
-                    <a href="Production/Frontend/pages/mypage/index.html#projects" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                    <a href="pages/mypage/index.html#projects" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                         내 프로젝트
                     </a>
-                    <a href="Production/Frontend/pages/mypage/index.html#resources" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                    <a href="pages/mypage/index.html#resources" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                         사용 매뉴얼 보기
                     </a>
                 </div>
                 <!-- 펼쳐지는 추가 메뉴들 -->
                 <div id="mypageLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
-                        <a href="Production/Frontend/pages/mypage/subscription.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        <a href="pages/mypage/subscription.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                             서비스 이용 현황
                         </a>
-                        <a href="Production/Frontend/pages/mypage/credit.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        <a href="pages/mypage/credit.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                             크레딧 관리
                         </a>
-                        <a href="Production/Frontend/pages/mypage/security.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
+                        <a href="pages/mypage/security.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                             보안 설정
                         </a>
                         <a href="#" onclick="event.preventDefault(); openMyInquiriesModal();" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
@@ -3611,7 +3611,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
             <div class="sidebar-section">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     📢 공지사항
-                    <a href="Production/admin-dashboard.html" style="font-size: 11px; font-weight: 400; color: #6c757d; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</a>
+                    <a href="pages/admin-dashboard.html" style="font-size: 11px; font-weight: 400; color: #6c757d; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</a>
                 </h3>
                 <div id="noticesList">
                     <div style="text-align: center; padding: 20px; color: #6c757d;">
@@ -4273,7 +4273,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                         style="margin-top: 8px; font-size: 11px; color: #666; text-align: center; display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <span>크레딧 잔액: <span style="color: #333;">₩<span
                                     id="perplexityCreditBalance">-</span></span></span>
-                        <a href="Production/Frontend/pages/mypage/credit.html"
+                        <a href="pages/mypage/credit.html"
                             style="padding: 4px 12px; font-size: 11px; background: #6c757d; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600; text-decoration: none; display: inline-block;">충전하기</a>
                     </div>
 
@@ -4316,9 +4316,9 @@ The content you enter in the Control Desk will be displayed here.</pre>
             <div class="footer-inner">
                 <div class="footer-links">
                     <a href="#" class="footer-link" onclick="openServiceIntro(); return false;">서비스 소개</a>
-                    <a href="Production/Frontend/pages/legal/terms.html" class="footer-link">이용약관</a>
-                    <a href="Production/Frontend/pages/legal/privacy.html" class="footer-link">개인정보처리방침</a>
-                    <a href="Production/Frontend/pages/legal/customer_service.html" class="footer-link">고객센터</a>
+                    <a href="pages/legal/terms.html" class="footer-link">이용약관</a>
+                    <a href="pages/legal/privacy.html" class="footer-link">개인정보처리방침</a>
+                    <a href="pages/legal/customer_service.html" class="footer-link">고객센터</a>
                 </div>
                 <div class="footer-business" style="font-size: 12px; color: #ffffff; margin-top: 8px;">
                     <span class="footer-company-info">파인더월드 | 대표: 선웅규 | 사업자등록번호: 354-33-01641</span>
@@ -4326,7 +4326,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 </div>
                 <div class="footer-copyright" style="font-size: 12px; color: #ffffff;">
                     <span>© 2025 SSAL Works, All Rights Reserved</span>
-                    <a href="Production/admin-dashboard.html" class="admin-link" style="margin-left: 16px;">Admin</a>
+                    <a href="pages/admin-dashboard.html" class="admin-link" style="margin-left: 16px;">Admin</a>
                 </div>
             </div>
         </footer>

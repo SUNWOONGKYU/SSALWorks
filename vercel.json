@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "ssal-works",
-  "buildCommand": "node Production/build-all.js",
+  "buildCommand": "node scripts/build-all.js",
   "outputDirectory": ".",
   "framework": null,
   "rewrites": [
