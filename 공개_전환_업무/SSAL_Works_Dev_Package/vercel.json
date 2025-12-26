@@ -1,0 +1,225 @@
+{
+  "version": 2,
+  "name": "ssal-works",
+  "buildCommand": "node scripts/build-all.js",
+  "outputDirectory": ".",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/api/auth/signup",
+      "destination": "/api/Backend_APIs/auth/signup"
+    },
+    {
+      "source": "/api/auth/verify-email",
+      "destination": "/api/Backend_APIs/auth/verify-email"
+    },
+    {
+      "source": "/api/ai/pricing",
+      "destination": "/api/Backend_APIs/ai/pricing"
+    },
+    {
+      "source": "/api/projects/create",
+      "destination": "/api/Backend_APIs/projects/create"
+    },
+    {
+      "source": "/api/projects/list",
+      "destination": "/api/Backend_APIs/projects/list"
+    },
+    {
+      "source": "/api/projects/update",
+      "destination": "/api/Backend_APIs/projects/update"
+    },
+    {
+      "source": "/api/projects/complete",
+      "destination": "/api/Backend_APIs/projects/complete"
+    },
+    {
+      "source": "/api/email/send",
+      "destination": "/api/Backend_APIs/email-send"
+    },
+    {
+      "source": "/api/email/welcome",
+      "destination": "/api/Backend_APIs/email-welcome"
+    },
+    {
+      "source": "/api/email/password-reset",
+      "destination": "/api/Backend_APIs/email-password-reset"
+    },
+    {
+      "source": "/api/subscription/status",
+      "destination": "/api/Backend_APIs/subscription-status"
+    },
+    {
+      "source": "/api/subscription/create",
+      "destination": "/api/Backend_APIs/subscription-create"
+    },
+    {
+      "source": "/api/subscription/cancel",
+      "destination": "/api/Backend_APIs/subscription-cancel"
+    },
+    {
+      "source": "/api/auth/google",
+      "destination": "/api/Security/google-login"
+    },
+    {
+      "source": "/api/auth/google/callback",
+      "destination": "/api/Security/google/callback"
+    },
+    {
+      "source": "/api/auth/logout",
+      "destination": "/api/Security/logout"
+    },
+    {
+      "source": "/api/subscription/check",
+      "destination": "/api/Security/subscription/check"
+    },
+    {
+      "source": "/api/ai/qa",
+      "destination": "/api/External/ai-qa"
+    },
+    {
+      "source": "/api/ai/usage",
+      "destination": "/api/External/ai-usage"
+    },
+    {
+      "source": "/api/ai/faq-suggest",
+      "destination": "/api/External/ai-faq-suggest"
+    },
+    {
+      "source": "/api/ai/test",
+      "destination": "/api/External/ai-test"
+    },
+    {
+      "source": "/api/ai/health",
+      "destination": "/api/External/ai-health"
+    },
+    {
+      "source": "/api/payment/installation-request",
+      "destination": "/api/Backend_APIs/payment/installation-request"
+    },
+    {
+      "source": "/api/payment/installation/:action",
+      "destination": "/api/Backend_APIs/payment/installation/:action"
+    },
+    {
+      "source": "/api/admin/confirm-installation",
+      "destination": "/api/Backend_APIs/admin/confirm-installation"
+    },
+    {
+      "source": "/api/admin/installation-list",
+      "destination": "/api/Backend_APIs/admin/installation-list"
+    },
+    {
+      "source": "/api/admin/installation/:action",
+      "destination": "/api/Backend_APIs/admin/installation/:action"
+    },
+    {
+      "source": "/api/credit/:action",
+      "destination": "/api/Backend_APIs/credit/:action"
+    },
+    {
+      "source": "/api/payment/billing/:action",
+      "destination": "/api/Backend_APIs/payment/billing/:action"
+    },
+    {
+      "source": "/api/payment/credit/:action",
+      "destination": "/api/Backend_APIs/payment/credit/:action"
+    },
+    {
+      "source": "/api/webhook/toss",
+      "destination": "/api/Backend_APIs/webhook/toss"
+    },
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Credentials",
+          "value": "true"
+        },
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET,POST,PUT,DELETE,OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "maxDuration": 30,
+      "memory": 1024
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "crons": [
+    {
+      "path": "/api/cron/ai-pricing-update",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/subscription-expiry",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/pending-payment-expiry",
+      "schedule": "0 0 * * *"
+    },
+    {
+      "path": "/api/cron/churn-risk-alert",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/challenge-expiry",
+      "schedule": "0 9 1 * *"
+    },
+    {
+      "path": "/api/cron/stats-aggregate",
+      "schedule": "0 1 * * *"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ssalworks.ai.kr"
+        }
+      ],
+      "destination": "https://www.ssalworks.ai.kr/:path*",
+      "permanent": true
+    }
+  ]
+}

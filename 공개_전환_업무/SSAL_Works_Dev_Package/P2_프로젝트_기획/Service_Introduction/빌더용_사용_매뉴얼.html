@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빌더 계정 사용 매뉴얼 - SSAL Works</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); min-height: 100vh; padding: 40px 20px; line-height: 1.8; color: #1f2937; }
+        .container { max-width: 900px; margin: 0 auto; }
+        header { background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 20px; padding: 40px; color: white; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3); }
+        header h1 { font-size: 2.2rem; font-weight: 700; }
+        header p { margin-top: 10px; opacity: 0.9; }
+        section { background: white; border-radius: 16px; padding: 35px; margin-bottom: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1, h2 { color: #10B981; border-bottom: 2px solid #10B981; padding-bottom: 10px; margin-bottom: 20px; }
+        h3 { color: #059669; margin: 25px 0 15px; }
+        p { margin-bottom: 15px; }
+        ul, ol { margin: 15px 0 15px 25px; }
+        li { margin-bottom: 8px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; }
+        th, td { border: 1px solid #e5e7eb; padding: 12px 15px; text-align: left; }
+        th { background: #f0fdf4; color: #059669; font-weight: 600; }
+        tr:hover { background: #f9fafb; }
+        code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.9em; }
+        blockquote { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 0 10px 10px 0; }
+        a { color: #10B981; }
+        footer { text-align: center; padding: 30px; color: #6b7280; font-size: 0.9rem; }
+        @media (max-width: 768px) { body { padding: 20px 15px; } header { padding: 30px 20px; } header h1 { font-size: 1.6rem; } section { padding: 25px 20px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>빌더 계정 사용 매뉴얼</h1>
+            <p>SSAL Works 플랫폼 완벽 가이드</p>
+        </header>
+        
+<h1 id="빌더-계정-개설자용-사용-매뉴얼">빌더 계정 개설자용 사용
+매뉴얼</h1>
+<blockquote>
+<p><strong>SSAL Works 플랫폼 사용법 가이드</strong></p>
+<p>최종 업데이트: 2025-12-25</p>
+</blockquote>
+<hr />
+<h2 id="목차">목차</h2>
+<ol type="1">
+<li><a href="#1-시작하기">시작하기</a></li>
+<li><a href="#2-프로젝트-관리">프로젝트 관리</a></li>
+<li><a href="#3-order-sheet-사용법">Order Sheet 사용법</a></li>
+<li><a href="#4-project-sal-grid-사용법">PROJECT SAL GRID
+사용법</a></li>
+<li><a href="#5-학습용-books-사용법">학습용 Books 사용법</a></li>
+<li><a href="#6-외부-연동-설정">외부 연동 설정</a></li>
+<li><a href="#7-tips-활용법">Tips 활용법</a></li>
+<li><a href="#8-다른-ai에게-묻기">다른 AI에게 묻기</a></li>
+<li><a href="#9-sunny에게-묻기">Sunny에게 묻기</a></li>
+<li><a href="#10-마이페이지-관리">마이페이지 관리</a></li>
+</ol>
+<hr />
+<h2 id="시작하기">1. 시작하기</h2>
+<h3 id="회원가입하기">1-1. 회원가입하기</h3>
+<ol type="1">
+<li>SSAL Works 웹사이트에 접속합니다.</li>
+<li>“회원가입” 버튼을 클릭합니다.</li>
+<li>필수 정보를 입력합니다:
+<ul>
+<li><strong>이메일</strong>: 고유한 이메일 주소</li>
+<li><strong>비밀번호</strong>: 8자 이상 (영문+숫자+특수문자)</li>
+<li><strong>닉네임</strong>: 2-20자</li>
+<li><strong>실명</strong>: 2-50자 (필수 - 개설비 입금자명 확인, 환불,
+세금계산서 발행에 사용)</li>
+</ul></li>
+<li>약관에 동의합니다:
+<ul>
+<li>✅ 서비스 이용약관 (필수)</li>
+<li>✅ 개인정보 처리방침 (필수)</li>
+<li>☑️ 마케팅 정보 수신 (선택)</li>
+</ul></li>
+<li>“회원가입” 버튼을 클릭합니다.</li>
+<li>회원가입 완료 후 <strong>회원 ID</strong>(8자리 영숫자)가
+발급됩니다.</li>
+</ol>
+<h3 id="로그인하기">1-2. 로그인하기</h3>
+<ol type="1">
+<li>SSAL Works 웹사이트에 접속합니다.</li>
+<li>우측 상단의 “로그인” 버튼을 클릭합니다.</li>
+<li>Google 계정으로 로그인합니다.</li>
+<li>빌더 계정이 활성화되어 있으면 대시보드가 표시됩니다.</li>
+</ol>
+<h3 id="대시보드-화면-구성">1-3. 대시보드 화면 구성</h3>
+<p>대시보드는 5개 영역으로 구성되어 있습니다:</p>
+<pre><code>┌────────────────┬─────────────────────────┬────────────────┐
+│                │                         │                │
+│   좌측 사이드바  │   중앙 상단              │   우측 사이드바  │
+│   (프로젝트)    │   (Control Space)       │   (학습/질문)   │
+│                ├─────────────────────────┤                │
+│                │   중앙 하단              │                │
+│                │   (SAL Grid)            │                │
+│                │                         │                │
+└────────────────┴─────────────────────────┴────────────────┘</code></pre>
+<ul>
+<li><strong>좌측 사이드바</strong>: 프로젝트 목록, 진행 프로세스</li>
+<li><strong>중앙 상단</strong>: Order Sheet 작성 공간</li>
+<li><strong>중앙 하단</strong>: PROJECT SAL GRID</li>
+<li><strong>우측 사이드바</strong>: Books, Tips, AI Q&amp;A, Sunny에게
+묻기</li>
+</ul>
+<hr />
+<h2 id="프로젝트-관리">2. 프로젝트 관리</h2>
+<h3 id="새-프로젝트-등록하기">2-1. 새 프로젝트 등록하기</h3>
+<ol type="1">
+<li>좌측 사이드바에서 <strong>“+ 새로운 Project 등록”</strong> 버튼을
+클릭합니다.</li>
+<li>프로젝트명을 입력합니다. (예: “쇼핑몰 웹사이트”)</li>
+<li>프로젝트 설명을 입력합니다. (선택사항)</li>
+<li><strong>“등록”</strong> 버튼을 클릭합니다.</li>
+<li>프로젝트가 생성되고 SAL Grid가 자동으로 초기화됩니다.</li>
+</ol>
+<h3 id="프로젝트-선택하기">2-2. 프로젝트 선택하기</h3>
+<ol type="1">
+<li>좌측 사이드바의 <strong>“진행중 Project”</strong> 섹션에서 작업할
+프로젝트를 클릭합니다.</li>
+<li>해당 프로젝트의 SAL Grid와 Order Sheet가 로드됩니다.</li>
+<li>프로젝트명이 상단에 표시됩니다.</li>
+</ol>
+<h3 id="진행-프로세스-확인하기">2-3. 진행 프로세스 확인하기</h3>
+<ol type="1">
+<li>좌측 사이드바의 <strong>“진행 프로세스”</strong> 섹션을
+확인합니다.</li>
+<li>프로세스는 3가지 유형으로 구분됩니다:</li>
+</ol>
+<p><strong>☆ 특별 단계 (자동화)</strong> - 디렉토리 구조 생성 - PROJECT
+SAL Grid 생성</p>
+<p><strong>○ 준비 단계 (병렬 진행 가능)</strong> -
+<strong>사업계획</strong>: 시장조사, 경쟁분석, 사업계획서 -
+<strong>프로젝트 기획</strong>: Project Plan, Requirements,
+Architecture, UI/UX, DB Design, API Design</p>
+<p><strong>S1~S5 실행 단계 (순차 진행 필수)</strong> | 단계 | 명칭 |
+주요 내용 | |——|——|———-| | S1 | 개발 준비 | Vercel 설정, 환경변수,
+도메인 연결, 에러 트래킹 | | S2 | 개발 1차 | OAuth, 이메일, 핵심 API,
+회원가입, 프로젝트 관리 | | S3 | 개발 2차 | AI 연동, 구독 권한, AI
+Q&amp;A UI | | S4 | 개발 3차 | 결제, 관리자 대시보드, 테스트, 크레딧 | |
+S5 | 개발 마무리 | 프로덕션 배포, QA, 안정화 |</p>
+<ol start="3" type="1">
+<li>각 단계를 클릭하면:
+<ul>
+<li>하위 작업 목록이 펼쳐집니다</li>
+<li>Workspace에 Order Sheet 템플릿이 자동 로드됩니다</li>
+<li>상태 아이콘으로 진행 상황을 확인할 수 있습니다:
+<ul>
+<li>⚪ 대기</li>
+<li>🔵 진행 중</li>
+<li>✅ 완료</li>
+</ul></li>
+</ul></li>
+</ol>
+<h3 id="안내문-열기">2-4. 안내문 열기</h3>
+<ol type="1">
+<li>진행 프로세스에서 단계 옆의 <strong>📖 아이콘</strong>을
+클릭합니다.</li>
+<li>해당 단계의 안내문이 팝업으로 표시됩니다.</li>
+<li>안내문을 참고하여 해당 단계의 작업을 진행합니다.</li>
+</ol>
+<hr />
+<h2 id="order-sheet-사용법">3. Order Sheet 사용법</h2>
+<h3 id="order-sheet-작성하기">3-1. Order Sheet 작성하기</h3>
+<ol type="1">
+<li>중앙 상단의 <strong>Control Space</strong> 영역을 확인합니다.</li>
+<li><strong>“Order Sheet 템플릿”</strong> 드롭다운에서 템플릿을
+선택합니다.</li>
+<li>템플릿이 에디터에 로드됩니다.</li>
+<li>템플릿의 각 항목을 채웁니다:
+<ul>
+<li><strong>작업 유형</strong>: 어떤 종류의 작업인지</li>
+<li><strong>작업 내용</strong>: 구체적으로 무엇을 해야 하는지</li>
+<li><strong>참고 자료</strong>: 참고할 파일이나 문서</li>
+<li><strong>기대 결과물</strong>: 어떤 결과물이 나와야 하는지</li>
+</ul></li>
+</ol>
+<h3 id="order-sheet-복사하여-claude-code에-전달하기">3-2. Order Sheet
+복사하여 Claude Code에 전달하기</h3>
+<ol type="1">
+<li>Order Sheet 작성이 완료되면 <strong>“Order Sheet 복사하기”</strong>
+버튼을 클릭합니다.</li>
+<li>Order Sheet 전체 내용이 클립보드에 복사됩니다.</li>
+<li>Claude Code 터미널을 엽니다.</li>
+<li>터미널에 <strong>Ctrl+V</strong> (또는 마우스 우클릭 → 붙여넣기)로
+Order Sheet를 붙여넣습니다.</li>
+<li>Enter를 눌러 AI에게 작업을 시작하도록 합니다.</li>
+</ol>
+<h3 id="결과-report-확인하기">3-3. 결과 Report 확인하기</h3>
+<ol type="1">
+<li>AI가 작업을 완료하면 Reports 폴더에 결과가 저장됩니다.</li>
+<li><strong>“Reports 불러오기”</strong> 버튼을 클릭합니다.</li>
+<li>파일 목록에서 확인할 Report를 선택합니다.</li>
+<li>Report 내용이 화면에 표시됩니다.</li>
+</ol>
+<hr />
+<h2 id="project-sal-grid-사용법">4. PROJECT SAL GRID 사용법</h2>
+<h3 id="grid-보기-모드-전환하기">4-1. Grid 보기 모드 전환하기</h3>
+<ol type="1">
+<li>중앙 하단의 SAL Grid 영역을 확인합니다.</li>
+<li>우측 상단의 보기 모드 버튼을 클릭합니다:
+<ul>
+<li><strong>2D Card View</strong>: 카드 형태로 Task 표시</li>
+<li><strong>3D Block View</strong>: 3차원 블록으로 시각화</li>
+</ul></li>
+<li><strong>풀스크린</strong> 버튼을 클릭하면 Grid를 전체 화면으로 볼 수
+있습니다.</li>
+</ol>
+<h3 id="task-상태-확인하기">4-2. Task 상태 확인하기</h3>
+<ol type="1">
+<li>Grid 상단의 상태별 통계를 확인합니다:
+<ul>
+<li><strong>Pending</strong>: 대기 중인 Task 수</li>
+<li><strong>In Progress</strong>: 진행 중인 Task 수</li>
+<li><strong>Executed</strong>: 실행 완료된 Task 수</li>
+<li><strong>Completed</strong>: 검증까지 완료된 Task 수</li>
+<li><strong>Fixing</strong>: 수정이 필요한 Task 수</li>
+</ul></li>
+<li>색상으로 상태를 구분합니다:
+<ul>
+<li>회색: Pending</li>
+<li>파란색: In Progress</li>
+<li>주황색: Executed</li>
+<li>녹색: Completed</li>
+<li>빨간색: Fixing</li>
+</ul></li>
+</ol>
+<h3 id="task-상세-정보-보기">4-3. Task 상세 정보 보기</h3>
+<ol type="1">
+<li>Grid에서 Task 카드를 클릭합니다.</li>
+<li>Task 상세 정보 패널이 표시됩니다:
+<ul>
+<li><strong>Task ID</strong>: S2F1 형식의 고유 ID</li>
+<li><strong>Task Name</strong>: Task 이름</li>
+<li><strong>Task Instruction</strong>: 작업 지침</li>
+<li><strong>Task Agent</strong>: 담당 AI 에이전트</li>
+<li><strong>Generated Files</strong>: 생성된 파일 목록</li>
+<li><strong>Verification Status</strong>: 검증 상태</li>
+</ul></li>
+</ol>
+<h3 id="stage-gate-검증하기">4-4. Stage Gate 검증하기</h3>
+<ol type="1">
+<li>현재 Stage의 모든 Task가 Completed 상태인지 확인합니다.</li>
+<li><strong>“Stage Gate 검증”</strong> 버튼을 클릭합니다.</li>
+<li>AI가 자동으로 검증을 수행합니다.</li>
+<li>검증 결과를 확인합니다.</li>
+<li>문제가 없으면 <strong>“승인”</strong> 버튼을 클릭하여 다음 Stage로
+진행합니다.</li>
+</ol>
+<hr />
+<h2 id="학습용-books-사용법">5. 학습용 Books 사용법</h2>
+<h3 id="books-열람하기">5-1. Books 열람하기</h3>
+<ol type="1">
+<li>우측 사이드바에서 <strong>“📚 학습용 Books”</strong> 섹션을
+클릭합니다.</li>
+<li>3개의 Book 중 원하는 것을 선택합니다:
+<ul>
+<li><strong>제1권</strong>: Claude/Claude Code 사용법 (34편)</li>
+<li><strong>제2권</strong>: 풀스택 웹사이트 개발 기초지식 (34편)</li>
+<li><strong>제3권</strong>: 프로젝트 관리 방법 (12편)</li>
+</ul></li>
+<li>편(Chapter) 목록에서 읽고 싶은 편을 클릭합니다.</li>
+<li>내용이 팝업으로 표시됩니다.</li>
+</ol>
+<h3 id="books-검색하기">5-2. Books 검색하기</h3>
+<ol type="1">
+<li><strong>“📚 학습용 Books”</strong> 섹션의 검색창을 클릭합니다.</li>
+<li>찾고 싶은 키워드를 입력합니다. (예: “API”, “Supabase”)</li>
+<li>검색 결과가 표시됩니다.</li>
+<li>원하는 결과를 클릭하여 내용을 확인합니다.</li>
+</ol>
+<hr />
+<h2 id="외부-연동-설정">6. 외부 연동 설정</h2>
+<h3 id="설정-가이드-열기">6-1. 설정 가이드 열기</h3>
+<ol type="1">
+<li>우측 사이드바에서 <strong>“🔧 외부 연동 설정”</strong> 섹션을
+클릭합니다.</li>
+<li>5가지 설정 가이드 중 원하는 것을 선택합니다:
+<ul>
+<li>🗄️ 데이터베이스 설정 (Supabase)</li>
+<li>🔐 회원인증 설정 (Google OAuth)</li>
+<li>📧 이메일 시스템 설정 (Resend)</li>
+<li>🚀 배포/도메인 설정 (Vercel)</li>
+<li>💳 결제 시스템 설정 (토스페이먼츠)</li>
+</ul></li>
+</ol>
+<h3 id="설정-따라하기">6-2. 설정 따라하기</h3>
+<ol type="1">
+<li>가이드의 단계별 지침을 읽습니다.</li>
+<li>각 단계의 체크박스를 완료할 때마다 체크합니다.</li>
+<li>필요한 키(API Key, Secret 등)를 기록해둡니다.</li>
+<li>모든 단계를 완료하면 연동이 활성화됩니다.</li>
+</ol>
+<hr />
+<h2 id="tips-활용법">7. Tips 활용법</h2>
+<h3 id="tips-열람하기">7-1. Tips 열람하기</h3>
+<ol type="1">
+<li>우측 사이드바에서 <strong>“💡 Tips”</strong> 섹션을 클릭합니다.</li>
+<li>18개 카테고리 중 원하는 것을 선택합니다.</li>
+<li>카테고리 내 Tips 목록이 표시됩니다.</li>
+<li>원하는 Tip을 클릭하여 내용을 확인합니다.</li>
+</ol>
+<h3 id="tips-검색하기">7-2. Tips 검색하기</h3>
+<ol type="1">
+<li><strong>“💡 Tips”</strong> 섹션의 검색창을 클릭합니다.</li>
+<li>찾고 싶은 키워드를 입력합니다. (예: “에러”, “Git”)</li>
+<li>검색 결과에서 관련 Tip을 클릭합니다.</li>
+</ol>
+<hr />
+<h2 id="다른-ai에게-묻기">8. 다른 AI에게 묻기</h2>
+<h3 id="ai에게-질문하기">8-1. AI에게 질문하기</h3>
+<ol type="1">
+<li>우측 사이드바에서 <strong>“🤖 다른 AI에게 묻기”</strong> 섹션을
+클릭합니다.</li>
+<li>AI 서비스를 선택합니다:
+<ul>
+<li><strong>ChatGPT</strong>: 일반적인 개발 질문</li>
+<li><strong>Gemini</strong>: 코드 리뷰, 설계 질문</li>
+<li><strong>Perplexity</strong>: 최신 기술 정보 검색</li>
+</ul></li>
+<li>질문 입력창에 질문을 작성합니다.</li>
+<li><strong>“질문하기”</strong> 버튼을 클릭합니다.</li>
+<li>AI의 답변이 표시됩니다.</li>
+</ol>
+<h3 id="크레딧-확인하기">8-2. 크레딧 확인하기</h3>
+<ol type="1">
+<li>대시보드 상단의 크레딧 잔액을 확인합니다.</li>
+<li>AI 질문 시 크레딧이 차감됩니다.</li>
+<li>잔액이 부족하면 <strong>“크레딧 충전”</strong>을 클릭하여
+충전합니다.</li>
+</ol>
+<h3 id="질문답변-이력-보기">8-3. 질문/답변 이력 보기</h3>
+<ol type="1">
+<li><strong>“질문/답변 이력”</strong> 버튼을 클릭합니다.</li>
+<li>과거 질문과 AI 답변 목록이 표시됩니다.</li>
+<li>원하는 항목을 클릭하여 상세 내용을 확인합니다.</li>
+</ol>
+<hr />
+<h2 id="sunny에게-묻기">9. Sunny에게 묻기</h2>
+<h3 id="플랫폼-사용-문의하기">9-1. 플랫폼 사용 문의하기</h3>
+<ol type="1">
+<li>우측 사이드바에서 <strong>“👤 Sunny에게 묻기”</strong> 섹션을
+클릭합니다.</li>
+<li>문의 유형을 선택합니다:
+<ul>
+<li><strong>사용법 문의</strong>: 플랫폼 사용 방법</li>
+<li><strong>문제 해결</strong>: 개발 중 발생한 문제</li>
+<li><strong>버그 신고</strong>: 발견한 버그</li>
+<li><strong>기능 제안</strong>: 새로운 기능 아이디어</li>
+</ul></li>
+<li>질문 내용을 작성합니다.</li>
+<li>필요시 파일을 첨부합니다.</li>
+<li><strong>“문의하기”</strong> 버튼을 클릭합니다.</li>
+</ol>
+<h3 id="비즈니스-멘토링-받기">9-2. 비즈니스 멘토링 받기</h3>
+<ol type="1">
+<li>문의 유형에서 <strong>“비즈니스 멘토링”</strong>을 선택합니다.</li>
+<li>멘토링 주제를 선택합니다:
+<ul>
+<li>사업계획서 검토</li>
+<li>사업 전략 자문</li>
+<li>비즈니스 모델 검토</li>
+</ul></li>
+<li>상세 내용과 질문을 작성합니다.</li>
+<li>관련 자료가 있으면 첨부합니다.</li>
+<li><strong>“문의하기”</strong> 버튼을 클릭합니다.</li>
+</ol>
+<h3 id="회계세무-자문-받기">9-3. 회계/세무 자문 받기</h3>
+<ol type="1">
+<li>문의 유형에서 <strong>“회계/세무 자문”</strong>을 선택합니다.</li>
+<li>자문 주제를 선택합니다:
+<ul>
+<li>세무 관련 질문</li>
+<li>회계 처리 안내</li>
+</ul></li>
+<li>질문 내용을 구체적으로 작성합니다.</li>
+<li><strong>“문의하기”</strong> 버튼을 클릭합니다.</li>
+</ol>
+<hr />
+<h2 id="마이페이지-관리">10. 마이페이지 관리</h2>
+<h3 id="프로필-수정하기">10-1. 프로필 수정하기</h3>
+<ol type="1">
+<li>좌측 사이드바에서 <strong>“마이페이지”</strong>를 클릭합니다.</li>
+<li><strong>“내 프로필”</strong> 탭을 선택합니다.</li>
+<li>이름, 연락처 등을 수정합니다.</li>
+<li><strong>“저장”</strong> 버튼을 클릭합니다.</li>
+</ol>
+<h3 id="플랫폼-이용-현황-확인-및-관리하기">10-2. 플랫폼 이용 현황 확인
+및 관리하기</h3>
+<ol type="1">
+<li><strong>“서비스 이용 현황”</strong> 탭을 선택합니다.</li>
+<li>현재 플랫폼 이용 상태를 확인합니다:
+<ul>
+<li>이용 시작일</li>
+<li>다음 결제일</li>
+<li>월 이용료: <strong>₩50,000/월</strong> (VAT 포함, 첫 3개월
+무료)</li>
+</ul></li>
+</ol>
+<p><strong>결제 수단 등록:</strong> 1. 개설비 납부 후 결제 수단을
+등록합니다. 2. 선택 가능한 결제 수단: - <strong>계좌 자동이체</strong>:
+은행 선택, 계좌번호, 예금주 - <strong>카드 자동결제</strong>: 카드번호,
+유효기간, CVC</p>
+<p><strong>자동결제:</strong> - 첫 3개월 무료 기간 이후, 매월 개설비
+납부일 기준으로 동일 날짜에 자동결제됩니다. - 결제 3일 전 알림이
+발송됩니다. - 결제 실패 시 2회 재시도 후 서비스가 일시정지됩니다.</p>
+<p><strong>이용 일시정지:</strong> 1. <strong>“이용 일시정지”</strong>
+버튼을 클릭합니다. 2. 일시정지 기간 동안 이용료가 청구되지 않습니다. 3.
+제한 사항: - ❌ 새 프로젝트 등록 불가 - ❌ Order Sheet 작성 불가 - ✅
+기존 프로젝트 조회 가능 - ✅ Books, FAQ 이용 가능</p>
+<p><strong>이용 해지:</strong> 1. <strong>“이용 해지”</strong> 버튼을
+클릭합니다. 2. 해지 시: - 개설비는 환불되지 않습니다. - 이번 달 이용료는
+일할 계산 환불됩니다. - ⚠️ 재가입 시 개설비를 다시 납부해야 합니다.</p>
+<h3 id="크레딧-관리하기">10-3. 크레딧 관리하기</h3>
+<ol type="1">
+<li><strong>“크레딧 관리”</strong> 탭을 선택합니다.</li>
+<li>현재 잔액을 확인합니다.</li>
+<li><strong>“사용 내역”</strong>을 클릭하여 상세 내역을 확인합니다.</li>
+</ol>
+<p><strong>충전 금액:</strong> - ₩10,000 - ₩30,000 - ₩50,000 -
+₩100,000</p>
+<p><strong>충전 방법:</strong> 1. <strong>“충전하기”</strong> 버튼을
+클릭합니다. 2. 충전 금액을 선택합니다. 3. 토스페이먼츠 결제창에서 결제를
+진행합니다. 4. 결제 완료 후 즉시 크레딧이 충전됩니다.</p>
+<h3 id="결제-수단-관리하기">10-4. 결제 수단 관리하기</h3>
+<ol type="1">
+<li><strong>“결제 수단 관리”</strong> 탭을 선택합니다.</li>
+<li>등록된 카드 목록을 확인합니다.</li>
+<li><strong>“카드 추가”</strong>를 클릭하여 새 카드를 등록합니다.</li>
+<li>기존 카드를 삭제하려면 해당 카드의 <strong>“삭제”</strong> 버튼을
+클릭합니다.</li>
+</ol>
+<hr />
+<p><em>이 매뉴얼은 SSAL Works 플랫폼의 사용법을 안내합니다. 추가 질문은
+“Sunny에게 묻기” 기능을 이용해주세요.</em></p>
+
+        <footer>
+            <p>&copy; 2025 SSAL Works. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
