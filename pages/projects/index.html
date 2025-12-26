@@ -395,15 +395,15 @@
         </div>
 
         <div class="page-header">
-            <h1 class="page-title">📁 내 프로젝트</h1>
+            <h1 class="page-title">내 프로젝트</h1>
             <button class="btn btn-primary" id="newProjectBtn" onclick="goToNewProject()">
-                ➕ 새 프로젝트
+                새 프로젝트
             </button>
         </div>
 
         <!-- 빌더 계정 개설비 미납 안내 -->
         <div class="card fee-notice" id="feeNotice" style="display: none;">
-            <div class="fee-notice-icon">🏠</div>
+            <div class="fee-notice-icon"></div>
             <div class="fee-notice-title">빌더 계정 개설비 납부가 필요합니다</div>
             <div class="fee-notice-text">
                 프로젝트를 등록하려면 먼저 빌더 계정 개설비를 납부해주세요.<br>
@@ -521,10 +521,10 @@
             if (projects.length === 0) {
                 container.innerHTML = `
                     <div class="card empty-state">
-                        <div class="empty-state-icon">📁</div>
+                        <div class="empty-state-icon"></div>
                         <div class="empty-state-title">등록된 프로젝트가 없습니다</div>
                         <div class="empty-state-text">새 프로젝트를 등록하고 개발을 시작하세요!</div>
-                        <button class="btn btn-primary" onclick="goToNewProject()">➕ 새 프로젝트 등록</button>
+                        <button class="btn btn-primary" onclick="goToNewProject()">새 프로젝트 등록</button>
                     </div>
                 `;
                 return;
