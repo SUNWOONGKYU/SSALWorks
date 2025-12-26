@@ -325,8 +325,10 @@ work_logs/current.md 기록
 ### AI 12대 준수사항
 > `.claude/compliance/AI_12_COMPLIANCE.md`
 
-### SAL Grid 매뉴얼
+### SAL Grid 매뉴얼 (v4.0 일반화 버전)
 > `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
+> - DB Method (Supabase) + CSV Method (JSON) 두 가지 방식 지원
+> - 27개 섹션으로 구성된 완전 매뉴얼
 
 ### 주의사항
 > `.claude/CAUTION.md` (RLS, 본개발 TODO, Supabase 대안 프로세스)

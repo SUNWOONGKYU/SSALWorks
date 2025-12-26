@@ -1,9 +1,8 @@
-# PROJECT SAL GRID MANUAL v3.7
+# PROJECT SAL GRID MANUAL v4.0
 
 > **작성일**: 2025-11-25
-> **최종 수정**: 2025-12-22 (v3.7 - S4D2, S4F6 인앱 알림 시스템 Task 추가)
-> **기반**: PROJECT_SAL_GRID_생성_가이드_V2.0.md
-> **용도**: PROJECT SAL GRID 완전 매뉴얼
+> **최종 수정**: 2025-12-27 (v4.0 - 일반화 버전, DB/CSV 방식 모두 지원)
+> **용도**: PROJECT SAL GRID 완전 매뉴얼 (템플릿)
 
 ---
 
@@ -12,7 +11,7 @@
 ### PART 1: 개요 및 프레임워크
 
 1. [개요](#1-개요)
-2. [SSALWorks 표준 프레임워크](#2-ssalworks-표준-프레임워크)
+2. [표준 프레임워크](#2-표준-프레임워크)
 3. [22개 속성 정의](#3-22개-속성-정의)
 4. [표준 프로젝트 디렉토리 구조](#4-표준-프로젝트-디렉토리-구조)
 
@@ -30,9 +29,10 @@
 11. [Orders/Reports JSON 시스템](#11-ordersreports-json-시스템)
 12. [Git 통합 추적 시스템](#12-git-통합-추적-시스템)
 
-### PART 4: Supabase 설정 및 실행
+### PART 4: 데이터 저장 방식 선택 및 설정
 
-13. [5분 만에 시작하기](#13-5분-만에-시작하기)
+- [📌 데이터 저장 방식 선택 가이드 (v4.0 신규)](#-데이터-저장-방식-선택-가이드-v40-신규)
+13. [5분 만에 시작하기 (DB Method)](#13-5분-만에-시작하기-db-method)
 14. [표준 Grid 설치](#14-표준-grid-설치)
 15. [설치 확인 및 문제 해결](#15-설치-확인-및-문제-해결)
 16. [Supabase 기본 개념](#16-supabase-기본-개념)
@@ -260,7 +260,7 @@ verification_instruction:
 
 ### 1.1 PROJECT SAL GRID란?
 
-**PROJECT SAL GRID**는 SSALWorks 플랫폼에서 **풀스택 웹사이트 개발 프로젝트**의 모든 작업을 체계적으로 관리하는 핵심 시스템입니다.
+**PROJECT SAL GRID**는 **풀스택 웹사이트 개발 프로젝트**의 모든 작업을 체계적으로 관리하는 핵심 시스템입니다.
 
 **주요 목적:**
 - 복잡한 풀스택 웹 애플리케이션 개발
@@ -269,7 +269,7 @@ verification_instruction:
 - 대규모 프로젝트의 체계적 진행
 
 ```
-SSALWorks 5×11 매트릭스 (표준 템플릿)
+5×11 매트릭스 (표준 템플릿)
          ↓
 Task 선정 (프로젝트별 커스터마이징)
          ↓
@@ -389,7 +389,7 @@ DB 자동 기록: created_at, updated_at (Supabase)
 
 ---
 
-## 2. SSALWorks 표준 프레임워크
+## 2. 표준 프레임워크
 
 ### 2.1 5×11 매트릭스
 
@@ -1063,7 +1063,7 @@ S2F1_S1F6_login_component.tsx
 
 ### 4.1 개요
 
-**Standard Project Directory Structure**는 SSALWorks 프로젝트의 표준 폴더 구조입니다.
+**Standard Project Directory Structure**는 PROJECT SAL GRID 프로젝트의 표준 폴더 구조입니다.
 
 **목적:**
 - 일관된 프로젝트 구조
@@ -2528,7 +2528,7 @@ S1M1, S1M2, S1U1, S1D1... 완료
 
 **✅ 승인:**
 ```
-관리자 → SSALWorks UI에서 [승인] 버튼
+관리자 → 관리 UI에서 [승인] 버튼
 또는
 관리자 → Supabase 직접 수정
   stage_gate_status = 'Approved'
@@ -2679,7 +2679,7 @@ Gate 승인 시:
 
 #### **✅ 승인 시**
 
-**방법 1: SSALWorks UI**
+**방법 1: 관리 UI**
 ```
 Project Owner → [승인] 버튼 클릭
 → stage_gate_status = "Approved"
@@ -3603,9 +3603,92 @@ PART 3에서는 PROJECT SAL GRID의 품질 보증과 추적 시스템을 다루�
 
 ---
 
-# PART 4: Supabase 설정 및 실행
+# PART 4: 데이터 저장 방식 선택 및 설정
 
-## 13. 5분 만에 시작하기
+## 📌 데이터 저장 방식 선택 가이드 (v4.0 신규)
+
+> PROJECT SAL GRID는 **두 가지 데이터 저장 방식**을 지원합니다.
+> 프로젝트 상황에 맞는 방식을 선택하세요.
+
+### 두 가지 방식 비교
+
+| 항목 | DB Method (Supabase) | CSV Method (JSON) |
+|------|---------------------|-------------------|
+| **데이터 저장** | Supabase 클라우드 DB | 로컬 JSON 파일 |
+| **장점** | 실시간 동기화, 다중 사용자, 웹 API | 설치 불필요, 독립 실행, Git 추적 |
+| **단점** | Supabase 계정/설정 필요 | 단일 사용자, 수동 동기화 |
+| **추천 대상** | 팀 프로젝트, 클라우드 선호 | 개인 프로젝트, 오프라인 작업 |
+
+### 방식 선택 가이드
+
+```
+[방식 선택 플로우]
+
+Supabase를 사용할 수 있는가?
+    │
+    ├─ Yes → DB Method (섹션 13~17)
+    │        └─ Supabase 설정 → REST API로 CRUD
+    │
+    └─ No → CSV Method (아래 가이드)
+            └─ JSON 파일로 Grid 데이터 관리
+```
+
+### CSV Method 간단 가이드
+
+**1. 데이터 파일 위치:**
+```
+S0_Project-SAL-Grid_생성/
+└── data/
+    └── project_sal_grid.json    ← Grid 데이터 저장
+```
+
+**2. JSON 파일 구조:**
+```json
+{
+    "tasks": [
+        {
+            "task_id": "S1F1",
+            "task_name": "Task 이름",
+            "stage": 1,
+            "area": "F",
+            "task_status": "Pending",
+            "task_progress": 0,
+            "verification_status": "Not Verified",
+            "dependencies": "",
+            "task_instruction": "수행 지침",
+            "task_agent": "frontend-developer",
+            "verification_instruction": "검증 지침",
+            "verification_agent": "code-reviewer"
+        }
+    ],
+    "metadata": {
+        "version": "1.0",
+        "updated_at": "2025-12-27T00:00:00Z"
+    }
+}
+```
+
+**3. CRUD 작업:**
+- Claude Code의 Read/Edit 도구로 JSON 파일 직접 수정
+- Task 추가: tasks 배열에 새 객체 추가
+- Task 수정: 해당 task_id 항목 찾아 필드 수정
+- Task 삭제: 해당 task_id 항목 제거
+
+**4. Stage Gate 저장:**
+```
+S0_Project-SAL-Grid_생성/
+└── stage-gates/
+    ├── S1GATE_verification_report.md
+    ├── S2GATE_verification_report.md
+    └── ...
+```
+
+> **CSV Method를 선택한 경우**: 섹션 13~17(Supabase 설정)을 건너뛰고, 섹션 18(Viewer)부터 참조하세요.
+> Viewer는 JSON 파일에서도 데이터를 읽어올 수 있습니다.
+
+---
+
+## 13. 5분 만에 시작하기 (DB Method)
 
 > ⏱️ **목표**: 5분 안에 Supabase 프로젝트 만들고 테이블 생성하기
 
@@ -5895,7 +5978,7 @@ A:
   - **Git 통합 추적 시스템 추가**
 
 - **V1.0 (2025-11-23)**: 초기 버전
-  - SSALWorks 5×11 매트릭스 반영
+  - 5×11 매트릭스 반영
   - Task 선정 2대 원칙
   - 22개 속성 체계
   - 3단계 검증 시스템
@@ -5904,6 +5987,12 @@ A:
 ---
 
 ### PROJECT SAL GRID MANUAL 버전 이력
+
+- **v4.0 (2025-12-27)**: 일반화 버전 (템플릿)
+  - SSALWorks 고유 참조 제거 → 일반화
+  - DB Method (Supabase) + CSV Method (JSON) 두 가지 방식 모두 지원
+  - 외부 사용자가 자신의 프로젝트에 적용할 수 있는 템플릿 형태로 변경
+  - CLAUDE.md에서 참조용 문서로 활용
 
 - **v3.8 (2025-12-23)**: S4F6 Task 확장
   - S4F6 Task 이름 변경: "인앱 알림 UI" -> "My Page 기능 (알림/문의)"
@@ -5961,18 +6050,18 @@ A:
 
 ---
 
-**본 매뉴얼은 SSALWorks 플랫폼의 핵심 문서입니다.**
+**본 매뉴얼은 PROJECT SAL GRID의 핵심 문서입니다.**
 **PROJECT SAL GRID를 올바르게 생성하면 AI와 함께하는 체계적인 풀스택 웹 애플리케이션 개발이 가능합니다.** 🌾
 
 ---
 
 **문서 끝**
 
-> 🌾 **SSALWorks - Your AI-Powered Project Management System**
+> 🌾 **PROJECT SAL GRID - Your AI-Powered Project Management System**
 >
 > **작성**: 2025-11-25
-> **버전**: v3.5
-> **최종 수정**: 2025-12-20
+> **버전**: v4.0
+> **최종 수정**: 2025-12-27
 > **문의**: PROJECT_SAL_GRID 관련 문서 참고
 
 **Happy Coding!** 💻✨
