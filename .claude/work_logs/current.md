@@ -24,17 +24,48 @@
 **핵심 변경:**
 ```
 이전: Stage 폴더에 코드 저장 금지, 루트 폴더에 직접 저장
-이후: Stage 폴더에 먼저 저장 → Pre-commit Hook → Production 자동 복사
+이후: Stage 폴더에 먼저 저장 → Pre-commit Hook → 루트 자동 복사
 ```
 
-**Stage → Production 매핑:**
-| Area | Stage 폴더 | Production 폴더 |
-|------|-----------|-----------------|
-| F | S?_*/Frontend/ | Production/pages/ |
-| BA | S?_*/Backend_APIs/ | Production/api/Backend_APIs/ |
-| S | S?_*/Security/ | Production/api/Security/ |
-| BI | S?_*/Backend_Infra/ | Production/api/Backend_Infra/ |
-| E | S?_*/External/ | Production/api/External/ |
+**Stage → 루트 매핑:**
+| Area | Stage 폴더 | 루트 폴더 (자동 복사) |
+|------|-----------|---------------------|
+| F | S?_*/Frontend/ | pages/ |
+| BA | S?_*/Backend_APIs/ | api/Backend_APIs/ |
+| S | S?_*/Security/ | api/Security/ |
+| BI | S?_*/Backend_Infra/ | api/Backend_Infra/ |
+| E | S?_*/External/ | api/External/ |
+
+---
+
+### Production 폴더 삭제 및 배포 구조 수정 ✅
+
+**작업 배경:**
+- Production 폴더가 삭제되고 배포 구조가 루트 폴더로 변경됨
+- 관련 문서들에서 "Production/" 경로 참조가 남아있어 수정 필요
+
+**업데이트된 파일:**
+
+| 커밋 | 변경 내용 |
+|------|----------|
+| `b25e4e2` | `.claude/rules/02_save-location.md`, `.claude/CLAUDE.md` - Production/ 접두사 제거 |
+| `162f424` | `Project_Directory_Structure.md` - "Production/" 섹션을 "배포 구조 (루트 폴더)"로 변경 |
+| `162f424` | `공개_전환_업무/04_패키지_표준_디렉토리_구조.md` - 설명 업데이트 |
+| `035b9eb` | `build-progress.js` - 출력 경로를 Development_Process_Monitor/data/로 수정 |
+| `035b9eb` | root `data/` 폴더 삭제, "5개 폴더" → "4개 폴더" 수정 |
+
+**배포 구조 (루트 폴더):**
+```
+루트/
+├── api/                    ← 백엔드 API (BA, S, BI, E Area)
+├── pages/                  ← 프론트엔드 페이지 (F Area)
+├── assets/                 ← 정적 자원 (CSS, JS, 이미지)
+├── scripts/                ← 자동화 도구 (개발용)
+├── index.html              ← 메인 페이지
+└── 404.html                ← 에러 페이지
+```
+
+**핵심:** 4개 폴더 + 2개 HTML (Production 폴더 없음)
 
 ---
 
