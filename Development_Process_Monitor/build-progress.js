@@ -268,8 +268,8 @@ function main() {
         console.log(`${status} ${code}: ${data.completed}/${data.total} = ${data.progress}%`);
     });
 
-    // JSON 파일 저장 (Development_Process_Monitor/data/)
-    const outputDir = path.join(__dirname, 'data');
+    // JSON 파일 저장 (루트/data/ 폴더 - Vercel 배포용)
+    const outputDir = path.join(PROJECT_ROOT, 'data');
     if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
     }
@@ -278,6 +278,13 @@ function main() {
     fs.writeFileSync(outputPath, JSON.stringify(result, null, 2), 'utf-8');
 
     console.log(`\n✅ 저장 완료: ${outputPath}`);
+
+    // 기존 위치에도 복사 (하위 호환성)
+    const legacyDir = path.join(__dirname, 'data');
+    if (!fs.existsSync(legacyDir)) {
+        fs.mkdirSync(legacyDir, { recursive: true });
+    }
+    fs.writeFileSync(path.join(legacyDir, 'phase_progress.json'), JSON.stringify(result, null, 2), 'utf-8');
 
     return result;
 }
