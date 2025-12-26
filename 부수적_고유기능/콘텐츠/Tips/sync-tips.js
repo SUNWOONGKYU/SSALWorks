@@ -65,7 +65,7 @@ function generateIndexArray(categories) {
 }
 
 // viewer.html 업데이트
-function updateViewerFile(filePath, newContent) {
+function updateViewerFile(filePath, newContent, totalCount) {
     if (!fs.existsSync(filePath)) {
         console.log(`  ⚠️ 파일 없음: ${filePath}`);
         return false;
@@ -73,7 +73,14 @@ function updateViewerFile(filePath, newContent) {
 
     let content = fs.readFileSync(filePath, 'utf8');
 
-    // TIPS_CONTENTS 객체 교체 (정규식으로 찾기)
+    // 1. 상단 개수 자동 업데이트 (Tips 카테고리 (XX개))
+    const countPattern = /Tips 카테고리 \(\d+개\)/;
+    if (countPattern.test(content)) {
+        content = content.replace(countPattern, `Tips 카테고리 (${totalCount}개)`);
+        console.log(`  ✅ 개수 업데이트: ${totalCount}개`);
+    }
+
+    // 2. TIPS_CONTENTS 객체 교체 (정규식으로 찾기)
     const pattern = /const TIPS_CONTENTS = \{[\s\S]*?\n        \};/;
     const replacement = `const TIPS_CONTENTS = {\n${newContent}\n        };`;
 
@@ -137,7 +144,7 @@ function main() {
     // 3. 파일 업데이트
     console.log('📝 파일 업데이트...');
 
-    updateViewerFile(FILES.viewer, viewerContent);
+    updateViewerFile(FILES.viewer, viewerContent, totalFiles);
     updateIndexFile(FILES.index, indexContent);
 
     console.log('');
