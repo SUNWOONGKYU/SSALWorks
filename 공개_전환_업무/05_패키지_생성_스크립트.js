@@ -59,7 +59,7 @@ const CONFIG = {
     'Development_Process_Monitor',
     'Human_ClaudeCode_Bridge',
 
-    // 안내문/템플릿
+    // Order Sheet 템플릿 (안내문 제외)
     'Briefings_OrderSheets',
 
     // AI 설정 (선택)
@@ -89,6 +89,9 @@ const CONFIG = {
 
     // SSALWorks 전용 (범용 아님)
     '부수적_고유기능',
+
+    // 안내문 제외 (Order Sheet만 포함)
+    'Briefings_OrderSheets/Briefings',
 
     // 기존 작업 결과물 (빈 템플릿만 제공)
     '**/task-results/*',
