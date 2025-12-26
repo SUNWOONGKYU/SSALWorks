@@ -166,21 +166,39 @@ const SERVICE_INTRO_STYLES = {
     tableCell: 'padding: 12px; border: 1px solid #dee2e6;'
 };
 
-// MD 파싱
+// MD 파싱 (v3.0 구조: [요약본] + [상세본] with 파트)
 function parseServiceIntroMd(content) {
     const parts = content.split(/^---$/m);
     const mainContent = parts.length > 1 ? parts.slice(1).join('---') : content;
     const sections = [];
-    const sectionRegex = /^# 섹션 (\d+): (.+)$/gm;
+
+    // "# [요약본]", "# [상세본]", "# 파트 N:" 모두 인식
+    const sectionRegex = /^# (?:\[(요약본|상세본)\].*|파트 (\d+): (.+)|섹션 (\d+): (.+))$/gm;
     const matches = [...mainContent.matchAll(sectionRegex)];
 
     for (let i = 0; i < matches.length; i++) {
         const match = matches[i];
         const nextMatch = matches[i + 1];
         const endIndex = nextMatch ? nextMatch.index : mainContent.length;
+
+        let number, title;
+        if (match[1]) {
+            // [요약본] 또는 [상세본]
+            number = match[1] === '요약본' ? '0' : '99';
+            title = match[1] === '요약본' ? 'SSAL Works 한눈에 보기' : 'SSAL Works 완전 가이드';
+        } else if (match[2]) {
+            // 파트 N: 제목
+            number = match[2];
+            title = match[3];
+        } else {
+            // 섹션 N: 제목 (기존 호환)
+            number = match[4];
+            title = match[5];
+        }
+
         sections.push({
-            number: match[1],
-            title: match[2],
+            number: number,
+            title: title,
             content: mainContent.slice(match.index + match[0].length, endIndex).trim()
         });
     }
