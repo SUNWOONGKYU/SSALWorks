@@ -37,6 +37,12 @@ const CONFIG = {
 
   // 패키지에 포함할 폴더들
   includeFolders: [
+    // 배포 구조 (루트 폴더)
+    'api',
+    'pages',
+    'assets',
+    'scripts',
+
     // 표준 작업 디렉토리
     'P0_작업_디렉토리_구조_생성',
     'P1_사업계획',
@@ -48,7 +54,6 @@ const CONFIG = {
     'S3_개발-2차',
     'S4_개발-3차',
     'S5_개발_마무리',
-    'Production',
 
     // 개발 도구
     'Development_Process_Monitor',
@@ -65,6 +70,9 @@ const CONFIG = {
   includeFiles: [
     '.gitignore',
     'package.json',
+    'vercel.json',
+    'index.html',
+    '404.html',
     'README.md',
   ],
 
@@ -349,6 +357,13 @@ Claude Code에게 다음과 같이 요청하세요:
 
 \`\`\`
 ${CONFIG.packageName}/
+├── api/                           # 백엔드 API (배포)
+├── pages/                         # 프론트엔드 페이지 (배포)
+├── assets/                        # 정적 자원 (배포)
+├── scripts/                       # 자동화 도구
+│   ├── sync-to-root.js            # Stage → Root 자동 복사
+│   ├── setup-hooks.js             # Pre-commit Hook 설치
+│   └── build-web-assets.js        # 통합 빌드
 ├── P0_작업_디렉토리_구조_생성/    # 프로젝트 설정
 ├── P1_사업계획/                   # 사업 계획
 ├── P2_프로젝트_기획/              # 프로젝트 기획
@@ -359,15 +374,26 @@ ${CONFIG.packageName}/
 ├── S3_개발-2차/                   # 고급 기능 개발
 ├── S4_개발-3차/                   # QA 및 최적화
 ├── S5_개발_마무리/                # 배포 및 문서화
-├── Production/                    # 배포용 코드
 ├── Development_Process_Monitor/   # 진행 상황 시각화
 ├── Human_ClaudeCode_Bridge/       # 작업 지시/결과 교환
 ├── Briefings_OrderSheets/         # 안내문 및 템플릿
 ├── .claude/                       # AI 설정 (선택)
+├── index.html                     # 메인 페이지
+├── 404.html                       # 에러 페이지
 ├── .gitignore
 ├── package.json
 └── README.md
 \`\`\`
+
+## Pre-commit Hook 설치
+
+패키지 설치 후 최초 1회 실행:
+
+\`\`\`bash
+node scripts/setup-hooks.js
+\`\`\`
+
+이후 git commit 시 자동으로 Stage → Root 동기화가 실행됩니다.
 
 ## 다음 단계
 
