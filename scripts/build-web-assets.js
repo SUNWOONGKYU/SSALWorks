@@ -166,14 +166,14 @@ const SERVICE_INTRO_STYLES = {
     tableCell: 'padding: 12px; border: 1px solid #dee2e6;'
 };
 
-// MD 파싱 (v4.0 구조: [개요] + [상세] with 파트)
+// MD 파싱 (v4.0 구조: [개요] + [상세] with numbered sections)
 function parseServiceIntroMd(content) {
     const parts = content.split(/^---$/m);
     const mainContent = parts.length > 1 ? parts.slice(1).join('---') : content;
     const sections = [];
 
-    // "# [개요]", "# [상세]", "# 파트 N:" 모두 인식
-    const sectionRegex = /^# (?:\[(개요|상세)\].*|파트 (\d+): (.+)|섹션 (\d+): (.+))$/gm;
+    // "# [개요]", "# [상세]", "# N." 인식 (파트 제거)
+    const sectionRegex = /^# (?:\[(개요|상세)\].*|(\d+)\. (.+)|파트 (\d+): (.+)|섹션 (\d+): (.+))$/gm;
     const matches = [...mainContent.matchAll(sectionRegex)];
 
     for (let i = 0; i < matches.length; i++) {
@@ -187,13 +187,17 @@ function parseServiceIntroMd(content) {
             number = match[1] === '개요' ? '0' : '99';
             title = match[1] === '개요' ? 'SSAL Works 소개' : 'SSAL Works 완전 가이드';
         } else if (match[2]) {
-            // 파트 N: 제목
+            // N. 제목 (새 형식)
             number = match[2];
             title = match[3];
-        } else {
-            // 섹션 N: 제목 (기존 호환)
+        } else if (match[4]) {
+            // 파트 N: 제목 (레거시 호환)
             number = match[4];
             title = match[5];
+        } else {
+            // 섹션 N: 제목 (레거시 호환)
+            number = match[6];
+            title = match[7];
         }
 
         sections.push({
@@ -320,7 +324,7 @@ function generateServiceIntroModalHtml(sections) {
                     <div>
                         <h4 style="font-size: 15px; font-weight: 600; color: #1F3563; margin: 0 0 10px 0; padding-bottom: 8px; border-bottom: 2px solid #1F3563;">📖 상세 안내</h4>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px 20px; font-size: 14px; padding-left: 12px;">
-                            ${detailSections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none;">파트 ${s.number}. ${s.title}</a>`).join('\n                            ')}
+                            ${detailSections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none;">${s.number}. ${s.title}</a>`).join('\n                            ')}
                         </div>
                     </div>
                 </nav>
