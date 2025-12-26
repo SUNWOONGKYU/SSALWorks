@@ -31,8 +31,8 @@
       ]
     },
     {
-      "id": "설치_실행",
-      "name": "설치 & 실행",
+      "id": "Claude_Code_설치_실행",
+      "name": "Claude Code 설치 & 실행",
       "icon": "💻",
       "description": "Claude Code 설치 및 실행",
       "files": [
@@ -51,13 +51,13 @@
       ]
     },
     {
-      "id": "입력_편의",
-      "name": "입력 편의",
+      "id": "편의_기능",
+      "name": "편의 기능",
       "icon": "⌨️",
       "description": "입력 효율화 팁",
       "files": [
-        { "name": "음성 입력 활용하기", "file": "음성_입력_활용하기.md" },
-        { "name": "멀티라인 입력 팁", "file": "멀티라인_입력_팁.md" }
+        { "name": "음성으로 지시하기 - AI 활용", "file": "음성으로_지시하기_-_AI_활용.md" },
+        { "name": "음성으로 지시하기 - Windows 기본", "file": "음성으로_지시하기_-_Windows_기본.md" }
       ]
     },
     {
@@ -66,12 +66,10 @@
       "icon": "🔧",
       "description": "MCP, Skills 등 도구 활용",
       "files": [
-        { "name": "MCP Server 설정 방법", "file": "MCP_Server_설정_방법.md" },
-        { "name": "Skills 파일 만들어 활용하기", "file": "Skills_파일_만들어_활용하기.md" },
-        { "name": "Subagents 파일 만들어 활용하기", "file": "Subagents_파일_만들어_활용하기.md" },
-        { "name": "MCP Tool 결과 해석하기", "file": "MCP_Tool_결과_해석하기.md" },
-        { "name": "MCP Server 종류별 용도 정리", "file": "MCP_Server_종류별_용도_정리.md" },
-        { "name": "Slash Commands로 자주 쓰는 명령 자동화", "file": "Slash_Commands로_자주_쓰는_명령_자동화.md" },
+        { "name": "MCP 서버 설정 방법", "file": "MCP_서버_설정_방법.md" },
+        { "name": "Skills 활용하기", "file": "Skills_활용하기.md" },
+        { "name": "서브에이전트 효과적으로 활용하기", "file": "서브에이전트_효과적으로_활용하기.md" },
+        { "name": "Slash Commands 활용하기", "file": "Slash_Commands_활용하기.md" },
         { "name": "Multi-Role AI 시스템과 Multi-Agent 시스템 비교", "file": "Multi-Role_AI_시스템과_Multi-Agent_시스템_비교.md" },
         { "name": "Pre-commit Hook으로 반복작업 자동화하기", "file": "Pre-commit_Hook으로_반복작업_자동화하기.md" }
       ]
@@ -82,10 +80,11 @@
       "icon": "📝",
       "description": "로그, 백업 관리",
       "files": [
-        { "name": "Work Log 작성 및 관리하기", "file": "Work_Log_작성_및_관리하기.md" },
-        { "name": "Memory MCP로 정보 저장하기", "file": "Memory_MCP로_정보_저장하기.md" },
+        { "name": "work_logs로 작업 기록 관리하기", "file": "work_logs로_작업_기록_관리하기.md" },
+        { "name": "Orders Reports JSON으로 작업 요청하기", "file": "Orders_Reports_JSON으로_작업_요청하기.md" },
+        { "name": "outbox에 작업 결과 저장하기", "file": "outbox에_작업_결과_저장하기.md" },
         { "name": "Git으로 버전 관리하기", "file": "Git으로_버전_관리하기.md" },
-        { "name": "자동 백업 설정하기", "file": "자동_백업_설정하기.md" }
+        { "name": "중요한 파일 주기적으로 백업하기", "file": "중요한_파일_주기적으로_백업하기.md" }
       ]
     },
     {
@@ -94,9 +93,10 @@
       "icon": "🔄",
       "description": "세션 연속성 유지",
       "files": [
-        { "name": "세션 시작 시 컨텍스트 복구하기", "file": "세션_시작_시_컨텍스트_복구하기.md" },
-        { "name": "긴 작업 중 세션 끊김 대응하기", "file": "긴_작업_중_세션_끊김_대응하기.md" },
-        { "name": "컨텍스트 용량 관리하기", "file": "컨텍스트_용량_관리하기.md" }
+        { "name": "세션 끊어졌을 때 복구하기", "file": "세션_끊어졌을_때_복구하기.md" },
+        { "name": "헤매면 미련 없이 세션 정리하기", "file": "헤매면_미련_없이_세션_정리하기.md" },
+        { "name": "CLI 여러 개 동시 실행하기", "file": "CLI_여러_개_동시_실행하기.md" },
+        { "name": "Google Drive 동기화 문제 해결", "file": "Google_Drive_동기화_문제_해결.md" }
       ]
     },
     {
@@ -105,9 +105,10 @@
       "icon": "✅",
       "description": "검증, 리포트 작성",
       "files": [
-        { "name": "작업 완료 후 검증 프로세스", "file": "작업_완료_후_검증_프로세스.md" },
-        { "name": "리포트 파일 작성 가이드", "file": "리포트_파일_작성_가이드.md" },
-        { "name": "Stage Gate 검증 방법", "file": "Stage_Gate_검증_방법.md" }
+        { "name": "별도 서브에이전트로 검증하기", "file": "별도_서브에이전트로_검증하기.md" },
+        { "name": "수시로 문서화 지시하기", "file": "수시로_문서화_지시하기.md" },
+        { "name": "작업 규칙 CLAUDE.md에 업데이트하기", "file": "작업_규칙_CLAUDE.md에_업데이트하기.md" },
+        { "name": "개발 완료 후 디자인 완성도 체크", "file": "개발_완료_후_디자인_완성도_체크.md" }
       ]
     },
     {
@@ -116,13 +117,15 @@
       "icon": "💼",
       "description": "개발 실무 팁",
       "files": [
-        { "name": "에러 메시지 효과적으로 전달하기", "file": "에러_메시지_효과적으로_전달하기.md" },
-        { "name": "코드 리뷰 요청하기", "file": "코드_리뷰_요청하기.md" },
-        { "name": "테스트 코드 작성 요청하기", "file": "테스트_코드_작성_요청하기.md" },
-        { "name": "리팩토링 요청하기", "file": "리팩토링_요청하기.md" },
-        { "name": "API 설계 요청하기", "file": "API_설계_요청하기.md" },
-        { "name": "콘텐츠 작성부터 웹사이트 게시까지 자동화 프로세스", "file": "콘텐츠_작성부터_웹사이트_게시까지_자동화_프로세스.md" },
+        { "name": "파일 저장 위치 확인하기", "file": "파일_저장_위치_확인하기.md" },
+        { "name": "파일 위치 수시로 점검하기", "file": "파일_위치_수시로_점검하기.md" },
+        { "name": "폴더 정리 및 임의 생성 금지 규칙", "file": "폴더_정리_및_임의_생성_금지_규칙.md" },
         { "name": "파일명 변경 시 참조도 함께 수정하기", "file": "파일명_변경_시_참조도_함께_수정하기.md" },
+        { "name": "규칙은 코드에 직접 구현하기", "file": "규칙은_코드에_직접_구현하기.md" },
+        { "name": "반응형 디자인은 별도로 요청하기", "file": "반응형_디자인은_별도로_요청하기.md" },
+        { "name": "인증 코드는 숫자 6자리로", "file": "인증_코드는_숫자_6자리로.md" },
+        { "name": "최적화 성능 개선 작업 시키기", "file": "최적화_성능_개선_작업_시키기.md" },
+        { "name": "콘텐츠 작성부터 웹사이트 게시까지 자동화 프로세스", "file": "콘텐츠_작성부터_웹사이트_게시까지_자동화_프로세스.md" },
         { "name": "Vanilla와 React란 무엇인가", "file": "Vanilla와_React란_무엇인가.md" },
         { "name": "Vanilla에서 React로 전환하는 경우", "file": "Vanilla에서_React로_전환하는_경우.md" }
       ]
@@ -142,10 +145,11 @@
       "icon": "💬",
       "description": "AI와 효율적 커뮤니케이션",
       "files": [
-        { "name": "명확한 요청 작성법", "file": "명확한_요청_작성법.md" },
-        { "name": "컨텍스트 효율적으로 제공하기", "file": "컨텍스트_효율적으로_제공하기.md" },
-        { "name": "대용량 파일 다루기", "file": "대용량_파일_다루기.md" },
-        { "name": "이미지 스크린샷 활용하기", "file": "이미지_스크린샷_활용하기.md" }
+        { "name": "구체적으로 질문하는 방법", "file": "구체적으로_질문하는_방법.md" },
+        { "name": "단계별로 요청하기", "file": "단계별로_요청하기.md" },
+        { "name": "이해될 때까지 질문하기", "file": "이해될_때까지_질문하기.md" },
+        { "name": "3가지 이상 대안 요청하기", "file": "3가지_이상_대안_요청하기.md" },
+        { "name": "Claude Code에게 사용법 물어보기", "file": "Claude_Code에게_사용법_물어보기.md" }
       ]
     },
     {
@@ -155,11 +159,9 @@
       "description": "DB 관련 팁",
       "files": [
         { "name": "SQL 주석이란 무엇인가", "file": "SQL_주석이란_무엇인가.md" },
-        { "name": "Supabase 기본 사용법", "file": "Supabase_기본_사용법.md" },
-        { "name": "SQL 쿼리 작성 요청하기", "file": "SQL_쿼리_작성_요청하기.md" },
-        { "name": "RLS 정책 설정하기", "file": "RLS_정책_설정하기.md" },
-        { "name": "DB 스키마 설계 요청하기", "file": "DB_스키마_설계_요청하기.md" },
-        { "name": "Claude Code로 Supabase CRUD 하는 방법", "file": "Claude_Code로_Supabase_CRUD_하는_방법.md" }
+        { "name": "Claude Code로 Supabase CRUD 하는 방법", "file": "Claude_Code로_Supabase_CRUD_하는_방법.md" },
+        { "name": "Supabase RLS 정책 관리", "file": "Supabase_RLS_정책_관리.md" },
+        { "name": "Supabase 쿼리 최적화", "file": "Supabase_쿼리_최적화.md" }
       ]
     },
     {
@@ -168,9 +170,11 @@
       "icon": "📊",
       "description": "SAL Grid 시스템",
       "files": [
-        { "name": "SAL Grid 개념 이해하기", "file": "SAL_Grid_개념_이해하기.md" },
-        { "name": "Task Instruction 작성하기", "file": "Task_Instruction_작성하기.md" },
-        { "name": "Task Plan 작성 전 User Flow 먼저", "file": "Task_Plan_작성_전_User_Flow_먼저.md" }
+        { "name": "Task Plan 작성 전 User Flow 먼저", "file": "Task_Plan_작성_전_User_Flow_먼저.md" },
+        { "name": "Task를 작게 나누는 기준", "file": "Task를_작게_나누는_기준.md" },
+        { "name": "Task ID로 파일 관리하기", "file": "Task_ID로_파일_관리하기.md" },
+        { "name": "Phase Gate 검증 체크리스트", "file": "Phase_Gate_검증_체크리스트.md" },
+        { "name": "검증 완료 후 문서화하기", "file": "검증_완료_후_문서화하기.md" }
       ]
     },
     {
@@ -179,10 +183,29 @@
       "icon": "🔥",
       "description": "문제 해결 가이드",
       "files": [
-        { "name": "자주 발생하는 오류 해결", "file": "자주_발생하는_오류_해결.md" },
-        { "name": "빌드 에러 해결하기", "file": "빌드_에러_해결하기.md" },
-        { "name": "배포 오류 해결하기", "file": "배포_오류_해결하기.md" },
-        { "name": "API 연동 오류 해결하기", "file": "API_연동_오류_해결하기.md" }
+        { "name": "로컬 서버 실행 방법", "file": "로컬_서버_실행_방법.md" },
+        { "name": "브라우저 콘솔 에러 확인하기", "file": "브라우저_콘솔_에러_확인하기.md" },
+        { "name": "에러 핸들링 패턴", "file": "에러_핸들링_패턴.md" }
+      ]
+    },
+    {
+      "id": "Git_GitHub",
+      "name": "Git & GitHub",
+      "icon": "🐙",
+      "description": "버전 관리 및 협업",
+      "files": [
+        { "name": "GitHub Push Pull로 작업 반영하기", "file": "GitHub_Push_Pull로_작업_반영하기.md" },
+        { "name": "Feature 브랜치로 Vercel Preview 테스트 후 병합하기", "file": "Feature_브랜치로_Vercel_Preview_테스트_후_병합하기.md" }
+      ]
+    },
+    {
+      "id": "보안",
+      "name": "보안",
+      "icon": "🔒",
+      "description": "보안 관련 팁",
+      "files": [
+        { "name": "API 키 보안 관리", "file": "API_키_보안_관리.md" },
+        { "name": "환경변수 관리 베스트 프랙티스", "file": "환경변수_관리_베스트_프랙티스.md" }
       ]
     }
   ]
