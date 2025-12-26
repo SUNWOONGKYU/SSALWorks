@@ -11,12 +11,12 @@ const path = require('path');
 
 // 경로 설정
 const TIPS_DIR = __dirname;
-const PRODUCTION_DIR = path.join(__dirname, '../../../Production');
+const ROOT_DIR = path.join(__dirname, '../../..');
 
 const FILES = {
     source: path.join(TIPS_DIR, 'tips-list.json'),
     viewer: path.join(TIPS_DIR, 'viewer.html'),
-    index: path.join(PRODUCTION_DIR, 'index.html')
+    index: path.join(ROOT_DIR, 'index.html')
 };
 
 // JSON 읽기
