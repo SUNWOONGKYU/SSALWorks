@@ -332,21 +332,13 @@ function generateServiceIntroModalHtml(sections) {
     let html = `
                 <!-- 목차 -->
                 <nav style="background: #f8f9fa; padding: 20px 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #e9ecef;">
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 16px 0;">목차</h3>
+                    <h3 style="font-size: 20px; font-weight: 800; color: #1F3563; margin: 0 0 16px 0;">목차</h3>
 
-                    <!-- 개요 -->
-                    <div style="margin-bottom: 16px;">
-                        <h4 style="font-size: 13px; font-weight: 600; color: #F59E0B; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #F59E0B;">개요</h4>
-                        <div style="padding-left: 10px;">
-                            <a href="#section0" style="color: #495057; text-decoration: none; font-size: 13px;">→ SSAL Works 소개</a>
-                        </div>
-                    </div>
-
-                    <!-- 상세 안내 -->
-                    <div>
-                        <h4 style="font-size: 13px; font-weight: 600; color: #1F3563; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #1F3563;">상세 안내</h4>
-                        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px 16px; font-size: 13px; padding-left: 10px;">
-                            ${detailSections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none;">${s.number}. ${s.title}</a>`).join('\n                            ')}
+                    <div style="font-size: 14px; line-height: 2.2;">
+                        <a href="#section0" style="color: #1F3563; text-decoration: none; font-weight: 600;">→ SSAL Works 소개</a><br>
+                        <a href="#section1" style="color: #1F3563; text-decoration: none; font-weight: 600;">→ 상세 안내</a>
+                        <div style="padding-left: 20px; font-size: 13px; line-height: 1.8; margin-top: 6px;">
+                            ${detailSections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none;">${s.number}. ${s.title}</a>`).join('<br>\n                            ')}
                         </div>
                     </div>
                 </nav>
