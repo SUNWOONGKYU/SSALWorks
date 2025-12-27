@@ -6,6 +6,29 @@
 
 ## 2025-12-27 작업 내역
 
+### Order Sheet Control Desk 표시 개선 ✅
+
+**사용자 요청:**
+- Order Sheet 글씨 크기가 너무 작음 (11px → 15px로 증가 필요)
+- 마크다운 형식이 아닌 일반 텍스트로 표시 필요 (#, **, * 등 기호 제거)
+
+**수정 내용:**
+
+1. **글씨 크기 증가**
+   - 파일: index.html line 1198
+   - 변경: .text-editor { font-size: 11px } → font-size: 15px
+
+2. **마크다운 → 일반 텍스트 변환 함수 추가**
+   - 파일: index.html line 4763-4804
+   - 함수: convertMarkdownToPlainText(md)
+   - 제거하는 마크다운 기호: 코드 블록, 인라인 코드, 헤딩, 굵게/기울임, 링크, 이미지, 수평선, 블록인용, 순서없는 목록 기호
+
+3. **함수 적용 위치**
+   - loadGuide() - 안내문 로드 시
+   - loadOrderTemplate() - Order Sheet 템플릿 로드 시
+
+---
+
 ### 매뉴얼 자동화 빌드 시스템 구축 ✅
 
 **작업 배경:**

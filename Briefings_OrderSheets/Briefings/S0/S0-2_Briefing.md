@@ -1,57 +1,89 @@
-# S0-2 SAL Grid 매뉴얼 작성
+# S0-2 SAL Grid (그리드 설계)
+
+## 개요
+
+프로젝트의 **실제 SAL Grid**를 설계하고 생성합니다. 매뉴얼에서 배운 개념을 적용하여 본인 프로젝트에 맞는 Task 계획을 수립합니다.
 
 ---
 
-## 이 단계는 무엇인가요?
+## SAL Grid 설계 요소
 
-**Grid 사용 설명서**를 만듭니다.
+### Stage 정의 (S1~S5)
 
-SAL Grid 시스템을 어떻게 사용하는지 문서화하는 단계입니다.
+| Stage | 단계명 | 주요 작업 |
+|:---:|--------|----------|
+| S1 | 개발 준비 | 환경설정, DB 스키마, Auth 설정 |
+| S2 | 개발 1차 | OAuth, 이메일, 회원가입 |
+| S3 | 개발 2차 | AI 연동, 핵심 기능 구현 |
+| S4 | 개발 3차 | 결제, 관리자, 크레딧 |
+| S5 | 개발 마무리 | 배포, QA, 안정화 |
+
+### Area 정의 (11개)
+
+| 코드 | 영역 | 코드 | 영역 |
+|:---:|------|:---:|------|
+| M | 문서화 | BI | 백엔드 기반 |
+| U | UI/UX 디자인 | BA | 백엔드 API |
+| F | 프론트엔드 | D | 데이터베이스 |
+| S | 보안/인증 | T | 테스팅 |
+| O | DevOps | E | 외부 연동 |
+| C | 콘텐츠 시스템 | | |
+
+### Task ID 규칙
+
+**형식**: S[Stage][Area][Level]
+
+```
+S2BA1
+│ │ └─ Level: 1 (첫 번째 Task)
+│ └─── Area: BA (Backend APIs)
+└───── Stage: S2 (개발 1차)
+```
 
 ---
 
-## 왜 필요한가요?
+## 생성할 파일
 
-- **사용법 정리**: Grid를 일관되게 사용할 수 있습니다
-- **참조 문서**: 필요할 때 찾아볼 수 있습니다
-- **온보딩**: 새 팀원도 쉽게 이해할 수 있습니다
-
----
-
-## 무엇을 만드나요?
-
-### 매뉴얼 내용
-
-| 항목 | 설명 |
+| 파일 | 설명 |
 |------|------|
-| Task ID 규칙 | ID 체계 및 네이밍 |
-| Area 코드 | 11개 영역 설명 |
-| 상태 관리 | 진행 상태 표시 방법 |
-| 검증 절차 | Stage Gate 프로세스 |
-
-### 가이드
-
-| 항목 | 설명 |
-|------|------|
-| 작업 절차 | Task 수행 방법 |
-| 결과 기록 | 완료 보고 방법 |
-| 문제 해결 | 자주 묻는 질문 |
+| `SSALWORKS_TASK_PLAN.md` | 전체 Task 계획서 |
+| `SSALWORKS_5x11_MATRIX.md` | 5×11 Stage-Area 매트릭스 |
+| `SSALWORKS_TASK_DEPENDENCY_DIAGRAM.md` | Task 의존성 다이어그램 |
+| `task-instructions/*.md` | 각 Task별 상세 지침 |
+| `verification-instructions/*.md` | 각 Task별 검증 지침 |
+| `stage-gates/*.md` | Stage Gate 검증 리포트 |
 
 ---
 
-## PO가 결정할 것
+## 작업 순서
 
-| 항목 | 설명 |
-|------|------|
-| 추가 요구사항 | 매뉴얼에 포함할 추가 내용 |
-| 팀 규칙 | 팀에서 정한 특별 규칙 |
-
----
-
-> **관련된 Order Sheet를 Control Desk에 로딩하시겠습니까?**
+1. **Task Plan 작성**: 전체 작업 범위와 Task 목록 정의
+2. **5×11 매트릭스 작성**: Stage-Area 교차점에 Task 배치
+3. **Task Instruction 작성**: 각 Task별 상세 수행 지침
+4. **Verification Instruction 작성**: 각 Task별 검증 기준
+5. **의존성 다이어그램 작성**: Task 간 선후행 관계 정의
 
 ---
 
-## 완료 후 다음 단계
+## 저장 위치
 
-→ **S0-3 Supabase 연동**으로 이동
+```
+S0_Project-SAL-Grid_생성/
+└── sal-grid/
+    ├── SSALWORKS_TASK_PLAN.md
+    ├── SSALWORKS_5x11_MATRIX.md
+    ├── SSALWORKS_TASK_DEPENDENCY_DIAGRAM.md
+    ├── task-instructions/
+    │   ├── S1D1_instruction.md
+    │   └── ...
+    ├── verification-instructions/
+    │   ├── S1D1_verification.md
+    │   └── ...
+    └── stage-gates/
+        ├── S1GATE_verification_report.md
+        └── ...
+```
+
+---
+
+> **위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?**

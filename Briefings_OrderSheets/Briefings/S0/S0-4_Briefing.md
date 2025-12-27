@@ -1,57 +1,75 @@
-# S0-4 SAL Grid Viewer 개발
+# S0-4 Viewer (조회 도구)
+
+## 개요
+
+SAL Grid 데이터를 **시각적으로 조회**할 수 있는 HTML 뷰어를 제공합니다. 선택한 Method에 맞는 뷰어를 사용하세요.
 
 ---
 
-## 이 단계는 무엇인가요?
+## 뷰어 종류
 
-**Grid 현황을 보여주는 대시보드**를 만듭니다.
-
-웹에서 프로젝트 진행 상황을 한눈에 볼 수 있는 화면을 개발하는 단계입니다.
-
----
-
-## 왜 필요한가요?
-
-- **시각화**: 진행 상황을 그래프와 표로 봅니다
-- **모니터링**: 실시간으로 현황을 파악합니다
-- **보고**: 이해관계자에게 쉽게 설명할 수 있습니다
+| 뷰어 | 용도 | 데이터 소스 |
+|------|------|------------|
+| `viewer_database.html` | PC용 (Database Method) | Supabase |
+| `viewer_csv.html` | PC용 (CSV Method) | JSON 파일 |
+| `viewer_mobile_database.html` | 모바일용 (Database) | Supabase |
+| `viewer_mobile_csv.html` | 모바일용 (CSV) | JSON 파일 |
 
 ---
 
-## 무엇을 만드나요?
+## 제공 기능
 
-### 뷰어 기능
+### 전체 현황 대시보드
+- Stage별 진행률 (막대 그래프)
+- Area별 분포 (파이 차트)
+- 완료/진행중/대기 Task 카운트
 
-| 항목 | 설명 |
-|------|------|
-| 매트릭스 보기 | Stage/Area별 현황 표 |
-| 상태 표시 | 진행률 및 상태 색상 |
-| 필터링 | Stage/Area별 필터 |
-| 상세 보기 | Task 정보 팝업 |
+### Task 목록
+- Stage/Area 필터링
+- 상태별 필터링 (Pending/In Progress/Executed/Completed)
+- 검색 기능
 
-### 대시보드
-
-| 항목 | 설명 |
-|------|------|
-| 요약 통계 | 전체 진행률 |
-| Stage별 현황 | 단계별 완료율 |
-| Task 목록 | 개별 Task 상태 |
+### Task 상세 정보
+- 22개 속성 전체 표시
+- 의존성 Task 링크
+- 검증 결과 확인
 
 ---
 
-## PO가 결정할 것
+## 저장 위치
 
-| 항목 | 설명 |
-|------|------|
-| 보고 싶은 정보 | 대시보드에 표시할 항목 |
-| 추가 기능 | 필요한 추가 기능 |
+```
+S0_Project-SAL-Grid_생성/
+└── viewer/
+    ├── viewer_database.html
+    ├── viewer_csv.html
+    ├── viewer_mobile_database.html
+    └── viewer_mobile_csv.html
+```
 
 ---
 
-> **관련된 Order Sheet를 Control Desk에 로딩하시겠습니까?**
+## 사용 방법
+
+### Database Method 사용 시
+
+1. `viewer_database.html` 파일을 브라우저에서 엽니다
+2. Supabase 연결 정보가 자동으로 설정됩니다
+3. 실시간으로 최신 데이터를 조회합니다
+
+### CSV Method 사용 시
+
+1. `viewer_csv.html` 파일을 브라우저에서 엽니다
+2. JSON 파일 경로가 올바른지 확인합니다
+3. 새로고침하여 최신 데이터를 반영합니다
 
 ---
 
-## 완료 후 다음 단계
+## 참고사항
 
-→ **S0-5 Task Instructions 작성**으로 이동
+- 뷰어는 **읽기 전용**입니다. 데이터 수정은 원본 파일이나 DB에서 직접 수행합니다.
+- 모바일에서는 mobile 버전 뷰어를 사용하면 화면에 최적화됩니다.
+
+---
+
+> **위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?**
