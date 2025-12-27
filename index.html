@@ -3661,8 +3661,8 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     <button class="action-btn viewer-btn-blue" onclick="openViewer()" style="flex: 1; width: auto; font-size: 11px; font-weight: 700; background: #bfdbfe; border: 1px solid #60a5fa; color: #000;">
                         SSAL Works(예시) Viewer 열기
                     </button>
-                    <button id="myViewerBtn" class="action-btn" onclick="openMyViewer()" style="flex: 1; width: auto; font-size: 11px; font-weight: 700; display: none;">
-                        SSAL Works(진행중) Viewer 열기
+                    <button id="myViewerBtn" class="action-btn" onclick="openMyViewer()" style="flex: 1; width: auto; font-size: 11px; font-weight: 700; background: #fef3c7; border: 1px solid #f59e0b; color: #000;">
+                        내 프로젝트 Viewer 열기
                     </button>
                 </div>
             </div>
@@ -8183,10 +8183,18 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         }
 
         // 내 프로젝트 Viewer 열기 (CSV 기반)
-        function openMyViewer() {
+        async function openMyViewer() {
+            // 로그인 체크
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                alert('로그인이 필요합니다.');
+                window.location.href = '/pages/auth/login.html';
+                return;
+            }
+
             // CSV 기반 Viewer 열기 (모바일/데스크톱)
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer_mobile_csv.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer_csv.html';
+            const url = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_mobile.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer.html';
             window.open(url, '_blank');
         }
 
@@ -11215,7 +11223,6 @@ ${result.answer}`;
             const userBtns = document.getElementById('headerUserBtns');
             const nicknameEl = document.getElementById('userNickname');
             const adminModeBtn = document.getElementById('adminModeBtn');
-            const myViewerBtn = document.getElementById('myViewerBtn');
 
             if (guestBtns) guestBtns.style.display = 'none';
             if (userBtns) userBtns.style.display = 'flex';
@@ -11224,11 +11231,6 @@ ${result.answer}`;
             // 관리자 이메일만 버튼 표시
             if (adminModeBtn) {
                 adminModeBtn.style.display = (email === ADMIN_EMAIL) ? 'inline-block' : 'none';
-            }
-
-            // 로그인 시 "진행중 프로젝트 Viewer" 버튼 표시 (S4S2)
-            if (myViewerBtn) {
-                myViewerBtn.style.display = 'block';
             }
 
             // 모바일 로그인 상태 표시
@@ -11252,11 +11254,8 @@ ${result.answer}`;
         function showLoggedOutUI() {
             const guestBtns = document.getElementById('headerGuestBtns');
             const userBtns = document.getElementById('headerUserBtns');
-            const myViewerBtn = document.getElementById('myViewerBtn');
             if (guestBtns) guestBtns.style.display = 'flex';
             if (userBtns) userBtns.style.display = 'none';
-            // 로그아웃 시 "진행중 프로젝트 Viewer" 버튼 숨김 (S4S2)
-            if (myViewerBtn) myViewerBtn.style.display = 'none';
 
             // 모바일 로그아웃 상태 표시
             const mobileLoginBtn = document.getElementById('mobileLoginBtn');
