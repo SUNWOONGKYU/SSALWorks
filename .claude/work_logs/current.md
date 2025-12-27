@@ -2788,3 +2788,37 @@ p/li/blockquote/td: 13px, line-height: 1.7, margin: 16px
 **상태:** 중단 (사용자 외출) ⏸️
 
 ---
+
+---
+
+## 2025-12-28 작업 내역
+
+### S5S2 예시 프로젝트 서약서 시스템 Task 등록 ✅
+
+**작업 요약:**
+SSAL Works 예시 프로젝트 열람/다운로드 전 서약서 동의 시스템을 Task로 등록.
+
+**등록된 Task 정보:**
+| 항목 | 값 |
+|------|-----|
+| Task ID | S5S2 |
+| Task Name | 예시 프로젝트 서약서 시스템 |
+| Stage | S5 (개발 마무리) |
+| Area | S (Security) |
+| Status | Completed (이미 구현됨) |
+
+**업데이트된 위치 (6개 위치):**
+1. ✅ Supabase DB (project_sal_grid 테이블)
+2. ✅ task-instructions/S5S2_instruction.md
+3. ✅ verification-instructions/S5S2_verification.md
+4. ✅ SSALWORKS_TASK_PLAN.md (63→64 tasks)
+5. ✅ PROJECT_SAL_GRID_MANUAL.md (v3.9)
+6. ✅ work_logs/current.md
+
+**관련 파일:**
+- index.html - 서약서 모달 UI, JavaScript 함수
+- api/Backend_APIs/send-agreement-email.js - 이메일 발송 API
+- S4_개발-3차/Database/30_download_agreements.sql - DB 테이블
+
+**커밋:** `ff72ede` feat: S5S2 예시 프로젝트 서약서 시스템 Task 등록
+

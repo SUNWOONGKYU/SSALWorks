@@ -1,7 +1,7 @@
-# S5S2: 예시 프로젝트 서약서 시스템
+# S5BA2: 예시 프로젝트 서약서 시스템
 
 ## Task 정보
-- **Task ID**: S5S2
+- **Task ID**: S5BA2
 - **Task Name**: 예시 프로젝트 서약서 시스템
 - **Stage**: S5 (개발 마무리)
 - **Area**: S (Security)

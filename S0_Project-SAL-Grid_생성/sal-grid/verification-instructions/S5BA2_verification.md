@@ -1,7 +1,7 @@
-# S5S2: 예시 프로젝트 서약서 시스템 - 검증 지침
+# S5BA2: 예시 프로젝트 서약서 시스템 - 검증 지침
 
 ## 검증 정보
-- **Task ID**: S5S2
+- **Task ID**: S5BA2
 - **Verification Agent**: code-reviewer
 
 ## 검증 항목
