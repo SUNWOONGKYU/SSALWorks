@@ -2921,7 +2921,7 @@
                         <span id="exampleProjectsArrow" style="font-size: 10px;">▶</span>
                     </div>
                     <div id="exampleProjectsList" style="display: none; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px;">
-                        <div class="project-list-item" onclick="alert('SSAL Works 클릭됨!'); handleSSALWorksClick();" style="border-left-color: var(--primary); cursor: pointer;">
+                        <div class="project-list-item" onclick="handleSSALWorksClick();" style="border-left-color: var(--primary); cursor: pointer;">
                             <span class="project-name">SSAL Works</span>
                             <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
                         </div>
@@ -6301,7 +6301,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             console.log('handleSSALWorksClick 호출됨');
             try {
             // 로그인 확인
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
             console.log('session:', session);
             if (!session) {
                 showStatus('❌ 로그인이 필요합니다.', 'error');
@@ -6309,7 +6309,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             }
 
             // DB에서 연결 이력 확인
-            const { data: agreements, error } = await supabase
+            const { data: agreements, error } = await window.supabaseClient
                 .from('download_agreements')
                 .select('*')
                 .eq('user_id', session.user.id)
@@ -6354,7 +6354,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 서약 제출
         async function submitAgreement() {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
             if (!session) {
                 showStatus('❌ 로그인이 필요합니다.', 'error');
                 return;
@@ -6365,7 +6365,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             const builderId = user.user_metadata?.builder_id || user.email?.split('@')[0] || '';
 
             // DB에 저장
-            const { error: insertError } = await supabase
+            const { error: insertError } = await window.supabaseClient
                 .from('download_agreements')
                 .insert({
                     user_id: user.id,
