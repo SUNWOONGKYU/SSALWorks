@@ -6,6 +6,47 @@
 
 ## 2025-12-27 작업 내역
 
+### 매뉴얼 자동화 빌드 시스템 구축 ✅
+
+**작업 배경:**
+- 매뉴얼과 `.claude/rules/` 파일 간 내용 중복 문제
+- 규칙 수정 시 매뉴얼도 수동으로 수정해야 하는 유지보수 부담
+- 사용자 요청: "수정을 할 때 양쪽을 수정해야 되는데 그걸 이용자들이 잘 할 수 있을까"
+
+**구현 내용:**
+
+1. **build-manual.js 스크립트 생성**
+   - 위치: `S0_Project-SAL-Grid_생성/manual/build-manual.js`
+   - 기능: `<!-- INCLUDE: path -->` 플레이스홀더를 해당 파일 내용으로 교체
+   - 상단에 "Auto-generated" 주석 자동 추가
+
+2. **manual_template.md 생성**
+   - 기존 매뉴얼을 템플릿으로 변환
+   - "AI 필수 준수 규칙" 섹션의 중복 내용을 INCLUDE 플레이스홀더로 대체:
+     - `<!-- INCLUDE: .claude/rules/01_file-naming.md -->`
+     - `<!-- INCLUDE: .claude/rules/03_area-stage.md -->`
+     - `<!-- INCLUDE: .claude/rules/04_grid-writing-supabase.md -->`
+     - `<!-- INCLUDE: .claude/rules/05_execution-process.md -->`
+     - `<!-- INCLUDE: .claude/rules/06_verification.md -->`
+
+3. **Pre-commit Hook 업데이트**
+   - `.git/hooks/pre-commit` 수정
+   - 커밋 전 자동 실행: `node S0_Project-SAL-Grid_생성/manual/build-manual.js`
+   - 빌드된 매뉴얼 자동 스테이징
+
+**이점:**
+- rules/ 파일 수정 시 매뉴얼이 자동으로 업데이트됨
+- 중복 제거로 유지보수 부담 감소
+- 매뉴얼은 여전히 자체 완결성 유지 (빌드 시 내용 포함)
+
+**생성/수정된 파일:**
+- `S0_Project-SAL-Grid_생성/manual/build-manual.js` (신규)
+- `S0_Project-SAL-Grid_생성/manual/manual_template.md` (신규)
+- `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` (재생성됨)
+- `.git/hooks/pre-commit` (수정)
+
+---
+
 ### 서비스 소개 문서 섹션 정리 (v4.2) ✅
 
 **작업 배경:**

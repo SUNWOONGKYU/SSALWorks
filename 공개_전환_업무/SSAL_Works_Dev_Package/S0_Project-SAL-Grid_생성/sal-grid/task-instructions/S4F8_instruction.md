@@ -38,10 +38,10 @@ SAL Grid 데이터를 조회할 수 있는 Viewer UI를 DB Method와 CSV Method 
 
 | 파일 | 변경 내용 |
 |------|----------|
-| `Production/viewer_database.html` | DB Method Desktop Viewer |
-| `Production/viewer_csv.html` | CSV Method Desktop Viewer |
-| `Production/viewer_mobile_database.html` | DB Method Mobile Viewer |
-| `Production/viewer_mobile_csv.html` | CSV Method Mobile Viewer |
+| `Production/viewer/viewer_database.html` | DB Method Desktop Viewer |
+| `Production/viewer/viewer_csv.html` | CSV Method Desktop Viewer |
+| `Production/viewer/viewer_mobile_database.html` | DB Method Mobile Viewer |
+| `Production/viewer/viewer_mobile_csv.html` | CSV Method Mobile Viewer |
 | `Production/index.html` | 2컬럼 Viewer 버튼 레이아웃 |
 
 ---

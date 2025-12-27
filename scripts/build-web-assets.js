@@ -332,11 +332,11 @@ function generateServiceIntroModalHtml(sections) {
     let html = `
                 <!-- 목차 -->
                 <nav style="background: #f8f9fa; padding: 20px 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #e9ecef;">
-                    <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 16px 0;">📑 목차</h3>
+                    <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 0 0 16px 0;">목차</h3>
 
                     <!-- 개요 -->
                     <div style="margin-bottom: 16px;">
-                        <h4 style="font-size: 13px; font-weight: 600; color: #F59E0B; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #F59E0B;">📋 개요</h4>
+                        <h4 style="font-size: 13px; font-weight: 600; color: #F59E0B; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #F59E0B;">개요</h4>
                         <div style="padding-left: 10px;">
                             <a href="#section0" style="color: #495057; text-decoration: none; font-size: 13px;">→ SSAL Works 소개</a>
                         </div>
@@ -344,7 +344,7 @@ function generateServiceIntroModalHtml(sections) {
 
                     <!-- 상세 안내 -->
                     <div>
-                        <h4 style="font-size: 13px; font-weight: 600; color: #1F3563; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #1F3563;">📖 상세 안내</h4>
+                        <h4 style="font-size: 13px; font-weight: 600; color: #1F3563; margin: 0 0 8px 0; padding-bottom: 6px; border-bottom: 2px solid #1F3563;">상세 안내</h4>
                         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px 16px; font-size: 13px; padding-left: 10px;">
                             ${detailSections.map(s => `<a href="#section${s.number}" style="color: #495057; text-decoration: none;">${s.number}. ${s.title}</a>`).join('\n                            ')}
                         </div>
@@ -352,10 +352,14 @@ function generateServiceIntroModalHtml(sections) {
                 </nav>
 `;
     sections.forEach(section => {
+        // 개요(0번)는 번호 없이, 상세(1~10)는 번호 표시
+        const sectionHeader = section.number === '0'
+            ? section.title
+            : `${section.number}. ${section.title}`;
         html += `
                 <!-- Section ${section.number}: ${section.title} -->
                 <section id="section${section.number}" style="margin-bottom: 48px;">
-                    <h2 style="${SERVICE_INTRO_STYLES.sectionTitle}">${section.number}. ${section.title}</h2>
+                    <h2 style="${SERVICE_INTRO_STYLES.sectionTitle}">${sectionHeader}</h2>
                     ${convertServiceIntroSection(section)}
                 </section>
 `;

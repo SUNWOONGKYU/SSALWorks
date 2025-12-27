@@ -522,7 +522,9 @@ S0_Project-SAL-Grid_생성/
 │       ├── SSALWORKS_5x11_MATRIX.md
 │       └── TASK_SELECTION_MATRIX.md
 ├── sal-grid/               # SAL Grid 코어
-├── supabase/               # Supabase 연동
+├── method/                 # DB/CSV 방식
+│   ├── database/           # Database Method (Supabase)
+│   └── csv/                # CSV Method (로컬 파일)
 └── viewer/                 # 그리드 뷰어
 ```
 

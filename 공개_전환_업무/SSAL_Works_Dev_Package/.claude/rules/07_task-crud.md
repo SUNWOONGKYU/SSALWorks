@@ -10,8 +10,8 @@
 
 | 방식 | 사용 대상 | 데이터 저장 | 도구 | Stage Gate 위치 |
 |------|----------|------------|------|----------------|
-| **DB Method** | SSAL Works (내부) | Supabase DB | REST API | `Database_Method/stage-gates/` |
-| **CSV Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `CSV_Method/stage-gates/` |
+| **DB Method** | SSAL Works (내부) | Supabase DB | REST API | `method/database/stage-gates/` |
+| **CSV Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `method/csv/stage-gates/` |
 
 **⚠️ SSAL Works는 두 방식을 동시에 사용 (내부 관리용 DB + 사용자 배포용 CSV)**
 
@@ -244,7 +244,7 @@ const { data, error } = await supabase
 
 > **적용 대상:** 일반 사용자, Supabase 없는 프로젝트
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json`
 
 ##### 시나리오 A: 신규 Task (아직 작업 안 함)
 
@@ -380,7 +380,7 @@ const { error } = await supabase
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 제거
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json`
 
 ### Step 4: 작업 로그 업데이트
 
@@ -480,7 +480,7 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 찾아 수정
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json`
 
 **수정 예시:**
 ```json
@@ -588,7 +588,7 @@ console.log(data);
 
 ### 📌 CSV Method (JSON 파일)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json`
 
 #### 작업 완료 시 (Executed)
 
@@ -710,14 +710,14 @@ console.log(data);
 | 항목 | 위치 |
 |------|------|
 | Supabase 테이블 | `project_sal_grid` |
-| Stage Gates | `S0_Project-SAL-Grid_생성/Database_Method/stage-gates/` |
+| Stage Gates | `S0_Project-SAL-Grid_생성/method/database/stage-gates/` |
 | .env 파일 | `P3_프로토타입_제작/Database/.env` |
 
 ### CSV Method 전용 파일
 
 | 항목 | 위치 |
 |------|------|
-| JSON 데이터 | `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json` |
-| Stage Gates | `S0_Project-SAL-Grid_생성/CSV_Method/stage-gates/` |
-| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/CSV_Method/scripts/` |
-| JSON 템플릿 | `S0_Project-SAL-Grid_생성/CSV_Method/templates/` |
+| JSON 데이터 | `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json` |
+| Stage Gates | `S0_Project-SAL-Grid_생성/method/csv/stage-gates/` |
+| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/method/csv/scripts/` |
+| JSON 템플릿 | `S0_Project-SAL-Grid_생성/method/csv/templates/` |

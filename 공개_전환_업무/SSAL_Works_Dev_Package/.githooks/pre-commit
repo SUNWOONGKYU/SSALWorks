@@ -1,0 +1,27 @@
+#!/bin/sh
+#
+# Git Pre-commit Hook
+# 커밋 전에 매뉴얼 자동 빌드 수행
+# (rules/ 파일 내용을 매뉴얼에 자동 포함)
+#
+# 설치 방법:
+#   방법 1: cp .githooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+#   방법 2: git config core.hooksPath .githooks
+#
+
+PROJECT_ROOT="$(git rev-parse --show-toplevel)"
+
+# === 매뉴얼 빌드 (rules/ 자동 포함) ===
+echo "📖 매뉴얼 빌드 중..."
+node "$PROJECT_ROOT/S0_Project-SAL-Grid_생성/manual/build-manual.js"
+
+if [ $? -ne 0 ]; then
+    echo "❌ 매뉴얼 빌드 실패! 커밋을 중단합니다."
+    exit 1
+fi
+
+# 매뉴얼 파일 스테이징에 추가
+git add "$PROJECT_ROOT/S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md" 2>/dev/null
+
+echo "✅ 매뉴얼 빌드 완료! 커밋을 진행합니다."
+exit 0

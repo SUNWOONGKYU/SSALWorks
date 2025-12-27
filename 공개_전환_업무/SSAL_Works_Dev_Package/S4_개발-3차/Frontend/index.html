@@ -3106,10 +3106,10 @@
                                     <span>manual</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_supabase', 'Supabase', 'SAL Grid')">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_method', 'Method', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>supabase</span>
+                                    <span>method</span>
                                 </div>
                             </div>
                             <div class="process-small" onclick="loadProcessStage('sal_grid_viewer', 'Viewer', 'SAL Grid')">
@@ -4961,8 +4961,8 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheetUrl: 'templates/S0-2_OrderSheet.md'
             },
 
-            'sal_grid_supabase': {
-                stageId: 'sal_grid_supabase',
+            'sal_grid_method': {
+                stageId: 'sal_grid_method',
                 stageName: 'SAL Grid Supabase',
                 hasAction: true,
                 confirmMessage: 'SAL Grid Supabase 연동 작업을 진행하시겠습니까?',
@@ -8085,7 +8085,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             // SSALWorks 관리자용 - DB 기반 Viewer
             // 모바일이면 모바일 버전으로
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? 'viewer_mobile_database.html' : 'viewer_database.html';
+            const url = isMobile ? 'viewer/viewer_mobile_database.html' : 'viewer/viewer_database.html';
             window.open(url, '_blank');
         }
 
@@ -8093,7 +8093,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         function openMyViewer() {
             // CSV 기반 Viewer 열기 (모바일/데스크톱)
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? 'viewer_mobile_csv.html' : 'viewer_csv.html';
+            const url = isMobile ? 'viewer/viewer_mobile_csv.html' : 'viewer/viewer_csv.html';
             window.open(url, '_blank');
         }
 

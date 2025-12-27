@@ -8,10 +8,10 @@
 ## 검증 항목
 
 ### 1. 파일 존재 확인
-- [ ] `Production/viewer_database.html` 존재
-- [ ] `Production/viewer_csv.html` 존재
-- [ ] `Production/viewer_mobile_database.html` 존재
-- [ ] `Production/viewer_mobile_csv.html` 존재
+- [ ] `Production/viewer/viewer_database.html` 존재
+- [ ] `Production/viewer/viewer_csv.html` 존재
+- [ ] `Production/viewer/viewer_mobile_database.html` 존재
+- [ ] `Production/viewer/viewer_mobile_csv.html` 존재
 
 ### 2. 22개 속성 표시 확인
 - [ ] Task 상세 모달에 22개 속성 모두 표시
