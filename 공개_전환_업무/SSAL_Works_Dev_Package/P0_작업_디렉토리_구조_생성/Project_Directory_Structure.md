@@ -515,17 +515,25 @@ S5_개발_마무리/
 
 ```
 S0_Project-SAL-Grid_생성/
+├── data/                   # Grid 데이터 (CSV)
 ├── manual/                 # 매뉴얼
 │   ├── PROJECT_SAL_GRID_MANUAL.md
-│   └── references/                 # 참조 문서
-│       ├── SSALWORKS_TASK_PLAN.md
-│       ├── SSALWORKS_5x11_MATRIX.md
-│       └── TASK_SELECTION_MATRIX.md
-├── sal-grid/               # SAL Grid 코어
+│   ├── build-manual.js     # 매뉴얼 빌드 스크립트
+│   └── manual_template.md  # 매뉴얼 템플릿
 ├── method/                 # DB/CSV 방식
 │   ├── database/           # Database Method (Supabase)
+│   │   └── supabase/
 │   └── csv/                # CSV Method (로컬 파일)
+├── sal-grid/               # SAL Grid 코어
+│   ├── stage-gates/        # Stage Gate 검증 리포트
+│   ├── task-instructions/  # Task 지침서
+│   ├── task-results/       # Task 결과
+│   └── verification-instructions/  # 검증 지침서
 └── viewer/                 # 그리드 뷰어
+    ├── viewer_database.html
+    ├── viewer_csv.html
+    ├── viewer_mobile_database.html
+    └── viewer_mobile_csv.html
 ```
 
 **프로젝트 그리드란?**

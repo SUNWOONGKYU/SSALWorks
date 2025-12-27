@@ -1,33 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="1400" height="1200" viewBox="0 0 1400 1200" xmlns="http://www.w3.org/2000/svg">
-    <rect width="100%" height="100%" fill="white"/>
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1200" viewBox="0 0 1400 1200">
+    <rect width="100%" height="100%" fill="white" />
 
     <defs>
         <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-            <path d="M0,0 L12,6 L0,12 L3,6 Z" fill="black"/>
+            <path d="M0,0 L12,6 L0,12 L3,6 Z" fill="black" />
         </marker>
     </defs>
     <text x="700" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 4: Graph Builder DAG 생성</text>
-    <rect x="50" y="100" width="1300" height="1050" fill="white" stroke="black" stroke-width="5" rx="10" stroke-dasharray="10,5"/>
     <text x="700.0" y="150" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Graph Builder (60)</text>
-    <rect x="150" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <rect x="150" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
     <text x="375.0" y="300" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Cell 그룹화부</text>
     <text x="580" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(61)</text>
     <text x="375.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">동일 Cell 병렬 처리</text>
-    <path d="M 600,375 L 800,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="800" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <path d="M 600,375 L 800,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <rect x="800" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
     <text x="1025.0" y="300" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">엣지 생성부</text>
     <text x="1230" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(62)</text>
     <text x="1025.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Level 후행 규칙</text>
-    <path d="M 1025,500 L 1025,700" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="800" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <path d="M 1025,500 L 1025,700" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <rect x="800" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
     <text x="1025.0" y="750" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">순환 검출부</text>
     <text x="1230" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(63)</text>
     <text x="1025.0" y="810" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Cycle Detection</text>
-    <path d="M 800,825 L 600,825" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="150" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <path d="M 800,825 L 600,825" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <rect x="150" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
     <text x="375.0" y="750" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">병목 마킹부</text>
     <text x="580" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(64)</text>
     <text x="375.0" y="810" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Critical Path 식별</text>
-    <path d="M 1250,825 L 1300,825 L 1300,375 L 1250,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+    <path d="M 1250,825 L 1300,825 L 1300,375 L 1250,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
 </svg>
