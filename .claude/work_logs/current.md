@@ -6,6 +6,55 @@
 
 ## 2025-12-27 작업 내역
 
+### PoliticianFinder 모바일 최적화 (계속) ✅
+
+**프로젝트 위치:** `C:\Development_PoliticianFinder_com\Developement_Real_PoliticianFinder\1_Frontend`
+
+#### 1. 정치인 목록 페이지 링크 수정 ✅
+**문제:** 정치인을 클릭해도 상세페이지로 이동하지 않음
+**원인:** `window.location.href` 대신 Next.js `Link` 컴포넌트 미사용
+**수정:**
+- 파일: `src/app/politicians/page.tsx`
+- 데스크탑 테이블: 이름 셀에 Link 적용
+- 모바일 카드: 전체 카드를 Link로 래핑
+**커밋:** `fix: 정치인 목록 페이지에 Link 컴포넌트 적용`
+
+#### 2. 커뮤니티 게시글 모바일 메타데이터 표시 ✅
+**문제:** 모바일에서 비공감/공유 숫자가 숨겨져 있음
+**수정:**
+- 파일: `src/app/community/page.tsx` (lines 328-335)
+- `hidden sm:inline` 제거하여 모바일에서도 전부 표시
+- 조회, 👍, 👎, 💬, 공유 모두 표시
+**커밋:** `fix: 커뮤니티 게시글 목록 모바일에서 비공감/공유 숨김 해제`
+
+#### 3. 홈 화면 TOP 10 카드 클릭 가능하게 수정 ✅
+**문제:** 4-10위 카드는 이름만 클릭 가능, 카드 전체가 클릭 안 됨
+**수정:**
+- 파일: `src/app/page.tsx` (lines 709-905)
+- 1위 카드: `<div>` → `<Link>` 변경
+- 2-3위 카드: `<div>` → `<Link>` 변경
+- 4-10위 카드: `<div>` → `<Link>` 변경
+**커밋:** `fix: 홈 화면 정치인 TOP 10 카드 전체 클릭 가능하게 수정`
+
+#### 4. 정치인 프로필 수정 버튼 본인만 표시 ✅
+**문제:** 프로필 수정 버튼이 모든 사용자에게 표시됨
+**해결:** 기존 정치인 인증 시스템 활용 (`getPoliticianSession()`)
+**수정:**
+- 파일: `src/app/politicians/[id]/page.tsx`
+- `isOwnProfile` 상태 추가
+- `getPoliticianSession()` 사용하여 localStorage의 politician_session 확인
+- 세션의 politician_id와 현재 페이지 politicianId 비교
+- 세션 만료 시간 체크
+- storage 이벤트 리스너로 다른 탭 로그인/로그아웃 감지
+**커밋:** `fix: 정치인 프로필 수정 버튼을 본인만 볼 수 있도록 수정`
+
+#### 5. Vercel 배포 실패 확인 ⚠️
+**상태:** GitHub Actions deploy-frontend 실패
+**원인:** `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` GitHub Secrets 미설정
+**필요 조치:** GitHub 저장소 Settings → Secrets and variables → Actions에서 설정 필요
+
+---
+
 ### Order Sheet Control Desk 표시 개선 ✅
 
 **사용자 요청:**
