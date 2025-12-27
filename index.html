@@ -2921,7 +2921,7 @@
                         <span id="exampleProjectsArrow" style="font-size: 10px;">▶</span>
                     </div>
                     <div id="exampleProjectsList" style="display: none; flex-direction: column; gap: 4px; margin-top: 4px; padding-left: 8px;">
-                        <div class="project-list-item" onclick="loadProcessStage('ssalworks_example', 'SSAL Works', '예시 Project')" style="border-left-color: var(--primary);">
+                        <div class="project-list-item" onclick="handleSSALWorksClick()" style="border-left-color: var(--primary);">
                             <span class="project-name">SSAL Works</span>
                             <span class="project-status" style="background: rgba(16, 185, 129, 0.15); color: var(--primary);">예시</span>
                         </div>
@@ -6290,6 +6290,136 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         function closeGuidePopup() {
             const popup = document.getElementById('guidePopup');
             popup.style.display = 'none';
+        }
+
+
+        // ===== 서약서 관련 함수들 =====
+        const SSALWORKS_DRIVE_URL = 'https://drive.google.com/drive/folders/1PoMIExSALUcCHTwkNZDC8sPTW9ZsWVQf?usp=sharing';
+
+        // SSAL Works 클릭 시 호출
+        async function handleSSALWorksClick() {
+            // 로그인 확인
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                showStatus('❌ 로그인이 필요합니다.', 'error');
+                return;
+            }
+
+            // DB에서 연결 이력 확인
+            const { data: agreements, error } = await supabase
+                .from('download_agreements')
+                .select('*')
+                .eq('user_id', session.user.id)
+                .eq('resource_type', 'ssalworks_example');
+
+            if (error) {
+                console.error('서약 이력 조회 오류:', error);
+                showStatus('❌ 오류가 발생했습니다.', 'error');
+                return;
+            }
+
+            if (agreements && agreements.length > 0) {
+                // 이미 연결한 경우
+                openAlreadyConnectedModal();
+            } else {
+                // 처음인 경우 - 서약서 모달 표시
+                openAgreementModal(session.user);
+            }
+        }
+
+        // 서약서 모달 열기
+        function openAgreementModal(user) {
+            const today = new Date();
+            const dateStr = today.getFullYear() + '년 ' + (today.getMonth() + 1) + '월 ' + today.getDate() + '일';
+
+            document.getElementById('agreementDate').textContent = dateStr;
+            document.getElementById('agreementUserName').textContent = user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
+            document.getElementById('agreementBuilderId').textContent = user.user_metadata?.builder_id || user.email?.split('@')[0] || '(ID 없음)';
+            document.getElementById('agreementUserEmail').textContent = user.email || '(이메일 없음)';
+
+            document.getElementById('agreementModal').classList.add('active');
+        }
+
+        // 서약서 모달 닫기
+        function closeAgreementModal() {
+            document.getElementById('agreementModal').classList.remove('active');
+        }
+
+        // 서약 제출
+        async function submitAgreement() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (!session) {
+                showStatus('❌ 로그인이 필요합니다.', 'error');
+                return;
+            }
+
+            const user = session.user;
+            const userName = user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
+            const builderId = user.user_metadata?.builder_id || user.email?.split('@')[0] || '';
+
+            // DB에 저장
+            const { error: insertError } = await supabase
+                .from('download_agreements')
+                .insert({
+                    user_id: user.id,
+                    user_email: user.email,
+                    user_name: userName,
+                    builder_account_id: builderId,
+                    resource_type: 'ssalworks_example',
+                    agreement_version: 'v1'
+                });
+
+            if (insertError) {
+                console.error('서약 저장 오류:', insertError);
+                showStatus('❌ 서약 저장 중 오류가 발생했습니다.', 'error');
+                return;
+            }
+
+            // 이메일 발송
+            try {
+                const emailResponse = await fetch('/api/Backend_APIs/send-agreement-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: user.email,
+                        userName: userName,
+                        builderId: builderId,
+                        date: new Date().toISOString()
+                    })
+                });
+
+                if (!emailResponse.ok) {
+                    console.warn('이메일 발송 실패, 계속 진행');
+                }
+            } catch (emailErr) {
+                console.warn('이메일 발송 오류:', emailErr);
+            }
+
+            // 서약서 모달 닫기
+            closeAgreementModal();
+
+            // 성공 메시지 표시
+            document.getElementById('agreementSuccessMessage').textContent = 
+                '서약서가 ' + userName + '님의 이메일로 발송되었습니다.';
+            document.getElementById('agreementSuccessModal').classList.add('active');
+
+            // 구글 드라이브 열기
+            window.open(SSALWORKS_DRIVE_URL, '_blank');
+        }
+
+        // 성공 모달 닫기
+        function closeAgreementSuccessModal() {
+            document.getElementById('agreementSuccessModal').classList.remove('active');
+        }
+
+        // 이미 연결됨 모달 열기
+        function openAlreadyConnectedModal() {
+            document.getElementById('alreadyConnectedModal').classList.add('active');
+        }
+
+        // 이미 연결됨 모달 닫기
+        function closeAlreadyConnectedModal() {
+            document.getElementById('alreadyConnectedModal').classList.remove('active');
         }
 
         // 드래그 기능
@@ -10300,6 +10430,72 @@ ${result.answer}`;
         </div>
         <div id="guidePopupContent" style="padding: 20px; max-height: calc(100vh - 210px); overflow-y: auto; font-size: 11px; font-weight: 400; line-height: 1.6; color: #212529;">
             <!-- 안내문 내용이 여기에 로드됩니다 -->
+        </div>
+    </div>
+
+
+    <!-- 서약서 모달 -->
+    <div id="agreementModal" class="popup-modal-overlay" onclick="if(event.target===this)closeAgreementModal()">
+        <div class="popup-modal-box" style="max-width: 600px;">
+            <div class="popup-modal-header" style="background: linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%);">
+                <h3 style="color: white;">📋 서약서</h3>
+                <button class="popup-modal-close" onclick="closeAgreementModal()" style="color: white;">&times;</button>
+            </div>
+            <div class="popup-modal-body" style="padding: 24px; font-size: 14px; line-height: 1.8;">
+                <p style="margin-bottom: 20px; color: #333;">
+                    본인은 SSAL Works 예시 프로젝트의 문서 및 소스 코드 파일을 제공받음에 있어서 아래의 사항을 준수하기로 서약합니다.
+                </p>
+
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
+                    <p style="margin-bottom: 12px;"><strong>1.</strong> 제공받은 파일은 본인의 프로젝트 개발을 위한 참고자료로만 활용할 것이며, 타인(배우자 및 직계존비속 포함)에게는 제공하지 않을 것입니다. 다만 부득이하게 타인에게 제공을 해야 하는 사유가 발생할 경우에는 사전에 SSAL Works 관리자의 승인을 받을 것입니다.</p>
+
+                    <p style="margin-bottom: 12px;"><strong>2.</strong> 제공받은 파일은 SSAL Works 프로젝트와 유사한 프로젝트를 개발하는데 사용하지 않을 것이며, 부득이하게 그렇게 해야 하는 사유가 발생하는 경우에는 SSAL Works 관리자와 사전 협의를 하여 진행할 것입니다.</p>
+
+                    <p style="margin-bottom: 0;"><strong>3.</strong> 제공받은 파일은 Sunny가 500시간 이상의 시간을 투입하여 만든 것으로서, 이것을 활용하여 세상에 도움이 되는 서비스를 효율적으로 신속하게 만들어서 사업화 할 것입니다.</p>
+                </div>
+
+                <div style="border-top: 2px solid #1a3a5c; padding-top: 16px; margin-top: 20px;">
+                    <p style="margin-bottom: 8px;"><strong>일자:</strong> <span id="agreementDate"></span></p>
+                    <p style="margin-bottom: 8px;"><strong>서약자:</strong> <span id="agreementUserName"></span></p>
+                    <p style="margin-bottom: 8px;"><strong>빌더 계정 ID:</strong> <span id="agreementBuilderId"></span></p>
+                    <p style="margin-bottom: 0;"><strong>이메일:</strong> <span id="agreementUserEmail"></span></p>
+                </div>
+
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button onclick="submitAgreement()" style="flex: 1; padding: 14px 20px; background: #1a3a5c; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">위와 같이 서약합니다</button>
+                    <button onclick="closeAgreementModal()" style="flex: 1; padding: 14px 20px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">다음에 하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 서약 완료 안내 모달 -->
+    <div id="agreementSuccessModal" class="popup-modal-overlay" onclick="if(event.target===this)closeAgreementSuccessModal()">
+        <div class="popup-modal-box" style="max-width: 450px;">
+            <div class="popup-modal-header" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                <h3 style="color: white;">✅ 서약 완료</h3>
+                <button class="popup-modal-close" onclick="closeAgreementSuccessModal()" style="color: white;">&times;</button>
+            </div>
+            <div class="popup-modal-body" style="padding: 24px; text-align: center;">
+                <p style="font-size: 15px; margin-bottom: 16px;" id="agreementSuccessMessage">서약서가 홍길동님의 이메일로 발송되었습니다.</p>
+                <p style="font-size: 14px; color: #555; margin-bottom: 20px;">지정된 구글 드라이브가 연결되었습니다.<br>드라이브 내에 있는 파일을 복사하여 본인 드라이브에 저장하세요.</p>
+                <button onclick="closeAgreementSuccessModal()" style="padding: 12px 32px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 이미 연결됨 안내 모달 -->
+    <div id="alreadyConnectedModal" class="popup-modal-overlay" onclick="if(event.target===this)closeAlreadyConnectedModal()">
+        <div class="popup-modal-box" style="max-width: 400px;">
+            <div class="popup-modal-header" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                <h3 style="color: white;">⚠️ 알림</h3>
+                <button class="popup-modal-close" onclick="closeAlreadyConnectedModal()" style="color: white;">&times;</button>
+            </div>
+            <div class="popup-modal-body" style="padding: 24px; text-align: center;">
+                <p style="font-size: 15px; margin-bottom: 12px;">이미 연결하셨습니다.</p>
+                <p style="font-size: 14px; color: #555; margin-bottom: 20px;">연결 기회는 1회만 제공됩니다.</p>
+                <button onclick="closeAlreadyConnectedModal()" style="padding: 12px 32px; background: #f59e0b; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">확인</button>
+            </div>
         </div>
     </div>
 
