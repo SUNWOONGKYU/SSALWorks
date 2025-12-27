@@ -2955,7 +2955,7 @@
                 <!-- 4. 새로운 Project 등록 -->
                 <div style="margin-top: 8px;">
                     <div style="display: flex; align-items: center; gap: 6px; padding: 6px 8px; background: rgba(16, 185, 129, 0.08); border: 1px dashed var(--primary); border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--primary); transition: all 0.2s;"
-                        onclick="showProjectRegistrationGuide()"
+                        onclick="registerNewProject()"
                         onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'; this.style.borderStyle='solid'"
                         onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'; this.style.borderStyle='dashed'">
                         <span style="font-size: 14px;">+</span>
@@ -4905,15 +4905,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheetUrl: 'templates/Completed_Project_Revision_OrderSheet.md'
             },
 
-            // ===== 프로젝트 등록 안내 =====
-            'project_registration': {
-                stageId: 'project_registration',
-                stageName: '새 프로젝트 등록',
-                hasAction: true,
-                confirmMessage: '프로젝트 등록을 진행하시겠습니까?',
-                guideUrl: 'guides/Project_Registration.html'
-            },
-
             // ===== ☆ 특별단계: 디렉토리 구조 생성 =====
             'dir_structure': {
                 stageId: 'dir_structure',
@@ -6188,32 +6179,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         // [확인] 버튼 클릭 시 - Order Sheet 표준 템플릿을 워크스페이스에 로드 또는 외부 URL 열기
         async function executeStageAction() {
             if (!currentStageData) return;
-
-            // 프로젝트 등록 - 빌더 계정 확인 후 등록 모달 열기
-            if (currentStageData.stageId === 'project_registration') {
-                // 빌더 계정 확인
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) {
-                    alert('로그인이 필요합니다.');
-                    closeGuidePopup();
-                    return;
-                }
-                const { data: userData } = await window.supabaseClient
-                    .from('users')
-                    .select('installation_fee_paid')
-                    .eq('id', session.user.id)
-                    .single();
-
-                if (!userData || !userData.installation_fee_paid) {
-                    alert('빌더 계정 개설 후 프로젝트를 등록할 수 있습니다.\n\n빌더 계정을 아직 개설하지 않으셨다면, 먼저 빌더 계정을 개설해 주세요.');
-                    closeGuidePopup();
-                    return;
-                }
-
-                closeGuidePopup();
-                openAddProjectModal();
-                return;
-            }
 
             // externalUrl이 있으면 외부 링크 열기 (예: Google Drive) - 빌더 계정만 가능
             if (currentStageData.externalUrl) {
@@ -8467,11 +8432,34 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             openGuideModalFromUrl('예시 프로젝트', 'guides/Project_Example.html', '', false);
         }
 
-        // 프로젝트 등록 안내문 표시
-        function showProjectRegistrationGuide() {
-            // STAGE_DATA에서 프로젝트 등록 데이터 가져오기
-            currentStageData = STAGE_DATA['project_registration'];
-            openGuideModalFromUrl('새 프로젝트 등록', 'guides/Project_Registration.html', '프로젝트 등록을 진행하시겠습니까?', true);
+        // 새 프로젝트 등록 - 빌더 계정 확인 후 바로 모달 열기
+        async function registerNewProject() {
+            // 1. 로그인 확인
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
+            if (!session) {
+                alert('로그인이 필요합니다.');
+                return;
+            }
+
+            // 2. 빌더 계정 확인
+            const { data: userData } = await window.supabaseClient
+                .from('users')
+                .select('installation_fee_paid')
+                .eq('id', session.user.id)
+                .single();
+
+            if (!userData || !userData.installation_fee_paid) {
+                alert('빌더 계정 개설 후 프로젝트를 등록할 수 있습니다.\n\n빌더 계정을 아직 개설하지 않으셨다면, 먼저 빌더 계정을 개설해 주세요.');
+                return;
+            }
+
+            // 3. 바로 프로젝트 등록 모달 열기
+            openAddProjectModal();
+        }
+
+        // 프로젝트 등록 후 패키지 설치 안내 표시
+        function showPackageInstallGuide() {
+            openGuideModalFromUrl('개발 패키지 설치 안내', 'guides/Project_Registration.html', '', false);
         }
 
         // 완료 프로젝트 펼치기/접기
@@ -9055,6 +9043,11 @@ Claude Code가 작업을 완료하면:
 
                     showStatus('✅ 프로젝트 생성 완료!', 'success');
                     closeAddProjectModal();
+
+                    // 프로젝트 등록 완료 후 패키지 설치 안내 표시
+                    setTimeout(() => {
+                        showPackageInstallGuide();
+                    }, 500);
 
                 } else {
                     throw new Error(result.error || '프로젝트 생성 실패');
@@ -9744,7 +9737,7 @@ ${result.answer}`;
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>5) 예시 프로젝트의 문서와 소스코드를 제공합니다</strong></p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">SSAL Works 등 Sunny가 직접 진행한 개발 관련 문서 및 소스코드 파일을 제공합니다. 실제 작동하는 소스코드를 활용해서 내 프로젝트를 개발할 수 있습니다. </p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>6) 작업을 하다 막히면 언제든지 질문할 수 있습니다</strong></p>
-<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">AI에게 질문을 할 수 있고, Sunny에게 수시로 직접 질문할 수 있습니다. </p>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">ChatGPT, Gemini, Perplexity 3개 AI에게 질문할 수 있고, Sunny에게 수시로 직접 질문할 수 있습니다. </p>
 <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;">
 <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 20px 0 10px 0;">SSAL Works를 어떻게 시작하나요?</h3>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>1단계: 회원가입 (무료)</strong> - 먼저 회원가입을 합니다. 무료이고, 부담 없이 둘러볼 수 있습니다. </p>
