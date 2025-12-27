@@ -404,15 +404,21 @@
             }
 
             list.innerHTML = filtered.map(task => {
-                const statusClass = task.task_status.replace(' ', '-');
+                const status = task.task_status || 'Pending';
+                const statusClass = status.replace(' ', '-');
+                const taskId = task.task_id || '';
+                const taskName = task.task_name || '';
+                const stage = task.stage || 0;
+                const area = task.area || '';
+                const progress = task.task_progress || 0;
                 return `
-                    <div class="task-card ${statusClass}" onclick="openModal('${task.task_id}')">
+                    <div class="task-card ${statusClass}" onclick="openModal('${taskId}')">
                         <div class="task-header">
-                            <span class="task-id">${task.task_id}</span>
-                            <span class="task-status status-${statusClass}">${task.task_status}</span>
+                            <span class="task-id">${taskId}</span>
+                            <span class="task-status status-${statusClass}">${status}</span>
                         </div>
-                        <div class="task-name">${task.task_name}</div>
-                        <div class="task-meta">Stage ${task.stage} · ${task.area} · ${task.task_progress || 0}%</div>
+                        <div class="task-name">${taskName}</div>
+                        <div class="task-meta">Stage ${stage} · ${area} · ${progress}%</div>
                     </div>
                 `;
             }).join('');

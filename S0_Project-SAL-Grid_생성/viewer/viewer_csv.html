@@ -720,16 +720,21 @@
         }
 
         function createTaskCard(task) {
-            const statusClass = task.task_status.replace(' ', '-');
+            const status = task.task_status || 'Pending';
+            const statusClass = status.replace(' ', '-');
             const progress = task.task_progress || 0;
+            const taskId = task.task_id || '';
+            const taskName = task.task_name || '';
+            const executionType = task.execution_type || '-';
+            const verificationStatus = task.verification_status || 'Not Verified';
 
             return `
                 <div class="task-card status-${statusClass}">
                     <div class="task-header">
-                        <div class="task-id">${task.task_id}</div>
-                        <div class="task-status status-${statusClass}">${task.task_status}</div>
+                        <div class="task-id">${taskId}</div>
+                        <div class="task-status status-${statusClass}">${status}</div>
                     </div>
-                    <div class="task-title">${task.task_name}</div>
+                    <div class="task-title">${taskName}</div>
 
                     <div class="task-attributes">
                         <div class="attr-row">
@@ -742,7 +747,7 @@
                         </div>
                         <div class="attr-row">
                             <div class="attr-label">실행 유형</div>
-                            <div class="attr-value">${task.execution_type}</div>
+                            <div class="attr-value">${executionType}</div>
                         </div>
                         <div class="attr-row">
                             <div class="attr-label">의존성</div>
@@ -759,7 +764,7 @@
                         </div>
                         <div class="attr-row">
                             <div class="attr-label">검증 상태</div>
-                            <div class="attr-value">${task.verification_status}</div>
+                            <div class="attr-value">${verificationStatus}</div>
                         </div>
                         <div class="attr-row">
                             <div class="attr-label">참고사항</div>
