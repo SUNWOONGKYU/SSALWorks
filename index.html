@@ -2816,7 +2816,7 @@
                 <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">≡</button>
                 <!-- 모바일 로그인 아이콘 -->
                 <div class="mobile-user-section">
-                    <a href="pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
+                    <a href="/pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
                     <span class="mobile-user-badge" id="mobileUserBadge" style="display:none;"></span>
                 </div>
                 <div class="logo">
@@ -2834,8 +2834,8 @@
                 <div class="header-right">
                     <!-- 로그인 전 -->
                     <div id="headerGuestBtns" style="display: flex; gap: 12px;">
-                        <a href="pages/auth/login.html" class="header-btn" style="text-decoration: none;">로그인</a>
-                        <a href="pages/auth/signup.html" class="header-btn" style="text-decoration: none;">회원가입</a>
+                        <a href="/pages/auth/login.html" class="header-btn" style="text-decoration: none;">로그인</a>
+                        <a href="/pages/auth/signup.html" class="header-btn" style="text-decoration: none;">회원가입</a>
                     </div>
                     <!-- 로그인 후 -->
                     <div id="headerUserBtns" style="display: none; align-items: center; gap: 12px;">
@@ -11536,7 +11536,7 @@ ${result.answer}`;
             if (mobileLoginBtn) {
                 mobileLoginBtn.classList.remove('logged-in');
                 mobileLoginBtn.textContent = '👤';
-                mobileLoginBtn.href = 'pages/auth/login.html';
+                mobileLoginBtn.href = '/pages/auth/login.html';
                 mobileLoginBtn.style.fontSize = '18px';
                 mobileLoginBtn.style.fontWeight = 'normal';
             }
