@@ -69,7 +69,7 @@ function mdToHtml(md) {
     html = html.replace(/`([^`]+)`/g, '<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 12px;">$1</code>');
 
     // 일반 인용문 (Order Sheet 로딩 문구 제외)
-    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 3px solid #1a3a5c; padding-left: 12px; margin: 12px 0; color: #555; font-size: 13px;">$1</blockquote>');
+    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 3px solid #1a3a5c; padding-left: 12px; margin: 16px 0; color: #555; font-size: 13px;">$1</blockquote>');
 
     // 수평선
     html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #dee2e6; margin: 20px 0;">');
@@ -81,11 +81,11 @@ function mdToHtml(md) {
         const cellHtml = cells.map(c => '<td style="padding: 6px 10px; border: 1px solid #dee2e6; font-size: 13px;">' + c.trim() + '</td>').join('');
         return '<tr>' + cellHtml + '</tr>';
     });
-    html = html.replace(/(<tr>.+<\/tr>\n?)+/g, (match) => '<table style="width: 100%; border-collapse: collapse; margin: 12px 0;">' + match + '</table>');
+    html = html.replace(/(<tr>.+<\/tr>\n?)+/g, (match) => '<table style="width: 100%; border-collapse: collapse; margin: 16px 0;">' + match + '</table>');
 
     // 리스트 변환
     html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 6px; font-size: 13px;">$1</li>');
-    html = html.replace(/(<li.+<\/li>\n?)+/g, (match) => '<ul style="padding-left: 20px; margin: 8px 0;">' + match + '</ul>');
+    html = html.replace(/(<li.+<\/li>\n?)+/g, (match) => '<ul style="padding-left: 20px; margin: 16px 0;">' + match + '</ul>');
     html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 6px; font-size: 13px;">$1</li>');
 
     // 단락 - 블록 요소로 시작하는 경우만 제외
