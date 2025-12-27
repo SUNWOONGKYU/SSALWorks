@@ -6407,7 +6407,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             // 성공 메시지 표시 (팝업에서 Google Drive 열기 버튼으로 연결)
             document.getElementById('agreementSuccessMessage').textContent =
-                '① 서약서가 ' + userName + '님의 이메일로 발송되었습니다.';
+                '① 동의하신 서약서가 ' + userName + '님의 이메일로 발송되었습니다.';
             document.getElementById('agreementSuccessModal').classList.add('active');
         }
 
@@ -10498,7 +10498,7 @@ ${result.answer}`;
             </div>
             <div class="popup-modal-body" style="padding: 24px; text-align: center;">
                 <div style="text-align: left; margin-bottom: 20px;">
-                    <p style="font-size: 15px; margin-bottom: 12px;" id="agreementSuccessMessage">① 서약서가 이메일로 발송되었습니다.</p>
+                    <p style="font-size: 15px; margin-bottom: 12px;" id="agreementSuccessMessage">① 동의하신 서약서가 이메일로 발송되었습니다.</p>
                     <p style="font-size: 15px; color: #333;">② 지정된 Google Drive가 연결되었으니, 연결된 Google Drive 내의 파일을 복사하여 본인 드라이브에 저장하세요.</p>
                 </div>
                 <div style="display: flex; gap: 12px; justify-content: center;">
@@ -10534,7 +10534,7 @@ ${result.answer}`;
             <div class="popup-modal-body" style="padding: 24px; text-align: center;">
                 <p style="font-size: 15px; margin-bottom: 20px;">SSAL Works 예시 프로젝트를 열람하려면 로그인이 필요합니다.</p>
                 <div style="display: flex; gap: 12px; justify-content: center;">
-                    <button onclick="closeLoginRequiredModal(); window.location.href='pages/auth/login.html';" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">로그인하기</button>
+                    <button onclick="closeLoginRequiredModal(); window.location.href='/pages/auth/login.html';" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">로그인하기</button>
                     <button onclick="closeLoginRequiredModal()" style="padding: 12px 24px; background: #e5e7eb; color: #374151; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">닫기</button>
                 </div>
             </div>
