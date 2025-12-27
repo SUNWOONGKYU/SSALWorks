@@ -1195,7 +1195,7 @@
             border: 2px solid var(--border-color);
             border-radius: var(--border-radius);
             font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 400;
             line-height: 1.6;
             resize: none;
@@ -9399,6 +9399,26 @@ ${result.answer}`;
             }
         }
 
+        
+        // Order Sheet 로딩 버튼 클릭 시 호출
+        function loadOrderSheetForCurrentGuide() {
+            // 현재 표시 중인 안내문에 해당하는 Order Sheet 로드
+            const currentGuide = window.currentLoadedGuide || '';
+            console.log('Order Sheet 로딩 요청:', currentGuide);
+
+            // Guide 이름에서 Order Sheet 이름 추출
+            // 예: P0-1_Briefing -> P0-1_OrderSheet
+            const orderSheetName = currentGuide.replace('_Briefing', '_OrderSheet');
+
+            if (typeof ORDER_SHEET_TEMPLATES !== 'undefined') {
+                // 사이드바에서 해당 Order Sheet 로드
+                const category = currentGuide.match(/^(P\d+|S\d+)/)?.[1] || 'P0';
+                loadOrderSheetTemplate(category, orderSheetName);
+            } else {
+                showStatus('Order Sheet 템플릿을 로드할 수 없습니다', 'error');
+            }
+        }
+
         // Order Sheet 작성 모드로 전환
         function showOrderSheetEditor() {
             const workspaceGuide = document.getElementById('workspaceGuide');
@@ -11237,18 +11257,21 @@ ${result.answer}`;
                 adminModeBtn.style.display = (email === ADMIN_EMAIL) ? 'inline-block' : 'none';
             }
 
-            // 모바일 로그인 상태 표시
+            // 모바일 로그인 상태 표시 - 버튼 안에 닉네임 2글자 표시
             const mobileLoginBtn = document.getElementById('mobileLoginBtn');
             const mobileUserBadge = document.getElementById('mobileUserBadge');
             if (mobileLoginBtn) {
                 mobileLoginBtn.classList.add('logged-in');
-                mobileLoginBtn.textContent = '✓';
+                // 닉네임 2글자만 표시 (버튼 안에)
+                const shortName = nickname.length > 2 ? nickname.substring(0, 2) : nickname;
+                mobileLoginBtn.textContent = shortName;
                 mobileLoginBtn.href = 'pages/mypage.html';
+                mobileLoginBtn.style.fontSize = '12px';
+                mobileLoginBtn.style.fontWeight = '700';
             }
+            // 뱃지는 사용 안 함 (버튼 안에 닉네임 표시)
             if (mobileUserBadge) {
-                const shortName = nickname.length > 4 ? nickname.substring(0, 4) : nickname;
-                mobileUserBadge.textContent = shortName;
-                mobileUserBadge.style.display = 'block';
+                mobileUserBadge.style.display = 'none';
             }
 
             // 알림 로드
@@ -11268,6 +11291,8 @@ ${result.answer}`;
                 mobileLoginBtn.classList.remove('logged-in');
                 mobileLoginBtn.textContent = '👤';
                 mobileLoginBtn.href = 'pages/auth/login.html';
+                mobileLoginBtn.style.fontSize = '18px';
+                mobileLoginBtn.style.fontWeight = 'normal';
             }
             if (mobileUserBadge) {
                 mobileUserBadge.style.display = 'none';
