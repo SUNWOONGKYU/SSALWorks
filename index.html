@@ -6407,7 +6407,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             // 성공 메시지 표시 (팝업에서 Google Drive 열기 버튼으로 연결)
             document.getElementById('agreementSuccessMessage').textContent =
-                '서약서가 ' + userName + '님의 이메일로 발송되었습니다.';
+                '① 서약서가 ' + userName + '님의 이메일로 발송되었습니다.';
             document.getElementById('agreementSuccessModal').classList.add('active');
         }
 
@@ -10497,8 +10497,10 @@ ${result.answer}`;
                 <button class="popup-modal-close" onclick="closeAgreementSuccessModal()" style="color: white;">&times;</button>
             </div>
             <div class="popup-modal-body" style="padding: 24px; text-align: center;">
-                <p style="font-size: 15px; margin-bottom: 16px;" id="agreementSuccessMessage">서약서가 설정된 이메일로 발송되었습니다.</p>
-                <p style="font-size: 14px; color: #555; margin-bottom: 20px;">지정된 Google Drive가 연결되었습니다.<br>연결된 Google Drive 내의 파일을 복사하여 본인 드라이브에 저장하세요.</p>
+                <div style="text-align: left; margin-bottom: 20px;">
+                    <p style="font-size: 15px; margin-bottom: 12px;" id="agreementSuccessMessage">① 서약서가 이메일로 발송되었습니다.</p>
+                    <p style="font-size: 15px; color: #333;">② 지정된 Google Drive가 연결되었으니, 연결된 Google Drive 내의 파일을 복사하여 본인 드라이브에 저장하세요.</p>
+                </div>
                 <div style="display: flex; gap: 12px; justify-content: center;">
                     <button onclick="window.open('https://drive.google.com/drive/folders/1PoMIExSALUcCHTwkNZDC8sPTW9ZsWVQf?usp=sharing', '_blank')" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">📁 Google Drive 열기</button>
                     <button onclick="closeAgreementSuccessModal()" style="padding: 12px 24px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">닫기</button>
