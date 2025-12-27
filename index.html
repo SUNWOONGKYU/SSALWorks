@@ -10440,7 +10440,7 @@ ${result.answer}`;
     <div id="guidePopup" style="display: none; position: fixed; top: 80px; right: 50px; width: 748px; max-height: calc(100vh - 150px); background: white; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 1000; overflow: hidden; font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;">
         <div id="guidePopupHeader" style="background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%); color: white; padding: 12px 16px; cursor: move; display: flex; justify-content: space-between; align-items: center; user-select: none;">
             <span id="guidePopupTitle" style="font-weight: 700; font-size: 14px;">📖 안내문</span>
-            <button onclick="closeGuidePopup()" style="background: none; border: none; color: white; font-size: 18px; cursor: pointer; padding: 0 4px;">&times;</button>
+            <button onclick="closeGuidePopup()" style="padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: white; cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">✕ 닫기</button>
         </div>
         <div id="guidePopupContent" style="padding: 20px; max-height: calc(100vh - 210px); overflow-y: auto; font-size: 11px; font-weight: 400; line-height: 1.6; color: #212529;">
             <!-- 안내문 내용이 여기에 로드됩니다 -->
