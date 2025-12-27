@@ -6304,7 +6304,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             const { data: { session } } = await window.supabaseClient.auth.getSession();
             console.log('session:', session);
             if (!session) {
-                showStatus('❌ 로그인이 필요합니다.', 'error');
+                openLoginRequiredModal();
                 return;
             }
 
@@ -6427,6 +6427,16 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         // 이미 연결됨 모달 닫기
         function closeAlreadyConnectedModal() {
             document.getElementById('alreadyConnectedModal').classList.remove('active');
+        }
+
+        // 로그인 필요 모달 열기
+        function openLoginRequiredModal() {
+            document.getElementById('loginRequiredModal').classList.add('active');
+        }
+
+        // 로그인 필요 모달 닫기
+        function closeLoginRequiredModal() {
+            document.getElementById('loginRequiredModal').classList.remove('active');
         }
 
         // 드래그 기능
@@ -9668,15 +9678,15 @@ ${result.answer}`;
 <ul style="font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;"><li>오프라인 사업을 온라인으로 확장하려는 사업자</li></ul>
 <ul style="font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;"><li>업무 자동화나 고객 관리 웹시스템이 필요한 사람</li></ul>
 <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;">
-<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>SSAL Works에서는 빌더(Builder)가 됩니다.</strong></p>
-<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">빌더란, AI와 협력해서 직접 웹사이트를 만드는 사람입니다. 개발자가 아니어도 상관없습니다. </p>
-<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">빌더는 단순한 웹사이트 제작자가 아닙니다. 웹사이트를 통해 비즈니스를 실현하는 창업가입니다. SSAL Works는 그 비즈니스가 성공할 때까지 함께합니다. </p>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>빌더(Builder)란?</strong></p>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">SSAL Works에서는 사용자를 빌더(Builder)라고 부릅니다. </p>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">빌더는 단순히 웹사이트만을 만드는 사람이 아니라, 웹사이트를 통해 비즈니스를 실현하는 사람입니다. 빌더는 기획하고, 의사결정하고, 방향을 정합니다. AI는 빌더의 지시에 따라 코딩을 수행합니다. </p>
 <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 16px 0;">
 <h3 style="font-size: 16px; font-weight: 700; color: #1F3563; margin: 20px 0 10px 0;">SSAL Works에서 무엇을 얻을 수 있나요?</h3>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>1) 혼자서도 웹사이트를 만들 수 있습니다</strong></p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">개발팀을 꾸리거나 외주를 맡기지 않아도 됩니다. AI와 함께라면 혼자서도 로그인, 결제, 데이터베이스가 있는 진짜 웹사이트를 만들 수 있습니다. </p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>2) 2,500시간의 시행착오를 건너뜁니다</strong></p>
-<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">SSAL Works 창업자 Sunny가 직접 겪은 시행착오와 노하우가 모두 정리되어 있습니다. 같은 실수를 반복하지 않고 바로 시작할 수 있습니다. </p>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">SSAL Works 창업자 Sunny가 직접 겪은 시행착오와 노하우가 모두 정리되어 있습니다. 같은 실수를 반복하지 않고 웹사이트 개발을 진행할 수 있습니다. </p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>3) 3개월간 1:1 코칭을 받습니다</strong></p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">SSAL Works에 빌더 계정을 개설하면 3개월간 Sunny의 맞춤형 코칭을 받습니다. 개발뿐 아니라 창업 전반에 대한 멘토링도 포함됩니다. </p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>4) 풍부한 학습 콘텐츠가 제공됩니다</strong></p>
@@ -10511,6 +10521,24 @@ ${result.answer}`;
                 <p style="font-size: 15px; margin-bottom: 12px;">이미 연결하셨습니다.</p>
                 <p style="font-size: 14px; color: #555; margin-bottom: 20px;">연결 기회는 1회만 제공됩니다.</p>
                 <button onclick="closeAlreadyConnectedModal()" style="padding: 12px 32px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">확인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 로그인 필요 안내 모달 -->
+    <div id="loginRequiredModal" class="popup-modal-overlay" onclick="if(event.target===this)closeLoginRequiredModal()">
+        <div class="popup-modal-box" style="max-width: 400px;">
+            <div class="popup-modal-header" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                <h3 style="color: white;">🔐 로그인 필요</h3>
+                <button class="popup-modal-close" onclick="closeLoginRequiredModal()" style="color: white;">&times;</button>
+            </div>
+            <div class="popup-modal-body" style="padding: 24px; text-align: center;">
+                <p style="font-size: 15px; margin-bottom: 12px;">SSAL Works 예시 프로젝트를 열람하려면 로그인이 필요합니다.</p>
+                <p style="font-size: 14px; color: #555; margin-bottom: 20px;">Google 계정으로 간편하게 로그인하세요.</p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button onclick="closeLoginRequiredModal(); document.getElementById('loginBtn').click();" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">로그인하기</button>
+                    <button onclick="closeLoginRequiredModal()" style="padding: 12px 24px; background: #e5e7eb; color: #374151; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">닫기</button>
+                </div>
             </div>
         </div>
     </div>
