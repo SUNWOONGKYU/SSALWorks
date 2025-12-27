@@ -676,6 +676,14 @@
 
                 if (error) throw error;
 
+                // 로그인 사용자의 경우 users.real_name 업데이트 (입금자명 = 실명)
+                if (currentUser?.id) {
+                    await supabaseClient
+                        .from('users')
+                        .update({ real_name: depositorName })
+                        .eq('id', currentUser.id);
+                }
+
                 // 관리자에게 입금 확인 요청 알림 발송 (비동기, 실패해도 무시)
                 fetch('/api/Backend_APIs/admin-notify', {
                     method: 'POST',
