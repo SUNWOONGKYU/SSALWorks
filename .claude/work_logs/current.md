@@ -2607,3 +2607,135 @@ SSAL Works 정책 변경에 따른 전체 문서 일괄 수정
 **상태:** 완료 ✅
 
 ---
+
+### Default 안내문 스타일링 전면 수정 ✅
+
+**작업 배경:**
+- Default 안내문의 섹션 간 여백이 없음
+- 초록색 스타일 유실 문제 반복 발생
+- 제목 글씨 크기가 너무 큼
+- 본문 줄 간격 불일치
+
+**수정 내역:**
+
+1. **잘못된 문구 삭제**
+   - Default.md 끝에 잘못 추가된 "Order Sheet 로딩 문구" 삭제
+   - 커밋: 2d76ddf
+
+2. **초록색 스타일 복원**
+   - `var(--primary-dark)`, `var(--primary)` CSS 변수 사용
+   - h1, h2 제목: 초록색
+   - h2 밑줄: 초록색
+   - blockquote 왼쪽 선: 초록색
+   - 커밋: a8cdda1
+
+3. **섹션 여백 통일 (margin: 16px)**
+   - p, ul, table, blockquote 모두 margin: 16px 0 적용
+   - 커밋: afc6f82
+
+4. **제목 글씨 크기 축소**
+   - h1: 18px (기존 브라우저 기본값 ~32px)
+   - h2: 16px
+   - h3: 14px
+   - h1-h2 사이 여백: margin-top: 24px
+   - 커밋: 7525235
+
+5. **본문 줄 간격 통일**
+   - p, li, blockquote, td 모두 font-size: 13px, line-height: 1.7 적용
+   - 커밋: 300825b
+
+**수정 파일:**
+- `Briefings_OrderSheets/Briefings/generate-briefings-js.js`
+- `P3_프로토타입_제작/Frontend/Prototype/guides.js`
+
+**최종 스타일:**
+```
+h1: 18px, 초록색, margin-bottom: 16px
+h2: 16px, 초록색, 초록 밑줄, margin-top: 24px
+h3: 14px, margin-top: 20px
+p/li/blockquote/td: 13px, line-height: 1.7, margin: 16px
+```
+
+**상태:** 완료 ✅
+
+---
+
+### 모바일 UI 버그 수정 및 CSV Viewer 오류 해결 ✅
+
+**작업 일시:** 2025-12-27 (오후)
+
+**1. CSV Viewer undefined 오류 수정**
+
+문제: `Cannot read properties of undefined (reading 'localeCompare')`, `Cannot read properties of undefined (reading 'replace')`
+
+수정 파일:
+- `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_csv.html`
+- `S0_Project-SAL-Grid_생성/viewer/viewer_csv.html`
+
+수정 내용:
+- `task.task_status.replace()` → `(task.task_status || 'Pending').replace()`
+- `task.task_id.localeCompare()` → null 체크 추가
+- parseCSV 함수에서 빈 줄 및 task_id 없는 행 건너뛰기
+
+**2. CSV 파일 경로 수정**
+
+문제: viewer 폴더에서 `data/sal_grid.csv` 로드 실패 (404)
+
+원인: CSV 파일이 `S0_.../data/`에 있는데 viewer는 `S0_.../viewer/`에 있음
+
+수정: `fetch('data/sal_grid.csv')` → `fetch('../data/sal_grid.csv')`
+
+**3. 진행률 JSON 배포**
+
+문제: 진행 프로세스(P0~S5) 진행률이 표시되지 않음
+
+원인: `phase_progress.json` 파일이 Vercel에 배포되지 않음
+
+수정: git add/commit/push로 배포 완료 (모든 단계 100%)
+
+**4. 모바일 로그인 버튼 위치 수정**
+
+문제: 로그인 버튼이 밑으로 밀려서 내려옴
+
+수정:
+- `.mobile-user-section`에 `top: 50%`, `transform: translateY(-50%)` 추가
+- `.mobile-login-btn`에서 `position: absolute` → `relative` 변경
+
+**5. 모바일 로그인 시 닉네임 표시 개선**
+
+문제: 뱃지가 버튼 바깥에 오버레이되어 밀림 발생
+
+수정:
+- 버튼 안에 닉네임 2글자 직접 표시
+- `fontSize: 12px`, `fontWeight: 700` 적용
+- `mobile-user-badge` 사용 안 함 (밀림 방지)
+
+**리포트 저장:**
+- `Human_ClaudeCode_Bridge/Reports/2025-12-27_Mobile_UI_Fixes_Report.json`
+
+**상태:** 완료 ✅
+
+---
+
+### Briefings 디자인 개선 작업 - 세션 종료 (2025-12-27)
+
+**이전 세션 작업 요약:**
+1. 로딩 문구 중복 제거 (MD 파일 31개에서 삭제)
+2. 질문형 제목 → 서술형 변경 ("무엇인가요?" → "단계 개요" 등)
+3. 제목 크기 축소 (h2: 16→14px, h3: 14→13px)
+4. "개발 내용" → "작업 내용" 변경 (2개 파일)
+5. Order Sheet 마크다운 → 일반 텍스트 변환 적용
+
+**이번 세션:**
+- 사용자 요청으로 5번 반복 검토 시작
+- 검토 중 사용자가 "다 해결됐다"고 하여 작업 중단
+- 사용자 외출로 세션 종료
+
+**관련 커밋:**
+- df62e55: Order Sheet 로드 시 마크다운 → 일반 텍스트 변환 적용
+- 300825b: 본문 줄 간격 통일 (line-height: 1.7)
+- 921bf41: 빌드 아티팩트 업데이트
+
+**상태:** 중단 (사용자 외출) ⏸️
+
+---
