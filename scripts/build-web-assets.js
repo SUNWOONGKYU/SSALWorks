@@ -257,11 +257,8 @@ function convertServiceIntroSection(section) {
 
     // 7. 불릿 리스트 변환
     html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
-    html = html.replace(/(<li>[^<].+<\/li>\n?)+/g, match => {
-        if (!match.includes('value=')) {
-            return `<ul style="${SERVICE_INTRO_STYLES.list}">${match}</ul>`;
-        }
-        return match;
+    html = html.replace(/(<li>(?!value=).+?<\/li>\n?)+/g, match => {
+        return `<ul style="${SERVICE_INTRO_STYLES.list}">${match}</ul>`;
     });
 
     // 8. 구분선 변환
