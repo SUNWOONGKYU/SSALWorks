@@ -9390,6 +9390,7 @@ ${result.answer}`;
 
                 // 워크스페이스에 안내문 직접 표시
                 workspaceGuide.innerHTML = htmlContent;
+                window.currentLoadedGuide = guideName;
                 workspaceGuide.style.display = 'block';
                 if (textEditor) textEditor.style.display = 'none';
 
