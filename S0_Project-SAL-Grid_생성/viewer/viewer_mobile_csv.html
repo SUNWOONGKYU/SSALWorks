@@ -326,7 +326,10 @@
             const data = [];
 
             for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
+                const line = lines[i].trim();
+                if (!line) continue; // 빈 줄 건너뛰기
+
+                const values = parseCSVLine(line);
                 const row = {};
                 headers.forEach((header, idx) => {
                     let value = values[idx] || '';
@@ -335,6 +338,10 @@
                     }
                     row[header] = value;
                 });
+
+                // task_id가 없으면 건너뛰기
+                if (!row.task_id) continue;
+
                 data.push(row);
             }
             return data;
