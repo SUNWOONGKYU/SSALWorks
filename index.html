@@ -10444,11 +10444,17 @@ ${result.answer}`;
     <!-- 서약서 모달 -->
     <div id="agreementModal" class="popup-modal-overlay" onclick="if(event.target===this)closeAgreementModal()">
         <div class="popup-modal-box" style="max-width: 600px;">
-            <div class="popup-modal-header" style="background: linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%);">
-                <h3 style="color: white;">📋 서약서</h3>
+            <div class="popup-modal-header" style="background: linear-gradient(135deg, #10B981 0%, #059669 100%);">
+                <h3 style="color: white;">📋 예시 프로젝트 열람 서약서</h3>
                 <button class="popup-modal-close" onclick="closeAgreementModal()" style="color: white;">&times;</button>
             </div>
             <div class="popup-modal-body" style="padding: 24px; font-size: 14px; line-height: 1.8;">
+                <div style="background: #d1fae5; border: 1px solid #10B981; border-radius: 8px; padding: 14px; margin-bottom: 20px;">
+                    <p style="margin: 0; color: #065f46; font-weight: 500;">
+                        💡 SSAL Works 예시 프로젝트의 소스 코드 및 문서를 열람하시려면 아래 서약서에 동의해주세요.
+                    </p>
+                </div>
+
                 <p style="margin-bottom: 20px; color: #333;">
                     본인은 SSAL Works 예시 프로젝트의 문서 및 소스 코드 파일을 제공받음에 있어서 아래의 사항을 준수하기로 서약합니다.
                 </p>
@@ -10461,7 +10467,7 @@ ${result.answer}`;
                     <p style="margin-bottom: 0;"><strong>3.</strong> 제공받은 파일은 Sunny가 500시간 이상의 시간을 투입하여 만든 것으로서, 이것을 활용하여 세상에 도움이 되는 서비스를 효율적으로 신속하게 만들어서 사업화 할 것입니다.</p>
                 </div>
 
-                <div style="border-top: 2px solid #1a3a5c; padding-top: 16px; margin-top: 20px;">
+                <div style="border-top: 2px solid #10B981; padding-top: 16px; margin-top: 20px;">
                     <p style="margin-bottom: 8px;"><strong>일자:</strong> <span id="agreementDate"></span></p>
                     <p style="margin-bottom: 8px;"><strong>서약자:</strong> <span id="agreementUserName"></span></p>
                     <p style="margin-bottom: 8px;"><strong>빌더 계정 ID:</strong> <span id="agreementBuilderId"></span></p>
@@ -10469,7 +10475,7 @@ ${result.answer}`;
                 </div>
 
                 <div style="display: flex; gap: 12px; margin-top: 24px;">
-                    <button onclick="submitAgreement()" style="flex: 1; padding: 14px 20px; background: #1a3a5c; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">위와 같이 서약합니다</button>
+                    <button onclick="submitAgreement()" style="flex: 1; padding: 14px 20px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">위와 같이 서약합니다</button>
                     <button onclick="closeAgreementModal()" style="flex: 1; padding: 14px 20px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">다음에 하기</button>
                 </div>
             </div>
@@ -10486,7 +10492,10 @@ ${result.answer}`;
             <div class="popup-modal-body" style="padding: 24px; text-align: center;">
                 <p style="font-size: 15px; margin-bottom: 16px;" id="agreementSuccessMessage">서약서가 홍길동님의 이메일로 발송되었습니다.</p>
                 <p style="font-size: 14px; color: #555; margin-bottom: 20px;">지정된 구글 드라이브가 연결되었습니다.<br>드라이브 내에 있는 파일을 복사하여 본인 드라이브에 저장하세요.</p>
-                <button onclick="closeAgreementSuccessModal()" style="padding: 12px 32px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">확인</button>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button onclick="window.open('https://drive.google.com/drive/folders/1PoMIExSALUcCHTwkNZDC8sPTW9ZsWVQf?usp=sharing', '_blank')" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">📁 구글 드라이브 열기</button>
+                    <button onclick="closeAgreementSuccessModal()" style="padding: 12px 24px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">닫기</button>
+                </div>
             </div>
         </div>
     </div>
