@@ -510,7 +510,7 @@
                 document.getElementById('connectionStatus').textContent = 'CSV 파일 로딩 중...';
 
                 // CSV 파일 로드
-                const response = await fetch('data/sal_grid.csv');
+                const response = await fetch('../data/sal_grid.csv');
                 if (!response.ok) {
                     throw new Error(`CSV 파일 로드 실패: ${response.status}`);
                 }

@@ -371,7 +371,7 @@
             try {
                 document.getElementById('statusText').textContent = 'CSV 로딩...';
 
-                const response = await fetch('data/sal_grid.csv');
+                const response = await fetch('../data/sal_grid.csv');
                 if (!response.ok) throw new Error('CSV 파일 로드 실패');
 
                 const csvText = await response.text();
