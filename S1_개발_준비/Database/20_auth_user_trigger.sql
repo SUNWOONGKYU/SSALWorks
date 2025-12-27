@@ -69,7 +69,11 @@ BEGIN
             split_part(NEW.email, '@', 1)
         ),
         NEW.raw_user_meta_data->>'nickname',
-        NEW.raw_user_meta_data->>'real_name',
+        COALESCE(
+            NEW.raw_user_meta_data->>'real_name',
+            NEW.raw_user_meta_data->>'full_name',
+            NEW.raw_user_meta_data->>'name'
+        ),
         generate_unique_user_id(),
         NEW.raw_user_meta_data->>'avatar_url',
         'user',
@@ -121,7 +125,11 @@ SELECT
         split_part(au.email, '@', 1)
     ),
     au.raw_user_meta_data->>'nickname',
-    au.raw_user_meta_data->>'real_name',
+    COALESCE(
+        au.raw_user_meta_data->>'real_name',
+        au.raw_user_meta_data->>'full_name',
+        au.raw_user_meta_data->>'name'
+    ),
     generate_unique_user_id(),
     au.raw_user_meta_data->>'avatar_url',
     'user',

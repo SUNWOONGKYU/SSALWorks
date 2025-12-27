@@ -119,7 +119,7 @@ export default async function handler(req, res) {
             email: user.email,
             name: user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
             nickname: user.user_metadata?.nickname || user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0],
-            real_name: user.user_metadata?.real_name || null,
+            real_name: user.user_metadata?.real_name || user.user_metadata?.full_name || user.user_metadata?.name || null,
             avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || null,
             subscription_status: 'free',
             installation_fee_paid: false,
