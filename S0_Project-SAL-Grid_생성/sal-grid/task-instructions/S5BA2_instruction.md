@@ -4,7 +4,7 @@
 - **Task ID**: S5BA2
 - **Task Name**: 예시 프로젝트 서약서 시스템
 - **Stage**: S5 (개발 마무리)
-- **Area**: S (Security)
+- **Area**: BA (Backend APIs)
 - **Dependencies**: 없음
 
 ## Task 목표
@@ -42,8 +42,9 @@ SSAL Works 예시 프로젝트 열람 및 복사 전 서약서 동의 시스템 
 | 파일 | 변경 내용 |
 |------|----------|
 | `index.html` | 서약서 모달 UI, JavaScript 함수 추가 |
-| `api/Backend_APIs/send-agreement-email.js` | 서약서 이메일 발송 API |
-| `S4_개발-3차/Database/30_download_agreements.sql` | DB 테이블 생성 SQL |
+| `S5_개발_마무리/Backend_APIs/send-agreement-email.js` | 서약서 이메일 발송 API (Stage) |
+| `api/Backend_APIs/send-agreement-email.js` | 서약서 이메일 발송 API (Production) |
+| `S5_개발_마무리/Database/30_download_agreements.sql` | DB 테이블 생성 SQL |
 
 ---
 

@@ -86,7 +86,7 @@ export default async function handler(req, res) {
         `;
 
         const { data, error } = await resend.emails.send({
-            from: 'SSAL Works <noreply@ssalworks.com>',
+            from: 'SSAL Works <noreply@ssalworks.ai.kr>',
             to: email,
             subject: '[SSAL Works] 예시 프로젝트 서약서 사본',
             html: emailHtml,
