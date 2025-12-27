@@ -138,6 +138,28 @@ export default async function handler(req, res) {
                 `;
                 break;
 
+            case 'sunny_inquiry':
+                shouldSend = settings.notify_sunny_inquiry ?? true;
+                subject = '[SSAL Works] ☀️ Sunny에게 새 질문이 도착했습니다';
+                html = `
+                    <div style="font-family: 'Pretendard', sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #F59E0B;">☀️ Sunny에게 질문하기</h2>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <p><strong>작성자:</strong> ${data.user_name || '-'} (${data.user_email || '-'})</p>
+                            <p><strong>제목:</strong> ${data.title || '-'}</p>
+                            <p><strong>내용:</strong></p>
+                            <div style="background: white; padding: 15px; border-radius: 4px; margin-top: 8px;">
+                                ${data.content || '-'}
+                            </div>
+                            <p><strong>질문 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
+                        </div>
+                        <p style="color: #666; font-size: 14px;">
+                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html#sunny-inquiries" style="color: #6B5CC4;">관리자 대시보드에서 답변하기</a>
+                        </p>
+                    </div>
+                `;
+                break;
+
             default:
                 return res.status(400).json({ error: 'Invalid notification type' });
         }

@@ -3,7 +3,7 @@
  * @description 관리자 알림 이메일 API
  *
  * POST /api/Backend_APIs/admin-notify
- * Body: { type: 'inquiry' | 'payment' | 'signup', data: {...} }
+ * Body: { type: 'inquiry' | 'payment' | 'signup' | 'installation_request', data: {...} }
  */
 
 import { Resend } from 'resend';
@@ -74,7 +74,7 @@ export default async function handler(req, res) {
                             </div>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
+                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
                         </p>
                     </div>
                 `;
@@ -93,7 +93,7 @@ export default async function handler(req, res) {
                             <p><strong>결제 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
+                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
                         </p>
                     </div>
                 `;
@@ -107,11 +107,54 @@ export default async function handler(req, res) {
                         <h2 style="color: #6B5CC4;">👤 신규 가입</h2>
                         <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
                             <p><strong>이메일:</strong> ${data.email || '-'}</p>
+                            <p><strong>닉네임:</strong> ${data.nickname || '-'}</p>
+                            <p><strong>실명:</strong> ${data.real_name || '-'}</p>
                             <p><strong>가입 방법:</strong> ${data.provider || 'Email'}</p>
                             <p><strong>가입 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
+                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
+                        </p>
+                    </div>
+                `;
+                break;
+
+            case 'installation_request':
+                shouldSend = settings.notify_installation_request ?? true;
+                subject = '[SSAL Works] 빌더 계정 개설비 입금 확인 요청';
+                html = `
+                    <div style="font-family: 'Pretendard', sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #ff6b35;">🏦 입금 확인 요청</h2>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <p><strong>사용자:</strong> ${data.email || '-'}</p>
+                            <p><strong>입금자명:</strong> ${data.depositor_name || '-'}</p>
+                            <p><strong>입금 금액:</strong> ₩${(data.amount || 0).toLocaleString()}</p>
+                            <p><strong>요청 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
+                        </div>
+                        <p style="color: #666; font-size: 14px;">
+                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html#billing" style="color: #6B5CC4;">관리자 대시보드에서 입금 확인하기</a>
+                        </p>
+                    </div>
+                `;
+                break;
+
+            case 'sunny_inquiry':
+                shouldSend = settings.notify_sunny_inquiry ?? true;
+                subject = '[SSAL Works] ☀️ Sunny에게 새 질문이 도착했습니다';
+                html = `
+                    <div style="font-family: 'Pretendard', sans-serif; max-width: 600px; margin: 0 auto;">
+                        <h2 style="color: #F59E0B;">☀️ Sunny에게 질문하기</h2>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                            <p><strong>작성자:</strong> ${data.user_name || '-'} (${data.user_email || '-'})</p>
+                            <p><strong>제목:</strong> ${data.title || '-'}</p>
+                            <p><strong>내용:</strong></p>
+                            <div style="background: white; padding: 15px; border-radius: 4px; margin-top: 8px;">
+                                ${data.content || '-'}
+                            </div>
+                            <p><strong>질문 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
+                        </div>
+                        <p style="color: #666; font-size: 14px;">
+                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html#sunny-inquiries" style="color: #6B5CC4;">관리자 대시보드에서 답변하기</a>
                         </p>
                     </div>
                 `;
