@@ -2068,6 +2068,37 @@
             background: #868e96;
         }
 
+        /* Service Intro Modal - ensure scrollable */
+        #serviceIntroModal {
+            overflow-y: auto !important;
+        }
+
+        /* Service Intro Modal Scrollbar - enlarged for better usability */
+        #serviceIntroModal::-webkit-scrollbar,
+        #serviceIntroModal .grid-fullscreen-content::-webkit-scrollbar {
+            width: 24px;
+        }
+
+        #serviceIntroModal::-webkit-scrollbar-track,
+        #serviceIntroModal .grid-fullscreen-content::-webkit-scrollbar-track {
+            background: #dee2e6;
+            border-radius: 12px;
+        }
+
+        #serviceIntroModal::-webkit-scrollbar-thumb,
+        #serviceIntroModal .grid-fullscreen-content::-webkit-scrollbar-thumb {
+            min-height: 200px;
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+            border-radius: 12px;
+            border: 4px solid #dee2e6;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+        }
+
+        #serviceIntroModal::-webkit-scrollbar-thumb:hover,
+        #serviceIntroModal .grid-fullscreen-content::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+        }
+
         /* Status Indicator */
         .server-status {
             position: fixed;
@@ -2586,7 +2617,41 @@
             background: rgba(255, 255, 255, 0.25);
         }
 
+        /* 모바일 로그인 상태 표시 */
+        .mobile-login-btn.logged-in {
+            background: rgba(16, 185, 129, 0.4);
+            border: 2px solid #10B981;
+        }
+
+        .mobile-user-badge {
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: #10B981;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 600;
+            white-space: nowrap;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            max-width: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .mobile-user-section {
+            position: absolute;
+            right: 12px;
+            display: none;
+        }
+
         @media (max-width: 768px) {
+            .mobile-user-section {
+                display: block;
+            }
+
             .mobile-login-btn {
                 display: flex;
             }
@@ -2749,7 +2814,10 @@
                 <!-- 모바일 메뉴 버튼 -->
                 <button class="mobile-menu-btn" onclick="toggleLeftSidebar()">≡</button>
                 <!-- 모바일 로그인 아이콘 -->
-                <a href="pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
+                <div class="mobile-user-section">
+                    <a href="pages/auth/login.html" class="mobile-login-btn" id="mobileLoginBtn">👤</a>
+                    <span class="mobile-user-badge" id="mobileUserBadge" style="display:none;"></span>
+                </div>
                 <div class="logo">
                     <span class="rice-logo">
                         <span class="rice-grain"></span>
@@ -3100,22 +3168,22 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('sal_grid', 'sal-grid', 'SAL Grid')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>sal-grid</span>
-                                </div>
-                            </div>
                             <div class="process-small" onclick="loadProcessStage('sal_grid_manual', 'Manual', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>manual</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('sal_grid_supabase', 'Supabase', 'SAL Grid')">
+                            <div class="process-small" onclick="loadProcessStage('sal_grid', 'sal-grid', 'SAL Grid')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>supabase</span>
+                                    <span>sal-grid</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('sal_grid_method', 'Method', 'SAL Grid')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>method</span>
                                 </div>
                             </div>
                             <div class="process-small" onclick="loadProcessStage('sal_grid_viewer', 'Viewer', 'SAL Grid')">
@@ -4948,64 +5016,42 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
 [추가 요구사항이 있으면 여기에 작성]
 `,
-                guideUrl: 'guides/S0-1_Briefing.html',
+                guideUrl: 'guides/S0-2_Briefing.html',
                 orderSheetUrl: 'templates/S0-1_OrderSheet.md'
             },
 
             // ===== SAL Grid 하위 항목 =====
             'sal_grid_manual': {
                 stageId: 'sal_grid_manual',
-                stageName: 'SAL Grid Manual',
+                stageName: 'Manual',
                 hasAction: true,
-                confirmMessage: 'SAL Grid Manual 작업을 진행하시겠습니까?',
+                confirmMessage: 'Manual 업데이트 작업을 진행하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
-                guideUrl: 'guides/S0-2_Briefing.html',
-                orderSheetUrl: 'templates/S0-2_OrderSheet.md'
+                guideUrl: 'guides/S0-1_Briefing.html',
+                orderSheetUrl: 'templates/S0-1_OrderSheet.md'
             },
 
-            'sal_grid_supabase': {
-                stageId: 'sal_grid_supabase',
-                stageName: 'SAL Grid Supabase',
+            'sal_grid_method': {
+                stageId: 'sal_grid_method',
+                stageName: 'Method',
                 hasAction: true,
-                confirmMessage: 'SAL Grid Supabase 연동 작업을 진행하시겠습니까?',
+                confirmMessage: 'Method 선택 작업을 진행하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
                 guideUrl: 'guides/S0-3_Briefing.html',
                 orderSheetUrl: 'templates/S0-3_OrderSheet.md'
             },
 
-            'sal_grid_task_instructions': {
-                stageId: 'sal_grid_task_instructions',
-                stageName: 'Task Instructions',
+            'sal_grid_viewer': {
+                stageId: 'sal_grid_viewer',
+                stageName: 'Viewer',
                 hasAction: true,
-                confirmMessage: 'Task Instructions 작업을 진행하시겠습니까?',
+                confirmMessage: 'Viewer 작업을 진행하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
                 guideUrl: 'guides/S0-4_Briefing.html',
                 orderSheetUrl: 'templates/S0-4_OrderSheet.md'
-            },
-
-            'sal_grid_verification_instructions': {
-                stageId: 'sal_grid_verification_instructions',
-                stageName: 'Verification Instructions',
-                hasAction: true,
-                confirmMessage: 'Verification Instructions 작업을 진행하시겠습니까?',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/S0-5_Briefing.html',
-                orderSheetUrl: 'templates/S0-5_OrderSheet.md'
-            },
-
-            'sal_grid_viewer': {
-                stageId: 'sal_grid_viewer',
-                stageName: 'SAL Grid Viewer',
-                hasAction: true,
-                confirmMessage: 'SAL Grid Viewer 개발 작업을 진행하시겠습니까?',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/S0-6_Briefing.html',
-                orderSheetUrl: 'templates/S0-6_OrderSheet.md'
             },
 
             // ===== ◈ SAL Grid (Task 기획 + Grid 생성) =====
@@ -11141,6 +11187,20 @@ ${result.answer}`;
                 myViewerBtn.style.display = 'block';
             }
 
+            // 모바일 로그인 상태 표시
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            const mobileUserBadge = document.getElementById('mobileUserBadge');
+            if (mobileLoginBtn) {
+                mobileLoginBtn.classList.add('logged-in');
+                mobileLoginBtn.textContent = '✓';
+                mobileLoginBtn.href = 'pages/mypage.html';
+            }
+            if (mobileUserBadge) {
+                const shortName = nickname.length > 4 ? nickname.substring(0, 4) : nickname;
+                mobileUserBadge.textContent = shortName;
+                mobileUserBadge.style.display = 'block';
+            }
+
             // 알림 로드
             loadUserNotifications();
         }
@@ -11153,6 +11213,18 @@ ${result.answer}`;
             if (userBtns) userBtns.style.display = 'none';
             // 로그아웃 시 "진행중 프로젝트 Viewer" 버튼 숨김 (S4S2)
             if (myViewerBtn) myViewerBtn.style.display = 'none';
+
+            // 모바일 로그아웃 상태 표시
+            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
+            const mobileUserBadge = document.getElementById('mobileUserBadge');
+            if (mobileLoginBtn) {
+                mobileLoginBtn.classList.remove('logged-in');
+                mobileLoginBtn.textContent = '👤';
+                mobileLoginBtn.href = 'pages/auth/login.html';
+            }
+            if (mobileUserBadge) {
+                mobileUserBadge.style.display = 'none';
+            }
         }
 
         async function logoutFromMain() {
