@@ -62,7 +62,7 @@ function mdToHtml(md) {
     html = html.replace(/`([^`]+)`/g, '<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">$1</code>');
 
     // 인용문 (> 로 시작하는 줄)
-    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0; color: #555;">$1</blockquote>');
+    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0; color: #555; font-size: 13px; line-height: 1.7;">$1</blockquote>');
 
     // 수평선
     html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #ddd; margin: 24px 0;">');
@@ -73,7 +73,7 @@ function mdToHtml(md) {
         if (cells.every(c => c.trim().match(/^[-:]+$/))) {
             return ''; // 구분선 행 제거
         }
-        const cellHtml = cells.map(c => `<td style="padding: 8px; border: 1px solid #ddd;">${c.trim()}</td>`).join('');
+        const cellHtml = cells.map(c => `<td style="padding: 8px; border: 1px solid #ddd; font-size: 13px; line-height: 1.7;">${c.trim()}</td>`).join('');
         return `<tr>${cellHtml}</tr>`;
     });
 
@@ -83,13 +83,13 @@ function mdToHtml(md) {
     });
 
     // 리스트 변환 (- 로 시작)
-    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 8px;">$1</li>');
+    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 8px; font-size: 13px; line-height: 1.7;">$1</li>');
     html = html.replace(/(<li.+<\/li>\n?)+/g, (match) => {
         return '<ul style="padding-left: 20px; margin: 16px 0;">' + match + '</ul>';
     });
 
     // 숫자 리스트
-    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 8px;">$1</li>');
+    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 8px; font-size: 13px; line-height: 1.7;">$1</li>');
 
     // 단락 (빈 줄로 구분된 텍스트) - 블록 요소만 제외, 인라인 요소는 <p>로 감쌈
     const blockTags = /^<(h[1-6]|ul|ol|li|table|tr|td|th|blockquote|hr|div|pre|p)/;
