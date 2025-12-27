@@ -43,63 +43,60 @@ function findMdFiles(dir, fileList = []) {
 
 /**
  * Markdown을 간단한 HTML로 변환
- * - 제목 크기 조정 (h1=18px, h2=16px, h3=14px, 본문=13px)
- * - Order Sheet 로딩 문구 강조 (네이비색, 두꺼운 구분선, 확인버튼)
  */
 function mdToHtml(md) {
     let html = md;
 
-    // Order Sheet 로딩 문구 먼저 특별 처리 (네이비색 #1a3a5c, 두꺼운 구분선)
-    // 먼저 로딩 문구를 플레이스홀더로 변환 (나중에 복원)
-    html = html.replace(
-        /^>\s*\*\*위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까\?\*\*\s*$/gm,
-        '___ORDER_SHEET_LOADING_PLACEHOLDER___'
-    );
+    // 제목 변환
+    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 24px; color: #333;">$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2 style="color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">$1</h2>');
+    html = html.replace(/^# (.+)$/gm, '<h1 style="color: var(--primary-dark);">$1</h1>');
 
-    // 제목 변환 (적절한 크기)
-    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 16px; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">$1</h3>');
-    html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 20px; margin-bottom: 10px; font-size: 16px; font-weight: 600; color: #212529; border-bottom: 1px solid #dee2e6; padding-bottom: 6px;">$1</h2>');
-    html = html.replace(/^# (.+)$/gm, '<h1 style="margin-top: 0; margin-bottom: 16px; font-size: 18px; font-weight: 700; color: #212529;">$1</h1>');
-
-    // 굵은 글씨, 기울임
+    // 굵은 글씨
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+    // 기울임
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
     // 인라인 코드
-    html = html.replace(/`([^`]+)`/g, '<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 12px;">$1</code>');
+    html = html.replace(/`([^`]+)`/g, '<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">$1</code>');
 
-    // 일반 인용문 (Order Sheet 로딩 문구 제외)
-    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 3px solid #1a3a5c; padding-left: 12px; margin: 16px 0; color: #555; font-size: 13px;">$1</blockquote>');
+    // 인용문 (> 로 시작하는 줄)
+    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0; color: #555;">$1</blockquote>');
 
     // 수평선
-    html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #dee2e6; margin: 20px 0;">');
+    html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #ddd; margin: 24px 0;">');
 
     // 테이블 변환
     html = html.replace(/\|(.+)\|/g, (match) => {
         const cells = match.split('|').filter(c => c.trim());
-        if (cells.every(c => c.trim().match(/^[-:]+$/))) return '';
-        const cellHtml = cells.map(c => '<td style="padding: 6px 10px; border: 1px solid #dee2e6; font-size: 13px;">' + c.trim() + '</td>').join('');
-        return '<tr>' + cellHtml + '</tr>';
+        if (cells.every(c => c.trim().match(/^[-:]+$/))) {
+            return ''; // 구분선 행 제거
+        }
+        const cellHtml = cells.map(c => `<td style="padding: 8px; border: 1px solid #ddd;">${c.trim()}</td>`).join('');
+        return `<tr>${cellHtml}</tr>`;
     });
-    html = html.replace(/(<tr>.+<\/tr>\n?)+/g, (match) => '<table style="width: 100%; border-collapse: collapse; margin: 16px 0;">' + match + '</table>');
 
-    // 리스트 변환
-    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 6px; font-size: 13px;">$1</li>');
-    html = html.replace(/(<li.+<\/li>\n?)+/g, (match) => '<ul style="padding-left: 20px; margin: 16px 0;">' + match + '</ul>');
-    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 6px; font-size: 13px;">$1</li>');
+    // 빈 줄을 기준으로 테이블 감싸기
+    html = html.replace(/(<tr>.+<\/tr>\n?)+/g, (match) => {
+        return `<table style="width: 100%; border-collapse: collapse; margin: 16px 0;">${match}</table>`;
+    });
 
-    // 단락 - 블록 요소로 시작하는 경우만 제외
-    const blockTags = /^<(h[1-6]|ul|ol|li|table|tr|td|th|blockquote|hr|div|pre|p)|^___ORDER_SHEET/;
+    // 리스트 변환 (- 로 시작)
+    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 8px;">$1</li>');
+    html = html.replace(/(<li.+<\/li>\n?)+/g, (match) => {
+        return '<ul style="padding-left: 20px; margin: 16px 0;">' + match + '</ul>';
+    });
+
+    // 숫자 리스트
+    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 8px;">$1</li>');
+
+    // 단락 (빈 줄로 구분된 텍스트) - 블록 요소만 제외, 인라인 요소는 <p>로 감쌈
+    const blockTags = /^<(h[1-6]|ul|ol|li|table|tr|td|th|blockquote|hr|div|pre|p)/;
     html = html.split('\n\n').map(para => {
         if (blockTags.test(para) || para.trim() === '') return para;
         return '<p style="margin: 16px 0; font-size: 13px; line-height: 1.7;">' + para + '</p>';
     }).join('\n');
-
-    // Order Sheet 로딩 문구 플레이스홀더를 최종 HTML로 변환 (네이비색 #1a3a5c, 두꺼운 구분선 4px)
-    html = html.replace(
-        /___ORDER_SHEET_LOADING_PLACEHOLDER___/g,
-        '<div style="margin-top: 24px; padding-top: 16px; border-top: 4px solid #1a3a5c;"><div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;"><span style="font-size: 15px; font-weight: 600; color: #1a3a5c;">위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?</span><button onclick="loadOrderSheetForCurrentGuide()" style="background: #1a3a5c; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer;">확인</button></div></div>'
-    );
 
     return html;
 }
