@@ -6308,6 +6308,25 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 return;
             }
 
+            // 빌더 계정 확인
+            const { data: userData, error: userError } = await window.supabaseClient
+                .from('users')
+                .select('installation_fee_paid, user_id')
+                .eq('id', session.user.id)
+                .single();
+
+            if (userError) {
+                console.error('사용자 정보 조회 오류:', userError);
+                showStatus('❌ 사용자 정보를 확인할 수 없습니다.', 'error');
+                return;
+            }
+
+            // 빌더 계정이 아닌 경우 (installation_fee_paid가 false이거나 없는 경우)
+            if (!userData || !userData.installation_fee_paid) {
+                openBuilderRequiredModal();
+                return;
+            }
+
             // DB에서 연결 이력 확인
             const { data: agreements, error } = await window.supabaseClient
                 .from('download_agreements')
@@ -6434,6 +6453,16 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         // 로그인 필요 모달 닫기
         function closeLoginRequiredModal() {
             document.getElementById('loginRequiredModal').classList.remove('active');
+        }
+
+        // 빌더 계정 필요 모달 열기
+        function openBuilderRequiredModal() {
+            document.getElementById('builderRequiredModal').classList.add('active');
+        }
+
+        // 빌더 계정 필요 모달 닫기
+        function closeBuilderRequiredModal() {
+            document.getElementById('builderRequiredModal').classList.remove('active');
         }
 
         // 드래그 기능
@@ -10536,6 +10565,24 @@ ${result.answer}`;
                 <div style="display: flex; gap: 12px; justify-content: center;">
                     <button onclick="closeLoginRequiredModal(); window.location.href='/pages/auth/login.html';" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">로그인하기</button>
                     <button onclick="closeLoginRequiredModal()" style="padding: 12px 24px; background: #e5e7eb; color: #374151; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">닫기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 빌더 계정 필요 모달 -->
+    <div id="builderRequiredModal" class="popup-modal-overlay" onclick="if(event.target===this)closeBuilderRequiredModal()">
+        <div class="popup-modal-box" style="max-width: 420px;">
+            <div class="popup-modal-header" style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
+                <h3 style="color: white;">🏠 빌더 계정 필요</h3>
+                <button class="popup-modal-close" onclick="closeBuilderRequiredModal()" style="color: white;">&times;</button>
+            </div>
+            <div class="popup-modal-body" style="padding: 24px; text-align: center;">
+                <p style="font-size: 15px; margin-bottom: 12px; color: #333;">빌더 계정이 확인되지 않습니다.</p>
+                <p style="font-size: 14px; margin-bottom: 20px; color: #666;">SSAL Works 예시 프로젝트를 열람하시려면<br><strong>빌더 계정 개설</strong>을 먼저 진행해주세요.</p>
+                <div style="display: flex; gap: 12px; justify-content: center;">
+                    <button onclick="closeBuilderRequiredModal(); window.location.href='/pages/mypage/subscription.html';" style="padding: 12px 24px; background: #F59E0B; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">빌더 계정 개설하기</button>
+                    <button onclick="closeBuilderRequiredModal()" style="padding: 12px 24px; background: #e5e7eb; color: #374151; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">닫기</button>
                 </div>
             </div>
         </div>
