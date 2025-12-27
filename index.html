@@ -6132,10 +6132,19 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             const htmlContent = (typeof GUIDE_CONTENTS !== 'undefined') ? GUIDE_CONTENTS[guideKey] : null;
 
             if (htmlContent) {
-                // guides.js에서 이미 로딩 문구와 확인 버튼이 포함되어 있으므로
-                // 추가 버튼 섹션은 hasAction이 false일 때만 표시
+                // 버튼 섹션 생성
                 let buttonSection = '';
-                if (!hasAction) {
+                if (hasAction) {
+                    buttonSection = `
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 3px solid #1a3a5c;">
+                        <p style="font-weight: 600; color: #333; margin-bottom: 10px;">위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?</p>
+                        <div style="display: flex; gap: 12px;">
+                            <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
+                            <button onclick="closeGuidePopup()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
+                        </div>
+                    </div>
+                    `;
+                } else {
                     buttonSection = `
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
                         <div style="display: flex; justify-content: center;">

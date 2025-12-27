@@ -19,4 +19,3 @@ SSAL Works 개발자 Sunny가 직접 진행한 프로젝트의 모든 문서 및
 
 > 프로젝트를 클릭하면 Google Drive로 연결됩니다. 자유롭게 참고하세요!
 
-> **위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?**

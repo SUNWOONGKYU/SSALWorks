@@ -72,4 +72,3 @@ S0_Project-SAL-Grid_생성/
     └── manual_mobile.html
 ```
 
-> **위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?**

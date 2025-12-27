@@ -47,9 +47,9 @@ function findMdFiles(dir, fileList = []) {
 function mdToHtml(md) {
     let html = md;
 
-    // 제목 변환 (크기: h1=18px, h2=16px, h3=14px)
-    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 20px; margin-bottom: 8px; font-size: 14px; font-weight: 600; color: #333;">$1</h3>');
-    html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 24px; margin-bottom: 12px; font-size: 16px; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">$1</h2>');
+    // 제목 변환 (크기: h1=18px, h2=14px, h3=13px)
+    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 20px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #333;">$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 24px; margin-bottom: 12px; font-size: 14px; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">$1</h2>');
     html = html.replace(/^# (.+)$/gm, '<h1 style="margin-top: 0; margin-bottom: 16px; font-size: 18px; font-weight: 700; color: var(--primary-dark);">$1</h1>');
 
     // 굵은 글씨

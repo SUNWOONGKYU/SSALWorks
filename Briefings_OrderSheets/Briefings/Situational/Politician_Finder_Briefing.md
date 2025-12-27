@@ -38,4 +38,3 @@ PoliticianFinder는 AI 기술을 활용하여 정치인의 활동, 공약, 투�
 - Stage 4: 관리자 기능 및 결제 시스템
 - Stage 5: 배포 및 안정화
 
-> **위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?**

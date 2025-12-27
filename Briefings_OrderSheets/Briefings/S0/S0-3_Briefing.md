@@ -65,4 +65,3 @@ S0_Project-SAL-Grid_생성/
 - 오프라인 환경: CSV Method
 - 대규모 Task (100개 이상): Database Method
 
-> **위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?**
