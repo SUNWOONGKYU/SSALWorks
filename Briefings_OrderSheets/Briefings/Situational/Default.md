@@ -10,7 +10,7 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 2) **메인 화면 중앙 위**: Control Desk 사용방법, Order Sheet 작성방법
 
-3) **메인 화면 중앙 아래**: 3차원 SAL Grid Viewer를 열어서 63개 이상의 Task가 어떻게 체계적으로 관리되고 있는지 확인
+3) **메인 화면 중앙 아래**: Project SAL Grid Viewer를 열어서 63개 이상의 Task가 어떻게 체계적으로 관리되고 있는지 확인
 
 4) **메인 화면 오른쪽**: Claude & Claude Code 사용법부터 풀스택 웹사이트 개발 기초지식과 프로젝트 관리 방법까지 다루는 80편의 Books, 18개 분야에 걸친 65개의 실전 Tips, 외부 연동 설정 Guide 5개
 
