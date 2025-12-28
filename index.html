@@ -8085,28 +8085,42 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 학습용 콘텐츠 목록 (로컬 검색용)
         const LEARNING_CONTENTS = [
-            { category: 'Claude & Claude Code 사용법', title: '1편 - Claude란 무엇인가', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/1편_Claude란_무엇인가.md' },
-            { category: 'Claude & Claude Code 사용법', title: '2편 - 프롬프트 엔지니어링 기초', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/2편_프롬프트_엔지니어링_기초편_보강.md' },
-            { category: 'Claude & Claude Code 사용법', title: '3편 - 프롬프트 엔지니어링 고급', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/3편_프롬프트_엔지니어링_고급편_10개.md' },
-            { category: 'Claude & Claude Code 사용법', title: '4편 - Claude Code 첫 만남', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/4편_Claude_Code_첫_만남_수정.md' },
-            { category: 'Claude & Claude Code 사용법', title: '5편 - Claude Code 직접 실행 기능', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/5편_Claude_Code의_직접_실행_기능.md' },
-            { category: 'Claude & Claude Code 사용법', title: '6편 - 자동화 워크플로우 구축', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/6편_Claude_Code의_자동화_워크플로우_구축용_코드_생성_기능.md' },
-            { category: 'Claude & Claude Code 사용법', title: '7편 - 서브 에이전트 이해', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/7편_Claude_Code_서브_에이전트_이해.md' },
-            { category: 'Claude & Claude Code 사용법', title: '8편 - 서브 에이전트 생성과 관리', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/8편_Claude_Code_서브_에이전트_생성과_관리.md' },
-            { category: 'Claude & Claude Code 사용법', title: '9편 - 서브 에이전트 기본 활용 패턴', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/9편_Claude_Code_서브_에이전트의_기본_활용_패턴.md' },
-            { category: 'Claude & Claude Code 사용법', title: '10편 - 서브 에이전트 개발분야 활용법', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/10편_Claude Code 서브 에이전트의 개발분야 활용법.md' },
-            { category: 'Claude & Claude Code 사용법', title: '11편 - 서브 에이전트 비개발분야 활용법', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/11편_Claude Code 서브 에이전트의 비개발분야 활용법.md' },
-            { category: 'Claude & Claude Code 사용법', title: '12편 - MCP 기초', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/12편_MCP_기초_외부_서비스와_연결하기.md' },
-            { category: 'Claude & Claude Code 사용법', title: '13편 - MCP 실전 활용법', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/13편_MCP_실전_활용법_및_다른_AI_확장_시스템과의_비교.md' },
-            { category: 'Claude & Claude Code 사용법', title: '14편 - API를 통한 AI 연동', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/14편_API를_통한_AI_연동과_협업_여러_AI를_조화롭게_활용하기.md' },
-            { category: 'Claude & Claude Code 사용법', title: '15편 - VS Code 완전 정복', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/15편_VS_Code_완전_정복_초보자_필수_가이드.md' },
-            { category: 'Claude & Claude Code 사용법', title: '16편 - Claude Code와 VS Code 결합 기초', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/16편_Claude_Code와_VS_Code_결합_기초.md' },
-            { category: 'Claude & Claude Code 사용법', title: '17편 - Claude Code와 VS Code 결합 심화', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/17편_Claude_Code와_VS_Code_결합_심화.md' },
-            { category: 'Claude & Claude Code 사용법', title: '18편 - Claude 토큰 사용료 구조', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/18편_Claude 토큰 사용료 구조 및 최적화 방안.md' },
-            { category: 'Claude & Claude Code 사용법', title: '19편 - 작업환경 최적화', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/19편_작업환경_최적화_3개_최종.md' },
-            { category: 'Claude & Claude Code 사용법', title: '20편 - 세션 기억 관리 완벽 가이드', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/20편_Claude_Code_세션_기억_관리_완벽_가이드.md' },
-            { category: 'Claude & Claude Code 사용법', title: 'Claude Code 설치 가이드', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/Claude_Code_설치_단계별_가이드.md' },
-            { category: 'Claude & Claude Code 사용법', title: 'Claude 파일 생성 기능 핵심 정리', path: '부수적_고유기능/콘텐츠/학습용_Books/1. Claude&ClaudeCode사용법/Claude 파일 생성 기능 - 혁신적 업데이트 핵심 정리.md' },
+            // 1권: Claude & Claude Code 사용법 (34편)
+            { category: 'Claude & Claude Code 사용법', title: '01편 - Anthropic 창업과 철학', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/01편_Anthropic_창업과_철학.md' },
+            { category: 'Claude & Claude Code 사용법', title: '02편 - Claude의 탄생과 진화', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/02편_Claude의_탄생과_진화.md' },
+            { category: 'Claude & Claude Code 사용법', title: '03편 - Claude 모델과 접근방식 개요', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/03편_Claude_모델과_접근방식_개요.md' },
+            { category: 'Claude & Claude Code 사용법', title: '04편 - Claude의 특장점과 시장 위치', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/04편_Claude의_특장점과_시장_위치.md' },
+            { category: 'Claude & Claude Code 사용법', title: '05편 - 모바일 앱과 웹', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/05편_모바일_앱과_웹.md' },
+            { category: 'Claude & Claude Code 사용법', title: '06편 - 데스크톱 앱', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/06편_데스크톱_앱.md' },
+            { category: 'Claude & Claude Code 사용법', title: '07편 - Claude Code', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/07편_Claude_Code.md' },
+            { category: 'Claude & Claude Code 사용법', title: '08편 - IDE 결합과 API 연결', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/08편_IDE_결합과_API_연결.md' },
+            { category: 'Claude & Claude Code 사용법', title: '09편 - Claude 생태계 전체 구조', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/09편_Claude_생태계_전체_구조.md' },
+            { category: 'Claude & Claude Code 사용법', title: '10편 - Claude 내부 기능', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/10편_Claude_내부_기능.md' },
+            { category: 'Claude & Claude Code 사용법', title: '11편 - Claude 내부 도구 1: 대화 검색', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/11편_Claude_내부_도구_1_대화_검색.md' },
+            { category: 'Claude & Claude Code 사용법', title: '12편 - Claude 내부 도구 2: 개발 작업', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/12편_Claude_내부_도구_2_개발_작업.md' },
+            { category: 'Claude & Claude Code 사용법', title: '13편 - 작업 환경과 확장 생태계', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/13편_작업_환경과_확장_생태계.md' },
+            { category: 'Claude & Claude Code 사용법', title: '14편 - 구독 플랜과 요금 체계', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/14편_구독_플랜과_요금_체계.md' },
+            { category: 'Claude & Claude Code 사용법', title: '15편 - 파일 다루기', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/15편_파일_다루기.md' },
+            { category: 'Claude & Claude Code 사용법', title: '16편 - 명령 실행', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/16편_명령_실행.md' },
+            { category: 'Claude & Claude Code 사용법', title: '17편 - 웹 정보와 사용자 상호작용', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/17편_웹_정보와_사용자_상호작용.md' },
+            { category: 'Claude & Claude Code 사용법', title: '18편 - Commands', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/18편_Commands.md' },
+            { category: 'Claude & Claude Code 사용법', title: '19편 - Skills', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/19편_Skills.md' },
+            { category: 'Claude & Claude Code 사용법', title: '20편 - Subagents', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/20편_Subagents.md' },
+            { category: 'Claude & Claude Code 사용법', title: '21편 - Hooks', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/21편_Hooks.md' },
+            { category: 'Claude & Claude Code 사용법', title: '22편 - MCP', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/22편_MCP.md' },
+            { category: 'Claude & Claude Code 사용법', title: '23편 - Plugins', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/23편_Plugins.md' },
+            { category: 'Claude & Claude Code 사용법', title: '24편 - Memory와 컨텍스트 관리', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/24편_Memory와_컨텍스트_관리.md' },
+            { category: 'Claude & Claude Code 사용법', title: '25편 - Mode와 Output Style', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/25편_Mode와_Output_Style.md' },
+            { category: 'Claude & Claude Code 사용법', title: '26편 - Settings', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/26편_Settings.md' },
+            { category: 'Claude & Claude Code 사용법', title: '27편 - GitHub Actions와 Agent SDK', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/27편_GitHub_Actions와_Agent_SDK.md' },
+            { category: 'Claude & Claude Code 사용법', title: '28편 - 자동화 코드 생성', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/28편_자동화_코드_생성.md' },
+            { category: 'Claude & Claude Code 사용법', title: '29편 - 노코드 자동화 도구', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/29편_노코드_자동화_도구.md' },
+            { category: 'Claude & Claude Code 사용법', title: '30편 - 복합 AI 활용 전략', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/30편_복합_AI_활용_전략.md' },
+            { category: 'Claude & Claude Code 사용법', title: '31편 - 물리적 작업환경 최적화', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/31편_물리적_작업환경_최적화.md' },
+            { category: 'Claude & Claude Code 사용법', title: '32편 - 프롬프트 엔지니어링 기초', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/32편_프롬프트_엔지니어링_기초.md' },
+            { category: 'Claude & Claude Code 사용법', title: '33편 - 프롬프트 엔지니어링 심화', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/33편_프롬프트_엔지니어링_심화.md' },
+            { category: 'Claude & Claude Code 사용법', title: '34편 - AI 활용 시 주의사항과 한계', path: '부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/34편_AI_활용_시_주의사항과_한계.md' },
+            // 2권: 풀스택 웹사이트 개발 기초지식 (34편)
             { category: '풀스택 웹사이트 개발 기초지식', title: '1편 - 웹사이트 개발 핵심 개념', path: '부수적_고유기능/콘텐츠/학습용_Books_New/2권_풀스택_웹사이트_개발_기초지식/01편_웹사이트_개발_핵심_개념.md' },
             { category: '풀스택 웹사이트 개발 기초지식', title: '2편 - 웹사이트 작동 원리와 구조', path: '부수적_고유기능/콘텐츠/학습용_Books_New/2권_풀스택_웹사이트_개발_기초지식/02편_웹사이트_작동_원리와_구조.md' },
             { category: '풀스택 웹사이트 개발 기초지식', title: '3편 - CLI 명령줄', path: '부수적_고유기능/콘텐츠/학습용_Books_New/2권_풀스택_웹사이트_개발_기초지식/03편_CLI_명령줄.md' },
@@ -8166,7 +8180,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             const searchTerm = query.toLowerCase();
             const results = LEARNING_CONTENTS.filter(item =>
-                item.name.toLowerCase().includes(searchTerm) ||
+                item.title.toLowerCase().includes(searchTerm) ||
                 item.category.toLowerCase().includes(searchTerm)
             );
 
@@ -8188,7 +8202,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                         transition: all 0.2s;
                     " onmouseover="this.style.borderColor='#667eea'; this.style.background='#f8f9ff';"
                        onmouseout="this.style.borderColor='#dee2e6'; this.style.background='white';">
-                        <div style="font-size: 13px; font-weight: 600; color: #212529; margin-bottom: 2px;">${item.name}</div>
+                        <div style="font-size: 13px; font-weight: 600; color: #212529; margin-bottom: 2px;">${item.title}</div>
                         <div style="font-size: 11px; color: #6c757d;">📂 ${item.category}</div>
                     </div>
                 `;
@@ -8614,9 +8628,14 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             openAddProjectModal();
         }
 
-        // 프로젝트 등록 후 패키지 설치 안내 표시
+        // 프로젝트 등록 후 패키지 설치 안내 표시 (첫 번째 프로젝트용)
         function showPackageInstallGuide() {
             openGuideModalFromUrl('개발 패키지 설치 안내', 'guides/Project_Registration.html', '', false);
+        }
+
+        // 새 프로젝트 폴더 준비 안내 표시 (두 번째 이후 프로젝트용)
+        function showNewProjectFolderGuide() {
+            openGuideModalFromUrl('새 프로젝트 폴더 준비 안내', 'guides/Project_Registration_Subsequent.html', '', false);
         }
 
         // 완료 프로젝트 펼치기/접기
@@ -9209,11 +9228,15 @@ Claude Code가 작업을 완료하면:
                     showStatus('✅ 프로젝트 생성 완료!', 'success');
                     closeAddProjectModal();
 
-                    // 첫 번째 프로젝트일 때만 패키지 설치 안내 표시
-                    // 두 번째 이후 프로젝트는 이미 환경이 구축되어 있으므로 안내 생략
+                    // 첫 번째 프로젝트: 전체 설치 안내 (Dev Package + 개발 도구 + Claude Code)
+                    // 두 번째 이후 프로젝트: 새 폴더 준비 안내만 (도구는 이미 설치됨)
                     if (isFirstProject) {
                         setTimeout(() => {
                             showPackageInstallGuide();
+                        }, 500);
+                    } else {
+                        setTimeout(() => {
+                            showNewProjectFolderGuide();
                         }, 500);
                     }
 
