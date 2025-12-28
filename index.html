@@ -3701,7 +3701,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
             <div id="ai-tutor-expanded" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 855px; max-height: 70vh; z-index: 9999; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
                 <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #e9ecef; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0;">
                     <span style="color: white; font-weight: 600;">🎓 AI Tutor</span>
-                    <button onclick="toggleAITutor()" style="background: rgba(255,255,255,0.2); border: none; color: white; width: 28px; height: 28px; border-radius: 50%; cursor: pointer; font-size: 16px;">✕</button>
+                    <button onclick="toggleAITutor()" style="padding: 6px 14px; background: #6c757d; border: none; color: white; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500;">✕ 닫기</button>
                 </div>
                 <iframe id="ai-tutor-iframe" data-src="https://aitalker.co.kr/biz019"
                         style="width: 100%; height: 500px; border: none; border-radius: 0 0 12px 12px;">
@@ -7952,7 +7952,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         function toggleAITutor() {
             const overlay = document.getElementById('ai-tutor-overlay');
             const expanded = document.getElementById('ai-tutor-expanded');
-            const btn = document.getElementById('ai-tutor-btn');
             const iframe = document.getElementById('ai-tutor-iframe');
 
             if (expanded.style.display === 'none') {
@@ -7962,8 +7961,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 expanded.style.top = '50%';
                 expanded.style.left = '50%';
                 expanded.style.transform = 'translate(-50%, -50%)';
-                btn.textContent = '✕ 닫기';
-                btn.style.background = '#6c757d';
                 // iframe 지연 로드 (처음 열 때만)
                 if (!iframe.src && iframe.dataset.src) {
                     iframe.src = iframe.dataset.src;
@@ -7971,8 +7968,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             } else {
                 overlay.style.display = 'none';
                 expanded.style.display = 'none';
-                btn.textContent = '질문하기';
-                btn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
             }
         }
 
