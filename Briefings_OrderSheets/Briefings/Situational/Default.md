@@ -6,6 +6,8 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 ※ 참고로 모바일 버전에서는 조회는 모두 가능하지만 작업에는 제한이 있으므로 개발 작업은 PC버전에서 하는 게 편리합니다.
 
+---
+
 <span style="color: green; font-weight: bold;">무료로 일단 회원 가입을 하시고 플랫폼을 전체적으로 찬찬히 둘러보세요.</span>
 
 1) **메인 화면 왼쪽**: 프로젝트 진행 프로세스 관리방법, 단계별로 제시되어 있는 34개의 안내문과 32개의 Order Sheet 템플릿 살펴보기
@@ -17,6 +19,8 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 4) **메인 화면 오른쪽**: Claude & Claude Code 사용법부터 풀스택 웹사이트 개발 기초지식과 프로젝트 관리 방법까지 다루는 80편의 Books, 18개 분야에 걸친 65개의 실전 Tips, 외부 연동 설정 Guide 5개 등 방대한 지식 열람하기
 
 5) **메인 화면 하단 Footer**: [서비스 소개](/service-intro) 내용 확인하기
+
+---
 
 필요성이 있고 매력이 느껴지면, 바로 빌더 계정을 개설한 후에 본인의 창의적인 아이디어가 구현된 풀스택 웹사이트 개발 작업을 시작해보세요.
 
@@ -41,6 +45,8 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 9) AI(ChatGPT, Gemini, Perplexity)에게 질문해서 답변받기
 
 10) Sunny에게 수시 질문하기 및 3개월 1:1 맞춤형 코칭(개발 + 창업 + 경영 자문) 프로그램
+
+---
 
 ## SSAL Works 해설
 
