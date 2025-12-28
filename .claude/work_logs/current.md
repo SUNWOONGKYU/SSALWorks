@@ -69,6 +69,75 @@
 
 ---
 
+### 프로젝트 등록 안내문 분기 처리 및 Dev Package 설명 개선 ✅
+
+**작업 목표:** 프로젝트 등록 시 첫 번째/두 번째 이후 프로젝트를 구분하여 다른 안내문 표시
+
+**문제 인식:**
+- 기존: 프로젝트 등록 후 항상 동일한 설치 안내문 표시
+- 문제: 두 번째 이후 프로젝트는 이미 개발 환경이 구축되어 있으므로 전체 설치 안내 불필요
+
+**구현 내용:**
+
+#### 1. 분기 처리 로직 추가 (index.html)
+```javascript
+// 기존 프로젝트 수 확인
+const isFirstProject = !existingProjects || existingProjects.length === 0;
+
+// 분기 처리
+if (isFirstProject) {
+    showPackageInstallGuide();      // 전체 설치 안내
+} else {
+    showNewProjectFolderGuide();    // 폴더 준비 안내만
+}
+```
+
+#### 2. 새 안내문 파일 생성
+- **파일:** `Briefings_OrderSheets/Briefings/Situational/Project_Registration_Subsequent.md`
+- **제목:** 새 프로젝트 폴더 준비 안내
+- **내용:** My Page > 자료 다운로드에서 Dev Package 다운로드 → 압축 해제 → 폴더명 변경 → 위치 이동
+
+#### 3. 기존 안내문 개선
+- **파일:** `Briefings_OrderSheets/Briefings/Situational/Project_Registration.md`
+- **제목 변경:** 개발 패키지 설치 안내 → 처음 프로젝트 개발환경설정 가이드
+- **Dev Package 설명 상세화:**
+  - .claude/ 폴더 구조 및 각 파일 역할 (CLAUDE.md, rules/, methods/, work_logs/, compliance/)
+  - P0~P3 기획 단계 폴더 설명
+  - S0~S5 개발 단계 폴더 설명
+  - Briefings_OrderSheets/ 폴더 설명
+  - Human_ClaudeCode_Bridge/ 폴더 설명
+
+#### 4. 새 함수 추가 (index.html)
+```javascript
+// 첫 번째 프로젝트용
+function showPackageInstallGuide() {
+    openGuideModalFromUrl('처음 프로젝트 개발환경설정 가이드', 'guides/Project_Registration.html', '', false);
+}
+
+// 두 번째 이후 프로젝트용
+function showNewProjectFolderGuide() {
+    openGuideModalFromUrl('새 프로젝트 폴더 준비 안내', 'guides/Project_Registration_Subsequent.html', '', false);
+}
+```
+
+**수정된 파일:**
+1. `index.html` - 분기 처리 로직 + 새 함수 추가
+2. `Briefings_OrderSheets/Briefings/Situational/Project_Registration.md` - 제목 변경 + Dev Package 상세 설명
+3. `Briefings_OrderSheets/Briefings/guides.js` - 빌드 결과
+
+**생성된 파일:**
+1. `Briefings_OrderSheets/Briefings/Situational/Project_Registration_Subsequent.md`
+
+**빌드 실행:**
+```bash
+node Briefings_OrderSheets/Briefings/generate-briefings-js.js
+```
+
+**리포트 저장:**
+- `Human_ClaudeCode_Bridge/Reports/2025-12-29_Project_Registration_Guide_Update.json`
+
+---
+
 ## 2025-12-28 작업 내역
 
 ### 서비스 소개 문서 파일명 변경 완료 ✅
@@ -3017,4 +3086,86 @@ SSAL Works 예시 프로젝트 열람/다운로드 전 서약서 동의 시스�
 **작업 이유:**
 - AI Tutor가 제공하는 7대 핵심 지식 콘텐츠의 가치 보호
 - 빌더 계정 개설자만 프리미엄 AI 지원 서비스 이용 가능
+
+
+---
+
+## 2025-12-29: 정치인 게시글 수정/삭제 API 기능 추가
+
+### 작업 상태: ✅ 완료
+
+### 완료된 작업
+
+#### 1. API 코드 수정 (`src/app/api/posts/[id]/route.ts`)
+- `validatePoliticianSession` import 추가
+- `politicianUpdatePostSchema` 스키마 추가
+  - title, subject, content (선택)
+  - politician_id (8자리), session_token (64자리) 필수
+- `politicianDeleteSchema` 스키마 추가
+  - politician_id, session_token 필수
+- **PATCH**: 정치인 세션 토큰 인증 로직 추가
+  - 요청 body에 session_token과 politician_id가 있으면 정치인 인증
+  - 없으면 기존 사용자 쿠키 인증 사용
+- **DELETE**: 동일한 방식으로 정치인 세션 토큰 지원
+
+#### 2. 빌드 검증
+- `npm run build` 성공
+- 에러 없음
+
+#### 3. Git 커밋 & 푸시
+- 커밋: `09a7584`
+- 메시지: `feat: add politician session token support for post edit/delete`
+- 푸시: `origin/main` 완료
+
+### 해결된 이슈 (2025-12-29 배포 테스트 완료)
+
+#### politician_sessions 테이블 접근 문제
+- **상황**: 테이블은 DB에 존재 (CREATE 시 "already exists" 에러)
+- **문제**: PostgREST API 스키마 캐시에서 테이블 조회 불가
+- **시도한 해결책**: 
+  - `NOTIFY pgrst, 'reload schema'` 실행
+  - SQL에서는 세션 조회/생성 가능
+  - REST API에서는 여전히 "Could not find table" 에러
+- **배포 환경 테스트**: Internal Server Error 발생
+- **추정 원인**: Vercel의 `SUPABASE_SERVICE_ROLE_KEY` 환경변수 미설정 또는 스키마 캐시 문제
+
+### 배포 테스트 결과 (2025-12-29)
+- Vercel 환경변수 확인: `SUPABASE_SERVICE_ROLE_KEY` Production에 설정됨
+- 게시글 수정 (PATCH): ✅ 성공
+- 게시글 삭제 (DELETE): ✅ 성공
+- 테스트 게시글 ID: `1c531064-dd10-4a6f-b7c2-24ef5219843e`
+
+### API 사용법
+
+```bash
+# 게시글 수정
+curl -X PATCH "/api/posts/[post_id]" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "politician_id": "9dc9f3b4",
+    "session_token": "64자리토큰",
+    "title": "수정된 제목",
+    "content": "수정된 내용"
+  }'
+
+# 게시글 삭제
+curl -X DELETE "/api/posts/[post_id]" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "politician_id": "9dc9f3b4",
+    "session_token": "64자리토큰"
+  }'
+```
+
+### 테스트 데이터
+- 정치인: 안태준 (ID: `9dc9f3b4`)
+- 이메일: `wksun999@naver.com`
+- 세션 토큰: `bc5c49781c73ea1c2bd7f4ad8c6a990c94b208a3d4c8dc2a79bcebe4cd1f6a4c`
+- 테스트 게시글: `1c531064-dd10-4a6f-b7c2-24ef5219843e`
+
+### 관련 파일
+- 수정: `1_Frontend/src/app/api/posts/[id]/route.ts`
+- 참조: `1_Frontend/src/lib/auth/politicianSession.ts`
+- 참조: `1_Frontend/src/lib/supabase/server.ts`
+- 리포트: `Human_ClaudeCode_Bridge/Reports/politician_post_edit_delete_2025-12-29.json`
 
