@@ -4698,6 +4698,11 @@ The content you enter in the Control Desk will be displayed here.</pre>
 
         // Load templates on page load
         async function loadOrderSheetTemplates() {
+            // 프로덕션에서는 localhost 서버 호출 건너뛰기
+            if (IS_PRODUCTION) {
+                console.log('ℹ️ 프로덕션 환경 - Order Sheet templates는 로컬에서만 로드');
+                return;
+            }
             try {
                 const response = await fetch('http://localhost:3030/ordersheet-templates');
                 if (!response.ok) {
