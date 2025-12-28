@@ -2,7 +2,7 @@
 
 > **검토일:** 2025-12-26
 > **검토자:** Claude Code (Sonnet 4.5)
-> **대상 파일:** P2_프로젝트_기획/Service_Introduction/서비스_소개_모달.md
+> **대상 파일:** P2_프로젝트_기획/Service_Introduction/서비스_소개.md
 > **검토 버전:** v3.0
 
 ---

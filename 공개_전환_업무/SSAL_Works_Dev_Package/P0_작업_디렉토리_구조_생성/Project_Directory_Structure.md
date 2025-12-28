@@ -472,7 +472,7 @@ S5_개발_마무리/
 | 1 | Order Sheets MD → JS 번들링 | `Briefings_OrderSheets/OrderSheet_Templates/*.md` | `ordersheets.js` |
 | 2 | Briefings (상황별 안내문) MD → JS 번들링 | `Briefings_OrderSheets/Briefings/**/*.md` | `guides.js` |
 | 3 | 외부 연동 설정 가이드 MD → JS 번들링 | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/*.md` | `service-guides.js` |
-| 4 | 서비스 소개 모달 MD → index.html 삽입 | `P2_.../Service_Introduction/서비스_소개_모달.md` | `index.html` |
+| 4 | 서비스 소개 모달 MD → index.html 삽입 | `P2_.../Service_Introduction/서비스_소개.md` | `index.html` |
 | 5 | SAL Grid 매뉴얼 MD → HTML 변환 | `S0_.../manual/PROJECT_SAL_GRID_MANUAL.md` | `참고자료/*.html` |
 | 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `pages/mypage/manual.html` |
 | 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `Development_Process_Monitor/data/phase_progress.json` |

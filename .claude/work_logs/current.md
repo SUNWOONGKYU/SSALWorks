@@ -6,6 +6,39 @@
 
 ## 2025-12-28 작업 내역
 
+### 서비스 소개 문서 파일명 변경 완료 ✅
+
+**작업 내용:** `서비스_소개_모달.md` → `서비스_소개.md` 파일명 변경 및 모든 참조 업데이트
+
+**변경된 파일 (9개):**
+
+1. **원본 파일명 변경:**
+   - `P2_프로젝트_기획/Service_Introduction/서비스_소개_모달.md` → `서비스_소개.md`
+
+2. **빌드 스크립트 (3개):**
+   - `scripts/build-web-assets.js`
+   - `공개_전환_업무/SSAL_Works_Dev_Package/scripts/build-web-assets.js`
+   - `공개_전환_업무/dist/SSAL_Works_Dev_Package/scripts/build-web-assets.js`
+
+3. **Pre-commit hooks 문서 (3개):**
+   - `.claude/pre-commit-hooks.md`
+   - `공개_전환_업무/SSAL_Works_Dev_Package/.claude/pre-commit-hooks.md`
+   - `공개_전환_업무/dist/SSAL_Works_Dev_Package/.claude/pre-commit-hooks.md`
+
+4. **프로젝트 구조 문서 (2개):**
+   - `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
+   - `공개_전환_업무/SSAL_Works_Dev_Package/P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
+   - `공개_전환_업무/dist/SSAL_Works_Dev_Package/P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
+
+5. **리포트 파일:**
+   - `Human_ClaudeCode_Bridge/Reports/Legal_Risk_Review_Service_Introduction.md`
+
+**변경 이유:**
+- 파일명을 더 간결하게 정리
+- "_모달" 접미사 제거로 파일명 단순화
+
+---
+
 ### S2M2 Task 검증 완료 ✅
 
 **Task ID:** S2M2
