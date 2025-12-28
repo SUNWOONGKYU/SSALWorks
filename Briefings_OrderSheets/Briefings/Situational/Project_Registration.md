@@ -30,41 +30,151 @@ SSAL Works는 **내 컴퓨터에서 직접 개발**하는 방식입니다. 이�
 
 ## STEP 1: Dev Package 다운로드
 
-### Dev Package란?
+### Dev Package 전체 구조
 
-**SSAL Works Dev Package**는 단순한 폴더가 아닙니다.
+```
+SSAL_Works_Dev_Package/
+├── .claude/
+├── P0_작업_디렉토리_구조_생성/
+├── P1_사업계획/
+├── P2_프로젝트_기획/
+├── P3_프로토타입_제작/
+├── S0_Project-SAL-Grid_생성/
+├── S1_개발_준비/
+├── S2_개발-1차/
+├── S3_개발-2차/
+├── S4_개발-3차/
+├── S5_개발_마무리/
+├── Briefings_OrderSheets/
+└── Human_ClaudeCode_Bridge/
+```
 
-AI가 **"어떻게 코드를 작성해야 하는지"** 알려주는 **작업 규칙과 지침**이 담긴 **AI 작업 환경**입니다.
+---
 
-| 일반 폴더 | Dev Package |
-|----------|-------------|
-| 빈 폴더에서 시작 | 검증된 폴더 구조로 시작 |
-| AI가 제멋대로 코드 작성 | AI가 규칙에 따라 일관되게 작성 |
-| 어디에 뭘 저장할지 혼란 | 파일 저장 위치가 명확하게 정의됨 |
-| 매번 AI에게 설명 필요 | AI가 프로젝트 구조를 이미 이해 |
+### .claude/
 
-### 핵심 구성요소
+Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 
-| 폴더 | 역할 | 포함 내용 |
-|------|------|----------|
-| **.claude/** | **AI 두뇌** | AI가 따라야 할 7대 규칙, 작업 방법, 준수사항 |
-| **P0~P3/** | **기획 단계** | 사업계획 → 프로젝트 기획 → 프로토타입 순서로 진행 |
-| **S0~S5/** | **개발 단계** | 인증, API, 결제, 배포까지 체계적으로 진행 |
-| **Briefings/** | **단계별 안내문** | 각 단계에서 무엇을 해야 하는지 상세 안내 |
-| **Order Sheets/** | **AI 작업 지시서** | AI에게 복사해서 붙여넣기만 하면 작업 시작 |
+```
+.claude/
+├── CLAUDE.md
+├── rules/
+│   ├── 01_file-naming.md
+│   ├── 02_save-location.md
+│   ├── 03_area-stage.md
+│   ├── 04_grid-writing-supabase.md
+│   ├── 05_execution-process.md
+│   ├── 06_verification.md
+│   └── 07_task-crud.md
+├── methods/
+│   └── 01_supabase-crud.md
+├── work_logs/
+│   └── current.md
+└── compliance/
+    └── AI_12_COMPLIANCE.md
+```
 
-### .claude 폴더 - AI가 똑똑해지는 비결
+**CLAUDE.md** - AI의 최상위 지침 파일. 7대 규칙 파일 참조 지시, 절대 금지 행동 정의.
 
-이 폴더가 있어야 AI가 **일관되고 정확하게** 코드를 작성합니다.
+**rules/01_file-naming.md** - 파일명 규칙: kebab-case 사용, 형식: `[기능]-[동작].확장자`
 
-| 파일 | AI에게 알려주는 것 |
-|------|------------------|
-| `CLAUDE.md` | "이 프로젝트에서 넌 이렇게 일해야 해" (핵심 지침) |
-| `rules/` | "파일명은 이렇게, 저장 위치는 여기에" (7대 규칙) |
-| `methods/` | "DB 작업은 이 방법으로 해" (작업 방법) |
-| `work_logs/` | "지금까지 뭘 했는지 기록해" (작업 이력) |
+**rules/02_save-location.md** - Stage 폴더에 먼저 저장, Pre-commit Hook으로 루트에 자동 복사
 
-> **이 폴더가 없으면?** AI가 매번 다른 방식으로 코드를 작성하고, 파일을 아무 곳에나 저장하고, 같은 질문을 반복해야 합니다.
+**rules/03_area-stage.md** - 11개 Area 목록, 5개 Stage 목록, Task ID 구조
+
+**rules/04_grid-writing-supabase.md** - Grid 22개 속성 정의, Supabase CRUD 방법
+
+**rules/05_execution-process.md** - 6단계 실행 프로세스 정의
+
+**rules/06_verification.md** - 상태 전이 규칙, Task 검증 항목, Stage Gate 검증 기준
+
+**rules/07_task-crud.md** - Task 추가/삭제/수정 프로세스
+
+**methods/01_supabase-crud.md** - Supabase CRUD 작업 우선순위 및 방법
+
+**work_logs/current.md** - 현재 세션 작업 기록
+
+**compliance/AI_12_COMPLIANCE.md** - AI 준수사항 12가지
+
+---
+
+### P0_작업_디렉토리_구조_생성/
+
+- Project_Status.md: 프로젝트 현재 상태 기록
+- Project_Directory_Structure.md: 프로젝트 전체 폴더 구조 문서화
+
+---
+
+### P1_사업계획/
+
+시장조사, 경쟁분석, 사업계획서 저장 폴더
+
+---
+
+### P2_프로젝트_기획/
+
+요구사항 정의서, 아키텍처 설계, UI/UX 와이어프레임 저장 폴더
+
+---
+
+### P3_프로토타입_제작/
+
+- Frontend/Prototype/: 프로토타입 HTML 페이지
+- Database/.env: Supabase 환경변수
+- Database/schema/: DB 테이블 스키마 SQL 파일
+
+---
+
+### S0_Project-SAL-Grid_생성/
+
+- sal-grid/SSALWORKS_TASK_PLAN.md: 전체 Task 목록 및 의존성 관계
+- sal-grid/task-instructions/: 각 Task 수행 지침 파일
+- sal-grid/verification-instructions/: 각 Task 검증 지침 파일
+- manual/PROJECT_SAL_GRID_MANUAL.md: SAL Grid 시스템 매뉴얼
+
+---
+
+### S1_개발_준비/ ~ S5_개발_마무리/
+
+각 Stage 폴더는 11개 Area 폴더를 포함.
+
+| Stage | 폴더명 | 주요 작업 |
+|-------|--------|----------|
+| S1 | S1_개발_준비 | 환경설정, DB 스키마, Auth 설정 |
+| S2 | S2_개발-1차 | OAuth, 이메일 인증, 회원가입 |
+| S3 | S3_개발-2차 | AI 연동, AI Q&A |
+| S4 | S4_개발-3차 | 결제, 관리자, 크레딧 |
+| S5 | S5_개발_마무리 | 배포, QA, 안정화 |
+
+---
+
+### Briefings_OrderSheets/
+
+```
+Briefings_OrderSheets/
+├── Briefings/
+│   ├── {Stage별 폴더}/
+│   ├── Situational/
+│   ├── guides.js
+│   └── generate-briefings-js.js
+└── OrderSheet_Templates/
+    ├── {Stage별 폴더}/
+    ├── ordersheets.js
+    └── generate-ordersheets-js.js
+```
+
+**Briefings/** - 각 단계별 안내문 Markdown 파일, guides.js로 번들링
+
+**OrderSheet_Templates/** - 각 단계별 Order Sheet 템플릿, ordersheets.js로 번들링
+
+---
+
+### Human_ClaudeCode_Bridge/
+
+- Requests/: 사람이 AI에게 전달하는 작업 요청 파일
+- Reports/: AI가 작업 완료 후 결과 보고 파일
+
+---
 
 ### 다운로드 방법
 
