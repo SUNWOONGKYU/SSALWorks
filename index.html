@@ -11217,20 +11217,25 @@ ${result.answer}`;
 
         // Supabase 클라이언트 초기화
         function initSupabase() {
-            if (typeof supabase !== 'undefined') {
-                window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Supabase 클라이언트 초기화 완료 (Frontend)');
-                loadNotices();
-                loadAndRenderLearningContents(); // 학습 콘텐츠도 로드
-                // FAQ는 로컬 배열 사용 (Supabase 로드 제거)
-                checkAuthStatus(); // 로그인 상태 확인 → loadUserProject에서 진행률 로드
-                loadStageGateStatus(); // Stage Gate 상태 확인 및 진행률 업데이트
-                loadGridStats(); // SSAL Grid 통계 로드
-                setInterval(loadGridStats, 30000); // 30초마다 자동 갱신
-                // 진행률은 checkAuthStatus -> loadUserProject에서 사용자별로 로드됨
-            } else {
-                console.warn('⚠️ Supabase 라이브러리가 로드되지 않았습니다.');
-                setTimeout(initSupabase, 1000); // 1초 후 재시도
+            console.log('🔄 initSupabase 시작, supabase 타입:', typeof supabase);
+            try {
+                if (typeof supabase !== 'undefined') {
+                    window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    console.log('✅ Supabase 클라이언트 초기화 완료 (Frontend)');
+                    loadNotices();
+                    loadAndRenderLearningContents(); // 학습 콘텐츠도 로드
+                    // FAQ는 로컬 배열 사용 (Supabase 로드 제거)
+                    checkAuthStatus(); // 로그인 상태 확인 → loadUserProject에서 진행률 로드
+                    loadStageGateStatus(); // Stage Gate 상태 확인 및 진행률 업데이트
+                    loadGridStats(); // SSAL Grid 통계 로드
+                    setInterval(loadGridStats, 30000); // 30초마다 자동 갱신
+                    // 진행률은 checkAuthStatus -> loadUserProject에서 사용자별로 로드됨
+                } else {
+                    console.warn('⚠️ Supabase 라이브러리가 로드되지 않았습니다. 1초 후 재시도...');
+                    setTimeout(initSupabase, 1000); // 1초 후 재시도
+                }
+            } catch (error) {
+                console.error('❌ initSupabase 에러:', error);
             }
         }
 
