@@ -508,7 +508,7 @@ function buildBuilderManual() {
         const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
         const bodyContent = bodyMatch ? bodyMatch[1] : htmlContent;
 
-        // 스타일이 적용된 HTML 생성
+        // 스타일이 적용된 HTML 생성 (디자인 시스템 색상 적용)
         const styledHtml = `<!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -516,27 +516,228 @@ function buildBuilderManual() {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>빌더 계정 사용 매뉴얼 - SSAL Works</title>
     <style>
+        :root {
+            --primary: #6B5CCC;
+            --primary-dark: #5847B3;
+            --primary-light: #8B7FDD;
+            --secondary: #CC785C;
+            --secondary-dark: #B35A44;
+            --tertiary: #20808D;
+            --tertiary-light: #4DA8B3;
+            --success: #20808D;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --info: #0099ff;
+            --text: #000000;
+            --text-secondary: #4a5568;
+            --bg-light: #f8f9fa;
+            --bg-white: #ffffff;
+            --border: #e2e8f0;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif; background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%); min-height: 100vh; padding: 40px 20px; line-height: 1.8; color: #1f2937; }
-        .container { max-width: 900px; margin: 0 auto; }
-        header { background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 20px; padding: 40px; color: white; text-align: center; margin-bottom: 40px; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3); }
-        header h1 { font-size: 2.2rem; font-weight: 700; }
-        header p { margin-top: 10px; opacity: 0.9; }
-        section { background: white; border-radius: 16px; padding: 35px; margin-bottom: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
-        h1, h2 { color: #10B981; border-bottom: 2px solid #10B981; padding-bottom: 10px; margin-bottom: 20px; }
-        h3 { color: #059669; margin: 25px 0 15px; }
-        p { margin-bottom: 15px; }
-        ul, ol { margin: 15px 0 15px 25px; }
-        li { margin-bottom: 8px; }
-        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95rem; }
-        th, td { border: 1px solid #e5e7eb; padding: 12px 15px; text-align: left; }
-        th { background: #f0fdf4; color: #059669; font-weight: 600; }
-        tr:hover { background: #f9fafb; }
-        code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 0.9em; }
-        blockquote { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px 20px; margin: 20px 0; border-radius: 0 10px 10px 0; }
-        a { color: #10B981; }
-        footer { text-align: center; padding: 30px; color: #6b7280; font-size: 0.9rem; }
-        @media (max-width: 768px) { body { padding: 20px 15px; } header { padding: 30px 20px; } header h1 { font-size: 1.6rem; } section { padding: 25px 20px; } }
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            line-height: 1.8;
+            color: var(--text);
+        }
+        .container { max-width: 960px; margin: 0 auto; }
+
+        /* 헤더 - Primary Purple */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-radius: 20px;
+            padding: 50px 40px;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 50px rgba(107, 92, 204, 0.35);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        header h1 { font-size: 2.4rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative; }
+        header p { margin-top: 12px; opacity: 0.95; font-size: 1.1rem; position: relative; }
+
+        /* 목차 네비게이션 */
+        nav.toc {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--primary);
+        }
+
+        /* 섹션 카드 */
+        section, .content {
+            background: var(--bg-white);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 제목 스타일 - Primary Purple */
+        h1, h2 {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 12px;
+            margin: 30px 0 20px;
+            font-weight: 700;
+        }
+        h2 { font-size: 1.6rem; }
+        h3 {
+            color: var(--primary-dark);
+            margin: 28px 0 16px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            padding-left: 12px;
+            border-left: 4px solid var(--tertiary);
+        }
+        h4 { color: var(--text); margin: 20px 0 12px; font-weight: 600; }
+
+        p { margin-bottom: 16px; }
+        ul, ol { margin: 16px 0 16px 28px; }
+        li { margin-bottom: 10px; }
+
+        /* 테이블 - Tertiary Teal 강조 */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        th, td {
+            border: 1px solid var(--border);
+            padding: 14px 18px;
+            text-align: left;
+        }
+        th {
+            background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-light) 100%);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+        tr:nth-child(even) { background: #f8fafc; }
+        tr:hover { background: #edf2f7; }
+
+        /* 코드 블록 */
+        code {
+            background: #edf2f7;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: var(--primary-dark);
+            border: 1px solid #e2e8f0;
+        }
+        pre {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px 24px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 20px 0;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.3);
+        }
+        pre code {
+            background: transparent;
+            padding: 0;
+            color: #e2e8f0;
+            border: none;
+        }
+
+        /* 인용 블록 - Warning 스타일 */
+        blockquote {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-left: 5px solid var(--warning);
+            padding: 18px 24px;
+            margin: 24px 0;
+            border-radius: 0 12px 12px 0;
+            font-style: italic;
+            color: #92400e;
+        }
+
+        /* 링크 - Secondary Orange */
+        a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        a:hover {
+            color: var(--secondary-dark);
+            text-decoration: underline;
+        }
+
+        /* Strong 강조 */
+        strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        /* 구분선 */
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 40px 0;
+        }
+
+        /* 푸터 */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        footer p { margin: 0; }
+
+        /* 반응형 */
+        @media (max-width: 768px) {
+            body { padding: 20px 15px; }
+            header { padding: 35px 25px; border-radius: 16px; }
+            header h1 { font-size: 1.8rem; }
+            section { padding: 28px 22px; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 10px 12px; }
+            pre { padding: 15px 18px; font-size: 0.85rem; }
+        }
+
+        /* 프린트 스타일 */
+        @media print {
+            body { background: white; padding: 20px; }
+            header { box-shadow: none; }
+            section { box-shadow: none; border: 1px solid #ddd; }
+        }
     </style>
 </head>
 <body>
@@ -545,7 +746,9 @@ function buildBuilderManual() {
             <h1>빌더 계정 사용 매뉴얼</h1>
             <p>SSAL Works 플랫폼 완벽 가이드</p>
         </header>
+        <div class="content">
         ${bodyContent}
+        </div>
         <footer>
             <p>&copy; 2025 SSAL Works. All rights reserved.</p>
         </footer>
