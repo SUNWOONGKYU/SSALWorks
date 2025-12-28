@@ -3677,7 +3677,10 @@ The content you enter in the Control Desk will be displayed here.</pre>
             <div class="sidebar-section">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     📢 공지사항
-                    <a href="pages/admin-dashboard.html" style="font-size: 11px; font-weight: 400; color: #6c757d; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</a>
+                    <span>
+                        <button onclick="loadNotices()" style="font-size: 10px; padding: 2px 6px; margin-right: 8px; background: #e9ecef; border: none; border-radius: 4px; cursor: pointer;" title="새로고침">🔄</button>
+                        <a href="pages/admin-dashboard.html" style="font-size: 11px; font-weight: 400; color: #6c757d; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#F59E0B'" onmouseout="this.style.color='#6c757d'">더보기 →</a>
+                    </span>
                 </h3>
                 <div id="noticesList">
                     <div style="text-align: center; padding: 20px; color: #6c757d;">
@@ -12009,37 +12012,44 @@ ${result.answer}`;
             }
         }
 
-        // 공지사항 로드
+        // 공지사항 로드 (Supabase 클라이언트 또는 fetch API fallback)
         async function loadNotices() {
             console.log('📋 공지사항 로드 시작 (Frontend)');
-            console.log('  - window.supabaseClient:', window.supabaseClient);
-            console.log('  - URL:', SUPABASE_URL);
+
+            const noticesList = document.getElementById('noticesList');
+            if (noticesList) {
+                noticesList.innerHTML = '<div style="text-align: center; padding: 20px; color: #6c757d;">공지사항을 불러오는 중...</div>';
+            }
 
             try {
-                if (!window.supabaseClient) {
-                    throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
-                }
+                let data;
 
-                console.log('📤 Supabase 쿼리 시작...');
+                // Supabase 클라이언트가 있으면 사용
+                if (window.supabaseClient) {
+                    console.log('📤 Supabase 클라이언트로 쿼리...');
+                    const result = await window.supabaseClient
+                        .from('notices')
+                        .select('*')
+                        .order('important', { ascending: false })
+                        .order('created_at', { ascending: false })
+                        .limit(3);
 
-                const { data, error } = await window.supabaseClient
-                    .from('notices')
-                    .select('*')
-                    .order('important', { ascending: false })
-                    .order('created_at', { ascending: false })
-                    .limit(3);
-
-                console.log('📥 Supabase 응답:');
-                console.log('  - data:', data);
-                console.log('  - error:', error);
-
-                if (error) {
-                    console.error('❌ Supabase 오류 상세:');
-                    console.error('  - code:', error.code);
-                    console.error('  - message:', error.message);
-                    console.error('  - details:', error.details);
-                    console.error('  - hint:', error.hint);
-                    throw error;
+                    if (result.error) throw result.error;
+                    data = result.data;
+                } else {
+                    // Fallback: fetch API로 직접 호출
+                    console.log('📤 Fetch API fallback으로 쿼리...');
+                    const response = await fetch(
+                        `${SUPABASE_URL}/rest/v1/notices?select=*&order=important.desc,created_at.desc&limit=3`,
+                        {
+                            headers: {
+                                'apikey': SUPABASE_ANON_KEY,
+                                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                            }
+                        }
+                    );
+                    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                    data = await response.json();
                 }
 
                 console.log('✅ 공지사항 로드 성공:', data.length, '개');
@@ -12047,12 +12057,11 @@ ${result.answer}`;
 
             } catch (error) {
                 console.error('❌ 공지사항 로드 오류:', error);
-                const noticesList = document.getElementById('noticesList');
                 if (noticesList) {
                     noticesList.innerHTML = `
                         <div style="text-align: center; padding: 20px; color: #EF4444; font-size: 11px;">
                             공지사항을 불러오는데 실패했습니다.<br>
-                            <span style="font-size: 11px; color: #6c757d;">콘솔(F12)에서 오류를 확인하세요.</span>
+                            <button onclick="loadNotices()" style="margin-top: 8px; padding: 4px 12px; background: #3B82F6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">다시 시도</button>
                         </div>
                     `;
                 }
@@ -13479,6 +13488,15 @@ ${result.answer}`;
         } else {
             initSupabase();
         }
+
+        // Fallback: 3초 후에도 공지사항이 로드되지 않았으면 직접 로드 시도
+        setTimeout(function() {
+            const noticesList = document.getElementById('noticesList');
+            if (noticesList && noticesList.innerHTML.includes('불러오는 중')) {
+                console.log('⏰ 3초 경과, 공지사항 fallback 로드 시도...');
+                loadNotices();
+            }
+        }, 3000);
 
         // URL 파라미터로 섹션 이동 처리
         window.addEventListener('load', function() {
