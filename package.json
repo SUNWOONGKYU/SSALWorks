@@ -24,6 +24,8 @@
     "next": "^15.5.9",
     "openai": "^4.70.0",
     "pg": "^8.16.3",
+    "playwright": "^1.57.0",
+    "pptxgenjs": "^4.0.1",
     "puppeteer": "^24.30.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",

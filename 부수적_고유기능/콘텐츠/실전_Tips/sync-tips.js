@@ -1,5 +1,5 @@
 /**
- * Tips 동기화 스크립트
+ * 실전 Tips 동기화 스크립트
  *
  * tips-list.json을 읽어서 3개 파일의 TIPS_CONTENTS를 자동 업데이트합니다.
  *
@@ -39,7 +39,7 @@ function generateViewerObject(categories) {
 
         cat.files.forEach((file, fIdx) => {
             const fComma = fIdx < cat.files.length - 1 ? ',' : '';
-            const filePath = `Tips/${cat.id}/${file.file}`;
+            const filePath = `실전_Tips/${cat.id}/${file.file}`;
             lines.push(`                    { name: '${file.name}', path: '${filePath}' }${fComma}`);
         });
 
@@ -56,7 +56,7 @@ function generateIndexArray(categories) {
 
     categories.forEach(cat => {
         cat.files.forEach(file => {
-            const filePath = `Tips/${cat.id}/${file.file}`;
+            const filePath = `실전_Tips/${cat.id}/${file.file}`;
             items.push(`            { category: '${cat.name}', title: '${file.name}', path: '${filePath}' }`);
         });
     });
@@ -122,7 +122,7 @@ function updateIndexFile(filePath, newContent) {
 // 메인 실행
 function main() {
     console.log('');
-    console.log('🔄 Tips 동기화 시작...');
+    console.log('🔄 실전 Tips 동기화 시작...');
     console.log('');
 
     // 1. JSON 로드

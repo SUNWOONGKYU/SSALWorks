@@ -4,6 +4,67 @@
 
 ---
 
+## 2025-12-28 작업 내역
+
+### S2M2 Task 검증 완료 ✅
+
+**Task ID:** S2M2
+**Task Name:** Project Registration Process Documentation
+**검증일:** 2025-12-28
+
+**검증 항목:**
+1. 문서 존재 확인: ✅ 3개 파일 모두 존재
+   - `S2_개발-1차/Documentation/Project_Registration_Process.md`
+   - `S2_개발-1차/Documentation/Guides/Project_Registration.md`
+   - `S2_개발-1차/Documentation/Guides/Pledge_Agreement.md`
+
+2. 프로세스 문서 내용: ✅ 모든 필수 섹션 포함
+   - 프로젝트 등록 개요
+   - 등록 전 조건
+   - 등록 프로세스 흐름 (Step 1-6)
+   - 서약서 동의 절차
+   - 권한 부여 로직
+   - 관련 파일 참조
+
+3. 안내문 복사본: ✅ 원본과 100% 일치
+   - 원본: `Briefings_OrderSheets/Briefings/Situational/Project_Registration.md`
+   - 복사본: `S2_개발-1차/Documentation/Guides/Project_Registration.md`
+
+4. 서약서 복사본: ✅ 원본과 100% 일치
+   - 원본: `Briefings_OrderSheets/Briefings/Situational/Pledge_Agreement.md`
+   - 복사본: `S2_개발-1차/Documentation/Guides/Pledge_Agreement.md`
+
+5. Markdown 형식: ✅ 적절한 제목 계층 및 표 형식
+
+**검증 결과:**
+- Test: ✅ 4/4 checks passed
+- Build: ✅ 1/1 format check passed
+- Integration: ✅ 3/3 integration checks passed
+- Blockers: ✅ None
+- Comprehensive: ✅ Passed
+
+**DB 업데이트:**
+- verification_status: 'In Review' → 'Verified'
+- task_status: 'Executed' → 'Completed'
+
+---
+
+### AI Tutor 헤더 경고 문구 수정 ✅
+
+**수정 파일:** `index.html`
+
+**변경 내용:**
+- 이전: "AI 튜터는 답변을 잘못 할 수 있습니다."
+- 이후: "AI Tutor는 답변을 잘못 할 수 있습니다. 검색을 통해서 다시 한번 확인을 해주세요."
+
+**변경 이유:**
+1. "AI 튜터" → "AI Tutor" (영문 표기로 통일)
+2. 검색을 통한 재확인 권장 문구 추가
+
+**커밋:** `fix: AI Tutor 헤더 경고 문구 수정`
+
+---
+
 ## 2025-12-27 작업 내역
 
 ### PoliticianFinder 모바일 최적화 (계속) ✅

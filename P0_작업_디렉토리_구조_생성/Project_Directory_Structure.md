@@ -49,7 +49,7 @@ C:\!SSAL_Works_Private\
 ├── 부수적_고유기능/              # SSALWorks에만 필요한 고유 기능 모음
 │   ├── AI_Link/                 # AI 서비스 연동 (ChatGPT, Gemini, Perplexity)
 │   ├── 콘텐츠/                  # 사용자 제공 콘텐츠 통합 폴더
-│   │   ├── Tips/                # 개발 팁 및 노하우
+│   │   ├── 실전_Tips/           # 개발 팁 및 노하우
 │   │   ├── 외부_연동_설정_Guide/  # 외부 서비스 연동 설정 가이드
 │   │   └── 학습용_Books/        # 학습용 콘텐츠 (Books)
 │
@@ -614,12 +614,12 @@ Development_Process_Monitor/
 
 ---
 
-### 부수적_고유기능/콘텐츠/Tips/
+### 부수적_고유기능/콘텐츠/실전_Tips/
 
 **용도:** 개발 팁 및 노하우 모음
 
 ```
-부수적_고유기능/콘텐츠/Tips/
+부수적_고유기능/콘텐츠/실전_Tips/
 ├── Claude_Code_활용/           # Claude Code 활용 팁
 ├── SAL_Grid_활용/              # SAL Grid 활용 팁
 ├── 개발_생산성/                # 개발 생산성 향상 팁
@@ -721,7 +721,7 @@ Development_Process_Monitor/
 | 배포 설정 | 해당 Stage `DevOps/` |
 | 배포용 코드 | `Production/` (종합집결지) |
 | 학습 자료 | `부수적_고유기능/콘텐츠/학습용_Books/` |
-| 개발 팁 | `부수적_고유기능/콘텐츠/Tips/` |
+| 개발 팁 | `부수적_고유기능/콘텐츠/실전_Tips/` |
 | 외부 연동 설정 | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/` |
 | Order Sheet | `Human_ClaudeCode_Bridge/Orders/` |
 | 작업 결과 보고 | `Human_ClaudeCode_Bridge/Reports/` |
@@ -732,7 +732,7 @@ Development_Process_Monitor/
 → `부수적_고유기능/콘텐츠/학습용_Books/`
 
 **Q: 개발 팁을 정리했어요**
-→ `부수적_고유기능/콘텐츠/Tips/`
+→ `부수적_고유기능/콘텐츠/실전_Tips/`
 
 **Q: 외부 서비스 연동 가이드를 작성했어요**
 → `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/`
