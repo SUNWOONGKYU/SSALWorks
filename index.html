@@ -4769,23 +4769,52 @@ The content you enter in the Control Desk will be displayed here.</pre>
 
         // Load template when category is clicked
         async function loadTemplate(categoryKey) {
-            if (!ordersheetTemplates || !ordersheetTemplates[categoryKey]) {
+            console.log('🔄 loadTemplate 호출:', categoryKey);
+
+            let templateContent = null;
+            let templateName = categoryKey;
+
+            // 1. ordersheetTemplates에서 찾기 (로컬 서버에서 로드된 경우)
+            if (ordersheetTemplates && ordersheetTemplates[categoryKey]) {
+                templateContent = ordersheetTemplates[categoryKey].template;
+                templateName = ordersheetTemplates[categoryKey].name;
+                console.log('✅ ordersheetTemplates에서 템플릿 발견');
+            }
+            // 2. ORDER_SHEET_TEMPLATES에서 찾기 (정적 JS 파일에서 로드)
+            else if (typeof ORDER_SHEET_TEMPLATES !== 'undefined') {
+                // 키 변환: "P0-1" → "P0-1_OrderSheet"
+                const orderSheetKey = categoryKey + '_OrderSheet';
+                if (ORDER_SHEET_TEMPLATES[orderSheetKey]) {
+                    templateContent = ORDER_SHEET_TEMPLATES[orderSheetKey];
+                    templateName = categoryKey;
+                    console.log('✅ ORDER_SHEET_TEMPLATES에서 템플릿 발견:', orderSheetKey);
+                }
+            }
+
+            // 템플릿을 찾지 못한 경우
+            if (!templateContent) {
                 console.warn('Template not found for:', categoryKey);
-                // 템플릿이 없는 경우 안내 메시지 표시
                 showStatus(`📂 "${categoryKey}" 폴더를 열려면 더블클릭하세요 (Antigravity 또는 VS Code 선택)`, 'info');
                 return;
             }
 
-            const template = ordersheetTemplates[categoryKey];
             const editor = document.getElementById('textEditor');
+            const workspaceGuide = document.getElementById('workspaceGuide');
 
             // Ask user if they want to replace current content
             if (editor.value.trim() && !(await customConfirm('Replace current Control Desk content with this template?'))) {
                 return;
             }
 
-            editor.value = convertMarkdownToPlainText(template.template);
-            showStatus(`✅ "${template.name}" 템플릿이 로드되었습니다`, 'success');
+            // textEditor 표시하고 workspaceGuide 숨기기
+            editor.value = convertMarkdownToPlainText(templateContent);
+            editor.setAttribute('style', 'display: block !important; visibility: visible !important;');
+            if (workspaceGuide) {
+                workspaceGuide.setAttribute('style', 'display: none !important;');
+            }
+
+            console.log('✅ 템플릿 로드 완료:', templateName);
+            showStatus(`✅ "${templateName}" 템플릿이 로드되었습니다`, 'success');
         }
 
         // Load welcome message on page load
