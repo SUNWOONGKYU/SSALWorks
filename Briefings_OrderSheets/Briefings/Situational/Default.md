@@ -16,7 +16,7 @@ SSAL Works는 정반대입니다. SAL Grid로 모든 작업을 3차원 좌표계
 
 여기에 더해 SSAL Works는 AI가 지켜야 할 체계를 세 가지로 정리해놓았습니다. 첫째, **Rules(7대 작업 규칙)**는 파일명 규칙, 저장 위치 규칙, Area/Stage 매핑, Grid 작성법, 실행 프로세스, 검증 기준, Task 관리 방법을 정의합니다. 둘째, **Compliance(AI 12대 준수사항)**는 AI가 반드시 지켜야 할 행동 원칙을 명시합니다. 셋째, **Methods(작업 방법)**는 Supabase 같은 외부 서비스 연동 시 구체적인 실행 방법을 안내합니다.
 
-AI가 아무리 뛰어나도 관리 시스템 없이는 제대로 일할 수 없습니다. SSAL Works는 AI가 제대로 일할 수 있도록 Rules, Compliance, Methods까지 갖춰놓은 개발 방법론 플랫폼입니다.
+AI가 아무리 뛰어나도 관리 시스템 없이는 제대로 일할 수 없습니다. SSAL Works는 SAL Grid, Order Sheet, 22개 속성, 검증 시스템, 그리고 Rules, Compliance, Methods까지 모두 갖춰놓은 체계적인 개발 방법론 플랫폼입니다.
 
 ## SSAL이라는 이름의 의미
 
