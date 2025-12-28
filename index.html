@@ -7948,13 +7948,27 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             window.open('/%EB%B6%80%EC%88%98%EC%A0%81_%EA%B3%A0%EC%9C%A0%EA%B8%B0%EB%8A%A5/%EC%BD%98%ED%85%90%EC%B8%A0/%ED%95%99%EC%8A%B5%EC%9A%A9_Books_New/viewer.html', '_blank');
         }
 
-        // AI Tutor 토글
-        function toggleAITutor() {
+        // AI Tutor 토글 (회원 전용)
+        async function toggleAITutor() {
             const overlay = document.getElementById('ai-tutor-overlay');
             const expanded = document.getElementById('ai-tutor-expanded');
             const iframe = document.getElementById('ai-tutor-iframe');
 
-            if (expanded.style.display === 'none') {
+            // 팝업 닫기인 경우 바로 처리
+            if (expanded.style.display !== 'none') {
+                overlay.style.display = 'none';
+                expanded.style.display = 'none';
+                return;
+            }
+
+            // 팝업 열기인 경우 로그인 체크
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
+                    alert('🎓 AI Tutor는 회원 전용 서비스입니다.\n\n로그인 후 이용해 주세요.');
+                    return;
+                }
+
                 overlay.style.display = 'block';
                 expanded.style.display = 'block';
                 // 초기 위치 중앙으로 리셋
@@ -7965,9 +7979,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 if (!iframe.src && iframe.dataset.src) {
                     iframe.src = iframe.dataset.src;
                 }
-            } else {
-                overlay.style.display = 'none';
-                expanded.style.display = 'none';
+            } catch (error) {
+                console.error('로그인 상태 확인 실패:', error);
+                alert('로그인 상태를 확인할 수 없습니다. 페이지를 새로고침 해주세요.');
             }
         }
 
