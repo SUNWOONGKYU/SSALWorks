@@ -7997,7 +7997,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             window.open('/%EB%B6%80%EC%88%98%EC%A0%81_%EA%B3%A0%EC%9C%A0%EA%B8%B0%EB%8A%A5/%EC%BD%98%ED%85%90%EC%B8%A0/%ED%95%99%EC%8A%B5%EC%9A%A9_Books_New/viewer.html', '_blank');
         }
 
-        // AI Tutor 토글 (회원 전용)
+        // AI Tutor 토글 (빌더 계정 전용)
         async function toggleAITutor() {
             const overlay = document.getElementById('ai-tutor-overlay');
             const expanded = document.getElementById('ai-tutor-expanded');
@@ -8010,11 +8010,30 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 return;
             }
 
-            // 팝업 열기인 경우 로그인 체크
+            // 팝업 열기인 경우 로그인 및 빌더 계정 체크
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) {
-                    alert('🎓 AI Tutor는 회원 전용 서비스입니다.\n\n로그인 후 이용해 주세요.');
+                    alert('🎓 AI Tutor는 빌더 계정 전용 서비스입니다.\n\n로그인 후 이용해 주세요.');
+                    return;
+                }
+
+                // 빌더 계정 확인
+                const { data: userData, error: userError } = await window.supabaseClient
+                    .from('users')
+                    .select('installation_fee_paid')
+                    .eq('id', session.user.id)
+                    .single();
+
+                if (userError) {
+                    console.error('사용자 정보 조회 오류:', userError);
+                    alert('사용자 정보를 확인할 수 없습니다. 페이지를 새로고침 해주세요.');
+                    return;
+                }
+
+                // 빌더 계정이 아닌 경우
+                if (!userData || !userData.installation_fee_paid) {
+                    alert('🎓 AI Tutor는 빌더 계정 전용 서비스입니다.\n\n빌더 계정 개설 후 이용해 주세요.');
                     return;
                 }
 
@@ -9002,6 +9021,14 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                     showStatus('❌ 로그인이 필요합니다', 'error');
                     return;
                 }
+
+                // 첫 번째 프로젝트인지 확인 (기존 완료된 프로젝트 수 확인)
+                const { data: existingProjects, error: projectsError } = await localSupabase
+                    .from('projects')
+                    .select('id')
+                    .eq('user_id', session.user.id);
+
+                const isFirstProject = !existingProjects || existingProjects.length === 0;
 
                 // 서버에 프로젝트 생성 요청
                 const response = await fetch('/api/projects/create', {
