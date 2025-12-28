@@ -4683,11 +4683,19 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 textEditor.style.display = 'none';
                 workspaceGuide.style.display = 'block';
 
-                // Default 안내문 다시 표시
-                loadGuideToWorkspace('Default');
+                // Default 안내문 직접 로드 (GUIDE_CONTENTS 확인)
+                if (typeof GUIDE_CONTENTS !== 'undefined' && GUIDE_CONTENTS['Default']) {
+                    workspaceGuide.innerHTML = GUIDE_CONTENTS['Default'];
+                    window.currentLoadedGuide = 'Default';
+                    console.log('✅ Default 안내문 로드 완료');
+                } else {
+                    // GUIDE_CONTENTS가 없으면 기본 메시지 표시
+                    workspaceGuide.innerHTML = '<h1 style="margin-top: 0; margin-bottom: 16px; font-size: 18px; font-weight: 700; color: var(--primary-dark);">SSAL Works에 오신 것을 환영합니다</h1><p style="margin: 16px 0; font-size: 13px; line-height: 1.7;">Control Desk가 초기화되었습니다.</p>';
+                    console.warn('GUIDE_CONTENTS["Default"] not found, using fallback');
+                }
 
-                // 사용자에게 피드백
-                showStatus('Control Desk가 초기화되었습니다', 'success');
+                // 상단 팝업으로 알림
+                alert('Control Desk가 초기화되었습니다.');
             }
         }
 
