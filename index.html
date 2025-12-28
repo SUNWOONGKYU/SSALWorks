@@ -29,8 +29,8 @@
             --color-blue-dark: #2563EB;
 
             /* Layer 2: Accent (2색) */
-            --color-violet: #8B5CF6;
-            --color-violet-dark: #7C3AED;
+            --color-violet: #667eea;
+            --color-violet-dark: #764ba2;
             --color-indigo: #667eea;
             --color-indigo-dark: #764ba2;
 
@@ -3740,7 +3740,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                            id="tipsSearchInput"
                            placeholder="Tips 검색하기"
                            oninput="searchTipsLocal(this.value)"
-                           style="width: 100%; padding: 8px 12px; border: 1px solid #8B5CF6; border-radius: 8px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; transition: all 0.2s;">
+                           style="width: 100%; padding: 8px 12px; border: 1px solid #667eea; border-radius: 8px; font-size: 13px; font-family: 'Noto Sans KR', sans-serif; transition: all 0.2s;">
                 </div>
 
                 <!-- Tips 검색 결과 영역 -->
@@ -12813,7 +12813,7 @@ ${result.answer}`;
             }
 
             let html = `
-                <div style="padding: 8px 12px; background: #F5F3FF; border-radius: 8px; margin-bottom: 8px; font-size: 11px; color: #7C3AED;">
+                <div style="padding: 8px 12px; background: #eef2ff; border-radius: 8px; margin-bottom: 8px; font-size: 11px; color: #764ba2;">
                     🔍 검색 결과: ${results.length}개
                 </div>
             `;
@@ -12822,13 +12822,13 @@ ${result.answer}`;
                 html += `
                     <div style="padding: 10px 12px; margin-bottom: 6px; background: white; border-radius: 8px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
                          onclick="showTipDetail('${item.category}', '${item.title.replace(/'/g, "\\'")}')"
-                         onmouseover="this.style.borderColor='#8B5CF6'; this.style.background='#F5F3FF';"
+                         onmouseover="this.style.borderColor='#667eea'; this.style.background='#eef2ff';"
                          onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white';">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
                             <span style="font-size: 14px;">💡</span>
                             <span style="font-size: 14px; font-weight: 500; color: #333;">${item.title}</span>
                         </div>
-                        <div style="font-size: 11px; color: #8B5CF6;">
+                        <div style="font-size: 11px; color: #667eea;">
                             ${item.category}
                         </div>
                     </div>
@@ -12855,7 +12855,7 @@ ${result.answer}`;
 
             // 로딩 상태 표시
             modal.innerHTML = `
-                <div style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-start; border-radius: 12px 12px 0 0;">
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px 24px; display: flex; justify-content: space-between; align-items: flex-start; border-radius: 12px 12px 0 0;">
                     <div>
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
                             <span style="font-size: 20px;">💡</span>
@@ -12872,8 +12872,8 @@ ${result.answer}`;
                 </div>
                 <style>
                     /* Tips 모달 전용 Markdown 스타일 */
-                    #tipContentArea h1 { font-size: 24px; font-weight: 800; color: #7C3AED; margin: 0 0 16px; padding-bottom: 12px; border-bottom: 3px solid #8B5CF6; }
-                    #tipContentArea h2 { font-size: 20px; font-weight: 700; color: #7C3AED; margin: 28px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #E5E7EB; }
+                    #tipContentArea h1 { font-size: 24px; font-weight: 800; color: #764ba2; margin: 0 0 16px; padding-bottom: 12px; border-bottom: 3px solid #667eea; }
+                    #tipContentArea h2 { font-size: 20px; font-weight: 700; color: #764ba2; margin: 28px 0 12px; padding-bottom: 8px; border-bottom: 2px solid #E5E7EB; }
                     #tipContentArea h3 { font-size: 17px; font-weight: 700; color: #374151; margin: 24px 0 10px; }
                     #tipContentArea h4 { font-size: 15px; font-weight: 700; color: #374151; margin: 20px 0 8px; }
                     #tipContentArea h5 { font-size: 14px; font-weight: 600; color: #4B5563; margin: 16px 0 6px; }
@@ -12882,15 +12882,15 @@ ${result.answer}`;
                     #tipContentArea blockquote { background: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; margin: 16px 0; border-radius: 0 8px 8px 0; }
                     #tipContentArea blockquote p { margin: 0; font-style: italic; }
                     #tipContentArea pre { background: #1E1E1E; color: #D4D4D4; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; font-size: 13px; }
-                    #tipContentArea code { background: #F5F3FF; padding: 2px 6px; border-radius: 4px; font-family: Consolas, Monaco, monospace; font-size: 13px; color: #7C3AED; }
+                    #tipContentArea code { background: #eef2ff; padding: 2px 6px; border-radius: 4px; font-family: Consolas, Monaco, monospace; font-size: 13px; color: #764ba2; }
                     #tipContentArea pre code { background: none; padding: 0; color: inherit; }
                     #tipContentArea table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
                     #tipContentArea th, #tipContentArea td { padding: 10px 14px; text-align: left; border: 1px solid #E5E7EB; }
-                    #tipContentArea th { background: #F5F3FF; font-weight: 600; }
+                    #tipContentArea th { background: #eef2ff; font-weight: 600; }
                     #tipContentArea ul, #tipContentArea ol { margin: 14px 0; padding-left: 24px; }
                     #tipContentArea li { margin-bottom: 6px; }
                     #tipContentArea hr { border: none; border-top: 2px solid #E5E7EB; margin: 28px 0; }
-                    #tipContentArea a { color: #8B5CF6; text-decoration: none; }
+                    #tipContentArea a { color: #667eea; text-decoration: none; }
                     #tipContentArea a:hover { text-decoration: underline; }
                 </style>
                 <div id="tipContentArea" style="padding: 20px 24px; line-height: 1.7; color: #495057; font-size: 14px; overflow-y: auto; max-height: calc(90vh - 140px);">
@@ -12901,7 +12901,7 @@ ${result.answer}`;
                 </div>
                 <div style="padding: 12px 24px; border-top: 1px solid #dee2e6; text-align: right; background: #f8f9fa; border-radius: 0 0 12px 12px;">
                     <button onclick="this.closest('.tips-modal-overlay').remove()"
-                            style="padding: 8px 20px; background: #8B5CF6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;">
+                            style="padding: 8px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;">
                         닫기
                     </button>
                 </div>
@@ -13209,7 +13209,7 @@ ${result.answer}`;
             });
 
             modal.innerHTML = `
-                <div class="tips-modal-header" style="background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
+                <div class="tips-modal-header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
                     <div style="font-size: 18px; font-weight: 700; color: white; pointer-events: none;">💡 Tips (${TIPS_CONTENTS.length}개) <span style="font-size: 11px; opacity: 0.8;">- 드래그하여 이동</span></div>
                     <button onclick="this.closest('.tips-viewer-overlay').remove()"
                             style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 13px; cursor: pointer; padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 4px; font-weight: 500;">
@@ -13219,9 +13219,9 @@ ${result.answer}`;
                 <div style="padding: 12px 16px; border-bottom: 1px solid #E5E7EB;">
                     <input type="text" id="tipsViewerSearch" placeholder="🔍 Tips 검색..."
                            oninput="filterTipsInViewer(this.value)"
-                           style="width: 100%; padding: 10px 14px; border: 1px solid #DDD6FE; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s;"
-                           onfocus="this.style.borderColor='#8B5CF6'"
-                           onblur="this.style.borderColor='#DDD6FE'">
+                           style="width: 100%; padding: 10px 14px; border: 1px solid #c7d2fe; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s;"
+                           onfocus="this.style.borderColor='#667eea'"
+                           onblur="this.style.borderColor='#c7d2fe'">
                 </div>
                 <div style="padding: 8px 16px; border-bottom: 1px solid #E5E7EB; display: flex; gap: 6px; flex-wrap: wrap;">
                     ${categoryBtnsHtml}
@@ -13229,21 +13229,21 @@ ${result.answer}`;
                 <style>
                     .tips-category-btn {
                         padding: 5px 12px;
-                        border: 1px solid #DDD6FE;
+                        border: 1px solid #c7d2fe;
                         border-radius: 16px;
                         background: white;
-                        color: #7C3AED;
+                        color: #667eea;
                         font-size: 11px;
                         cursor: pointer;
                         transition: all 0.2s;
                     }
                     .tips-category-btn:hover {
-                        background: #F5F3FF;
+                        background: #eef2ff;
                     }
                     .tips-category-btn.active {
-                        background: #8B5CF6;
+                        background: #667eea;
                         color: white;
-                        border-color: #8B5CF6;
+                        border-color: #667eea;
                     }
                     .tip-accordion {
                         margin-bottom: 6px;
@@ -13253,7 +13253,7 @@ ${result.answer}`;
                         transition: all 0.2s;
                     }
                     .tip-accordion:hover {
-                        border-color: #8B5CF6;
+                        border-color: #667eea;
                     }
                     .tip-accordion-header {
                         padding: 12px 14px;
@@ -13265,10 +13265,10 @@ ${result.answer}`;
                         transition: background 0.2s;
                     }
                     .tip-accordion-header:hover {
-                        background: #F5F3FF;
+                        background: #eef2ff;
                     }
                     .tip-accordion.open .tip-accordion-header {
-                        background: #F5F3FF;
+                        background: #eef2ff;
                         border-bottom: 1px solid #E5E7EB;
                     }
                     .tip-accordion-title {
@@ -13281,7 +13281,7 @@ ${result.answer}`;
                     }
                     .tip-accordion-arrow {
                         
-                        color: #8B5CF6;
+                        color: #667eea;
                         transition: transform 0.2s;
                     }
                     .tip-accordion.open .tip-accordion-arrow {
@@ -13398,7 +13398,7 @@ ${result.answer}`;
             Object.keys(byCategory).forEach(category => {
                 html += `
                     <div style="margin-bottom: 10px;">
-                        <div style="font-size: 11px; font-weight: 600; color: #8B5CF6; margin-bottom: 6px; padding-left: 4px;">
+                        <div style="font-size: 11px; font-weight: 600; color: #667eea; margin-bottom: 6px; padding-left: 4px;">
                             📂 ${category} (${byCategory[category].length})
                         </div>
                 `;
@@ -13408,10 +13408,10 @@ ${result.answer}`;
                     html += `
                         <div class="tip-item" onclick="showTipDetail('${escapedCategory}', '${escapedTitle}')"
                              style="padding: 12px 16px; margin-bottom: 8px; background: white; border-radius: 8px; cursor: pointer; border: 1px solid #e5e7eb; transition: all 0.2s;"
-                             onmouseover="this.style.borderColor='#8B5CF6'; this.style.background='#F5F3FF';"
+                             onmouseover="this.style.borderColor='#667eea'; this.style.background='#eef2ff';"
                              onmouseout="this.style.borderColor='#e5e7eb'; this.style.background='white';">
                             <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="color: #8B5CF6;">💡</span>
+                                <span style="color: #667eea;">💡</span>
                                 <span style="font-size: 14px; font-weight: 500; color: #333;">${item.title}</span>
                             </div>
                         </div>
