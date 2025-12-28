@@ -54,6 +54,8 @@ BEGIN
         real_name,
         user_id,
         avatar_url,
+        phone,
+        marketing_agreed,
         role,
         subscription_status,
         credit_balance,
@@ -76,13 +78,18 @@ BEGIN
         ),
         generate_unique_user_id(),
         NEW.raw_user_meta_data->>'avatar_url',
+        NEW.raw_user_meta_data->>'phone',
+        COALESCE((NEW.raw_user_meta_data->>'marketing_agreed')::boolean, false),
         'user',
         'free',
         0,
         NOW(),
         NOW()
     )
-    ON CONFLICT (id) DO NOTHING;  -- 이미 있으면 무시
+    ON CONFLICT (id) DO UPDATE SET
+        phone = COALESCE(EXCLUDED.phone, public.users.phone),
+        marketing_agreed = COALESCE(EXCLUDED.marketing_agreed, public.users.marketing_agreed),
+        updated_at = NOW();
 
     RETURN NEW;
 END;

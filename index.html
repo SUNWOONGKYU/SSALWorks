@@ -9209,10 +9209,13 @@ Claude Code가 작업을 완료하면:
                     showStatus('✅ 프로젝트 생성 완료!', 'success');
                     closeAddProjectModal();
 
-                    // 프로젝트 등록 완료 후 패키지 설치 안내 표시
-                    setTimeout(() => {
-                        showPackageInstallGuide();
-                    }, 500);
+                    // 첫 번째 프로젝트일 때만 패키지 설치 안내 표시
+                    // 두 번째 이후 프로젝트는 이미 환경이 구축되어 있으므로 안내 생략
+                    if (isFirstProject) {
+                        setTimeout(() => {
+                            showPackageInstallGuide();
+                        }, 500);
+                    }
 
                 } else {
                     throw new Error(result.error || '프로젝트 생성 실패');
