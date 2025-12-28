@@ -6019,10 +6019,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         };
 
         // 프로젝트 진행률 로드 (DB에서)
-        // 모든 프로젝트는 project_phase_progress 테이블에서 진행률 로드 (project_id 기준)
+        // 사용자 프로젝트는 project_phase_progress 테이블에서 진행률 로드 (project_id 기준)
         async function loadProjectProgress(projectName) {
             try {
-                // 사용자 프로젝트: project_phase_progress 테이블에서 로드
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) {
                     resetAllProgressToZero();
@@ -6054,12 +6053,34 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
 
-                // 사용자 프로젝트의 phase_progress 로드
-                await loadPhaseProgressFromDB(project.project_id);
-                console.log('📊 사용자 프로젝트 진행률 로드:', project.project_id);
+                // DB에서 사용자 프로젝트 진행률 조회
+                const { data: progressData, error: progressError } = await window.supabaseClient
+                    .from('project_phase_progress')
+                    .select('phase_code, progress')
+                    .eq('project_id', project.project_id);
+
+                if (progressError || !progressData || progressData.length === 0) {
+                    // DB에 진행률 데이터 없음 → 0%로 초기화 (새 프로젝트)
+                    console.log('📊 사용자 프로젝트 진행률 없음 (새 프로젝트):', project.project_id);
+                    resetAllProgressToZero();
+                    return;
+                }
+
+                // DB에서 로드한 진행률 적용
+                progressData.forEach(({ phase_code, progress }) => {
+                    if (phase_code === 'P0' || phase_code === 'S0') {
+                        updateSpecialProgress(phase_code, progress);
+                    } else if (phase_code.startsWith('P')) {
+                        updatePrepProgressByCode(phase_code, progress);
+                    } else if (phase_code.startsWith('S')) {
+                        updateStageProgress(phase_code, progress);
+                    }
+                });
+                console.log('📊 사용자 프로젝트 진행률 로드 완료:', project.project_id, '/', progressData.length, '개 단계');
 
             } catch (error) {
                 console.error('진행률 로드 오류:', error);
+                resetAllProgressToZero();
             }
         }
 
