@@ -46,8 +46,6 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 10) Sunny에게 수시 질문하기 및 3개월 1:1 맞춤형 코칭(개발 + 창업 + 경영 자문) 프로그램
 
----
-
 ## SSAL Works 해설
 
 **Claude Code**는 Anthropic이 개발한 AI 도구입니다. 터미널에서 실행되며, 사용자의 지시를 받아 코드를 작성하고, 파일을 만들고, 프로젝트를 관리합니다. SSAL Works는 이 Claude Code를 핵심 도구로 사용합니다.
