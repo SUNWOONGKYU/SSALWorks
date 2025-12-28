@@ -6021,8 +6021,11 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             }
         };
 
-        // 프로젝트 진행률 로드 (DB에서)
-        // 사용자 프로젝트는 project_phase_progress 테이블에서 진행률 로드 (project_id 기준)
+        // 프로젝트 진행률 로드
+        // 관리자(wkfsahsn99@gmail.com): DB에서 로드
+        // 일반 사용자: CSV 방식 (로컬에서 JSON) → 웹에서는 0% 표시
+        const ADMIN_EMAIL = 'wkfsahsn99@gmail.com';
+
         async function loadProjectProgress(projectName) {
             try {
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
@@ -6031,6 +6034,18 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
 
+                // 관리자 여부 확인
+                const userEmail = session.user.email;
+                const isAdmin = userEmail === ADMIN_EMAIL;
+
+                if (!isAdmin) {
+                    // 일반 사용자: CSV 방식 (로컬 JSON) - 웹에서는 0% 표시
+                    console.log('📊 일반 사용자 - 진행률은 로컬 환경(Dev Package)에서 확인');
+                    resetAllProgressToZero();
+                    return;
+                }
+
+                // 관리자만 DB에서 진행률 로드
                 const { data: userData } = await window.supabaseClient
                     .from('users')
                     .select('user_id')
@@ -6056,16 +6071,16 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
 
-                // DB에서 사용자 프로젝트 진행률 조회
+                // DB에서 관리자 프로젝트 진행률 조회
                 const { data: progressData, error: progressError } = await window.supabaseClient
                     .from('project_phase_progress')
                     .select('phase_code, progress')
                     .eq('project_id', project.project_id);
 
                 if (progressError || !progressData || progressData.length === 0) {
-                    // DB에 진행률 데이터 없음 → 0%로 초기화 (새 프로젝트)
-                    console.log('📊 사용자 프로젝트 진행률 없음 (새 프로젝트):', project.project_id);
-                    resetAllProgressToZero();
+                    // DB에 진행률 데이터 없음 → JSON 파일에서 로드 시도
+                    console.log('📊 관리자 DB 진행률 없음, JSON에서 로드 시도');
+                    await loadPhaseProgressFromDB();
                     return;
                 }
 
@@ -6079,7 +6094,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                         updateStageProgress(phase_code, progress);
                     }
                 });
-                console.log('📊 사용자 프로젝트 진행률 로드 완료:', project.project_id, '/', progressData.length, '개 단계');
+                console.log('📊 관리자 프로젝트 진행률 로드 완료 (DB):', project.project_id, '/', progressData.length, '개 단계');
 
             } catch (error) {
                 console.error('진행률 로드 오류:', error);

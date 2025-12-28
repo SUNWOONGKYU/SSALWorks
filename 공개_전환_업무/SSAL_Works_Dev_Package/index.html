@@ -5942,9 +5942,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
 
-                // 사용자 프로젝트의 phase_progress 로드
+                // 로컬 JSON 파일에서 진행률 로드 (CSV 방식)
                 await loadPhaseProgressFromDB(project.project_id);
-                console.log('📊 사용자 프로젝트 진행률 로드:', project.project_id);
+                console.log('📊 프로젝트 진행률 로드:', project.project_id);
 
             } catch (error) {
                 console.error('진행률 로드 오류:', error);
@@ -10436,11 +10436,11 @@ ${result.answer}`;
             });
         }
 
-        // 페이지 로드 시 진행률 자동 업데이트 (JSON 파일에서 로드)
+        // 페이지 로드 시 로컬 JSON 파일에서 진행률 로드 (CSV 방식)
         window.addEventListener('load', () => {
             setTimeout(() => {
-                loadPhaseProgressFromDB();
-            }, 500);  // JSON 파일은 빠르게 로드 가능
+                loadPhaseProgressFromDB();  // phase_progress.json에서 로드
+            }, 500);
         });
     </script>
 
@@ -10643,7 +10643,7 @@ ${result.answer}`;
                 loadStageGateStatus(); // Stage Gate 상태 확인 및 진행률 업데이트
                 loadGridStats(); // SSAL Grid 통계 로드
                 setInterval(loadGridStats, 30000); // 30초마다 자동 갱신
-                loadPhaseProgressFromDB(); // P0~S5 진행률 로드
+                loadPhaseProgressFromDB(); // P0~S5 진행률 로드 (로컬 JSON)
             } else {
                 console.warn('⚠️ Supabase 라이브러리가 로드되지 않았습니다.');
                 setTimeout(initSupabase, 1000); // 1초 후 재시도
