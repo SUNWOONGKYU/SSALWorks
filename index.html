@@ -4673,9 +4673,21 @@ The content you enter in the Control Desk will be displayed here.</pre>
         // Clear editor - textEditor 비우고 Default 안내문 복원
         function clearEditor() {
             if (confirm('Control Desk 내용을 초기화하시겠습니까?')) {
-                document.getElementById('textEditor').value = '';
+                const textEditor = document.getElementById('textEditor');
+                const workspaceGuide = document.getElementById('workspaceGuide');
+
+                // textEditor 비우기
+                textEditor.value = '';
+
+                // 표시 상태 전환: textEditor 숨기고 workspaceGuide 표시
+                textEditor.style.display = 'none';
+                workspaceGuide.style.display = 'block';
+
                 // Default 안내문 다시 표시
                 loadGuideToWorkspace('Default');
+
+                // 사용자에게 피드백
+                showStatus('Control Desk가 초기화되었습니다', 'success');
             }
         }
 
