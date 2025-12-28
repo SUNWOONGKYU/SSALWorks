@@ -4682,50 +4682,65 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 // 요소 존재 확인
                 if (!textEditor || !workspaceGuide) {
                     console.error('❌ clearEditor: 필수 요소를 찾을 수 없음');
+                    console.error('textEditor:', textEditor, 'workspaceGuide:', workspaceGuide);
                     alert('오류: Control Desk 요소를 찾을 수 없습니다.');
                     return;
                 }
 
-                console.log('📍 현재 상태: textEditor.display=' + textEditor.style.display + ', workspaceGuide.display=' + workspaceGuide.style.display);
+                console.log('📍 현재 상태:');
+                console.log('  - textEditor.display:', textEditor.style.display || '(없음)');
+                console.log('  - workspaceGuide.display:', workspaceGuide.style.display || '(없음)');
+                console.log('  - textEditor.value 길이:', textEditor.value.length);
 
                 // 1. textEditor 비우기 및 숨기기
                 textEditor.value = '';
                 textEditor.setAttribute('style', 'display: none !important; visibility: hidden !important;');
-                console.log('✅ textEditor 비우기 및 숨기기 완료');
+                console.log('✅ 1. textEditor 비우기 및 숨기기 완료');
 
                 // 2. translationSection 숨기기
                 if (translationSection) {
                     translationSection.setAttribute('style', 'display: none !important;');
-                    console.log('✅ translationSection 숨기기 완료');
+                    console.log('✅ 2. translationSection 숨기기 완료');
                 }
 
-                // 3. workspaceGuide 표시
-                workspaceGuide.setAttribute('style', 'display: block !important; visibility: visible !important; padding: 20px; font-size: 13px; line-height: 1.7; color: #212529; overflow-y: auto; height: 100%;');
-                console.log('✅ workspaceGuide 표시 완료');
+                // 3. workspaceGuide 표시 (모든 필수 스타일 포함)
+                workspaceGuide.setAttribute('style', 'display: block !important; visibility: visible !important; padding: 20px; font-size: 13px; line-height: 1.7; color: #212529; overflow-y: auto; height: 100%; width: 100%;');
+                console.log('✅ 3. workspaceGuide 표시 완료');
 
                 // 4. Default 안내문 로드
-                if (typeof GUIDE_CONTENTS !== 'undefined' && GUIDE_CONTENTS['Default']) {
+                console.log('📊 GUIDE_CONTENTS 상태:', typeof GUIDE_CONTENTS !== 'undefined' ? 'exists' : 'undefined');
+                if (typeof GUIDE_CONTENTS !== 'undefined' && GUIDE_CONTENTS !== null && GUIDE_CONTENTS['Default']) {
                     workspaceGuide.innerHTML = GUIDE_CONTENTS['Default'];
                     window.currentLoadedGuide = 'Default';
-                    console.log('✅ Default 안내문 로드 완료, 길이: ' + GUIDE_CONTENTS['Default'].length);
+                    console.log('✅ 4. Default 안내문 로드 완료, 길이:', GUIDE_CONTENTS['Default'].length);
                 } else {
                     // GUIDE_CONTENTS가 없으면 기본 메시지 표시
                     workspaceGuide.innerHTML = '<h1 style="margin-top: 0; margin-bottom: 16px; font-size: 18px; font-weight: 700; color: var(--primary-dark);">SSAL Works에 오신 것을 환영합니다</h1><p style="margin: 16px 0; font-size: 13px; line-height: 1.7;">Control Desk가 초기화되었습니다.</p>';
-                    console.warn('⚠️ GUIDE_CONTENTS["Default"] not found, using fallback');
+                    console.warn('⚠️ 4. GUIDE_CONTENTS["Default"] not found, using fallback');
+                    console.warn('  - GUIDE_CONTENTS type:', typeof GUIDE_CONTENTS);
+                    if (typeof GUIDE_CONTENTS !== 'undefined') {
+                        console.warn('  - GUIDE_CONTENTS keys:', Object.keys(GUIDE_CONTENTS).slice(0, 5));
+                    }
                 }
 
                 // 5. 스크롤 위치 초기화
                 workspaceGuide.scrollTop = 0;
+                console.log('✅ 5. 스크롤 위치 초기화 완료');
 
-                // 6. DOM 강제 리플로우 (브라우저가 변경사항을 즉시 반영하도록)
+                // 6. DOM 강제 리플로우
                 void workspaceGuide.offsetHeight;
+                void textEditor.offsetHeight;
 
-                console.log('📍 변경 후 상태: textEditor.display=' + getComputedStyle(textEditor).display + ', workspaceGuide.display=' + getComputedStyle(workspaceGuide).display);
+                // 최종 상태 확인
+                console.log('📍 변경 후 상태:');
+                console.log('  - textEditor computed display:', getComputedStyle(textEditor).display);
+                console.log('  - workspaceGuide computed display:', getComputedStyle(workspaceGuide).display);
+                console.log('  - workspaceGuide innerHTML 길이:', workspaceGuide.innerHTML.length);
                 console.log('✅ clearEditor 완료');
 
                 // 약간의 딜레이 후 알림 (브라우저 렌더링 완료 보장)
                 setTimeout(() => {
-                    alert('Control Desk가 초기화되었습니다.');
+                    showStatus('✅ Control Desk가 초기화되었습니다', 'success');
                 }, 50);
             }
         }
@@ -4781,7 +4796,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 console.log('✅ ordersheetTemplates에서 템플릿 발견');
             }
             // 2. ORDER_SHEET_TEMPLATES에서 찾기 (정적 JS 파일에서 로드)
-            else if (typeof ORDER_SHEET_TEMPLATES !== 'undefined') {
+            else if (typeof ORDER_SHEET_TEMPLATES !== 'undefined' && ORDER_SHEET_TEMPLATES !== null) {
                 // 키 변환: "P0-1" → "P0-1_OrderSheet"
                 const orderSheetKey = categoryKey + '_OrderSheet';
                 if (ORDER_SHEET_TEMPLATES[orderSheetKey]) {
@@ -4794,23 +4809,38 @@ The content you enter in the Control Desk will be displayed here.</pre>
             // 템플릿을 찾지 못한 경우
             if (!templateContent) {
                 console.warn('Template not found for:', categoryKey);
+                console.log('📊 ORDER_SHEET_TEMPLATES 존재:', typeof ORDER_SHEET_TEMPLATES !== 'undefined');
                 showStatus(`📂 "${categoryKey}" 폴더를 열려면 더블클릭하세요 (Antigravity 또는 VS Code 선택)`, 'info');
                 return;
             }
 
             const editor = document.getElementById('textEditor');
             const workspaceGuide = document.getElementById('workspaceGuide');
+            const translationSection = document.getElementById('translationSection');
+
+            // 요소 존재 확인
+            if (!editor) {
+                console.error('❌ loadTemplate: textEditor를 찾을 수 없음');
+                return;
+            }
 
             // Ask user if they want to replace current content
             if (editor.value.trim() && !(await customConfirm('Replace current Control Desk content with this template?'))) {
                 return;
             }
 
-            // textEditor 표시하고 workspaceGuide 숨기기
+            // 1. textEditor에 내용 설정 및 표시
             editor.value = convertMarkdownToPlainText(templateContent);
-            editor.setAttribute('style', 'display: block !important; visibility: visible !important;');
+            editor.setAttribute('style', 'display: block !important; visibility: visible !important; width: 100%; height: 100%;');
+
+            // 2. workspaceGuide 숨기기
             if (workspaceGuide) {
-                workspaceGuide.setAttribute('style', 'display: none !important;');
+                workspaceGuide.setAttribute('style', 'display: none !important; visibility: hidden !important;');
+            }
+
+            // 3. translationSection 숨기기
+            if (translationSection) {
+                translationSection.setAttribute('style', 'display: none !important;');
             }
 
             console.log('✅ 템플릿 로드 완료:', templateName);
@@ -9849,8 +9879,12 @@ ${result.answer}`;
                 // 워크스페이스에 안내문 직접 표시
                 workspaceGuide.innerHTML = htmlContent;
                 window.currentLoadedGuide = guideName;
-                workspaceGuide.style.display = 'block';
-                if (textEditor) textEditor.style.display = 'none';
+
+                // 일관성 있는 스타일 적용 (!important 사용)
+                workspaceGuide.setAttribute('style', 'display: block !important; visibility: visible !important; padding: 20px; font-size: 13px; line-height: 1.7; color: #212529; overflow-y: auto; height: 100%; width: 100%;');
+                if (textEditor) {
+                    textEditor.setAttribute('style', 'display: none !important; visibility: hidden !important;');
+                }
 
                 console.log(`✅ ${guideName} 안내문 워크스페이스에 로드 완료`);
             } else {
@@ -9889,9 +9923,19 @@ ${result.answer}`;
         function showOrderSheetEditor() {
             const workspaceGuide = document.getElementById('workspaceGuide');
             const textEditor = document.getElementById('textEditor');
-            if (workspaceGuide) workspaceGuide.style.display = 'none';
-            if (textEditor) textEditor.style.display = 'block';
-            textEditor.focus();
+            const translationSection = document.getElementById('translationSection');
+
+            // 일관성 있는 스타일 적용 (!important 사용)
+            if (workspaceGuide) {
+                workspaceGuide.setAttribute('style', 'display: none !important; visibility: hidden !important;');
+            }
+            if (translationSection) {
+                translationSection.setAttribute('style', 'display: none !important;');
+            }
+            if (textEditor) {
+                textEditor.setAttribute('style', 'display: block !important; visibility: visible !important; width: 100%; height: 100%;');
+                textEditor.focus();
+            }
         }
 
         // 페이지 로드 시 Default 안내문 표시 (로그인 여부 무관하게 항상 동일)
