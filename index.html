@@ -5170,20 +5170,31 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheetUrl: 'templates/S0-1_OrderSheet.md'
             },
 
-            // ===== SAL Grid 하위 항목 =====
-            'sal_grid_manual': {
-                stageId: 'sal_grid_manual',
+            // ===== S0 하위 항목 (Manual → SAL-Grid → Method → Viewer) =====
+            's0_1': {
+                stageId: 's0_1',
                 stageName: 'Manual',
                 hasAction: true,
-                confirmMessage: 'Manual 업데이트 작업을 진행하시겠습니까?',
+                confirmMessage: 'Manual 작업을 진행하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
                 guideUrl: 'guides/S0-1_Briefing.html',
                 orderSheetUrl: 'templates/S0-1_OrderSheet.md'
             },
 
-            'sal_grid_method': {
-                stageId: 'sal_grid_method',
+            's0_2': {
+                stageId: 's0_2',
+                stageName: 'SAL-Grid',
+                hasAction: true,
+                confirmMessage: 'SAL Grid 생성 작업을 진행하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/S0-2_Briefing.html',
+                orderSheetUrl: 'templates/S0-2_OrderSheet.md'
+            },
+
+            's0_3': {
+                stageId: 's0_3',
                 stageName: 'Method',
                 hasAction: true,
                 confirmMessage: 'Method 선택 작업을 진행하시겠습니까?',
@@ -5193,8 +5204,8 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheetUrl: 'templates/S0-3_OrderSheet.md'
             },
 
-            'sal_grid_viewer': {
-                stageId: 'sal_grid_viewer',
+            's0_4': {
+                stageId: 's0_4',
                 stageName: 'Viewer',
                 hasAction: true,
                 confirmMessage: 'Viewer 작업을 진행하시겠습니까?',
@@ -5202,18 +5213,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheet: '',
                 guideUrl: 'guides/S0-4_Briefing.html',
                 orderSheetUrl: 'templates/S0-4_OrderSheet.md'
-            },
-
-            // ===== ◈ SAL Grid (Task 기획 + Grid 생성) =====
-            'ssal_grid': {
-                stageId: 'ssal_grid',
-                stageName: 'SAL Grid',
-                hasAction: true,
-                confirmMessage: 'SAL Grid 작업을 진행하시겠습니까?',
-                orderSheetAfterExecute: '',
-                orderSheet: '',
-                guideUrl: 'guides/S0-1_Briefing.html',
-                orderSheetUrl: 'templates/S0-1_OrderSheet.md'
             },
 
             // ===== ○ 사업계획: 0-1 시장조사 =====
