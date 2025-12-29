@@ -10,9 +10,9 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 <span style="color: #059669; font-weight: bold;">무료로 일단 회원 가입을 하시고 플랫폼을 전체적으로 찬찬히 둘러보세요.</span>
 
-<span style="color: #CC785C; font-weight: bold;">※ 회원 가입: **Header 오른쪽 "회원가입" 버튼** 클릭</span>
+<span style="color: #F59E0B; font-weight: bold;">※ 회원 가입: **Header 오른쪽 "회원가입" 버튼** 클릭</span>
 
-<span style="color: #CC785C; font-weight: bold;">※ 로그인: **Header 오른쪽 "로그인" 버튼** 클릭 (Google 계정 또는 이메일)</span>
+<span style="color: #F59E0B; font-weight: bold;">※ 로그인: **Header 오른쪽 "로그인" 버튼** 클릭 (Google 계정 또는 이메일)</span>
 
 1) **메인 화면 왼쪽**: 프로젝트 진행 프로세스 관리방법, 단계별로 제시되어 있는 34개의 안내문과 32개의 Order Sheet 템플릿 살펴보기
 
@@ -28,9 +28,9 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 필요성이 있고 매력이 느껴지면, 바로 빌더 계정을 개설한 후에 본인의 창의적인 아이디어가 구현된 풀스택 웹사이트 개발 작업을 시작해보세요.
 
-<span style="color: #CC785C; font-weight: bold;">※ 빌더 계정 개설: **왼쪽 사이드바 상단 My Page > 서비스 이용 현황 > 빌더 계정 개설비 납부**</span>
+<span style="color: #F59E0B; font-weight: bold;">※ 빌더 계정 개설: **왼쪽 사이드바 상단 My Page > 서비스 이용 현황 > 빌더 계정 개설비 납부**</span>
 
-<span style="color: #CC785C; font-weight: bold;">※ 빌더 계정 개설 후 첫 단계: **프로젝트 등록 → Dev Package 다운로드 및 설치 → Claude Code 설치 → 개발 시작**</span>
+<span style="color: #F59E0B; font-weight: bold;">※ 빌더 계정 개설 후 첫 단계: **프로젝트 등록 → Dev Package 다운로드 및 설치 → Claude Code 설치 → 개발 시작**</span>
 
 <span style="color: #059669; font-weight: bold;">빌더 계정을 개설하면 아래와 같은 특별한 기능 10가지를 사용할 수 있습니다.</span>
 

@@ -88,7 +88,7 @@ Project SAL Grid의 S4에 있는 모든 Task를 수행하라.
 | 01_file-naming.md | 파일 생성 시 |
 | **02_save-location.md** | **파일 저장 시 (필독!)** |
 | 03_area-stage.md | 폴더 선택 시 |
-| 04_grid-writing-supabase.md | Grid 업데이트 시 |
+| 04_grid-writing.md | Grid 업데이트 시 |
 | 05_execution-process.md | Task 실행 시 |
 | 06_verification.md | 검증 시 |
 | 07_task-crud.md | Task 추가/삭제/수정 시 |

@@ -71,12 +71,12 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 │   ├── 01_file-naming.md
 │   ├── 02_save-location.md
 │   ├── 03_area-stage.md
-│   ├── 04_grid-writing-supabase.md
+│   ├── 04_grid-writing.md
 │   ├── 05_execution-process.md
 │   ├── 06_verification.md
 │   └── 07_task-crud.md
 ├── methods/                     # 작업 방법
-│   └── 01_supabase-crud.md
+│   └── 01_grid-crud.md
 ├── commands/                    # 슬래시 커맨드 (15개)
 ├── skills/                      # AI 스킬 정의 (14개)
 ├── subagents/                   # 서브에이전트 정의 (17개)
@@ -133,7 +133,7 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 
 하위 폴더: Database, Documentation, Frontend
 
-- Database/: Supabase 환경변수(.env), DB 스키마
+- Database/: DB 스키마, 환경변수(.env)
 - Documentation/: 프로토타입 관련 문서
 - Frontend/Prototype/: 프로토타입 HTML 페이지
 
@@ -154,10 +154,12 @@ S0_Project-SAL-Grid_생성/
 │   ├── manual_template.md        # 매뉴얼 템플릿
 │   └── build-manual.js           # 매뉴얼 빌드 스크립트
 ├── method/
-│   └── database/supabase/        # Supabase 스키마
+│   └── csv/                      # CSV Method (JSON 파일)
+│       └── data/
+│           └── project_sal_grid.json
 ├── viewer/
-│   ├── viewer_csv.html           # CSV 뷰어
-│   └── viewer_database.html      # DB 뷰어
+│   ├── viewer_csv.html           # PC용 뷰어
+│   └── viewer_mobile_csv.html    # 모바일용 뷰어
 └── build-sal-grid-csv.js         # CSV 빌드 스크립트
 ```
 
