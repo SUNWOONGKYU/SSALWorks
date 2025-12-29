@@ -3065,49 +3065,49 @@
                             </div>
                         </div>
                         <div class="process-small-list">
-                            <div class="process-small" onclick="loadProcessStage('plan_1_1', 'Project Plan', 'P2')">
+                            <div class="process-small" onclick="loadProcessStage('p2_1', 'Project Plan', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Project_Plan</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_3', 'User Flows', 'P2')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>User_Flows</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_2', 'Requirements', 'P2')">
+                            <div class="process-small" onclick="loadProcessStage('p2_2', 'Requirements', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Requirements</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_4', 'Design System', 'P2')">
+                            <div class="process-small" onclick="loadProcessStage('p2_3', 'User Flows', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
-                                    <span>Design_System</span>
+                                    <span>User_Flows</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_mockup', 'UI/UX Mockup', 'P2')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>UI_UX_Mockup</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_5', 'Tech Stack', 'P2')">
-                                <div class="process-small-content">
-                                    <span class="process-small-bullet">●</span>
-                                    <span>Tech_Stack</span>
-                                </div>
-                            </div>
-                            <div class="process-small" onclick="loadProcessStage('plan_1_6', 'Workflows', 'P2')">
+                            <div class="process-small" onclick="loadProcessStage('p2_4', 'Workflows', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Workflows</span>
                                 </div>
                             </div>
-                            <div class="process-small" onclick="loadProcessStage('service_intro', 'Service Introduction', 'P2')">
+                            <div class="process-small" onclick="loadProcessStage('p2_5', 'Design System', 'P2')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Design_System</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('p2_6', 'UI/UX Mockup', 'P2')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>UI_UX_Mockup</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('p2_7', 'Tech Stack', 'P2')">
+                                <div class="process-small-content">
+                                    <span class="process-small-bullet">●</span>
+                                    <span>Tech_Stack</span>
+                                </div>
+                            </div>
+                            <div class="process-small" onclick="loadProcessStage('p2_8', 'Service Introduction', 'P2')">
                                 <div class="process-small-content">
                                     <span class="process-small-bullet">●</span>
                                     <span>Service_Introduction</span>
@@ -5088,15 +5088,16 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheetUrl: 'templates/P0-2_OrderSheet.md'
             },
 
-            // ===== P2 하위 항목 =====
-            'service_intro': {
-                stageId: 'service_intro',
+            // ===== P2 하위 항목 (p2_1 ~ p2_8) =====
+            'p2_8': {
+                stageId: 'p2_8',
                 stageName: 'Service Introduction',
-                hasAction: false,
-                confirmMessage: '',
+                hasAction: true,
+                confirmMessage: '서비스 소개를 위와 같이 작성하시겠습니까?',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
-                guideUrl: 'guides/P2-5_Briefing.html'
+                guideUrl: 'guides/P2-8_Briefing.html',
+                orderSheetUrl: 'templates/P2-8_OrderSheet.md'
             },
 
             // ===== ☆ 특별단계: SAL Grid 생성 =====
@@ -5347,357 +5348,82 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 orderSheetUrl: 'templates/P1-3_OrderSheet.md'
             },
 
-            // ===== ○ 프로젝트 기획: 1-1 ~ 1-6 =====
-            'plan_1_1': {
-                stageId: 'plan_1_1',
-                stageName: '1-1 Project Plan',
+            // ===== ○ 프로젝트 기획: P2-1 ~ P2-7 =====
+            'p2_1': {
+                stageId: 'p2_1',
+                stageName: 'Project Plan',
                 hasAction: true,
                 confirmMessage: 'Project Plan을 위와 같이 작성하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - Project Plan
-
-## ✅ 자동 실행된 항목
-
-- [x] 프로젝트 목표 정의
-- [x] 범위 설정
-- [x] 일정 계획
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - Project Plan
-
-## 기본 정보
-- **Order ID**: OS-1-1-A-001
-- **단계 유형**: ○ 프로젝트 기획
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 작성 항목
-
-- [ ] 프로젝트 목표
-- [ ] 범위 설정
-- [ ] 일정 계획
-- [ ] 리소스 계획
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
+                orderSheetAfterExecute: '',
+                orderSheet: '',
                 guideUrl: 'guides/P2-1_Briefing.html',
                 orderSheetUrl: 'templates/P2-1_OrderSheet.md'
             },
 
-            'plan_1_2': {
-                stageId: 'plan_1_2',
-                stageName: '1-2 Requirements',
+            'p2_2': {
+                stageId: 'p2_2',
+                stageName: 'Requirements',
                 hasAction: true,
                 confirmMessage: '요구사항을 위와 같이 정의하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - Requirements
-
-## ✅ 자동 실행된 항목
-
-- [x] 기능 요구사항 정의
-- [x] 비기능 요구사항 정의
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - Requirements
-
-## 기본 정보
-- **Order ID**: OS-1-2-A-001
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 기능 요구사항
-
-- [ ] [기능 1]
-- [ ] [기능 2]
-
-## 비기능 요구사항
-
-- [ ] 성능
-- [ ] 보안
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
-                guideUrl: 'guides/P2-2-1_Briefing.html',
-                orderSheetUrl: 'templates/P2-2-1_OrderSheet.md'
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/P2-2_Briefing.html',
+                orderSheetUrl: 'templates/P2-2_OrderSheet.md'
             },
 
-            'plan_1_3': {
-                stageId: 'plan_1_3',
-                stageName: '1-3 Architecture',
+            'p2_3': {
+                stageId: 'p2_3',
+                stageName: 'User Flows',
                 hasAction: true,
-                confirmMessage: '아키텍처를 위와 같이 설계하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - Architecture
-
-## ✅ 자동 실행된 항목
-
-- [x] 시스템 아키텍처 설계
-- [x] 기술 스택 선정
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - Architecture
-
-## 기본 정보
-- **Order ID**: OS-1-3-A-001
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 설계 항목
-
-- [ ] 시스템 아키텍처
-- [ ] 기술 스택 선정
-- [ ] 인프라 설계
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
-                guideUrl: 'guides/P2-2-2_Briefing.html',
-                orderSheetUrl: 'templates/P2-2-2_OrderSheet.md'
+                confirmMessage: 'User Flows를 위와 같이 작성하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/P2-3_Briefing.html',
+                orderSheetUrl: 'templates/P2-3_OrderSheet.md'
             },
 
-            'plan_1_4': {
-                stageId: 'plan_1_4',
-                stageName: '1-4 UI/UX',
+            'p2_4': {
+                stageId: 'p2_4',
+                stageName: 'Workflows',
                 hasAction: true,
-                confirmMessage: 'UI/UX를 위와 같이 설계하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - UI/UX
-
-## ✅ 자동 실행된 항목
-
-- [x] 와이어프레임 작성
-- [x] UI 디자인
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - UI/UX
-
-## 기본 정보
-- **Order ID**: OS-1-4-A-001
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 설계 항목
-
-- [ ] 와이어프레임
-- [ ] UI 디자인
-- [ ] UX 플로우
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
-                guideUrl: 'guides/P2-3-1_Briefing.html',
-                orderSheetUrl: 'templates/P2-3-1_OrderSheet.md'
-            },
-
-            'plan_1_5': {
-                stageId: 'plan_1_5',
-                stageName: '1-5 DB Design',
-                hasAction: true,
-                confirmMessage: 'DB를 위와 같이 설계하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - DB Design
-
-## ✅ 자동 실행된 항목
-
-- [x] ERD 작성
-- [x] 테이블 설계
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - DB Design
-
-## 기본 정보
-- **Order ID**: OS-1-5-A-001
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 설계 항목
-
-- [ ] ERD 작성
-- [ ] 테이블 설계
-- [ ] 인덱스 설계
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
+                confirmMessage: 'Workflows를 위와 같이 작성하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
                 guideUrl: 'guides/P2-4_Briefing.html',
                 orderSheetUrl: 'templates/P2-4_OrderSheet.md'
             },
 
-            'plan_1_6': {
-                stageId: 'plan_1_6',
-                stageName: '1-6 API Design',
+            'p2_5': {
+                stageId: 'p2_5',
+                stageName: 'Design System',
                 hasAction: true,
-                confirmMessage: 'API를 위와 같이 설계하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - API Design
-
-## ✅ 자동 실행된 항목
-
-- [x] API 엔드포인트 정의
-- [x] API 명세서 작성
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - API Design
-
-## 기본 정보
-- **Order ID**: OS-1-6-A-001
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 설계 항목
-
-- [ ] API 엔드포인트 정의
-- [ ] 요청/응답 형식
-- [ ] 인증 방식
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
-                guideUrl: 'guides/P2-2-3_Briefing.html',
-                orderSheetUrl: 'templates/P2-2-3_OrderSheet.md'
+                confirmMessage: 'Design System을 위와 같이 작성하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/P2-5_Briefing.html',
+                orderSheetUrl: 'templates/P2-5_OrderSheet.md'
             },
 
-            // ===== P2 추가 단계 =====
-            'plan_mockup': {
-                stageId: 'plan_mockup',
-                stageName: '목업 제작',
+            'p2_6': {
+                stageId: 'p2_6',
+                stageName: 'UI/UX Mockup',
                 hasAction: true,
                 confirmMessage: '목업을 위와 같이 제작하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - 목업 제작
-
-## ✅ 자동 실행된 항목
-
-- [x] 화면 목업 디자인
-- [x] 레이아웃 구성
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - 목업 제작
-
-## 기본 정보
-- **Order ID**: OS-P2-MK-001
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 작업 항목
-
-- [ ] 주요 화면 목업 디자인
-- [ ] 레이아웃 구성
-- [ ] 반응형 디자인 고려
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
-                guideUrl: 'guides/P2-3-2_Briefing.html',
-                orderSheetUrl: 'templates/P2-3-2_OrderSheet.md'
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/P2-6_Briefing.html',
+                orderSheetUrl: 'templates/P2-6_OrderSheet.md'
             },
 
-            'plan_prototype': {
-                stageId: 'plan_prototype',
-                stageName: '프로토타입 설계',
+            'p2_7': {
+                stageId: 'p2_7',
+                stageName: 'Tech Stack',
                 hasAction: true,
-                confirmMessage: '프로토타입을 위와 같이 설계하시겠습니까?',
-                orderSheetAfterExecute: `# 추가 Order Sheet - 프로토타입 설계
-
-## ✅ 자동 실행된 항목
-
-- [x] 인터랙션 정의
-- [x] 화면 전환 흐름
-
----
-
-## 📝 추가 요청사항
-
-[추가 요청사항을 작성하세요]
-
-`,
-                orderSheet: `# Order Sheet - 프로토타입 설계
-
-## 기본 정보
-- **Order ID**: OS-P2-PT-001
-- **작성일**: ${new Date().toISOString().split('T')[0]}
-
----
-
-## 작업 항목
-
-- [ ] 인터랙션 정의
-- [ ] 화면 전환 흐름
-- [ ] 사용성 테스트 계획
-
----
-
-## 추가 지시사항
-
-[추가 요구사항이 있으면 여기에 작성]
-`,
-                guideUrl: 'guides/P2-3-3_Briefing.html',
-                orderSheetUrl: 'templates/P2-3-3_OrderSheet.md'
+                confirmMessage: 'Tech Stack을 위와 같이 설계하시겠습니까?',
+                orderSheetAfterExecute: '',
+                orderSheet: '',
+                guideUrl: 'guides/P2-7_Briefing.html',
+                orderSheetUrl: 'templates/P2-7_OrderSheet.md'
             },
 
             // ===== P3 추가 단계 =====
