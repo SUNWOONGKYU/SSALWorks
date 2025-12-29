@@ -3393,3 +3393,89 @@ curl -X DELETE "/api/comments/[comment_id]" \
   }'
 ```
 
+
+---
+
+## 2025-12-29 오후 작업 내역
+
+### 1. 빌더 계정 부여 (심재우)
+
+#### 작업 상태: ✅ 완료
+
+| 항목 | 내용 |
+|------|------|
+| 빌더명 | 심재우 |
+| 이메일 | jaiwshim@gmail.com |
+| 빌더 ID | BLDR-2512-001 |
+| User ID | P8MUH37Q |
+| 개설비 납부 | ✅ 완료 |
+| 웰컴 크레딧 | ₩50,000 |
+
+#### 수행 작업
+1. **builder_id 컬럼 확장**: VARCHAR(12) → VARCHAR(20) (BLDR-YYMM-NNN 형식 지원)
+2. **Supabase users 테이블 업데이트**: builder_id, installation_fee_paid, credit_balance
+3. **개설 완료 이메일 발송**: Resend API 사용 (Email ID: a2b7cc1f-6fe2-41a3-8a39-45fb1f4f1714)
+4. **Resend API 키 저장**: `P3_프로토타입_제작/Database/.env`
+
+#### 관련 파일
+- `S1_개발_준비/Database/99_alter_builder_id.sql`
+- `Human_ClaudeCode_Bridge/Reports/Builder_Account_심재우_Report.json`
+
+---
+
+### 2. Sunny 질문/답변 이력 보기 기능 구현
+
+#### 작업 상태: ✅ 완료
+
+| 항목 | 내용 |
+|------|------|
+| 기능 | Sunny에게 질문하기 섹션에 이력 보기 버튼/모달 추가 |
+| 참조 | 다른 AI에게 질문하기 섹션과 동일한 방식 |
+| 커밋 | 419dfbd |
+
+#### 구현 내용
+1. **버튼 추가**: "질문 / 답변 이력 보기" 버튼 (index.html:4400-4406)
+2. **모달 HTML**: `#sunnyHistoryModal` (index.html:10461-10470)
+3. **함수 구현**:
+   - `openSunnyHistoryModal()`: Supabase `sunny_inquiries` 테이블 조회
+   - `closeSunnyHistoryModal()`: 모달 닫기
+
+#### 프로덕션 테스트 결과
+- 버튼 클릭 → 모달 열림 ✅
+- 모달 타이틀: "☀️ Sunny에게 질문한 이력" ✅
+- 비로그인 시 안내 메시지 표시 ✅
+- 닫기 버튼 정상 작동 ✅
+
+---
+
+### 3. 푸터 관리자 정보 추가
+
+#### 작업 상태: ✅ 완료
+
+| 커밋 | 내용 |
+|------|------|
+| 5b7a29f | 푸터에 관리자 정보 추가 |
+| cf40169 | 대표자 정보 복원 |
+| 5ba16b7 | 레이아웃 변경 (최종) |
+
+#### 최종 푸터 레이아웃
+```
+1줄: 파인더월드 | 대표자: 선웅규 | 관리자: 선웅규(Sunny) | 이메일: wksun999@hanmail.net
+2줄: 사업자등록번호: 354-33-01641 | 서울특별시 강남구 테헤란로63길 9
+3줄: © 2025 SSAL Works, All Rights Reserved | Admin
+```
+
+#### 수정 파일
+- `index.html` (푸터 섹션)
+
+---
+
+### 오늘 생성/수정된 주요 파일
+
+| 파일 | 작업 |
+|------|------|
+| `index.html` | Sunny 이력 보기 기능, 푸터 수정 |
+| `S1_개발_준비/Database/99_alter_builder_id.sql` | builder_id 컬럼 확장 SQL |
+| `P3_프로토타입_제작/Database/.env` | Resend API 키 추가 |
+| `Human_ClaudeCode_Bridge/Reports/Builder_Account_심재우_Report.json` | 빌더 계정 생성 리포트 |
+
