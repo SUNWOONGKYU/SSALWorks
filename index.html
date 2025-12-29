@@ -4395,7 +4395,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     </div>
                     <input type="file" id="supportFile" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
                         style="display: none;" onchange="handleSupportFileSelect(event)">
-                    <div id="supportFileList" style="font-size: 11px; color: #666; max-height: 60px; overflow-y: auto;"></div>
+                    <div id="supportFileList" style="font-size: 11px; color: #666; max-height: 60px; overflow-y: auto; display: none;"></div>
                     <div style="margin-top: 8px;">
                         <button onclick="openSunnyHistoryModal()"
                             style="width: 100%; padding: 9px; font-size: 11px; font-weight: 500; background: rgba(245, 158, 11, 0.08); border: 1px solid #999; border-radius: 8px; cursor: pointer; color: #333; transition: all 0.2s;"
@@ -7505,11 +7505,13 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             const fileList = document.getElementById('supportFileList');
             if (files.length > 0) {
+                fileList.style.display = 'block';
                 fileList.innerHTML = files.map((file, idx) => {
                     const sizeKB = (file.size / 1024).toFixed(1);
                     return '<div style="padding: 2px 0;">📎 ' + file.name + ' (' + sizeKB + 'KB) <span onclick="removeSupportFile(' + idx + ')" style="cursor: pointer; color: #EF4444;">✕</span></div>';
                 }).join('');
             } else {
+                fileList.style.display = 'none';
                 fileList.innerHTML = '';
             }
         }
@@ -9711,7 +9713,6 @@ ${result.answer}`;
         </nav>
         <div class="grid-fullscreen-content" style="padding: 40px; max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: var(--shadow-sm);">
             <div style="line-height: 1.9; color: #333;">
-
 
                 <!-- 목차 -->
                 <nav style="background: #f8f9fa; padding: 20px 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #e9ecef;">
