@@ -48,14 +48,14 @@
 ### PART 3: 검증 및 추적 시스템 (섹션 9-12)
 - 3단계 검증, Stage Gate, Git 통합
 
-### PART 4: Supabase 설정 및 실행 (섹션 13-17)
-- 빠른 시작, 설치, CRUD 작업
+### PART 4: Method 설정 (섹션 13-17)
+- CSV Method (기본), Database Method (선택)
 
 ### PART 5: Viewer 및 자동화 (섹션 18-21)
 - HTML Viewer, Task CRUD, Claude Code 자동화
 
 ### PART 6: 문제 해결 및 운영 (섹션 22-24)
-- 트러블슈팅, 보안, 추가 리소스
+- 트러블슈팅, 추가 리소스
 
 ### PART 7: 정리 및 부록 (섹션 25-27)
 - 요약, 마무리, 버전 이력
