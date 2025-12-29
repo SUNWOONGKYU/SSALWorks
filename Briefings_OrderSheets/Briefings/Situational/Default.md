@@ -32,7 +32,7 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 <span style="color: #D97706; font-weight: bold;">※ 빌더 계정 개설 후 첫 단계: **프로젝트 등록 → Dev Package 다운로드 및 설치 → Claude Code 설치**</span>
 
-<span style="color: #D97706; font-weight: bold;">※ 개발 작업 진행 단계: **Claude Code를 터미널에서 실행(작업용 디렉토리/폴더에다 마우스 가져다 놓고 오른쪽 누르면 나타나는 "터미널에서 열기" 메뉴를 누르고 난 후 CLI에서 "Claude"를 입력하고 Enter) → 메인 화면 좌측의 사이드바에 설치되어 있는 진행 프로세스에 따라서 개발 작업 시작 → 메인 화면 중앙 상단의 Control Desk에서 Order Sheet를 발행하여 Human_ClaudeCode_Bridge/Orders 폴더에 저장하고 Claude Code에게 그 Order Sheet에 기재되어 있는 작업을 하라고 지시 → 터미널에서 Claude Code와 지속적으로 소통을 하면서 작업을 계속 진행**</span>
+<span style="color: #D97706; font-weight: bold;">※ 개발 작업 진행 단계: **Claude Code를 터미널에서 실행(작업용 디렉토리/폴더에다 마우스 가져다 놓고 오른쪽 누르면 나타나는 "터미널에서 열기" 메뉴를 누르고 난 후 CLI에서 "Claude"를 입력하고 Enter) → 메인 화면 좌측의 사이드바에 설치되어 있는 진행 프로세스에 따라서 개발 작업 시작 → 메인 화면 중앙 상단의 Control Desk에서 Order Sheet를 발행하여 Human_ClaudeCode_Bridge/Orders 폴더에 저장하고 Claude Code에게 그 Order Sheet에 기재되어 있는 작업을 하라고 지시 →**</span> <span style="color: #DC2626; font-weight: bold;">**터미널에서 Claude Code와 지속적으로 소통을 하면서 작업을 계속 진행**</span>
 
 <span style="color: #059669; font-weight: bold;">빌더 계정을 개설하면 아래와 같은 특별한 기능 10가지를 사용할 수 있습니다.</span>
 
