@@ -6,6 +6,32 @@
 
 ## 2025-12-29 작업 내역
 
+### Control Desk 지우기 + Order Sheet 로딩 기능 수정 ✅
+
+**문제:**
+1. clearEditor가 Default 상태에서 동작 안 함
+2. 브라우저 기본 confirm() 대신 customConfirm 모달 팝업 필요
+3. showStatus 토스트 메시지 불필요
+4. loadTemplate이 프로덕션에서 ORDER_SHEET_TEMPLATES 사용 안 함
+
+**수정 내용:**
+
+| 함수 | 수정 사항 |
+|------|----------|
+| `clearEditor` | customConfirm 모달 사용, 모든 콘텐츠 완전히 비우기 (workspaceGuide도 숨김), showStatus 제거 |
+| `loadTemplate` | ORDER_SHEET_TEMPLATES 폴백 로직 추가, translationSection 처리 |
+| `loadGuideToWorkspace` | setAttribute + !important 방식으로 스타일 일관성 적용 |
+| `showOrderSheetEditor` | setAttribute + !important 방식으로 스타일 일관성 적용 |
+
+**커밋 목록:**
+- `acd1705` - refactor: clearEditor/loadTemplate 및 관련 함수 스타일 일관성 개선
+- `33b1ad9` - fix: clearEditor에서 customConfirm 모달 사용
+- `05b9ed9` - fix: clearEditor - Control Desk 완전히 비우기
+
+**테스트 결과:** ✅ 프로덕션에서 정상 작동 확인
+
+---
+
 ### Default.md 환영 안내문 개선 ✅
 
 **작업 목표:** Default.md 문서의 가독성 및 사용자 경험 개선
@@ -3169,3 +3195,112 @@ curl -X DELETE "/api/posts/[post_id]" \
 - 참조: `1_Frontend/src/lib/supabase/server.ts`
 - 리포트: `Human_ClaudeCode_Bridge/Reports/politician_post_edit_delete_2025-12-29.json`
 
+
+---
+
+### 빌더 계정 개설 - 심재우 (jaiwshim@gmail.com) ✅
+
+**작업 일시:** 2025-12-29
+
+**작업 내용:**
+
+| 항목 | 값 |
+|------|-----|
+| **이름** | 심재우 |
+| **이메일** | jaiwshim@gmail.com |
+| **빌더 계정 ID** | `BLDR-2512-001` |
+| **개설비 납부** | ✅ 완료 |
+| **납부일** | 2025-12-29 |
+| **웰컴 크레딧** | ₩50,000 |
+| **구독 상태** | active |
+
+**수행 작업:**
+
+1. **빌더 계정 ID 규칙 확인**
+   - 규칙 문서: `P2_프로젝트_기획/Workflows/Builder_Account_Application_Process.md`
+   - 형식: `BLDR-YYMM-NNN` (예: BLDR-2512-001)
+
+2. **DB 스키마 수정**
+   - `builder_id` 컬럼 VARCHAR(12) → VARCHAR(20) 확장
+   - SQL 파일: `S1_개발_준비/Database/99_alter_builder_id.sql`
+
+3. **Supabase users 테이블 업데이트**
+   - `builder_id`: BLDR-2512-001
+   - `installation_fee_paid`: true
+   - `installation_date`: 2025-12-29
+   - `credit_balance`: 50000
+
+4. **개설 완료 안내 이메일 발송**
+   - Resend API 사용
+   - Email ID: `a2b7cc1f-6fe2-41a3-8a39-45fb1f4f1714`
+
+5. **Resend API 키 저장**
+   - 위치: `P3_프로토타입_제작/Database/.env`
+   - .gitignore 확인 완료 (보안 OK)
+
+**관련 파일:**
+- `P2_프로젝트_기획/Workflows/Builder_Account_Application_Process.md` (빌더 ID 규칙)
+- `S1_개발_준비/Database/99_alter_builder_id.sql` (스키마 수정)
+- `P3_프로토타입_제작/Database/.env` (Resend API 키 저장)
+- `Human_ClaudeCode_Bridge/Reports/Builder_Account_심재우_Report.json` (리포트)
+
+---
+
+## 2025-12-29: 정치인 댓글 수정/삭제 API 기능 추가
+
+### 작업 상태: 🟡 DB 마이그레이션 대기
+
+### 완료된 작업
+
+#### 1. 댓글 API 코드 수정 (`src/app/api/comments/[id]/route.ts`)
+- 완전히 재작성 (기존은 stub 코드)
+- `validatePoliticianSession` import 추가
+- `politicianUpdateSchema` 스키마 추가 (content, politician_id, session_token)
+- `politicianDeleteSchema` 스키마 추가 (politician_id, session_token)
+- **PATCH**: 정치인 세션 토큰 인증 로직 추가
+- **DELETE**: soft delete (is_deleted, deleted_at) 지원
+
+#### 2. 댓글 작성 API 버그 수정 (`src/app/api/comments/route.ts`)
+- 컬럼명 수정: `parent_id` → `parent_comment_id`
+- 커밋: `6d61bf0`
+
+#### 3. Git 커밋 & 푸시
+- 커밋 1: `53fa0ea` - feat: add politician session token support for comment edit/delete
+- 커밋 2: `6d61bf0` - fix: correct column name parent_id to parent_comment_id
+
+### 차단 요소 (BLOCKER)
+
+#### notifications 테이블 스키마 불일치
+- **문제**: 댓글 INSERT 시 트리거 `create_comment_notification()`가 호출됨
+- **에러**: `column "actor_id" of relation "notifications" does not exist`
+- **원인**: 트리거 함수가 참조하는 `actor_id`, `title`, `message`, `link_url` 등의 컬럼이 현재 notifications 테이블에 없음
+- **현재 notifications 테이블 컬럼**: id, user_id, type, content, target_url, is_read, created_at, metadata
+- **트리거가 기대하는 컬럼**: id, user_id, actor_id, type, title, message, link_url, target_type, target_id, metadata
+
+### 해결 방법 (PO 작업 필요)
+
+**마이그레이션 파일 생성됨:**
+`0-4_Database/Supabase/migrations/080_fix_notifications_schema.sql`
+
+**Supabase Dashboard → SQL Editor에서 실행:**
+```sql
+-- 누락된 컬럼 추가
+ALTER TABLE notifications ADD COLUMN IF NOT EXISTS actor_id UUID REFERENCES users(id) ON DELETE SET NULL;
+ALTER TABLE notifications ADD COLUMN IF NOT EXISTS title TEXT;
+ALTER TABLE notifications ADD COLUMN IF NOT EXISTS message TEXT;
+ALTER TABLE notifications ADD COLUMN IF NOT EXISTS link_url TEXT;
+ALTER TABLE notifications ADD COLUMN IF NOT EXISTS target_type TEXT;
+ALTER TABLE notifications ADD COLUMN IF NOT EXISTS target_id UUID;
+CREATE INDEX IF NOT EXISTS idx_notifications_actor_id ON notifications(actor_id);
+```
+
+또는 트리거만 비활성화:
+```sql
+DROP TRIGGER IF EXISTS trigger_comment_notification ON comments;
+DROP TRIGGER IF EXISTS trigger_reply_notification ON comments;
+```
+
+### 다음 단계
+1. ⏳ PO가 Supabase Dashboard에서 마이그레이션 SQL 실행
+2. ⏳ 정치인 댓글 작성 테스트
+3. ⏳ 정치인 댓글 수정/삭제 테스트
