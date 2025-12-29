@@ -1728,8 +1728,8 @@
             try {
                 showLoading();
 
-                // 매뉴얼 파일 URL (로컬 PDF 파일)
-                const manualUrl = './manual.pdf';
+                // 매뉴얼 파일 URL (배포된 PDF 파일)
+                const manualUrl = '/pages/mypage/manual.pdf';
 
                 // 다운로드 링크 생성 및 클릭
                 const link = document.createElement('a');
@@ -1804,62 +1804,6 @@
             } catch (error) {
                 console.error('Dev Package 다운로드 오류:', error);
                 showToast('Dev Package 다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.', 'error');
-            } finally {
-                hideLoading();
-            }
-        }
-
-        // ========== 매뉴얼 다운로드 ==========
-        async function downloadManual(type) {
-            if (!userData || !userData.installation_fee_paid) {
-                alert('빌더 계정 개설 후 이용 가능합니다.');
-                return;
-            }
-
-            try {
-                showLoading();
-
-                // 매뉴얼 파일 URL (Google Drive 직접 다운로드 링크)
-                // 형식: https://drive.google.com/uc?export=download&id=FILE_ID
-                const manualUrls = {
-                    pdf: 'https://drive.google.com/uc?export=download&id=YOUR_PDF_FILE_ID',
-                    zip: 'https://drive.google.com/uc?export=download&id=YOUR_ZIP_FILE_ID'
-                };
-                // TODO: 위 YOUR_PDF_FILE_ID, YOUR_ZIP_FILE_ID를 실제 Google Drive 파일 ID로 교체
-
-                const url = manualUrls[type];
-                if (!url) {
-                    throw new Error('잘못된 파일 형식입니다.');
-                }
-
-                // 다운로드 링크 생성 및 클릭
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = type === 'pdf' ? 'SSAL_Works_Manual.pdf' : 'SSAL_Works_Manual.zip';
-                link.target = '_blank';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                showToast(`📥 ${type.toUpperCase()} 매뉴얼 다운로드를 시작합니다.`, 'success');
-
-                // 다운로드 기록 저장 (선택적)
-                try {
-                    await supabaseClient
-                        .from('user_activity_logs')
-                        .insert({
-                            user_id: userData.user_id,
-                            activity_type: 'manual_download',
-                            activity_data: { file_type: type },
-                            created_at: new Date().toISOString()
-                        });
-                } catch (logError) {
-                    console.log('다운로드 기록 저장 실패 (무시):', logError);
-                }
-
-            } catch (error) {
-                console.error('매뉴얼 다운로드 오류:', error);
-                showToast('매뉴얼 다운로드에 실패했습니다. 잠시 후 다시 시도해주세요.', 'error');
             } finally {
                 hideLoading();
             }
