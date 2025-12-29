@@ -1,8 +1,8 @@
-# Order Sheet - sal-grid
+# Order Sheet - SAL-Grid
 
 > **버전**: 5.4
-> **단계**: S0-2 (SAL Grid 매뉴얼)
-> **목적**: Project SAL Grid 사용 매뉴얼 작성 및 문서화
+> **단계**: S0-2 (SAL-Grid)
+> **목적**: 프로젝트의 실제 SAL Grid 설계 및 생성
 
 ---
 
@@ -24,22 +24,24 @@
 
 **수행할 작업:**
 
-1. 매뉴얼 작성
-   - Task ID 규칙 문서화
-   - Area 코드 정의 설명
-   - 22개 속성 상세 설명
-   - 검증 프로세스 안내
+1. Stage 및 Area 정의
+   - Stage 정의 (S1~S5)
+   - Area 코드 정의 (11개)
+   - Task ID 규칙 적용 (S[Stage][Area][Level])
 
-2. 프로세스 가이드 작성
-   - Task 작업 절차
-   - 결과 기록 방법
-   - Stage Gate 절차
-   - Verification Agent 가이드
+2. Task 목록 생성
+   - Stage별 Task 목록 작성
+   - Task별 상세 정보 (22개 속성)
+   - 의존성 관계 정의
 
-3. 참고 문서 작성
-   - 22개 속성 참조 문서
-   - 5x11 매트릭스 문서
-   - Task Plan 문서
+3. sal-grid 폴더 구조 생성
+   - task-instructions/ 폴더
+   - verification-instructions/ 폴더
+   - stage-gates/ 폴더
+
+4. Instruction 파일 작성
+   - 각 Task별 Task Instruction
+   - 각 Task별 Verification Instruction
 
 ---
 
@@ -72,20 +74,21 @@
 ### 3단계: 실행 (Execution)
 
 **체크리스트**:
-- [ ] PROJECT_SAL_GRID_MANUAL.md 작성
-- [ ] 22개 속성 참조 문서 작성
-- [ ] 프로세스 가이드 작성
-- [ ] 예제 코드/템플릿 추가
+- [ ] Stage/Area 정의 완료
+- [ ] TASK_PLAN.md 작성
+- [ ] sal-grid 폴더 구조 생성
+- [ ] Task Instruction 파일 생성
+- [ ] Verification Instruction 파일 생성
 
 ---
 
 ### 4단계: 검증 (Verification)
 
 **체크리스트**:
-- [ ] 모든 필수 내용이 포함되었는가?
-- [ ] 프로세스 흐름이 명확한가?
-- [ ] 예제가 이해하기 쉬운가?
-- [ ] 신규 팀원이 바로 사용할 수 있는가?
+- [ ] Task ID 규칙이 준수되는가?
+- [ ] 모든 Area가 정의되었는가?
+- [ ] 의존성 관계가 올바른가?
+- [ ] 모든 Task에 Instruction 파일이 있는가?
 
 **출력**: `'검증 완료'`
 
@@ -98,9 +101,9 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- 완료된 작업 요약
-- 생성된 문서 목록
-- 다음 단계 안내 (S0-3)
+- 생성된 Task 수
+- Stage별 Task 분포
+- 다음 단계 안내 (S0-3 Method)
 
 ---
 
@@ -108,8 +111,9 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| PROJECT_SAL_GRID_MANUAL.md | `S0_Project-SSAL-Grid_생성/manual/` |
-| 22개 속성 참조 문서 | `S0_Project-SSAL-Grid_생성/manual/references/` |
+| TASK_PLAN.md | `S0_Project-SAL-Grid_생성/sal-grid/` |
+| Task Instruction 파일들 | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
+| Verification Instruction 파일들 | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -119,7 +123,7 @@
 | 항목 | 위치 |
 |------|------|
 | 규칙 파일 | `.claude/rules/` |
-| S0-1 결과물 | `S0_Project-SSAL-Grid_생성/ssal-grid/` |
+| 매뉴얼 (S0-1에서 검토) | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
 | Briefing | `Briefings_OrderSheets/Briefings/S0/S0-2_Briefing.md` |
 
 ---
@@ -128,28 +132,54 @@
 
 ## B1. 특별 지시사항
 
-> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+**Area 코드 정의 (11개):**
 
-**매뉴얼 구성:**
-1. 개요 및 시작하기
-2. Task ID 및 Area 코드
-3. 22개 속성 상세
-4. 작업 프로세스
-5. Stage Gate 절차
-6. FAQ 및 트러블슈팅
+| 코드 | 영역 | 설명 |
+|-----|------|------|
+| M | Documentation | 문서화 |
+| U | Design | UI/UX 디자인 |
+| F | Frontend | 프론트엔드 |
+| BI | Backend Infrastructure | 백엔드 기반 |
+| BA | Backend APIs | 백엔드 API |
+| D | Database | 데이터베이스 |
+| S | Security | 보안/인증 |
+| T | Testing | 테스트 |
+| O | DevOps | 운영/배포 |
+| E | External | 외부 연동 |
+| C | Content | 콘텐츠 시스템 |
+
+**Task ID 형식**: `S[Stage][Area][Level]`
+- 예: S1S1, S2F1, S3BA2
 
 ---
 
 ## B2. 참고사항
 
-> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
-
 **PO로부터 입력 필요:**
-- 매뉴얼 추가 요구사항
-- 특별히 강조할 프로세스
+- 프로젝트 개발 범위
+- Stage별 개발 계획
+- 초기 Task 목록 (이미 정의된 것이 있다면)
+
+**sal-grid 폴더 구조:**
+```
+S0_Project-SAL-Grid_생성/
+└── sal-grid/
+    ├── TASK_PLAN.md
+    ├── task-instructions/
+    │   ├── S1S1_instruction.md
+    │   ├── S1D1_instruction.md
+    │   └── ...
+    ├── verification-instructions/
+    │   ├── S1S1_verification.md
+    │   ├── S1D1_verification.md
+    │   └── ...
+    └── stage-gates/
+        ├── S1GATE_verification_report.md
+        └── ...
+```
 
 **S0-2 완료 후:**
-- S0-3 (Supabase 연동) 진행
+- S0-3 (Method 선택) 진행
 
 ---
 

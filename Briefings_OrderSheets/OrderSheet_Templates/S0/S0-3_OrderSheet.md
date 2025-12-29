@@ -1,8 +1,8 @@
-# Order Sheet - method
+# Order Sheet - Method
 
 > **버전**: 5.4
-> **단계**: S0-3 (SAL Grid Supabase)
-> **목적**: Project SAL Grid의 Supabase 데이터베이스 연동
+> **단계**: S0-3 (Method)
+> **목적**: SAL Grid 데이터 저장 방식 선택 및 설정
 
 ---
 
@@ -24,23 +24,21 @@
 
 **수행할 작업:**
 
-1. 스키마 작성
-   - project_sal_grid 테이블 스키마
-   - stage_verification 테이블 스키마
-   - 인덱스 및 제약조건
+1. Method 선택
+   - 두 가지 방식 설명 (Database vs CSV)
+   - 프로젝트 환경에 맞는 방식 선택
+   - PO에게 선택 확인
 
-2. RLS 정책 설정
-   - 테이블별 접근 권한
-   - 인증 기반 접근 제어
+2. (Database Method 선택 시)
+   - schema.sql 작성
+   - RLS 정책 설정
+   - Seed 데이터 작성
+   - PO에게 SQL 실행 가이드 제공
 
-3. 동기화 스크립트 작성
-   - JSON → DB 동기화
-   - DB → JSON 역동기화
-   - 자동 업데이트 스크립트
-
-4. Seed 데이터 작성
-   - 초기 Task 데이터
-   - Stage 정보 데이터
+3. (CSV Method 선택 시)
+   - project_sal_grid.json 설정
+   - JSON 파일 구조 확인
+   - 데이터 입력 방법 안내
 
 ---
 
@@ -59,34 +57,51 @@
 
 ### 2단계: 문의사항 질문
 
-**질문 형식**:
+**필수 질문 (PO에게):**
 ```
-[S0-3] 질문: {내용}
-옵션 A: {옵션1}
-옵션 B: {옵션2}
+[S0-3] 질문: SAL Grid 데이터 저장 방식을 선택해주세요.
+
+옵션 A: Database Method (Supabase)
+- 실시간 동기화
+- 다중 사용자 지원
+- Supabase 설정 필요
+
+옵션 B: CSV Method (JSON 파일)
+- 외부 의존성 없음
+- 독립 실행 가능
+- 개인/오프라인 프로젝트에 적합
 ```
 
-**출력**: 질문 목록 또는 `'질문 없음'`
+**출력**: PO 선택 결과
 
 ---
 
 ### 3단계: 실행 (Execution)
 
-**체크리스트**:
+**Database Method 선택 시:**
 - [ ] schema.sql 작성
-- [ ] RLS 정책 SQL 작성
+- [ ] triggers.sql 작성 (상태 검증)
+- [ ] rls_policies.sql 작성
 - [ ] seed_project_sal_grid.sql 작성
-- [ ] 동기화 스크립트 작성 (Node.js)
+- [ ] PO SQL 실행 가이드 제공
+
+**CSV Method 선택 시:**
+- [ ] project_sal_grid.json 확인
+- [ ] JSON 구조 검증
+- [ ] 사용 방법 안내
 
 ---
 
 ### 4단계: 검증 (Verification)
 
-**체크리스트**:
+**Database Method:**
 - [ ] SQL 문법이 정확한가?
-- [ ] RLS 정책이 올바르게 설정되었는가?
-- [ ] 동기화 스크립트가 정상 동작하는가?
 - [ ] 22개 속성이 모두 저장 가능한가?
+- [ ] PO가 SQL 실행 가이드를 받았는가?
+
+**CSV Method:**
+- [ ] JSON 파일 구조가 올바른가?
+- [ ] Task 데이터가 정상적으로 로드되는가?
 
 **출력**: `'검증 완료'`
 
@@ -99,10 +114,9 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- 완료된 작업 요약
-- 생성된 SQL 파일
-- **PO 실행 가이드** (SQL 실행 순서)
-- 다음 단계 안내 (S0-4)
+- 선택된 Method
+- 설정 완료 사항
+- 다음 단계 안내 (S0-4 Viewer)
 
 ---
 
@@ -110,9 +124,8 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| schema.sql | `S0_Project-SSAL-Grid_생성/supabase/` |
-| seed_project_sal_grid.sql | `S0_Project-SSAL-Grid_생성/supabase/` |
-| 동기화 스크립트 | `S0_Project-SSAL-Grid_생성/scripts/` |
+| (DB) SQL 파일들 | `S0_Project-SAL-Grid_생성/method/database/` |
+| (CSV) JSON 파일 | `S0_Project-SAL-Grid_생성/CSV_Method/data/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -121,9 +134,8 @@
 
 | 항목 | 위치 |
 |------|------|
-| 규칙 파일 | `.claude/rules/` |
-| S0-1 결과물 | `S0_Project-SSAL-Grid_생성/ssal-grid/` |
-| SAL Grid 매뉴얼 | `S0_Project-SSAL-Grid_생성/manual/` |
+| 규칙 파일 | `.claude/rules/04_grid-writing-supabase.md` |
+| S0-2 결과물 | `S0_Project-SAL-Grid_생성/sal-grid/` |
 | Briefing | `Briefings_OrderSheets/Briefings/S0/S0-3_Briefing.md` |
 
 ---
@@ -132,39 +144,42 @@
 
 ## B1. 특별 지시사항
 
-> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+**두 가지 Method 비교:**
 
-**PO 작업 필요:**
-- AI가 SQL 파일 생성 후, PO가 Supabase SQL Editor에서 실행
-
-**SQL 실행 순서:**
-1. schema.sql (테이블 생성)
-2. seed_project_sal_grid.sql (데이터 삽입)
-3. 검증: `SELECT COUNT(*) FROM project_sal_grid;`
+| 항목 | Database Method | CSV Method |
+|------|----------------|------------|
+| 저장소 | Supabase (PostgreSQL) | JSON 파일 |
+| 동기화 | 실시간 | 파일 저장 시 |
+| 다중 사용자 | 지원 | 미지원 |
+| 외부 의존성 | Supabase 필요 | 없음 (독립 실행) |
+| 권장 상황 | 팀 프로젝트 | 개인/오프라인 |
 
 ---
 
 ## B2. 참고사항
 
-> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
-
-**테이블 정보:**
-
-| 테이블 | 용도 |
-|--------|------|
-| project_sal_grid | Task 데이터 저장 |
-| stage_verification | Stage Gate 검증 기록 |
-
-**SQL 파일 위치:**
+**Database Method 파일 구조:**
 ```
-S0_Project-SSAL-Grid_생성/supabase/
-├── schema.sql                    (테이블 생성)
-├── seed_project_sal_grid.sql     (Task 데이터)
-└── TEMPLATE_STANDARD_...sql      (참고용 템플릿)
+S0_Project-SAL-Grid_생성/
+└── method/
+    └── database/
+        ├── schema.sql
+        ├── triggers.sql
+        └── rls_policies.sql
+```
+
+**CSV Method 파일 구조:**
+```
+S0_Project-SAL-Grid_생성/
+└── CSV_Method/
+    ├── data/
+    │   └── project_sal_grid.json
+    ├── scripts/
+    └── templates/
 ```
 
 **S0-3 완료 후:**
-- S0-4 (Grid Viewer) 진행
+- S0-4 (Viewer) 진행
 
 ---
 
