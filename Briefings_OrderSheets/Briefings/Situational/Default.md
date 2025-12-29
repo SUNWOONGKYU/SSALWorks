@@ -1,14 +1,14 @@
-# SSAL Works에 오신 것을 환영합니다
+<h1 style="color: #20808D;">SSAL Works에 오신 것을 환영합니다</h1>
 
 SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 플랫폼"**입니다.
 
-**우선, SSAL Works에서 무엇을 어떻게 해야 하는지에 대해서 간략히 안내해 드리겠습니다.**
+<span style="color: #20808D; font-weight: bold;">우선, SSAL Works에서 무엇을 어떻게 해야 하는지에 대해서 간략히 안내해 드리겠습니다.</span>
 
 ※ 참고로 모바일 버전에서는 조회는 모두 가능하지만 작업에는 제한이 있으므로 개발 작업은 PC버전에서 하는 게 편리합니다.
 
 ---
 
-**무료로 일단 회원 가입을 하시고 플랫폼을 전체적으로 찬찬히 둘러보세요.**
+<span style="color: #20808D; font-weight: bold;">무료로 일단 회원 가입을 하시고 플랫폼을 전체적으로 찬찬히 둘러보세요.</span>
 
 <span style="color: #CC785C; font-weight: bold;">※ 회원 가입: **Header 오른쪽 "회원가입" 버튼** 클릭</span>
 
@@ -32,7 +32,7 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 <span style="color: #CC785C; font-weight: bold;">※ 빌더 계정 개설 후 첫 단계: **프로젝트 등록 → Dev Package 다운로드 및 설치 → Claude Code 설치 → 개발 시작**</span>
 
-**빌더 계정을 개설하면 아래와 같은 특별한 기능 10가지를 사용할 수 있습니다.**
+<span style="color: #20808D; font-weight: bold;">빌더 계정을 개설하면 아래와 같은 특별한 기능 10가지를 사용할 수 있습니다.</span>
 
 1) 프로젝트를 등록하고 SSAL Works Dev Package(개발환경 설정용 폴더와 파일 일체)를 다운로드 받아서 설치
 
