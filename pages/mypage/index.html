@@ -1728,14 +1728,13 @@
             try {
                 showLoading();
 
-                // 매뉴얼 파일 URL (Google Drive 직접 다운로드 링크)
-                const manualUrl = 'https://drive.google.com/uc?export=download&id=1ShECRkzJ_-Qt6WCT04vKO-SGMsD8fv1X';
+                // 매뉴얼 파일 URL (로컬 PDF 파일)
+                const manualUrl = './manual.pdf';
 
                 // 다운로드 링크 생성 및 클릭
                 const link = document.createElement('a');
                 link.href = manualUrl;
                 link.download = 'SSAL_Works_빌더계정_사용매뉴얼.pdf';
-                link.target = '_blank';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);

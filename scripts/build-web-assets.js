@@ -45,6 +45,7 @@ const PATHS = {
     serviceGuidesOutput: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/service-guides.js'),
     manualHtml: path.join(PROJECT_ROOT, '참고자료/PROJECT_SAL_GRID_MANUAL.html'),
     builderManualHtml: path.join(PROJECT_ROOT, 'pages/mypage/manual.html'),
+    builderManualPdf: path.join(PROJECT_ROOT, 'pages/mypage/manual.pdf'),
 
     // 복사 대상 경로 (프로토타입용)
     copyTargets: {
@@ -776,6 +777,69 @@ function buildBuilderManual() {
         if (fs.existsSync(tempHtml)) fs.unlinkSync(tempHtml);
 
         log.success(`빌더 계정 매뉴얼 HTML 생성됨: ${PATHS.builderManualHtml}`);
+
+        // PDF 생성 (puppeteer 사용)
+        try {
+            log.info('PDF 생성 중...');
+            const puppeteer = require('puppeteer');
+
+            // 동기적으로 PDF 생성을 위해 즉시 실행 비동기 함수 사용
+            const generatePdf = async () => {
+                const browser = await puppeteer.launch({
+                    headless: true,
+                    args: ['--no-sandbox', '--disable-setuid-sandbox']
+                });
+                const page = await browser.newPage();
+
+                // HTML 파일을 file:// 프로토콜로 로드
+                const fileUrl = 'file:///' + PATHS.builderManualHtml.replace(/\\/g, '/');
+                await page.goto(fileUrl, { waitUntil: 'networkidle0' });
+
+                // PDF 생성
+                await page.pdf({
+                    path: PATHS.builderManualPdf,
+                    format: 'A4',
+                    margin: {
+                        top: '20mm',
+                        right: '15mm',
+                        bottom: '20mm',
+                        left: '15mm'
+                    },
+                    printBackground: true
+                });
+
+                await browser.close();
+            };
+
+            // 동기적으로 실행하기 위해 execSync로 별도 스크립트 실행
+            const pdfScript = `
+                const puppeteer = require('puppeteer');
+                (async () => {
+                    const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+                    const page = await browser.newPage();
+                    await page.goto('file:///${PATHS.builderManualHtml.replace(/\\/g, '/')}', { waitUntil: 'networkidle0' });
+                    await page.pdf({
+                        path: '${PATHS.builderManualPdf.replace(/\\/g, '/')}',
+                        format: 'A4',
+                        margin: { top: '20mm', right: '15mm', bottom: '20mm', left: '15mm' },
+                        printBackground: true
+                    });
+                    await browser.close();
+                    console.log('PDF 생성 완료');
+                })();
+            `;
+
+            // 임시 스크립트 파일 생성 및 실행
+            const tempPdfScript = path.join(path.dirname(PATHS.builderManualHtml), 'temp_pdf_gen.js');
+            fs.writeFileSync(tempPdfScript, pdfScript, 'utf-8');
+            execSync(`node "${tempPdfScript}"`, { stdio: 'inherit' });
+            if (fs.existsSync(tempPdfScript)) fs.unlinkSync(tempPdfScript);
+
+            log.success(`빌더 계정 매뉴얼 PDF 생성됨: ${PATHS.builderManualPdf}`);
+        } catch (pdfErr) {
+            log.error(`PDF 생성 실패 (HTML은 성공): ${pdfErr.message}`);
+        }
+
         return true;
     } catch (err) {
         log.error(`빌더 계정 매뉴얼 빌드 실패: ${err.message}`);
