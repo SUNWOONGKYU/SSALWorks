@@ -158,7 +158,7 @@ function buildServiceGuides() {
 
 // Service Intro 스타일 상수 (v4.1 - 폰트 크기 균형 조정)
 const SERVICE_INTRO_STYLES = {
-    sectionTitle: 'font-size: 20px; font-weight: 800; color: #1F3563; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 3px solid #F59E0B;',
+    sectionTitle: 'font-size: 20px; font-weight: 800; color: #1F3563; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 3px solid #D97706;',
     subsectionTitle: 'font-size: 16px; font-weight: 700; color: #1F3563; margin: 20px 0 10px 0;',
     paragraph: 'font-size: 14px; margin-bottom: 14px; line-height: 1.8;',
     list: 'font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;',
@@ -359,9 +359,9 @@ function generateServiceIntroModalHtml(sections) {
                 <div style="text-align: center; padding-top: 28px; border-top: 2px solid #e9ecef;">
                     <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
                         <div style="display: flex; gap: 3px;">
-                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(-10deg);"></span>
-                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%;"></span>
-                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); border-radius: 40%; transform: rotate(10deg);"></span>
+                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #D97706 0%, #B45309 100%); border-radius: 40%; transform: rotate(-10deg);"></span>
+                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #D97706 0%, #B45309 100%); border-radius: 40%;"></span>
+                            <span style="width: 7px; height: 12px; background: linear-gradient(135deg, #D97706 0%, #B45309 100%); border-radius: 40%; transform: rotate(10deg);"></span>
                         </div>
                         <span style="font-size: 18px; font-weight: 800; color: #1F3563;">SSAL Works</span>
                     </div>
