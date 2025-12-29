@@ -19,7 +19,7 @@
 | Role | Name | Hex | Dark | 용도 |
 | :--- | :--- | :--- | :--- | :--- |
 | **Brand** | Navy Blue | `#2C4A8A` | `#1F3563` | Header, Footer |
-| **Action-1** | Amber Gold | `#F59E0B` | `#D97706` | 우측 사이드바 CTA |
+| **Action-1** | Amber Gold | `#D97706` | `#B45309` | 우측 사이드바 CTA |
 | **Action-2** | Emerald | `#10B981` | `#059669` | 좌측 사이드바, Control Space, **=Success** |
 | **Action-3** | Blue | `#3B82F6` | `#2563EB` | 확인/검증, **=Info** |
 
@@ -128,8 +128,8 @@ Border: 해당 색상 Solid (left 4px)
     /* ===== Layer 1: Core (4색) ===== */
     --color-navy: #2C4A8A;
     --color-navy-dark: #1F3563;
-    --color-amber: #F59E0B;
-    --color-amber-dark: #D97706;
+    --color-amber: #D97706;
+    --color-amber-dark: #B45309;
     --color-emerald: #10B981;
     --color-emerald-dark: #059669;
     --color-blue: #3B82F6;
@@ -467,7 +467,7 @@ Border: 해당 색상 Solid (left 4px)
 ### Logo
 - **Format**: SVG (Vector)
 - **Primary Color**: Navy Blue (#2C4A8A)
-- **Accent Color**: Amber Gold (#F59E0B)
+- **Accent Color**: Amber Gold (#D97706)
 - **Secondary Accent**: Emerald Green (#10B981)
 - **Variations**:
   - Full Logo (Text + Icon)
@@ -489,7 +489,8 @@ Border: 해당 색상 Solid (left 4px)
 | v2.0 | 2025-12-01 | Components Section Complete |
 | v2.1 | 2025-12-17 | Spacing 4단계 규칙 추가 |
 | v3.0 | 2025-12-24 | 6-Layer Color System 도입 |
-| **v3.1** | **2025-12-24** | **4-Layer로 단순화**: 12개 핵심 색상, 중복 제거 (Success=Emerald, Info=Blue), Badge/Alert/Toast 규칙 기반 파생 |
+| v3.1 | 2025-12-24 | **4-Layer로 단순화**: 12개 핵심 색상, 중복 제거 (Success=Emerald, Info=Blue), Badge/Alert/Toast 규칙 기반 파생 |
+| **v3.2** | **2025-12-30** | **Amber 색상 변경**: #F59E0B → #D97706, #D97706 → #B45309 (사용자 피드백: 눈부심 감소) |
 
 ---
 
@@ -500,7 +501,7 @@ Border: 해당 색상 Solid (left 4px)
 | Layer | Role | Hex | CSS Variable |
 | :--- | :--- | :--- | :--- |
 | **Core** | Navy (Brand) | `#2C4A8A` | `--color-navy` |
-| **Core** | Amber (Action-1) | `#F59E0B` | `--color-amber` |
+| **Core** | Amber (Action-1) | `#D97706` | `--color-amber` |
 | **Core** | Emerald (Action-2, Success) | `#10B981` | `--color-emerald` |
 | **Core** | Blue (Action-3, Info) | `#3B82F6` | `--color-blue` |
 | **Accent** | Violet (Tips) | `#8B5CF6` | `--color-violet` |
