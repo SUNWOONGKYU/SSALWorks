@@ -126,10 +126,7 @@ Project SAL Grid의 S1에 있는 모든 Task를 수행하라.
 
 **목적**: Task 순서대로 실행 및 검증
 
-**⛔ Main Agent 역할 제한**:
-- Main Agent는 **오케스트레이션만** 수행
-- Main Agent는 **직접 작업/검증 금지**
-- 반드시 **Task tool로 서브에이전트 투입**
+**⛔ A1 준수사항 7-9번 필수 적용** (Main Agent는 오케스트레이션만, 직접 작업/검증 금지)
 
 **실행 순서**:
 1. Dependencies 기반 Task 순서 결정 (SAL Grid 참조)
@@ -155,11 +152,6 @@ Project SAL Grid의 S1에 있는 모든 Task를 수행하라.
 6. 검증 통과 확인 → verification_status → `Verified`, task_status → `Completed` 변경
 7. SAL Grid에 기록 (A4 참조)
 8. 파일 저장 (A5 참조)
-
-**⛔ 절대 금지**:
-- Main Agent가 직접 코드 작성
-- Main Agent가 직접 검증 수행
-- Task Agent = Verification Agent (같은 에이전트 금지)
 
 **출력**: 각 Task SAL Grid에 기록
 
