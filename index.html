@@ -11028,6 +11028,9 @@ ${result.answer}`;
     <!-- Socket.io for real-time Order Sheet notifications -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
+        // 관리자 이메일 (이 script 블록에서 사용)
+        const ADMIN_EMAIL = 'wkfsahsn99@gmail.com';
+
         // Socket.io 연결 (로컬 개발 환경에서만)
         let notificationSocket = null;
 
