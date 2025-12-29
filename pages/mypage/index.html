@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>마이 페이지 - SSAL Works</title>
+    <title>My Page - SSAL Works</title>
 
     <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -745,7 +745,7 @@
 
     <!-- Main Container -->
     <div class="container">
-        <h1 class="page-title">마이 페이지</h1>
+        <h1 class="page-title">My Page</h1>
 
         <div class="dashboard-grid">
             <!-- Sidebar Menu -->
@@ -1264,7 +1264,7 @@
                     <!-- Dev Package 다운로드 카드 (위) -->
                     <div class="card" id="devPackageCard">
                         <div class="card-header">
-                            <h3 class="card-title">SSAL Works Dev Package 다운로드</h3>
+                            <h3 class="card-title">프로젝트 Dev Package 다운로드</h3>
                             <span id="devPackageBadge" style="font-size: 11px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600;">빌더 전용</span>
                         </div>
                         <div id="devPackageContent">
@@ -1779,7 +1779,7 @@
                 // 다운로드 링크 생성 및 클릭
                 const link = document.createElement('a');
                 link.href = devPackageUrl;
-                link.download = 'SSAL_Works_Dev_Package.zip';
+                link.download = 'Project_Dev_Package.zip';
                 link.target = '_blank';
                 document.body.appendChild(link);
                 link.click();
@@ -1794,7 +1794,7 @@
                         .insert({
                             user_id: userData.user_id,
                             activity_type: 'dev_package_download',
-                            activity_data: { file: 'SSAL_Works_Dev_Package.zip' },
+                            activity_data: { file: 'Project_Dev_Package.zip' },
                             created_at: new Date().toISOString()
                         });
                 } catch (logError) {
