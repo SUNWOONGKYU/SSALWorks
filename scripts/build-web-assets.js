@@ -586,7 +586,7 @@ function buildBuilderManual() {
             background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
             pointer-events: none;
         }
-        header h1 { font-size: 2.4rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative; }
+        header h1 { font-size: 2.4rem; font-weight: 700; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative; border-bottom: none; }
 
         /* 목차 네비게이션 */
         nav.toc {
