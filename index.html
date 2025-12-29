@@ -4671,8 +4671,8 @@ The content you enter in the Control Desk will be displayed here.</pre>
         }
 
         // Clear editor - textEditor 비우고 Default 안내문 복원
-        function clearEditor() {
-            if (confirm('Control Desk 내용을 초기화하시겠습니까?')) {
+        async function clearEditor() {
+            if (await customConfirm('Control Desk 내용을 초기화하시겠습니까?', 'Control Desk 지우기')) {
                 console.log('🔄 clearEditor 시작');
 
                 const textEditor = document.getElementById('textEditor');
