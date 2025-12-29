@@ -56,8 +56,7 @@ SSAL_Works_Dev_Package/
 ├── S5_개발_마무리/                # 배포 및 문서화
 ├── Development_Process_Monitor/   # 진행 상황 시각화
 ├── Human_ClaudeCode_Bridge/       # 작업 지시/결과 교환
-├── Briefings_OrderSheets/         # 안내문 및 템플릿
-├── .claude/                       # AI 설정 (선택)
+├── .claude/                       # AI 설정
 ├── index.html                     # 메인 페이지
 ├── 404.html                       # 에러 페이지
 ├── .gitignore
@@ -79,8 +78,8 @@ node scripts/setup-hooks.js
 
 1. **Dashboard 접속**: SSAL Works 웹사이트에서 프로젝트 Dashboard로 이동
 2. **사이드바 확인**: 현재 진행 단계 확인
-3. **안내문 읽기**: Briefings 폴더의 단계별 안내문 확인
-4. **Order Sheet 작성**: Claude Code에게 작업 지시
+3. **안내문 읽기**: Dashboard에서 현재 단계의 안내문 확인
+4. **Claude Code 실행**: 터미널에서 `claude` 명령 실행 후 작업 지시
 
 ## 도움말
 

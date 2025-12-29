@@ -6,6 +6,41 @@
 
 ## 2025-12-29 작업 내역
 
+### loadProjectProgress DB 방식 제거 ✅
+
+**문제:**
+- 진행률 로드 시 `project_phase_progress` 테이블 쿼리 코드가 남아있음
+- DB 방식은 사라졌고 JSON 파일에서만 로드해야 함
+
+**수정 내용:**
+
+| 파일 | 수정 사항 |
+|------|----------|
+| `index.html` | `loadProjectProgress` 함수에서 DB 쿼리 코드 전체 제거. 단순히 `loadPhaseProgressFromDB()` 호출 (JSON 파일 로드) |
+| `DEVELOPMENT_PROCESS_WORKFLOW.md` (3곳) | "Supabase project_phase_progress 테이블" → "phase_progress.json" 참조로 변경 |
+
+**수정 전 (복잡한 DB 로직):**
+```javascript
+async function loadProjectProgress(projectName) {
+    // users 테이블 쿼리
+    // projects 테이블 쿼리
+    // project_phase_progress 테이블 쿼리
+    // 관리자/일반 사용자 분기 처리
+}
+```
+
+**수정 후 (단순화):**
+```javascript
+async function loadProjectProgress(projectName) {
+    console.log('📊 프로젝트 진행률 로드:', projectName);
+    await loadPhaseProgressFromDB();  // JSON 파일에서 로드
+}
+```
+
+**커밋:** `1acced4`
+
+---
+
 ### Control Desk 지우기 + Order Sheet 로딩 기능 수정 ✅
 
 **문제:**

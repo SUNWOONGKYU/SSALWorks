@@ -31,7 +31,9 @@
 Project SAL Grid의 S1에 있는 모든 Task를 수행하라.
 
 **Project SAL Grid란:**
-- 위치: Supabase `project_sal_grid` 테이블
+- 위치: S0-3에서 선택한 Method에 따름
+  - Database Method: Supabase `project_sal_grid` 테이블
+  - CSV Method: `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
 - Task Instruction: `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/`
 - Verification Instruction: `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/`
 
@@ -173,13 +175,19 @@ Project SAL Grid의 S1에 있는 모든 Task를 수행하라.
 
 ---
 
-#### 6-1. Supabase DB 상태 확인 (필수)
+#### 6-1. SAL Grid 상태 확인 (필수)
 
-**실행 명령**:
+**S0-3에서 선택한 Method에 따라 확인:**
+
+**Database Method (Supabase):**
 ```bash
-curl -X GET "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid?stage=eq.1&select=task_id,task_status,verification_status" \
+curl -X GET "https://{PROJECT}.supabase.co/rest/v1/project_sal_grid?stage=eq.1&select=task_id,task_status,verification_status" \
   -H "apikey: {SUPABASE_KEY}" -H "Authorization: Bearer {SUPABASE_KEY}"
 ```
+
+**CSV Method (JSON 파일):**
+- 파일 위치: `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+- 해당 파일에서 `stage: 1`인 Task들의 상태 확인
 
 **통과 조건**: 모든 Task가 `task_status: Completed`, `verification_status: Verified`
 
@@ -327,7 +335,8 @@ cd Production && npm test
 | Task Instruction | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
 | Verification Instruction | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
 | Grid Manual | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
-| SAL Grid | Supabase `project_sal_grid` 테이블 |
+| SAL Grid (DB) | Supabase `project_sal_grid` 테이블 |
+| SAL Grid (CSV) | `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json` |
 
 ---
 
