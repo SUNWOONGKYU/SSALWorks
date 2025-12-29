@@ -5727,85 +5727,10 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         };
 
         // 프로젝트 진행률 로드
-        // 관리자(wkfsahsn99@gmail.com): DB에서 로드
-        // 일반 사용자: CSV 방식 (로컬에서 JSON) → 웹에서는 0% 표시
-        const ADMIN_EMAIL = 'wkfsahsn99@gmail.com';
-        const ADMIN_EMAILS = ['wkfsahsn99@gmail.com', 'wksun999@gmail.com'];
-
+        // 진행률 로드: JSON 파일에서 로드 (DB 방식 제거됨)
         async function loadProjectProgress(projectName) {
-            try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session) {
-                    resetAllProgressToZero();
-                    return;
-                }
-
-                // 관리자 여부 확인
-                const userEmail = session.user.email;
-                const isAdmin = ADMIN_EMAILS.includes(userEmail);
-
-                if (!isAdmin) {
-                    // 일반 사용자: CSV 방식 (로컬 JSON) - 웹에서는 0% 표시
-                    console.log('📊 일반 사용자 - 진행률은 로컬 환경(Dev Package)에서 확인');
-                    resetAllProgressToZero();
-                    return;
-                }
-
-                // 관리자만 DB에서 진행률 로드
-                const { data: userData } = await window.supabaseClient
-                    .from('users')
-                    .select('user_id')
-                    .eq('id', session.user.id)
-                    .single();
-
-                if (!userData) {
-                    resetAllProgressToZero();
-                    return;
-                }
-
-                // 사용자 프로젝트의 project_id 조회
-                const { data: project, error } = await window.supabaseClient
-                    .from('projects')
-                    .select('project_id')
-                    .eq('user_id', userData.user_id)
-                    .eq('project_name', projectName)
-                    .single();
-
-                if (error || !project) {
-                    console.log('📊 프로젝트 없음:', projectName);
-                    resetAllProgressToZero();
-                    return;
-                }
-
-                // DB에서 관리자 프로젝트 진행률 조회
-                const { data: progressData, error: progressError } = await window.supabaseClient
-                    .from('project_phase_progress')
-                    .select('phase_code, progress')
-                    .eq('project_id', project.project_id);
-
-                if (progressError || !progressData || progressData.length === 0) {
-                    // DB에 진행률 데이터 없음 → JSON 파일에서 로드 시도
-                    console.log('📊 관리자 DB 진행률 없음, JSON에서 로드 시도');
-                    await loadPhaseProgressFromDB();
-                    return;
-                }
-
-                // DB에서 로드한 진행률 적용
-                progressData.forEach(({ phase_code, progress }) => {
-                    if (phase_code === 'P0' || phase_code === 'S0') {
-                        updateSpecialProgress(phase_code, progress);
-                    } else if (phase_code.startsWith('P')) {
-                        updatePrepProgressByCode(phase_code, progress);
-                    } else if (phase_code.startsWith('S')) {
-                        updateStageProgress(phase_code, progress);
-                    }
-                });
-                console.log('📊 관리자 프로젝트 진행률 로드 완료 (DB):', project.project_id, '/', progressData.length, '개 단계');
-
-            } catch (error) {
-                console.error('진행률 로드 오류:', error);
-                resetAllProgressToZero();
-            }
+            console.log('📊 프로젝트 진행률 로드:', projectName);
+            await loadPhaseProgressFromDB();  // JSON 파일에서 로드
         }
 
         // 특정 Stage 진행률 업데이트

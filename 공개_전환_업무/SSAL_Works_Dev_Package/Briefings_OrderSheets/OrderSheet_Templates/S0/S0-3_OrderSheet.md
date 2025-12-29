@@ -1,8 +1,8 @@
-# Order Sheet - S0-3 SAL Grid Supabase 연동
+# Order Sheet - Method
 
 > **버전**: 5.4
-> **단계**: S0-3 (SAL Grid Supabase)
-> **목적**: Project SAL Grid의 Supabase 데이터베이스 연동
+> **단계**: S0-3 (Method)
+> **목적**: SAL Grid 데이터 저장 방식 (CSV Method) 설정
 
 ---
 
@@ -24,23 +24,15 @@
 
 **수행할 작업:**
 
-1. 스키마 작성
-   - project_sal_grid 테이블 스키마
-   - stage_verification 테이블 스키마
-   - 인덱스 및 제약조건
+1. CSV Method 설정 (기본)
+   - project_sal_grid.json 파일 확인
+   - JSON 파일 구조 검증
+   - 데이터 입력 방법 안내
 
-2. RLS 정책 설정
-   - 테이블별 접근 권한
-   - 인증 기반 접근 제어
-
-3. 동기화 스크립트 작성
-   - JSON → DB 동기화
-   - DB → JSON 역동기화
-   - 자동 업데이트 스크립트
-
-4. Seed 데이터 작성
-   - 초기 Task 데이터
-   - Stage 정보 데이터
+2. JSON 파일 초기화
+   - S0-2에서 생성한 Task 목록을 JSON에 반영
+   - 22개 속성 확인
+   - 초기 상태값 설정 (Pending, Not Verified)
 
 ---
 
@@ -72,21 +64,22 @@
 
 ### 3단계: 실행 (Execution)
 
-**체크리스트**:
-- [ ] schema.sql 작성
-- [ ] RLS 정책 SQL 작성
-- [ ] seed_project_sal_grid.sql 작성
-- [ ] 동기화 스크립트 작성 (Node.js)
+**체크리스트:**
+- [ ] project_sal_grid.json 파일 확인
+- [ ] S0-2에서 생성한 Task 목록을 JSON에 반영
+- [ ] 22개 속성 구조 검증
+- [ ] 초기 상태값 설정 (task_status: Pending, verification_status: Not Verified)
+- [ ] 사용 방법 안내
 
 ---
 
 ### 4단계: 검증 (Verification)
 
-**체크리스트**:
-- [ ] SQL 문법이 정확한가?
-- [ ] RLS 정책이 올바르게 설정되었는가?
-- [ ] 동기화 스크립트가 정상 동작하는가?
-- [ ] 22개 속성이 모두 저장 가능한가?
+**체크리스트:**
+- [ ] JSON 파일 구조가 올바른가?
+- [ ] 모든 Task가 JSON에 포함되었는가?
+- [ ] 22개 속성이 모두 정의되었는가?
+- [ ] 초기 상태값이 올바른가?
 
 **출력**: `'검증 완료'`
 
@@ -99,10 +92,9 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- 완료된 작업 요약
-- 생성된 SQL 파일
-- **PO 실행 가이드** (SQL 실행 순서)
-- 다음 단계 안내 (S0-4)
+- CSV Method 설정 완료
+- JSON 파일 초기화 완료
+- 다음 단계 안내 (S0-4 Viewer)
 
 ---
 
@@ -110,9 +102,7 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| schema.sql | `S0_Project-SSAL-Grid_생성/supabase/` |
-| seed_project_sal_grid.sql | `S0_Project-SSAL-Grid_생성/supabase/` |
-| 동기화 스크립트 | `S0_Project-SSAL-Grid_생성/scripts/` |
+| project_sal_grid.json | `S0_Project-SAL-Grid_생성/CSV_Method/data/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -122,8 +112,7 @@
 | 항목 | 위치 |
 |------|------|
 | 규칙 파일 | `.claude/rules/` |
-| S0-1 결과물 | `S0_Project-SSAL-Grid_생성/ssal-grid/` |
-| SAL Grid 매뉴얼 | `S0_Project-SSAL-Grid_생성/manual/` |
+| S0-2 결과물 | `S0_Project-SAL-Grid_생성/sal-grid/` |
 | Briefing | `Briefings_OrderSheets/Briefings/S0/S0-3_Briefing.md` |
 
 ---
@@ -132,39 +121,39 @@
 
 ## B1. 특별 지시사항
 
-> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+**CSV Method가 기본입니다.**
 
-**PO 작업 필요:**
-- AI가 SQL 파일 생성 후, PO가 Supabase SQL Editor에서 실행
+외부 서비스 없이 JSON 파일로 Task를 관리합니다.
 
-**SQL 실행 순서:**
-1. schema.sql (테이블 생성)
-2. seed_project_sal_grid.sql (데이터 삽입)
-3. 검증: `SELECT COUNT(*) FROM project_sal_grid;`
+**JSON 파일 구조:**
+```
+S0_Project-SAL-Grid_생성/
+└── CSV_Method/
+    ├── data/
+    │   ├── project_sal_grid.json  ← Task 데이터
+    │   └── stage_verification.json
+    ├── scripts/
+    │   └── json-to-csv.js
+    └── templates/
+        └── template.json
+```
 
 ---
 
 ## B2. 참고사항
 
-> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
+**22개 속성 초기값:**
+- task_status: `Pending`
+- verification_status: `Not Verified`
+- task_progress: `0`
 
-**테이블 정보:**
+**참고: Database Method**
 
-| 테이블 | 용도 |
-|--------|------|
-| project_sal_grid | Task 데이터 저장 |
-| stage_verification | Stage Gate 검증 기록 |
-
-**SQL 파일 위치:**
-```
-S0_Project-SSAL-Grid_생성/supabase/
-├── schema.sql                    (테이블 생성)
-├── seed_project_sal_grid.sql     (Task 데이터)
-└── TEMPLATE_STANDARD_...sql      (참고용 템플릿)
-```
+> 팀 프로젝트나 대규모 Task 관리가 필요한 경우 Supabase를 사용할 수 있습니다.
+> 자세한 내용은 `S0_Project-SAL-Grid_생성/method/database/` 참조
 
 **S0-3 완료 후:**
-- S0-4 (Grid Viewer) 진행
+- S0-4 (Viewer) 진행
 
 ---
 

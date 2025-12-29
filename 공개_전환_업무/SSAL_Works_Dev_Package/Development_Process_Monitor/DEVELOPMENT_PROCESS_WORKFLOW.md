@@ -60,7 +60,7 @@ SSALWorks 프로젝트는 **10단계 프로세스**로 구성됩니다:
 | **S4** | **개발 3차** | **86%** | **In Progress** |
 | S5 | 운영 | 0% | Not Started |
 
-**진행률 관리**: Supabase `project_phase_progress` 테이블에서 관리
+**진행률 관리**: JSON 파일에서 관리 (`Development_Process_Monitor/data/phase_progress.json`)
 
 ---
 
@@ -246,18 +246,24 @@ SSALWorks 프로젝트는 **10단계 프로세스**로 구성됩니다:
 
 ## 진행률 관리 시스템
 
-### DB 테이블: `project_phase_progress`
+### JSON 파일: `phase_progress.json`
 
-```sql
-SELECT phase_code, phase_name, progress, status
-FROM project_phase_progress
-WHERE project_id = 'SSALWORKS'
-ORDER BY phase_code;
+경로: `Development_Process_Monitor/data/phase_progress.json`
+
+```json
+{
+  "project_id": "SSALWORKS",
+  "phases": {
+    "P0": { "progress": 100 },
+    "P1": { "progress": 100 },
+    ...
+  }
+}
 ```
 
 ### 프론트엔드 로드
 
-`Production/index.html`의 `loadPhaseProgressFromDB()` 함수가 자동으로 진행률을 로드합니다.
+`index.html`의 `loadPhaseProgressFromDB()` 함수가 JSON 파일에서 자동으로 진행률을 로드합니다.
 
 ---
 

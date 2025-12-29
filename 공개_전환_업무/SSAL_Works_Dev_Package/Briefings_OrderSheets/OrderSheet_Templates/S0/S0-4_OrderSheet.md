@@ -1,8 +1,8 @@
-# Order Sheet - S0-4 SAL Grid Viewer 개발
+# Order Sheet - Viewer
 
 > **버전**: 5.4
-> **단계**: S0-4 (SAL Grid Viewer)
-> **목적**: Project SAL Grid 현황을 시각화하는 웹 뷰어 개발
+> **단계**: S0-4 (Viewer)
+> **목적**: SAL Grid 현황을 시각적으로 조회하는 HTML Viewer 설정
 
 ---
 
@@ -24,21 +24,18 @@
 
 **수행할 작업:**
 
-1. 뷰어 기본 구조
-   - 5x11 매트릭스 시각화
-   - Task 상태 표시 기능
-   - 진행률 표시
+1. Viewer 확인 및 설정
+   - viewer_csv.html 파일 확인
+   - JSON 파일 경로 설정
 
-2. UI/UX 구현
-   - Stage별 필터링
-   - Area별 필터링
-   - Task 상세 정보 팝업
-   - 반응형 디자인
+2. 데이터 연동 확인
+   - project_sal_grid.json 연결 확인
+   - Task 목록이 정상 표시되는지 확인
 
-3. 데이터 연동
-   - Supabase 연동
-   - 실시간 업데이트
-   - 캐싱 처리
+3. 기능 테스트
+   - Stage/Area 필터링 테스트
+   - Task 상세 정보 팝업 테스트
+   - 진행률 표시 확인
 
 ---
 
@@ -71,21 +68,20 @@
 ### 3단계: 실행 (Execution)
 
 **체크리스트**:
-- [ ] viewer.html 개발
-- [ ] Supabase 연동 구현
-- [ ] 필터링 기능 구현
-- [ ] Task 상세 팝업 구현
-- [ ] 진행률 차트 구현
+- [ ] viewer_csv.html 파일 확인
+- [ ] JSON 파일 경로 설정
+- [ ] 브라우저에서 Viewer 열기
+- [ ] Viewer 기능 테스트
 
 ---
 
 ### 4단계: 검증 (Verification)
 
 **체크리스트**:
-- [ ] 모든 Stage/Area가 표시되는가?
-- [ ] Task 상태가 정확히 반영되는가?
-- [ ] 필터링이 정상 동작하는가?
-- [ ] 반응형 디자인이 적용되었는가?
+- [ ] 모든 Task가 표시되는가?
+- [ ] Stage/Area 필터링이 동작하는가?
+- [ ] Task 상세 정보가 정확한가?
+- [ ] 진행률이 올바르게 표시되는가?
 
 **출력**: `'검증 완료'`
 
@@ -98,10 +94,9 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- 완료된 작업 요약
-- 뷰어 기능 목록
-- 사용 방법
-- 다음 단계 안내 (S1 개발 준비)
+- viewer_csv.html 설정 완료
+- 테스트 결과
+- S0 완료 및 S1 시작 안내
 
 ---
 
@@ -109,8 +104,7 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| viewer.html | `S0_Project-SSAL-Grid_생성/viewer/` |
-| 스타일/스크립트 | `S0_Project-SSAL-Grid_생성/viewer/` |
+| Viewer 설정 완료 | `S0_Project-SAL-Grid_생성/viewer/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -120,8 +114,7 @@
 | 항목 | 위치 |
 |------|------|
 | 규칙 파일 | `.claude/rules/` |
-| S0-3 결과물 | `S0_Project-SSAL-Grid_생성/supabase/` |
-| SAL Grid 매뉴얼 | `S0_Project-SSAL-Grid_생성/manual/` |
+| S0-3 결과물 | Method 선택 결과 |
 | Briefing | `Briefings_OrderSheets/Briefings/S0/S0-4_Briefing.md` |
 
 ---
@@ -130,39 +123,40 @@
 
 ## B1. 특별 지시사항
 
-> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+**기본 Viewer (CSV Method):**
 
-**표시할 데이터 (22개 속성):**
+| Viewer | 플랫폼 |
+|--------|--------|
+| viewer_csv.html | PC |
+| viewer_mobile_csv.html | 모바일 |
 
-| 카테고리 | 속성 |
-|----------|------|
-| Basic Info | Stage, Area, Task ID, Task Name |
-| Task Definition | Task Instruction, Agent, Tools, Execution Type, Dependencies |
-| Task Execution | Progress, Status, Generated Files, Modification History |
-| Verification | Verification Instruction, Agent, Test, Build, Integration, Blockers, Comprehensive, Status, Remarks |
+**Viewer 기능:**
+- 전체 현황 대시보드 (Stage별 진행률)
+- Task 목록 (필터링, 검색)
+- Task 상세 정보 (22개 속성)
 
 ---
 
 ## B2. 참고사항
 
-> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
-
-**PO로부터 입력 필요:**
-- 추가 UI/UX 요구사항
-- 특별 표시 기능
-
-**뷰어 파일 위치:**
+**Viewer 파일 위치:**
 ```
-S0_Project-SSAL-Grid_생성/viewer/
-└── viewer.html
+S0_Project-SAL-Grid_생성/
+└── viewer/
+    ├── viewer_csv.html          ← 기본
+    └── viewer_mobile_csv.html   ← 모바일
 ```
 
-**Supabase 연동:**
-- `project_sal_grid` 테이블 데이터 시각화
-- Supabase Realtime 활용 가능
+**사용 방법:**
+1. `viewer_csv.html` 파일을 브라우저에서 열기
+2. JSON 파일 경로 확인
+3. 새로고침으로 최신 데이터 반영
+
+**참고: Database Method**
+> Supabase 사용 시 `viewer_database.html` 사용 가능
 
 **S0-4 완료 후:**
-- S0 완료
+- S0 전체 완료
 - S1 (개발 준비) 진행
 
 ---

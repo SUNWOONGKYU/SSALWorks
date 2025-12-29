@@ -1,8 +1,8 @@
-# Order Sheet - S0-1 Project SAL Grid 생성
+# Order Sheet - Manual
 
 > **버전**: 5.4
-> **단계**: S0-1 (SAL Grid 생성)
-> **목적**: Task 기반 개발을 위한 Project SAL Grid 시스템 생성
+> **단계**: S0-1 (Manual)
+> **목적**: 기존 PROJECT SAL GRID 매뉴얼 검토 및 필요시 업데이트
 
 ---
 
@@ -24,20 +24,20 @@
 
 **수행할 작업:**
 
-1. Stage 및 Area 정의
-   - Stage 정의 (S1~S5)
-   - Area 코드 정의 (M, U, F, BI, BA, D, S, T, O, E, C)
-   - Task ID 규칙 적용
+1. 매뉴얼 읽기 및 이해
+   - `PROJECT_SAL_GRID_MANUAL.md` 전체 읽기
+   - SAL Grid 개념 이해 (Stage-Area-Level)
+   - 22개 속성, 검증 프로세스, Stage Gate 이해
 
-2. Task 목록 생성
-   - Stage별 Task 목록
-   - Task별 상세 정보 (22개 속성)
-   - 의존성 관계 정의
+2. 업데이트 필요 여부 확인
+   - 현재 프로젝트에 맞지 않는 내용이 있는지 확인
+   - 추가해야 할 내용이 있는지 확인
+   - PO에게 수정 필요 여부 질문
 
-3. 문서 및 시스템 생성
-   - PROJECT_SAL_GRID_MANUAL.md
-   - ssal-grid/ 폴더 구조 생성
-   - Stage Gate 검증 체크리스트
+3. (필요시) 매뉴얼 업데이트
+   - `manual_template.md` 수정
+   - 빌드 스크립트 실행
+   - 결과물 확인
 
 ---
 
@@ -70,21 +70,20 @@
 ### 3단계: 실행 (Execution)
 
 **체크리스트**:
-- [ ] Stage/Area 정의 문서 작성
-- [ ] Task ID 규칙 정의
-- [ ] Task 목록 생성 (22개 속성 포함)
-- [ ] ssal-grid/ 폴더 구조 생성
-- [ ] Stage Gate 체크리스트 작성
+- [ ] PROJECT_SAL_GRID_MANUAL.md 전체 읽기
+- [ ] SAL Grid 개념 이해 확인
+- [ ] 업데이트 필요 여부 PO에게 확인
+- [ ] (필요시) manual_template.md 수정
+- [ ] (필요시) 빌드 스크립트 실행
 
 ---
 
 ### 4단계: 검증 (Verification)
 
 **체크리스트**:
-- [ ] Task ID 규칙이 준수되는가?
-- [ ] 모든 Area가 정의되었는가?
-- [ ] 의존성 관계가 올바른가?
-- [ ] Stage Gate 검증 프로세스가 정의되었는가?
+- [ ] 매뉴얼 내용을 충분히 이해했는가?
+- [ ] SAL Grid 개념 (Stage, Area, Level)을 설명할 수 있는가?
+- [ ] (수정한 경우) 빌드가 정상적으로 완료되었는가?
 
 **출력**: `'검증 완료'`
 
@@ -97,9 +96,9 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- 완료된 작업 요약
-- 생성된 문서
-- 다음 단계 안내 (S0-2)
+- 매뉴얼 검토 완료
+- 수정 사항 (있는 경우)
+- 다음 단계 안내 (S0-2 SAL-Grid)
 
 ---
 
@@ -107,9 +106,8 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| PROJECT_SAL_GRID_MANUAL.md | `S0_Project-SSAL-Grid_생성/manual/` |
-| ssal-grid 폴더 구조 | `S0_Project-SSAL-Grid_생성/ssal-grid/` |
-| Task 목록 | `S0_Project-SSAL-Grid_생성/ssal-grid/` |
+| 매뉴얼 검토 완료 | (수정 없으면 산출물 없음) |
+| (수정시) PROJECT_SAL_GRID_MANUAL.md | `S0_Project-SAL-Grid_생성/manual/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -118,8 +116,10 @@
 
 | 항목 | 위치 |
 |------|------|
+| 매뉴얼 | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
+| 매뉴얼 템플릿 | `S0_Project-SAL-Grid_생성/manual/manual_template.md` |
+| 빌드 스크립트 | `S0_Project-SAL-Grid_생성/manual/build-manual.js` |
 | 규칙 파일 | `.claude/rules/` |
-| 디렉토리 구조 | `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md` |
 | Briefing | `Briefings_OrderSheets/Briefings/S0/S0-1_Briefing.md` |
 
 ---
@@ -128,48 +128,36 @@
 
 ## B1. 특별 지시사항
 
-> 이번 Order에만 적용되는 특별한 지시 (없으면 비워둠)
+**매뉴얼은 이미 완성되어 있습니다.**
 
-**Area 코드 정의:**
+Development Package에 포함된 매뉴얼을 읽고 이해하는 것이 주 목적입니다. 수정이 필요한 경우에만 업데이트합니다.
 
-| 코드 | 영역 | 설명 |
-|-----|------|------|
-| M | Documentation | 문서화 |
-| U | Design | UI/UX 디자인 |
-| F | Frontend | 프론트엔드 개발 |
-| BI | Backend Infrastructure | 백엔드 기반 |
-| BA | Backend APIs | 백엔드 API |
-| D | Database | 데이터베이스 |
-| S | Security | 보안/인증/인가 |
-| T | Testing | 테스트 |
-| O | DevOps | 운영/배포 |
-| E | External | 외부 연동 |
-| C | Content | 콘텐츠 시스템 |
-
-**Task ID 형식**: `S[Stage][Area][Seq]` (예: S1S1, S2F1, S3BA2)
+**매뉴얼 구조 (27개 섹션):**
+- PART 1: 개요 및 프레임워크 (1-4)
+- PART 2: Grid 생성 (5-8)
+- PART 3: 검증 및 추적 (9-12)
+- PART 4: Method 설정 (13-17) - CSV Method (기본), Database Method (선택)
+- PART 5: Viewer 및 자동화 (18-21)
+- PART 6: 문제 해결 (22-24)
+- PART 7: 정리 및 부록 (25-27)
 
 ---
 
 ## B2. 참고사항
 
-> AI가 작업과 관련하여 알아야 할 배경 정보 등 (없으면 비워둠)
+**수정이 필요한 경우:**
+1. `manual_template.md` 파일을 수정
+2. 빌드 스크립트 실행:
+   ```bash
+   node S0_Project-SAL-Grid_생성/manual/build-manual.js
+   ```
+3. `PROJECT_SAL_GRID_MANUAL.md`가 자동 갱신됨
 
-**PO로부터 입력 필요:**
-- 프로젝트 개발 범위
-- Stage별 개발 계획
-- 초기 Task 목록 (이미 정의된 것이 있다면)
-
-**검증 프로세스 (3단계):**
-```
-Task 작업 → Task 검증 → Stage Gate → PO 최종 승인
-```
-
-1. **Task 검증**: Verification Agent가 Task 완료 후 검증
-2. **Stage Gate**: Main Agent가 Stage 완료 후 종합 검증
-3. **PO 승인**: Project Owner가 최종 승인
+**규칙 파일 연동:**
+매뉴얼 템플릿은 `.claude/rules/` 폴더의 규칙 파일을 자동으로 포함합니다.
 
 **S0-1 완료 후:**
-- S0-2 (SAL Grid Manual) 진행
+- S0-2 (SAL-Grid 생성) 진행
 
 ---
 
