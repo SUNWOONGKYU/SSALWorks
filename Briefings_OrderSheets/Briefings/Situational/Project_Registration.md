@@ -169,13 +169,13 @@ S0_Project-SAL-Grid_생성/
 
 각 Stage 폴더는 11개 Area 폴더를 포함.
 
-| Stage | 폴더명 | 주요 작업 |
-|-------|--------|----------|
-| S1 | S1_개발_준비 | 환경설정, DB 스키마, Auth 설정 |
-| S2 | S2_개발-1차 | OAuth, 이메일 인증, 회원가입 |
-| S3 | S3_개발-2차 | AI 연동, AI Q&A |
-| S4 | S4_개발-3차 | 결제, 관리자, 크레딧 |
-| S5 | S5_개발_마무리 | 배포, QA, 안정화 |
+| Stage | 폴더명 |
+|-------|--------|
+| S1 | S1_개발_준비 |
+| S2 | S2_개발-1차 |
+| S3 | S3_개발-2차 |
+| S4 | S4_개발-3차 |
+| S5 | S5_개발_마무리 |
 
 **11개 Area:**
 Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documentation, External, Frontend, Security, Testing
@@ -333,7 +333,7 @@ claude --version
 
 ## STEP 4: 설치 완료 후
 
-모든 설치가 완료되면 Dashboard로 돌아와서 개발을 시작하세요.
+모든 설치가 완료되면 컨트롤 데스크로 가서 Claude Code와 함께 개발을 시작하세요.
 
 ### 개발 진행 방법
 
@@ -358,6 +358,6 @@ claude --version
 
 ## 도움이 필요하면
 
-- **FAQ**: 자주 묻는 질문
-- **1:1 문의**: 멘토링 요청
+- **써니에게 질문하기**: AI 튜터에게 물어보세요
+- **지식 검색**: SSAL Works에서 제공하는 지식을 검색해 보세요
 
