@@ -6,6 +6,32 @@
 
 ## 2025-12-29 작업 내역
 
+### 빌더 계정 ID 생성 규칙 문서화 및 코드 수정 ✅
+
+**문제:**
+1. 빌더 계정 ID가 잘못된 형식으로 부여됨
+   - jaiwshim@gmail.com: `BLDR-2512-001` (비표준)
+   - wksun999@naver.com: `null` (미부여)
+2. ID 생성 코드가 8자리로 생성 (12자리여야 함)
+
+**수정 내용:**
+
+| 항목 | 작업 |
+|------|------|
+| DB 수정 | 잘못된 빌더 ID 2건 수정 (`2512000003TH`, `2512000004TH`) |
+| 문서 작성 | `.claude/methods/02_builder-id.md` 신규 생성 |
+| CLAUDE.md | methods 섹션에 builder-id.md 참조 추가 |
+| 코드 수정 | `generateDeveloperAccountId` 함수 수정 (6자리 일련번호, builder_id 기준 카운트) |
+| 코드 주석 | 함수에 상세 경고 주석 추가 (절대 금지 사항 명시) |
+
+**수정된 파일:**
+- `.claude/methods/02_builder-id.md` (신규)
+- `.claude/CLAUDE.md`
+- `pages/admin-dashboard.html`
+- `S4_개발-3차/Frontend/admin-dashboard.html`
+
+---
+
 ### loadProjectProgress DB 방식 제거 ✅
 
 **문제:**

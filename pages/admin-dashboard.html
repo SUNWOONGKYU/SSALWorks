@@ -5249,8 +5249,22 @@
         }
 
         /**
-         * 빌더 계정 ID 생성 (8자리)
-         * 형식: YYMMNNXX
+         * ⛔⛔⛔ 빌더 계정 ID 생성 - 규칙 절대 준수! ⛔⛔⛔
+         *
+         * 형식: YYMMNNNNNNXX (반드시 12자리!)
+         * - YY: 연도 (2자리)
+         * - MM: 월 (2자리)
+         * - NNNNNN: 일련번호 (6자리 고정! padStart(6, '0'))
+         * - XX: 금액 코드 (TH=300만, FO=400만, FI=500만, SI=600만, SE=700만, EI=800만, NI=900만)
+         *
+         * 예시: 2512000001TH = 2025년 12월, 1번째, 300만원
+         *
+         * ⛔ 절대 금지 (수정 시 반드시 확인!):
+         * - padStart(2, '0') 사용 금지 → 반드시 padStart(6, '0')
+         * - user_id로 카운트 금지 → 반드시 builder_id 기준
+         * - BLDR-YYMM-NNN 같은 비표준 형식 금지
+         *
+         * 📋 상세 규칙: .claude/methods/02_builder-id.md
          */
         async function generateDeveloperAccountId(amount) {
             const now = new Date();
@@ -5263,13 +5277,15 @@
             };
             const amountCode = amountCodes[amount] || 'TH';
 
+            // 해당 월의 기존 빌더 ID 개수 조회 (builder_id 기준!)
             const prefix = year + month;
             const { count, error } = await supabaseClient
                 .from('users')
                 .select('*', { count: 'exact', head: true })
-                .like('user_id', `${prefix}%`);
+                .like('builder_id', `${prefix}%`);
 
-            const serialNumber = String((count || 0) + 1).padStart(2, '0');
+            // 6자리 일련번호 생성
+            const serialNumber = String((count || 0) + 1).padStart(6, '0');
             return `${year}${month}${serialNumber}${amountCode}`;
         }
 
