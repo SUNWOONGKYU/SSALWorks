@@ -25,12 +25,11 @@
 **수행할 작업:**
 
 1. Viewer 확인 및 설정
-   - S0-3에서 선택한 Method에 맞는 Viewer 확인
-   - Database Method: viewer_database.html
-   - CSV Method: viewer_csv.html
+   - viewer_csv.html 파일 확인
+   - JSON 파일 경로 설정
 
 2. 데이터 연동 확인
-   - 선택한 Method의 데이터 소스 연결 확인
+   - project_sal_grid.json 연결 확인
    - Task 목록이 정상 표시되는지 확인
 
 3. 기능 테스트
@@ -69,9 +68,9 @@
 ### 3단계: 실행 (Execution)
 
 **체크리스트**:
-- [ ] S0-3에서 선택한 Method 확인
-- [ ] 해당 Viewer 파일 확인
-- [ ] 데이터 연동 설정 (Supabase URL 또는 JSON 경로)
+- [ ] viewer_csv.html 파일 확인
+- [ ] JSON 파일 경로 설정
+- [ ] 브라우저에서 Viewer 열기
 - [ ] Viewer 기능 테스트
 
 ---
@@ -95,7 +94,7 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- 사용할 Viewer 파일
+- viewer_csv.html 설정 완료
 - 테스트 결과
 - S0 완료 및 S1 시작 안내
 
@@ -124,14 +123,12 @@
 
 ## B1. 특별 지시사항
 
-**Viewer 종류 (4가지):**
+**기본 Viewer (CSV Method):**
 
-| Viewer | Method | 플랫폼 |
-|--------|--------|--------|
-| viewer_database.html | Database (Supabase) | PC |
-| viewer_csv.html | CSV (JSON) | PC |
-| viewer_mobile_database.html | Database (Supabase) | 모바일 |
-| viewer_mobile_csv.html | CSV (JSON) | 모바일 |
+| Viewer | 플랫폼 |
+|--------|--------|
+| viewer_csv.html | PC |
+| viewer_mobile_csv.html | 모바일 |
 
 **Viewer 기능:**
 - 전체 현황 대시보드 (Stage별 진행률)
@@ -146,19 +143,17 @@
 ```
 S0_Project-SAL-Grid_생성/
 └── viewer/
-    ├── viewer_database.html
-    ├── viewer_csv.html
-    ├── viewer_mobile_database.html
-    └── viewer_mobile_csv.html
+    ├── viewer_csv.html          ← 기본
+    └── viewer_mobile_csv.html   ← 모바일
 ```
 
-**Database Method 연동:**
-- Supabase URL과 anon key 필요
-- `project_sal_grid` 테이블 조회
+**사용 방법:**
+1. `viewer_csv.html` 파일을 브라우저에서 열기
+2. JSON 파일 경로 확인
+3. 새로고침으로 최신 데이터 반영
 
-**CSV Method 연동:**
-- `project_sal_grid.json` 파일 경로 설정
-- 브라우저에서 직접 열기 가능
+**참고: Database Method**
+> Supabase 사용 시 `viewer_database.html` 사용 가능
 
 **S0-4 완료 후:**
 - S0 전체 완료

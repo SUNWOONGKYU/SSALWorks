@@ -2,7 +2,7 @@
 
 > **버전**: 5.4
 > **단계**: S0-3 (Method)
-> **목적**: SAL Grid 데이터 저장 방식 선택 및 설정
+> **목적**: SAL Grid 데이터 저장 방식 (CSV Method) 설정
 
 ---
 
@@ -24,21 +24,15 @@
 
 **수행할 작업:**
 
-1. Method 선택
-   - 두 가지 방식 설명 (Database vs CSV)
-   - 프로젝트 환경에 맞는 방식 선택
-   - PO에게 선택 확인
-
-2. (Database Method 선택 시)
-   - schema.sql 작성
-   - RLS 정책 설정
-   - Seed 데이터 작성
-   - PO에게 SQL 실행 가이드 제공
-
-3. (CSV Method 선택 시)
-   - project_sal_grid.json 설정
-   - JSON 파일 구조 확인
+1. CSV Method 설정 (기본)
+   - project_sal_grid.json 파일 확인
+   - JSON 파일 구조 검증
    - 데이터 입력 방법 안내
+
+2. JSON 파일 초기화
+   - S0-2에서 생성한 Task 목록을 JSON에 반영
+   - 22개 속성 확인
+   - 초기 상태값 설정 (Pending, Not Verified)
 
 ---
 
@@ -57,51 +51,35 @@
 
 ### 2단계: 문의사항 질문
 
-**필수 질문 (PO에게):**
+**질문 형식**:
 ```
-[S0-3] 질문: SAL Grid 데이터 저장 방식을 선택해주세요.
-
-옵션 A: Database Method (Supabase)
-- 실시간 동기화
-- 다중 사용자 지원
-- Supabase 설정 필요
-
-옵션 B: CSV Method (JSON 파일)
-- 외부 의존성 없음
-- 독립 실행 가능
-- 개인/오프라인 프로젝트에 적합
+[S0-3] 질문: {내용}
+옵션 A: {옵션1}
+옵션 B: {옵션2}
 ```
 
-**출력**: PO 선택 결과
+**출력**: 질문 목록 또는 `'질문 없음'`
 
 ---
 
 ### 3단계: 실행 (Execution)
 
-**Database Method 선택 시:**
-- [ ] schema.sql 작성
-- [ ] triggers.sql 작성 (상태 검증)
-- [ ] rls_policies.sql 작성
-- [ ] seed_project_sal_grid.sql 작성
-- [ ] PO SQL 실행 가이드 제공
-
-**CSV Method 선택 시:**
-- [ ] project_sal_grid.json 확인
-- [ ] JSON 구조 검증
+**체크리스트:**
+- [ ] project_sal_grid.json 파일 확인
+- [ ] S0-2에서 생성한 Task 목록을 JSON에 반영
+- [ ] 22개 속성 구조 검증
+- [ ] 초기 상태값 설정 (task_status: Pending, verification_status: Not Verified)
 - [ ] 사용 방법 안내
 
 ---
 
 ### 4단계: 검증 (Verification)
 
-**Database Method:**
-- [ ] SQL 문법이 정확한가?
-- [ ] 22개 속성이 모두 저장 가능한가?
-- [ ] PO가 SQL 실행 가이드를 받았는가?
-
-**CSV Method:**
+**체크리스트:**
 - [ ] JSON 파일 구조가 올바른가?
-- [ ] Task 데이터가 정상적으로 로드되는가?
+- [ ] 모든 Task가 JSON에 포함되었는가?
+- [ ] 22개 속성이 모두 정의되었는가?
+- [ ] 초기 상태값이 올바른가?
 
 **출력**: `'검증 완료'`
 
@@ -114,8 +92,8 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- 선택된 Method
-- 설정 완료 사항
+- CSV Method 설정 완료
+- JSON 파일 초기화 완료
 - 다음 단계 안내 (S0-4 Viewer)
 
 ---
@@ -124,8 +102,7 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| (DB) SQL 파일들 | `S0_Project-SAL-Grid_생성/method/database/` |
-| (CSV) JSON 파일 | `S0_Project-SAL-Grid_생성/CSV_Method/data/` |
+| project_sal_grid.json | `S0_Project-SAL-Grid_생성/CSV_Method/data/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -134,7 +111,7 @@
 
 | 항목 | 위치 |
 |------|------|
-| 규칙 파일 | `.claude/rules/04_grid-writing-supabase.md` |
+| 규칙 파일 | `.claude/rules/` |
 | S0-2 결과물 | `S0_Project-SAL-Grid_생성/sal-grid/` |
 | Briefing | `Briefings_OrderSheets/Briefings/S0/S0-3_Briefing.md` |
 
@@ -144,39 +121,36 @@
 
 ## B1. 특별 지시사항
 
-**두 가지 Method 비교:**
+**CSV Method가 기본입니다.**
 
-| 항목 | Database Method | CSV Method |
-|------|----------------|------------|
-| 저장소 | Supabase (PostgreSQL) | JSON 파일 |
-| 동기화 | 실시간 | 파일 저장 시 |
-| 다중 사용자 | 지원 | 미지원 |
-| 외부 의존성 | Supabase 필요 | 없음 (독립 실행) |
-| 권장 상황 | 팀 프로젝트 | 개인/오프라인 |
+외부 서비스 없이 JSON 파일로 Task를 관리합니다.
+
+**JSON 파일 구조:**
+```
+S0_Project-SAL-Grid_생성/
+└── CSV_Method/
+    ├── data/
+    │   ├── project_sal_grid.json  ← Task 데이터
+    │   └── stage_verification.json
+    ├── scripts/
+    │   └── json-to-csv.js
+    └── templates/
+        └── template.json
+```
 
 ---
 
 ## B2. 참고사항
 
-**Database Method 파일 구조:**
-```
-S0_Project-SAL-Grid_생성/
-└── method/
-    └── database/
-        ├── schema.sql
-        ├── triggers.sql
-        └── rls_policies.sql
-```
+**22개 속성 초기값:**
+- task_status: `Pending`
+- verification_status: `Not Verified`
+- task_progress: `0`
 
-**CSV Method 파일 구조:**
-```
-S0_Project-SAL-Grid_생성/
-└── CSV_Method/
-    ├── data/
-    │   └── project_sal_grid.json
-    ├── scripts/
-    └── templates/
-```
+**참고: Database Method**
+
+> 팀 프로젝트나 대규모 Task 관리가 필요한 경우 Supabase를 사용할 수 있습니다.
+> 자세한 내용은 `S0_Project-SAL-Grid_생성/method/database/` 참조
 
 **S0-3 완료 후:**
 - S0-4 (Viewer) 진행
