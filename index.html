@@ -12010,7 +12010,13 @@ ${result.answer}`;
                     ? DOMPurify.sanitize(notice.content.replace(/\n/g, '<br>'), { ALLOWED_TAGS: ['br'] })
                     : notice.content.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
 
-                const createdDate = new Date(notice.created_at).toLocaleDateString('ko-KR');
+                const createdDateTime = new Date(notice.created_at).toLocaleString('ko-KR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
                 const importanceBadge = notice.important
                     ? '<span style="display: inline-block; background: #EF4444; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">중요</span>'
                     : '';
@@ -12060,7 +12066,7 @@ ${result.answer}`;
                             📢 ${safeTitle}${importanceBadge}
                         </h3>
                         <div style="margin-top: 8px; font-size: 13px; color: #6c757d;">
-                            작성일: ${createdDate}
+                            작성일시: ${createdDateTime}
                         </div>
                     </div>
                     <div style="padding: 24px; line-height: 1.6; color: #495057; font-size: 14px;">
