@@ -1,4 +1,4 @@
-# P1-1 Vision & Mission
+# Vision_Mission
 
 ## 단계 개요
 

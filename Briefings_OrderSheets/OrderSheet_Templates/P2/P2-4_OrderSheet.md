@@ -1,4 +1,4 @@
-# Order Sheet - P2-4 데이터베이스 설계
+# Order Sheet - Tech_Stack
 
 > **버전**: 5.4
 > **단계**: P2-4 (데이터베이스 설계)

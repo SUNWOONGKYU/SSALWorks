@@ -1,4 +1,4 @@
-# Order Sheet - S1 개발 준비
+# Order Sheet - 개발 준비
 
 > **버전**: 5.4
 > **Stage**: S1 (개발 준비)

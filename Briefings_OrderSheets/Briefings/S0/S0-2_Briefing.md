@@ -1,4 +1,4 @@
-# S0-2 SAL Grid (그리드 설계)
+# sal-grid
 
 ## 개요
 

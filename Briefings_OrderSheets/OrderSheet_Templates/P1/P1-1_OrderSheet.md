@@ -1,4 +1,4 @@
-# Order Sheet - P1-1 Vision & Mission 정의
+# Order Sheet - Vision_Mission
 
 > **버전**: 5.4
 > **단계**: P1-1 (Vision & Mission 정의)

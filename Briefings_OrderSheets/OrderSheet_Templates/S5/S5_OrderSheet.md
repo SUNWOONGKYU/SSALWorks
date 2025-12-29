@@ -1,4 +1,4 @@
-# Order Sheet - S5 개발 마무리
+# Order Sheet - 개발 마무리
 
 > **버전**: 5.4
 > **Stage**: S5 (개발 마무리)

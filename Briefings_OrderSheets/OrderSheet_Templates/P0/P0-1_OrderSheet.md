@@ -1,8 +1,8 @@
-# Order Sheet - P0-1 디렉토리 구조 생성
+# Order Sheet - Project_Directory_Structure
 
-> **버전**: 5.4
+> **버전**: 5.5
 > **단계**: P0-1 (작업 디렉토리 구조 생성)
-> **목적**: SSALWorks 표준 디렉토리 구조 자동 생성
+> **목적**: 표준 디렉토리 구조 생성확인 및 변경할 내용 반영
 
 ---
 
@@ -24,22 +24,13 @@
 
 **수행할 작업:**
 
-1. SSALWorks 표준 디렉토리 구조 생성
+1. 표준 디렉토리 구조 생성확인 및 변경할 내용 반영
    - P0~P3 예비단계 폴더
    - S0~S5 실행단계 폴더
-   - Production 폴더 (배포용 코드)
-   - 부수적_고유기능 폴더
 
-2. 기본 문서 생성
-   - `Project_Directory_Structure.md`
-   - `Project_Status.md`
-   - `README.md`
-   - `.gitignore`
-
-3. 설정 파일 생성
-   - `.claude/CLAUDE.md` (Claude Code 설정)
-   - `.env.example` (환경 변수 템플릿)
-   - `Human_ClaudeCode_Bridge/` 구조
+2. 프로젝트별 문서 작성
+   - `Project_Directory_Structure.md` (프로젝트 구조 설명)
+   - `Project_Status.md` (현재 상태 기록)
 
 ---
 
@@ -72,9 +63,8 @@
 ### 3단계: 실행 (Execution)
 
 **체크리스트**:
-- [ ] 표준 디렉토리 구조 생성 (A2 참조)
-- [ ] 기본 문서 생성 (A2 참조)
-- [ ] 설정 파일 생성 (A2 참조)
+- [ ] 표준 디렉토리 구조 생성확인 (A2 참조)
+- [ ] 프로젝트별 문서 작성 (A2 참조)
 
 ---
 
@@ -141,6 +131,12 @@
 **표준 폴더 구조:**
 ```
 [프로젝트명]/
+├── api/
+├── pages/
+├── assets/
+├── scripts/
+├── index.html
+├── 404.html
 ├── P0_작업_디렉토리_구조_생성/
 ├── P1_사업계획/
 ├── P2_프로젝트_기획/
@@ -151,12 +147,14 @@
 ├── S3_개발-2차/
 ├── S4_개발-3차/
 ├── S5_개발_마무리/
-├── Production/
+├── Development_Process_Monitor/
 ├── Human_ClaudeCode_Bridge/
 ├── Briefings_OrderSheets/
-├── 부수적_고유기능/
 ├── .claude/
-└── 참고자료/
+├── .gitignore
+├── package.json
+├── vercel.json
+└── README.md
 ```
 
 ---

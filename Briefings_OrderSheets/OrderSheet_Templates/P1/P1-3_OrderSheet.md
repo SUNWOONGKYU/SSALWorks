@@ -1,4 +1,4 @@
-# Order Sheet - P1-3 비즈니스 모델
+# Order Sheet - Business_Model
 
 > **버전**: 5.4
 > **단계**: P1-3 (비즈니스 모델)

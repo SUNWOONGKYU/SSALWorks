@@ -1,4 +1,4 @@
-# Order Sheet - P0-2 Project Status 관리
+# Order Sheet - Project_Status
 
 > **버전**: 5.4
 > **단계**: P0-2 (Project Status 관리)
@@ -24,7 +24,7 @@
 
 **수행할 작업:**
 
-1. `Project_Status.md` 문서 생성 및 관리
+1. `Project_Status.md` 문서 업데이트
    - 전체 프로젝트 진행률
    - 단계별 완료 상태
    - 현재 진행 중인 작업
@@ -142,7 +142,7 @@
 
 **Project_Status.md 문서 구조:**
 ```markdown
-# SSALWorks 프로젝트 현황
+# 프로젝트 현황
 
 ## 작업 전 필수 확인 규칙
 ## 전체 프로젝트 진행률

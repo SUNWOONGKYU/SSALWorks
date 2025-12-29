@@ -1,4 +1,4 @@
-# Order Sheet - S3 개발 2차
+# Order Sheet - 개발 2차
 
 > **버전**: 5.4
 > **Stage**: S3 (개발 2차)

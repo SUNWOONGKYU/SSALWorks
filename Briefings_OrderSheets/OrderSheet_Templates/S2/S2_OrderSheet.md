@@ -1,4 +1,4 @@
-# Order Sheet - S2 개발 1차
+# Order Sheet - 개발 1차
 
 > **버전**: 5.4
 > **Stage**: S2 (개발 1차)

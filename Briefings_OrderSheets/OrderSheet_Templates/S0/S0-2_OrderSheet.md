@@ -1,4 +1,4 @@
-# Order Sheet - S0-2 SAL Grid 매뉴얼 작성
+# Order Sheet - sal-grid
 
 > **버전**: 5.4
 > **단계**: S0-2 (SAL Grid 매뉴얼)

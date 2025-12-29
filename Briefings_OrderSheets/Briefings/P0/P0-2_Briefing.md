@@ -1,4 +1,4 @@
-# P0-2 Project Status 관리
+# Project_Status
 
 ## 단계 개요
 

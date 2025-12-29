@@ -1,4 +1,4 @@
-# Order Sheet - S0-3 SAL Grid Supabase 연동
+# Order Sheet - method
 
 > **버전**: 5.4
 > **단계**: S0-3 (SAL Grid Supabase)

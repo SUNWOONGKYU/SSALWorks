@@ -1,4 +1,4 @@
-# Order Sheet - P3-2 데이터베이스 구축
+# Order Sheet - Database
 
 > **버전**: 5.4
 > **단계**: P3-2 (데이터베이스 구축)

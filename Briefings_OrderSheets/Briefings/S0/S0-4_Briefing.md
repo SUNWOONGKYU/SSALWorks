@@ -1,4 +1,4 @@
-# S0-4 Viewer (조회 도구)
+# viewer
 
 ## 개요
 
