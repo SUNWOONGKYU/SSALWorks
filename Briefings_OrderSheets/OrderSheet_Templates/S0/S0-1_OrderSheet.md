@@ -136,7 +136,7 @@ Development Package에 포함된 매뉴얼을 읽고 이해하는 것이 주 목
 - PART 1: 개요 및 프레임워크 (1-4)
 - PART 2: Grid 생성 (5-8)
 - PART 3: 검증 및 추적 (9-12)
-- PART 4: Supabase 설정 (13-17)
+- PART 4: Method 설정 (13-17) - CSV Method (기본), Database Method (선택)
 - PART 5: Viewer 및 자동화 (18-21)
 - PART 6: 문제 해결 (22-24)
 - PART 7: 정리 및 부록 (25-27)
