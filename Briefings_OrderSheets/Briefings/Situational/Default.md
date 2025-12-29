@@ -2,27 +2,27 @@
 
 SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 플랫폼"**입니다.
 
-<span style="color: #059669; font-weight: bold;">우선, SSAL Works에서 무엇을 어떻게 해야 하는지에 대해서 간략히 안내해 드리겠습니다.</span>
+<span style="color: #059669;">우선, SSAL Works에서 무엇을 어떻게 해야 하는지에 대해서 간략히 안내해 드리겠습니다.</span>
 
 ※ 참고로 모바일 버전에서는 조회는 모두 가능하지만 작업에는 제한이 있으므로 개발 작업은 PC버전에서 하는 게 편리합니다.
 
 ---
 
-<span style="color: #059669; font-weight: bold;">무료로 일단 회원 가입을 하시고 플랫폼을 전체적으로 찬찬히 둘러보세요.</span>
+<span style="color: #059669;">무료로 일단 회원 가입을 하시고 플랫폼을 전체적으로 찬찬히 둘러보세요.</span>
 
-<span style="color: #D97706; font-weight: bold;">※ 회원 가입: **Header 오른쪽 "회원가입" 버튼** 클릭</span>
+<span style="color: #D97706;">※ 회원 가입: Header 오른쪽 "회원가입" 버튼 클릭</span>
 
-<span style="color: #D97706; font-weight: bold;">※ 로그인: **Header 오른쪽 "로그인" 버튼** 클릭 (Google 계정 또는 이메일)</span>
+<span style="color: #D97706;">※ 로그인: Header 오른쪽 "로그인" 버튼 클릭 (Google 계정 또는 이메일)</span>
 
-1) **메인 화면 왼쪽**: 프로젝트 진행 프로세스 관리방법, 단계별로 제시되어 있는 34개의 안내문과 32개의 Order Sheet 템플릿 살펴보기
+1) 메인 화면 왼쪽: 프로젝트 진행 프로세스 관리방법, 단계별로 제시되어 있는 34개의 안내문과 32개의 Order Sheet 템플릿 살펴보기
 
-2) **메인 화면 중앙 위**: Control Desk 사용방법, Order Sheet 작성방법 살펴보기
+2) 메인 화면 중앙 위: Control Desk 사용방법, Order Sheet 작성방법 살펴보기
 
-3) **메인 화면 중앙 아래**: Project SAL Grid Viewer를 열어서 63개 이상의 Task가 어떻게 체계적으로 관리되고 있는지 확인하기
+3) 메인 화면 중앙 아래: Project SAL Grid Viewer를 열어서 63개 이상의 Task가 어떻게 체계적으로 관리되고 있는지 확인하기
 
-4) **메인 화면 오른쪽**: Claude & Claude Code 사용법부터 풀스택 웹사이트 개발 기초지식과 프로젝트 관리 방법까지 다루는 80편의 Books, 18개 분야에 걸친 65개의 실전 Tips, 외부 연동 설정 Guide 5개 등 방대한 지식 열람하기
+4) 메인 화면 오른쪽: Claude & Claude Code 사용법부터 풀스택 웹사이트 개발 기초지식과 프로젝트 관리 방법까지 다루는 80편의 Books, 18개 분야에 걸친 65개의 실전 Tips, 외부 연동 설정 Guide 5개 등 방대한 지식 열람하기
 
-5) **메인 화면 하단 Footer**: [서비스 소개](/service-intro) 내용 확인하기
+5) 메인 화면 하단 Footer: [서비스 소개](/service-intro) 내용 확인하기
 
 ---
 
@@ -34,7 +34,7 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 <span style="color: #DC2626;">※ 개발 작업 진행 단계: Claude Code를 터미널에서 실행(작업용 디렉토리/폴더에다 마우스 가져다 놓고 오른쪽 누르면 나타나는 "터미널에서 열기" 메뉴를 누르고 난 후 CLI에서 "Claude"를 입력하고 Enter) → 메인 화면 좌측의 사이드바에 설치되어 있는 진행 프로세스에 따라서 개발 작업 시작 → 메인 화면 중앙 상단의 Control Desk에서 Order Sheet를 발행하여 Human_ClaudeCode_Bridge/Orders 폴더에 저장하고 Claude Code에게 그 Order Sheet에 기재되어 있는 작업을 하라고 지시 → 터미널에서 Claude Code와 지속적으로 소통을 하면서 작업을 계속 진행</span>
 
-<span style="color: #059669; font-weight: bold;">빌더 계정을 개설하면 아래와 같은 특별한 기능 10가지를 사용할 수 있습니다.</span>
+<span style="color: #059669;">빌더 계정을 개설하면 아래와 같은 특별한 기능 10가지를 사용할 수 있습니다.</span>
 
 1) 프로젝트를 등록하고 SSAL Works Dev Package(개발환경 설정용 폴더와 파일 일체)를 다운로드 받아서 설치
 
