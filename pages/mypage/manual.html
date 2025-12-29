@@ -5,32 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>빌더 계정 사용 매뉴얼 - SSAL Works</title>
     <style>
+        /* ===== 디자인 시스템 색상 (DESIGN_SYSTEM.md 기반) ===== */
         :root {
+            /* Primary - Purple (메인 브랜드) */
             --primary: #6B5CCC;
             --primary-dark: #5847B3;
             --primary-light: #8B7FDD;
+            --primary-alpha-10: rgba(107, 92, 204, 0.1);
+
+            /* Secondary - Orange (액션 전용) */
             --secondary: #CC785C;
             --secondary-dark: #B35A44;
+
+            /* Tertiary - Teal (상태 & 선택 전용) */
             --tertiary: #20808D;
+            --tertiary-dark: #1A6B75;
             --tertiary-light: #4DA8B3;
+
+            /* Status Colors */
             --success: #20808D;
+            --success-bg: #d4edda;
             --warning: #ffc107;
+            --warning-bg: #fff3cd;
+            --warning-text: #856404;
             --danger: #dc3545;
             --info: #0099ff;
-            --text: #000000;
-            --text-secondary: #4a5568;
+
+            /* Base Colors */
+            --text-primary: #212529;
+            --text-secondary: #666666;
             --bg-light: #f8f9fa;
             --bg-white: #ffffff;
-            --border: #e2e8f0;
+            --bg-dark: #212529;
+            --border-color: #dee2e6;
+            --border-light: #e9ecef;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Malgun Gothic', '맑은 고딕', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            background: var(--bg-light);
             min-height: 100vh;
             padding: 40px 20px;
             line-height: 1.8;
-            color: var(--text);
+            color: var(--text-primary);
         }
         .container { max-width: 960px; margin: 0 auto; }
 
@@ -57,7 +74,6 @@
             pointer-events: none;
         }
         header h1 { font-size: 2.4rem; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative; }
-        header p { margin-top: 12px; opacity: 0.95; font-size: 1.1rem; position: relative; }
 
         /* 목차 네비게이션 */
         nav.toc {
@@ -76,7 +92,7 @@
             padding: 40px;
             margin-bottom: 25px;
             box-shadow: 0 4px 25px rgba(0,0,0,0.06);
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-color);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         section:hover {
@@ -101,7 +117,7 @@
             padding-left: 12px;
             border-left: 4px solid var(--tertiary);
         }
-        h4 { color: var(--text); margin: 20px 0 12px; font-weight: 600; }
+        h4 { color: var(--text-primary); margin: 20px 0 12px; font-weight: 600; }
 
         p { margin-bottom: 16px; }
         ul, ol { margin: 16px 0 16px 28px; }
@@ -118,7 +134,7 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
         th, td {
-            border: 1px solid var(--border);
+            border: 1px solid var(--border-color);
             padding: 14px 18px;
             text-align: left;
         }
@@ -130,22 +146,22 @@
             font-size: 0.85rem;
             letter-spacing: 0.5px;
         }
-        tr:nth-child(even) { background: #f8fafc; }
-        tr:hover { background: #edf2f7; }
+        tr:nth-child(even) { background: var(--bg-light); }
+        tr:hover { background: var(--border-light); }
 
         /* 코드 블록 */
         code {
-            background: #edf2f7;
+            background: var(--bg-light);
             padding: 3px 8px;
             border-radius: 6px;
             font-family: 'Consolas', 'Monaco', monospace;
             font-size: 0.9em;
             color: var(--primary-dark);
-            border: 1px solid #e2e8f0;
+            border: 1px solid var(--border-color);
         }
         pre {
-            background: #1a202c;
-            color: #e2e8f0;
+            background: var(--bg-dark);
+            color: var(--bg-light);
             padding: 20px 24px;
             border-radius: 12px;
             overflow-x: auto;
@@ -158,19 +174,19 @@
         pre code {
             background: transparent;
             padding: 0;
-            color: #e2e8f0;
+            color: var(--bg-light);
             border: none;
         }
 
         /* 인용 블록 - Warning 스타일 */
         blockquote {
-            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            background: var(--warning-bg);
             border-left: 5px solid var(--warning);
             padding: 18px 24px;
             margin: 24px 0;
             border-radius: 0 12px 12px 0;
             font-style: italic;
-            color: #92400e;
+            color: var(--warning-text);
         }
 
         /* 링크 - Secondary Orange */
@@ -187,7 +203,7 @@
 
         /* Strong 강조 */
         strong {
-            color: var(--text);
+            color: var(--text-primary);
             font-weight: 700;
         }
 
@@ -195,7 +211,7 @@
         hr {
             border: none;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            background: linear-gradient(90deg, transparent, var(--border-color), transparent);
             margin: 40px 0;
         }
 
@@ -205,7 +221,7 @@
             padding: 40px 20px;
             color: var(--text-secondary);
             font-size: 0.9rem;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid var(--border-color);
             margin-top: 40px;
         }
         footer p { margin: 0; }
@@ -225,7 +241,7 @@
         @media print {
             body { background: white; padding: 20px; }
             header { box-shadow: none; }
-            section { box-shadow: none; border: 1px solid #ddd; }
+            section { box-shadow: none; border: 1px solid var(--border-color); }
         }
     </style>
 </head>
@@ -233,7 +249,6 @@
     <div class="container">
         <header>
             <h1>빌더 계정 사용 매뉴얼</h1>
-            <p>SSAL Works 플랫폼 완벽 가이드</p>
         </header>
         <div class="content">
         
