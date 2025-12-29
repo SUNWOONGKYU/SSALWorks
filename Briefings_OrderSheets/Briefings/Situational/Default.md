@@ -1,4 +1,4 @@
-# SSAL Works에 오신 것을 환영합니다
+<h1 style="color: #20808D;">SSAL Works에 오신 것을 환영합니다</h1>
 
 SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹사이트 개발 플랫폼"**입니다.
 

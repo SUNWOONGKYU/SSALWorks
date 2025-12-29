@@ -16,7 +16,7 @@
 
 ## 왜 개발 환경 설정이 필요한가요?
 
-SSAL Works는 **내 컴퓨터에서 직접 개발**하는 방식입니다. 이를 위해 3가지가 필요합니다.
+이 플랫폼은 **내 컴퓨터에서 직접 개발**하는 방식입니다. 이를 위해 3가지가 필요합니다.
 
 | 구분 | 무엇인가? | 왜 필요한가? |
 |------|----------|-------------|
@@ -33,21 +33,29 @@ SSAL Works는 **내 컴퓨터에서 직접 개발**하는 방식입니다. 이�
 ### Dev Package 전체 구조
 
 ```
-SSAL_Works_Dev_Package/
-├── .claude/
-├── P0_작업_디렉토리_구조_생성/
-├── P1_사업계획/
-├── P2_프로젝트_기획/
-├── P3_프로토타입_제작/
-├── S0_Project-SAL-Grid_생성/
-├── S1_개발_준비/
-├── S2_개발-1차/
-├── S3_개발-2차/
-├── S4_개발-3차/
-├── S5_개발_마무리/
-├── Briefings_OrderSheets/
-└── Human_ClaudeCode_Bridge/
+Project_Dev_Package/
+├── .claude/                          # Claude Code 설정 (63개 파일)
+├── api/                              # 백엔드 API (배포용)
+├── assets/                           # 정적 자원 (CSS, JS, 이미지)
+├── pages/                            # 프론트엔드 페이지 (배포용)
+├── scripts/                          # 자동화 스크립트
+├── Development_Process_Monitor/      # 개발 프로세스 모니터
+├── Human_ClaudeCode_Bridge/          # Human-AI 협업 브릿지
+├── P0_작업_디렉토리_구조_생성/        # 디렉토리 구조/상태 문서
+├── P1_사업계획/                      # 사업계획
+├── P2_프로젝트_기획/                  # 프로젝트 기획
+├── P3_프로토타입_제작/                # 프로토타입 제작
+├── S0_Project-SAL-Grid_생성/         # SAL Grid 시스템
+├── S1_개발_준비/                     # 개발 환경 준비
+├── S2_개발-1차/                      # 1차 개발 (핵심 기능)
+├── S3_개발-2차/                      # 2차 개발 (확장 기능)
+├── S4_개발-3차/                      # 3차 개발 (고급 기능)
+├── S5_개발_마무리/                   # 개발 마무리 (배포/안정화)
+├── .gitignore                        # Git 제외 설정
+└── README.md                         # 패키지 설명
 ```
+
+**총 119개 폴더, 107개 파일**
 
 ---
 
@@ -57,8 +65,9 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 
 ```
 .claude/
-├── CLAUDE.md
-├── rules/
+├── CLAUDE.md                    # AI 최상위 지침
+├── CAUTION.md                   # 주의사항
+├── rules/                       # 7대 작업 규칙
 │   ├── 01_file-naming.md
 │   ├── 02_save-location.md
 │   ├── 03_area-stage.md
@@ -66,42 +75,39 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 │   ├── 05_execution-process.md
 │   ├── 06_verification.md
 │   └── 07_task-crud.md
-├── methods/
+├── methods/                     # 작업 방법
 │   └── 01_supabase-crud.md
-├── work_logs/
-│   └── current.md
-└── compliance/
-    └── AI_12_COMPLIANCE.md
+├── commands/                    # 슬래시 커맨드 (15개)
+├── skills/                      # AI 스킬 정의 (14개)
+├── subagents/                   # 서브에이전트 정의 (17개)
+├── compliance/                  # AI 준수사항
+│   └── AI_12_COMPLIANCE.md
+└── work_logs/                   # 작업 기록
 ```
 
 **CLAUDE.md** - AI의 최상위 지침 파일. 7대 규칙 파일 참조 지시, 절대 금지 행동 정의.
 
-**rules/01_file-naming.md** - 파일명 규칙: kebab-case 사용, 형식: `[기능]-[동작].확장자`
+**rules/** - 7대 작업 규칙
+- 01: 파일명 규칙 (kebab-case)
+- 02: 저장 위치 규칙 (Stage → Root 자동 복사)
+- 03: Area/Stage 매핑 (11개 Area, 5개 Stage)
+- 04: Grid 작성 및 DB 작업 규칙
+- 05: 6단계 실행 프로세스
+- 06: 검증 규칙 및 상태 전이
+- 07: Task CRUD 프로세스
 
-**rules/02_save-location.md** - Stage 폴더에 먼저 저장, Pre-commit Hook으로 루트에 자동 복사
+**commands/** - 슬래시 커맨드 (15개): commit, deploy, test, review 등
 
-**rules/03_area-stage.md** - 11개 Area 목록, 5개 Stage 목록, Task ID 구조
+**skills/** - AI 스킬 정의 (14개): fullstack-dev, api-builder, db-schema 등
 
-**rules/04_grid-writing-supabase.md** - Grid 22개 속성 정의, Supabase CRUD 방법
-
-**rules/05_execution-process.md** - 6단계 실행 프로세스 정의
-
-**rules/06_verification.md** - 상태 전이 규칙, Task 검증 항목, Stage Gate 검증 기준
-
-**rules/07_task-crud.md** - Task 추가/삭제/수정 프로세스
-
-**methods/01_supabase-crud.md** - Supabase CRUD 작업 우선순위 및 방법
-
-**work_logs/current.md** - 현재 세션 작업 기록
-
-**compliance/AI_12_COMPLIANCE.md** - AI 준수사항 12가지
+**subagents/** - 서브에이전트 정의 (17개): frontend-developer, backend-developer, code-reviewer 등
 
 ---
 
 ### P0_작업_디렉토리_구조_생성/
 
-- Project_Status.md: 프로젝트 현재 상태 기록
-- Project_Directory_Structure.md: 프로젝트 전체 폴더 구조 문서화
+- **Project_Status.md**: 프로젝트 현재 상태 기록
+- **Project_Directory_Structure.md**: 프로젝트 전체 폴더 구조 문서화
 
 ---
 
@@ -109,28 +115,51 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 
 시장조사, 경쟁분석, 사업계획서 저장 폴더
 
+하위 폴더: Business_Model, BusinessPlan, Market_Analysis, Patent, Vision_Mission
+
 ---
 
 ### P2_프로젝트_기획/
 
 요구사항 정의서, 아키텍처 설계, UI/UX 와이어프레임 저장 폴더
 
+하위 폴더: Design_System, Project_Plan, Requirements, Service_Introduction, Tech_Stack, UI_UX_Mockup, User_Flows, Workflows
+
 ---
 
 ### P3_프로토타입_제작/
 
+프로토타입 개발을 위한 폴더
+
+하위 폴더: Database, Documentation, Frontend
+
+- Database/: Supabase 환경변수(.env), DB 스키마
+- Documentation/: 프로토타입 관련 문서
 - Frontend/Prototype/: 프로토타입 HTML 페이지
-- Database/.env: Supabase 환경변수
-- Database/schema/: DB 테이블 스키마 SQL 파일
 
 ---
 
 ### S0_Project-SAL-Grid_생성/
 
-- sal-grid/SSALWORKS_TASK_PLAN.md: 전체 Task 목록 및 의존성 관계
-- sal-grid/task-instructions/: 각 Task 수행 지침 파일
-- sal-grid/verification-instructions/: 각 Task 검증 지침 파일
-- manual/PROJECT_SAL_GRID_MANUAL.md: SAL Grid 시스템 매뉴얼
+```
+S0_Project-SAL-Grid_생성/
+├── data/
+│   └── sal_grid.csv              # Task 데이터 (CSV)
+├── sal-grid/
+│   ├── stage-gates/              # Stage Gate 검증 리포트
+│   ├── task-instructions/        # Task 수행 지침
+│   └── task-results/             # Task 결과 저장
+├── manual/
+│   ├── PROJECT_SAL_GRID_MANUAL.md  # SAL Grid 매뉴얼
+│   ├── manual_template.md        # 매뉴얼 템플릿
+│   └── build-manual.js           # 매뉴얼 빌드 스크립트
+├── method/
+│   └── database/supabase/        # Supabase 스키마
+├── viewer/
+│   ├── viewer_csv.html           # CSV 뷰어
+│   └── viewer_database.html      # DB 뷰어
+└── build-sal-grid-csv.js         # CSV 빌드 스크립트
+```
 
 ---
 
@@ -146,33 +175,26 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 | S4 | S4_개발-3차 | 결제, 관리자, 크레딧 |
 | S5 | S5_개발_마무리 | 배포, QA, 안정화 |
 
+**11개 Area:**
+Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documentation, External, Frontend, Security, Testing
+
 ---
 
-### Briefings_OrderSheets/
+### Development_Process_Monitor/
 
-```
-Briefings_OrderSheets/
-├── Briefings/
-│   ├── {Stage별 폴더}/
-│   ├── Situational/
-│   ├── guides.js
-│   └── generate-briefings-js.js
-└── OrderSheet_Templates/
-    ├── {Stage별 폴더}/
-    ├── ordersheets.js
-    └── generate-ordersheets-js.js
-```
+개발 프로세스 진행 상황 모니터링 시스템
 
-**Briefings/** - 각 단계별 안내문 Markdown 파일, guides.js로 번들링
-
-**OrderSheet_Templates/** - 각 단계별 Order Sheet 템플릿, ordersheets.js로 번들링
+- data/phase_progress.json: 단계별 진행률 데이터
+- README.md: 모니터 사용 가이드
 
 ---
 
 ### Human_ClaudeCode_Bridge/
 
-- Requests/: 사람이 AI에게 전달하는 작업 요청 파일
-- Reports/: AI가 작업 완료 후 결과 보고 파일
+사람과 AI 간 협업을 위한 브릿지 시스템
+
+- **Orders/**: 사람이 AI에게 전달하는 작업 요청 파일
+- **Reports/**: AI가 작업 완료 후 결과 보고 파일
 
 ---
 
@@ -320,7 +342,7 @@ claude --version
 | 3 | **Order Sheet 작성** | Claude Code에게 작업 지시 |
 | 4 | **결과 확인** | AI가 수행한 작업 결과 검토 |
 
-### 5단계 개발 프로세스
+### 개발 프로세스
 
 | 단계 | 이름 | 내용 |
 |------|------|------|
@@ -332,22 +354,8 @@ claude --version
 
 ---
 
-## 📞 플랫폼 사용법 안내 (권장)
-
-설치가 완료되었다면, **프로젝트를 시작하기 전에** 전화로 플랫폼 사용법 안내를 받으시는 것을 권장합니다.
-
-- **소요 시간**: 10분 이내
-- **내용**: 플랫폼 사용법, 개발 진행 방법 등 간단한 안내
-- **전화번호**: 📞 010-5067-8306
-
-짧은 통화로 플랫폼을 더 효과적으로 활용하실 수 있습니다.
-
----
-
 ## 도움이 필요하면
 
-- **📖 Books**: 웹 개발 학습 자료
-- **❓ FAQ**: 자주 묻는 질문
-- **💬 써니에게 묻기**: 1:1 멘토링
-- **📞 전화 문의**: 010-5067-8306
+- **FAQ**: 자주 묻는 질문
+- **1:1 문의**: 멘토링 요청
 
