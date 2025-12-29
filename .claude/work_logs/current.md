@@ -3540,3 +3540,39 @@ curl -X DELETE "/api/comments/[comment_id]" \
 | `P3_프로토타입_제작/Database/.env` | Resend API 키 추가 |
 | `Human_ClaudeCode_Bridge/Reports/Builder_Account_심재우_Report.json` | 빌더 계정 생성 리포트 |
 
+
+---
+
+### PoliticianFinder 로딩 속도 최적화 ✅
+
+**문제:** 홈페이지 로딩 속도가 느림
+
+**원인 분석:**
+1. 게시글 API 2개 순차 호출 (병렬 아님)
+2. AI 로고 4개 외부 CDN에서 로드 (brandfetch.io, simpleicons.org)
+3. 정치인 API에 `cache: 'no-store'` 설정 (캐싱 비활성화)
+
+**최적화 작업:**
+
+| # | 작업 | 효과 | 커밋 |
+|---|------|------|------|
+| 1 | 게시글 API 병렬화 (Promise.all) | API 대기시간 50% 감소 | `6db51dd` |
+| 2 | AI 로고 로컬 SVG로 변경 | HTTP 요청 4개 감소 | `c102fac` |
+| 3 | API 캐싱 활성화 | 반복 방문 시 즉시 응답 | `0035374` |
+
+**생성 파일:**
+- `public/icons/claude.svg`
+- `public/icons/chatgpt.svg`
+- `public/icons/gemini.svg`
+- `public/icons/grok.svg`
+
+**수정 파일:**
+- `src/app/page.tsx` - Promise.all, 로컬 SVG, 캐싱 적용
+- `src/app/politicians/[id]/page.tsx` - Gemini/Grok 로고 로컬화
+
+**캐싱 설정:**
+- 정치인 API: 5분 (`revalidate: 300`)
+- 사이드바 통계 API: 1분 (`revalidate: 60`)
+
+**리포트:** `Human_ClaudeCode_Bridge/Reports/PoliticianFinder_Performance_Optimization_2025-12-29.json`
+
