@@ -5730,6 +5730,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         // 관리자(wkfsahsn99@gmail.com): DB에서 로드
         // 일반 사용자: CSV 방식 (로컬에서 JSON) → 웹에서는 0% 표시
         const ADMIN_EMAIL = 'wkfsahsn99@gmail.com';
+        const ADMIN_EMAILS = ['wkfsahsn99@gmail.com', 'wksun999@gmail.com'];
 
         async function loadProjectProgress(projectName) {
             try {
@@ -5741,7 +5742,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
                 // 관리자 여부 확인
                 const userEmail = session.user.email;
-                const isAdmin = userEmail === ADMIN_EMAIL;
+                const isAdmin = ADMIN_EMAILS.includes(userEmail);
 
                 if (!isAdmin) {
                     // 일반 사용자: CSV 방식 (로컬 JSON) - 웹에서는 0% 표시
