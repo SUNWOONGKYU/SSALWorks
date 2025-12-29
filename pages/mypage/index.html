@@ -1721,7 +1721,7 @@
         // ========== 매뉴얼 다운로드 ==========
         async function downloadManual() {
             if (!userData || !userData.installation_fee_paid) {
-                showToast('빌더 계정 개설 후 이용 가능합니다. 빌더 계정 개설비 납부 후 다운로드할 수 있습니다.', 'warning');
+                showPopup('빌더 계정 전용', '빌더 계정 개설 후 이용 가능합니다.\n빌더 계정 개설비 납부 후 다운로드할 수 있습니다.', 'warning');
                 return;
             }
 
@@ -1739,7 +1739,7 @@
                 link.click();
                 document.body.removeChild(link);
 
-                showToast('매뉴얼 다운로드를 시작합니다.', 'success');
+                showPopup('다운로드 완료', '빌더 계정 사용 매뉴얼 PDF 다운로드가 완료되었습니다.', 'success');
 
                 // 다운로드 기록 저장 (선택적)
                 try {
@@ -2194,6 +2194,92 @@
             setTimeout(() => {
                 toast.remove();
             }, 3000);
+        }
+
+        // 모달 팝업 함수
+        function showPopup(title, message, type = 'info') {
+            // 기존 팝업 제거
+            const existingPopup = document.getElementById('customPopup');
+            if (existingPopup) existingPopup.remove();
+
+            // 아이콘 설정
+            const icons = {
+                success: '✅',
+                warning: '⚠️',
+                error: '❌',
+                info: 'ℹ️'
+            };
+
+            // 색상 설정 (디자인 시스템 기반)
+            const colors = {
+                success: '#20808D',  // tertiary
+                warning: '#ffc107',  // warning
+                error: '#dc3545',    // danger
+                info: '#6B5CCC'      // primary
+            };
+
+            // 팝업 HTML 생성
+            const popup = document.createElement('div');
+            popup.id = 'customPopup';
+            popup.innerHTML = `
+                <div style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                " onclick="if(event.target === this) this.remove()">
+                    <div style="
+                        background: white;
+                        border-radius: 16px;
+                        padding: 32px;
+                        max-width: 400px;
+                        width: 90%;
+                        text-align: center;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+                        animation: popupIn 0.3s ease;
+                    ">
+                        <div style="font-size: 48px; margin-bottom: 16px;">${icons[type]}</div>
+                        <h3 style="
+                            font-size: 20px;
+                            font-weight: 700;
+                            color: ${colors[type]};
+                            margin-bottom: 12px;
+                        ">${title}</h3>
+                        <p style="
+                            font-size: 14px;
+                            color: #666;
+                            line-height: 1.6;
+                            margin-bottom: 24px;
+                        ">${message}</p>
+                        <button onclick="document.getElementById('customPopup').remove()" style="
+                            background: ${colors[type]};
+                            color: white;
+                            border: none;
+                            padding: 12px 32px;
+                            border-radius: 8px;
+                            font-size: 14px;
+                            font-weight: 600;
+                            cursor: pointer;
+                            transition: opacity 0.2s;
+                        " onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+                            확인
+                        </button>
+                    </div>
+                </div>
+                <style>
+                    @keyframes popupIn {
+                        from { opacity: 0; transform: scale(0.9); }
+                        to { opacity: 1; transform: scale(1); }
+                    }
+                </style>
+            `;
+            document.body.appendChild(popup);
         }
     </script>
 </body>
