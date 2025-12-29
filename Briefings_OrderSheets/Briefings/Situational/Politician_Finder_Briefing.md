@@ -2,6 +2,6 @@
 
 **PoliticianFinder**는 AI 기반 정치인 평가 플랫폼입니다.
 
----
 
-이 프로젝트와 관련하여 수정 작업을 진행하시려면 Order Sheet를 발행해 주세요.
+> 위의 수정작업을 지시하는 Order Sheet를 Control Desk에 로딩하시겠습니까?
+
