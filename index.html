@@ -5998,7 +5998,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
 
         // ===== 서약서 관련 함수들 =====
-        const SSALWORKS_DRIVE_URL = 'https://drive.google.com/drive/folders/1PoMIExSALUcCHTwkNZDC8sPTW9ZsWVQf?usp=sharing';
+        const SSALWORKS_DRIVE_URL = 'https://drive.google.com/drive/folders/1CpLsZIvSZCQjB5qRrdE-62PRuTzNDzGx?usp=drive_link';
 
         // SSAL Works 클릭 시 호출
         async function handleSSALWorksClick() {
@@ -6015,7 +6015,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             // 빌더 계정 확인
             const { data: userData, error: userError } = await window.supabaseClient
                 .from('users')
-                .select('installation_fee_paid, user_id')
+                .select('installation_fee_paid, user_id, full_name, builder_account_id')
                 .eq('id', session.user.id)
                 .single();
 
@@ -6049,7 +6049,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 openAlreadyConnectedModal();
             } else {
                 // 처음인 경우 - 서약서 모달 표시
-                openAgreementModal(session.user);
+                openAgreementModal(session.user, userData);
             }
             } catch (err) {
                 console.error('handleSSALWorksClick 오류:', err);
@@ -6058,7 +6058,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         }
 
         // 서약서 모달 열기
-        function openAgreementModal(user) {
+        function openAgreementModal(user, userData) {
             const today = new Date();
             const dateStr = today.getFullYear() + '년 ' + (today.getMonth() + 1) + '월 ' + today.getDate() + '일';
 
@@ -6068,8 +6068,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             }
 
             document.getElementById('agreementDate').textContent = dateStr;
-            document.getElementById('agreementUserName').textContent = user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
-            document.getElementById('agreementBuilderId').textContent = user.user_metadata?.builder_id || user.email?.split('@')[0] || '(ID 없음)';
+            // users 테이블에서 가져온 정보 우선 사용
+            document.getElementById('agreementUserName').textContent = userData?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
+            document.getElementById('agreementBuilderId').textContent = userData?.builder_account_id || user.user_metadata?.builder_id || '(ID 없음)';
             document.getElementById('agreementUserEmail').textContent = user.email || '(이메일 없음)';
 
             document.getElementById('agreementModal').classList.add('active');
@@ -6089,8 +6090,16 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             }
 
             const user = session.user;
-            const userName = user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
-            const builderId = user.user_metadata?.builder_id || user.email?.split('@')[0] || '';
+
+            // users 테이블에서 정보 가져오기
+            const { data: userData } = await window.supabaseClient
+                .from('users')
+                .select('full_name, builder_account_id')
+                .eq('id', user.id)
+                .single();
+
+            const userName = userData?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
+            const builderId = userData?.builder_account_id || user.user_metadata?.builder_id || '';
 
             // DB에 저장
             const { error: insertError } = await window.supabaseClient
@@ -10471,7 +10480,7 @@ ${result.answer}`;
                     <p style="font-size: 15px; color: #333;">② 지정된 Google Drive가 연결되었으니, 연결된 Google Drive 내의 파일을 복사하여 본인 드라이브에 저장하세요.</p>
                 </div>
                 <div style="display: flex; gap: 12px; justify-content: center;">
-                    <button onclick="window.open('https://drive.google.com/drive/folders/1PoMIExSALUcCHTwkNZDC8sPTW9ZsWVQf?usp=sharing', '_blank')" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">📁 Google Drive 열기</button>
+                    <button onclick="window.open('https://drive.google.com/drive/folders/1CpLsZIvSZCQjB5qRrdE-62PRuTzNDzGx?usp=drive_link', '_blank')" style="padding: 12px 24px; background: #10B981; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">📁 Google Drive 열기</button>
                     <button onclick="closeAgreementSuccessModal()" style="padding: 12px 24px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 14px;">닫기</button>
                 </div>
             </div>
