@@ -3692,7 +3692,9 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 <p style="font-size: 11px; color: #6c757d; margin-bottom: 8px;">
                     SSAL Works에 구비된 지식을 학습한 AI가 회원들의 질문에 24/7 답변해드립니다.
                 </p>
-                <button onclick="toggleAITutor()" id="ai-tutor-btn" style="width: 100%; padding: 9px; background: var(--secondary); color: white; border: none; border-radius: var(--border-radius); cursor: pointer; font-size: 11px; font-weight: 600;">
+                <button onclick="toggleAITutor()" id="ai-tutor-btn" style="width: 100%; padding: 9px; background: var(--secondary); color: white; border: none; border-radius: var(--border-radius); cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.2s;"
+                    onmouseover="this.style.background='#B45309';"
+                    onmouseout="this.style.background='var(--secondary)';">
                     질문하기
                 </button>
             </div>
@@ -3715,7 +3717,9 @@ The content you enter in the Control Desk will be displayed here.</pre>
             <div class="sidebar-section">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     📚 학습용 Books
-                    <button onclick="openLearningViewer()" style="font-size: 11px; padding: 4px 8px; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer;">전체 보기 →</button>
+                    <button onclick="openLearningViewer()" style="font-size: 11px; padding: 4px 8px; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s;"
+                        onmouseover="this.style.background='#B45309';"
+                        onmouseout="this.style.background='var(--secondary)';">전체 보기 →</button>
                 </h3>
                 <!-- 검색창 -->
                 <div>
@@ -3734,7 +3738,9 @@ The content you enter in the Control Desk will be displayed here.</pre>
             <div class="sidebar-section" id="tipsSection">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
                     💡 실전 Tips
-                    <button onclick="openTipsViewer()" style="font-size: 11px; padding: 4px 8px; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer;">전체 보기 →</button>
+                    <button onclick="openTipsViewer()" style="font-size: 11px; padding: 4px 8px; background: var(--secondary); color: white; border: none; border-radius: 4px; cursor: pointer; transition: all 0.2s;"
+                        onmouseover="this.style.background='#B45309';"
+                        onmouseout="this.style.background='var(--secondary)';">전체 보기 →</button>
                 </h3>
 
                 <!-- 실전 Tips 검색창 -->
@@ -4393,7 +4399,9 @@ The content you enter in the Control Desk will be displayed here.</pre>
                             onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'; this.style.borderColor='#D97706';"
                             onmouseout="this.style.background='rgba(245, 158, 11, 0.08)'; this.style.borderColor='#999';">파일 첨부</button>
                         <button onclick="submitSupport()"
-                            style="flex: 2; padding: 9px; font-size: 11px; background: var(--secondary); color: white; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; transition: all 0.2s;">제출하기</button>
+                            style="flex: 2; padding: 9px; font-size: 11px; background: var(--secondary); color: white; border: none; border-radius: var(--border-radius); font-weight: 600; cursor: pointer; transition: all 0.2s;"
+                            onmouseover="this.style.background='#B45309';"
+                            onmouseout="this.style.background='var(--secondary)';">제출하기</button>
                     </div>
                     <input type="file" id="supportFile" multiple accept="image/*,.pdf,.doc,.docx,.xls,.xlsx"
                         style="display: none;" onchange="handleSupportFileSelect(event)">
