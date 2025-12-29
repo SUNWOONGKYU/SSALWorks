@@ -10754,6 +10754,8 @@ ${result.answer}`;
     <!-- Socket.io for real-time Order Sheet notifications -->
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
+        // 환경 감지 (이 script 블록에서 사용)
+        const IS_PRODUCTION = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
         // 관리자 이메일 (이 script 블록에서 사용)
         const ADMIN_EMAIL = 'wkfsahsn99@gmail.com';
 
