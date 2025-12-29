@@ -3304,3 +3304,52 @@ DROP TRIGGER IF EXISTS trigger_reply_notification ON comments;
 1. ⏳ PO가 Supabase Dashboard에서 마이그레이션 SQL 실행
 2. ⏳ 정치인 댓글 작성 테스트
 3. ⏳ 정치인 댓글 수정/삭제 테스트
+
+### 테스트 결과 (2025-12-29 완료)
+
+#### DB 스키마 수정 (PO 실행)
+1. `DROP TRIGGER IF EXISTS trigger_comment_notification ON comments;` ✅
+2. `ALTER TABLE notifications ALTER COLUMN content DROP NOT NULL;` ✅
+3. `ALTER TABLE comments ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMPTZ;` ✅
+
+#### API 테스트 결과
+| 기능 | 결과 | 테스트 댓글 ID |
+|------|------|---------------|
+| 정치인 댓글 작성 (POST) | ✅ 성공 | 836d77fb-d39a-494b-b00b-b76027e6eb1a |
+| 정치인 댓글 수정 (PATCH) | ✅ 성공 | 내용 변경 확인 |
+| 정치인 댓글 삭제 (DELETE) | ✅ 성공 | soft delete 확인 |
+
+### 작업 상태: ✅ 완료
+
+### API 사용법
+
+```bash
+# 정치인 댓글 작성
+curl -X POST "/api/comments" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "post_id": "게시글UUID",
+    "politician_id": "8자리ID",
+    "session_token": "64자리토큰",
+    "content": "댓글 내용",
+    "author_type": "politician"
+  }'
+
+# 정치인 댓글 수정
+curl -X PATCH "/api/comments/[comment_id]" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "politician_id": "8자리ID",
+    "session_token": "64자리토큰",
+    "content": "수정된 내용"
+  }'
+
+# 정치인 댓글 삭제
+curl -X DELETE "/api/comments/[comment_id]" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "politician_id": "8자리ID",
+    "session_token": "64자리토큰"
+  }'
+```
+
