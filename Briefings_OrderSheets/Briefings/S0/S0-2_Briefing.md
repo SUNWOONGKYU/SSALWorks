@@ -8,11 +8,11 @@
 
 ### Stage 정의 (S1~S5)
 
-- S1: 개발 준비 / 환경설정, DB 스키마, Auth 설정
-- S2: 개발 1차 / OAuth, 이메일, 회원가입
-- S3: 개발 2차 / AI 연동, 핵심 기능 구현
-- S4: 개발 3차 / 결제, 관리자, 크레딧
-- S5: 개발 마무리 / 배포, QA, 안정화
+- S1: 개발 준비
+- S2: 개발 1차
+- S3: 개발 2차
+- S4: 개발 3차
+- S5: 개발 마무리
 
 ### Area 정의 (11개)
 
@@ -36,9 +36,9 @@ S2BA1
 
 ## 생성할 파일
 
-- `SSALWORKS_TASK_PLAN.md`: 전체 Task 계획서
-- `SSALWORKS_5x11_MATRIX.md`: 5×11 Stage-Area 매트릭스
-- `SSALWORKS_TASK_DEPENDENCY_DIAGRAM.md`: Task 의존성 다이어그램
+- `TASK_PLAN.md`: 전체 Task 계획서
+- `5x11_MATRIX.md`: 5×11 Stage-Area 매트릭스
+- `TASK_DEPENDENCY_DIAGRAM.md`: Task 의존성 다이어그램
 - `task-instructions/*.md`: 각 Task별 상세 지침
 - `verification-instructions/*.md`: 각 Task별 검증 지침
 - `stage-gates/*.md`: Stage Gate 검증 리포트
@@ -56,9 +56,9 @@ S2BA1
 ```
 S0_Project-SAL-Grid_생성/
 └── sal-grid/
-    ├── SSALWORKS_TASK_PLAN.md
-    ├── SSALWORKS_5x11_MATRIX.md
-    ├── SSALWORKS_TASK_DEPENDENCY_DIAGRAM.md
+    ├── TASK_PLAN.md
+    ├── 5x11_MATRIX.md
+    ├── TASK_DEPENDENCY_DIAGRAM.md
     ├── task-instructions/
     │   ├── S1D1_instruction.md
     │   └── ...

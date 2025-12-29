@@ -102,7 +102,7 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| project_sal_grid.json | `S0_Project-SAL-Grid_생성/CSV_Method/data/` |
+| project_sal_grid.json | `S0_Project-SAL-Grid_생성/method/csv/data/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -128,14 +128,15 @@
 **JSON 파일 구조:**
 ```
 S0_Project-SAL-Grid_생성/
-└── CSV_Method/
-    ├── data/
-    │   ├── project_sal_grid.json  ← Task 데이터
-    │   └── stage_verification.json
-    ├── scripts/
-    │   └── json-to-csv.js
-    └── templates/
-        └── template.json
+└── method/
+    └── csv/
+        ├── data/
+        │   ├── project_sal_grid.json  ← Task 데이터
+        │   └── stage_verification.json
+        ├── scripts/
+        │   └── json-to-csv.js
+        └── templates/
+            └── template.json
 ```
 
 ---
