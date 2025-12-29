@@ -1,6 +1,6 @@
 {
   "project_id": "SSALWORKS",
-  "updated_at": "2025-12-29T15:31:53.968Z",
+  "updated_at": "2025-12-29T15:57:46.586Z",
   "phases": {
     "P0": {
       "name": "작업 디렉토리 구조 생성",
@@ -34,33 +34,33 @@
     },
     "S1": {
       "name": "개발 준비",
-      "progress": 0,
-      "completed": 0,
-      "total": 0
+      "progress": 100,
+      "completed": 9,
+      "total": 9
     },
     "S2": {
       "name": "개발 1차",
-      "progress": 0,
-      "completed": 0,
-      "total": 0
+      "progress": 100,
+      "completed": 16,
+      "total": 16
     },
     "S3": {
       "name": "개발 2차",
-      "progress": 0,
-      "completed": 0,
-      "total": 0
+      "progress": 100,
+      "completed": 6,
+      "total": 6
     },
     "S4": {
       "name": "개발 3차",
-      "progress": 0,
-      "completed": 0,
-      "total": 0
+      "progress": 100,
+      "completed": 21,
+      "total": 21
     },
     "S5": {
       "name": "개발 마무리",
-      "progress": 0,
-      "completed": 0,
-      "total": 0
+      "progress": 100,
+      "completed": 9,
+      "total": 9
     }
   }
 }

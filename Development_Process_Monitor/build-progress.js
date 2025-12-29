@@ -261,7 +261,7 @@ function main() {
 
     // S1~S5 진행률 계산 (CSV 기반)
     console.log('\n=== S1~S5 (SAL Grid CSV 기반) ===');
-    const csvPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'data', 'sal_grid.csv');
+    const csvPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'csv', 'data', 'sal_grid.csv');
     const stageProgress = calculateStageProgressFromCSV(csvPath);
 
     Object.entries(stageProgress).forEach(([code, data]) => {
