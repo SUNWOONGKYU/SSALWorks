@@ -19,14 +19,15 @@ SAL Grid 데이터를 **JSON 파일**로 저장하고 관리합니다. 외부 �
 
 ```
 S0_Project-SAL-Grid_생성/
-└── CSV_Method/
-    ├── data/
-    │   ├── project_sal_grid.json
-    │   └── stage_verification.json
-    ├── scripts/
-    │   └── json-to-csv.js
-    └── templates/
-        └── template.json
+└── method/
+    └── csv/
+        ├── data/
+        │   ├── project_sal_grid.json
+        │   └── stage_verification.json
+        ├── scripts/
+        │   └── json-to-csv.js
+        └── templates/
+            └── template.json
 ```
 
 ## 사용 방법
@@ -34,9 +35,4 @@ S0_Project-SAL-Grid_생성/
 1. `project_sal_grid.json` 파일에 Task 데이터 작성
 2. Claude Code가 Task 수행 시 JSON 파일 직접 수정
 3. 필요시 `json-to-csv.js`로 CSV 변환 가능
-
-## 참고: Database Method
-
-> 팀 프로젝트나 대규모 Task 관리가 필요한 경우 Supabase를 사용할 수 있습니다.
-> 자세한 내용은 `S0_Project-SAL-Grid_생성/method/database/` 참조
 

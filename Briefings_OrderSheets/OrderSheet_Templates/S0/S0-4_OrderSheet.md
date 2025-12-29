@@ -152,9 +152,6 @@ S0_Project-SAL-Grid_생성/
 2. JSON 파일 경로 확인
 3. 새로고침으로 최신 데이터 반영
 
-**참고: Database Method**
-> Supabase 사용 시 `viewer_database.html` 사용 가능
-
 **S0-4 완료 후:**
 - S0 전체 완료
 - S1 (개발 준비) 진행

@@ -6,13 +6,8 @@ SAL Grid 데이터를 **시각적으로 조회**할 수 있는 HTML 뷰어를 �
 
 ## 뷰어 종류
 
-**기본 (CSV Method):**
 - `viewer_csv.html`: PC용 / JSON 파일
 - `viewer_mobile_csv.html`: 모바일용 / JSON 파일
-
-**참고 (Database Method):**
-- `viewer_database.html`: PC용 / Supabase
-- `viewer_mobile_database.html`: 모바일용 / Supabase
 
 ## 제공 기능
 
@@ -36,9 +31,7 @@ SAL Grid 데이터를 **시각적으로 조회**할 수 있는 HTML 뷰어를 �
 ```
 S0_Project-SAL-Grid_생성/
 └── viewer/
-    ├── viewer_database.html
     ├── viewer_csv.html
-    ├── viewer_mobile_database.html
     └── viewer_mobile_csv.html
 ```
 

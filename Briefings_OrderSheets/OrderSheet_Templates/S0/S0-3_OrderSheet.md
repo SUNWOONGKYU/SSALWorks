@@ -148,11 +148,6 @@ S0_Project-SAL-Grid_생성/
 - verification_status: `Not Verified`
 - task_progress: `0`
 
-**참고: Database Method**
-
-> 팀 프로젝트나 대규모 Task 관리가 필요한 경우 Supabase를 사용할 수 있습니다.
-> 자세한 내용은 `S0_Project-SAL-Grid_생성/method/database/` 참조
-
 **S0-3 완료 후:**
 - S0-4 (Viewer) 진행
 
