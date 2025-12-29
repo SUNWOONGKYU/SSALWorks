@@ -36,7 +36,8 @@
       "WebFetch(domain:ssalworks.vercel.app)",
       "Bash(git mv:*)",
       "Bash(npm run build:*)",
-      "Bash(vercel project:*)"
+      "Bash(vercel project:*)",
+      "Bash(ls:*)"
     ],
     "deny": [],
     "ask": []
