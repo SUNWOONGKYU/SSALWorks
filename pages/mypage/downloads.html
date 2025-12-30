@@ -561,14 +561,20 @@
                     .eq('id', currentUser.id)
                     .single();
 
-                if (error) throw error;
-
-                userData = data;
+                if (error) {
+                    console.error('User data query error:', error);
+                    // 사용자 데이터 없어도 페이지는 작동 (비빌더로 처리)
+                    userData = { installation_fee_paid: false };
+                } else {
+                    userData = data;
+                }
                 updateDownloadButtons();
 
             } catch (error) {
                 console.error('Failed to load user data:', error);
-                showToast('사용자 정보를 불러오는데 실패했습니다.', 'error');
+                // 에러 발생해도 비빌더로 처리하여 페이지 작동
+                userData = { installation_fee_paid: false };
+                updateDownloadButtons();
             }
         }
 
