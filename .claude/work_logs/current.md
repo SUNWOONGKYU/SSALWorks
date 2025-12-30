@@ -4238,3 +4238,39 @@ pages/admin-dashboard.html에서 'index.html'
 - 페이지 간 이동 시 절대 경로(`/`) 또는 정확한 상대 경로(`../`) 사용
 - 새 페이지 생성 시 redirect 경로 검증 필수
 
+
+
+---
+
+### 관리자 알림 이메일 링크 버그 수정 ✅
+
+**발견일:** 2025-12-30
+**증상:** 신규가입/문의/결제 알림 이메일에서 "관리자 대시보드에서 확인하기" 링크 클릭 시 404 에러
+
+#### 원인
+
+`admin-notify.js`에서 잘못된 URL 경로 사용
+
+| 잘못된 경로 | 올바른 경로 |
+|------------|------------|
+| `/Frontend/admin-dashboard.html` | `/pages/admin-dashboard.html` |
+
+#### 영향받은 알림 타입 (5개)
+
+| # | 타입 | 이메일 제목 |
+|---|------|------------|
+| 1 | `inquiry` | 새 문의가 접수되었습니다 |
+| 2 | `payment` | 결제가 완료되었습니다 |
+| 3 | `signup` | 새 사용자가 가입했습니다 |
+| 4 | `installation_request` | 빌더 계정 개설비 입금 확인 요청 |
+| 5 | `sunny_inquiry` | Sunny에게 새 질문이 도착했습니다 |
+
+#### 수정된 파일
+
+- `api/Backend_APIs/admin-notify.js`
+- `S4_개발-3차/Backend_APIs/admin-notify.js`
+
+#### 커밋
+
+- **Hash:** `f0bc78c`
+- **Message:** `fix: 관리자 알림 이메일의 대시보드 링크 경로 수정`
