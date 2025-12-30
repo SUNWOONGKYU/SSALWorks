@@ -260,6 +260,44 @@ response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalida
 
 ---
 
+### AI 서비스 가격표 동적 연결 ✅
+
+**작업 목표**: credit.html의 AI 서비스 가격표를 api_costs Supabase 테이블과 연결하여 실시간 가격 표시
+
+**배경**:
+- 기존 가격표는 하드코딩되어 있어 실제 DB 가격과 불일치
+- admin-dashboard.html에서 관리하는 가격과 동기화 필요
+
+**수정 내용**:
+
+| 항목 | 설명 |
+|------|------|
+| 데이터 소스 | Supabase `api_costs` 테이블 |
+| 가격 공식 | `(cost_per_1M × USD_KRW × (1 + margin%)) / 1000` |
+| 필터링 | `is_active=true` 모델만 표시 |
+| 소수점 | 1원 미만은 소수점 2자리로 표시 |
+| 폴백 | DB 연결 실패 시 기본 가격 표시 |
+
+**추가된 함수**:
+- `loadApiPrices()`: api_costs 테이블에서 가격 로드
+- `calculatePriceKRW()`: admin-dashboard와 동일한 가격 계산
+- `renderApiPrices()`: 동적 가격표 렌더링
+- `renderDefaultPrices()`: 폴백 가격 표시
+
+**현재 활성 모델 (api_costs 기준)**:
+
+| 모델 | 입력 (1K토큰) | 출력 (1K토큰) |
+|------|-------------|-------------|
+| gpt-4o-mini | ₩0.28 | ₩1 |
+| gemini-2.5-flash | ₩0.14 | ₩0.57 |
+| sonar (Perplexity) | ₩2 | ₩2 |
+
+**수정 파일**: `pages/mypage/credit.html`
+
+**커밋**: `49fb263` - feat: AI 서비스 가격표를 api_costs 테이블과 동적 연결
+
+---
+
 ## 2025-12-30 작업 내역
 
 ### PoliticianFinder UI 일관성 및 폰트 최적화 ✅
