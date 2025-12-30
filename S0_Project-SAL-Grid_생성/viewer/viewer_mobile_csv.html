@@ -401,12 +401,31 @@
 
         function renderTasks() {
             const list = document.getElementById('taskList');
+
+            // 프로젝트 데이터가 아예 없는 경우
+            if (allTasks.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; padding:60px 20px; color:#6c757d;">
+                        <div style="font-size:36px; margin-bottom:15px;">📋</div>
+                        <h4 style="color:#343a40; margin-bottom:12px;">진행 중인 프로젝트가 아직 없습니다</h4>
+                        <p style="font-size:14px; line-height:1.6; margin-bottom:20px;">
+                            프로젝트를 등록하고 Project SAL Grid를 생성하면<br>
+                            여기에 진행 현황이 표시됩니다.
+                        </p>
+                        <p style="color:#495057; font-size:14px;">
+                            👉 메인 화면 왼쪽 사이드바에서 새로운 프로젝트를 등록하세요.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
             const filtered = currentStage === 'all'
                 ? allTasks
                 : allTasks.filter(t => t.stage == currentStage);
 
             if (filtered.length === 0) {
-                list.innerHTML = '<div class="empty">Task가 없습니다</div>';
+                list.innerHTML = '<div class="empty">해당 Stage에 Task가 없습니다</div>';
                 return;
             }
 

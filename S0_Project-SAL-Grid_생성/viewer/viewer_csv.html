@@ -682,6 +682,24 @@
         function renderGrid() {
             const gridContent = document.getElementById('gridContent');
 
+            // 프로젝트 데이터가 아예 없는 경우
+            if (allTasks.length === 0) {
+                gridContent.innerHTML = `
+                    <div style="text-align:center; padding:80px 40px; color:#6c757d;">
+                        <div style="font-size:48px; margin-bottom:20px;">📋</div>
+                        <h3 style="color:#343a40; margin-bottom:15px;">진행 중인 프로젝트가 아직 없습니다</h3>
+                        <p style="margin-bottom:25px; line-height:1.8;">
+                            프로젝트를 등록하고 Project SAL Grid를 생성하면<br>
+                            여기에 진행 현황이 표시됩니다.
+                        </p>
+                        <p style="color:#495057;">
+                            👉 메인 화면 왼쪽 사이드바에서 새로운 프로젝트를 등록하세요.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
             let tasksToShow = filteredTasks.filter(task => {
                 const stageMatch = currentStage === 'all' || task.stage === currentStage;
                 const statusMatch = currentStatusFilter === 'all' || task.task_status === currentStatusFilter;
