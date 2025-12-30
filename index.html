@@ -1859,10 +1859,21 @@
                 font-size: 11px;
             }
             .service-guide-modal-header {
-                padding: 10px 12px !important;
+                padding: 8px 10px !important;
+                flex-wrap: wrap;
+                gap: 6px;
             }
             .service-guide-modal-header > div:first-child {
-                font-size: 14px !important;
+                font-size: 13px !important;
+                flex: 1;
+                min-width: 100px;
+            }
+            .service-guide-modal-header > div:last-child {
+                gap: 4px !important;
+            }
+            .service-guide-modal-header button {
+                padding: 4px 8px !important;
+                font-size: 10px !important;
             }
             .service-guide-modal-header span {
                 display: none;
@@ -2255,16 +2266,22 @@
         /* 모바일 최적화 */
         @media (max-width: 768px) {
             .grid-fullscreen-modal {
-                padding: 10px;
+                padding: 8px;
             }
             .grid-fullscreen-content {
-                padding: 15px !important;
+                padding: 10px !important;
             }
             .grid-fullscreen-header {
-                padding: 12px 16px;
+                padding: 10px 12px;
+                margin-bottom: 8px;
             }
             .grid-fullscreen-title {
-                font-size: 16px;
+                font-size: 14px;
+            }
+            .grid-fullscreen-close {
+                padding: 6px 12px;
+                font-size: 12px;
+                border-radius: 6px;
             }
         }
 
@@ -2469,13 +2486,104 @@
 
         .notice-date {
             font-size: 12px; /* CHANGED from 10px */
-            
+
             color: #868e96;
             font-weight: 400;
             white-space: nowrap;
             margin-left: 4px;
         }
 
+        /* 공지사항 상세 모달 스타일 */
+        .notice-detail-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 12px;
+            max-width: 855px;
+            width: 95%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .notice-detail-header {
+            padding: 24px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .notice-detail-title {
+            margin: 0;
+            font-size: 20px;
+            color: #212529;
+        }
+
+        .notice-detail-date {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .notice-detail-content {
+            padding: 24px;
+            line-height: 1.6;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .notice-detail-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #dee2e6;
+            text-align: right;
+        }
+
+        .notice-detail-close-btn {
+            padding: 8px 24px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* 공지사항 모달 모바일 최적화 */
+        @media (max-width: 768px) {
+            .notice-detail-modal {
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .notice-detail-header {
+                padding: 14px 16px;
+            }
+
+            .notice-detail-title {
+                font-size: 15px;
+                line-height: 1.4;
+            }
+
+            .notice-detail-date {
+                font-size: 11px;
+                margin-top: 6px;
+            }
+
+            .notice-detail-content {
+                padding: 16px;
+                font-size: 13px;
+            }
+
+            .notice-detail-footer {
+                padding: 12px 16px;
+            }
+
+            .notice-detail-close-btn {
+                padding: 6px 16px;
+                font-size: 12px;
+            }
+        }
 
         /* ========== 모바일 반응형 CSS (인라인) ========== */
 
@@ -2692,6 +2800,14 @@
             .footer-company .footer-divider, .footer-business .footer-divider {
                 display: inline !important;
                 margin: 0 4px;
+            }
+            /* 모바일: 관리자/이메일을 다음 줄에 표시 */
+            .footer-company span:nth-child(4) {
+                display: none !important;
+            }
+            .footer-company span:nth-child(5) {
+                display: block !important;
+                margin-top: 4px;
             }
             .admin-link {
                 display: block;

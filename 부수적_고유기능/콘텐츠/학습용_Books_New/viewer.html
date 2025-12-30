@@ -457,20 +457,62 @@
             .main-content { margin-left: 300px; padding: 30px 40px; }
         }
 
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: none;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            font-size: 20px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        /* Sidebar Overlay */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
         @media (max-width: 768px) {
-            .sidebar { display: none; }
+            .mobile-menu-btn { display: block; }
+            .sidebar {
+                display: none;
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 85%;
+                max-width: 300px;
+                height: calc(100% - 60px);
+                z-index: 1001;
+                box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+            }
+            .sidebar.active { display: block; }
             .main-content { margin-left: 0; padding: 12px; }
-            .header { padding: 10px 12px; }
-            .header-title { font-size: 14px; }
+            .header { padding: 8px 10px; height: 60px; }
+            .header-title { font-size: 13px; }
             .header-subtitle { display: none; }
             .home-btn { display: none; }
-            .close-btn { padding: 6px 10px; font-size: 11px; }
+            .close-btn { padding: 5px 8px; font-size: 10px; }
             .markdown-body { font-size: 14px; }
-            .markdown-body h1 { font-size: 20px; }
-            .markdown-body h2 { font-size: 18px; }
-            .markdown-body h3 { font-size: 16px; }
-            .markdown-body pre { font-size: 12px; padding: 10px; }
-            .markdown-body table { font-size: 12px; }
+            .markdown-body h1 { font-size: 18px; }
+            .markdown-body h2 { font-size: 16px; }
+            .markdown-body h3 { font-size: 14px; }
+            .markdown-body pre { font-size: 11px; padding: 8px; }
+            .markdown-body table { font-size: 11px; }
+            .container { margin-top: 60px; }
         }
     </style>
     <link rel="stylesheet" href="/assets/css/responsive.css">
@@ -854,6 +896,22 @@
                 loadContent(event.state.book, event.state.index);
             }
         };
+
+        // 모바일 사이드바 토글
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        // 모바일 사이드바 닫기
+        function closeSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+        }
 
         // 페이지 로드 시 초기화
         document.addEventListener('DOMContentLoaded', function() {
