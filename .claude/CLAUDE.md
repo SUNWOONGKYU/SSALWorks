@@ -286,6 +286,7 @@ work_logs/current.md 기록
 |---|----------|----------|------|
 | 1 | `01_supabase-crud.md` | **Supabase CRUD 작업 시** | PO에게 요청 금지, AI가 직접 실행 |
 | 2 | `02_builder-id.md` | **빌더 계정 ID 부여 시** ⭐ | 12자리 형식 (YYMMNNNNNNXX) 필수! |
+| 3 | `03_login-error.md` | **로그인 에러 발생 시** ⭐ | 증상별 대처방법, OAuth 설정 확인 |
 
 **📁 위치:** `.claude/methods/`
 
@@ -352,6 +353,29 @@ YY MM NNNNNN XX
 **⚠️ 코드 작성 시 주의:**
 - 일련번호 `padStart(6, '0')` (6자리!)
 - `builder_id` 기준 카운트 (user_id 아님!)
+
+### 로그인 에러 발생 시 필수 확인
+
+```
+⚠️ 로그인 간헐적 오류는 대부분 OAuth 설정 불일치가 원인!
+⚠️ 증상별 대처법을 먼저 확인하고 수정!
+```
+
+**주요 증상 및 원인:**
+
+| 증상 | 원인 | 대처 |
+|------|------|------|
+| 로그인 화면이 금방 사라짐 | 이미 로그인된 상태 | 정상 동작, 메인에서 확인 |
+| Google 로그인 후 UI 미업데이트 | OAuth 콜백 타이밍 | 새로고침 또는 캐시 삭제 |
+| `ADMIN_EMAIL is not defined` | 변수 미정의 | index.html에 변수 추가 |
+| 로그인 됐다 안됐다 반복 | redirectTo URL 불일치 | OAuth 설정 통일 |
+
+**핵심 확인 사항:**
+1. **google-login.html**의 `redirectTo`와 **Supabase Dashboard** Redirect URL 일치 여부
+2. **Google Cloud Console** 인증 리다이렉트 URI 등록 여부
+3. **index.html**에 `onAuthStateChange` 리스너 등록 여부
+
+**상세 규칙:** `.claude/methods/03_login-error.md` 참조
 
 ---
 
