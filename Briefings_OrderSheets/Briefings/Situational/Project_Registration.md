@@ -204,7 +204,9 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 
 ---
 
-### 다운로드 방법
+### 📥 다운로드 방법
+
+> **지금 바로 다운로드하세요!**
 
 1. **My Page > 파일 다운로드**에서 Dev Package 다운로드
 2. ZIP 파일 압축 해제
@@ -344,14 +346,14 @@ claude --version
 
 ### 개발 진행 방법
 
-**1단계: 사이드바 확인**
-- 좌측에서 현재 진행 단계 확인
+**1단계: 진행 프로세스 확인**
+- 왼쪽 사이드바에서 진행 프로세스 확인
 
-**2단계: 안내문(Briefing) 읽기**
-- 각 단계별 상세 안내 확인
+**2단계: 안내문 읽기**
+- 각 단계별 안내문 확인
 
-**3단계: Order Sheet 작성**
-- Claude Code에게 작업 지시
+**3단계: Order Sheet 전달**
+- Order Sheet를 컨트롤 데스크에 로딩하여 수정한 후 Claude Code에게 전달해서 작업 지시
 
 **4단계: 결과 확인**
 - AI가 수행한 작업 결과 검토
