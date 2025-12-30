@@ -69,11 +69,46 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 → 서로 다름
 ```
 
+### 사용자별 CSV 경로 분기 로직 ⭐
+
+> **viewer_csv.html이 사용자 이메일을 기준으로 데이터 경로를 결정함**
+
+| 사용자 | CSV 경로 | 결과 |
+|--------|----------|------|
+| `wksun999@gmail.com` | `../method/csv/data/sal_grid.csv` | SSAL Works 데이터 표시 |
+| 그 외 모든 사용자 | `../method/csv/data/users/{email}/sal_grid.csv` | 개인 프로젝트 데이터 |
+| 파일 없음 (404) | - | "프로젝트 없음" 안내 메시지 |
+
+```javascript
+// viewer_csv.html 내부 로직
+if (userEmail === 'wksun999@gmail.com') {
+    csvPath = '../method/csv/data/sal_grid.csv';  // SSAL Works
+} else {
+    csvPath = `../method/csv/data/users/${userEmail}/sal_grid.csv`;  // 개인
+}
+```
+
+### "프로젝트 없음" 안내 메시지
+
+사용자의 CSV 파일이 없을 때 (404) 표시되는 메시지:
+
+```
+📋 진행 중인 프로젝트가 아직 없습니다
+
+프로젝트를 등록하고 Project SAL Grid를 생성하면
+여기에 진행 현황이 표시됩니다.
+
+👉 메인 화면 왼쪽 사이드바에서 새로운 프로젝트를 등록하세요.
+
+💡 진행 프로세스에서 S0 단계인 'Project SAL Grid 생성'이 끝나면,
+   Claude Code에게 Viewer 연결을 요청하세요.
+```
+
 ### ⚠️ 주의사항
 
 - **DB 데이터 수정** = SSAL Works 내부 관리용 (일반 이용자 해당 없음)
 - **CSV 데이터 수정** = 이용자 본인 프로젝트 진행 상황 업데이트
-- **viewer_csv.html 경로** = `../method/csv/data/sal_grid.csv` (상대 경로)
+- **사용자별 CSV 폴더** = `method/csv/data/users/{email}/` (S0 완료 후 생성)
 
 ---
 

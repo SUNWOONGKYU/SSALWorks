@@ -627,6 +627,58 @@ fetch(SUPABASE_URL + '/rest/v1/project_sal_grid?task_id=eq.S4F5', {
 
 ---
 
+## 9. 사용자별 CSV 데이터 분리 (Viewer)
+
+> **적용 대상:** CSV Viewer (`viewer_csv.html`, `viewer_mobile_csv.html`)
+
+### CSV 경로 분기 로직
+
+Viewer가 사용자 이메일을 기준으로 CSV 경로를 결정:
+
+| 사용자 | CSV 경로 | 결과 |
+|--------|----------|------|
+| `wksun999@gmail.com` | `../method/csv/data/sal_grid.csv` | SSAL Works 데이터 |
+| 그 외 사용자 | `../method/csv/data/users/{email}/sal_grid.csv` | 개인 프로젝트 |
+| 파일 없음 (404) | - | "프로젝트 없음" 메시지 |
+
+### 코드 로직
+
+```javascript
+const userEmail = localStorage.getItem('userEmail');
+
+if (userEmail === 'wksun999@gmail.com') {
+    csvPath = '../method/csv/data/sal_grid.csv';
+} else {
+    csvPath = `../method/csv/data/users/${encodeURIComponent(userEmail)}/sal_grid.csv`;
+}
+```
+
+### "프로젝트 없음" 안내 메시지
+
+CSV 파일이 없을 때 (404 응답) 표시:
+
+```
+📋 진행 중인 프로젝트가 아직 없습니다
+
+프로젝트를 등록하고 Project SAL Grid를 생성하면
+여기에 진행 현황이 표시됩니다.
+
+👉 메인 화면 왼쪽 사이드바에서 새로운 프로젝트를 등록하세요.
+
+💡 진행 프로세스에서 S0 단계인 'Project SAL Grid 생성'이 끝나면,
+   Claude Code에게 Viewer 연결을 요청하세요.
+```
+
+### 관련 파일
+
+| 파일 | 위치 |
+|------|------|
+| 데스크톱 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_csv.html` |
+| 모바일 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_csv.html` |
+| 사용자별 CSV 폴더 | `method/csv/data/users/{email}/` |
+
+---
+
 ## 체크리스트
 
 ### Grid 작성
