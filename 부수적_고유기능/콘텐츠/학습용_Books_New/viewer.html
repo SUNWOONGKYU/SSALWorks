@@ -486,6 +486,11 @@
             display: block;
         }
 
+        /* 사이드바 닫기 버튼 - PC에서 숨김 */
+        .sidebar-mobile-header {
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .mobile-menu-btn { display: block; }
             .sidebar {
@@ -498,8 +503,52 @@
                 height: calc(100% - 60px);
                 z-index: 1001;
                 box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+                padding: 12px;
             }
             .sidebar.active { display: block; }
+
+            /* 사이드바 닫기 버튼 - 모바일에서 표시 */
+            .sidebar-mobile-header {
+                display: flex;
+                justify-content: flex-end;
+                margin-bottom: 10px;
+            }
+            .sidebar-close-btn {
+                padding: 5px 12px;
+                font-size: 12px;
+                background: #6c757d;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-weight: 500;
+                cursor: pointer;
+            }
+            .sidebar-close-btn:hover {
+                background: #5a6268;
+            }
+
+            /* 사이드바 폰트 크기 축소 */
+            .sidebar-title {
+                font-size: 13px;
+                margin-bottom: 10px;
+                padding-bottom: 6px;
+            }
+            .search-input {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+            .book-header {
+                font-size: 11px;
+                padding: 8px 10px;
+            }
+            .content-link {
+                font-size: 11px;
+                padding: 6px 8px;
+            }
+            .part-header {
+                font-size: 10px;
+            }
+
             .main-content { margin-left: 0; padding: 12px; }
             .header { padding: 8px 10px; height: 60px; }
             .header-title { font-size: 13px; }
@@ -546,6 +595,9 @@
     <div class="container">
         <!-- Sidebar -->
         <aside class="sidebar">
+            <div class="sidebar-mobile-header">
+                <button class="sidebar-close-btn" onclick="closeSidebar()">✕ 닫기</button>
+            </div>
             <div class="search-box">
                 <input type="text" class="search-input" placeholder="편 제목 검색..." id="searchInput">
             </div>
@@ -696,7 +748,7 @@
 
                 const header = document.createElement('div');
                 header.className = `book-header ${book.color} collapsed`;
-                header.innerHTML = `<span class="icon">▼</span> ${book.icon} ${book.name} (${book.files.length}편)`;
+                header.innerHTML = `<span class="icon">▼</span> ${book.name} (${book.files.length}편)`;
                 header.onclick = () => toggleBook(header);
 
                 const list = document.createElement('ul');
