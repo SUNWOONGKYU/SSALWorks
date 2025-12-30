@@ -307,3 +307,167 @@ work_logs/current.md에 작업 내역 기록
 - [ ] generated_files에 생성/수정 파일 기록했는가?
 - [ ] verification_status를 'Verified'로 변경했는가?
 - [ ] CSV 파일을 저장했는가?
+
+---
+
+## 9. Viewer 확인 방법 (로컬 + 배포)
+
+> CSV 데이터를 Viewer로 확인하는 두 가지 방법
+> Claude Code가 상황에 맞게 안내
+
+### 확인 방법 비교
+
+| 방법 | 설명 | 필요한 것 | 장점 |
+|------|------|----------|------|
+| **로컬 확인** | 내 컴퓨터에서 바로 확인 | 로컬 서버 | 빠름, 인터넷 불필요 |
+| **GitHub Pages 배포** | 웹에서 어디서든 확인 | GitHub 계정 | 공유 가능, 항상 접근 |
+
+---
+
+### 9.1 로컬에서 Viewer 확인
+
+**간단한 로컬 서버 실행:**
+
+```bash
+# 방법 1: npx 사용 (Node.js 설치 필요)
+npx serve
+
+# 방법 2: Python 사용
+python -m http.server 3000
+
+# 방법 3: VS Code Live Server 확장 사용
+# (VS Code에서 HTML 파일 우클릭 → Open with Live Server)
+```
+
+**접속 URL:**
+```
+http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+```
+
+**⚠️ 주의:** `file://` 프로토콜로 직접 열면 CSV 로드가 안 됨 (CORS 제한)
+
+**Claude Code 안내 템플릿:**
+```
+"로컬에서 Viewer를 확인하려면:
+
+1. 터미널에서 프로젝트 폴더로 이동
+2. 다음 명령어 실행: npx serve
+3. 브라우저에서 열기: http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+
+서버를 종료하려면 터미널에서 Ctrl+C를 누르세요."
+```
+
+---
+
+### 9.2 GitHub Pages로 배포 (웹에서 확인)
+
+> S0 완료 후 웹에서 언제 어디서든 Viewer 확인 가능
+> Claude Code가 자동으로 배포 수행
+
+#### 사전 조건 확인 (Claude Code 필수 수행)
+
+```bash
+# 1. GitHub CLI 설치 확인
+gh --version
+
+# 2. GitHub 로그인 상태 확인
+gh auth status
+```
+
+**❌ 미설치 시 안내:**
+```
+"GitHub Pages 배포를 위해 설정이 필요합니다.
+
+1. GitHub CLI 설치:
+   - Windows: winget install GitHub.cli
+   - Mac: brew install gh
+   - 또는: https://cli.github.com/
+
+2. GitHub 로그인:
+   gh auth login
+   (브라우저에서 인증)
+
+설정 완료 후 '배포해줘'라고 말씀해주세요."
+```
+
+#### 배포 프로세스 (Claude Code 자동 수행)
+
+```bash
+# Step 1: Git 초기화 (없으면)
+git init
+
+# Step 2: 커밋
+git add .
+git commit -m "Initial commit: Project SAL Grid setup complete"
+
+# Step 3: GitHub 레포 생성 + 푸시
+gh repo create {프로젝트명} --public --source=. --push
+
+# Step 4: GitHub Pages 활성화
+gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"}'
+```
+
+**Step 4 실패 시 수동 안내:**
+```
+"GitHub Pages 수동 설정이 필요합니다:
+
+1. https://github.com/{username}/{repo}/settings/pages 접속
+2. Source: 'Deploy from a branch' 선택
+3. Branch: 'main', Folder: '/ (root)' 선택
+4. Save 클릭
+
+설정 후 알려주세요."
+```
+
+#### 배포 완료 안내
+
+```
+"배포 완료!
+
+Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+
+첫 배포는 1-2분 후 접속 가능합니다.
+북마크 해두면 언제든 진행 상황을 확인할 수 있습니다!"
+```
+
+---
+
+### 9.3 Task 완료 시 자동 업데이트
+
+Task 완료 후 CSV가 업데이트되면 Claude Code가 자동으로:
+
+```bash
+git add .
+git commit -m "Update: {TaskID} {Task Name} 완료"
+git push
+```
+
+**커밋 메시지 형식:** `Update: {TaskID} {Task Name} 완료`
+
+---
+
+### 9.4 문제 해결
+
+| 문제 | 해결 방법 |
+|------|----------|
+| 로컬에서 CSV 안 보임 | `file://` 대신 로컬 서버 사용 |
+| `gh` 명령어 없음 | GitHub CLI 설치: https://cli.github.com/ |
+| GitHub 인증 실패 | `gh auth login` 실행 |
+| Pages 404 에러 | 1-2분 대기 또는 경로 확인 |
+| 푸시 권한 없음 | `gh auth login`으로 재인증 |
+
+---
+
+### Viewer 확인 체크리스트
+
+#### 로컬 확인
+- [ ] 로컬 서버 실행했는가? (`npx serve` 등)
+- [ ] `localhost:3000`으로 접속했는가?
+- [ ] Viewer에서 Task 목록이 보이는가?
+
+#### GitHub Pages 배포
+- [ ] `gh --version` 작동하는가?
+- [ ] `gh auth status` 로그인 되어 있는가?
+- [ ] GitHub 레포 생성되었는가?
+- [ ] GitHub Pages 활성화되었는가?
+- [ ] Viewer URL 접속 가능한가?

@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 1 | `01_file-naming.md` | 파일명 정할 때 | 파일 명명 규칙 |
 | 2 | `02_save-location.md` | **파일 저장할 때** ⭐ | 저장 위치 규칙 |
 | 3 | `03_area-stage.md` | 폴더 선택할 때 | Area/Stage 매핑 |
-| 4 | `04_grid-writing-csv.md` | **Grid/CSV 작업할 때** ⭐ | Grid 작성 + CSV CRUD |
+| 4 | `04_grid-writing-csv.md` | **Grid/CSV/Viewer 작업할 때** ⭐ | Grid 작성 + CSV CRUD + **Viewer 확인** |
 | 5 | `05_execution-process.md` | Task 실행할 때 | 6단계 실행 프로세스 |
 | 6 | `06_verification.md` | 검증할 때 | 검증 기준 |
 | 7 | `07_task-crud.md` | **Task 추가/삭제/수정할 때** ⭐ | Task CRUD 프로세스 |
@@ -390,6 +390,106 @@ Order Sheet, 안내문, Manual 수정 시:
 ```bash
 node scripts/build-web-assets.js
 ```
+
+---
+
+## 🚀 S0 완료 후: GitHub Pages로 Viewer 배포 ⭐
+
+> **S0 (Project SAL Grid 생성)이 완료되면 Viewer를 배포하여 웹에서 확인 가능!**
+> **Claude Code가 자동으로 수행 - 사용자는 GitHub 계정만 있으면 됨**
+
+### 배포 전 사전 조건 확인
+
+**Claude Code가 먼저 확인할 것:**
+
+```bash
+# 1. GitHub CLI 설치 확인
+gh --version
+
+# 2. GitHub 로그인 상태 확인
+gh auth status
+```
+
+**❌ 설치 안 됨 또는 로그인 안 됨 → 사용자에게 안내:**
+
+```
+"GitHub Pages 배포를 위해 사전 설정이 필요합니다.
+
+1. GitHub CLI 설치:
+   - Windows: winget install GitHub.cli
+   - Mac: brew install gh
+   - 또는: https://cli.github.com/ 에서 다운로드
+
+2. GitHub 로그인:
+   gh auth login
+   (브라우저에서 인증 진행)
+
+설정 완료 후 '배포 진행해줘'라고 말씀해주세요."
+```
+
+### 배포 프로세스 (Claude Code가 자동 수행)
+
+**✅ 사전 조건 충족 시 Claude Code가 실행:**
+
+```bash
+# Step 1: Git 초기화 (없으면)
+git init
+
+# Step 2: 모든 파일 커밋
+git add .
+git commit -m "Initial commit: Project SAL Grid setup complete"
+
+# Step 3: GitHub 레포지토리 생성 + 푸시
+gh repo create {프로젝트명} --public --source=. --push
+
+# Step 4: GitHub Pages 활성화
+gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"}'
+```
+
+**⚠️ Step 4 실패 시 대안:**
+```
+"GitHub Pages 자동 활성화가 안 됩니다. 수동으로 설정해주세요:
+
+1. https://github.com/{username}/{repo}/settings/pages 접속
+2. Source: 'Deploy from a branch' 선택
+3. Branch: 'main', Folder: '/ (root)' 선택
+4. Save 클릭
+
+설정 완료 후 알려주세요."
+```
+
+### 배포 완료 후 안내
+
+```
+"🎉 배포 완료!
+
+📊 Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+
+⏱️ 첫 배포는 1-2분 후 접속 가능합니다.
+   (GitHub Pages 빌드 시간)
+
+📌 북마크 해두시면 언제든 프로젝트 진행 상황을 확인할 수 있습니다!"
+```
+
+### 이후 업데이트 시
+
+Task 완료 후 CSV가 업데이트되면:
+
+```bash
+git add .
+git commit -m "Update: {TaskID} 완료"
+git push
+```
+
+**Claude Code가 Task 완료 시 자동으로 커밋 & 푸시!**
+
+### 배포 관련 체크리스트
+
+- [ ] `gh --version` 작동하는가?
+- [ ] `gh auth status` 로그인 되어 있는가?
+- [ ] GitHub 레포지토리 생성되었는가?
+- [ ] GitHub Pages 활성화되었는가?
+- [ ] Viewer URL 접속 가능한가?
 
 ---
 
