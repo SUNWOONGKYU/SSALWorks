@@ -6471,12 +6471,12 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             // users 테이블에서 정보 가져오기
             const { data: userData } = await window.supabaseClient
                 .from('users')
-                .select('full_name, builder_account_id')
+                .select('real_name, builder_id')
                 .eq('id', user.id)
                 .single();
 
-            const userName = userData?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
-            const builderId = userData?.builder_account_id || user.user_metadata?.builder_id || '';
+            const userName = userData?.real_name || user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
+            const builderId = userData?.builder_id || user.user_metadata?.builder_id || '';
 
             // DB에 저장
             const { error: insertError } = await window.supabaseClient
