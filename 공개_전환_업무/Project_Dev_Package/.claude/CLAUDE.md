@@ -171,7 +171,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  STEP 6: 최종 상태 업데이트 (DB)                             │
+│  STEP 6: 최종 상태 업데이트 (CSV)                            │
 │  → verification_status: 'Verified'일 때만                    │
 │  → task_status: 'Executed' → 'Completed'                    │
 │  → work_logs, Reports 저장                                  │
@@ -199,7 +199,7 @@ verification_status 전이:
 **⚠️ 핵심 규칙:**
 - **Executed** = 작업은 끝났지만 검증 전 상태
 - **Completed** = 검증(Verified)까지 완료된 상태
-- **Completed는 Verified일 때만 가능!** (DB 트리거로 강제됨)
+- **Completed는 Verified일 때만 가능!**
 - **상태 건너뛰기 금지** (Pending → Completed 불가!)
 - **각 Task마다 상태 업데이트 필수** (여러 개 처리 시)
 
@@ -208,31 +208,31 @@ verification_status 전이:
 - 검증 없이 Verified 표시
 - 상태 전이 순서 건너뛰기
 - Verification Agent 투입 생략
-- DB 상태 업데이트 생략
+- CSV 상태 업데이트 생략
 - **검증만 하고 결과 기록 생략** ⭐ 신규 추가
 
 **⭐ 검증 결과 기록 필수 (절대 생략 금지!):**
 
 ```
 🚫 검증만 수행하고 기록 안 하면 무의미!
-🚫 "검증했습니다" 말만 하고 DB에 기록 안 하면 안 됨!
-✅ 검증 결과는 Supabase DB에만 기록!
+🚫 "검증했습니다" 말만 하고 CSV에 기록 안 하면 안 됨!
+✅ 검증 결과는 CSV 파일에 기록!
 ```
 
 **검증 후 필수 기록 위치:**
 ```
-Supabase DB (project_sal_grid 테이블)
+CSV 파일 (method/csv/data/sal_grid.csv)
    → verification_status: 'Verified' 또는 'Needs Fix'
-   → test_result: 테스트 결과 (JSON)
-   → build_verification: 빌드 검증 (JSON)
-   → integration_verification: 통합 검증 (JSON)
-   → blockers: 차단 요소 (JSON)
-   → comprehensive_verification: 종합 결과 (JSON)
+   → test_result: 테스트 결과
+   → build_verification: 빌드 검증
+   → integration_verification: 통합 검증
+   → blockers: 차단 요소
+   → comprehensive_verification: 종합 결과
 ```
 
 **검증 기록 체크리스트:**
-- [ ] DB에 verification_status 업데이트했는가?
-- [ ] DB에 검증 관련 필드(test_result, build_verification 등) 저장했는가?
+- [ ] CSV에 verification_status 업데이트했는가?
+- [ ] CSV에 검증 관련 필드(test_result, build_verification 등) 저장했는가?
 
 ---
 
@@ -293,8 +293,8 @@ Supabase DB (project_sal_grid 테이블)
 
 ```
 🚫 Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
-🚫 "작업 완료했습니다" 말만 하고 DB 업데이트 안 하면 안 됨!
-✅ 작업 완료 후 반드시 project_sal_grid 테이블 업데이트!
+🚫 "작업 완료했습니다" 말만 하고 CSV 업데이트 안 하면 안 됨!
+✅ 작업 완료 후 반드시 CSV 파일 업데이트!
 ```
 
 **업데이트 시점:**
@@ -307,14 +307,14 @@ Supabase DB (project_sal_grid 테이블)
 ```
 Task 작업 완료
      ↓
-project_sal_grid 테이블 PATCH 업데이트
+CSV 파일 (method/csv/data/sal_grid.csv) 업데이트
      ↓
 work_logs/current.md 기록
      ↓
 완료 보고
 ```
 
-**상세 규칙:** `.claude/rules/04_grid-writing-supabase.md` 섹션 8 참조
+**상세 규칙:** `.claude/rules/04_grid-writing-csv.md` 섹션 8 참조
 
 ---
 
@@ -324,39 +324,33 @@ work_logs/current.md 기록
 
 | # | 방법 파일 | 적용 시점 | 핵심 |
 |---|----------|----------|------|
-| 1 | `01_supabase-crud.md` | **Supabase CRUD 작업 시** | PO에게 요청 금지, AI가 직접 실행 |
+| 1 | `01_csv-crud.md` | **CSV CRUD 작업 시** | AI가 Edit 도구로 직접 수정 |
 
 **📁 위치:** `.claude/methods/`
 
-### Supabase CRUD 작업 시 필수 준수
+### CSV CRUD 작업 시 필수 준수
 
 ```
-🚫 PO(사람)에게 SQL 실행을 요청하지 마라!
-🚫 "이 SQL을 실행해주세요" 금지!
-🚫 "Supabase Dashboard에서 실행해주세요" 금지!
-✅ AI가 REST API (Node.js)로 직접 실행해야 함!
+✅ AI가 Edit 도구로 CSV 파일 직접 수정!
+✅ CSV 파일 위치: method/csv/data/sal_grid.csv
+✅ 수정 후 반드시 저장 확인!
 ```
 
-**우선순위:**
+**CSV 파일 수정 프로세스:**
 ```
-1. REST API (Node.js) ← 기본 방법, 항상 작동
-2. Supabase MCP ← 연결 시
-3. Supabase CLI ← 설치 시
-4. Dashboard (PO 수동) ← 최후 수단
-```
-
-**⚠️ PO에게 요청해야 하는 경우 (모두 충족 시만):**
-```
-1. REST API 시도 → 실패 (3회 이상)
-2. MCP 시도 → 실패 또는 연결 안 됨
-3. CLI 시도 → 설치 안 됨 또는 실패
-
-→ 위 3가지 모두 실패한 경우에만 PO에게 요청
-→ "모든 방법 시도 후 실패했습니다. Dashboard에서 실행해주세요."
-→ SQL 파일 생성하여 제공
+1. CSV 파일 읽기 (Read 도구)
+     ↓
+2. 해당 Task 행 찾기
+     ↓
+3. 필드 값 수정 (Edit 도구)
+     ↓
+4. 저장 확인
 ```
 
-**환경변수 위치:** `P3_프로토타입_제작/Database/.env`
+**⚠️ CSV 수정 시 주의사항:**
+- 쉼표(,) 포함된 값은 따옴표로 감싸기
+- UTF-8 인코딩 유지
+- 행 순서 변경 금지
 
 ---
 
@@ -367,11 +361,12 @@ work_logs/current.md 기록
 
 ### SAL Grid 매뉴얼 (v4.0 일반화 버전)
 > `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
-> - DB Method (Supabase) + CSV Method (JSON) 두 가지 방식 지원
+> - **일반 이용자: CSV Method 사용**
+> - DB Method는 Supabase 사용 시 참조 (선택사항)
 > - 27개 섹션으로 구성된 완전 매뉴얼
 
 ### 주의사항
-> `.claude/CAUTION.md` (RLS, 본개발 TODO, Supabase 대안 프로세스)
+> `.claude/CAUTION.md` (일반 주의사항, 개발 TODO)
 
 ---
 
