@@ -74,7 +74,7 @@ export default async function handler(req, res) {
                             </div>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
+                            <a href="https://www.ssalworks.ai.kr/pages/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
                         </p>
                     </div>
                 `;
@@ -93,7 +93,7 @@ export default async function handler(req, res) {
                             <p><strong>결제 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
+                            <a href="https://www.ssalworks.ai.kr/pages/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
                         </p>
                     </div>
                 `;
@@ -113,7 +113,7 @@ export default async function handler(req, res) {
                             <p><strong>가입 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
+                            <a href="https://www.ssalworks.ai.kr/pages/admin-dashboard.html" style="color: #6B5CC4;">관리자 대시보드에서 확인하기</a>
                         </p>
                     </div>
                 `;
@@ -132,7 +132,7 @@ export default async function handler(req, res) {
                             <p><strong>요청 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html#billing" style="color: #6B5CC4;">관리자 대시보드에서 입금 확인하기</a>
+                            <a href="https://www.ssalworks.ai.kr/pages/admin-dashboard.html#billing" style="color: #6B5CC4;">관리자 대시보드에서 입금 확인하기</a>
                         </p>
                     </div>
                 `;
@@ -154,7 +154,7 @@ export default async function handler(req, res) {
                             <p><strong>질문 시간:</strong> ${new Date().toLocaleString('ko-KR')}</p>
                         </div>
                         <p style="color: #666; font-size: 14px;">
-                            <a href="https://www.ssalworks.ai.kr/Frontend/admin-dashboard.html#sunny-inquiries" style="color: #6B5CC4;">관리자 대시보드에서 답변하기</a>
+                            <a href="https://www.ssalworks.ai.kr/pages/admin-dashboard.html#sunny-inquiries" style="color: #6B5CC4;">관리자 대시보드에서 답변하기</a>
                         </p>
                     </div>
                 `;
