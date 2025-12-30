@@ -373,6 +373,21 @@
 
         .toast.success { background: var(--success); }
         .toast.error { background: var(--danger); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav { padding: 0 12px; height: 56px; }
+            .nav-logo-text { font-size: 18px; }
+            .close-btn { padding: 4px 10px; font-size: 11px; white-space: nowrap; }
+            .container { padding: 16px 12px; }
+            .page-title { font-size: 22px; }
+            .card { padding: 20px 16px; }
+            .inline-inputs { flex-direction: column; gap: 16px; }
+            .form-input, .form-select { font-size: 16px; }
+            .method-item { flex-direction: column; gap: 12px; align-items: stretch; }
+            .method-info { justify-content: space-between; }
+            .toast { right: 12px; left: 12px; bottom: 12px; }
+        }
     </style>
 </head>
 <body>

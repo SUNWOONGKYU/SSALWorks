@@ -368,6 +368,24 @@
         }
         .stat-card.highlight .stat-value { color: white; }
         .stat-card.highlight .stat-label { color: rgba(255,255,255,0.8); }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav { padding: 0 12px; height: 56px; }
+            .nav-logo-text { font-size: 18px; }
+            .close-btn { padding: 4px 10px; font-size: 11px; white-space: nowrap; }
+            .container { padding: 16px 12px; }
+            .page-header { flex-direction: column; gap: 12px; align-items: stretch; }
+            .page-title { font-size: 22px; }
+            .btn { width: 100%; justify-content: center; }
+            .card { padding: 16px; }
+            .stats-row { grid-template-columns: 1fr; }
+            .project-header { flex-direction: column; gap: 8px; }
+            .project-footer { flex-direction: column; gap: 12px; align-items: stretch; }
+            .project-actions { flex-direction: column; }
+            .project-actions .btn { width: 100%; }
+            .toast { right: 12px; left: 12px; bottom: 12px; }
+        }
     </style>
 </head>
 <body>
