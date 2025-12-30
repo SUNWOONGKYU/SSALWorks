@@ -6392,7 +6392,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             // 빌더 계정 확인
             const { data: userData, error: userError } = await window.supabaseClient
                 .from('users')
-                .select('installation_fee_paid, user_id, full_name, builder_account_id')
+                .select('installation_fee_paid, user_id, real_name, builder_id')
                 .eq('id', session.user.id)
                 .single();
 
@@ -6446,8 +6446,8 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             document.getElementById('agreementDate').textContent = dateStr;
             // users 테이블에서 가져온 정보 우선 사용
-            document.getElementById('agreementUserName').textContent = userData?.full_name || user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
-            document.getElementById('agreementBuilderId').textContent = userData?.builder_account_id || user.user_metadata?.builder_id || '(ID 없음)';
+            document.getElementById('agreementUserName').textContent = userData?.real_name || user.user_metadata?.full_name || user.user_metadata?.name || '(이름 없음)';
+            document.getElementById('agreementBuilderId').textContent = userData?.builder_id || user.user_metadata?.builder_id || '(ID 없음)';
             document.getElementById('agreementUserEmail').textContent = user.email || '(이메일 없음)';
 
             document.getElementById('agreementModal').classList.add('active');
