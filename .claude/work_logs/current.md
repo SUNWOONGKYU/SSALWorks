@@ -6,6 +6,62 @@
 
 ## 2025-12-31 작업 내역
 
+### 좌측 사이드바 모바일 반응형 개선 ✅
+
+**작업 목표**: 좌측 사이드바에서 열리는 팝업들의 모바일 UX 개선
+
+**발견된 문제**:
+1. 가이드 팝업 열릴 때 사이드바가 열린 상태로 남아서 팝업 내용이 가려짐
+2. 팝업 내용 폰트 크기(11px)가 모바일에서 작음
+3. 버튼 터치 영역이 권장 크기(44px) 미달
+
+**수정 내용**:
+
+| # | 수정 사항 | 적용 위치 |
+|---|----------|----------|
+| 1 | 사이드바 자동 닫기 | `openGuideModalFromUrl()`, `openGuideModalWithConfirm()` |
+| 2 | 폰트 크기 증가 | `#guidePopupContent` 11px → 13px |
+| 3 | 제목 크기 설정 | h1/h2/h3 → 16px |
+| 4 | 버튼 터치 영역 | min-height: 44px (Apple 권장) |
+| 5 | 패딩 최적화 | 20px → 16px |
+| 6 | 헤더 최적화 | 패딩/폰트 사이즈 조정 |
+
+**수정 파일**:
+- `index.html` (lines 6104-6109, 6228-6233, 2847-2867)
+
+**커밋**: `49ff7a3 fix: 모바일 가이드 팝업 개선`
+
+**테스트 결과**:
+- 사이드바 자동 닫기: ✅ 정상 작동
+- 팝업 콘텐츠 가독성: ✅ 개선됨
+- 터치 영역: ✅ 적절한 크기
+
+---
+
+### PoliticianFinder 알림 페이지 오류 수정 ✅
+
+**문제**: 알림 페이지에서 오류 화면 표시 ("문제가 발생했습니다")
+
+**원인**: React Hooks 규칙 위반
+- `useMemo`, `useCallback` 훅이 조건부 return (`if (authLoading)`) 뒤에 선언됨
+- React의 "Rules of Hooks": 훅은 항상 동일한 순서로 호출되어야 함
+
+**수정 내용**:
+```typescript
+// 수정 전 (오류)
+if (authLoading) { return <Loading/>; }
+const filteredNotifications = useMemo(() => ...);  // 조건부 return 후 훅 호출 ❌
+
+// 수정 후 (정상)
+const filteredNotifications = useMemo(() => ...);  // 모든 훅 먼저 선언
+const formatTimestamp = useCallback(() => ...);
+if (authLoading) { return <Loading/>; }            // 조건부 return은 마지막에 ✅
+```
+
+**커밋**: `c836d74`
+
+---
+
 ### PoliticianFinder 로딩 속도 개선 ✅
 
 **작업 목표**: 커뮤니티 페이지 로딩 속도 개선
