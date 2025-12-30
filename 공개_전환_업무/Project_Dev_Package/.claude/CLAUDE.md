@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 1 | `01_file-naming.md` | 파일명 정할 때 | 파일 명명 규칙 |
 | 2 | `02_save-location.md` | **파일 저장할 때** ⭐ | 저장 위치 규칙 |
 | 3 | `03_area-stage.md` | 폴더 선택할 때 | Area/Stage 매핑 |
-| 4 | `04_grid-writing-supabase.md` | **Grid/DB 작업할 때** ⭐ | Grid 작성 + Supabase CRUD |
+| 4 | `04_grid-writing-csv.md` | **Grid/CSV 작업할 때** ⭐ | Grid 작성 + CSV CRUD |
 | 5 | `05_execution-process.md` | Task 실행할 때 | 6단계 실행 프로세스 |
 | 6 | `06_verification.md` | 검증할 때 | 검증 기준 |
 | 7 | `07_task-crud.md` | **Task 추가/삭제/수정할 때** ⭐ | Task CRUD 프로세스 |
@@ -152,9 +152,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  STEP 3: Grid 상태 업데이트 (DB)                             │
+│  STEP 3: Grid 상태 업데이트 (CSV)                            │
 │  → task_status: 'Pending' → 'In Progress'                   │
-│  → Supabase DB에 UPDATE                                     │
+│  → CSV 파일 UPDATE                                          │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐

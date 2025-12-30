@@ -325,7 +325,18 @@ S2BA1
 
 # 04. Grid 작성 및 Supabase 작업 규칙
 
-> PROJECT SAL Grid 데이터 작성 및 Supabase CRUD 작업 시 준수 사항
+> **⚠️ 적용 대상: SSAL Works 내부 관리용 (DB Method)**
+>
+> 이 규칙은 Supabase DB를 사용하는 SSAL Works 내부 프로젝트에 적용됩니다.
+> 일반 이용자는 CSV Method를 사용하므로 `04_grid-writing-csv.md` 파일을 참조하세요.
+>
+> **DB vs CSV 구분:**
+> - **DB (Supabase)** = SSAL Works 예시 데이터 (고정, `viewer_database.html`)
+> - **CSV 파일** = 이용자 본인 프로젝트 데이터 (가변, `viewer_csv.html`)
+
+---
+
+PROJECT SAL Grid 데이터 작성 및 Supabase CRUD 작업 시 준수 사항
 
 ---
 
