@@ -4172,3 +4172,69 @@ SSAL_Works_for_Builder/
 
 **최종 결과:** 11/11 테스트 통과 (100%)
 
+
+
+---
+
+### 모바일 페이지 버그 수정 (2건) ✅
+
+**발견일:** 2025-12-30
+**증상:** 모바일에서 특정 페이지가 열리지 않음
+
+#### 버그 1: Mypage 모바일 접근 불가
+
+**원인:** 로그인 redirect 경로 오류
+
+| 위치 | 잘못된 경로 | 올바른 경로 |
+|------|------------|------------|
+| `pages/mypage/index.html` | `login.html` | `../auth/login.html` |
+| `pages/mypage/profile.html` | `login.html` | `../auth/login.html` |
+| `pages/mypage/security.html` | `login.html` | `../auth/login.html` |
+| `pages/mypage/subscription.html` | `login.html` | `../auth/login.html` |
+
+**문제:** 
+- 비로그인 상태에서 mypage 접근 시 `login.html`로 redirect
+- 상대 경로가 `pages/mypage/login.html`로 해석됨 (존재하지 않음)
+
+**수정:** 4개 파일의 redirect 경로를 `../auth/login.html`로 변경
+
+**커밋:** `488abd5`
+
+---
+
+#### 버그 2: Admin Dashboard 로그아웃 redirect 오류
+
+**원인:** 로그아웃 redirect 경로 오류
+
+| 위치 | 잘못된 경로 | 올바른 경로 |
+|------|------------|------------|
+| `pages/admin-dashboard.html` | `index.html` | `/index.html` |
+
+**문제:**
+- logout() 함수에서 `index.html`로 redirect
+- 상대 경로가 `pages/index.html`로 해석됨 (존재하지 않음)
+
+**수정:** 절대 경로 `/index.html`로 변경
+
+**커밋:** `464edf3`
+
+---
+
+#### 근본 원인 분석
+
+```
+문제 패턴: pages/ 하위 폴더에서 상대 경로 사용 시 의도치 않은 경로 해석
+
+pages/mypage/index.html에서 'login.html' 
+  → 해석: pages/mypage/login.html (X)
+  → 의도: pages/auth/login.html (O)
+
+pages/admin-dashboard.html에서 'index.html'
+  → 해석: pages/index.html (X)  
+  → 의도: /index.html (루트) (O)
+```
+
+**예방책:** 
+- 페이지 간 이동 시 절대 경로(`/`) 또는 정확한 상대 경로(`../`) 사용
+- 새 페이지 생성 시 redirect 경로 검증 필수
+
