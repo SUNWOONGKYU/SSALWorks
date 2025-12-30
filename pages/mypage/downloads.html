@@ -477,33 +477,27 @@
                     <p class="download-note">※ 패키지 크기: 약 12MB | 설치 안내는 패키지 내 README 참조</p>
                 </div>
 
-                <!-- 빌더 계정 사용 매뉴얼 다운로드 카드 -->
+                <!-- 빌더 계정 사용 매뉴얼 카드 -->
                 <div class="download-card" id="manualDownloadCard">
                     <div class="download-header">
-                        <h3 class="download-title">빌더 계정 사용 매뉴얼 다운로드</h3>
+                        <h3 class="download-title">빌더 계정 사용 매뉴얼</h3>
                         <span class="download-badge badge-builder" id="manualBuilderBadge">빌더 전용</span>
                     </div>
                     <p class="download-desc">
-                        SSAL Works 빌더 계정 사용 매뉴얼을 PDF로 다운로드하세요.<br>
+                        SSAL Works 빌더 계정 사용 매뉴얼입니다.<br>
                         계정 설정부터 프로젝트 관리까지 모든 기능을 상세히 안내합니다.
                     </p>
-                    <button class="download-btn manual" id="manualDownloadBtn" onclick="downloadManual()">
-                        📄 매뉴얼 다운로드 (PDF)
-                    </button>
-                    <p class="download-note">※ 매뉴얼은 정기적으로 업데이트됩니다.</p>
-                </div>
 
-                <!-- 온라인 매뉴얼 보기 카드 -->
-                <div class="download-card">
-                    <div class="download-header">
-                        <h3 class="download-title">온라인 매뉴얼 보기</h3>
+                    <!-- 매뉴얼 버튼 그룹 -->
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 12px;">
+                        <button class="download-btn manual" id="manualDownloadBtn" onclick="downloadManual()" style="flex: 1; min-width: 200px;">
+                            📄 PDF 다운로드
+                        </button>
+                        <a href="manual.html" class="download-btn" style="flex: 1; min-width: 200px; background: var(--gray-600); text-decoration: none; text-align: center;">
+                            📖 온라인으로 보기
+                        </a>
                     </div>
-                    <p class="download-desc">
-                        다운로드 없이 웹에서 바로 매뉴얼을 확인할 수 있습니다.
-                    </p>
-                    <a href="manual.html" class="download-btn" style="background: var(--gray-700); text-decoration: none;">
-                        📖 온라인으로 매뉴얼 보기
-                    </a>
+                    <p class="download-note">※ 매뉴얼은 정기적으로 업데이트됩니다.</p>
                 </div>
             </div><!-- /main-content-area -->
         </div><!-- /dashboard-grid -->
