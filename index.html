@@ -8734,9 +8734,42 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         }
 
         // 예시 Project 안내문 표시 - GUIDE_CONTENTS 사용
+        // [확인] 버튼 클릭 시 서약서 모달로 이동
         function showExampleProjectGuide() {
-            // GUIDE_CONTENTS['Project_Example']에서 안내문 로드
-            openGuideModalFromUrl('예시 프로젝트', 'guides/Project_Example.html', '', false);
+            const popup = document.getElementById('guidePopup');
+            const popupTitle = document.getElementById('guidePopupTitle');
+            const popupContent = document.getElementById('guidePopupContent');
+
+            popupTitle.textContent = '📖 예시 프로젝트 안내';
+
+            // GUIDE_CONTENTS에서 HTML 콘텐츠 가져오기
+            const htmlContent = (typeof GUIDE_CONTENTS !== 'undefined') ? GUIDE_CONTENTS['Project_Example'] : null;
+
+            if (htmlContent) {
+                // [확인] 버튼 클릭 시 서약서 모달(handleSSALWorksClick)로 이동
+                const buttonSection = `
+                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+                    <div style="display: flex; justify-content: center;">
+                        <button onclick="closeGuidePopup(); handleSSALWorksClick();" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
+                    </div>
+                </div>
+                `;
+                popupContent.innerHTML = htmlContent + buttonSection;
+            } else {
+                popupContent.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #EF4444;">
+                        <p>❌ 안내문을 불러오지 못했습니다.</p>
+                    </div>
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+                        <div style="display: flex; justify-content: center;">
+                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">닫기</button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            popup.style.display = 'block';
+            initDragPopup();
         }
 
         // 새 프로젝트 등록 - 빌더 계정 확인 후 바로 모달 열기
@@ -8943,6 +8976,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             window.projectRegInStep2 = false;
             window.registeredProjectName = null;
             window.registeredProjectPath = null;
+            window.registeredProjectId = null;
             window.isFirstProject = false;
         }
 
@@ -9441,6 +9475,7 @@ Claude Code가 작업을 완료하면:
                     window.projectRegInStep2 = true;
                     window.registeredProjectName = name;
                     window.registeredProjectPath = result.projectPath;
+                    window.registeredProjectId = result.projectId;  // 프로젝트 ID 저장 (DB 업데이트용)
                     window.isFirstProject = isFirstProject;
 
                     // UI 전환: Step 1 숨기고 Step 2 표시
