@@ -250,6 +250,7 @@
         .service-icon.chatgpt { background: #74AA9C; }
         .service-icon.gemini { background: #4285F4; }
         .service-icon.perplexity { background: #1FB8CD; }
+        .service-icon.claude { background: #CC785C; }
 
         .service-name { font-weight: 600; }
         .service-desc { font-size: 12px; color: var(--gray-500); }
@@ -649,45 +650,7 @@
                     <h3 class="card-title">AI 서비스 가격표</h3>
                 </div>
                 <div class="price-list" id="priceList">
-                    <div class="price-item">
-                        <div class="price-service">
-                            <div class="service-icon chatgpt">🤖</div>
-                            <div>
-                                <div class="service-name">ChatGPT (GPT-4o)</div>
-                                <div class="service-desc">코드 작성, 기술 문서</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="price-value">입력: ₩3/1K토큰</div>
-                            <div class="price-value">출력: ₩15/1K토큰</div>
-                        </div>
-                    </div>
-                    <div class="price-item">
-                        <div class="price-service">
-                            <div class="service-icon gemini">✨</div>
-                            <div>
-                                <div class="service-name">Gemini Pro</div>
-                                <div class="service-desc">코드 리뷰, 분석</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="price-value">입력: ₩1/1K토큰</div>
-                            <div class="price-value">출력: ₩4/1K토큰</div>
-                        </div>
-                    </div>
-                    <div class="price-item">
-                        <div class="price-service">
-                            <div class="service-icon perplexity">🔍</div>
-                            <div>
-                                <div class="service-name">Perplexity</div>
-                                <div class="service-desc">실시간 검색</div>
-                            </div>
-                        </div>
-                        <div style="text-align: right;">
-                            <div class="price-value">입력: ₩1/1K토큰</div>
-                            <div class="price-value">출력: ₩5/1K토큰</div>
-                        </div>
-                    </div>
+                    <div class="history-empty">가격 정보를 불러오는 중...</div>
                 </div>
             </div>
 
@@ -788,7 +751,133 @@
             checkAuth();
             setupChargeButtons();
             setupChatInput();
+            loadApiPrices();
         });
+
+        // API 가격 정보 로드 (api_costs 테이블에서)
+        async function loadApiPrices() {
+            try {
+                const response = await fetch(
+                    `${SUPABASE_URL}/rest/v1/api_costs?select=*&is_active=eq.true&order=provider,model_name`,
+                    {
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                        }
+                    }
+                );
+
+                if (!response.ok) throw new Error('Failed to fetch API costs');
+
+                const costs = await response.json();
+                renderApiPrices(costs);
+            } catch (error) {
+                console.error('API 가격 로드 실패:', error);
+                // 실패 시 기본값 표시
+                renderDefaultPrices();
+            }
+        }
+
+        // 가격 계산 함수 (admin-dashboard.html과 동일한 공식)
+        function calculatePriceKRW(costPer1M, usdToKrw, marginPercent) {
+            // 1M 토큰당 가격을 1K 토큰당 가격으로 변환
+            const pricePerMillion = costPer1M * usdToKrw * (1 + marginPercent / 100);
+            const pricePerK = pricePerMillion / 1000;
+            // 1원 미만은 소수점 표시, 1원 이상은 정수로 표시
+            if (pricePerK < 1) {
+                return pricePerK.toFixed(2);
+            }
+            return Math.round(pricePerK);
+        }
+
+        // 서비스 아이콘 및 설명 매핑 (provider는 소문자)
+        const serviceInfo = {
+            'openai': { icon: '🤖', iconClass: 'chatgpt', desc: '코드 작성, 기술 문서' },
+            'google': { icon: '✨', iconClass: 'gemini', desc: '코드 리뷰, 분석' },
+            'perplexity': { icon: '🔍', iconClass: 'perplexity', desc: '실시간 검색' },
+            'anthropic': { icon: '🧠', iconClass: 'claude', desc: 'AI 분석, 대화' }
+        };
+
+        // API 가격 렌더링
+        function renderApiPrices(costs) {
+            const priceList = document.getElementById('priceList');
+
+            if (!costs || costs.length === 0) {
+                renderDefaultPrices();
+                return;
+            }
+
+            let html = '';
+            costs.forEach(cost => {
+                const info = serviceInfo[cost.provider] || { icon: '🤖', iconClass: 'chatgpt', desc: 'AI 서비스' };
+                const inputPrice = calculatePriceKRW(cost.input_cost_per_1m, cost.usd_to_krw_rate, cost.margin_percent);
+                const outputPrice = calculatePriceKRW(cost.output_cost_per_1m, cost.usd_to_krw_rate, cost.margin_percent);
+
+                html += `
+                    <div class="price-item">
+                        <div class="price-service">
+                            <div class="service-icon ${info.iconClass}">${info.icon}</div>
+                            <div>
+                                <div class="service-name">${cost.model_name}</div>
+                                <div class="service-desc">${info.desc}</div>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="price-value">입력: ₩${inputPrice.toLocaleString()}/1K토큰</div>
+                            <div class="price-value">출력: ₩${outputPrice.toLocaleString()}/1K토큰</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            priceList.innerHTML = html;
+        }
+
+        // 기본 가격 표시 (DB 연결 실패 시)
+        function renderDefaultPrices() {
+            const priceList = document.getElementById('priceList');
+            priceList.innerHTML = `
+                <div class="price-item">
+                    <div class="price-service">
+                        <div class="service-icon chatgpt">🤖</div>
+                        <div>
+                            <div class="service-name">ChatGPT (GPT-4o)</div>
+                            <div class="service-desc">코드 작성, 기술 문서</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="price-value">입력: ₩5/1K토큰</div>
+                        <div class="price-value">출력: ₩19/1K토큰</div>
+                    </div>
+                </div>
+                <div class="price-item">
+                    <div class="price-service">
+                        <div class="service-icon gemini">✨</div>
+                        <div>
+                            <div class="service-name">Gemini Pro</div>
+                            <div class="service-desc">코드 리뷰, 분석</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="price-value">입력: ₩2/1K토큰</div>
+                        <div class="price-value">출력: ₩8/1K토큰</div>
+                    </div>
+                </div>
+                <div class="price-item">
+                    <div class="price-service">
+                        <div class="service-icon perplexity">🔍</div>
+                        <div>
+                            <div class="service-name">Perplexity</div>
+                            <div class="service-desc">실시간 검색</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="price-value">입력: ₩1/1K토큰</div>
+                        <div class="price-value">출력: ₩5/1K토큰</div>
+                    </div>
+                </div>
+            `;
+        }
 
         function setupChargeButtons() {
             const buttons = document.querySelectorAll('#chargeGrid .btn-charge');
