@@ -6114,9 +6114,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         };
 
         // 프로젝트 진행률 로드
-        // DB에서 사용자별 진행률 조회 (git commit 시 자동 업로드됨)
-        async function loadProjectProgress(projectName) {
-            console.log('📊 프로젝트 진행률 로드:', projectName);
+        // DB에서 프로젝트별 진행률 조회 (git commit 시 자동 업로드됨)
+        async function loadProjectProgress(projectId) {
+            console.log('📊 프로젝트 진행률 로드, Project ID:', projectId);
 
             try {
                 // 로그인 사용자 확인
@@ -6127,10 +6127,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
 
-                // 이메일에서 project_id 생성 (upload-progress.js와 동일 로직)
-                const email = session.user.email;
-                const username = email.split('@')[0] || 'user';
-                const projectId = `${username}_PROJECT`;
+                // DB에서 진행률 조회 (전달받은 project_id 사용)
                 console.log('📊 조회할 Project ID:', projectId);
 
                 // DB에서 진행률 조회
@@ -12480,10 +12477,10 @@ ${result.answer}`;
                         <span class="project-status">진행중</span>
                     </div>
                 `;
-                console.log('✅ 프로젝트 로드:', project.project_name);
+                console.log('✅ 프로젝트 로드:', project.project_name, 'ID:', project.project_id);
 
-                // 프로젝트 진행률 로드
-                await loadProjectProgress(project.project_name);
+                // 프로젝트 진행률 로드 (project_id 전달)
+                await loadProjectProgress(project.project_id);
 
             } catch (error) {
                 console.error('프로젝트 로드 실패:', error);
