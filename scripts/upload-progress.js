@@ -18,6 +18,7 @@ const { execSync } = require('child_process');
 const PROJECT_ROOT = path.join(__dirname, '..');
 const PROGRESS_JSON_PATH = path.join(PROJECT_ROOT, 'Development_Process_Monitor', 'data', 'phase_progress.json');
 const ENV_PATH = path.join(PROJECT_ROOT, 'P3_프로토타입_제작', 'Database', '.env');
+const PROJECT_CONFIG_PATH = path.join(PROJECT_ROOT, '.ssal-project.json');
 
 // ============================================
 // 환경변수 로드
@@ -60,15 +61,32 @@ function getGitUserEmail() {
 }
 
 // ============================================
-// Project ID 생성 (이메일 기반)
+// 프로젝트 설정 파일에서 Project ID 읽기
+// ============================================
+
+function getProjectIdFromConfig() {
+    try {
+        if (fs.existsSync(PROJECT_CONFIG_PATH)) {
+            const config = JSON.parse(fs.readFileSync(PROJECT_CONFIG_PATH, 'utf-8'));
+            if (config.project_id) {
+                console.log('✅ .ssal-project.json에서 Project ID 로드');
+                return config.project_id;
+            }
+        }
+    } catch (e) {
+        console.warn('⚠️ .ssal-project.json 읽기 실패:', e.message);
+    }
+    return null;
+}
+
+// ============================================
+// Project ID 생성 (이메일 기반 - fallback)
 // ============================================
 
 function generateProjectId(email) {
     // 이메일에서 @ 앞 부분 추출
     const username = email.split('@')[0] || 'user';
-    // 날짜 (YYMMDD 형식)
-    const date = new Date().toISOString().slice(2, 10).replace(/-/g, '');
-    // Project ID: {email_prefix}_{date}
+    // Project ID: {email_prefix}_PROJECT
     return `${username}_PROJECT`;
 }
 
@@ -157,10 +175,14 @@ async function main() {
     }
     console.log('✅ 환경변수 로드 완료');
 
-    // 2. Git 사용자 이메일 가져오기
-    const email = getGitUserEmail();
-    const projectId = generateProjectId(email);
-    console.log(`📧 사용자: ${email}`);
+    // 2. Project ID 가져오기 (설정 파일 우선, 없으면 이메일 기반)
+    let projectId = getProjectIdFromConfig();
+    if (!projectId) {
+        const email = getGitUserEmail();
+        projectId = generateProjectId(email);
+        console.log(`📧 사용자: ${email}`);
+        console.log(`⚠️ .ssal-project.json 없음 - 이메일 기반 ID 사용`);
+    }
     console.log(`🆔 Project ID: ${projectId}`);
 
     // 3. phase_progress.json 읽기
