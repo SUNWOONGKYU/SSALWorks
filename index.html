@@ -8981,8 +8981,9 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
         }
 
         // Dev Package 다운로드 후 등록 완료 처리
-        function downloadDevPackageAndComplete() {
+        async function downloadDevPackageAndComplete() {
             const projectName = window.registeredProjectName;
+            const projectId = window.registeredProjectId;
 
             // Dev Package 파일 URL (Google Drive 직접 다운로드 링크 - mypage와 동일)
             const devPackageUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
@@ -8996,6 +8997,24 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             link.click();
             document.body.removeChild(link);
 
+            // DB 업데이트: registration_complete = true
+            if (projectId && window.supabaseClient) {
+                try {
+                    const { error } = await window.supabaseClient
+                        .from('projects')
+                        .update({ registration_complete: true })
+                        .eq('project_id', projectId);
+
+                    if (error) {
+                        console.error('registration_complete 업데이트 실패:', error);
+                    } else {
+                        console.log('✅ registration_complete = true 업데이트 완료');
+                    }
+                } catch (err) {
+                    console.error('DB 업데이트 오류:', err);
+                }
+            }
+
             // Step 3으로 전환 (완료 화면)
             document.getElementById('projectRegStep2').style.display = 'none';
             document.getElementById('projectRegStep3').style.display = 'block';
@@ -9006,6 +9025,31 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             // 상태 업데이트
             window.projectRegInStep2 = false;
             showStatus('🎉 프로젝트 등록 완료! Dev Package 다운로드가 시작되었습니다.', 'success');
+        }
+
+        // 미완료 등록 프로젝트 모달 표시 (Dev Package 다운로드 필요)
+        function showIncompleteRegistrationModal(projectId, projectName) {
+            // 프로젝트 정보 저장
+            window.registeredProjectId = projectId;
+            window.registeredProjectName = projectName;
+            window.projectRegInStep2 = true;
+
+            // 모달 열기
+            const modal = document.getElementById('addProjectModal');
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+
+            // Step 2 표시 (Dev Package 다운로드 단계)
+            document.getElementById('projectRegStep1').style.display = 'none';
+            document.getElementById('projectRegStep2').style.display = 'block';
+            document.getElementById('projectRegStep3').style.display = 'none';
+            document.getElementById('registeredProjectName').textContent = projectName;
+            document.getElementById('projectModalTitle').textContent = '📦 프로젝트 등록 완료하기';
+
+            // 닫기 버튼 비활성화 (다운로드 완료 전까지)
+            document.getElementById('projectModalCloseBtn').style.display = 'none';
+
+            console.log('⚠️ 미완료 등록 모달 표시:', projectName);
         }
 
         // 프로젝트 등록 완료 후 모달 닫기 (최종)
@@ -12347,6 +12391,29 @@ ${result.answer}`;
 
                 // 진행중 프로젝트 표시
                 const project = projects[0];
+
+                // 등록이 완료되지 않은 프로젝트인지 확인 (Dev Package 미다운로드)
+                if (project.registration_complete === false) {
+                    console.log('⚠️ 프로젝트 등록 미완료 (Dev Package 미다운로드):', project.project_name);
+
+                    // 등록 미완료 프로젝트 표시 (클릭 시 등록 완료 모달 표시)
+                    currentProjectList.innerHTML = `
+                        <div class="project-list-item" onclick="showIncompleteRegistrationModal('${project.project_id}', '${project.project_name}')" style="border-left: 3px solid #F59E0B;">
+                            <span class="project-name">${project.project_name}</span>
+                            <span class="project-status" style="background: rgba(245, 158, 11, 0.1); color: #D97706;">등록 미완료</span>
+                        </div>
+                    `;
+
+                    // 자동으로 등록 완료 모달 표시
+                    setTimeout(() => {
+                        showIncompleteRegistrationModal(project.project_id, project.project_name);
+                    }, 500);
+
+                    // 진행 프로세스 모두 0%로 초기화 (등록 미완료)
+                    resetAllProgressToZero();
+                    return;
+                }
+
                 currentProjectList.innerHTML = `
                     <div class="project-list-item selected" onclick="completeProject('${project.project_id}', '${project.project_name}')">
                         <span class="project-name">${project.project_name}</span>
