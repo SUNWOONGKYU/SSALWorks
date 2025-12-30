@@ -12323,37 +12323,22 @@ ${result.answer}`;
                 `;
 
                 const modal = document.createElement('div');
-
-                // 화면 중앙에 표시 (다른 팝업과 동일)
-                modal.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: white;
-                    border-radius: 12px;
-                    max-width: 855px;
-                    width: 90%;
-                    max-height: 30vh;
-                    overflow-y: auto;
-                    box-shadow: var(--shadow-lg);
-                `;
+                modal.className = 'notice-detail-modal';
 
                 modal.innerHTML = `
-                    <div style="padding: 24px; border-bottom: 1px solid #dee2e6;">
-                        <h3 style="margin: 0; font-size: 20px; color: #212529;">
+                    <div class="notice-detail-header">
+                        <h3 class="notice-detail-title">
                             📢 ${safeTitle}${importanceBadge}
                         </h3>
-                        <div style="margin-top: 8px; font-size: 13px; color: #6c757d;">
+                        <div class="notice-detail-date">
                             작성일시: ${createdDateTime}
                         </div>
                     </div>
-                    <div style="padding: 24px; line-height: 1.6; color: #495057; font-size: 14px;">
+                    <div class="notice-detail-content">
                         ${safeContent}
                     </div>
-                    <div style="padding: 16px 24px; border-top: 1px solid #dee2e6; text-align: right;">
-                        <button onclick="this.closest('.notice-modal-overlay').remove()"
-                                style="padding: 8px 24px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500;">
+                    <div class="notice-detail-footer">
+                        <button class="notice-detail-close-btn" onclick="this.closest('.notice-modal-overlay').remove()">
                             닫기
                         </button>
                     </div>
