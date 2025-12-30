@@ -36,6 +36,18 @@
 - 팝업 콘텐츠 가독성: ✅ 개선됨
 - 터치 영역: ✅ 적절한 크기
 
+**추가 작업 - CSS 리팩토링 (!important 제거)**:
+
+UI/UX 검증 에이전트가 `!important` 과다 사용 문제를 지적하여 수정함:
+
+| 변경 | 설명 |
+|------|------|
+| 기본 CSS 추가 | `#guidePopup` 기본 스타일을 CSS로 이동 (line 2331-2385) |
+| inline style 제거 | HTML에서 `style="..."` 속성 제거 (line 10811) |
+| !important 제거 | 모바일 미디어 쿼리에서 !important 없이 동작 (line 2904-2931) |
+
+**검증 결과**: ✅ guidePopup CSS에서 !important 0개 확인
+
 ---
 
 ### PoliticianFinder 알림 배지 실시간 업데이트 ✅
