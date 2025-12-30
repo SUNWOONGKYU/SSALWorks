@@ -8167,15 +8167,22 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
 
-                console.log('[AI Tutor] 빌더 계정 확인됨. 모달 열기...');
+                console.log('[AI Tutor] 빌더 계정 확인됨.');
 
+                // 모바일: 새 탭으로 열기 (iframe 호환성 문제)
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    console.log('[AI Tutor] 모바일 - 새 탭으로 열기');
+                    window.open(iframe.dataset.src, '_blank');
+                    return;
+                }
+
+                // PC: 모달로 열기
                 overlay.style.display = 'block';
                 expanded.style.display = 'block';
-                // 초기 위치 중앙으로 리셋
                 expanded.style.top = '50%';
                 expanded.style.left = '50%';
                 expanded.style.transform = 'translate(-50%, -50%)';
-                // iframe 지연 로드 (처음 열 때만)
                 if (!iframe.src && iframe.dataset.src) {
                     iframe.src = iframe.dataset.src;
                 }
