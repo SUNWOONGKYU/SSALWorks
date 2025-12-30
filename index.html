@@ -2134,6 +2134,10 @@
 
         /* Service Intro Modal - Responsive Design */
         @media (max-width: 768px) {
+            /* 모바일에서 목차(TOC) 숨김 - 헤더 nav가 아닌 콘텐츠 내부 nav */
+            #serviceIntroModal .grid-fullscreen-content nav {
+                display: none !important;
+            }
             #serviceIntroModal nav {
                 padding: 0 16px !important;
                 height: 56px !important;
