@@ -181,7 +181,7 @@ module.exports = async (req, res) => {
 
         console.log('Creating project:', { builderId, userId, projectId, projectName: projectName.trim() });
 
-        // 6. 프로젝트 생성
+        // 6. 프로젝트 생성 (registration_complete: false - Dev Package 다운로드 전)
         const { data: newProject, error: insertError } = await supabase
             .from('projects')
             .insert({
@@ -192,7 +192,8 @@ module.exports = async (req, res) => {
                 status: 'in_progress',
                 progress: 0,
                 current_stage: 0,
-                total_stages: 5
+                total_stages: 5,
+                registration_complete: false  // Dev Package 다운로드 후 true로 변경
             })
             .select()
             .single();

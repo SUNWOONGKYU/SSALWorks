@@ -11137,7 +11137,7 @@ ${result.answer}`;
                     <!-- 정보 등록 완료 안내 -->
                     <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: center;">
                         <div style="font-size: 32px; margin-bottom: 8px;">✅</div>
-                        <div style="font-weight: 700; color: #059669; font-size: 16px;">프로젝트 정보가 등록되었습니다!</div>
+                        <div style="font-weight: 700; color: #059669; font-size: 16px;">프로젝트 정보가 입력되었습니다!</div>
                         <div style="color: #6b7280; font-size: 13px; margin-top: 4px;">프로젝트명: <strong id="registeredProjectName"></strong></div>
                     </div>
 
@@ -12394,19 +12394,23 @@ ${result.answer}`;
 
                 // 등록이 완료되지 않은 프로젝트인지 확인 (Dev Package 미다운로드)
                 if (project.registration_complete === false) {
-                    console.log('⚠️ 프로젝트 등록 미완료 (Dev Package 미다운로드):', project.project_name);
+                    console.log('⚠️ 프로젝트 등록 미완료 (개발환경 설정 필요):', project.project_name);
 
-                    // 등록 미완료 프로젝트 표시 (클릭 시 등록 완료 모달 표시)
+                    // 등록 미완료 프로젝트 표시 (클릭 시 안내문 표시)
                     currentProjectList.innerHTML = `
-                        <div class="project-list-item" onclick="showIncompleteRegistrationModal('${project.project_id}', '${project.project_name}')" style="border-left: 3px solid #F59E0B;">
+                        <div class="project-list-item" onclick="showPackageInstallGuide()" style="border-left: 3px solid #F59E0B;">
                             <span class="project-name">${project.project_name}</span>
-                            <span class="project-status" style="background: rgba(245, 158, 11, 0.1); color: #D97706;">등록 미완료</span>
+                            <span class="project-status" style="background: rgba(245, 158, 11, 0.1); color: #D97706;">설정 필요</span>
                         </div>
                     `;
 
-                    // 자동으로 등록 완료 모달 표시
+                    // 프로젝트 ID 저장 (안내문에서 사용)
+                    window.registeredProjectId = project.project_id;
+                    window.registeredProjectName = project.project_name;
+
+                    // 자동으로 개발환경 설정 안내문 표시
                     setTimeout(() => {
-                        showIncompleteRegistrationModal(project.project_id, project.project_name);
+                        showPackageInstallGuide();
                     }, 500);
 
                     // 진행 프로세스 모두 0%로 초기화 (등록 미완료)

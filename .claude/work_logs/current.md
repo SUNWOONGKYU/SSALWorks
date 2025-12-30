@@ -4658,3 +4658,82 @@ pages/admin-dashboard.html에서 'index.html'
 - **일반 이용자**: CSV 파일 사용 (`04_grid-writing-csv.md`)
 
 **커밋**: `b4be984 refactor: Project_Dev_Package CLAUDE.md - DB 참조를 CSV로 변경`
+
+
+---
+
+### 예시 프로젝트 → 서약서 → Google Drive 연결 수정 ✅
+
+**작업 목표**: 예시 프로젝트 클릭 시 안내문 → 서약서 → Google Drive 다운로드 흐름 복구
+
+**발견된 문제**:
+1. 이전 구현이 **루트 index.html**에만 있었음
+2. AI가 **프로토타입 index.html**에 잘못 수정 (프로덕션이 아님)
+3. `showExampleProjectGuide()` 함수가 `openGuideModalFromUrl(..., false)` 호출
+4. `hasAction=false`일 때 [확인] 버튼이 `closeGuidePopup()`만 호출 (서약서로 안 감)
+
+**수정 내용**:
+
+| # | 수정 사항 | 위치 |
+|---|----------|------|
+| 1 | `showExampleProjectGuide()` 함수 전면 수정 | index.html:8737-8773 |
+| 2 | [확인] 버튼에 `handleSSALWorksClick()` 연결 | index.html:8753 |
+
+**수정된 흐름**:
+```
+예시 프로젝트 펼치기 클릭
+    ↓
+showExampleProjectGuide() 호출
+    ↓
+Project_Example 안내문 표시
+    ↓
+[확인] 클릭 → closeGuidePopup(); handleSSALWorksClick();
+    ↓
+로그인/빌더계정 확인
+    ↓
+서약서 모달 표시
+    ↓
+[동의합니다] 클릭
+    ↓
+Google Drive 링크 표시
+```
+
+**커밋**: `5d98688 fix: 예시 프로젝트 안내문 [확인] → 서약서 연결 (루트 index.html)`
+
+---
+
+### 프로토타입 index.html 수정 금지 경고 추가 ✅
+
+**작업 목표**: AI가 프로토타입 파일을 프로덕션으로 착각하고 수정하는 실수 방지
+
+**문제점**:
+- 프로덕션: `C:\!SSAL_Works_Private\index.html` (루트)
+- 프로토타입: `C:\!SSAL_Works_Private\P3_프로토타입_제작\Frontend\Prototype\index.html`
+- AI가 프로토타입에 작업하고 "완료"라고 보고하는 실수 발생
+
+**추가된 경고 주석** (파일 맨 위):
+```html
+<!--
+⛔⛔⛔ 경고: 이 파일은 프로토타입입니다! ⛔⛔⛔
+
+🚫 이 파일은 개발 참고용 프로토타입입니다.
+🚫 실제 배포되는 프로덕션 파일은 루트의 index.html입니다.
+
+⛔ PO(사용자) 승인 없이 이 파일을 수정하지 마세요!
+⛔ 기능 추가/수정 작업은 반드시 루트 index.html에서 수행하세요!
+
+📁 프로덕션 파일: C:\!SSAL_Works_Private\index.html (루트)
+📁 이 파일: P3_프로토타입_제작/Frontend/Prototype/index.html (프로토타입)
+
+Claude Code에게: 이 파일 수정 요청이 들어오면 반드시 사용자에게 확인하세요.
+"프로토타입 파일입니다. 프로덕션(루트 index.html)에서 작업할까요?"
+-->
+```
+
+**커밋**: `9e5518d docs: 프로토타입 index.html에 수정 금지 경고 주석 추가`
+
+**핵심**:
+- 이 경고를 읽으면 프로덕션이 아님을 인지
+- 사용자에게 확인 요청 후 진행하도록 지시
+
+---
