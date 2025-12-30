@@ -96,12 +96,12 @@ function readProgressJson() {
 // ============================================
 
 async function upsertToSupabase(env, projectId, phases) {
-    const url = `${env.SUPABASE_URL}/rest/v1/project_phase_progress`;
+    const url = `${env.SUPABASE_URL}/rest/v1/project_phase_progress?on_conflict=project_id,phase_code`;
     const headers = {
         'apikey': env.SUPABASE_SERVICE_ROLE_KEY,
         'Authorization': `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
         'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplicates'
+        'Prefer': 'return=minimal,resolution=merge-duplicates'
     };
 
     // 각 Phase별로 UPSERT
