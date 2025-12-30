@@ -505,7 +505,7 @@
             .header-title { font-size: 13px; }
             .header-subtitle { display: none; }
             .home-btn { display: none; }
-            .close-btn { padding: 10px 14px; font-size: 11px; min-height: 44px; min-width: 44px; }
+            .close-btn { padding: 5px 12px; font-size: 12px; background: #6c757d; border: none; }
             .markdown-body { font-size: 14px; }
             .markdown-body h1 { font-size: 18px; }
             .markdown-body h2 { font-size: 16px; }
@@ -902,6 +902,7 @@
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
             sidebar.classList.toggle('active');
+            sidebar.classList.toggle('open');  // responsive.css 호환
             overlay.classList.toggle('active');
         }
 
@@ -910,6 +911,7 @@
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
             sidebar.classList.remove('active');
+            sidebar.classList.remove('open');  // responsive.css 호환
             overlay.classList.remove('active');
         }
 
