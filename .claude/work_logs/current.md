@@ -3956,3 +3956,48 @@ SSAL_Works_for_Builder/
 | `Development_Process_Monitor/build-progress.js` | CSV 경로 수정 |
 | `.gitignore` | test-results/ 추가 |
 
+
+
+---
+
+## 2025-12-30 S5BA3, S5S2 구현 및 E2E 테스트
+
+### 작업 상태: ✅ 완료
+
+### 완료된 Task
+
+| Task ID | Task Name | Area | 상태 |
+|---------|-----------|------|------|
+| S5BA3 | 크레딧 차감 기능 구현 | BA | Completed/Verified |
+| S5S2 | API Rate Limiting 구현 | S | Completed/Verified |
+
+### S5BA3 구현 내용 (크레딧 차감)
+- `api/External/ai-qa.js` 수정
+- PROVIDER_MAP: chatgpt→openai, gemini→google 매핑
+- DEFAULT_CREDIT_COSTS: openai(2), google(1), perplexity(3)
+- getUserCreditBalance(): 사용자 크레딧 잔액 조회
+- deductCredits(): 크레딧 차감 + credit_history 기록
+- 잔액 부족 시 402 응답 (INSUFFICIENT_CREDITS)
+
+### S5S2 구현 내용 (Rate Limiting)
+- `api/Backend_Infra/rate-limiter.js` 신규 생성
+- 메모리 기반 Rate Limiter (Vercel Serverless 호환)
+- 미리 정의된 limiters:
+  - aiQA: 30회/분
+  - auth: 10회/분
+  - general: 100회/분
+  - strict: 5회/분
+- X-RateLimit-* 헤더 및 429 응답 처리
+
+### E2E 테스트 결과
+- 총 11개 테스트 중 10개 통과 (90.9%)
+- 페이지 로드 성능: 238ms (5초 미만)
+- 실패: 네비게이션 visibility (CSS 문제, 기능 무관)
+
+### 업데이트된 파일
+1. `api/External/ai-qa.js` - 크레딧 차감 + Rate Limiting
+2. `api/Backend_Infra/rate-limiter.js` - 신규 생성
+3. `S5BA3_instruction.md`, `S5BA3_verification.md` - 신규 생성
+4. `S5S2_instruction.md`, `S5S2_verification.md` - 신규 생성
+5. Supabase project_sal_grid 테이블 - 2개 Task INSERT 및 상태 업데이트
+

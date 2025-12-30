@@ -75,8 +75,8 @@ module.exports = defineConfig({
         },
     ],
 
-    // 로컬 개발 서버
-    webServer: {
+    // 로컬 개발 서버 (BASE_URL이 설정되면 건너뜀)
+    webServer: process.env.BASE_URL ? undefined : {
         command: 'npx vercel dev --listen 3000',
         url: 'http://localhost:3000',
         reuseExistingServer: !process.env.CI,

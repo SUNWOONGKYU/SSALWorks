@@ -1,12 +1,12 @@
-# SSAL Works Dev Package 설명서
+# Dev Package 설명서
 
 > AI와 협업하여 웹 프로젝트를 완성하는 올인원 개발 패키지
 
 ---
 
-## 1. SSAL Works Dev Package란?
+## 1. Dev Package란?
 
-**SSAL Works Dev Package**는 Claude Code(AI)와 함께 웹 프로젝트를 처음부터 끝까지 수행할 수 있도록 설계된 **통합 개발 환경 패키지**입니다.
+**Dev Package**는 Claude Code(AI)와 함께 웹 프로젝트를 처음부터 끝까지 수행할 수 있도록 설계된 **통합 개발 환경 패키지**입니다.
 
 ### 핵심 정체성
 
@@ -253,7 +253,7 @@ claude
 
 ---
 
-**SSAL Works Dev Package**
+**Dev Package**
 
 *AI와 함께 웹 프로젝트를 완성하는 가장 빠른 방법*
 
