@@ -610,116 +610,6 @@
             display: block;
         }
 
-        /* Project Card Styles */
-        .project-card-item {
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
-            transition: all 0.2s;
-        }
-
-        .project-card-item:hover {
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .project-card-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .project-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-        }
-
-        .project-card-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 4px;
-        }
-
-        .project-card-id {
-            font-size: 12px;
-            color: var(--gray-500);
-            font-family: monospace;
-        }
-
-        .project-card-status {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .project-card-status.in_progress {
-            background: rgba(59, 130, 246, 0.1);
-            color: #3B82F6;
-        }
-
-        .project-card-status.completed {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-        }
-
-        .project-card-status.archived {
-            background: var(--gray-100);
-            color: var(--gray-500);
-        }
-
-        .project-progress-bar {
-            height: 8px;
-            background: var(--gray-200);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 8px;
-        }
-
-        .project-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-        }
-
-        .project-progress-text {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .project-card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 16px;
-            padding-top: 12px;
-            border-top: 1px solid var(--gray-100);
-        }
-
-        .project-card-date {
-            font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .project-card-actions a {
-            padding: 6px 12px;
-            background: var(--primary);
-            color: white;
-            border-radius: 6px;
-            font-size: 12px;
-            text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .project-card-actions a:hover {
-            background: var(--primary-dark);
-        }
-
         /* Mobile Responsive - Navigation */
         @media (max-width: 768px) {
             .nav {
@@ -944,48 +834,6 @@
                                 <button type="submit" class="btn-edit">저장하기</button>
                             </div>
                         </form>
-                    </div>
-                </section>
-
-                <!-- Projects Section -->
-                <section class="section" id="projectsSection">
-                    <div class="stats-grid" style="margin-bottom: 24px;">
-                        <div class="stat-card">
-                            <div class="stat-icon">📁</div>
-                            <div class="stat-value" id="projectTotal">0</div>
-                            <div class="stat-label">전체 프로젝트</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">🔄</div>
-                            <div class="stat-value" id="projectInProgress">0</div>
-                            <div class="stat-label">진행 중</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-icon">✅</div>
-                            <div class="stat-value" id="projectCompleted">0</div>
-                            <div class="stat-label">완료</div>
-                        </div>
-                    </div>
-
-                    <!-- 빌더 계정 개설비 미납 안내 -->
-                    <div class="card" id="projectFeeNotice" style="display: none; text-align: center; padding: 40px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(217, 119, 6, 0.1) 100%); border: 2px solid var(--secondary);">
-                        <div style="font-size: 48px; margin-bottom: 16px;">🏠</div>
-                        <h3 style="color: var(--secondary-dark); margin-bottom: 12px;">빌더 계정 개설비 납부가 필요합니다</h3>
-                        <p style="color: var(--gray-700); margin-bottom: 24px; line-height: 1.6;">
-                            프로젝트를 등록하려면 먼저 빌더 계정 개설비를 납부해주세요.<br>
-                            빌더 계정 개설비 납부 시 ₩5,000 무료 크레딧이 지급됩니다!
-                        </p>
-                        <a href="../payment/installation.html" class="btn-edit" style="display: inline-block; background: #2C4A8A; text-decoration: none;">빌더 계정 개설비 안내 보기</a>
-                    </div>
-
-                    <!-- 프로젝트 목록 -->
-                    <div class="card" id="projectListCard">
-                        <div class="card-header">
-                            <h3 class="card-title">내 프로젝트</h3>
-                        </div>
-                        <div id="projectListContainer" style="color: var(--gray-500); text-align: center; padding: 40px;">
-                            로딩 중...
-                        </div>
                     </div>
                 </section>
 
@@ -1359,7 +1207,6 @@
         let currentUser = null;
         let userData = null;
         let isEditMode = false;
-        let userProjects = [];
 
         // ========== 초기화 ==========
         document.addEventListener('DOMContentLoaded', async () => {
@@ -1403,7 +1250,6 @@
 
                 userData = data;
                 renderProfile();
-                renderProjects();
                 renderSubscription();
                 renderCredit();
                 renderSecurity();
@@ -1448,114 +1294,6 @@
             document.getElementById('editRealName').value = userData.real_name || '';
             document.getElementById('editPhone').value = userData.phone || '';
             document.getElementById('editMarketing').value = userData.marketing_agreed ? 'true' : 'false';
-        }
-
-        // ========== 프로젝트 렌더링 ==========
-        async function renderProjects() {
-            if (!userData) return;
-
-            const feeNotice = document.getElementById('projectFeeNotice');
-            const listCard = document.getElementById('projectListCard');
-            const newBtn = document.getElementById('newProjectBtnMypage');
-
-            // 빌더 계정 개설비 미납 시
-            if (!userData.installation_fee_paid) {
-                feeNotice.style.display = 'block';
-                listCard.style.display = 'none';
-                document.getElementById('projectTotal').textContent = '-';
-                document.getElementById('projectInProgress').textContent = '-';
-                document.getElementById('projectCompleted').textContent = '-';
-                return;
-            }
-
-            feeNotice.style.display = 'none';
-            listCard.style.display = 'block';
-
-            // 프로젝트 목록 로드
-            try {
-                const { data, error } = await supabaseClient
-                    .from('projects')
-                    .select('*')
-                    .eq('user_id', userData.user_id)
-                    .order('created_at', { ascending: false });
-
-                if (error) throw error;
-
-                userProjects = data || [];
-
-                // 통계 업데이트
-                document.getElementById('projectTotal').textContent = userProjects.length;
-                document.getElementById('projectInProgress').textContent =
-                    userProjects.filter(p => p.status === 'in_progress').length;
-                document.getElementById('projectCompleted').textContent =
-                    userProjects.filter(p => p.status === 'completed').length;
-
-                // 진행 중인 프로젝트가 있으면 새 프로젝트 버튼 비활성화
-                const hasInProgress = userProjects.some(p => p.status === 'in_progress');
-                if (hasInProgress) {
-                    newBtn.style.opacity = '0.5';
-                    newBtn.style.pointerEvents = 'none';
-                    newBtn.title = '진행 중인 프로젝트 완료 후 등록 가능';
-                }
-
-                // 목록 렌더링
-                renderProjectList();
-
-            } catch (error) {
-                console.error('Failed to load projects:', error);
-                document.getElementById('projectListContainer').innerHTML =
-                    '<p style="color: var(--danger);">프로젝트를 불러오는데 실패했습니다.</p>';
-            }
-        }
-
-        function renderProjectList() {
-            const container = document.getElementById('projectListContainer');
-
-            if (userProjects.length === 0) {
-                container.innerHTML = `
-                    <div style="padding: 40px; text-align: center;">
-                        <div style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;">📁</div>
-                        <p style="color: var(--gray-700); font-weight: 600; margin-bottom: 8px;">등록된 프로젝트가 없습니다</p>
-                        <p style="color: var(--gray-500); font-size: 14px;">새 프로젝트를 등록하고 개발을 시작하세요!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = userProjects.map(project => {
-                const statusText = {
-                    'in_progress': '진행 중',
-                    'completed': '완료',
-                    'archived': '보관됨'
-                }[project.status] || project.status;
-
-                return `
-                    <div class="project-card-item">
-                        <div class="project-card-header">
-                            <div>
-                                <div class="project-card-name">${sanitize(project.project_name)}</div>
-                                <div class="project-card-id">${sanitize(project.project_id)}</div>
-                            </div>
-                            <span class="project-card-status ${project.status}">${statusText}</span>
-                        </div>
-                        <div class="project-progress-bar">
-                            <div class="project-progress-fill" style="width: ${project.progress}%"></div>
-                        </div>
-                        <div class="project-progress-text">
-                            <span>Phase ${project.current_stage}/${project.total_stages}</span>
-                            <span>${project.progress}%</span>
-                        </div>
-                        <div class="project-card-footer">
-                            <span class="project-card-date">
-                                생성: ${formatDate(project.created_at)}
-                            </span>
-                            <div class="project-card-actions">
-                                <a href="../projects/index.html">상세보기</a>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
         }
 
         // ========== 서비스 이용 현황 렌더링 ==========
