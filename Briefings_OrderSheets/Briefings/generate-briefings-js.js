@@ -43,59 +43,62 @@ function findMdFiles(dir, fileList = []) {
 
 /**
  * Markdown을 간단한 HTML로 변환
+ *
+ * 가독성 개선 버전:
+ * - 폰트 크기: 본문 14px, 작은 텍스트 13px
+ * - 코드 블록(```) 지원
+ * - 들여쓰기 하위 항목 처리
  */
 function mdToHtml(md) {
     let html = md;
 
-    // 제목 변환 (크기: h1=18px, h2=14px, h3=13px)
-    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 20px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #333;">$1</h3>');
-    html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 24px; margin-bottom: 12px; font-size: 14px; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">$1</h2>');
-    html = html.replace(/^# (.+)$/gm, '<h1 style="margin-top: 0; margin-bottom: 16px; font-size: 18px; font-weight: 700; color: var(--primary-dark);">$1</h1>');
+    // 1. 코드 블록(```) 먼저 처리 - 다른 변환에 영향 안 주도록
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+        const escapedCode = code
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .trim();
+        return `<pre style="background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; line-height: 1.5;"><code>${escapedCode}</code></pre>`;
+    });
 
-    // 굵은 글씨
+    // 2. 들여쓰기 하위 항목 처리 (   - 로 시작하는 줄)
+    html = html.replace(/^   - (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 6px; font-size: 14px; line-height: 1.7; color: #555;">• $1</div>');
+
+    // 3. 제목 변환 (크기: h1=20px, h2=16px, h3=14px)
+    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 20px; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: #333;">$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 28px; margin-bottom: 14px; font-size: 16px; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">$1</h2>');
+    html = html.replace(/^# (.+)$/gm, '<h1 style="margin-top: 0; margin-bottom: 18px; font-size: 20px; font-weight: 700; color: var(--primary-dark);">$1</h1>');
+
+    // 4. 굵은 글씨
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
-    // 기울임
+    // 5. 기울임
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
-    // 인라인 코드
-    html = html.replace(/`([^`]+)`/g, '<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">$1</code>');
+    // 6. 인라인 코드 (코드 블록 내부가 아닌 경우만)
+    html = html.replace(/`([^`\n]+)`/g, '<code style="background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-family: Consolas, Monaco, monospace;">$1</code>');
 
-    // 인용문 (> 로 시작하는 줄)
-    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0; color: #555; font-size: 13px; line-height: 1.7;">$1</blockquote>');
+    // 7. 인용문 (> 로 시작하는 줄)
+    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0; color: #555; font-size: 14px; line-height: 1.7; background: #f8f9fa; padding: 12px 16px; border-radius: 0 6px 6px 0;">$1</blockquote>');
 
-    // 수평선
-    html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #ddd; margin: 24px 0;">');
+    // 8. 수평선
+    html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #e0e0e0; margin: 28px 0;">');
 
-    // 테이블 변환
-    html = html.replace(/\|(.+)\|/g, (match) => {
-        const cells = match.split('|').filter(c => c.trim());
-        if (cells.every(c => c.trim().match(/^[-:]+$/))) {
-            return ''; // 구분선 행 제거
-        }
-        const cellHtml = cells.map(c => `<td style="padding: 8px; border: 1px solid #ddd; font-size: 13px; line-height: 1.7;">${c.trim()}</td>`).join('');
-        return `<tr>${cellHtml}</tr>`;
-    });
-
-    // 빈 줄을 기준으로 테이블 감싸기
-    html = html.replace(/(<tr>.+<\/tr>\n?)+/g, (match) => {
-        return `<table style="width: 100%; border-collapse: collapse; margin: 16px 0;">${match}</table>`;
-    });
-
-    // 리스트 변환 (- 로 시작)
-    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 8px; font-size: 13px; line-height: 1.7;">$1</li>');
+    // 9. 리스트 변환 (- 로 시작)
+    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 10px; font-size: 14px; line-height: 1.7;">$1</li>');
     html = html.replace(/(<li.+<\/li>\n?)+/g, (match) => {
-        return '<ul style="padding-left: 20px; margin: 16px 0;">' + match + '</ul>';
+        return '<ul style="padding-left: 24px; margin: 16px 0;">' + match + '</ul>';
     });
 
-    // 숫자 리스트
-    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 8px; font-size: 13px; line-height: 1.7;">$1</li>');
+    // 10. 숫자 리스트
+    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 10px; font-size: 14px; line-height: 1.7;">$1</li>');
 
-    // 단락 (빈 줄로 구분된 텍스트) - 블록 요소만 제외, 인라인 요소는 <p>로 감쌈
+    // 11. 단락 (빈 줄로 구분된 텍스트) - 블록 요소만 제외
     const blockTags = /^<(h[1-6]|ul|ol|li|table|tr|td|th|blockquote|hr|div|pre|p)/;
     html = html.split('\n\n').map(para => {
         if (blockTags.test(para) || para.trim() === '') return para;
-        return '<p style="margin: 16px 0; font-size: 13px; line-height: 1.7;">' + para + '</p>';
+        return '<p style="margin: 16px 0; font-size: 14px; line-height: 1.8;">' + para + '</p>';
     }).join('\n');
 
     return html;
