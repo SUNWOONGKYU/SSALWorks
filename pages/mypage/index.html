@@ -1334,7 +1334,7 @@
                 const { data: { session }, error } = await supabaseClient.auth.getSession();
 
                 if (error || !session) {
-                    window.location.href = 'login.html';
+                    window.location.href = '../auth/login.html';
                     return;
                 }
 
@@ -1343,7 +1343,7 @@
 
             } catch (error) {
                 console.error('Auth check error:', error);
-                window.location.href = 'login.html';
+                window.location.href = '../auth/login.html';
             } finally {
                 hideLoading();
             }
@@ -2143,7 +2143,7 @@
         async function logout() {
             try {
                 await supabaseClient.auth.signOut();
-                window.location.href = 'login.html';
+                window.location.href = '../auth/login.html';
             } catch (error) {
                 console.error('Logout error:', error);
                 showToast('로그아웃에 실패했습니다.', 'error');

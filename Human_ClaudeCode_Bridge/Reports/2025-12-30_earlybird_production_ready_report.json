@@ -4,7 +4,6 @@
   "title": "얼리버드 프로덕션 런칭 준비 완료 보고서",
   "status": "completed",
   "summary": "얼리버드 프로덕션 서비스 런칭을 위한 핵심 기능 구현 완료",
-  
   "tasks_completed": [
     {
       "task_id": "S5BA3",
@@ -19,7 +18,9 @@
           "credit_history 테이블에 사용 이력 기록",
           "API 응답에 creditUsed, remainingBalance 포함"
         ],
-        "files_modified": ["api/External/ai-qa.js"]
+        "files_modified": [
+          "api/External/ai-qa.js"
+        ]
       }
     },
     {
@@ -40,8 +41,12 @@
           "X-RateLimit-* 헤더 자동 포함",
           "초과 시 429 응답 + Retry-After"
         ],
-        "files_created": ["api/Backend_Infra/rate-limiter.js"],
-        "files_modified": ["api/External/ai-qa.js"]
+        "files_created": [
+          "api/Backend_Infra/rate-limiter.js"
+        ],
+        "files_modified": [
+          "api/External/ai-qa.js"
+        ]
       }
     },
     {
@@ -56,20 +61,20 @@
           "credit_balance += 50,000",
           "credit_history에 '빌더 계정 아이디 생성 - 초기 크레딧 지급' 기록"
         ],
-        "files_created": ["S1_개발_준비/Database/29_builder_credit_trigger.sql"]
+        "files_created": [
+          "S1_개발_준비/Database/29_builder_credit_trigger.sql"
+        ]
       }
     }
   ],
-  
   "e2e_test_results": {
     "total": 11,
-    "passed": 10,
-    "failed": 1,
-    "pass_rate": "90.9%",
-    "page_load_time": "238ms",
-    "failed_test": "네비게이션 visibility (CSS 문제, 기능 무관)"
+    "passed": 11,
+    "failed": 0,
+    "pass_rate": "100%",
+    "page_load_time": "455ms",
+    "failed_test": null
   },
-  
   "production_readiness": {
     "authentication": "✅ Ready",
     "ai_qa": "✅ Ready (PO tested)",
@@ -79,7 +84,6 @@
     "payment": "⚠️ Bank transfer only (manual)",
     "overall": "✅ Ready for Earlybird Launch"
   },
-  
   "files_summary": {
     "created": [
       "api/Backend_Infra/rate-limiter.js",
@@ -91,12 +95,15 @@
     ],
     "modified": [
       "api/External/ai-qa.js",
-      "S1_개발_준비/Testing/playwright.config.js"
+      "S1_개발_준비/Testing/playwright.config.js",
+      "S1_개발_준비/Testing/tests/e2e/homepage.spec.js"
     ]
   },
-  
   "database_updates": {
-    "supabase_tasks": ["S5BA3 Completed/Verified", "S5S2 Completed/Verified"],
+    "supabase_tasks": [
+      "S5BA3 Completed/Verified",
+      "S5S2 Completed/Verified"
+    ],
     "trigger_created": "grant_builder_initial_credit (빌더 계정 아이디 생성 시 50,000 크레딧)"
   }
 }
