@@ -4222,7 +4222,8 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                 confirmMessage: '',
                 orderSheetAfterExecute: '',
                 orderSheet: '',
-                guideUrl: 'guides/Project_Example.html'
+                guideUrl: 'guides/Project_Example.html',
+                nextGuide: 'Pledge_Agreement'  // [확인] 시 서약서로 이동
             },
 
             // ===== 실제 프로젝트 선택 =====
@@ -5149,10 +5150,14 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
                     </div>
                     `;
                 } else {
+                    // nextGuide가 있으면 다음 안내문으로 이동, 없으면 닫기
+                    const nextGuideAction = currentStageData && currentStageData.nextGuide
+                        ? `openNextGuide('${currentStageData.nextGuide}')`
+                        : 'closeGuidePopup()';
                     buttonSection = `
                     <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
                         <div style="display: flex; justify-content: center;">
-                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
+                            <button onclick="${nextGuideAction}" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
                         </div>
                     </div>
                     `;
@@ -5259,6 +5264,78 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         function closeGuidePopup() {
             const popup = document.getElementById('guidePopup');
             popup.style.display = 'none';
+        }
+
+        // 다음 안내문으로 이동 (예: Project_Example → Pledge_Agreement)
+        function openNextGuide(guideKey) {
+            const popupContent = document.getElementById('guidePopupContent');
+            const popupTitle = document.getElementById('guidePopupTitle');
+
+            // GUIDE_CONTENTS에서 HTML 콘텐츠 가져오기
+            const htmlContent = (typeof GUIDE_CONTENTS !== 'undefined') ? GUIDE_CONTENTS[guideKey] : null;
+
+            if (htmlContent) {
+                // 서약서인 경우 특별 처리
+                if (guideKey === 'Pledge_Agreement') {
+                    popupTitle.textContent = '📜 서약서';
+
+                    // 서약서 버튼: [동의] → Google Drive 링크 표시
+                    const buttonSection = `
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+                        <div style="display: flex; gap: 12px; justify-content: center;">
+                            <button onclick="showGoogleDriveLink()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">동의합니다</button>
+                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
+                        </div>
+                    </div>
+                    `;
+                    popupContent.innerHTML = htmlContent + buttonSection;
+                } else {
+                    popupTitle.textContent = `📖 ${guideKey} 안내`;
+                    const buttonSection = `
+                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+                        <div style="display: flex; justify-content: center;">
+                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
+                        </div>
+                    </div>
+                    `;
+                    popupContent.innerHTML = htmlContent + buttonSection;
+                }
+            } else {
+                console.error('다음 안내문 로드 오류:', guideKey);
+                closeGuidePopup();
+            }
+        }
+
+        // Google Drive 다운로드 링크 표시
+        function showGoogleDriveLink() {
+            const popupContent = document.getElementById('guidePopupContent');
+            const popupTitle = document.getElementById('guidePopupTitle');
+
+            popupTitle.textContent = '📥 예시 프로젝트 다운로드';
+
+            popupContent.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <h2 style="color: var(--primary-dark); margin-bottom: 16px;">서약에 동의해 주셔서 감사합니다!</h2>
+                    <p style="margin-bottom: 24px; color: #666;">아래 버튼을 클릭하면 Google Drive로 이동합니다.</p>
+
+                    <a href="https://drive.google.com/drive/folders/1pZ9QjK7XxVy3YzHm6WtN8RfLsOvCdA2k?usp=sharing"
+                       target="_blank"
+                       style="display: inline-block; padding: 14px 32px; background: #4285F4; color: white; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; margin-bottom: 16px;">
+                        📂 Google Drive에서 열기
+                    </a>
+
+                    <p style="font-size: 13px; color: #888; margin-top: 16px;">
+                        ※ 우측 상단 ⋮ 버튼 → "다운로드"를 클릭하면<br>
+                        ZIP 파일로 자동 압축되어 다운로드됩니다.
+                    </p>
+                </div>
+
+                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+                    <div style="display: flex; justify-content: center;">
+                        <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: #6c757d; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 13px;">닫기</button>
+                    </div>
+                </div>
+            `;
         }
 
         // 드래그 기능
