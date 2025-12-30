@@ -6,6 +6,42 @@
 
 ## 2025-12-31 작업 내역
 
+### 예시 프로젝트 연결하기 오류수정 ✅
+
+**작업 목표**: 예시 프로젝트 → 서약서 → Google Drive 연결 흐름에서 발생하는 오류 수정
+
+**수정된 이슈 3가지:**
+
+| # | 이슈 | 원인 | 해결 |
+|---|------|------|------|
+| 1 | "사용자 정보를 확인할 수 없습니다" 에러 | 코드에서 존재하지 않는 컬럼명 사용 | `full_name`→`real_name`, `builder_account_id`→`builder_id` |
+| 2 | RLS 정책 미적용 | users 테이블에 RLS 정책 없음 | `Users can read own data` 정책 추가 |
+| 3 | 모바일에서 서약서 모달 안 보임 | max-height 제한 없어 화면 벗어남 | `max-height: 90vh`, `overflow-y: auto` 추가 |
+
+**수정된 파일:**
+
+| 파일 | 수정 위치 | 변경 내용 |
+|------|----------|----------|
+| index.html | Line 6395 | `.select('full_name, builder_account_id')` → `.select('real_name, builder_id')` |
+| index.html | Line 6449-6450 | `userData?.full_name` → `userData?.real_name`, `userData?.builder_account_id` → `userData?.builder_id` |
+| index.html | Line 6474 | `.select('full_name, builder_account_id')` → `.select('real_name, builder_id')` |
+| index.html | Line 6478-6479 | `userData?.full_name` → `userData?.real_name`, `userData?.builder_account_id` → `userData?.builder_id` |
+| index.html | Line 2413-2414 | `max-height: 90vh`, `overflow-y: auto` 추가 |
+| Supabase | users 테이블 | RLS 정책 `Users can read own data` 추가 |
+
+**커밋:**
+- `61ea9a0` - fix: users 테이블 컬럼명 수정 (full_name→real_name, builder_account_id→builder_id)
+- `43e5881` - fix: 모바일에서 모달이 화면 벗어나는 문제 수정 (max-height, overflow-y 추가)
+
+**테스트 결과:**
+- PC: ✅ 성공
+- 모바일: ✅ 성공
+- 테스트 계정: wksun999@naver.com
+
+**관련 리포트:** `Human_ClaudeCode_Bridge/Reports/예시_프로젝트_연결하기_오류수정_report.json`
+
+---
+
 ### 프로젝트 등록 프로세스 개선 ✅
 
 **작업 목표**: Dev Package 다운로드까지 등록 프로세스에 포함시키기
@@ -4735,5 +4771,46 @@ Claude Code에게: 이 파일 수정 요청이 들어오면 반드시 사용자�
 **핵심**:
 - 이 경고를 읽으면 프로덕션이 아님을 인지
 - 사용자에게 확인 요청 후 진행하도록 지시
+
+---
+
+---
+
+### 프로젝트 등록 워크플로우 문서화 ✅
+
+**작업 날짜**: 2025-12-31
+
+**작업 목표**: 프로젝트 등록 프로세스 관련 문서 정리 및 워크플로우 문서 생성
+
+**수행 작업**:
+
+| # | 작업 | 파일 |
+|---|------|------|
+| 1 | 프로젝트 등록 워크플로우 문서 생성 | `P2_프로젝트_기획/Workflows/Project_Registration_Workflow.md` |
+| 2 | 등록 프로세스 최종 정리 리포트 생성 | `Human_ClaudeCode_Bridge/Reports/2025-12-31_Project_Registration_Process_Final.json` |
+
+**문서화된 프로세스**:
+
+```
+1. 사용자가 프로젝트 정보 입력
+2. DB에 프로젝트 저장 (registration_complete = false)
+3. 프로젝트 수에 따른 안내문 분기 표시
+4. 안내문에서 다운로드 페이지 링크 클릭
+5. My Page > 파일 다운로드 페이지 이동
+6. Dev Package 다운로드 버튼 클릭
+7. 다운로드 시작 + registration_complete = true 업데이트
+8. 프로젝트 등록 완료
+```
+
+**핵심 결정사항**:
+- **등록 완료 기준**: 다운로드 버튼 클릭 = 등록 완료
+- **이유**: 브라우저 제약으로 실제 다운로드 완료 추적 불가
+
+**이전 세션에서 완료된 관련 작업** (같은 날):
+1. 다운로드 페이지 링크 추가 (안내문에서 마이페이지로 연결)
+2. 안내문 blockquote 제거 (여백 문제 해결)
+3. 모바일 footer 레이아웃 수정
+4. 자동 팝업 버그 수정 (registration_complete 체크 로직)
+5. downloads.html에 registration_complete 업데이트 추가
 
 ---
