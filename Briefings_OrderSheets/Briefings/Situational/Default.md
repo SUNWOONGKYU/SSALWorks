@@ -36,7 +36,7 @@ SSAL Works는 **"Claude Code를 활용한 3차원 SAL Grid 기반 풀스택 웹�
 
 <span style="color: #059669;">빌더 계정을 개설하면 아래와 같은 특별한 기능 10가지를 사용할 수 있습니다.</span>
 
-1) 프로젝트를 등록하고 SSAL Works Dev Package(개발환경 설정용 폴더와 파일 일체)를 다운로드 받아서 설치
+1) 프로젝트를 등록하고 Dev Package(개발환경 설정용 폴더와 파일 일체)를 다운로드 받아서 설치
 
 2) Rules(AI 7대 작업 규칙), Compliance(AI 12대 준수사항) 및 Methods(작업 방법)가 정의된 파일 저장 및 실행
 
