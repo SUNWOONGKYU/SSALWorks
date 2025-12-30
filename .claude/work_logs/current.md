@@ -6,6 +6,58 @@
 
 ## 2025-12-31 작업 내역
 
+### PoliticianFinder 로딩 속도 개선 ✅
+
+**작업 목표**: 커뮤니티 페이지 로딩 속도 개선
+
+**문제 분석:**
+| 페이지 | API | 캐시 헤더 | 속도 |
+|--------|-----|----------|------|
+| 홈/정치인 | `/api/politicians` | ✅ 5분 캐싱 | 빠름 |
+| 커뮤니티 | `/api/posts` | ❌ 없음 | 느림 |
+
+**원인**: 게시글 API에 캐시 헤더 미적용 → 매번 DB 직접 조회
+
+**해결 방법:**
+```typescript
+// src/app/api/posts/route.ts에 추가
+response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=120');
+```
+
+**캐시 전략:**
+| API | 캐싱 시간 | stale 허용 | 이유 |
+|-----|----------|-----------|------|
+| `/api/politicians` | 5분 | 10분 | 정치인 데이터 자주 안 바뀜 |
+| `/api/posts` | 1분 | 2분 | 게시글 자주 갱신 |
+
+**커밋**: `6b65a42`
+
+**리포트**: `Human_ClaudeCode_Bridge/Reports/PoliticianFinder_Loading_Speed_Optimization_2025-12-31.json`
+
+---
+
+### PoliticianFinder 테이블 레이아웃 통일 ✅
+
+**작업 목표**: 홈페이지와 정치인 페이지 테이블 스타일 통일
+
+**수정 내용:**
+| 항목 | 변경 전 | 변경 후 |
+|------|--------|--------|
+| 정치인 페이지 글씨 크기 | `text-sm` (14px) + `text-xs` (12px) | `text-[13px]` (홈 화면과 동일) |
+| 직책 컬럼 | `whitespace-nowrap` | `w-20` (80px 제한) |
+| 출마지역 | "서울" | "서울특별..." (7글자 + "...") |
+| 출마지구 | 전체 표시 | 7글자 + "..." |
+| 직책 | 전체 표시 | 7글자 + "..." |
+
+**커밋 내역:**
+- `99936e8`: 출마지역/출마지구 7글자 제한 및 테이블 레이아웃 균형 조정
+- `67e3036`: 직책 컬럼에도 7글자 제한 적용
+- `1022dfa`: truncateText 타입 에러 수정 (undefined 처리)
+- `edea901`: 정치인 목록 페이지 truncateText 타입 에러 수정
+- `4bd9351`: 글씨 크기 통일 및 직책 컬럼 너비 제한
+
+---
+
 ### 모바일 UI 전체 최적화 ✅
 
 **작업 목표**: 모든 팝업/모달의 모바일 최적화
@@ -4321,3 +4373,11 @@ pages/admin-dashboard.html에서 'index.html'
 
 - **Hash:** `f0bc78c`
 - **Message:** `fix: 관리자 알림 이메일의 대시보드 링크 경로 수정`
+### 모바일 최적화 검증 완료 ✅
+
+**검증 일시**: 2025-12-31
+**검증자**: UI/UX Specialist (Verification Agent)
+**검증 결과**: PASS with Minor Recommendations (8.5/10)
+
+**승인 상태**: ✅ APPROVED FOR PRODUCTION
+**상세 리포트**: Human_ClaudeCode_Bridge/Reports/Mobile_Optimization_Verification_Report.md
