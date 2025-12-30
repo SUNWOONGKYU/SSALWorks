@@ -4077,3 +4077,60 @@ SSAL_Works_for_Builder/
 | `8619ea5` | docs: Default Briefing Dev Package 명칭 수정 |
 | `2bf2a42` | feat: 로그인 에러 대처방법 methods 추가 |
 
+
+---
+
+## 2025-12-30 전체 회원 공지사항 이메일 발송
+
+### 작업 상태: ✅ 완료
+
+### 발송 공지사항
+
+| 항목 | 내용 |
+|------|------|
+| 제목 | SSAL Works의 얼리버드 용 서비스를 오늘부터 시작합니다 |
+| 작성일 | 2025-12-29 |
+| 중요 | ⭐ 중요 공지 |
+
+**공지 내용:**
+> 얼리버드 용 서비스를 시작할 정도로 개발 작업이 이루어졌다고 판단하여 오늘부터 접수를 받기로 하였습니다. 단, 33명으로 한정합니다.
+>
+> 빌더 계정 개설비는 300만원(부가세 포함)이며, 3개월간 열심히 작업을 해서 개발을 성공시키고 초기 이용자 고객을 30명 확보하면 절반의 금액은 환불해드립니다.
+
+### 발송 결과
+
+| 항목 | 수치 |
+|------|------|
+| 발송 대상 | 전체 회원 19명 |
+| 발송 성공 | 19명 (100%) |
+| 발송 실패 | 0명 |
+
+### 발송 완료 목록
+
+| # | 이름 | 이메일 | 결과 |
+|---|------|--------|:----:|
+| 1 | Seon-Ho Shin | wlgh113@gmail.com | ✅ |
+| 2 | 정복현 | bhj9528@gmail.com | ✅ |
+| 3 | 선웅규 | wksun999@hanmail.net | ✅ |
+| 4 | 선웅규 | wksun999@naver.com | ✅ |
+| 5 | 최규남 | robertchoi@gachon.ac.kr | ✅ |
+| 6 | 이근복 | purplrguyme@gmail.com | ✅ |
+| 7 | 선웅규 | wksun999@gmail.com | ✅ |
+| 8 | 손창우 | changwooson85@naver.com | ✅ |
+| 9 | 최종열 | fegasus@hotmail.com | ✅ |
+| 10 | 선웅규 | w2center@naver.com | ✅ |
+| 11 | 김닿아 | dahahkim@naver.com | ✅ |
+| 12 | 황진호 | peniel5@gmail.com | ✅ |
+| 13 | 김승현(Gai) | gai@try-n.com | ✅ |
+| 14 | 심재우 | jaiwshim@gmail.com | ✅ |
+| 15 | kangsu lee | kangzapple@gmail.com | ✅ |
+| 16 | 정승재 | tmdwo5112@naver.com | ✅ |
+| 17 | - | ekclab@gmail.com | ✅ |
+| 18 | 김원창 | gwinix@gmail.com | ✅ |
+| 19 | - | corisarang@gmail.com | ✅ |
+
+### 발송 방법
+- Resend API 사용
+- Rate Limit 대응: 1초 간격 발송
+- 발신자: noreply@ssalworks.ai.kr
+
