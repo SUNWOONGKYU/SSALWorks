@@ -493,7 +493,7 @@
                         <button class="download-btn manual" id="manualDownloadBtn" onclick="downloadManual()" style="flex: 1; min-width: 200px;">
                             📄 PDF 다운로드
                         </button>
-                        <a href="manual.html" class="download-btn" style="flex: 1; min-width: 200px; background: var(--gray-600); text-decoration: none; text-align: center;">
+                        <a href="manual.html" class="download-btn" style="flex: 1; min-width: 200px; background: var(--gray-600); color: white; text-decoration: none; text-align: center;">
                             📖 온라인으로 보기
                         </a>
                     </div>
@@ -621,7 +621,7 @@
                 link.click();
                 document.body.removeChild(link);
 
-                showToast('📥 Dev Package 다운로드를 시작합니다.', 'success');
+                showPopup('다운로드 완료', 'Dev Package 다운로드가 완료되었습니다.', 'success');
 
                 // 다운로드 기록 저장
                 try {
