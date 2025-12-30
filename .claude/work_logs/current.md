@@ -4134,3 +4134,30 @@ SSAL_Works_for_Builder/
 - Rate Limit 대응: 1초 간격 발송
 - 발신자: noreply@ssalworks.ai.kr
 
+
+### 빌더 계정 크레딧 자동 지급 트리거 추가
+
+**파일:** `S1_개발_준비/Database/29_builder_credit_trigger.sql`
+
+**동작:**
+- user_id가 NULL → 값 부여될 때 (빌더 계정 아이디 생성)
+- 자동으로 credit_balance += 50,000
+- credit_history에 기록
+
+**Supabase에 적용 완료:** ✅
+
+---
+
+## 얼리버드 프로덕션 런칭 준비 완료
+
+| 항목 | 상태 |
+|------|:----:|
+| 인증 (Google OAuth) | ✅ |
+| AI Q&A | ✅ |
+| 크레딧 차감 (S5BA3) | ✅ |
+| Rate Limiting (S5S2) | ✅ |
+| 빌더 계정 50,000 크레딧 자동 지급 | ✅ |
+| E2E 테스트 | ✅ 90.9% |
+
+**결론: 런칭 가능**
+

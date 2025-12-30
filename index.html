@@ -2099,6 +2099,78 @@
             background: linear-gradient(135deg, #495057 0%, #343a40 100%);
         }
 
+        /* Service Intro Modal - Responsive Design */
+        @media (max-width: 768px) {
+            #serviceIntroModal nav {
+                padding: 0 16px !important;
+                height: 56px !important;
+            }
+            #serviceIntroModal nav span[style*="font-size: 28px"] {
+                font-size: 20px !important;
+            }
+            #serviceIntroModal nav button {
+                padding: 8px 12px !important;
+                font-size: 12px !important;
+            }
+            #serviceIntroModal .grid-fullscreen-content {
+                padding: 20px 16px !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+                max-width: 100% !important;
+            }
+            #serviceIntroModal nav[style*="padding: 20px 24px"] {
+                padding: 16px !important;
+            }
+            #serviceIntroModal h2[style*="font-size: 20px"] {
+                font-size: 18px !important;
+            }
+            #serviceIntroModal h3[style*="font-size: 16px"] {
+                font-size: 15px !important;
+            }
+            #serviceIntroModal h3[style*="font-size: 20px"] {
+                font-size: 18px !important;
+            }
+            #serviceIntroModal p[style*="font-size: 14px"] {
+                font-size: 13px !important;
+            }
+            #serviceIntroModal ul[style*="font-size: 13px"] {
+                font-size: 12px !important;
+            }
+            #serviceIntroModal section {
+                margin-bottom: 32px !important;
+            }
+            #serviceIntroModal::-webkit-scrollbar {
+                width: 8px !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #serviceIntroModal nav {
+                padding: 0 12px !important;
+                height: 50px !important;
+            }
+            #serviceIntroModal nav span[style*="font-size: 28px"] {
+                font-size: 18px !important;
+            }
+            #serviceIntroModal nav .logo-grains {
+                transform: scale(0.8) rotate(-15deg) !important;
+            }
+            #serviceIntroModal .grid-fullscreen-content {
+                padding: 16px 12px !important;
+            }
+            #serviceIntroModal h2[style*="font-size: 20px"] {
+                font-size: 16px !important;
+            }
+            #serviceIntroModal h3[style*="font-size: 16px"] {
+                font-size: 14px !important;
+            }
+            #serviceIntroModal p[style*="font-size: 14px"],
+            #serviceIntroModal ul[style*="font-size: 13px"] {
+                font-size: 12px !important;
+                line-height: 1.7 !important;
+            }
+        }
+
         /* Status Indicator */
         .server-status {
             position: fixed;
@@ -9791,6 +9863,7 @@ ${result.answer}`;
         <div class="grid-fullscreen-content" style="padding: 40px; max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: var(--shadow-sm);">
             <div style="line-height: 1.9; color: #333;">
 
+
                 <!-- 목차 -->
                 <nav style="background: #f8f9fa; padding: 20px 24px; border-radius: 12px; margin-bottom: 32px; border: 1px solid #e9ecef;">
                     <h3 style="font-size: 20px; font-weight: 800; color: #1F3563; margin: 0 0 16px 0;">목차</h3>
@@ -9804,7 +9877,7 @@ ${result.answer}`;
                             <a href="#section3" style="color: #495057; text-decoration: none;">3. SSAL Works가 제공하는 것</a><br>
                             <a href="#section4" style="color: #495057; text-decoration: none;">4. 이용 프로세스</a><br>
                             <a href="#section5" style="color: #495057; text-decoration: none;">5. 일반 회원에게 제공되는 기능</a><br>
-                            <a href="#section6" style="color: #495057; text-decoration: none;">6. 빌더 계정 개설자 전용 기능</a><br>
+                            <a href="#section6" style="color: #495057; text-decoration: none;">6. 빌더 계정 개설자에게만 제공되는 특별 기능</a><br>
                             <a href="#section7" style="color: #495057; text-decoration: none;">7. 가격 정책</a><br>
                             <a href="#section8" style="color: #495057; text-decoration: none;">8. 문의 및 지원</a><br>
                             <a href="#section9" style="color: #495057; text-decoration: none;">9. 향후 계획</a><br>
@@ -10310,9 +10383,9 @@ ${result.answer}`;
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">이 외에도 공지사항 열람, My Page 프로필 관리, 인앱 알림 수신 등 기본 기능을 이용할 수 있습니다 </p>
                 </section>
 
-                <!-- Section 6: 빌더 계정 개설자 전용 기능 -->
+                <!-- Section 6. 빌더 계정 개설자에게만 제공되는 특별 기능 -->
                 <section id="section6" style="margin-bottom: 48px;">
-                    <h2 style="font-size: 20px; font-weight: 800; color: #1F3563; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 3px solid #D97706;">6. 빌더 계정 개설자 전용 기능</h2>
+                    <h2 style="font-size: 20px; font-weight: 800; color: #1F3563; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 3px solid #D97706;">6. 빌더 계정 개설자에게만 제공되는 특별 기능</h2>
                     <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">빌더 계정을 개설하면 아래와 같은 기능 10가지를 사용할 수 있습니다. </p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">1) 프로젝트를 등록하고 Dev Package(개발환경 설정용 폴더와 파일 일체)를 다운로드 받아서 설치 </p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">2) Rules(AI 7대 작업 규칙), Compliance(AI 12대 준수사항) 및 Methods(작업 방법)가 정의된 파일 저장 및 실행 </p>
