@@ -48,12 +48,9 @@
 2. [16-19] Verification Execution 필드가 모두 채워져 있어야 함
 3. `comprehensive_verification`이 `Passed`여야 함
 
-**DB 트리거로 강제:**
-```sql
-IF task_status = 'Completed' AND verification_status != 'Verified' THEN
-    RAISE EXCEPTION 'Cannot set task_status to Completed unless verification_status is Verified';
-END IF;
-```
+**CSV 업데이트 시 검증:**
+- `task_status`를 `Completed`로 변경 전 반드시 `verification_status`가 `Verified`인지 확인
+- 이 규칙을 지키지 않으면 데이터 무결성 문제 발생
 
 ---
 

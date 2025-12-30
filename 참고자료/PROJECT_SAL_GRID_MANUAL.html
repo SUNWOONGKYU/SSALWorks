@@ -875,8 +875,17 @@ class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="
 <h1 id="grid-작성-및-supabase-작업-규칙">04. Grid 작성 및 Supabase 작업
 규칙</h1>
 <blockquote>
-<p>PROJECT SAL Grid 데이터 작성 및 Supabase CRUD 작업 시 준수 사항</p>
+<p><strong>⚠️ 적용 대상: SSAL Works 내부 관리용 (DB Method)</strong></p>
+<p>이 규칙은 Supabase DB를 사용하는 SSAL Works 내부 프로젝트에
+적용됩니다. 일반 이용자는 CSV Method를 사용하므로
+<code>04_grid-writing-csv.md</code> 파일을 참조하세요.</p>
+<p><strong>DB vs CSV 구분:</strong> - <strong>DB (Supabase)</strong> =
+SSAL Works 예시 데이터 (고정, <code>viewer_database.html</code>) -
+<strong>CSV 파일</strong> = 이용자 본인 프로젝트 데이터 (가변,
+<code>viewer_csv.html</code>)</p>
 </blockquote>
+<hr />
+<p>PROJECT SAL Grid 데이터 작성 및 Supabase CRUD 작업 시 준수 사항</p>
 <hr />
 <h2 id="grid-22개-속성">1. Grid 22개 속성</h2>
 <table>

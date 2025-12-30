@@ -83,7 +83,7 @@ File: google-callback.js
 |---|------|------|------|
 | 1 | M | Documentation | 문서 - 배포 불필요 |
 | 2 | U | Design | 디자인 파일 - 배포 불필요 |
-| 3 | D | Database | SQL - Supabase에서 직접 실행 |
+| 3 | D | Database | SQL - DB에서 직접 실행 |
 | 4 | T | Testing | 테스트 코드 - 배포 불필요 |
 | 5 | O | DevOps | 설정/스크립트 - scripts/ 폴더 |
 | 6 | C | Content | 콘텐츠 - DB에 저장 |

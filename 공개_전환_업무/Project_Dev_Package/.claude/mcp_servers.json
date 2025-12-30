@@ -11,13 +11,6 @@
         "GITHUB_PERSONAL_ACCESS_TOKEN": "YOUR_TOKEN_HERE"
       }
     },
-    "supabase": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=zwjmfewyshhwpgwdtrus",
-      "headers": {
-        "Authorization": "Bearer sbp_bf0036aca8b4ee50b86eae611b3ebbb4413bacdf"
-      }
-    },
     "vercel": {
       "type": "http",
       "url": "https://mcp.vercel.com"

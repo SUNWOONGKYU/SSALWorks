@@ -58,7 +58,7 @@ Main Agent → Task Agent 서브에이전트 투입 (Task tool 사용)
 **요청이 필요한 상황:**
 - 외부 서비스 API 키 필요 (Resend, Stripe, OpenAI 등)
 - OAuth Provider 설정 필요 (Google, GitHub, Kakao 등)
-- 환경 변수 설정 필요 (Vercel, Supabase 등)
+- 환경 변수 설정 필요 (Vercel, DB 등)
 - 외부 대시보드 접속 필요
 
 **요청 형식:**
@@ -119,9 +119,9 @@ Main Agent가 직접 검증:
 - 위치: `S0_Project-SAL-Grid_생성/sal-grid/stage-gates/`
 - 파일명: `S{N}GATE_verification_report.md`
 
-**DB 기록:**
-- 테이블: `stage_verification`
-- 필드: `verification_report_path`, `ai_verification_note`, `stage_gate_status`
+**CSV 기록:**
+- CSV 파일의 `stage_gate_status` 필드 업데이트
+- 검증 관련 필드 업데이트
 
 ---
 
@@ -144,7 +144,7 @@ Main Agent가 직접 검증:
 - 테스트 파일: Production/Frontend/pages/auth/google-login.html
 - 테스트 방법: 브라우저에서 열고 버튼 클릭
 - 예상 결과: Google 로그인 페이지로 이동
-- 필요 설정: Supabase Google Provider 활성화 ✅
+- 필요 설정: OAuth Provider 활성화 ✅
 ```
 
 ### 3) 설정 완료 체크리스트
@@ -187,7 +187,7 @@ PO가 수행:
 | 3 | 서브에이전트 | Task 검증 | Grid #16-21 |
 | 4 | Main Agent | Stage Gate 검증 | stage-gates/ |
 | 5 | Main Agent → PO | 테스트 가이드 | - |
-| 6 | PO | 최종 승인 | stage_verification |
+| 6 | PO | 최종 승인 | CSV stage_gate_status |
 
 ---
 

@@ -50,11 +50,85 @@ UI/UX 검증 에이전트가 `!important` 과다 사용 문제를 지적하여 �
 
 ---
 
-### PoliticianFinder 알림 배지 실시간 업데이트 ✅
+### Mypage 모바일 헤더 최적화 ✅
 
-**문제**: 알림을 모두 읽어도 헤더 배지에 "4개"가 계속 표시됨
+**작업 목표**: My Page 내부 페이지들의 모바일 헤더 최적화 (로고, 버튼 두 줄로 표시되는 문제 해결)
 
-**원인**: 초기 로드 시에만 알림 개수를 가져오고, 읽음 상태 변경 후 업데이트 안 됨
+**발견된 문제**:
+- 모바일에서 "SSAL Works" 로고가 두 줄로 표시됨
+- "로그아웃", "닫기" 버튼이 줄바꿈됨
+- nav 헤더 높이가 너무 큼
+
+**수정 내용**:
+
+| 파일 | 추가된 모바일 CSS |
+|------|-----------------|
+| index.html | `@media (max-width: 768px)` - nav, logo, close-btn 최적화 |
+| profile.html | `@media (max-width: 768px)` - nav, logo, close-btn 최적화 |
+| security.html | `@media (max-width: 768px)` - nav, logo, close-btn 최적화 |
+| subscription.html | `@media (max-width: 768px)` - nav, logo, close-btn 최적화 |
+| credit.html | `@media (max-width: 768px)` - nav, logo, close-btn 최적화 |
+| payment-methods.html | `@media (max-width: 768px)` - nav, logo, close-btn 최적화 |
+
+**적용된 모바일 CSS (공통)**:
+```css
+@media (max-width: 768px) {
+    .nav { padding: 0 12px; height: 56px; }
+    .nav-logo-text { font-size: 18px; }
+    .close-btn { padding: 4px 10px; font-size: 11px; white-space: nowrap; }
+    /* 기타 페이지별 추가 스타일 */
+}
+```
+
+**테스트 결과** (Playwright iPhone 12 에뮬레이션):
+| 파일 | 로고 크기 | 버튼 줄바꿈 방지 | nav 높이 |
+|------|----------|----------------|---------|
+| profile.html | 18px ✅ | nowrap ✅ | 56px ✅ |
+| security.html | 18px ✅ | nowrap ✅ | 56px ✅ |
+| subscription.html | 18px ✅ | nowrap ✅ | 56px ✅ |
+| credit.html | 18px ✅ | nowrap ✅ | 56px ✅ |
+| payment-methods.html | 18px ✅ | nowrap ✅ | 56px ✅ |
+| index.html | 18px ✅ (CSS 확인) | nowrap ✅ | 56px ✅ |
+
+**커밋**: `b819c98 fix: mypage 모든 페이지 모바일 헤더 최적화`
+
+**핵심 원칙**: PC 버전 영향 없음 (768px 미디어쿼리 사용)
+
+---
+
+### PoliticianFinder 알림 시스템 전면 수정 ✅
+
+**문제 1**: 알림을 모두 읽어도 헤더 배지에 "4개"가 계속 표시됨
+
+**원인**:
+1. 헤더에서 알림 개수를 초기 로드 시에만 가져옴
+2. 알림 API에서 id 타입 불일치 (문자열 vs 정수)
+
+**수정 내용**:
+
+| 파일 | 수정 사항 | 커밋 |
+|------|----------|------|
+| `header.tsx` | 탭 활성화/30초 폴링으로 알림 개수 갱신 | `a4053eb` |
+| `notifications/route.ts` | PATCH/DELETE에서 id를 정수로 변환 | `85c8df3` |
+
+**DB 정리**:
+- 읽지 않은 알림 4개 → 읽음 처리
+- 연결 안 되는 알림 5개 (target_url=null) → 삭제
+
+**수정 전**:
+```typescript
+.eq('id', notificationId)  // 문자열 비교 → 실패
+```
+
+**수정 후**:
+```typescript
+const numericId = parseInt(notificationId, 10);
+.eq('id', numericId)  // 정수 비교 → 성공
+```
+
+---
+
+### PoliticianFinder 알림 배지 실시간 업데이트 (상세)
 
 **수정 내용** (`src/app/components/header.tsx`):
 1. **탭 활성화 시 갱신**: `visibilitychange` 이벤트로 탭 전환 시 알림 개수 새로고침
@@ -4464,3 +4538,43 @@ pages/admin-dashboard.html에서 'index.html'
 
 **승인 상태**: ✅ APPROVED FOR PRODUCTION
 **상세 리포트**: Human_ClaudeCode_Bridge/Reports/Mobile_Optimization_Verification_Report.md
+
+---
+
+### Rules 파일 DB vs CSV 구분 명확화 ✅
+
+**작업 일시**: 2025-12-31
+**작업 목표**: `.claude/rules/` 파일들에 DB vs CSV 구분을 명확히 반영
+
+**배경**:
+- SSAL Works는 Supabase DB 사용 (내부 관리용)
+- 일반 이용자(Project_Dev_Package)는 CSV 파일 사용
+- 규칙 파일들에 이 구분이 명확하지 않아 혼란 발생
+
+**수정 파일 및 내용**:
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `.claude/rules/04_grid-writing-supabase.md` | 헤더에 "적용 대상: SSAL Works 내부 관리용 (DB Method)" 추가 |
+| `공개_전환_업무/Project_Dev_Package/.claude/rules/04_grid-writing-supabase.md` | 삭제 |
+| `공개_전환_업무/Project_Dev_Package/.claude/rules/04_grid-writing-csv.md` | 추가 (CSV 버전) |
+| `공개_전환_업무/Project_Dev_Package/.claude/CLAUDE.md` | Supabase 참조 → CSV로 전면 변경 |
+
+**Project_Dev_Package CLAUDE.md 주요 변경**:
+
+| 섹션 | 변경 전 | 변경 후 |
+|------|--------|--------|
+| 7대 규칙 테이블 | `04_grid-writing-supabase.md` | `04_grid-writing-csv.md` |
+| STEP 3 | Supabase DB에 UPDATE | CSV 파일 UPDATE |
+| STEP 6 | 최종 상태 업데이트 (DB) | 최종 상태 업데이트 (CSV) |
+| 절대 금지 행동 | DB 상태 업데이트 생략 | CSV 상태 업데이트 생략 |
+| 검증 기록 위치 | Supabase DB 테이블 | CSV 파일 |
+| 절대 규칙 5 | project_sal_grid 테이블 | CSV 파일 업데이트 |
+| Methods 섹션 | Supabase CRUD | CSV CRUD |
+| 매뉴얼 참조 | DB+CSV 병행 | 일반 이용자: CSV Method 사용 |
+
+**결과 구조**:
+- **SSAL Works**: Supabase DB 사용 (`04_grid-writing-supabase.md`)
+- **일반 이용자**: CSV 파일 사용 (`04_grid-writing-csv.md`)
+
+**커밋**: `b4be984 refactor: Project_Dev_Package CLAUDE.md - DB 참조를 CSV로 변경`
