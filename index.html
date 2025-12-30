@@ -6114,10 +6114,11 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         };
 
         // 프로젝트 진행률 로드
-        // 진행률 로드: JSON 파일에서 로드 (DB 방식 제거됨)
+        // 사용자 프로젝트는 0%로 시작 (JSON 파일은 SSAL Works 내부용)
         async function loadProjectProgress(projectName) {
             console.log('📊 프로젝트 진행률 로드:', projectName);
-            await loadPhaseProgressFromDB();  // JSON 파일에서 로드
+            // 사용자 프로젝트는 모두 0%로 초기화
+            resetAllProgressToZero();
         }
 
         // 특정 Stage 진행률 업데이트
