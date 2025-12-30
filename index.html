@@ -11560,12 +11560,9 @@ ${result.answer}`;
             });
         }
 
-        // 페이지 로드 시 진행률 0%로 초기화 (사용자별 프로젝트는 loadUserProject에서 로드)
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                resetAllProgressToZero();  // 먼저 0%로 초기화, 이후 loadUserProject에서 적절히 로드
-            }, 500);
-        });
+        // 페이지 로드 시 진행률 초기화는 loadProjectProgress에서 처리
+        // (로그인 안 됨 / DB 데이터 없음 → 0%, DB 데이터 있음 → DB 값 표시)
+        // window.load에서 resetAllProgressToZero() 호출 제거 - DB 로드 결과 덮어쓰기 방지
     </script>
 
     <!-- Socket.io for real-time Order Sheet notifications -->
