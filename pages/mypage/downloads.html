@@ -644,6 +644,18 @@
                     console.log('다운로드 기록 저장 실패 (무시):', logError);
                 }
 
+                // 프로젝트 등록 완료 처리 (registration_complete = true)
+                try {
+                    await supabaseClient
+                        .from('projects')
+                        .update({ registration_complete: true })
+                        .eq('user_id', userData.user_id)
+                        .eq('registration_complete', false);
+                    console.log('✅ 프로젝트 등록 완료 처리됨');
+                } catch (regError) {
+                    console.log('등록 완료 처리 실패 (무시):', regError);
+                }
+
             } catch (error) {
                 console.error('Dev Package 다운로드 오류:', error);
                 showToast('Dev Package 다운로드에 실패했습니다.', 'error');
