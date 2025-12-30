@@ -273,6 +273,42 @@
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0 12px;
+                height: 56px;
+            }
+            .nav-logo-text {
+                font-size: 18px;
+            }
+            .close-btn {
+                padding: 4px 10px;
+                font-size: 11px;
+                white-space: nowrap;
+            }
+            .container {
+                padding: 16px 12px;
+            }
+            .page-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            .card {
+                padding: 16px;
+            }
+            .btn {
+                min-height: 44px;
+                font-size: 14px;
+            }
+            .form-input {
+                font-size: 16px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 <body>
