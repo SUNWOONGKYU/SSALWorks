@@ -207,8 +207,10 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 ### 📥 다운로드 방법
 
 > **지금 바로 다운로드하세요!**
+>
+> 👉 **[파일 다운로드 페이지로 이동](/pages/mypage/downloads.html)**
 
-1. **My Page > 파일 다운로드**에서 Dev Package 다운로드
+1. 위 링크를 클릭하여 **파일 다운로드** 페이지에서 Dev Package 다운로드
 2. ZIP 파일 압축 해제
 3. 원하는 위치에 폴더 이동 (권장: `C:\Projects\내프로젝트명`)
 4. 폴더 이름을 프로젝트에 맞게 변경 (예: `MyWebsite`)
