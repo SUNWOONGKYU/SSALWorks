@@ -8915,12 +8915,86 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 
         // 프로젝트 추가 모달 닫기
         function closeAddProjectModal() {
+            // Step 2 진행 중이면 닫기 방지
+            if (window.projectRegInStep2) {
+                alert('프로젝트 등록을 완료하려면 Dev Package를 다운로드해주세요.');
+                return;
+            }
+
             const modal = document.getElementById('addProjectModal');
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
 
             // 폼 초기화
             document.getElementById('newProjectForm').reset();
+            resetProjectModalSteps();
+        }
+
+        // 프로젝트 등록 모달 단계 초기화
+        function resetProjectModalSteps() {
+            // 모든 단계 초기화
+            document.getElementById('projectRegStep1').style.display = 'block';
+            document.getElementById('projectRegStep2').style.display = 'none';
+            document.getElementById('projectRegStep3').style.display = 'none';
+            document.getElementById('projectModalTitle').textContent = '➕ 새로운 Project 등록';
+            document.getElementById('projectModalCloseBtn').style.display = 'block';
+
+            // 전역 변수 초기화
+            window.projectRegInStep2 = false;
+            window.registeredProjectName = null;
+            window.registeredProjectPath = null;
+            window.isFirstProject = false;
+        }
+
+        // Dev Package 다운로드 후 등록 완료 처리
+        function downloadDevPackageAndComplete() {
+            const projectName = window.registeredProjectName;
+
+            // Dev Package 파일 URL (Google Drive 직접 다운로드 링크 - mypage와 동일)
+            const devPackageUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
+
+            // 다운로드 링크 생성 및 클릭
+            const link = document.createElement('a');
+            link.href = devPackageUrl;
+            link.download = 'Project_Dev_Package.zip';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Step 3으로 전환 (완료 화면)
+            document.getElementById('projectRegStep2').style.display = 'none';
+            document.getElementById('projectRegStep3').style.display = 'block';
+            document.getElementById('completedProjectName').textContent = projectName;
+            document.getElementById('projectModalTitle').textContent = '🎉 등록 완료';
+            document.getElementById('projectModalCloseBtn').style.display = 'block';
+
+            // 상태 업데이트
+            window.projectRegInStep2 = false;
+            showStatus('🎉 프로젝트 등록 완료! Dev Package 다운로드가 시작되었습니다.', 'success');
+        }
+
+        // 프로젝트 등록 완료 후 모달 닫기 (최종)
+        function closeAddProjectModalFinal() {
+            const modal = document.getElementById('addProjectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+
+            // 모달 상태 초기화
+            resetProjectModalSteps();
+            document.getElementById('newProjectForm').reset();
+
+            // 첫 번째 프로젝트: 전체 설치 안내 표시
+            // 두 번째 이후 프로젝트: 새 폴더 준비 안내만
+            if (window.isFirstProject) {
+                setTimeout(() => {
+                    showPackageInstallGuide();
+                }, 300);
+            } else {
+                setTimeout(() => {
+                    showNewProjectFolderGuide();
+                }, 300);
+            }
         }
 
         // ========== 내 문의 내역 모달 함수 ==========
@@ -9361,20 +9435,22 @@ Claude Code가 작업을 완료하면:
 **행운을 빕니다! 🚀**
 `;
 
-                    showStatus('✅ 프로젝트 생성 완료!', 'success');
-                    closeAddProjectModal();
+                    showStatus('✅ 프로젝트 정보 등록 완료!', 'success');
 
-                    // 첫 번째 프로젝트: 전체 설치 안내 (Dev Package + 개발 도구 + Claude Code)
-                    // 두 번째 이후 프로젝트: 새 폴더 준비 안내만 (도구는 이미 설치됨)
-                    if (isFirstProject) {
-                        setTimeout(() => {
-                            showPackageInstallGuide();
-                        }, 500);
-                    } else {
-                        setTimeout(() => {
-                            showNewProjectFolderGuide();
-                        }, 500);
-                    }
+                    // Step 2로 전환 (Dev Package 다운로드 단계)
+                    window.projectRegInStep2 = true;
+                    window.registeredProjectName = name;
+                    window.registeredProjectPath = result.projectPath;
+                    window.isFirstProject = isFirstProject;
+
+                    // UI 전환: Step 1 숨기고 Step 2 표시
+                    document.getElementById('projectRegStep1').style.display = 'none';
+                    document.getElementById('projectRegStep2').style.display = 'block';
+                    document.getElementById('registeredProjectName').textContent = name;
+                    document.getElementById('projectModalTitle').textContent = '📦 Dev Package 다운로드';
+
+                    // 닫기 버튼 비활성화 (다운로드 완료 전까지)
+                    document.getElementById('projectModalCloseBtn').style.display = 'none';
 
                 } else {
                     throw new Error(result.error || '프로젝트 생성 실패');
@@ -10932,34 +11008,111 @@ ${result.answer}`;
         </div>
     </div>
 
-    <!-- Add New Project Modal (Popup) -->
-    <div id="addProjectModal" class="popup-modal-overlay" onclick="if(event.target===this)closeAddProjectModal()">
-        <div class="popup-modal-box">
+    <!-- Add New Project Modal (Popup) - 2단계 프로세스 -->
+    <div id="addProjectModal" class="popup-modal-overlay" onclick="if(event.target===this && !window.projectRegInStep2)closeAddProjectModal()">
+        <div class="popup-modal-box" style="max-width: 520px;">
             <div class="popup-modal-header">
-                <h3>➕ 새로운 Project 등록</h3>
-                <button class="popup-modal-close" onclick="closeAddProjectModal()">&times;</button>
+                <h3 id="projectModalTitle">➕ 새로운 Project 등록</h3>
+                <button class="popup-modal-close" onclick="closeAddProjectModal()" id="projectModalCloseBtn">&times;</button>
             </div>
             <div class="popup-modal-body">
-                <form id="newProjectForm" style="display: flex; flex-direction: column; gap: 20px;">
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">프로젝트명 <span style="color: #EF4444;">*</span></label>
-                        <input type="text" id="projectName" placeholder="예: My Awesome Project" required
-                            style="width: 100%; padding: 14px 16px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 15px; box-sizing: border-box; transition: border-color 0.2s;"
-                            onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='#dee2e6'">
+                <!-- Step 1: 프로젝트 정보 입력 -->
+                <div id="projectRegStep1">
+                    <!-- 단계 표시 -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 12px 16px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%); border-radius: 8px;">
+                        <div style="width: 28px; height: 28px; background: #10B981; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px;">1</div>
+                        <span style="font-weight: 600; color: #059669;">프로젝트 정보 입력</span>
+                        <span style="color: #9ca3af; margin-left: auto; font-size: 13px;">Step 1/2</span>
                     </div>
-                    <div>
-                        <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">설명 <span style="color: #6c757d; font-weight: 400;">(선택)</span></label>
-                        <textarea id="projectDescription" placeholder="프로젝트에 대한 간단한 설명을 입력하세요..."
-                            style="width: 100%; padding: 14px 16px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 15px; min-height: 120px; font-family: inherit; box-sizing: border-box; resize: vertical; transition: border-color 0.2s;"
-                            onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='#dee2e6'"></textarea>
+                    <form id="newProjectForm" style="display: flex; flex-direction: column; gap: 20px;">
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">프로젝트명 <span style="color: #EF4444;">*</span></label>
+                            <input type="text" id="projectName" placeholder="예: My Awesome Project" required
+                                style="width: 100%; padding: 14px 16px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 15px; box-sizing: border-box; transition: border-color 0.2s;"
+                                onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='#dee2e6'">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #333; font-size: 14px;">설명 <span style="color: #6c757d; font-weight: 400;">(선택)</span></label>
+                            <textarea id="projectDescription" placeholder="프로젝트에 대한 간단한 설명을 입력하세요..."
+                                style="width: 100%; padding: 14px 16px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 15px; min-height: 120px; font-family: inherit; box-sizing: border-box; resize: vertical; transition: border-color 0.2s;"
+                                onfocus="this.style.borderColor='#10B981'" onblur="this.style.borderColor='#dee2e6'"></textarea>
+                        </div>
+                        <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; padding-top: 16px; border-top: 1px solid #dee2e6;">
+                            <button type="button" onclick="closeAddProjectModal()"
+                                style="padding: 12px 24px; background: #6c757d; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white;">취소</button>
+                            <button type="submit" id="projectSubmitBtn"
+                                style="padding: 12px 24px; background: #10B981; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white;">다음 →</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Step 2: Dev Package 다운로드 -->
+                <div id="projectRegStep2" style="display: none;">
+                    <!-- 단계 표시 -->
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 12px 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%); border-radius: 8px;">
+                        <div style="width: 28px; height: 28px; background: #6366F1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px;">2</div>
+                        <span style="font-weight: 600; color: #4F46E5;">Dev Package 다운로드</span>
+                        <span style="color: #9ca3af; margin-left: auto; font-size: 13px;">Step 2/2</span>
                     </div>
-                    <div style="display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                        <button type="button" onclick="closeAddProjectModal()"
-                            style="padding: 12px 24px; background: #6c757d; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white;">취소</button>
-                        <button type="submit"
-                            style="padding: 12px 24px; background: #10B981; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; color: white;">등록하기</button>
+
+                    <!-- 정보 등록 완료 안내 -->
+                    <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: center;">
+                        <div style="font-size: 32px; margin-bottom: 8px;">✅</div>
+                        <div style="font-weight: 700; color: #059669; font-size: 16px;">프로젝트 정보가 등록되었습니다!</div>
+                        <div style="color: #6b7280; font-size: 13px; margin-top: 4px;">프로젝트명: <strong id="registeredProjectName"></strong></div>
                     </div>
-                </form>
+
+                    <!-- Dev Package 다운로드 안내 -->
+                    <div style="background: #f8fafc; border: 2px dashed #6366F1; border-radius: 12px; padding: 20px; text-align: center;">
+                        <div style="font-size: 40px; margin-bottom: 12px;">📦</div>
+                        <div style="font-weight: 700; color: #1f2937; font-size: 16px; margin-bottom: 8px;">Dev Package를 다운로드하세요</div>
+                        <div style="color: #6b7280; font-size: 13px; line-height: 1.6; margin-bottom: 16px;">
+                            Claude Code와 함께 사용할 개발 패키지입니다.<br>
+                            이 패키지가 있어야 AI 협업 개발을 시작할 수 있습니다.
+                        </div>
+                        <button id="devPackageDownloadBtnModal" onclick="downloadDevPackageAndComplete()"
+                            style="padding: 14px 32px; background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; color: white; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);">
+                            <span style="font-size: 18px;">⬇️</span> Dev Package 다운로드 (ZIP)
+                        </button>
+                        <div style="font-size: 11px; color: #9ca3af; margin-top: 12px;">
+                            ※ 패키지 크기: 약 12MB | 설치 안내는 패키지 내 README 참조
+                        </div>
+                    </div>
+
+                    <!-- 안내 문구 -->
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 3px solid #F59E0B;">
+                        <div style="font-size: 13px; color: #92400e; line-height: 1.5;">
+                            <strong>💡 중요:</strong> 다운로드 버튼을 클릭하면 프로젝트 등록이 완료됩니다.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: 등록 완료 (다운로드 후 표시) -->
+                <div id="projectRegStep3" style="display: none;">
+                    <!-- 완료 표시 -->
+                    <div style="text-align: center; padding: 40px 20px;">
+                        <div style="font-size: 64px; margin-bottom: 16px;">🎉</div>
+                        <div style="font-weight: 700; color: #059669; font-size: 22px; margin-bottom: 8px;">프로젝트 등록 완료!</div>
+                        <div style="color: #6b7280; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
+                            <strong id="completedProjectName"></strong> 프로젝트가 성공적으로 등록되었습니다.<br>
+                            다운로드한 Dev Package를 설치하고 개발을 시작하세요!
+                        </div>
+
+                        <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: left;">
+                            <div style="font-weight: 600; color: #166534; margin-bottom: 12px; font-size: 14px;">📋 다음 단계</div>
+                            <ol style="color: #166534; font-size: 13px; line-height: 1.8; margin: 0; padding-left: 20px;">
+                                <li>다운로드한 ZIP 파일의 압축을 해제하세요</li>
+                                <li>패키지 내 README.md를 읽고 설치를 진행하세요</li>
+                                <li>Claude Code CLI에서 <code style="background: #dcfce7; padding: 2px 6px; border-radius: 4px;">claude</code> 명령으로 시작하세요</li>
+                            </ol>
+                        </div>
+
+                        <button onclick="closeAddProjectModalFinal()"
+                            style="padding: 14px 40px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; color: white; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);">
+                            확인
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
