@@ -2328,6 +2328,45 @@
             padding: 24px;
         }
 
+        /* Guide Popup (드래그 가능 팝업) - 기본 스타일 */
+        #guidePopup {
+            display: none;
+            position: fixed;
+            top: 80px;
+            right: 50px;
+            width: 748px;
+            max-height: calc(100vh - 150px);
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            overflow: hidden;
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+        }
+        #guidePopupHeader {
+            background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%);
+            color: white;
+            padding: 12px 16px;
+            cursor: move;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        #guidePopupTitle {
+            font-weight: 700;
+            font-size: 14px;
+        }
+        #guidePopupContent {
+            padding: 20px;
+            max-height: calc(100vh - 210px);
+            overflow-y: auto;
+            font-size: 11px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: #212529;
+        }
+
         /* Popup Modal (Centered) */
         .popup-modal-overlay {
             display: none;
@@ -2844,34 +2883,34 @@
                 flex-direction: column;
                 gap: 8px;
             }
-            /* 안내문 팝업 - 모바일 대응 */
+            /* 안내문 팝업 - 모바일 대응 (!important 제거 - CSS 기반) */
             #guidePopup {
-                width: calc(100vw - 20px) !important;
-                max-width: none !important;
-                left: 10px !important;
-                right: 10px !important;
-                top: 70px !important;
+                width: calc(100vw - 20px);
+                max-width: none;
+                left: 10px;
+                right: auto;
+                top: 70px;
             }
             #guidePopupContent {
-                font-size: 13px !important;
-                padding: 16px !important;
-                line-height: 1.7 !important;
+                font-size: 13px;
+                padding: 16px;
+                line-height: 1.7;
             }
             #guidePopupContent h1, #guidePopupContent h2, #guidePopupContent h3 {
-                font-size: 16px !important;
-                margin-top: 16px !important;
-                margin-bottom: 8px !important;
+                font-size: 16px;
+                margin-top: 16px;
+                margin-bottom: 8px;
             }
             #guidePopupContent button {
-                min-height: 44px !important;
-                font-size: 14px !important;
-                padding: 12px 16px !important;
+                min-height: 44px;
+                font-size: 14px;
+                padding: 12px 16px;
             }
             #guidePopupHeader {
-                padding: 10px 12px !important;
+                padding: 10px 12px;
             }
             #guidePopupTitle {
-                font-size: 13px !important;
+                font-size: 13px;
             }
         }
 
@@ -10752,12 +10791,12 @@ ${result.answer}`;
     </div>
 
     <!-- 안내문 드래그 가능 팝업 -->
-    <div id="guidePopup" style="display: none; position: fixed; top: 80px; right: 50px; width: 748px; max-height: calc(100vh - 150px); background: white; border-radius: 12px; box-shadow: var(--shadow-lg); z-index: 1000; overflow: hidden; font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;">
-        <div id="guidePopupHeader" style="background: linear-gradient(135deg, var(--tertiary) 0%, var(--tertiary-dark) 100%); color: white; padding: 12px 16px; cursor: move; display: flex; justify-content: space-between; align-items: center; user-select: none;">
-            <span id="guidePopupTitle" style="font-weight: 700; font-size: 14px;">📖 안내문</span>
-            <button onclick="closeGuidePopup()" style="padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: white; cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.3)'" onmouseout="this.style.background='rgba(255,255,255,0.15)'">✕ 닫기</button>
+    <div id="guidePopup">
+        <div id="guidePopupHeader">
+            <span id="guidePopupTitle">📖 안내문</span>
+            <button class="guide-popup-close-btn" onclick="closeGuidePopup()">✕ 닫기</button>
         </div>
-        <div id="guidePopupContent" style="padding: 20px; max-height: calc(100vh - 210px); overflow-y: auto; font-size: 11px; font-weight: 400; line-height: 1.6; color: #212529;">
+        <div id="guidePopupContent">
             <!-- 안내문 내용이 여기에 로드됩니다 -->
         </div>
     </div>
