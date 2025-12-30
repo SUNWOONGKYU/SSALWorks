@@ -8135,30 +8135,39 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             // 팝업 열기인 경우 로그인 및 빌더 계정 체크
             try {
+                console.log('[AI Tutor] 세션 확인 시작...');
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
+                console.log('[AI Tutor] 세션:', session ? '있음' : '없음');
+
                 if (!session) {
-                    alert('🎓 AI Tutor는 빌더 계정 전용 서비스입니다.\n\n로그인 후 이용해 주세요.');
+                    alert('🔐 로그인이 필요합니다.\n\n로그인 후 이용해 주세요.');
                     return;
                 }
 
                 // 빌더 계정 확인
+                console.log('[AI Tutor] 빌더 계정 확인 중... user_id:', session.user.id);
                 const { data: userData, error: userError } = await window.supabaseClient
                     .from('users')
                     .select('installation_fee_paid')
                     .eq('id', session.user.id)
                     .single();
 
+                console.log('[AI Tutor] 조회 결과:', userData, '에러:', userError);
+
                 if (userError) {
-                    console.error('사용자 정보 조회 오류:', userError);
-                    alert('사용자 정보를 확인할 수 없습니다. 페이지를 새로고침 해주세요.');
+                    console.error('[AI Tutor] 사용자 정보 조회 오류:', userError);
+                    alert('사용자 정보를 확인할 수 없습니다.\n페이지를 새로고침 해주세요.');
                     return;
                 }
 
                 // 빌더 계정이 아닌 경우
                 if (!userData || !userData.installation_fee_paid) {
-                    alert('🎓 AI Tutor는 빌더 계정 전용 서비스입니다.\n\n빌더 계정 개설 후 이용해 주세요.');
+                    console.log('[AI Tutor] 빌더 계정 아님. installation_fee_paid:', userData?.installation_fee_paid);
+                    alert('🎓 AI Tutor는 빌더 계정 전용 서비스입니다.\n\n빌더 계정으로 로그인해 주세요.');
                     return;
                 }
+
+                console.log('[AI Tutor] 빌더 계정 확인됨. 모달 열기...');
 
                 overlay.style.display = 'block';
                 expanded.style.display = 'block';
