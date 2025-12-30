@@ -12411,11 +12411,6 @@ ${result.answer}`;
                     window.registeredProjectId = project.project_id;
                     window.registeredProjectName = project.project_name;
 
-                    // 자동으로 개발환경 설정 안내문 표시
-                    setTimeout(() => {
-                        showPackageInstallGuide();
-                    }, 500);
-
                     // 진행 프로세스 모두 0%로 초기화 (등록 미완료)
                     resetAllProgressToZero();
                     return;
