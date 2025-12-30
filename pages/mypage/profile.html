@@ -421,6 +421,85 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Dashboard Grid with Sidebar */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .sidebar {
+                display: none;
+            }
+        }
+
+        .sidebar {
+            position: sticky;
+            top: 24px;
+            height: fit-content;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .menu-title {
+            padding: 16px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--gray-500);
+            border-bottom: 1px solid var(--gray-100);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .menu-list {
+            list-style: none;
+            padding: 8px 0;
+        }
+
+        .menu-item {
+            border-bottom: 1px solid var(--gray-50);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--gray-700);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .menu-link:hover {
+            background: var(--gray-50);
+            color: var(--primary);
+        }
+
+        .menu-link.active {
+            background: rgba(44, 74, 138, 0.08);
+            color: var(--primary);
+            font-weight: 600;
+            border-left: 3px solid var(--primary);
+        }
+
+        .main-content-area {
+            min-width: 0;
+        }
     </style>
 </head>
 <body>
@@ -454,7 +533,37 @@
             <span>내 프로필</span>
         </div>
 
-        <h1 class="page-title">👤 내 프로필</h1>
+        <div class="dashboard-grid">
+            <!-- Sidebar Menu -->
+            <aside class="sidebar">
+                <div class="menu-card">
+                    <div class="menu-title">메뉴</div>
+                    <ul class="menu-list">
+                        <li class="menu-item">
+                            <a href="profile.html" class="menu-link active">내 프로필</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="subscription.html" class="menu-link">서비스 이용 현황</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="manual.html" class="menu-link">자료다운로드</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="credit.html" class="menu-link">크레딧 관리</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="security.html" class="menu-link">보안 설정</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="inquiries.html" class="menu-link">내 문의 내역</a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <div class="main-content-area">
+                <h1 class="page-title">👤 내 프로필</h1>
 
         <!-- Profile Card -->
         <div class="card view-mode" id="profileCard">
@@ -550,6 +659,8 @@
                     <button type="submit" class="btn btn-primary">저장하기</button>
                 </div>
             </form>
+        </div>
+            </div>
         </div>
     </div>
 
