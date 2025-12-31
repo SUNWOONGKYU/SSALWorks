@@ -48,18 +48,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │  viewer_csv.html ⭐ 주로 사용                                │
 │  → 내가 진행 중인 프로젝트 데이터                              │
 │  → Task 완료할 때마다 업데이트됨                              │
-│  → 경로: method/csv/data/sal_grid.csv                       │
+│  → 경로: method/csv/data/in_progress/sal_grid.csv           │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### ⚠️ 일반 이용자는 CSV 사용
 
 ```
-✅ 내 프로젝트 진행 상황 = CSV 파일 (method/csv/data/sal_grid.csv)
+✅ 내 프로젝트 진행 상황 = CSV 파일 (method/csv/data/in_progress/sal_grid.csv)
 ✅ Task 완료 시 = CSV 파일 업데이트
 ✅ 진행 현황 확인 = viewer_csv.html
+✅ 프로젝트 완료 시 = completed/ 폴더로 이동
 
 ❌ Supabase DB = 사용하지 않음 (SSAL Works 예시용)
+```
+
+### 📂 CSV 폴더 구조
+
+```
+method/csv/data/
+├── in_progress/        ← Viewer가 읽는 폴더 (진행 중)
+│   └── sal_grid.csv
+└── completed/          ← 완료된 프로젝트 보관
+    └── [project]_sal_grid.csv
 ```
 
 ---
@@ -354,6 +365,42 @@ work_logs/current.md 기록
 
 ---
 
+## 📊 Progress Monitor - DB 업로드 (필수!) ⭐
+
+> **웹에서 개인별 진행률을 표시하려면 반드시 설정해야 함!**
+
+### 왜 필수인가?
+
+```
+❌ 로컬 JSON만 생성 → 웹에서 개인별 진행률 표시 불가
+✅ DB에 업로드 → 웹에서 로그인한 사용자별 진행률 표시
+```
+
+### 필수 설정
+
+1. **Supabase 테이블 생성**: `Development_Process_Monitor/DB_Method/create_table.sql` 실행
+2. **환경변수 설정**: `.env` 파일에 Supabase URL/KEY 추가
+3. **업로드 스크립트 배치**: `DB_Method/upload-progress.js` → `scripts/`에 복사
+4. **pre-commit hook 설정**: git commit 시 자동 업로드
+
+**상세 가이드:** `Development_Process_Monitor/DB_Method/README.md`
+
+### 작동 흐름
+
+```
+git commit
+    ↓
+build-progress.js (진행률 계산)
+    ↓
+upload-progress.js (DB 업로드) ← 필수!
+    ↓
+웹에서 loadProjectProgress() (DB 조회)
+    ↓
+사이드바 진행률 표시
+```
+
+---
+
 ## 📋 기타 참조 문서
 
 ### AI 12대 준수사항
@@ -361,9 +408,13 @@ work_logs/current.md 기록
 
 ### SAL Grid 매뉴얼 (v4.0 일반화 버전)
 > `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
-> - **일반 이용자: CSV Method 사용**
-> - DB Method는 Supabase 사용 시 참조 (선택사항)
+> - **Task 데이터 저장: CSV Method 사용**
 > - 27개 섹션으로 구성된 완전 매뉴얼
+
+### Progress Monitor DB Method (필수!)
+> `Development_Process_Monitor/DB_Method/README.md`
+> - **진행률 표시: DB 업로드 필수**
+> - 웹에서 개인별 진행률 표시를 위해 반드시 설정
 
 ### 주의사항
 > `.claude/CAUTION.md` (일반 주의사항, 개발 TODO)

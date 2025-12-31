@@ -244,7 +244,16 @@ const { data, error } = await supabase
 
 > **적용 대상:** 일반 사용자, Supabase 없는 프로젝트
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치 (폴더 구조):**
+```
+S0_Project-SAL-Grid_생성/CSV_Method/data/
+├── in_progress/                ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
+│   └── project_sal_grid.json
+└── completed/                  ← 완료된 프로젝트 보관
+    └── {project_name}_sal_grid.json
+```
+
+**핵심:** `in_progress/` 폴더의 JSON 파일만 Viewer에 표시됨
 
 ##### 시나리오 A: 신규 Task (아직 작업 안 함)
 
@@ -380,7 +389,7 @@ const { error } = await supabase
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 제거
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json`
 
 ### Step 4: 작업 로그 업데이트
 
@@ -480,7 +489,7 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 찾아 수정
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json`
 
 **수정 예시:**
 ```json
@@ -588,7 +597,7 @@ console.log(data);
 
 ### 📌 CSV Method (JSON 파일)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json`
 
 #### 작업 완료 시 (Executed)
 
@@ -690,6 +699,8 @@ console.log(data);
 8. **⚠️ verification_status 필수**: INSERT 시 반드시 verification_status 명시적 설정
 9. **⚠️ SSAL Works는 DB + CSV 둘 다**: 두 방식 동시 적용 시 반드시 양쪽 모두 업데이트
 10. **⚠️ Stage Gate 경로 구분**: DB Method와 CSV Method의 Stage Gate 저장 위치가 다름
+11. **⚠️ CSV 파일 위치**: 반드시 `in_progress/` 폴더에서 작업 (Viewer가 해당 폴더만 읽음)
+12. **⚠️ 프로젝트 완료 시**: `in_progress/` → `completed/` 폴더로 이동 후 새 프로젝트 시작
 
 ---
 
@@ -717,7 +728,23 @@ console.log(data);
 
 | 항목 | 위치 |
 |------|------|
-| JSON 데이터 | `S0_Project-SAL-Grid_생성/CSV_Method/data/project_sal_grid.json` |
+| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json` |
+| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/CSV_Method/data/completed/` |
 | Stage Gates | `S0_Project-SAL-Grid_생성/CSV_Method/stage-gates/` |
 | JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/CSV_Method/scripts/` |
 | JSON 템플릿 | `S0_Project-SAL-Grid_생성/CSV_Method/templates/` |
+
+### CSV Method 폴더 구조 ⭐
+
+```
+S0_Project-SAL-Grid_생성/CSV_Method/data/
+├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
+│   └── project_sal_grid.json
+└── completed/          ← 완료된 프로젝트 보관
+    └── {project_name}_sal_grid.json
+```
+
+**프로젝트 완료 시:**
+1. `in_progress/project_sal_grid.json` → `completed/{project_name}_sal_grid.json` 이동
+2. 새 프로젝트 시작 시 `in_progress/`에 새 파일 생성
+3. Viewer는 항상 `in_progress/` 폴더만 읽음

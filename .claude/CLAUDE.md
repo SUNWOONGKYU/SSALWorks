@@ -49,7 +49,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │  viewer_csv.html (CSV 파일)                                 │
 │  → 해당 이용자의 "진행 중인 프로젝트" 데이터                   │
 │  → 이용자마다 다른 내용                                       │
-│  → 경로: method/csv/data/sal_grid.csv                       │
+│  → 경로: method/csv/data/in_progress/sal_grid.csv           │
+│  → 완료된 프로젝트: method/csv/data/completed/ 보관          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -75,18 +76,37 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | 사용자 | CSV 경로 | 결과 |
 |--------|----------|------|
-| `wksun999@gmail.com` | `../method/csv/data/sal_grid.csv` | SSAL Works 데이터 표시 |
+| `wksun999@gmail.com` | `../method/csv/data/in_progress/sal_grid.csv` | SSAL Works 데이터 표시 |
 | 그 외 모든 사용자 | `../method/csv/data/users/{email}/sal_grid.csv` | 개인 프로젝트 데이터 |
 | 파일 없음 (404) | - | "프로젝트 없음" 안내 메시지 |
 
 ```javascript
 // viewer_csv.html 내부 로직
 if (userEmail === 'wksun999@gmail.com') {
-    csvPath = '../method/csv/data/sal_grid.csv';  // SSAL Works
+    // SSAL Works 관리자: in_progress 폴더에서 진행 중인 프로젝트 로드
+    csvPath = '../method/csv/data/in_progress/sal_grid.csv';  // SSAL Works
 } else {
     csvPath = `../method/csv/data/users/${userEmail}/sal_grid.csv`;  // 개인
 }
 ```
+
+### CSV 폴더 구조 ⭐
+
+```
+method/csv/data/
+├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
+│   └── sal_grid.csv
+├── completed/          ← 완료된 프로젝트 보관
+│   └── {project_name}_sal_grid.csv
+└── users/              ← 일반 사용자별 데이터
+    └── {email}/
+        └── sal_grid.csv
+```
+
+**프로젝트 완료 시:**
+1. `in_progress/sal_grid.csv` → `completed/{project_name}_sal_grid.csv` 이동
+2. 새 프로젝트 시작 시 `in_progress/`에 새 CSV 생성
+3. Viewer는 항상 `in_progress/` 폴더만 읽음
 
 ### "프로젝트 없음" 안내 메시지
 

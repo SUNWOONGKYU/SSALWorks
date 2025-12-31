@@ -136,10 +136,19 @@
 
 ## 6. CSV 파일 정보
 
-### CSV 파일 위치
+### CSV 파일 위치 (폴더 구조)
+
 ```
-{project-root}/S0_Project-SAL-Grid_생성/data/sal_grid.csv
+{project-root}/S0_Project-SAL-Grid_생성/method/csv/data/
+├── in_progress/        ← 진행 중인 프로젝트 (Viewer가 읽는 폴더)
+│   └── sal_grid.csv    ← 현재 프로젝트 데이터
+└── completed/          ← 완료된 프로젝트 (보관용)
+    └── [project]_sal_grid.csv
 ```
+
+**핵심:**
+- Viewer는 `in_progress/` 폴더만 로드
+- 프로젝트 완료 시 `completed/`로 이동
 
 ### CSV 파일 형식
 

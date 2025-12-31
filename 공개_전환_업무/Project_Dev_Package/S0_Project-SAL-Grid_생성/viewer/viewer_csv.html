@@ -502,8 +502,8 @@
             try {
                 document.getElementById('connectionStatus').textContent = 'CSV 파일 로딩 중...';
 
-                // CSV 파일 로드
-                const response = await fetch('../method/csv/data/sal_grid.csv');
+                // CSV 파일 로드 (in_progress 폴더에서 진행 중인 프로젝트만 로드)
+                const response = await fetch('../method/csv/data/in_progress/sal_grid.csv');
                 if (!response.ok) {
                     throw new Error(`CSV 파일 로드 실패: ${response.status}`);
                 }

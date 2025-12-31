@@ -1,14 +1,18 @@
-# Development Process Monitor - 정적 JSON 방식 (완전판)
+# Development Process Monitor - DB 업로드 방식 (필수)
 
 > 프로젝트 P0~S5 진행률을 사이드바에 표시하는 시스템
-> **버전:** 2.0 (완전판)
-> **최종 수정일:** 2025-12-26
+> **버전:** 3.0 (DB 업로드 필수)
+> **최종 수정일:** 2025-12-31
 
 ---
 
 ## 개요
 
-Development Process Monitor는 빌드 시점에 진행률을 계산하여 JSON 파일로 생성하고, 런타임에 해당 파일을 로드하여 사이드바에 표시하는 **정적 JSON 방식** 시스템입니다.
+Development Process Monitor는 빌드 시점에 진행률을 계산하여 **DB에 업로드**하고, 런타임에 DB에서 조회하여 사이드바에 표시하는 **DB 업로드 방식** 시스템입니다.
+
+> **⚠️ DB 업로드가 필수입니다!**
+> - 로컬 JSON만 생성하면 웹에서 개인별 진행률 표시 불가
+> - 반드시 DB_Method 설정을 완료해야 함
 
 ---
 
@@ -16,10 +20,10 @@ Development Process Monitor는 빌드 시점에 진행률을 계산하여 JSON �
 
 | 항목 | 내용 |
 |------|------|
-| **방식** | 정적 JSON 방식 |
-| **데이터 소스** | `phase_progress.json` (빌드 시 생성) |
-| **DB 실시간 조회** | 없음 |
-| **업데이트 시점** | 빌드/배포 시점에만 |
+| **방식** | DB 업로드 방식 (Push) |
+| **데이터 소스** | Supabase `project_phase_progress` 테이블 |
+| **DB 실시간 조회** | **필수** |
+| **업데이트 시점** | git commit 시 자동 업로드 |
 
 ---
 
@@ -35,7 +39,20 @@ Development Process Monitor는 빌드 시점에 진행률을 계산하여 JSON �
 │       ↓                                                         │
 │  S1~S5: sal_grid.csv에서 Task 완료율로 진행률 계산               │
 │       ↓                                                         │
-│  프로젝트 루트/data/phase_progress.json 파일 생성                │
+│  프로젝트 루트/data/phase_progress.json 파일 생성 (로컬 백업)    │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────────┐
+│                    DB 업로드 (필수!)                             │
+│          node scripts/upload-progress.js                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  phase_progress.json 읽기                                       │
+│       ↓                                                         │
+│  Supabase project_phase_progress 테이블에 UPSERT                │
+│       ↓                                                         │
+│  사용자별 project_id로 구분 저장                                 │
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
                               ↓
@@ -44,9 +61,9 @@ Development Process Monitor는 빌드 시점에 진행률을 계산하여 JSON �
 │                    index.html                                   │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  loadPhaseProgressFromDB() 호출                                 │
+│  loadProjectProgress() 호출                                     │
 │       ↓                                                         │
-│  fetch('data/phase_progress.json')                              │
+│  Supabase DB에서 해당 project_id 진행률 조회                    │
 │       ↓                                                         │
 │  사이드바 진행률 표시                                            │
 │                                                                 │
@@ -60,9 +77,20 @@ Development Process Monitor는 빌드 시점에 진행률을 계산하여 JSON �
 | 파일 | 위치 | 역할 |
 |------|------|------|
 | `build-progress.js` | Development_Process_Monitor/ | 빌드 스크립트 (JSON 생성) |
+| `upload-progress.js` | scripts/ (복사) | **DB 업로드 스크립트 (필수!)** |
 | `sal_grid.csv` | S0_Project-SAL-Grid_생성/data/ | S1~S5 Task 데이터 (입력) |
-| `phase_progress.json` | 프로젝트 루트/data/ | 진행률 데이터 (출력) |
-| `index.html` | 프로젝트 루트 | 사이드바 표시 |
+| `phase_progress.json` | 프로젝트 루트/data/ | 진행률 데이터 (로컬 백업) |
+| `index.html` | 프로젝트 루트 | 사이드바 표시 (DB 조회) |
+
+### DB_Method 파일 (필수 설정)
+
+| 파일 | 역할 |
+|------|------|
+| `DB_Method/README.md` | DB Method 상세 설명 |
+| `DB_Method/create_table.sql` | Supabase 테이블 생성 SQL |
+| `DB_Method/upload-progress.js` | DB 업로드 스크립트 (scripts/에 복사) |
+| `DB_Method/pre-commit-hook-example.sh` | pre-commit hook 예시 |
+| `DB_Method/loadProjectProgress-snippet.js` | index.html 함수 스니펫 |
 
 ---
 
@@ -1007,7 +1035,22 @@ S5: 9/9 = 100%
 
 ## 8. 새 프로젝트 적용 가이드
 
-### Step 1: build-progress.js 수정
+### Step 1: DB Method 설정 (필수!) ⭐
+
+> **반드시 먼저 설정해야 함!**
+
+1. **테이블 생성**: `DB_Method/create_table.sql`을 Supabase Dashboard에서 실행
+2. **환경변수 설정**: 프로젝트 루트에 `.env` 파일 생성
+   ```
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+   ```
+3. **업로드 스크립트 배치**: `DB_Method/upload-progress.js`를 `scripts/`에 복사
+4. **pre-commit hook 설정**: `.git/hooks/pre-commit`에 업로드 명령 추가
+
+**상세 설명:** `DB_Method/README.md` 참조
+
+### Step 2: build-progress.js 수정
 
 | 항목 | 위치 | 수정 내용 |
 |------|------|----------|
@@ -1017,24 +1060,31 @@ S5: 9/9 = 100%
 | CSV 경로 | `main()` 함수 | `csvPath` 변수를 프로젝트 구조에 맞게 수정 |
 | JSON 출력 경로 | `main()` 함수 | `outputPath` 변수를 원하는 위치로 수정 |
 
-### Step 2: HTML 사이드바 추가
+### Step 3: HTML 사이드바 추가
 
 1. 위의 HTML 구조를 index.html에 추가
 2. 단계 수에 맞게 process-item 복사/수정
 
-### Step 3: CSS 추가
+### Step 4: CSS 추가
 
 1. 위의 CSS 스타일을 `<style>` 태그 또는 별도 CSS 파일에 추가
 
-### Step 4: JavaScript 추가
+### Step 5: JavaScript 추가 (DB 조회 버전)
 
-1. 위의 JavaScript 함수들을 `<script>` 태그에 추가
-2. 페이지 로드 시 `loadPhaseProgressFromDB()` 호출 확인
+1. `DB_Method/loadProjectProgress-snippet.js` 내용을 index.html에 추가
+2. 페이지 로드 시 `loadProjectProgress()` 호출 확인
 
-### Step 5: 빌드 실행
+### Step 6: 빌드 및 업로드 확인
 
 ```bash
+# 빌드 실행
 node Development_Process_Monitor/build-progress.js
+
+# DB 업로드 테스트
+node scripts/upload-progress.js
+
+# git commit 시 자동 실행되는지 확인
+git commit -m "test"
 ```
 
 ---
@@ -1044,11 +1094,20 @@ node Development_Process_Monitor/build-progress.js
 ```
 Development_Process_Monitor/
 ├── build-progress.js                      # 진행률 빌드 스크립트
-├── README.md                              # 이 파일 (완전판)
-└── DEVELOPMENT_PROCESS_WORKFLOW.md        # 개발 프로세스 워크플로우
+├── README.md                              # 이 파일 (DB 필수 버전)
+├── DEVELOPMENT_PROCESS_WORKFLOW.md        # 개발 프로세스 워크플로우
+└── DB_Method/                             # ⭐ DB 업로드 설정 (필수!)
+    ├── README.md                          # DB Method 상세 설명
+    ├── create_table.sql                   # 테이블 생성 SQL
+    ├── upload-progress.js                 # DB 업로드 스크립트
+    ├── pre-commit-hook-example.sh         # pre-commit hook 예시
+    └── loadProjectProgress-snippet.js     # index.html 함수 스니펫
+
+scripts/
+└── upload-progress.js                     # DB_Method에서 복사 (필수!)
 
 data/
-└── phase_progress.json                    # 빌드 출력 (자동 생성)
+└── phase_progress.json                    # 빌드 출력 (로컬 백업)
 
 S0_Project-SAL-Grid_생성/
 └── data/

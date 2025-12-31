@@ -42,6 +42,147 @@
 
 ---
 
+### Dev Package - Viewer 폴더 구조 수정 ✅
+
+**작업 목표**: CSV Viewer의 폴더 구조를 `in_progress/`와 `completed/`로 분리하여 여러 프로젝트 관리 가능하게 함
+
+**완료된 작업:**
+
+| # | 작업 내용 | 상태 |
+|---|----------|------|
+| 1 | `completed/`, `in_progress/` 폴더 생성 | ✅ |
+| 2 | `sal_grid.csv`를 `in_progress/`로 이동 | ✅ |
+| 3 | `viewer_csv.html` 경로 수정 (`in_progress/` 읽도록) | ✅ |
+| 4 | 사용 가이드 README.md 추가 | ✅ |
+| 5 | 규칙 파일 업데이트 (04_grid-writing-csv.md) | ✅ |
+| 6 | CLAUDE.md 폴더 구조 설명 추가 | ✅ |
+
+**수정된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `viewer/viewer_csv.html` | 경로 변경: `../method/csv/data/sal_grid.csv` → `../method/csv/data/in_progress/sal_grid.csv` |
+| `method/csv/data/README.md` | 폴더 구조 사용 가이드 신규 생성 |
+| `.claude/rules/04_grid-writing-csv.md` | CSV 파일 위치 섹션 업데이트 |
+| `.claude/CLAUDE.md` | CSV 폴더 구조 설명 추가 |
+
+**새 폴더 구조:**
+```
+method/csv/data/
+├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
+│   └── sal_grid.csv
+├── completed/          ← 완료된 프로젝트 보관용
+│   └── [project]_sal_grid.csv
+└── README.md           ← 사용 가이드
+```
+
+**핵심 결정사항:**
+- Viewer는 항상 `in_progress/` 폴더만 로드
+- 프로젝트 완료 시 `completed/`로 이동
+- 여러 프로젝트를 순차적으로 관리 가능
+
+---
+
+### SSAL Works - CSV 방식 폴더 구조 수정 ✅
+
+**작업 목표**: SSAL Works의 CSV Viewer 경로도 `in_progress/` 폴더 구조로 통일
+
+**완료된 작업:**
+
+| # | 작업 내용 | 상태 |
+|---|----------|------|
+| 1 | `in_progress/`, `completed/` 폴더 생성 | ✅ |
+| 2 | `sal_grid.csv`를 `in_progress/`로 이동 | ✅ |
+| 3 | `viewer_csv.html` 관리자 경로 수정 | ✅ |
+| 4 | `07_task-crud.md` 규칙 파일 업데이트 | ✅ |
+| 5 | `CLAUDE.md` CSV 경로 및 폴더 구조 반영 | ✅ |
+
+**수정된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `S0_Project-SAL-Grid_생성/viewer/viewer_csv.html` | 관리자 경로: `in_progress/sal_grid.csv` |
+| `.claude/rules/07_task-crud.md` | CSV Method JSON 경로를 `in_progress/`로 수정, 폴더 구조 섹션 추가, 주의사항 2개 추가 |
+| `.claude/CLAUDE.md` | CSV 경로 테이블 수정, 폴더 구조 섹션 신규 추가 |
+
+**SSAL Works CSV 폴더 구조:**
+```
+method/csv/data/
+├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
+│   └── sal_grid.csv
+├── completed/          ← 완료된 프로젝트 보관
+│   └── {project_name}_sal_grid.csv
+└── users/              ← 일반 사용자별 데이터
+    └── {email}/
+        └── sal_grid.csv
+```
+
+**CSV Method JSON 폴더 구조 (07_task-crud.md):**
+```
+S0_Project-SAL-Grid_생성/CSV_Method/data/
+├── in_progress/        ← Viewer가 읽는 폴더
+│   └── project_sal_grid.json
+└── completed/          ← 완료된 프로젝트 보관
+    └── {project_name}_sal_grid.json
+```
+
+---
+
+### Progress DB 방식 - Dev Package 반영 ✅
+
+**작업 목표**: Progress Monitor의 DB 업로드 방식을 Dev Package의 **유일한 필수 방식**으로 반영
+
+**문제점**:
+- Dev Package의 DB_Method 폴더가 비어있음
+- README.md에 "정적 JSON 방식"으로만 설명됨
+- CLAUDE.md에 Progress DB Method 설명 없음
+
+**완료된 작업:**
+
+| # | 작업 내용 | 상태 |
+|---|----------|------|
+| 1 | SSAL Works DB_Method 파일 5개 → Dev Package에 복사 | ✅ |
+| 2 | README.md "정적 JSON 방식" → "DB 업로드 방식 (필수)" 수정 | ✅ |
+| 3 | CLAUDE.md에 "Progress Monitor - DB 업로드 (필수!)" 섹션 추가 | ✅ |
+| 4 | 기타 참조 문서에 DB Method 필수 안내 추가 | ✅ |
+
+**복사된 파일 (SSAL Works → Dev Package):**
+
+```
+Development_Process_Monitor/DB_Method/
+├── README.md                        ← DB Method 상세 설명
+├── create_table.sql                 ← Supabase 테이블 생성 SQL
+├── upload-progress.js               ← DB 업로드 스크립트
+├── pre-commit-hook-example.sh       ← pre-commit hook 예시
+└── loadProjectProgress-snippet.js   ← index.html 함수 스니펫
+```
+
+**수정된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `Development_Process_Monitor/README.md` | 버전 3.0, DB 업로드 필수로 변경, 데이터 흐름 다이어그램 수정 |
+| `.claude/CLAUDE.md` | "Progress Monitor - DB 업로드 (필수!)" 섹션 신규 추가 |
+
+**핵심 변경사항:**
+
+1. **DB 업로드가 유일한 필수 방식**
+   - 로컬 JSON만 생성 → 웹에서 개인별 진행률 표시 불가
+   - DB에 업로드 → 웹에서 로그인한 사용자별 진행률 표시
+
+2. **데이터 흐름 (수정됨)**
+   ```
+   git commit → build-progress.js → upload-progress.js (필수!) → DB → 웹 표시
+   ```
+
+3. **필수 설정 항목**
+   - Supabase 테이블 생성 (create_table.sql)
+   - 환경변수 설정 (.env)
+   - 업로드 스크립트 배치 (scripts/)
+   - pre-commit hook 설정
+
+---
+
 ### 프로젝트 등록 프로세스 개선 ✅
 
 **작업 목표**: Dev Package 다운로드까지 등록 프로세스에 포함시키기
@@ -2547,6 +2688,68 @@ mv "S5_운영" "S5_개발_마무리"
 - `b01cb46`: test: API에서도 진행중 프로젝트 체크 임시 비활성화 (테스트용)
 - `7c4b518`: fix: 프로젝트 등록 폼 디자인 개선
 
+---
+
+## 2025-12-31 오후 작업 (Progress DB 방식 + Viewer 구조 논의)
+
+### Progress DB 방식 구현 (SSAL Works) ✅
+
+**작업 목표**: 사용자별 프로젝트 진행률 표시 - project_id 기반 조회
+
+**문제점**:
+- 모든 사용자에게 SSAL Works의 100% 진행률이 표시됨
+- `loadProjectProgress()`가 이메일 기반으로 project_id 생성 (`dev_PROJECT`)
+- 실제 DB의 project_id는 등록 기반 형식 (`2512000002TH-P001`)
+
+**수정 내용**:
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `index.html` | `loadProjectProgress(projectId)` - 전달받은 project_id 직접 사용 |
+| `index.html` | `loadUserProject()` - `project.project_id` 전달 |
+| `scripts/upload-progress.js` | `.ssal-project.json`에서 project_id 읽기 |
+| `.ssal-project.json` | 설정 파일 생성 (project_id: 2512000002TH-P001) |
+
+**결과**: 사용자별 프로젝트 진행률 정상 표시 ✅
+
+---
+
+### Project SAL Grid Viewer - 프로젝트 관리 구조 논의 🔄
+
+**논의 배경**:
+- CSV 방식에서 여러 프로젝트 관리 시 완료/진행중 프로젝트가 섞이는 문제
+- Dev Package 설치 여부와 무관하게 작동해야 함
+
+**결정된 폴더 구조**:
+```
+data/
+├── completed/           ← 완료된 프로젝트들
+│   └── project_001.csv
+│
+└── in_progress/         ← 진행 중 (Viewer가 여기만 읽음)
+    └── project_002.csv
+```
+
+**핵심 원칙**:
+- Viewer는 항상 `in_progress/` 폴더만 읽음
+- 프로젝트 완료 시 `completed/`로 이동
+- Dev Package 설치 여부와 독립적으로 작동
+
+---
+
+### ⏸️ 대기 중인 작업 (4가지)
+
+| # | 작업 | 설명 | 우선순위 |
+|---|------|------|----------|
+| 1 | **Dev Package - Viewer 폴더 구조 수정** | in_progress/completed 폴더 구조 적용 | High |
+| 2 | **SSAL Works - CSV 방식 문서 수정** | CSV 방식 폴더 구조 반영 | High |
+| 3 | **Progress DB 방식 - Dev Package 반영** | DB 방식 가이드 문서화 (선택사항) | Medium |
+| 4 | **Dev Package 전체 반영 및 테스트** | 위 변경사항들 통합 반영 | High |
+
+**상세 리포트**: `Human_ClaudeCode_Bridge/Reports/2025-12-31_pending_tasks_report.json`
+
+---
+
 **테스트 방법:**
 1. 브라우저에서 Ctrl+Shift+R (강제 새로고침)
 2. 프로젝트 등록 시도
@@ -4812,5 +5015,138 @@ Claude Code에게: 이 파일 수정 요청이 들어오면 반드시 사용자�
 3. 모바일 footer 레이아웃 수정
 4. 자동 팝업 버그 수정 (registration_complete 체크 로직)
 5. downloads.html에 registration_complete 업데이트 추가
+
+---
+
+### PoliticianFinder 상세평가보고서 가격 수정 ✅
+
+**작업 날짜**: 2025-12-31
+
+**작업 목표**: 상세평가보고서 가격을 AI당 30만원으로 통일
+
+**변경 내역**:
+
+| 페이지 | 변경 전 | 변경 후 |
+|--------|---------|---------|
+| report-purchase | ₩330,000/AI (부가세 포함) | ₩300,000/AI |
+| payment | ₩500,000 | ₩300,000 |
+| politicians/[id] | ₩500,000/AI | ₩300,000/AI |
+
+**새 가격 구조**:
+
+| AI 개수 | 총 금액 |
+|---------|---------|
+| 1개 | ₩300,000 |
+| 2개 | ₩600,000 |
+| 3개 | ₩900,000 |
+| 4개 | ₩1,200,000 |
+
+**수정된 파일**:
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `src/app/report-purchase/page.tsx` | PRICE_PER_AI 330000→300000, 부가세 계산 제거, 표시 가격 통일 |
+| `src/app/payment/page.tsx` | 500,000→300,000, "부가세 포함" 제거 |
+| `src/app/politicians/[id]/page.tsx` | totalPrice 계산식 500000→300000, 표시 가격 변경 |
+
+**커밋**: `0cfa120` - fix: 상세평가보고서 가격 300,000원/AI로 수정
+
+**배포**: main 브랜치 푸시 → Vercel 자동 배포
+
+**리포트**: `Human_ClaudeCode_Bridge/Reports/Pricing_Update_Report.md`
+
+---
+
+### PoliticianFinder Gemini AI 옵션 추가 ✅
+
+**작업 날짜**: 2025-12-31
+
+**작업 목표**: AI 옵션을 3개에서 4개로 확장 (Gemini 추가)
+
+**변경 내역**:
+
+| 변경 전 (3개) | 변경 후 (4개) |
+|--------------|--------------|
+| Claude, ChatGPT, Grok | Claude, ChatGPT, **Gemini**, Grok |
+
+**수정된 파일**:
+
+| 파일 | 수정 내용 |
+|------|----------|
+| `src/app/report-purchase/page.tsx` | AI_OPTIONS 배열에 Gemini 추가 |
+
+**코드 변경**:
+```typescript
+// 변경 전
+const AI_OPTIONS = [
+  { id: 'claude', name: 'Claude', description: 'Anthropic의 Claude AI 평가' },
+  { id: 'chatgpt', name: 'ChatGPT', description: 'OpenAI의 ChatGPT 평가' },
+  { id: 'grok', name: 'Grok', description: 'xAI의 Grok 평가' },
+];
+
+// 변경 후
+const AI_OPTIONS = [
+  { id: 'claude', name: 'Claude', description: 'Anthropic의 Claude AI 평가' },
+  { id: 'chatgpt', name: 'ChatGPT', description: 'OpenAI의 ChatGPT 평가' },
+  { id: 'gemini', name: 'Gemini', description: 'Google의 Gemini AI 평가' },
+  { id: 'grok', name: 'Grok', description: 'xAI의 Grok 평가' },
+];
+```
+
+**최종 가격 구조**:
+
+| AI 개수 | 총 금액 |
+|---------|---------|
+| 1개 | ₩300,000 |
+| 2개 | ₩600,000 |
+| 3개 | ₩900,000 |
+| 4개 (전체) | ₩1,200,000 |
+
+**커밋**: `3aa3c69` - feat: Gemini AI 옵션 추가 (4개 AI 지원)
+
+**배포**: main 브랜치 푸시 → Vercel 자동 배포
+
+**테스트 결과**:
+- Claude: ✅ 표시됨
+- ChatGPT: ✅ 표시됨
+- Gemini: ✅ 표시됨
+- Grok: ✅ 표시됨
+- 4개 선택 시 ₩1,200,000: ✅ 정상 계산
+
+**리포트**: `Human_ClaudeCode_Bridge/Reports/Pricing_Update_Report.md` (섹션 7에 추가)
+
+---
+
+### 서비스 소개 - 데이터 로컬 저장 방식 반영 ✅
+
+**작업 목표**: "데이터 로컬 저장 방식" 핵심 장점을 서비스 소개 문서에 통합
+
+**적용 방안**: 방안 3 (둘 다 반영)
+
+**수정된 파일**: `P2_프로젝트_기획/Service_Introduction/서비스_소개.md`
+
+**추가된 내용**:
+
+| 위치 | 추가 내용 |
+|------|----------|
+| 개요 섹션 (7번 항목) | 간략한 소개 - "내 프로젝트 자료는 내 컴퓨터에 저장됩니다" |
+| 3-7. 데이터 로컬 저장 방식 | 상세 설명 - 다른 서비스와의 차이, 왜 중요한가, 진행률 수집 예외 |
+
+**섹션 번호 재조정**:
+
+| 이전 | 이후 |
+|------|------|
+| 3-7. 예시 프로젝트 | 3-8. 예시 프로젝트 |
+| 3-8. 1:1 코칭 서비스 | 3-9. 1:1 코칭 서비스 |
+| 3-9. AI Q&A 서비스 | 3-10. AI Q&A 서비스 |
+| 3-10. Sunny에게 질문하기 | 3-11. Sunny에게 질문하기 |
+
+**핵심 내용 (3-7 섹션)**:
+- 데이터 로컬 저장 방식 = 모든 파일이 빌더의 컴퓨터에 저장
+- 서비스 종료/구독 해지와 관계없이 영원히 내 것
+- 유일한 예외: 진행률만 수집 (이용자 혜택 제공 목적)
+- 파일 내용, 코드 내용은 절대 수집하지 않음
+
+**참조 리포트**: `Human_ClaudeCode_Bridge/Reports/SSAL_Works_핵심장점_데이터_소유권.md`
 
 ---

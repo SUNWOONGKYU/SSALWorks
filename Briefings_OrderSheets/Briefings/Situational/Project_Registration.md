@@ -77,12 +77,12 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 │   ├── 01_file-naming.md
 │   ├── 02_save-location.md
 │   ├── 03_area-stage.md
-│   ├── 04_grid-writing.md
+│   ├── 04_grid-writing-csv.md
 │   ├── 05_execution-process.md
 │   ├── 06_verification.md
 │   └── 07_task-crud.md
 ├── methods/                     # 작업 방법
-│   └── 01_grid-crud.md
+│   └── 01_csv-crud.md
 ├── commands/                    # 슬래시 커맨드 (15개)
 ├── skills/                      # AI 스킬 정의 (14개)
 ├── subagents/                   # 서브에이전트 정의 (17개)
@@ -97,7 +97,7 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 - 01: 파일명 규칙 (kebab-case)
 - 02: 저장 위치 규칙 (Stage → Root 자동 복사)
 - 03: Area/Stage 매핑 (11개 Area, 5개 Stage)
-- 04: Grid 작성 및 DB 작업 규칙
+- 04: Grid 작성 및 CSV 작업 규칙
 - 05: 6단계 실행 프로세스
 - 06: 검증 규칙 및 상태 전이
 - 07: Task CRUD 프로세스
@@ -160,12 +160,16 @@ S0_Project-SAL-Grid_생성/
 │   ├── manual_template.md        # 매뉴얼 템플릿
 │   └── build-manual.js           # 매뉴얼 빌드 스크립트
 ├── method/
-│   └── csv/                      # CSV Method (JSON 파일)
+│   └── csv/
 │       └── data/
-│           └── project_sal_grid.json
+│           ├── in_progress/      # 진행 중인 프로젝트 (Viewer가 읽는 폴더)
+│           │   └── sal_grid.csv
+│           └── completed/        # 완료된 프로젝트 보관
 ├── viewer/
-│   ├── viewer_csv.html           # PC용 뷰어
-│   └── viewer_mobile_csv.html    # 모바일용 뷰어
+│   ├── viewer_csv.html           # PC용 CSV 뷰어
+│   ├── viewer_database.html      # PC용 DB 뷰어 (예시용)
+│   ├── viewer_mobile_csv.html    # 모바일용 CSV 뷰어
+│   └── viewer_mobile_database.html  # 모바일용 DB 뷰어 (예시용)
 └── build-sal-grid-csv.js         # CSV 빌드 스크립트
 ```
 
@@ -190,8 +194,17 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 
 개발 프로세스 진행 상황 모니터링 시스템
 
+- build-progress.js: 진행률 계산 스크립트
 - data/phase_progress.json: 단계별 진행률 데이터
-- README.md: 모니터 사용 가이드
+- README.md: 모니터 사용 가이드 (v3.0 DB 업로드 필수)
+- **DB_Method/**: DB 업로드 관련 파일 (필수!)
+  - create_table.sql: Supabase 테이블 생성 SQL
+  - upload-progress.js: DB 업로드 스크립트
+  - pre-commit-hook-example.sh: pre-commit hook 예시
+  - loadProjectProgress-snippet.js: index.html 함수 스니펫
+  - README.md: DB Method 상세 가이드
+
+> **⚠️ DB 업로드가 필수입니다!** 로컬 JSON만 생성하면 웹에서 개인별 진행률 표시 불가. 반드시 DB_Method 설정을 완료해야 합니다.
 
 ---
 
