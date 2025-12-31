@@ -224,6 +224,28 @@
       ],
       "destination": "https://www.ssalworks.ai.kr/:path*",
       "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ssal-works.vercel.app"
+        }
+      ],
+      "destination": "https://www.ssalworks.ai.kr/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ssalworks.vercel.app"
+        }
+      ],
+      "destination": "https://www.ssalworks.ai.kr/:path*",
+      "permanent": true
     }
   ]
 }
