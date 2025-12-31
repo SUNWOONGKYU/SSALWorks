@@ -114,6 +114,10 @@
       "destination": "/api/Backend_APIs/admin/installation/:action"
     },
     {
+      "source": "/api/admin/ai-usage",
+      "destination": "/api/Backend_APIs/admin/ai-usage"
+    },
+    {
       "source": "/api/credit/:action",
       "destination": "/api/Backend_APIs/credit/:action"
     },
