@@ -5265,3 +5265,142 @@ const AI_OPTIONS = [
 **참조 리포트**: `Human_ClaudeCode_Bridge/Reports/SSAL_Works_핵심장점_데이터_소유권.md`
 
 ---
+
+## 2026-01-02: Comprehensive Testing - 8개 이슈 수정
+
+### 작업 개요
+
+Dev Package 4개 Task 완료 후 5개 서브에이전트를 활용한 종합 테스트에서 발견된 8개 이슈를 처리했습니다.
+
+### 처리 결과 요약
+
+| Issue # | 제목 | 상태 | 커밋 |
+|:-------:|------|:----:|------|
+| 1 | /api/ai/usage API 500 에러 | ✅ 수정됨 | `111cb8f` |
+| 2 | ADMIN_EMAIL 불일치 | ✅ 수정됨 | `571fb9e` |
+| 3 | Vercel URL 혼란 | ✅ 수정됨 | `a973f91` |
+| 4 | 2FA 미구현 | ✅ 수정됨 | `ed76f5c` |
+| 5 | Admin 페이지 접근 보호 | ✅ 수정됨 | `33f0831` |
+| 6 | index.html 파일 크기 | ⏭️ 스킵 | - |
+| 7 | manual.html 모바일 PDF | ✅ 수정됨 | `e993bb5` |
+| 8 | 예시 프로젝트 서약서 | ✅ 정상 확인 | - |
+
+---
+
+### Issue #1: /api/ai/usage API 500 에러
+
+**원인**: `api/Backend_Infrastructure/` 폴더 및 `usage-limiter.js` 파일 누락
+
+**해결**:
+- `api/Backend_Infrastructure/ai/usage-limiter.js` 생성
+- `api/Backend_APIs/admin/ai-usage.js` 생성 (Admin AI 사용량 집계 API)
+- `vercel.json`에 rewrite 규칙 추가
+
+---
+
+### Issue #2: ADMIN_EMAIL 불일치
+
+**원인**: `index.html`의 ADMIN_EMAIL이 잘못된 값 (`wkfsahsn99@gmail.com`)
+
+**해결**: `wksun999@gmail.com`으로 수정 (line 12284)
+
+---
+
+### Issue #3: Vercel URL 혼란
+
+**원인**: 여러 Vercel URL 존재로 혼란 발생
+
+**해결**: `vercel.json` redirects 섹션에 추가
+- `ssal-works.vercel.app` → `www.ssalworks.ai.kr`
+- `ssalworks.vercel.app` → `www.ssalworks.ai.kr`
+
+---
+
+### Issue #4: 2FA 미구현
+
+**원인**: Admin/Builder 계정 보안 강화 필요
+
+**해결**:
+- Supabase Auth MFA API 4개 생성:
+  - `api/Security/mfa/enroll.js`
+  - `api/Security/mfa/verify.js`
+  - `api/Security/mfa/unenroll.js`
+  - `api/Security/mfa/status.js`
+- `pages/mypage/security.html`에 2FA 섹션 UI 추가
+- `vercel.json`에 MFA API rewrite 규칙 추가
+
+---
+
+### Issue #5: Admin 페이지 접근 보호
+
+**원인**: Admin 페이지에 누구나 접근 가능
+
+**해결**: `pages/admin-dashboard.html`에 인증 체크 추가
+- `wksun999@gmail.com` 이메일만 접근 허용
+- 미인증/권한없음 시 메인 페이지로 리다이렉트
+
+---
+
+### Issue #6: index.html 파일 크기
+
+**상태**: 스킵 (다른 Claude Code 세션에서 처리 중)
+
+---
+
+### Issue #7: manual.html 모바일 PDF 뷰어
+
+**원인**: 모바일에서 PDF 뷰어 표시 문제
+
+**해결**: B 방식 채택 (HTML 콘텐츠 + PDF 다운로드 버튼)
+- `scripts/build-web-assets.js`에 PDF 다운로드 버튼 스타일 추가
+- 헤더에 Secondary Orange 색상 PDF 다운로드 버튼 추가
+- 빌드 시 자동으로 적용됨
+
+---
+
+### Issue #8: 예시 프로젝트 서약서 흐름
+
+**테스트 결과**: ✅ 모든 흐름 정상 작동
+
+검증 항목:
+- `handleSSALWorksClick` 함수: ✅
+- `Pledge_Agreement` 내용 (guides.js): ✅
+- 서약서 모달 (#agreementModal): ✅
+- 성공 모달 (#agreementSuccessModal): ✅
+- 이미 연결됨 모달 (#alreadyConnectedModal): ✅
+- 로그인 필요 모달 (#loginRequiredModal): ✅
+- 빌더 계정 필요 모달 (#builderRequiredModal): ✅
+- send-agreement-email API: ✅ (프로덕션 배포 확인)
+- vercel.json 라우팅: ✅ (catch-all 규칙)
+
+**결론**: 수정 불필요
+
+---
+
+### 생성된 파일
+
+| 파일 | 설명 |
+|------|------|
+| `api/Backend_Infrastructure/ai/usage-limiter.js` | AI 사용량 제한 모듈 |
+| `api/Backend_APIs/admin/ai-usage.js` | Admin AI 사용량 집계 API |
+| `api/Security/mfa/enroll.js` | 2FA 등록 API |
+| `api/Security/mfa/verify.js` | 2FA 인증 API |
+| `api/Security/mfa/unenroll.js` | 2FA 해제 API |
+| `api/Security/mfa/status.js` | 2FA 상태 조회 API |
+
+### 수정된 파일
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `vercel.json` | MFA API rewrite, Admin API rewrite, URL 리다이렉트 추가 |
+| `index.html` | ADMIN_EMAIL 수정 |
+| `pages/mypage/security.html` | 2FA 섹션 UI 추가 |
+| `pages/admin-dashboard.html` | Admin 인증 체크 추가 |
+| `scripts/build-web-assets.js` | PDF 다운로드 버튼 추가 |
+| `pages/mypage/manual.html` | 빌드로 자동 생성됨 |
+
+### 리포트 저장 위치
+
+`Human_ClaudeCode_Bridge/Reports/comprehensive_testing_issues_fix_2026-01-02.json`
+
+---
