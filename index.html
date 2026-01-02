@@ -17,6 +17,10 @@
     <script defer src="/assets/js/common.js?v=20260102"></script>
     <script defer src="/assets/js/auth.js?v=20260102"></script>
 
+    <!-- UI 컴포넌트 JS (분리됨) -->
+    <script defer src="/assets/js/sidebar.js?v=20260102"></script>
+    <script defer src="/assets/js/modal.js?v=20260102"></script>
+
     <!-- DOMPurify -->
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 
@@ -1837,90 +1841,6 @@ The content you enter in the Control Desk will be displayed here.</pre>
             // updateProgressBackgrounds(); // ❌ 제거 - CSS에서 3단계 색상 처리
         });
 
-        // Toggle process prep sub-items (준비단계 ○)
-        function toggleProcessPrep(el) {
-            const item = el.parentElement;
-            const smallList = item.querySelector('.process-small-list');
-            const arrow = el.querySelector('.process-arrow');
-
-            if (smallList) {
-                smallList.classList.toggle('expanded');
-                if (arrow) {
-                    arrow.classList.toggle('expanded');
-                }
-            }
-        }
-
-        // Toggle process sub-items
-        function toggleProcess(el) {
-            const item = el.parentElement;
-            const smallList = item.querySelector('.process-small-list');
-            const arrow = el.querySelector('.process-arrow');
-
-            console.log('toggleProcess called', { item, smallList, arrow });
-
-            if (smallList) {
-                const wasExpanded = smallList.classList.contains('expanded');
-                smallList.classList.toggle('expanded');
-                console.log('smallList toggled, now expanded:', !wasExpanded);
-
-                if (arrow) {
-                    arrow.classList.toggle('expanded');
-                }
-            }
-
-            document.querySelectorAll('.process-major').forEach(major => {
-                if (major !== el) major.classList.remove('active');
-            });
-            if (!el.classList.contains('completed')) {
-                el.classList.toggle('active');
-            }
-        }
-
-        // Toggle knowledge sub-items (2nd level)
-        function toggleKnowledge(el) {
-            const item = el.parentElement;
-            const mediumList = item.querySelector('.knowledge-medium-list');
-            const arrow = el.querySelector('.knowledge-arrow');
-
-            console.log('toggleKnowledge called', { item, mediumList, arrow });
-
-            if (mediumList) {
-                const wasExpanded = mediumList.classList.contains('expanded');
-                mediumList.classList.toggle('expanded');
-                console.log('mediumList toggled, now expanded:', !wasExpanded);
-
-                if (arrow) {
-                    arrow.classList.toggle('expanded');
-                }
-            }
-        }
-
-        // Toggle knowledge small items (3rd level)
-        function toggleKnowledgeSmall(el) {
-            const nextSibling = el.nextElementSibling;
-            const arrow = el.querySelector('.knowledge-medium-arrow');
-
-            if (nextSibling && nextSibling.classList.contains('knowledge-small-list')) {
-                nextSibling.classList.toggle('expanded');
-                if (arrow) {
-                    arrow.classList.toggle('expanded');
-                }
-            }
-        }
-
-        // Toggle process tiny items (3rd level)
-        function toggleProcessTiny(el) {
-            const nextSibling = el.nextElementSibling;
-            const arrow = el.querySelector('.process-small-arrow');
-
-            if (nextSibling && nextSibling.classList.contains('process-tiny-list')) {
-                nextSibling.classList.toggle('expanded');
-                if (arrow) {
-                    arrow.classList.toggle('expanded');
-                }
-            }
-        }
 
         // Clear editor - Control Desk 완전히 비우기 (모든 콘텐츠 숨김)
         async function clearEditor() {
@@ -1951,16 +1871,6 @@ The content you enter in the Control Desk will be displayed here.</pre>
             }
         }
 
-        // Show status message
-        function showStatus(message, type = 'info', duration = 3000) {
-            const status = document.getElementById('serverStatus');
-            status.textContent = message;
-            status.className = 'server-status show ' + type;
-
-            setTimeout(() => {
-                status.className = 'server-status';
-            }, duration);
-        }
 
         // Order Sheet Template Loading
         let ordersheetTemplates = null;
@@ -3104,69 +3014,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             }
         }
 
-        // 외부 HTML 파일에서 안내문 로드하여 팝업 표시
-        // guideUrl 형식: 'guides/S1_개발_준비.html' -> GUIDE_CONTENTS['S1_개발_준비']
-        function openGuideModalFromUrl(title, guideUrl, confirmMessage, hasAction = true) {
-            // 모바일에서 좌측 사이드바 자동 닫기
-            const leftSidebarEl = document.querySelector('.left-sidebar');
-            const sidebarOverlayEl = document.querySelector('.sidebar-overlay');
-            if (leftSidebarEl) leftSidebarEl.classList.remove('open');
-            if (sidebarOverlayEl) sidebarOverlayEl.classList.remove('active');
-
-            const popup = document.getElementById('guidePopup');
-            const popupTitle = document.getElementById('guidePopupTitle');
-            const popupContent = document.getElementById('guidePopupContent');
-
-            popupTitle.textContent = `📖 ${title} 안내`;
-
-            // guideUrl에서 키 추출: 'guides/S1_개발_준비.html' -> 'S1_개발_준비'
-            const guideKey = guideUrl.replace('guides/', '').replace('.html', '');
-
-            // GUIDE_CONTENTS에서 HTML 콘텐츠 가져오기
-            const htmlContent = (typeof GUIDE_CONTENTS !== 'undefined') ? GUIDE_CONTENTS[guideKey] : null;
-
-            if (htmlContent) {
-                // 버튼 섹션 생성
-                let buttonSection = '';
-                if (hasAction) {
-                    buttonSection = `
-                    <div style="margin-top: 24px; padding-top: 16px; border-top: 3px solid #1a3a5c;">
-                        <p style="font-weight: 600; color: #333; margin-bottom: 10px; font-size: 15px;">위의 작업을 위하여 준비된 Order Sheet 템플릿을 Control Desk에 로딩하시겠습니까?</p>
-                        <div style="display: flex; gap: 12px;">
-                            <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
-                            <button onclick="closeGuidePopup()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">취소</button>
-                        </div>
-                    </div>
-                    `;
-                } else {
-                    buttonSection = `
-                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                        <div style="display: flex; justify-content: center;">
-                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
-                        </div>
-                    </div>
-                    `;
-                }
-
-                popupContent.innerHTML = htmlContent + buttonSection;
-            } else {
-                console.error('안내문 로드 오류: GUIDE_CONTENTS에서 찾을 수 없음 -', guideKey);
-                popupContent.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: #EF4444;">
-                        <p>❌ 안내문을 불러오지 못했습니다.</p>
-                        <p style="font-size: 11px; color: #666; margin-top: 8px;">키: ${guideKey}</p>
-                    </div>
-                    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                        <div style="display: flex; justify-content: center;">
-                            <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">닫기</button>
-                        </div>
-                    </div>
-                `;
-            }
-
-            popup.style.display = 'block';
-            initDragPopup();
-        }
 
         // [확인] 버튼 클릭 시 - Order Sheet 표준 템플릿을 워크스페이스에 로드 또는 외부 URL 열기
         async function executeStageAction() {
@@ -3228,52 +3075,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             closeGuidePopup();
         }
-
-        // 안내문 드래그 가능 팝업 열기 (hasAction에 따라 버튼 표시)
-        function openGuideModalWithConfirm(title, content, confirmMessage, hasAction = true) {
-            // 모바일에서 좌측 사이드바 자동 닫기
-            const leftSidebarEl = document.querySelector('.left-sidebar');
-            const sidebarOverlayEl = document.querySelector('.sidebar-overlay');
-            if (leftSidebarEl) leftSidebarEl.classList.remove('open');
-            if (sidebarOverlayEl) sidebarOverlayEl.classList.remove('active');
-
-            const popup = document.getElementById('guidePopup');
-            const popupTitle = document.getElementById('guidePopupTitle');
-            const popupContent = document.getElementById('guidePopupContent');
-
-            popupTitle.textContent = `📖 ${title} 안내`;
-
-            // hasAction이 true면 [예]/[아니오] 버튼, false면 [확인] 버튼만
-            let buttonSection = '';
-            if (hasAction) {
-                buttonSection = `
-                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                    <p style="font-weight: 600; color: #333; margin-bottom: 10px;">${confirmMessage}</p>
-                    <div style="display: flex; gap: 12px;">
-                        <button onclick="executeStageAction()" style="flex: 1; padding: 10px 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">예</button>
-                        <button onclick="loadOrderSheetToWorkspace()" style="flex: 1; padding: 10px 16px; background: #6c757d; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">아니오</button>
-                    </div>
-                </div>
-                `;
-            } else {
-                buttonSection = `
-                <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #dee2e6;">
-                    <div style="display: flex; justify-content: center;">
-                        <button onclick="closeGuidePopup()" style="padding: 10px 32px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 13px;">확인</button>
-                    </div>
-                </div>
-                `;
-            }
-
-            popupContent.innerHTML = content + buttonSection;
-
-            popup.style.display = 'block';
-
-            // 드래그 기능 초기화
-            initDragPopup();
-        }
-
-        // [아니오] 버튼 클릭 시 - Order Sheet를 워크스페이스에 로드
         function loadOrderSheetToWorkspace() {
             if (!currentStageData) return;
 
@@ -3284,12 +3085,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             showStatus(`✅ "${currentStageData.stageName}" Order Sheet를 워크스페이스에 로드했습니다. 수정 후 발행하세요.`, 'info');
             closeGuidePopup();
-        }
-
-        // 안내문 팝업 닫기
-        function closeGuidePopup() {
-            const popup = document.getElementById('guidePopup');
-            popup.style.display = 'none';
         }
 
 
@@ -3477,35 +3272,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         // 빌더 계정 필요 모달 닫기
         function closeBuilderRequiredModal() {
             document.getElementById('builderRequiredModal').classList.remove('active');
-        }
-
-        // 드래그 기능
-        function initDragPopup() {
-            const popup = document.getElementById('guidePopup');
-            const header = document.getElementById('guidePopupHeader');
-
-            let isDragging = false;
-            let offsetX, offsetY;
-
-            header.onmousedown = function(e) {
-                isDragging = true;
-                offsetX = e.clientX - popup.offsetLeft;
-                offsetY = e.clientY - popup.offsetTop;
-
-                document.onmousemove = function(e) {
-                    if (isDragging) {
-                        popup.style.left = (e.clientX - offsetX) + 'px';
-                        popup.style.top = (e.clientY - offsetY) + 'px';
-                        popup.style.right = 'auto';
-                    }
-                };
-
-                document.onmouseup = function() {
-                    isDragging = false;
-                    document.onmousemove = null;
-                    document.onmouseup = null;
-                };
-            };
         }
 
         // Call this when page loads
@@ -3940,43 +3706,6 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             document.getElementById('copiedContent').onclick = function() {
                 this.select();
             };
-        }
-
-        // Report 내용을 HTML 모달로 표시
-        function showReportModal(title, htmlContent) {
-            const overlay = document.createElement('div');
-            overlay.className = 'report-modal-overlay';
-            overlay.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); display: flex; align-items: center; justify-content: center; z-index: 10001;';
-
-            const modal = document.createElement('div');
-            modal.style.cssText = 'background: white; border-radius: 12px; max-width: 900px; width: 95%; max-height: 90vh; overflow: hidden; box-shadow: var(--shadow-lg);';
-
-            modal.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-                    <h3 style="margin: 0; font-size: 18px; font-weight: 600;">📄 ${title}</h3>
-                    <button onclick="this.closest('.report-modal-overlay').remove()"
-                            style="background: rgba(255, 255, 255, 0.2); border: none; color: white; font-size: 20px; cursor: pointer; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                        ×
-                    </button>
-                </div>
-                <div class="report-content" style="padding: 24px; line-height: 1.7; color: #495057; font-size: 14px; overflow-y: auto; max-height: calc(90vh - 140px);">
-                    ${htmlContent}
-                </div>
-                <div style="padding: 16px 24px; border-top: 1px solid #e9ecef; display: flex; justify-content: flex-end;">
-                    <button onclick="this.closest('.report-modal-overlay').remove()"
-                            style="padding: 8px 20px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500;">
-                        닫기
-                    </button>
-                </div>
-            `;
-
-            overlay.appendChild(modal);
-            overlay.onclick = (e) => {
-                if (e.target === overlay) {
-                    overlay.remove();
-                }
-            };
-            document.body.appendChild(overlay);
         }
 
         // JSON을 보기 좋은 HTML로 변환
@@ -8337,41 +8066,6 @@ ${result.answer}`;
     </div>
 
     <script>
-        // Custom confirm dialog function
-        function customConfirm(message, title = '확인') {
-            return new Promise((resolve) => {
-                const dialog = document.getElementById('customConfirmDialog');
-                const titleEl = document.getElementById('confirmDialogTitle');
-                const messageEl = document.getElementById('confirmDialogMessage');
-                const confirmBtn = document.getElementById('confirmDialogConfirm');
-                const cancelBtn = document.getElementById('confirmDialogCancel');
-
-                titleEl.textContent = title;
-                messageEl.textContent = message;
-                dialog.style.display = 'flex';
-
-                const handleConfirm = () => {
-                    dialog.style.display = 'none';
-                    cleanup();
-                    resolve(true);
-                };
-
-                const handleCancel = () => {
-                    dialog.style.display = 'none';
-                    cleanup();
-                    resolve(false);
-                };
-
-                const cleanup = () => {
-                    confirmBtn.removeEventListener('click', handleConfirm);
-                    cancelBtn.removeEventListener('click', handleCancel);
-                };
-
-                confirmBtn.addEventListener('click', handleConfirm);
-                cancelBtn.addEventListener('click', handleCancel);
-            });
-        }
-
         // ================================================================
         // Phase 진행률 JSON 파일에서 로드
         // P0~S5 모든 진행률을 빌드 시 생성된 JSON 파일에서 로드
@@ -8797,21 +8491,6 @@ ${result.answer}`;
             `).join('');
         }
 
-        // 시간 표시 (몇 분 전, 몇 시간 전)
-        function formatTimeAgo(dateStr) {
-            const date = new Date(dateStr);
-            const now = new Date();
-            const diffMs = now - date;
-            const diffMin = Math.floor(diffMs / 60000);
-            const diffHour = Math.floor(diffMs / 3600000);
-            const diffDay = Math.floor(diffMs / 86400000);
-
-            if (diffMin < 1) return '방금 전';
-            if (diffMin < 60) return `${diffMin}분 전`;
-            if (diffHour < 24) return `${diffHour}시간 전`;
-            if (diffDay < 7) return `${diffDay}일 전`;
-            return date.toLocaleDateString('ko-KR');
-        }
 
         // 알림 배지 업데이트
         function updateNotificationBadge() {
@@ -9087,127 +8766,9 @@ ${result.answer}`;
             loadUserProject();
             loadCompletedProjects();
         }
-
-        // ========================================
-        // 로그인 상태 관리
-        // ========================================
-        async function checkAuthStatus() {
-            try {
-                const { data: { session }, error } = await window.supabaseClient.auth.getSession();
-
-                if (session && session.user) {
-                    console.log('✅ 로그인 상태:', session.user.email);
-
-                    // 사용자 이름 및 크레딧 잔액 가져오기
-                    const { data: userData, error: userError } = await window.supabaseClient
-                        .from('users')
-                        .select('name, nickname, credit_balance')
-                        .eq('id', session.user.id)
-                        .single();
-
-                    let displayName = '사용자';
-                    if (userData && userData.nickname) {
-                        displayName = userData.nickname;
-                    } else if (userData && userData.name) {
-                        displayName = userData.name;
-                    } else if (session.user.user_metadata?.name) {
-                        displayName = session.user.user_metadata.name;
-                    } else if (session.user.email) {
-                        displayName = session.user.email.split('@')[0];
-                    }
-
-                    // 크레딧 잔액 표시 업데이트
-                    const creditBalanceEl = document.getElementById('perplexityCreditBalance');
-                    if (creditBalanceEl && userData) {
-                        const balance = userData.credit_balance || 0;
-                        creditBalanceEl.textContent = balance.toLocaleString();
-                    }
-
-                    showLoggedInUI(displayName, session.user.email);
-                    // 진행중 프로젝트 로드
-                    loadInProgressProject(session.user.id);
-                } else {
-                    console.log('ℹ️ 로그인되지 않은 상태');
-                    showLoggedOutUI();
-                }
-            } catch (error) {
-                console.error('❌ 인증 상태 확인 실패:', error);
-                showLoggedOutUI();
-            }
-        }
-
         // 관리자 이메일 정의
         const ADMIN_EMAIL = 'wksun999@gmail.com';
 
-        function showLoggedInUI(nickname = '사용자', email = '') {
-            const guestBtns = document.getElementById('headerGuestBtns');
-            const userBtns = document.getElementById('headerUserBtns');
-            const nicknameEl = document.getElementById('userNickname');
-
-            // 이메일을 localStorage에 저장 (viewer_csv.html 등에서 사용)
-            if (email) {
-                localStorage.setItem('userEmail', email);
-            }
-
-            if (guestBtns) guestBtns.style.display = 'none';
-            if (userBtns) userBtns.style.display = 'flex';
-            if (nicknameEl) nicknameEl.textContent = nickname + '님';
-
-            // 모바일 로그인 상태 표시 - 버튼 안에 닉네임 2글자 표시
-            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
-            const mobileUserBadge = document.getElementById('mobileUserBadge');
-            if (mobileLoginBtn) {
-                mobileLoginBtn.classList.add('logged-in');
-                // 닉네임 2글자만 표시 (버튼 안에)
-                const shortName = nickname.length > 2 ? nickname.substring(0, 2) : nickname;
-                mobileLoginBtn.textContent = shortName;
-                mobileLoginBtn.href = 'pages/mypage.html';
-                mobileLoginBtn.style.fontSize = '12px';
-                mobileLoginBtn.style.fontWeight = '700';
-            }
-            // 뱃지는 사용 안 함 (버튼 안에 닉네임 표시)
-            if (mobileUserBadge) {
-                mobileUserBadge.style.display = 'none';
-            }
-
-            // 알림 로드
-            loadUserNotifications();
-        }
-
-        function showLoggedOutUI() {
-            // localStorage에서 이메일 제거
-            localStorage.removeItem('userEmail');
-
-            const guestBtns = document.getElementById('headerGuestBtns');
-            const userBtns = document.getElementById('headerUserBtns');
-            if (guestBtns) guestBtns.style.display = 'flex';
-            if (userBtns) userBtns.style.display = 'none';
-
-            // 모바일 로그아웃 상태 표시
-            const mobileLoginBtn = document.getElementById('mobileLoginBtn');
-            const mobileUserBadge = document.getElementById('mobileUserBadge');
-            if (mobileLoginBtn) {
-                mobileLoginBtn.classList.remove('logged-in');
-                mobileLoginBtn.textContent = '👤';
-                mobileLoginBtn.href = '/pages/auth/login.html';
-                mobileLoginBtn.style.fontSize = '18px';
-                mobileLoginBtn.style.fontWeight = 'normal';
-            }
-            if (mobileUserBadge) {
-                mobileUserBadge.style.display = 'none';
-            }
-        }
-
-        async function logoutFromMain() {
-            try {
-                await window.supabaseClient.auth.signOut();
-                console.log('✅ 로그아웃 완료');
-                showLoggedOutUI();
-            } catch (error) {
-                console.error('❌ 로그아웃 실패:', error);
-                alert('로그아웃에 실패했습니다.');
-            }
-        }
 
         // ========================================
         // 관리자 페이지 접근 (Admin 버튼 클릭 시)
@@ -10958,55 +10519,6 @@ ${result.answer}`;
 <script src="/Briefings_OrderSheets/OrderSheet_Templates/ordersheets.js"></script>
 <script src="/%EB%B6%80%EC%88%98%EC%A0%81_%EA%B3%A0%EC%9C%A0%EA%B8%B0%EB%8A%A5/%EC%BD%98%ED%85%90%EC%B8%A0/%EC%99%B8%EB%B6%80_%EC%97%B0%EB%8F%99_%EC%84%A4%EC%A0%95_Guide/service-guides.js"></script>
 
-<!-- 모바일 사이드바 토글 스크립트 -->
-<script>
-    // 사이드바 요소
-    const leftSidebar = document.querySelector('.left-sidebar');
-    const rightSidebar = document.querySelector('.right-sidebar');
-    const sidebarOverlay = document.querySelector('.sidebar-overlay');
-
-    // 왼쪽 사이드바 토글
-    function toggleLeftSidebar() {
-        leftSidebar.classList.toggle('open');
-        sidebarOverlay.classList.toggle('active');
-        // 오른쪽 닫기
-        rightSidebar.classList.remove('open');
-    }
-
-    // 오른쪽 사이드바 토글
-    function toggleRightSidebar() {
-        rightSidebar.classList.toggle('open');
-        sidebarOverlay.classList.toggle('active');
-        // 왼쪽 닫기
-        leftSidebar.classList.remove('open');
-    }
-
-    // 왼쪽 사이드바 닫기
-    function closeLeftSidebar() {
-        leftSidebar.classList.remove('open');
-        sidebarOverlay.classList.remove('active');
-    }
-
-    // 오른쪽 사이드바 닫기
-    function closeRightSidebar() {
-        rightSidebar.classList.remove('open');
-        sidebarOverlay.classList.remove('active');
-    }
-
-    // 모든 사이드바 닫기
-    function closeAllSidebars() {
-        leftSidebar.classList.remove('open');
-        rightSidebar.classList.remove('open');
-        sidebarOverlay.classList.remove('active');
-    }
-
-    // ESC 키로 닫기
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeAllSidebars();
-        }
-    });
-</script>
 
     <!-- FAB 버튼 (모바일용) -->
     <!-- FAB 버튼 - 우측 하단 (앰버/골드, 우측 사이드바 전용) -->

@@ -56,6 +56,71 @@
 
 ---
 
+### 플랫폼 개선 아젠다 #3: S5F3 Task 실행 완료 ✅
+
+**작업 목표**: index.html 단일 파일 비대화 해결 (코드 분할)
+
+**실행 결과:**
+
+| 항목 | 원본 | 최종 | 절감 |
+|------|------|------|------|
+| index.html | 716KB / 14,210 lines | 602KB / 10,529 lines | 114KB (16%) |
+
+**생성된 외부 파일 (6개):**
+
+| 파일 | 크기 | 역할 |
+|------|------|------|
+| `assets/css/main.css` | 68KB | 공통 스타일시트 |
+| `assets/js/supabase-init.js` | 1.8KB | Supabase 클라이언트 초기화 |
+| `assets/js/common.js` | 4.2KB | 공통 유틸리티 (showStatus, formatTimeAgo, customConfirm) |
+| `assets/js/auth.js` | 6.1KB | 인증 관련 (checkAuthStatus, showLoggedInUI, logoutFromMain) |
+| `assets/js/sidebar.js` | 5.8KB | 사이드바 토글 함수 |
+| `assets/js/modal.js` | 11KB | 모달/팝업 함수 |
+
+**작업 Phase 요약:**
+
+| Phase | 내용 | 상태 |
+|-------|------|------|
+| 1 | 분석 | ✅ 완료 |
+| 2 | 공통 CSS 분리 | ✅ 완료 (68KB) |
+| 3 | 공통 JS 분리 | ✅ 완료 (12KB) |
+| 4 | UI 컴포넌트 JS 분리 | ✅ 완료 |
+| 5 | index.html 최소화 | ✅ 완료 |
+| 6 | admin-dashboard.html 분석 | ✅ 완료 (유지) |
+| 7 | 최종 검증 | ✅ 완료 |
+
+**admin-dashboard.html 분석 결과:**
+- 고유한 보라색 테마 스타일 (main.css와 다름)
+- SUPABASE_URL을 REST API 호출에 직접 사용
+- index.html과 공통 함수 거의 없음
+- **결론**: 현재 상태 유지가 적절
+
+**index.html 수정 사항:**
+```html
+<!-- 추가된 외부 파일 참조 -->
+<link rel="stylesheet" href="/assets/css/main.css?v=20260102">
+<script defer src="/assets/js/supabase-init.js?v=20260102"></script>
+<script defer src="/assets/js/common.js?v=20260102"></script>
+<script defer src="/assets/js/auth.js?v=20260102"></script>
+<script defer src="/assets/js/sidebar.js?v=20260102"></script>
+<script defer src="/assets/js/modal.js?v=20260102"></script>
+```
+
+**제거된 인라인 코드:**
+- CSS 스타일 블록 (~3,100 lines)
+- toggleProcessPrep, toggleProcess, toggleKnowledge 등 사이드바 함수
+- toggleLeftSidebar, toggleRightSidebar, closeAllSidebars 등 모바일 사이드바 함수
+- showStatus, customConfirm, formatTimeAgo 등 유틸리티 함수
+- checkAuthStatus, showLoggedInUI, showLoggedOutUI, logoutFromMain 등 인증 함수
+- openGuideModalFromUrl, openGuideModalWithConfirm, closeGuidePopup, initDragPopup, showReportModal 등 모달 함수
+
+**캐싱 효과:**
+- 외부 파일은 브라우저 캐싱 가능
+- 버전 쿼리스트링 (`?v=20260102`)으로 캐시 무효화 관리
+- 페이지 로드 성능 향상 기대
+
+---
+
 ## 2025-12-31 작업 내역
 
 ### 예시 프로젝트 연결하기 오류수정 ✅
