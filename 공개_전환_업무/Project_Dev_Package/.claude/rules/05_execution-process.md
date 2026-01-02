@@ -119,8 +119,8 @@ Main Agent가 직접 검증:
 - 위치: `S0_Project-SAL-Grid_생성/sal-grid/stage-gates/`
 - 파일명: `S{N}GATE_verification_report.md`
 
-**CSV 기록:**
-- CSV 파일의 `stage_gate_status` 필드 업데이트
+**JSON 기록:**
+- JSON 파일의 `stage_gate_status` 필드 업데이트
 - 검증 관련 필드 업데이트
 
 ---

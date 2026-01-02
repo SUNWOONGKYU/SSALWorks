@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 1 | `01_file-naming.md` | 파일명 정할 때 | 파일 명명 규칙 |
 | 2 | `02_save-location.md` | **파일 저장할 때** ⭐ | 저장 위치 규칙 |
 | 3 | `03_area-stage.md` | 폴더 선택할 때 | Area/Stage 매핑 |
-| 4 | `04_grid-writing-csv.md` | **Grid/CSV/Viewer 작업할 때** ⭐ | Grid 작성 + CSV CRUD + **Viewer 확인** |
+| 4 | `04_grid-writing-json.md` | **Grid/JSON/Viewer 작업할 때** ⭐ | Grid 작성 + JSON CRUD + **Viewer 확인** |
 | 5 | `05_execution-process.md` | Task 실행할 때 | 6단계 실행 프로세스 |
 | 6 | `06_verification.md` | 검증할 때 | 검증 기준 |
 | 7 | `07_task-crud.md` | **Task 추가/삭제/수정할 때** ⭐ | Task CRUD 프로세스 |
@@ -24,7 +24,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## 📊 DB vs CSV 데이터 구분 (핵심 개념)
+## 📊 DB vs JSON 데이터 구분 (핵심 개념)
 
 > **이 구분을 이해해야 viewer 관련 작업 시 혼란이 없음!**
 
@@ -33,7 +33,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | Viewer | 데이터 소스 | 용도 |
 |--------|------------|------|
 | `viewer_database.html` | SSAL Works DB | **예시** (참고용, 고정) |
-| `viewer_csv.html` | 본인 CSV 파일 | **내 프로젝트** (진행 중) |
+| `viewer_json.html` | 본인 JSON 파일 | **내 프로젝트** (진행 중) |
 
 ### 작동 원리
 
@@ -45,32 +45,32 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
-│  viewer_csv.html ⭐ 주로 사용                                │
+│  viewer_json.html ⭐ 주로 사용                               │
 │  → 내가 진행 중인 프로젝트 데이터                              │
 │  → Task 완료할 때마다 업데이트됨                              │
-│  → 경로: method/csv/data/in_progress/sal_grid.csv           │
+│  → 경로: method/json/data/in_progress/project_sal_grid.json │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### ⚠️ 일반 이용자는 CSV 사용
+### ⚠️ 일반 이용자는 JSON 사용
 
 ```
-✅ 내 프로젝트 진행 상황 = CSV 파일 (method/csv/data/in_progress/sal_grid.csv)
-✅ Task 완료 시 = CSV 파일 업데이트
-✅ 진행 현황 확인 = viewer_csv.html
+✅ 내 프로젝트 진행 상황 = JSON 파일 (method/json/data/in_progress/project_sal_grid.json)
+✅ Task 완료 시 = JSON 파일 업데이트
+✅ 진행 현황 확인 = viewer_json.html
 ✅ 프로젝트 완료 시 = completed/ 폴더로 이동
 
 ❌ Supabase DB = 사용하지 않음 (SSAL Works 예시용)
 ```
 
-### 📂 CSV 폴더 구조
+### 📂 JSON 폴더 구조
 
 ```
-method/csv/data/
+method/json/data/
 ├── in_progress/        ← Viewer가 읽는 폴더 (진행 중)
-│   └── sal_grid.csv
+│   └── project_sal_grid.json
 └── completed/          ← 완료된 프로젝트 보관
-    └── [project]_sal_grid.csv
+    └── [project]_sal_grid.json
 ```
 
 ---
@@ -163,9 +163,9 @@ method/csv/data/
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  STEP 3: Grid 상태 업데이트 (CSV)                            │
+│  STEP 3: Grid 상태 업데이트 (JSON)                           │
 │  → task_status: 'Pending' → 'In Progress'                   │
-│  → CSV 파일 UPDATE                                          │
+│  → JSON 파일 UPDATE                                         │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -182,7 +182,7 @@ method/csv/data/
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  STEP 6: 최종 상태 업데이트 (CSV)                            │
+│  STEP 6: 최종 상태 업데이트 (JSON)                           │
 │  → verification_status: 'Verified'일 때만                    │
 │  → task_status: 'Executed' → 'Completed'                    │
 │  → work_logs, Reports 저장                                  │
@@ -219,20 +219,20 @@ verification_status 전이:
 - 검증 없이 Verified 표시
 - 상태 전이 순서 건너뛰기
 - Verification Agent 투입 생략
-- CSV 상태 업데이트 생략
+- JSON 상태 업데이트 생략
 - **검증만 하고 결과 기록 생략** ⭐ 신규 추가
 
 **⭐ 검증 결과 기록 필수 (절대 생략 금지!):**
 
 ```
 🚫 검증만 수행하고 기록 안 하면 무의미!
-🚫 "검증했습니다" 말만 하고 CSV에 기록 안 하면 안 됨!
-✅ 검증 결과는 CSV 파일에 기록!
+🚫 "검증했습니다" 말만 하고 JSON에 기록 안 하면 안 됨!
+✅ 검증 결과는 JSON 파일에 기록!
 ```
 
 **검증 후 필수 기록 위치:**
 ```
-CSV 파일 (method/csv/data/sal_grid.csv)
+JSON 파일 (method/json/data/in_progress/project_sal_grid.json)
    → verification_status: 'Verified' 또는 'Needs Fix'
    → test_result: 테스트 결과
    → build_verification: 빌드 검증
@@ -242,8 +242,8 @@ CSV 파일 (method/csv/data/sal_grid.csv)
 ```
 
 **검증 기록 체크리스트:**
-- [ ] CSV에 verification_status 업데이트했는가?
-- [ ] CSV에 검증 관련 필드(test_result, build_verification 등) 저장했는가?
+- [ ] JSON에 verification_status 업데이트했는가?
+- [ ] JSON에 검증 관련 필드(test_result, build_verification 등) 저장했는가?
 
 ---
 
@@ -304,8 +304,8 @@ CSV 파일 (method/csv/data/sal_grid.csv)
 
 ```
 🚫 Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
-🚫 "작업 완료했습니다" 말만 하고 CSV 업데이트 안 하면 안 됨!
-✅ 작업 완료 후 반드시 CSV 파일 업데이트!
+🚫 "작업 완료했습니다" 말만 하고 JSON 업데이트 안 하면 안 됨!
+✅ 작업 완료 후 반드시 JSON 파일 업데이트!
 ```
 
 **업데이트 시점:**
@@ -318,14 +318,14 @@ CSV 파일 (method/csv/data/sal_grid.csv)
 ```
 Task 작업 완료
      ↓
-CSV 파일 (method/csv/data/sal_grid.csv) 업데이트
+JSON 파일 (method/json/data/in_progress/project_sal_grid.json) 업데이트
      ↓
 work_logs/current.md 기록
      ↓
 완료 보고
 ```
 
-**상세 규칙:** `.claude/rules/04_grid-writing-csv.md` 섹션 8 참조
+**상세 규칙:** `.claude/rules/04_grid-writing-json.md` 섹션 8 참조
 
 ---
 
@@ -335,33 +335,33 @@ work_logs/current.md 기록
 
 | # | 방법 파일 | 적용 시점 | 핵심 |
 |---|----------|----------|------|
-| 1 | `01_csv-crud.md` | **CSV CRUD 작업 시** | AI가 Edit 도구로 직접 수정 |
+| 1 | `01_json-crud.md` | **JSON CRUD 작업 시** | AI가 Edit 도구로 직접 수정 |
 
 **📁 위치:** `.claude/methods/`
 
-### CSV CRUD 작업 시 필수 준수
+### JSON CRUD 작업 시 필수 준수
 
 ```
-✅ AI가 Edit 도구로 CSV 파일 직접 수정!
-✅ CSV 파일 위치: method/csv/data/sal_grid.csv
+✅ AI가 Edit 도구로 JSON 파일 직접 수정!
+✅ JSON 파일 위치: method/json/data/in_progress/project_sal_grid.json
 ✅ 수정 후 반드시 저장 확인!
 ```
 
-**CSV 파일 수정 프로세스:**
+**JSON 파일 수정 프로세스:**
 ```
-1. CSV 파일 읽기 (Read 도구)
+1. JSON 파일 읽기 (Read 도구)
      ↓
-2. 해당 Task 행 찾기
+2. 해당 Task 객체 찾기
      ↓
 3. 필드 값 수정 (Edit 도구)
      ↓
 4. 저장 확인
 ```
 
-**⚠️ CSV 수정 시 주의사항:**
-- 쉼표(,) 포함된 값은 따옴표로 감싸기
+**⚠️ JSON 수정 시 주의사항:**
+- JSON 문법 유지 (쉼표, 중괄호 등)
 - UTF-8 인코딩 유지
-- 행 순서 변경 금지
+- tasks 배열 구조 유지
 
 ---
 
@@ -408,7 +408,7 @@ upload-progress.js (DB 업로드) ← 필수!
 
 ### SAL Grid 매뉴얼 (v4.0 일반화 버전)
 > `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
-> - **Task 데이터 저장: CSV Method 사용**
+> - **Task 데이터 저장: JSON Method 사용**
 > - 27개 섹션으로 구성된 완전 매뉴얼
 
 ### Progress Monitor DB Method (필수!)
@@ -514,7 +514,7 @@ gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"
 ```
 "🎉 배포 완료!
 
-📊 Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+📊 Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 
 ⏱️ 첫 배포는 1-2분 후 접속 가능합니다.
    (GitHub Pages 빌드 시간)
@@ -524,7 +524,7 @@ gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"
 
 ### 이후 업데이트 시
 
-Task 완료 후 CSV가 업데이트되면:
+Task 완료 후 JSON이 업데이트되면:
 
 ```bash
 git add .

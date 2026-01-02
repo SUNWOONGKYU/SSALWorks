@@ -1,6 +1,6 @@
-# 04. Grid 작성 및 CSV 작업 규칙
+# 04. Grid 작성 및 JSON 작업 규칙
 
-> Project Task Grid 데이터 작성 및 CSV 파일 CRUD 작업 시 준수 사항
+> Project Task Grid 데이터 작성 및 JSON 파일 CRUD 작업 시 준수 사항
 
 ---
 
@@ -134,33 +134,48 @@
 
 ---
 
-## 6. CSV 파일 정보
+## 6. JSON 파일 정보
 
-### CSV 파일 위치 (폴더 구조)
+### JSON 파일 위치 (폴더 구조)
 
 ```
-{project-root}/S0_Project-SAL-Grid_생성/method/csv/data/
-├── in_progress/        ← 진행 중인 프로젝트 (Viewer가 읽는 폴더)
-│   └── sal_grid.csv    ← 현재 프로젝트 데이터
-└── completed/          ← 완료된 프로젝트 (보관용)
-    └── [project]_sal_grid.csv
+{project-root}/S0_Project-SAL-Grid_생성/method/json/data/
+├── in_progress/                ← 진행 중인 프로젝트 (Viewer가 읽는 폴더)
+│   └── project_sal_grid.json   ← 현재 프로젝트 데이터
+└── completed/                  ← 완료된 프로젝트 (보관용)
+    └── [project]_sal_grid.json
 ```
 
 **핵심:**
 - Viewer는 `in_progress/` 폴더만 로드
 - 프로젝트 완료 시 `completed/`로 이동
 
-### CSV 파일 형식
+### JSON 파일 구조
 
-```csv
-task_id,task_name,stage,area,task_status,task_progress,verification_status,...
-S1F1,로그인 페이지 구현,1,F,Pending,0,Not Verified,...
-S1F2,회원가입 페이지 구현,1,F,In Progress,50,Not Verified,...
+```json
+{
+  "project_id": "프로젝트ID",
+  "project_name": "프로젝트명",
+  "created_at": "2025-01-01T00:00:00Z",
+  "updated_at": "2025-01-01T00:00:00Z",
+  "tasks": [
+    {
+      "task_id": "S1F1",
+      "task_name": "로그인 페이지 구현",
+      "stage": 1,
+      "area": "F",
+      "task_status": "Pending",
+      "task_progress": 0,
+      "verification_status": "Not Verified",
+      ...
+    }
+  ]
+}
 ```
 
-### 필수 컬럼
+### 필수 필드
 
-| 컬럼 | 설명 | 예시 값 |
+| 필드 | 설명 | 예시 값 |
 |------|------|--------|
 | task_id | Task 고유 ID | S1F1, S2BA1 |
 | task_name | Task 이름 | 로그인 페이지 구현 |
@@ -172,12 +187,12 @@ S1F2,회원가입 페이지 구현,1,F,In Progress,50,Not Verified,...
 
 ---
 
-## 7. CSV CRUD 작업 방법
+## 7. JSON CRUD 작업 방법
 
 ### 핵심 원칙
 
 ```
-CSV 파일을 직접 수정!
+JSON 파일을 직접 수정!
 Read -> Parse -> Modify -> Write 순서로 작업
 ```
 
@@ -187,73 +202,35 @@ Read -> Parse -> Modify -> Write 순서로 작업
 const fs = require('fs');
 const path = require('path');
 
-const csvPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/data/sal_grid.csv');
-const csvContent = fs.readFileSync(csvPath, 'utf-8');
+const jsonPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json');
+const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
 
-// CSV 파싱
-const lines = csvContent.trim().split('\n');
-const headers = lines[0].split(',');
-const data = lines.slice(1).map(line => {
-    const values = parseCSVLine(line);
-    const row = {};
-    headers.forEach((h, i) => row[h.trim()] = values[i]);
-    return row;
-});
+// tasks 배열에서 특정 Task 찾기
+const task = data.tasks.find(t => t.task_id === 'S1F1');
 ```
 
 ### 수정 (Update)
 
 ```javascript
 // 특정 Task 찾기
-const taskIndex = data.findIndex(row => row.task_id === 'S1F1');
+const taskIndex = data.tasks.findIndex(t => t.task_id === 'S1F1');
 
 if (taskIndex !== -1) {
     // 필드 수정
-    data[taskIndex].task_status = 'Completed';
-    data[taskIndex].task_progress = '100';
-    data[taskIndex].verification_status = 'Verified';
+    data.tasks[taskIndex].task_status = 'Completed';
+    data.tasks[taskIndex].task_progress = 100;
+    data.tasks[taskIndex].verification_status = 'Verified';
 }
+
+// updated_at 갱신
+data.updated_at = new Date().toISOString();
 ```
 
 ### 쓰기 (Write)
 
 ```javascript
-// CSV 문자열 생성
-const csvLines = [headers.join(',')];
-data.forEach(row => {
-    const values = headers.map(h => {
-        const val = row[h.trim()] || '';
-        // 쉼표나 줄바꿈 포함 시 따옴표로 감싸기
-        return val.includes(',') || val.includes('\n') ? `"${val}"` : val;
-    });
-    csvLines.push(values.join(','));
-});
-
-fs.writeFileSync(csvPath, csvLines.join('\n'), 'utf-8');
-```
-
-### CSV 라인 파싱 함수
-
-```javascript
-function parseCSVLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-            result.push(current.trim());
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    result.push(current.trim());
-    return result;
-}
+// JSON 파일 저장 (pretty print)
+fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2), 'utf-8');
 ```
 
 ---
@@ -264,7 +241,7 @@ function parseCSVLine(line) {
 
 ```
 Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
-작업 완료 후 반드시 CSV 파일 업데이트!
+작업 완료 후 반드시 JSON 파일 업데이트!
 ```
 
 ### 업데이트 시점
@@ -281,13 +258,13 @@ Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
 ```
 Task 작업 완료
      |
-CSV 파일 읽기
+JSON 파일 읽기
      |
-해당 task_id 행 찾기
+해당 task_id 객체 찾기
      |
 상태/진행률/파일목록 업데이트
      |
-CSV 파일 저장
+JSON 파일 저장
      |
 work_logs/current.md에 작업 내역 기록
      |
@@ -304,9 +281,9 @@ work_logs/current.md에 작업 내역 기록
 - [ ] Verification 필드가 JSON 형식인가?
 - [ ] Tools에 기본 도구(Read/Write)가 없는가?
 
-### CSV 작업
-- [ ] CSV 파일 경로가 올바른가?
-- [ ] CSV 파싱 시 따옴표 처리를 했는가?
+### JSON 작업
+- [ ] JSON 파일 경로가 올바른가?
+- [ ] JSON 문법이 올바른가? (쉼표, 중괄호 등)
 - [ ] 수정 후 파일을 저장했는가?
 - [ ] UTF-8 인코딩으로 저장했는가?
 
@@ -315,13 +292,13 @@ work_logs/current.md에 작업 내역 기록
 - [ ] task_progress를 100으로 변경했는가?
 - [ ] generated_files에 생성/수정 파일 기록했는가?
 - [ ] verification_status를 'Verified'로 변경했는가?
-- [ ] CSV 파일을 저장했는가?
+- [ ] JSON 파일을 저장했는가?
 
 ---
 
 ## 9. Viewer 확인 방법 (로컬 + 배포)
 
-> CSV 데이터를 Viewer로 확인하는 두 가지 방법
+> JSON 데이터를 Viewer로 확인하는 두 가지 방법
 > Claude Code가 상황에 맞게 안내
 
 ### 확인 방법 비교
@@ -350,10 +327,10 @@ python -m http.server 3000
 
 **접속 URL:**
 ```
-http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 ```
 
-**⚠️ 주의:** `file://` 프로토콜로 직접 열면 CSV 로드가 안 됨 (CORS 제한)
+**⚠️ 주의:** `file://` 프로토콜로 직접 열면 JSON 로드가 안 됨 (CORS 제한)
 
 **Claude Code 안내 템플릿:**
 ```
@@ -361,7 +338,7 @@ http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
 
 1. 터미널에서 프로젝트 폴더로 이동
 2. 다음 명령어 실행: npx serve
-3. 브라우저에서 열기: http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+3. 브라우저에서 열기: http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 
 서버를 종료하려면 터미널에서 Ctrl+C를 누르세요."
 ```
@@ -433,7 +410,7 @@ gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"
 ```
 "배포 완료!
 
-Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_csv.html
+Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 
 첫 배포는 1-2분 후 접속 가능합니다.
 북마크 해두면 언제든 진행 상황을 확인할 수 있습니다!"
@@ -443,7 +420,7 @@ Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewe
 
 ### 9.3 Task 완료 시 자동 업데이트
 
-Task 완료 후 CSV가 업데이트되면 Claude Code가 자동으로:
+Task 완료 후 JSON이 업데이트되면 Claude Code가 자동으로:
 
 ```bash
 git add .
@@ -459,7 +436,7 @@ git push
 
 | 문제 | 해결 방법 |
 |------|----------|
-| 로컬에서 CSV 안 보임 | `file://` 대신 로컬 서버 사용 |
+| 로컬에서 JSON 안 보임 | `file://` 대신 로컬 서버 사용 |
 | `gh` 명령어 없음 | GitHub CLI 설치: https://cli.github.com/ |
 | GitHub 인증 실패 | `gh auth login` 실행 |
 | Pages 404 에러 | 1-2분 대기 또는 경로 확인 |

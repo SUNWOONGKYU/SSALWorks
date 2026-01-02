@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project SAL Grid Viewer (CSV)</title>
-    <!-- CSV 기반 로컬 Viewer - Supabase 불필요 -->
+    <title>Project SAL Grid Viewer (JSON)</title>
+    <!-- JSON 기반 로컬 Viewer - Supabase 불필요 -->
     <link rel="stylesheet" href="/Production/assets/css/responsive.css">
     <style>
         :root {
@@ -235,15 +235,15 @@
     <div class="sidebar-overlay" onclick="closeSidebar()"></div>
     <header>
         <button class="close-btn" onclick="window.history.length > 1 ? history.back() : window.close()" title="닫기">✕ 닫기</button>
-        <h1>Project SAL Grid Viewer (CSV)</h1>
-        <p>로컬 CSV 파일 기반 | 22 Attributes | 5 Stages | 11 Areas</p>
+        <h1>Project SAL Grid Viewer (JSON)</h1>
+        <p>로컬 JSON 파일 기반 | 22 Attributes | 5 Stages | 11 Areas</p>
         <div class="view-switch">
             <button class="active" onclick="switchView('2d')">2D Card View</button>
             <button onclick="switchView('3d')">3D Block View</button>
         </div>
         <div class="connection-status">
             <span class="status-dot"></span>
-            <span id="connectionStatus">CSV 파일 로딩 준비 중...</span>
+            <span id="connectionStatus">JSON 파일 로딩 준비 중...</span>
         </div>
     </header>
 
@@ -404,8 +404,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         // ================================================================
-        // CSV 기반 Project SAL Grid Viewer
-        // 로컬 파일(data/sal_grid.csv)에서 데이터 로드
+        // JSON 기반 Project SAL Grid Viewer
+        // 로컬 파일(method/json/data/in_progress/project_sal_grid.json)에서 데이터 로드
         // Supabase 연결 불필요 - 오프라인 사용 가능
         // ================================================================
 
@@ -452,64 +452,27 @@
             }
         }
 
-        // CSV 파싱 함수
-        function parseCSV(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
-
-            const headers = parseCSVLine(lines[0]);
-            const data = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
-                const row = {};
-                headers.forEach((header, idx) => {
-                    let value = values[idx] || '';
-                    // stage는 숫자로 변환
-                    if (header === 'stage' || header === 'task_progress') {
-                        value = parseInt(value) || 0;
-                    }
-                    row[header] = value;
-                });
-                data.push(row);
-            }
-
-            return data;
-        }
-
-        // CSV 라인 파싱 (쉼표, 따옴표 처리)
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let inQuotes = false;
-
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            result.push(current.trim());
-            return result;
-        }
-
+        // JSON 데이터 로드 함수
         async function loadTasks() {
             try {
-                document.getElementById('connectionStatus').textContent = 'CSV 파일 로딩 중...';
+                document.getElementById('connectionStatus').textContent = 'JSON 파일 로딩 중...';
 
-                // CSV 파일 로드 (in_progress 폴더에서 진행 중인 프로젝트만 로드)
-                const response = await fetch('../method/csv/data/in_progress/sal_grid.csv');
+                // JSON 파일 로드 (in_progress 폴더에서 진행 중인 프로젝트만 로드)
+                const response = await fetch('../method/json/data/in_progress/project_sal_grid.json');
                 if (!response.ok) {
-                    throw new Error(`CSV 파일 로드 실패: ${response.status}`);
+                    throw new Error(`JSON 파일 로드 실패: ${response.status}`);
                 }
 
-                const csvText = await response.text();
-                const data = parseCSV(csvText);
+                const jsonData = await response.json();
+
+                // tasks 배열 추출 (JSON 구조: { project_id, project_name, tasks: [...] })
+                const data = jsonData.tasks || [];
+
+                // stage, task_progress를 숫자로 변환 확인
+                data.forEach(task => {
+                    task.stage = parseInt(task.stage) || 0;
+                    task.task_progress = parseInt(task.task_progress) || 0;
+                });
 
                 // 정렬: stage → area → task_id
                 data.sort((a, b) => {
@@ -523,21 +486,21 @@
                 render2D();
                 updateStats();
 
-                document.getElementById('connectionStatus').textContent = `CSV 로드 완료 (${allTasks.length}개 Task)`;
+                document.getElementById('connectionStatus').textContent = `JSON 로드 완료 (${allTasks.length}개 Task)`;
                 document.querySelector('.connection-status').style.background = '#28a745';
 
-                // Stage Gates는 CSV에 없으므로 스킵
+                // Stage Gates는 JSON에 별도로 저장 (현재는 스킵)
                 stageGates = [];
                 renderStageGates();
             } catch (err) {
                 console.error('Load error:', err);
-                document.getElementById('connectionStatus').textContent = 'CSV 로드 실패: ' + err.message;
+                document.getElementById('connectionStatus').textContent = 'JSON 로드 실패: ' + err.message;
                 document.querySelector('.connection-status').style.background = '#dc3545';
             }
         }
 
         async function loadStageGates() {
-            // CSV 버전에서는 Stage Gate 정보 없음 (DB 전용 기능)
+            // JSON 버전에서는 Stage Gate 정보 없음 (DB 전용 기능)
             stageGates = [];
             renderStageGates();
         }
@@ -617,14 +580,14 @@
 
             const approvalStatus = status === '승인' ? 'Approved' : status === '거부' ? 'Rejected' : 'Pending';
 
-            // CSV 버전: 로컬 저장만 지원
+            // JSON 버전: 로컬 저장만 지원
             localStorage.setItem(`stage${currentGateStage}_gate`, JSON.stringify({
                 approval_status: approvalStatus,
                 approval_note: note,
                 approval_user: user,
                 approval_date: new Date().toISOString()
             }));
-            alert(`Stage ${currentGateStage} Gate 승인 정보가 로컬에 저장되었습니다.\n(CSV 버전은 DB 저장을 지원하지 않습니다)`);
+            alert(`Stage ${currentGateStage} Gate 승인 정보가 로컬에 저장되었습니다.\n(JSON 버전은 DB 저장을 지원하지 않습니다)`);
         }
 
         async function saveAIVerification() {
@@ -638,13 +601,13 @@
                 return;
             }
 
-            // CSV 버전: 로컬 저장만 지원
+            // JSON 버전: 로컬 저장만 지원
             localStorage.setItem(`stage${currentGateStage}_ai_verification`, JSON.stringify({
                 ai_verification_note: note,
                 verification_report_path: reportPath,
                 ai_verification_date: new Date().toISOString()
             }));
-            alert(`Stage ${currentGateStage} AI 검증 정보가 로컬에 저장되었습니다.\n(CSV 버전은 DB 저장을 지원하지 않습니다)`);
+            alert(`Stage ${currentGateStage} AI 검증 정보가 로컬에 저장되었습니다.\n(JSON 버전은 DB 저장을 지원하지 않습니다)`);
         }
 
         function render2D() {

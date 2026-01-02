@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project SAL Grid Viewer - Mobile (CSV)</title>
-    <!-- CSV 기반 로컬 Viewer - Supabase 불필요 -->
+    <title>Project SAL Grid Viewer - Mobile (JSON)</title>
+    <!-- JSON 기반 로컬 Viewer - Supabase 불필요 -->
     <style>
         :root {
             --primary: #10B981;
@@ -256,12 +256,12 @@
 </head>
 <body>
     <header class="header">
-        <h1>SAL Grid Viewer (CSV)</h1>
+        <h1>SAL Grid Viewer (JSON)</h1>
         <button class="close-btn" onclick="window.close(); return false;">← 돌아가기</button>
     </header>
 
     <div class="status-bar">
-        <span><span class="status-dot" id="statusDot"></span><span id="statusText">CSV 준비 중...</span></span>
+        <span><span class="status-dot" id="statusDot"></span><span id="statusText">JSON 준비 중...</span></span>
         <span id="taskCount">0개 Task</span>
     </div>
 
@@ -311,64 +311,30 @@
 
     <script>
         // ================================================================
-        // CSV 기반 Mobile Viewer - Supabase 연결 불필요
+        // JSON 기반 Mobile Viewer - Supabase 연결 불필요
         // ================================================================
 
         let allTasks = [];
         let currentStage = 'all';
 
-        // CSV 파싱 함수
-        function parseCSV(csvText) {
-            const lines = csvText.trim().split('\n');
-            if (lines.length < 2) return [];
-
-            const headers = parseCSVLine(lines[0]);
-            const data = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                const values = parseCSVLine(lines[i]);
-                const row = {};
-                headers.forEach((header, idx) => {
-                    let value = values[idx] || '';
-                    if (header === 'stage' || header === 'task_progress') {
-                        value = parseInt(value) || 0;
-                    }
-                    row[header] = value;
-                });
-                data.push(row);
-            }
-            return data;
-        }
-
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let inQuotes = false;
-
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
-                }
-            }
-            result.push(current.trim());
-            return result;
-        }
-
+        // JSON 데이터 로드 함수
         async function loadTasks() {
             try {
-                document.getElementById('statusText').textContent = 'CSV 로딩...';
+                document.getElementById('statusText').textContent = 'JSON 로딩...';
 
-                const response = await fetch('../method/csv/data/sal_grid.csv');
-                if (!response.ok) throw new Error('CSV 파일 로드 실패');
+                const response = await fetch('../method/json/data/in_progress/project_sal_grid.json');
+                if (!response.ok) throw new Error('JSON 파일 로드 실패');
 
-                const csvText = await response.text();
-                const data = parseCSV(csvText);
+                const jsonData = await response.json();
+
+                // tasks 배열 추출 (JSON 구조: { project_id, project_name, tasks: [...] })
+                const data = jsonData.tasks || [];
+
+                // stage, task_progress를 숫자로 변환 확인
+                data.forEach(task => {
+                    task.stage = parseInt(task.stage) || 0;
+                    task.task_progress = parseInt(task.task_progress) || 0;
+                });
 
                 // 정렬
                 data.sort((a, b) => {
@@ -378,7 +344,7 @@
 
                 allTasks = data;
                 document.getElementById('statusDot').classList.add('connected');
-                document.getElementById('statusText').textContent = 'CSV 로드 완료';
+                document.getElementById('statusText').textContent = 'JSON 로드 완료';
                 document.getElementById('taskCount').textContent = allTasks.length + '개 Task';
 
                 renderTasks();
@@ -414,7 +380,7 @@
             }).join('');
         }
 
-        // Modal Functions (CSV 버전 - 10개 컬럼만 표시)
+        // Modal Functions (JSON 버전 - 22개 속성 모두 표시)
         async function openModal(taskId) {
             document.getElementById('modalTitle').textContent = taskId + ' 상세';
             document.getElementById('modalContent').innerHTML = '<div class="loading">로딩 중...</div>';
@@ -460,7 +426,7 @@
                 5: '운영 (Operations)'
             };
 
-            // CSV에는 10개 컬럼만 있으므로 간소화된 상세 표시
+            // JSON에는 22개 속성 모두 있으므로 전체 상세 표시
             document.getElementById('modalContent').innerHTML = `
                     <!-- [1-4] Basic Info -->
                     <div class="detail-section">

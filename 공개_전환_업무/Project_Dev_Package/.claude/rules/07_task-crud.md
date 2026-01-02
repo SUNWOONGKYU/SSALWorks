@@ -11,7 +11,7 @@
 | 1 | TASK_PLAN.md | Task 목록 및 수치 |
 | 2 | Task Instruction 파일 | Task 수행 지침 |
 | 3 | Verification Instruction 파일 | 검증 지침 |
-| 4 | **CSV 파일** | Task 상태 데이터 |
+| 4 | **JSON 파일** | Task 상태 데이터 |
 | 5 | 작업 로그 (work_logs/current.md) | 작업 기록 |
 
 ---
@@ -99,22 +99,40 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 
 **저장 위치:** `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md`
 
-### Step 5: CSV 파일 업데이트
+### Step 5: JSON 파일 업데이트
 
-**CSV 파일 위치:** `S0_Project-SAL-Grid_생성/data/sal_grid.csv`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
 
 #### 시나리오 A: 신규 Task (아직 작업 안 함)
 
-CSV에 새 행 추가:
-```
-task_id,task_name,stage,area,task_status,task_progress,verification_status,...
-S4F5,Task 이름,4,F,Pending,0,Not Verified,...
+JSON의 tasks 배열에 새 객체 추가:
+```json
+{
+    "task_id": "S4F5",
+    "task_name": "Task 이름",
+    "stage": 4,
+    "area": "F",
+    "task_status": "Pending",
+    "task_progress": 0,
+    "verification_status": "Not Verified",
+    ...
+}
 ```
 
 #### 시나리오 B: 완료된 Task (이미 작업 완료)
 
-```
-S4F5,Task 이름,4,F,Completed,100,Verified,...
+```json
+{
+    "task_id": "S4F5",
+    "task_name": "Task 이름",
+    "stage": 4,
+    "area": "F",
+    "task_status": "Completed",
+    "task_progress": 100,
+    "verification_status": "Verified",
+    "generated_files": "파일1, 파일2",
+    ...
+}
 ```
 
 **Stage 번호:**
@@ -144,7 +162,7 @@ S4F5,Task 이름,4,F,Completed,100,Verified,...
 1. TASK_PLAN.md
 2. task-instructions/{TaskID}_instruction.md
 3. verification-instructions/{TaskID}_verification.md
-4. sal_grid.csv
+4. project_sal_grid.json
 ```
 
 ### Step 7: Git 커밋 & 푸시
@@ -171,9 +189,11 @@ rm S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
 rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
 ```
 
-### Step 3: CSV 파일에서 삭제
+### Step 3: JSON 파일에서 삭제
 
-해당 task_id 행 삭제
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+
+tasks 배열에서 해당 task_id 객체 삭제
 
 ### Step 4: 작업 로그 업데이트 & Git 커밋
 
@@ -193,9 +213,11 @@ rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verifi
 2. Task Instruction 파일 수정
 3. Verification Instruction 파일 수정
 
-### Step 5: CSV 파일 업데이트
+### Step 5: JSON 파일 업데이트
 
-해당 task_id 행의 필드 수정
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+
+해당 task_id 객체의 필드 수정
 
 ### Step 6-7: 작업 로그 & Git 커밋
 
@@ -203,20 +225,27 @@ rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verifi
 
 ## Task 상태 업데이트 (작업/검증 완료 시)
 
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+
 ### 작업 완료 시 (Executed)
 
-CSV 파일에서 해당 행 수정:
-```
-task_status: Executed
-task_progress: 100
-generated_files: 생성된 파일 목록
+JSON 파일에서 해당 task_id 객체 수정:
+```json
+{
+    "task_status": "Executed",
+    "task_progress": 100,
+    "generated_files": "생성된 파일 목록",
+    "updated_at": "현재 시간"
+}
 ```
 
 ### 검증 완료 시 (Verified → Completed)
 
-```
-verification_status: Verified
-task_status: Completed  ← Verified 후에만!
+```json
+{
+    "verification_status": "Verified",
+    "task_status": "Completed"  // ← Verified 후에만!
+}
 ```
 
 ---
@@ -229,7 +258,7 @@ task_status: Completed  ← Verified 후에만!
 - [ ] TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 생성
 - [ ] verification-instructions/{TaskID}_verification.md 생성
-- [ ] sal_grid.csv에 Task 추가
+- [ ] project_sal_grid.json에 Task 추가
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -237,7 +266,7 @@ task_status: Completed  ← Verified 후에만!
 
 - [ ] TASK_PLAN.md 업데이트
 - [ ] Instruction 파일 삭제
-- [ ] CSV에서 Task 제거
+- [ ] JSON에서 Task 제거
 - [ ] 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -245,7 +274,7 @@ task_status: Completed  ← Verified 후에만!
 
 - [ ] TASK_PLAN.md 업데이트
 - [ ] Instruction 파일 수정
-- [ ] CSV에서 해당 필드 수정
+- [ ] JSON에서 해당 필드 수정
 - [ ] 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -268,6 +297,24 @@ task_status: Completed  ← Verified 후에만!
 | Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/TASK_PLAN.md` |
 | Task Instructions | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
 | Verification Instructions | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
-| CSV 데이터 | `S0_Project-SAL-Grid_생성/data/sal_grid.csv` |
-| Stage Gates | `S0_Project-SAL-Grid_생성/sal-grid/stage-gates/` |
+| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json` |
+| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/method/json/data/completed/` |
+| Stage Gates | `S0_Project-SAL-Grid_생성/method/json/stage-gates/` |
 | 작업 로그 | `.claude/work_logs/current.md` |
+
+---
+
+## JSON 폴더 구조
+
+```
+S0_Project-SAL-Grid_생성/method/json/data/
+├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
+│   └── project_sal_grid.json
+└── completed/          ← 완료된 프로젝트 보관
+    └── {project_name}_sal_grid.json
+```
+
+**프로젝트 완료 시:**
+1. `in_progress/project_sal_grid.json` → `completed/{project_name}_sal_grid.json` 이동
+2. 새 프로젝트 시작 시 `in_progress/`에 새 파일 생성
+3. Viewer는 항상 `in_progress/` 폴더만 읽음
