@@ -2558,6 +2558,7 @@ h6 {
     text-overflow: ellipsis;
     line-height: 1.4;
     width: 100%;
+    white-space: normal;
     word-wrap: break-word;
     overflow-wrap: break-word;
     word-break: break-word;
