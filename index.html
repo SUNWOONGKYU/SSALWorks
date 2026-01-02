@@ -4895,6 +4895,36 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             animate3D();
         }
 
+        // Task ID 라벨 스프라이트 생성
+        function createTextSprite(text, bgColor = '#1a1a2e') {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 128;
+            canvas.height = 64;
+
+            // 배경
+            context.fillStyle = bgColor;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 테두리
+            context.strokeStyle = '#ffffff';
+            context.lineWidth = 2;
+            context.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+
+            // 텍스트
+            context.font = 'bold 24px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillStyle = '#ffffff';
+            context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(1.5, 0.75, 1);
+            return sprite;
+        }
+
         function create3DBlocks() {
             // Clear existing blocks
             taskObjects3D.forEach(obj => scene3D.remove(obj));
@@ -4907,6 +4937,15 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 3: 0xF59E0B, // Yellow
                 4: 0xEF4444, // Red
                 5: 0x8B5CF6  // Purple
+            };
+
+            // Stage color hex strings for labels
+            const stageColorHex = {
+                1: '#3B82F6',
+                2: '#10B981',
+                3: '#F59E0B',
+                4: '#EF4444',
+                5: '#8B5CF6'
             };
 
             // Get tasks from allTasks or use sample data
@@ -4927,6 +4966,12 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                         cube.castShadow = true;
                         scene3D.add(cube);
                         taskObjects3D.push(cube);
+
+                        // 샘플 라벨
+                        const label = createTextSprite(`S${s}-${i+1}`, stageColorHex[s]);
+                        label.position.set((s - 3) * 3, 1.3, (i - 1) * 2);
+                        scene3D.add(label);
+                        taskObjects3D.push(label);
                     }
                 }
             } else {
@@ -4954,6 +4999,12 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                         cube.userData = task;
                         scene3D.add(cube);
                         taskObjects3D.push(cube);
+
+                        // Task ID 라벨 추가
+                        const label = createTextSprite(task.task_id || `S${stage}`, stageColorHex[stage] || '#888888');
+                        label.position.set((stage - 3) * 3, height + 0.5, (idx % 5 - 2) * 2);
+                        scene3D.add(label);
+                        taskObjects3D.push(label);
                     });
                 });
             }

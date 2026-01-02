@@ -969,8 +969,47 @@
             scene.add(line);
         }
 
+        // Task ID 라벨 스프라이트 생성
+        function createTextSprite(text, bgColor = '#1a1a2e') {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 128;
+            canvas.height = 64;
+
+            // 배경
+            context.fillStyle = bgColor;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 테두리
+            context.strokeStyle = '#ffffff';
+            context.lineWidth = 2;
+            context.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+
+            // 텍스트
+            context.font = 'bold 20px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillStyle = '#ffffff';
+            context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(2.5, 1.25, 1);
+            return sprite;
+        }
+
         function create3DBlocks() {
             const areaMap = { 'M': 0, 'U': 1, 'F': 2, 'BI': 3, 'BA': 4, 'D': 5, 'S': 6, 'T': 7, 'O': 8, 'E': 9, 'C': 10 };
+
+            // Status colors for labels
+            const statusColorHex = {
+                'Completed': '#28a745',
+                'Executed': '#3B82F6',
+                'In Progress': '#ffc107',
+                'Fixing': '#dc3545',
+                'Pending': '#6c757d'
+            };
 
             allTasks.forEach(task => {
                 const geometry = new THREE.BoxGeometry(3, 3, 3);
@@ -996,6 +1035,13 @@
 
                 scene.add(block);
                 taskObjects.push(block);
+
+                // Task ID 라벨 추가
+                const labelColor = statusColorHex[task.task_status] || '#6c757d';
+                const label = createTextSprite(task.task_id, labelColor);
+                label.position.set(posX, posY + 2.5, posZ);
+                scene.add(label);
+                taskObjects.push(label);
             });
         }
 

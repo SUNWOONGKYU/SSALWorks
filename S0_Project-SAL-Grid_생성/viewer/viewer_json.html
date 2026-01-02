@@ -406,7 +406,7 @@
     <script>
         // ================================================================
         // Project SAL Grid Viewer (JSON + GitHub 연동)
-        // - 관리자(wksun999@gmail.com): 로컬 JSON 파일에서 로드
+        // - 모든 사용자: Supabase에서 github_repo_url 조회 후 GitHub에서 로드
         // - 일반 사용자: GitHub 레포에서 직접 로드 (서버 저장 X)
         // ================================================================
 
@@ -558,6 +558,17 @@
 
                 if (error) {
                     console.error('Supabase error:', error);
+                    // PGRST116 = 결과 없음 (사용자가 GitHub URL 미등록)
+                    if (error.code === 'PGRST116') {
+                        allTasks = [];
+                        filteredTasks = [];
+                        render2D();
+                        updateStats();
+                        document.getElementById('connectionStatus').textContent = 'GitHub 연결 필요';
+                        document.querySelector('.connection-status').style.background = '#6c757d';
+                        return;
+                    }
+                    // 그 외 실제 에러
                     allTasks = [];
                     filteredTasks = [];
                     render2D();
@@ -679,7 +690,7 @@
         }
 
         async function loadStageGates() {
-            // CSV 버전에서는 Stage Gate 정보 없음 (DB 전용 기능)
+            // GitHub 버전에서는 Stage Gate 정보 없음 (DB 전용 기능)
             stageGates = [];
             renderStageGates();
         }
@@ -759,14 +770,14 @@
 
             const approvalStatus = status === '승인' ? 'Approved' : status === '거부' ? 'Rejected' : 'Pending';
 
-            // CSV 버전: 로컬 저장만 지원
+            // GitHub 버전: 로컬 저장만 지원
             localStorage.setItem(`stage${currentGateStage}_gate`, JSON.stringify({
                 approval_status: approvalStatus,
                 approval_note: note,
                 approval_user: user,
                 approval_date: new Date().toISOString()
             }));
-            alert(`Stage ${currentGateStage} Gate 승인 정보가 로컬에 저장되었습니다.\n(CSV 버전은 DB 저장을 지원하지 않습니다)`);
+            alert(`Stage ${currentGateStage} Gate 승인 정보가 로컬에 저장되었습니다.\n(로컬 저장만 지원됩니다)`);
         }
 
         async function saveAIVerification() {
@@ -780,13 +791,13 @@
                 return;
             }
 
-            // CSV 버전: 로컬 저장만 지원
+            // GitHub 버전: 로컬 저장만 지원
             localStorage.setItem(`stage${currentGateStage}_ai_verification`, JSON.stringify({
                 ai_verification_note: note,
                 verification_report_path: reportPath,
                 ai_verification_date: new Date().toISOString()
             }));
-            alert(`Stage ${currentGateStage} AI 검증 정보가 로컬에 저장되었습니다.\n(CSV 버전은 DB 저장을 지원하지 않습니다)`);
+            alert(`Stage ${currentGateStage} AI 검증 정보가 로컬에 저장되었습니다.\n(로컬 저장만 지원됩니다)`);
         }
 
         function render2D() {
@@ -1175,8 +1186,47 @@
             scene.add(line);
         }
 
+        // Task ID 라벨 스프라이트 생성
+        function createTextSprite(text, bgColor = '#1a1a2e') {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 128;
+            canvas.height = 64;
+
+            // 배경
+            context.fillStyle = bgColor;
+            context.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 테두리
+            context.strokeStyle = '#ffffff';
+            context.lineWidth = 2;
+            context.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
+
+            // 텍스트
+            context.font = 'bold 20px Arial';
+            context.textAlign = 'center';
+            context.textBaseline = 'middle';
+            context.fillStyle = '#ffffff';
+            context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(2.5, 1.25, 1);
+            return sprite;
+        }
+
         function create3DBlocks() {
             const areaMap = { 'M': 0, 'U': 1, 'F': 2, 'BI': 3, 'BA': 4, 'D': 5, 'S': 6, 'T': 7, 'O': 8, 'E': 9, 'C': 10 };
+
+            // Status colors for labels
+            const statusColorHex = {
+                'Completed': '#28a745',
+                'Executed': '#3B82F6',
+                'In Progress': '#ffc107',
+                'Fixing': '#dc3545',
+                'Pending': '#6c757d'
+            };
 
             allTasks.forEach(task => {
                 const geometry = new THREE.BoxGeometry(3, 3, 3);
@@ -1202,6 +1252,13 @@
 
                 scene.add(block);
                 taskObjects.push(block);
+
+                // Task ID 라벨 추가
+                const labelColor = statusColorHex[task.task_status] || '#6c757d';
+                const label = createTextSprite(task.task_id, labelColor);
+                label.position.set(posX, posY + 2.5, posZ);
+                scene.add(label);
+                taskObjects.push(label);
             });
         }
 

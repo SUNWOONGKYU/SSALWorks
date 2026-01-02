@@ -627,36 +627,41 @@ fetch(SUPABASE_URL + '/rest/v1/project_sal_grid?task_id=eq.S4F5', {
 
 ---
 
-## 9. 사용자별 JSON 데이터 분리 (Viewer)
+## 9. JSON 데이터 구조 (Viewer용 - 개별 파일 방식)
 
 > **적용 대상:** JSON Viewer (`viewer_json.html`, `viewer_mobile_json.html`)
-> **데이터 형식:** JSON이 Source
+> **데이터 형식:** index.json + grid_records/*.json (개별 파일)
 
-### JSON 경로 분기 로직
+### JSON 폴더 구조
 
-Viewer가 사용자 이메일을 기준으로 JSON 경로를 결정:
+```
+S0_Project-SAL-Grid_생성/method/json/data/
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일 (66개)
+    ├── S1BI1.json
+    ├── S1BI2.json
+    ├── S2F1.json
+    └── ... (Task ID별 파일)
+```
 
-| 사용자 | JSON 경로 | 결과 |
-|--------|----------|------|
-| `wksun999@gmail.com` | `../method/json/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 |
-| 그 외 사용자 | `../method/json/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 |
-| 파일 없음 (404) | - | "프로젝트 없음" 메시지 |
-
-### 코드 로직
+### Viewer 로딩 순서
 
 ```javascript
-const userEmail = localStorage.getItem('userEmail');
+// 1. index.json 로드
+const indexUrl = `${jsonBasePath}/index.json`;
+const indexData = await fetch(indexUrl).then(r => r.json());
 
-if (userEmail === 'wksun999@gmail.com') {
-    jsonPath = '../method/json/data/in_progress/project_sal_grid.json';
-} else {
-    jsonPath = `../method/json/data/users/${encodeURIComponent(userEmail)}/project_sal_grid.json`;
+// 2. 각 Task JSON 파일 로드
+for (const taskId of indexData.task_ids) {
+    const taskUrl = `${jsonBasePath}/grid_records/${taskId}.json`;
+    const taskData = await fetch(taskUrl).then(r => r.json());
+    // Task 데이터 처리
 }
 ```
 
 ### "프로젝트 없음" 안내 메시지
 
-JSON 파일이 없을 때 (404 응답) 표시:
+index.json 파일이 없을 때 (404 응답) 표시:
 
 ```
 📋 진행 중인 프로젝트가 아직 없습니다
@@ -676,8 +681,8 @@ JSON 파일이 없을 때 (404 응답) 표시:
 |------|------|
 | 데스크톱 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_json.html` |
 | 모바일 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_json.html` |
-| JSON 데이터 폴더 | `S0_Project-SAL-Grid_생성/method/json/data/` |
-| 사용자별 JSON 폴더 | `S0_Project-SAL-Grid_생성/method/json/data/users/{email}/` |
+| 프로젝트 메타데이터 | `S0_Project-SAL-Grid_생성/method/json/data/index.json` |
+| 개별 Task 파일 | `S0_Project-SAL-Grid_생성/method/json/data/grid_records/*.json` |
 
 ---
 
