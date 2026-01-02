@@ -5724,3 +5724,39 @@ Dev Package 4개 Task 완료 후 5개 서브에이전트를 활용한 종합 테
 `Human_ClaudeCode_Bridge/Reports/2026-01-03_PoliticianFinder_Improvement_Analysis.md`
 
 ---
+
+### RLS 프로덕션 적용 ✅
+
+**작업 목표**: 개발용 RLS → 프로덕션용 RLS 교체 (CAUTION.md 항목)
+
+**적용 결과:**
+
+| 테이블 | 정책 | 테스트 결과 |
+|--------|------|-------------|
+| learning_contents | `*_auth` (3개) | ✅ anon INSERT 차단 (401) |
+| faqs | `*_authenticated` (3개) | ✅ anon INSERT 차단 (401) |
+
+**보안 개선:**
+- Before: anon 사용자 INSERT/UPDATE/DELETE 가능 (취약)
+- After: authenticated 사용자만 CUD 가능 (강화)
+
+**실행한 SQL:**
+```sql
+-- learning_contents: 동적 정책 삭제 + 재생성
+DO $$ ... DROP POLICY ... $$;
+CREATE POLICY "learning_contents_insert_auth" ...
+CREATE POLICY "learning_contents_update_auth" ...
+CREATE POLICY "learning_contents_delete_auth" ...
+
+-- faqs: 정책 삭제 + 재생성
+DROP POLICY IF EXISTS "faqs_insert_all_dev" ...
+CREATE POLICY "faqs_insert_authenticated" ...
+CREATE POLICY "faqs_update_authenticated" ...
+CREATE POLICY "faqs_delete_authenticated" ...
+```
+
+**CAUTION.md 업데이트:** RLS 항목 ✅ 완료 표시
+
+**관련 리포트:** `Human_ClaudeCode_Bridge/Reports/2026-01-03_RLS_production_report.json`
+
+---

@@ -148,8 +148,9 @@ function calculatePhaseProgress(phaseCode, phasePath) {
     }
 }
 
-// SAL Grid JSON에서 S1~S5 진행률 계산
-function calculateStageProgressFromJSON(jsonPath) {
+// SAL Grid 개별 JSON 파일에서 S1~S5 진행률 계산
+// 새 구조: index.json + grid_records/ 폴더의 개별 Task JSON 파일
+function calculateStageProgressFromJSON(basePath) {
     const stageProgress = {
         'S1': { name: '개발 준비', progress: 0, completed: 0, total: 0 },
         'S2': { name: '개발 1차', progress: 0, completed: 0, total: 0 },
@@ -159,30 +160,55 @@ function calculateStageProgressFromJSON(jsonPath) {
     };
 
     try {
-        if (!fs.existsSync(jsonPath)) {
-            console.warn('project_sal_grid.json not found, S1~S5 progress will be 0');
+        const indexPath = path.join(basePath, 'index.json');
+        const gridRecordsPath = path.join(basePath, 'grid_records');
+
+        // index.json 확인
+        if (!fs.existsSync(indexPath)) {
+            console.warn('index.json not found, S1~S5 progress will be 0');
             return stageProgress;
         }
 
-        const jsonContent = fs.readFileSync(jsonPath, 'utf-8');
-        const data = JSON.parse(jsonContent);
-
-        if (!data.tasks || !Array.isArray(data.tasks)) {
-            console.warn('JSON format error: tasks array not found');
+        // grid_records 폴더 확인
+        if (!fs.existsSync(gridRecordsPath)) {
+            console.warn('grid_records folder not found, S1~S5 progress will be 0');
             return stageProgress;
         }
 
-        // Task 데이터 파싱
-        data.tasks.forEach(task => {
-            const stage = task.stage;  // integer: 1~5
-            const status = task.task_status;
+        // index.json에서 task_ids 가져오기
+        const indexContent = fs.readFileSync(indexPath, 'utf-8');
+        const indexData = JSON.parse(indexContent);
 
-            const stageKey = `S${stage}`;
-            if (stageProgress[stageKey]) {
-                stageProgress[stageKey].total++;
-                if (status === 'Completed') {
-                    stageProgress[stageKey].completed++;
+        if (!indexData.task_ids || !Array.isArray(indexData.task_ids)) {
+            console.warn('index.json format error: task_ids array not found');
+            return stageProgress;
+        }
+
+        // 각 Task JSON 파일 읽기
+        indexData.task_ids.forEach(taskId => {
+            const taskFilePath = path.join(gridRecordsPath, `${taskId}.json`);
+
+            try {
+                if (!fs.existsSync(taskFilePath)) {
+                    console.warn(`Task file not found: ${taskId}.json`);
+                    return;
                 }
+
+                const taskContent = fs.readFileSync(taskFilePath, 'utf-8');
+                const task = JSON.parse(taskContent);
+
+                const stage = task.stage;  // integer: 1~5
+                const status = task.task_status;
+
+                const stageKey = `S${stage}`;
+                if (stageProgress[stageKey]) {
+                    stageProgress[stageKey].total++;
+                    if (status === 'Completed') {
+                        stageProgress[stageKey].completed++;
+                    }
+                }
+            } catch (e) {
+                console.error(`Error reading ${taskId}.json:`, e.message);
             }
         });
 
@@ -194,7 +220,7 @@ function calculateStageProgressFromJSON(jsonPath) {
 
         return stageProgress;
     } catch (e) {
-        console.error('Error reading project_sal_grid.json:', e.message);
+        console.error('Error calculating stage progress:', e.message);
         return stageProgress;
     }
 }
@@ -226,10 +252,10 @@ function main() {
         console.log(`${status} ${code}: ${progress.completed}/${progress.total} = ${progress.progress}%`);
     });
 
-    // S1~S5 진행률 계산 (JSON 기반)
-    console.log('\n=== S1~S5 (SAL Grid JSON 기반) ===');
-    const jsonPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data', 'in_progress', 'project_sal_grid.json');
-    const stageProgress = calculateStageProgressFromJSON(jsonPath);
+    // S1~S5 진행률 계산 (개별 JSON 파일 기반)
+    console.log('\n=== S1~S5 (SAL Grid 개별 JSON 기반) ===');
+    const gridDataPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data');
+    const stageProgress = calculateStageProgressFromJSON(gridDataPath);
 
     Object.entries(stageProgress).forEach(([code, data]) => {
         result.phases[code] = {
