@@ -369,25 +369,25 @@
 
         async function loadTasks() {
             try {
-                document.getElementById('statusText').textContent = 'CSV 로딩...';
+                document.getElementById('statusText').textContent = 'JSON 로딩...';
 
                 // 사용자 이메일 확인
                 const userEmail = localStorage.getItem('userEmail');
 
-                // 사용자별 CSV 경로 결정
-                let csvPath = '';
+                // 사용자별 JSON 경로 결정 (CSV_Method 폴더 사용)
+                let jsonPath = '';
 
                 if (userEmail === 'wksun999@gmail.com') {
-                    // SSAL Works 관리자: 기존 데이터 사용
-                    csvPath = '../method/csv/data/sal_grid.csv';
+                    // SSAL Works 관리자: in_progress 폴더에서 진행 중인 프로젝트 로드
+                    jsonPath = '../CSV_Method/data/in_progress/project_sal_grid.json';
                 } else {
                     // 다른 사용자: 사용자별 경로
-                    csvPath = `../method/csv/data/users/${encodeURIComponent(userEmail || 'anonymous')}/sal_grid.csv`;
+                    jsonPath = `../CSV_Method/data/users/${encodeURIComponent(userEmail || 'anonymous')}/project_sal_grid.json`;
                 }
 
-                const response = await fetch(csvPath);
+                const response = await fetch(jsonPath);
 
-                // 사용자 CSV 파일이 없는 경우 → 빈 데이터로 처리
+                // 사용자 JSON 파일이 없는 경우 → 빈 데이터로 처리
                 if (!response.ok) {
                     if (response.status === 404) {
                         allTasks = [];
@@ -398,11 +398,11 @@
                         updateStats();
                         return;
                     }
-                    throw new Error('CSV 파일 로드 실패');
+                    throw new Error('JSON 파일 로드 실패');
                 }
 
-                const csvText = await response.text();
-                const data = parseCSV(csvText);
+                const jsonData = await response.json();
+                const data = jsonData.tasks || [];
 
                 // 정렬 (undefined 체크)
                 data.sort((a, b) => {
@@ -416,7 +416,7 @@
 
                 allTasks = data;
                 document.getElementById('statusDot').classList.add('connected');
-                document.getElementById('statusText').textContent = 'CSV 로드 완료';
+                document.getElementById('statusText').textContent = 'JSON 로드 완료';
                 document.getElementById('taskCount').textContent = allTasks.length + '개 Task';
 
                 renderTasks();
