@@ -24,10 +24,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
-## 📊 DB vs CSV 데이터 구분 (핵심 개념)
+## 📊 DB vs JSON 데이터 구분 (핵심 개념)
 
 > **이 구분을 이해해야 viewer 관련 작업 시 혼란이 없음!**
-> **데이터 형식:** JSON이 Source, CSV는 `json-to-csv.js`로 파생 생성
+> **데이터 형식:** JSON 파일 사용
 
 ### 두 가지 데이터 소스
 

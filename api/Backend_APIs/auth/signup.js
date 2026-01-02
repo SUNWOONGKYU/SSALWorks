@@ -206,18 +206,23 @@ module.exports = async (req, res) => {
     }
 
     // ================================================================
-    // 9. 환영 이메일 발송 (비동기 - 실패해도 회원가입은 성공)
+    // 9. 환영 알림 생성 (비동기 - 실패해도 회원가입은 성공)
     // ================================================================
     try {
-      // 환영 이메일 템플릿이 있다면 발송
-      // 현재는 Supabase Auth의 자동 이메일 인증 메일만 발송됨
-      console.log(`Welcome email would be sent to: ${normalizedEmail}`);
-
-      // TODO: S4BA6 이메일 템플릿 구현 후 환영 이메일 발송
-      // await sendEmail('welcome', normalizedEmail, { userName: trimmedName });
-    } catch (emailError) {
-      // 이메일 발송 실패는 로그만 남기고 회원가입은 성공 처리
-      console.error('Welcome email send failed:', emailError);
+      await supabase
+        .from('user_notifications')
+        .insert({
+          user_id: userId,
+          notification_type: 'welcome',
+          title: 'SSAL Works에 오신 것을 환영합니다!',
+          message: 'SSAL Works에 오신 것을 환영합니다!',
+          is_read: false,
+          created_at: now
+        });
+      console.log(`Welcome notification created for: ${normalizedEmail}`);
+    } catch (notificationError) {
+      // 알림 생성 실패는 로그만 남기고 회원가입은 성공 처리
+      console.error('Welcome notification creation failed:', notificationError);
     }
 
     // ================================================================

@@ -121,6 +121,44 @@
 
 ---
 
+### 플랫폼 개선 아젠다 #4: 미구현 기능 정리 (TODO) ✅
+
+**작업 목표**: 코드베이스 전체의 TODO 주석 전수 조사 및 처리
+
+**발견된 TODO (7개) - 모두 처리 완료:**
+
+| # | 위치 | 설명 | 처리 |
+|---|------|------|------|
+| 1 | `index.html:4439` | Perplexity API 연동 (주석 코드) | ✅ 삭제 |
+| 2 | `index.html:4644` | Supabase Realtime 구독 | ✅ 구현 |
+| 3 | `admin-dashboard.html:3127` | 답변 전송 API 연결 | ✅ 확인 + 알림 추가 |
+| 4 | `index.html:4750` | 2D/3D 뷰 전환 | ✅ 구현 |
+| 5 | `index.html:5580` | 사용자별 Manual PDF | ✅ TODO 삭제 (공통이 맞음) |
+| 6 | `signup.js:216` | 환영 이메일 | ✅ 환영 알림으로 변경 |
+| 7 | `verify-email.js:146` | 이메일 인증 완료 축하 | ✅ 불필요, 삭제 |
+
+**알림 시스템 업데이트:**
+
+새로 추가된 알림 타입:
+| notification_type | 아이콘 | 발생 시점 |
+|-------------------|--------|----------|
+| `welcome` | 🎉 | 회원가입 완료 |
+| `sunny_answer` | ☀️ | 써니 답변 완료 |
+| `inquiry_answer` | 📞 | 고객센터 답변 완료 |
+
+**수정된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `index.html` | Realtime 구독, Three.js 3D 뷰, 알림 아이콘 추가 |
+| `admin-dashboard.html` | 답변 시 알림 생성 코드 추가 |
+| `signup.js` | 환영 알림 생성 구현 |
+| `verify-email.js` | 불필요한 TODO/주석 삭제 |
+
+**관련 리포트:** `Human_ClaudeCode_Bridge/Reports/agenda4_todo_cleanup_2026-01-02.json`
+
+---
+
 ### 우측 사이드바 공지사항 줄바꿈 버그 수정 ✅
 
 **작업 목표**: 우측 사이드바 공지사항 제목이 줄바꿈 없이 길게 표시되는 문제 수정

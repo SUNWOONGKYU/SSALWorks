@@ -3107,27 +3107,6 @@
             document.getElementById('inquiryFormOverlay').style.display = 'none';
         }
 
-        function saveInquiryAnswer() {
-            const answer = document.querySelector('#inquiryFormOverlay .form-textarea').value;
-
-            // 유효성 검사
-            if (!validateText(answer, 10, 2000)) {
-                showToast('답변은 10~2000자로 입력하세요.', 'error');
-                return;
-            }
-
-            // 🔒 XSS Protection: Sanitize inquiry answer (allow basic formatting)
-            const safeAnswer = sanitizeInput(answer);
-
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                showToast('답변이 전송되었습니다!', 'success');
-                closeInquiryForm();
-                // TODO: Send safeAnswer to backend API
-                console.log('Sanitized answer:', safeAnswer);
-            }, 800);
-        }
 
         // Credit Deduct Functions (수동 차감만 지원 - 충전은 입금확인에서 자동 처리)
         function showCreditDeductModal() {
@@ -6952,6 +6931,17 @@
 
             try {
                 showLoading();
+
+                // 1. 문의 정보 조회 (user_id, title, content)
+                const { data: inquiry, error: fetchError } = await supabaseClient
+                    .from('inquiries')
+                    .select('user_id, title, content')
+                    .eq('id', inquiryId)
+                    .single();
+
+                if (fetchError) throw fetchError;
+
+                // 2. 답변 저장
                 const { error } = await supabaseClient
                     .from('inquiries')
                     .update({
@@ -6963,6 +6953,21 @@
                     .eq('id', inquiryId);
 
                 if (error) throw error;
+
+                // 3. 사용자에게 알림 생성
+                if (inquiry.user_id) {
+                    const questionText = inquiry.title || inquiry.content || '';
+                    await supabaseClient
+                        .from('user_notifications')
+                        .insert({
+                            user_id: inquiry.user_id,
+                            notification_type: 'inquiry_answer',
+                            title: '고객센터 답변이 도착했습니다',
+                            message: questionText.substring(0, 50) + (questionText.length > 50 ? '...' : ''),
+                            is_read: false,
+                            created_at: new Date().toISOString()
+                        });
+                }
 
                 showToast('답변이 저장되었습니다.', 'success');
                 closeInquiryModal();
@@ -7270,6 +7275,17 @@
 
             try {
                 showLoading();
+
+                // 1. 문의 정보 조회 (user_id, question)
+                const { data: inquiry, error: fetchError } = await supabaseClient
+                    .from('sunny_inquiries')
+                    .select('user_id, question')
+                    .eq('id', inquiryId)
+                    .single();
+
+                if (fetchError) throw fetchError;
+
+                // 2. 답변 저장
                 const { error } = await supabaseClient
                     .from('sunny_inquiries')
                     .update({
@@ -7281,6 +7297,20 @@
                     .eq('id', inquiryId);
 
                 if (error) throw error;
+
+                // 3. 사용자에게 알림 생성
+                if (inquiry.user_id) {
+                    await supabaseClient
+                        .from('user_notifications')
+                        .insert({
+                            user_id: inquiry.user_id,
+                            notification_type: 'sunny_answer',
+                            title: '써니가 답변했습니다',
+                            message: inquiry.question?.substring(0, 50) + (inquiry.question?.length > 50 ? '...' : ''),
+                            is_read: false,
+                            created_at: new Date().toISOString()
+                        });
+                }
 
                 showToast('답변이 저장되었습니다.', 'success');
                 closeSunnyDetail();

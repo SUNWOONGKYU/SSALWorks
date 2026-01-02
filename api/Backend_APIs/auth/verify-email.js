@@ -138,20 +138,7 @@ module.exports = async (req, res) => {
     }
 
     // ================================================================
-    // 5. 인증 완료 이메일 발송 (선택적)
-    // ================================================================
-    try {
-      console.log(`Email verified for user: ${userEmail}`);
-
-      // TODO: S4BA6 이메일 템플릿 구현 후 인증 완료 축하 이메일 발송
-      // await sendEmail('email-verified', userEmail, { userName: data.user.user_metadata?.name });
-    } catch (emailError) {
-      // 이메일 발송 실패는 로그만 남김
-      console.error('Verification confirmation email send failed:', emailError);
-    }
-
-    // ================================================================
-    // 6. 성공 응답
+    // 5. 성공 응답
     // ================================================================
     return res.status(200).json({
       success: true,

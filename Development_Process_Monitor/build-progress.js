@@ -2,7 +2,7 @@
  * build-progress.js
  *
  * P0~S0 진행률을 폴더/파일 구조에서 자동 계산하여 JSON 생성
- * S1~S5 진행률은 sal_grid.csv에서 자동 계산
+ * S1~S5 진행률은 project_sal_grid.json에서 자동 계산
  *
  * 사용법: node build-progress.js
  */
@@ -148,8 +148,8 @@ function calculatePhaseProgress(phaseCode, phasePath) {
     }
 }
 
-// SAL Grid CSV에서 S1~S5 진행률 계산
-function calculateStageProgressFromCSV(csvPath) {
+// SAL Grid JSON에서 S1~S5 진행률 계산
+function calculateStageProgressFromJSON(jsonPath) {
     const stageProgress = {
         'S1': { name: '개발 준비', progress: 0, completed: 0, total: 0 },
         'S2': { name: '개발 1차', progress: 0, completed: 0, total: 0 },
@@ -159,33 +159,23 @@ function calculateStageProgressFromCSV(csvPath) {
     };
 
     try {
-        if (!fs.existsSync(csvPath)) {
-            console.warn('sal_grid.csv not found, S1~S5 progress will be 0');
+        if (!fs.existsSync(jsonPath)) {
+            console.warn('project_sal_grid.json not found, S1~S5 progress will be 0');
             return stageProgress;
         }
 
-        const csvContent = fs.readFileSync(csvPath, 'utf-8');
-        const lines = csvContent.trim().split('\n');
+        const jsonContent = fs.readFileSync(jsonPath, 'utf-8');
+        const data = JSON.parse(jsonContent);
 
-        if (lines.length < 2) {
+        if (!data.tasks || !Array.isArray(data.tasks)) {
+            console.warn('JSON format error: tasks array not found');
             return stageProgress;
         }
 
-        // 헤더 파싱
-        const headers = lines[0].split(',').map(h => h.trim());
-        const stageIndex = headers.indexOf('stage');
-        const statusIndex = headers.indexOf('task_status');
-
-        if (stageIndex === -1 || statusIndex === -1) {
-            console.warn('CSV format error: stage or task_status column not found');
-            return stageProgress;
-        }
-
-        // 데이터 파싱
-        for (let i = 1; i < lines.length; i++) {
-            const values = parseCSVLine(lines[i]);
-            const stage = values[stageIndex];
-            const status = values[statusIndex];
+        // Task 데이터 파싱
+        data.tasks.forEach(task => {
+            const stage = task.stage;  // integer: 1~5
+            const status = task.task_status;
 
             const stageKey = `S${stage}`;
             if (stageProgress[stageKey]) {
@@ -194,7 +184,7 @@ function calculateStageProgressFromCSV(csvPath) {
                     stageProgress[stageKey].completed++;
                 }
             }
-        }
+        });
 
         // 진행률 계산
         Object.keys(stageProgress).forEach(key => {
@@ -204,32 +194,9 @@ function calculateStageProgressFromCSV(csvPath) {
 
         return stageProgress;
     } catch (e) {
-        console.error('Error reading sal_grid.csv:', e.message);
+        console.error('Error reading project_sal_grid.json:', e.message);
         return stageProgress;
     }
-}
-
-// CSV 라인 파싱 (쉼표가 포함된 값 처리)
-function parseCSVLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
-
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-            result.push(current.trim());
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    result.push(current.trim());
-
-    return result;
 }
 
 // 메인 실행
@@ -259,10 +226,10 @@ function main() {
         console.log(`${status} ${code}: ${progress.completed}/${progress.total} = ${progress.progress}%`);
     });
 
-    // S1~S5 진행률 계산 (CSV 기반)
-    console.log('\n=== S1~S5 (SAL Grid CSV 기반) ===');
-    const csvPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'csv', 'data', 'in_progress', 'sal_grid.csv');
-    const stageProgress = calculateStageProgressFromCSV(csvPath);
+    // S1~S5 진행률 계산 (JSON 기반)
+    console.log('\n=== S1~S5 (SAL Grid JSON 기반) ===');
+    const jsonPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data', 'in_progress', 'project_sal_grid.json');
+    const stageProgress = calculateStageProgressFromJSON(jsonPath);
 
     Object.entries(stageProgress).forEach(([code, data]) => {
         result.phases[code] = {

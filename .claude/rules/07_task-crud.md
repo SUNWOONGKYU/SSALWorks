@@ -13,7 +13,7 @@
 | **DB Method** | SSAL Works (내부) | Supabase DB | REST API | `Database_Method/stage-gates/` |
 | **JSON Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `method/json/stage-gates/` |
 
-**⚠️ SSAL Works는 두 방식을 동시에 사용 (내부 관리용 DB + 사용자 배포용 CSV)**
+**⚠️ SSAL Works는 두 방식을 동시에 사용 (내부 관리용 DB + 사용자 배포용 JSON)**
 
 ### 언제 어떤 방식을 사용하는가?
 
@@ -697,9 +697,9 @@ console.log(data);
 6. **변경 이력 필수**: Task Plan에 변경 이력 섹션에 기록
 7. **⚠️ 상태 전이 규칙 준수**: Completed는 반드시 Verified 후에만 설정 가능
 8. **⚠️ verification_status 필수**: INSERT 시 반드시 verification_status 명시적 설정
-9. **⚠️ SSAL Works는 DB + CSV 둘 다**: 두 방식 동시 적용 시 반드시 양쪽 모두 업데이트
+9. **⚠️ SSAL Works는 DB + JSON 둘 다**: 두 방식 동시 적용 시 반드시 양쪽 모두 업데이트
 10. **⚠️ Stage Gate 경로 구분**: DB Method와 JSON Method의 Stage Gate 저장 위치가 다름
-11. **⚠️ CSV 파일 위치**: 반드시 `in_progress/` 폴더에서 작업 (Viewer가 해당 폴더만 읽음)
+11. **⚠️ JSON 파일 위치**: 반드시 `in_progress/` 폴더에서 작업 (Viewer가 해당 폴더만 읽음)
 12. **⚠️ 프로젝트 완료 시**: `in_progress/` → `completed/` 폴더로 이동 후 새 프로젝트 시작
 
 ---
@@ -731,7 +731,7 @@ console.log(data);
 | JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json` |
 | JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/method/json/data/completed/` |
 | Stage Gates | `S0_Project-SAL-Grid_생성/method/json/stage-gates/` |
-| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/method/json/scripts/` |
+| 유틸리티 스크립트 | `S0_Project-SAL-Grid_생성/method/json/scripts/` |
 | JSON 템플릿 | `S0_Project-SAL-Grid_생성/method/json/templates/` |
 
 ### JSON Method 폴더 구조 ⭐
