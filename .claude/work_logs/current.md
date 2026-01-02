@@ -5524,3 +5524,53 @@ Dev Package 4개 Task 완료 후 5개 서브에이전트를 활용한 종합 테
 **커밋:** `43f1f95 - fix: 규칙 파일 경로를 실제 구현에 맞게 업데이트`
 
 ---
+
+### 플랫폼 개선 아젠다 #3: 공통 로직 중복 제거 ✅
+
+**작업 목표**: 여러 파일에 분산된 중복 유틸리티 함수를 외부 모듈로 분리하여 코드 유지보수성 향상
+
+**중복 코드 현황 (조사 결과):**
+
+| 중복 유형 | 발견 파일 수 | 비고 |
+|----------|-------------|------|
+| Supabase 초기화 | 11+ 파일 | 동일 패턴 반복 |
+| showToast 함수 | 10 파일 | 완전 동일 코드 |
+| 날짜 포맷팅 함수 | 8+ 파일 | formatDate, formatDateTime 등 |
+
+**생성된 외부 모듈 (4개):**
+
+| 파일 | 위치 | 제공 함수 |
+|------|------|----------|
+| `api-client.js` | `assets/js/utils/` | apiGet, apiPost, supabaseRest, supabaseSelect 등 |
+| `date-utils.js` | `assets/js/utils/` | formatDate, formatDateTime, formatTimeAgo, formatDateKorean 등 |
+| `loading.js` | `assets/js/components/` | showLoading, hideLoading, withLoading, createSpinner |
+| `toast.js` | `assets/js/components/` | showToast, hideAllToasts |
+
+**모듈 설계 패턴:**
+- `defer` 속성으로 스크립트 로드 순서 보장
+- `window` 객체에 함수 노출하여 전역 접근 가능
+- 기존 코드와 동일한 API 유지 (호환성)
+
+**리팩토링 예시 (mypage/index.html):**
+
+| 항목 | 변경 전 | 변경 후 |
+|------|---------|---------|
+| 스크립트 로드 | 인라인 코드 | 외부 모듈 4개 참조 |
+| Supabase 클라이언트 | `supabaseClient` | `window.supabaseClient` |
+| formatDate | 인라인 정의 | date-utils.js에서 로드 |
+| showToast | 인라인 정의 | toast.js에서 로드 |
+
+**수정된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `pages/mypage/index.html` | 외부 모듈 참조 추가, 중복 함수 제거, supabaseClient → window.supabaseClient |
+| `assets/js/utils/api-client.js` | 신규 생성 (API 호출 래퍼) |
+| `assets/js/utils/date-utils.js` | 신규 생성 (날짜 유틸리티) |
+| `assets/js/components/loading.js` | 신규 생성 (로딩 컴포넌트) |
+| `assets/js/components/toast.js` | 신규 생성 (토스트 컴포넌트) |
+
+**남은 작업:**
+- 나머지 파일들도 동일 패턴으로 리팩토링 (순차적으로 진행)
+
+---

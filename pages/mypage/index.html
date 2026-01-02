@@ -1530,7 +1530,7 @@
 
                 // 다운로드 기록 저장 (선택적)
                 try {
-                    await supabaseClient
+                    await window.supabaseClient
                         .from('user_activity_logs')
                         .insert({
                             user_id: userData.user_id,
@@ -1576,7 +1576,7 @@
 
                 // 다운로드 기록 저장 (선택적)
                 try {
-                    await supabaseClient
+                    await window.supabaseClient
                         .from('user_activity_logs')
                         .insert({
                             user_id: userData.user_id,
@@ -1653,7 +1653,7 @@
 
             // Load AI pricing
             try {
-                const { data: pricing, error } = await supabaseClient
+                const { data: pricing, error } = await window.supabaseClient
                     .from('ai_service_pricing')
                     .select('*')
                     .eq('is_active', true);
@@ -1843,7 +1843,7 @@
                     throw new Error('닉네임은 2-20자 사이여야 합니다.');
                 }
 
-                const { error } = await supabaseClient
+                const { error } = await window.supabaseClient
                     .from('users')
                     .update({
                         nickname: nickname || null,

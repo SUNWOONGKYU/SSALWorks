@@ -881,8 +881,8 @@ class="sourceCode html"><code class="sourceCode html"><span id="cb6-1"><a href="
 <code>04_grid-writing-csv.md</code> 파일을 참조하세요.</p>
 <p><strong>DB vs CSV 구분:</strong> - <strong>DB (Supabase)</strong> =
 SSAL Works 예시 데이터 (고정, <code>viewer_database.html</code>) -
-<strong>CSV 파일</strong> = 이용자 본인 프로젝트 데이터 (가변,
-<code>viewer_csv.html</code>)</p>
+<strong>JSON 파일</strong> = 이용자 본인 프로젝트 데이터 (가변,
+<code>viewer_json.html</code>)</p>
 </blockquote>
 <hr />
 <p>PROJECT SAL Grid 데이터 작성 및 Supabase CRUD 작업 시 준수 사항</p>
@@ -1436,9 +1436,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 <h2 id="사용자별-json-데이터-분리-viewer">9. 사용자별 JSON 데이터 분리
 (Viewer)</h2>
 <blockquote>
-<p><strong>적용 대상:</strong> CSV Viewer (<code>viewer_csv.html</code>,
-<code>viewer_mobile_csv.html</code>) <strong>데이터 형식:</strong>
-JSON이 Source, CSV는 <code>json-to-csv.js</code>로 파생 생성</p>
+<p><strong>적용 대상:</strong> JSON Viewer
+(<code>viewer_json.html</code>, <code>viewer_mobile_json.html</code>)
+<strong>데이터 형식:</strong> JSON이 Source</p>
 </blockquote>
 <h3 id="json-경로-분기-로직">JSON 경로 분기 로직</h3>
 <p>Viewer가 사용자 이메일을 기준으로 JSON 경로를 결정:</p>
@@ -1508,11 +1508,11 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20
 <tbody>
 <tr>
 <td>데스크톱 Viewer</td>
-<td><code>S0_Project-SAL-Grid_생성/viewer/viewer_csv.html</code></td>
+<td><code>S0_Project-SAL-Grid_생성/viewer/viewer_json.html</code></td>
 </tr>
 <tr>
 <td>모바일 Viewer</td>
-<td><code>S0_Project-SAL-Grid_생성/viewer/viewer_mobile_csv.html</code></td>
+<td><code>S0_Project-SAL-Grid_생성/viewer/viewer_mobile_json.html</code></td>
 </tr>
 <tr>
 <td>JSON 데이터 폴더</td>

@@ -3144,11 +3144,12 @@ h6 {
 
 /* 텍스트 오버플로우 - 모바일 */
 .process-name, .process-prep-name, .process-special-name,
-.knowledge-name, .project-name, .notice-title {
+.knowledge-name, .project-name {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+/* 주의: .notice-title은 2줄 표시를 위해 별도 CSS 사용 (line 2553) */
 
 .workspace-title {
     overflow: hidden;

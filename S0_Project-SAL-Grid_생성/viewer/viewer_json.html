@@ -516,17 +516,19 @@
                 const userEmail = localStorage.getItem('userEmail');
 
                 // 사용자별 JSON 경로 결정 (method/json 폴더 사용)
+                let jsonPath = '';
                 if (userEmail === 'wksun999@gmail.com') {
-                    // SSAL Works 관리자
-                    jsonBasePath = '../method/json/data';
+                    // SSAL Works 관리자: in_progress 폴더
+                    jsonBasePath = '../method/json/data/in_progress';
+                    jsonPath = `${jsonBasePath}/project_sal_grid.json`;
                 } else {
                     // 다른 사용자: 사용자별 경로
                     jsonBasePath = `../method/json/data/users/${encodeURIComponent(userEmail || 'anonymous')}`;
+                    jsonPath = `${jsonBasePath}/project_sal_grid.json`;
                 }
 
-                // index.json 로드 (Task 목록 요약)
-                const indexPath = `${jsonBasePath}/index.json`;
-                const response = await fetch(indexPath);
+                // project_sal_grid.json 로드
+                const response = await fetch(jsonPath);
 
                 // 사용자 JSON 파일이 없는 경우 → 빈 데이터로 처리
                 if (!response.ok) {
