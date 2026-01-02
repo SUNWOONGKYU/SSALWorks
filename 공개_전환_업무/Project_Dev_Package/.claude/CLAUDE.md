@@ -557,6 +557,91 @@ git push
 
 ---
 
+## 🔗 SSAL Works 플랫폼 연동 (Viewer 연결) ⭐
+
+> **GitHub Pages 배포 완료 후, SSAL Works 플랫폼(www.ssalworks.ai.kr)에서도 확인 가능!**
+> **"Viewer 연결해줘"라고 말하면 Claude Code가 자동으로 연동**
+
+### 연동 방식 (개인정보 보호)
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  📁 프로젝트 데이터 = 본인 GitHub에만 저장 (안전)             │
+│  🔗 SSAL Works는 GitHub URL만 저장 (데이터 X)               │
+│  📊 Viewer는 GitHub에서 직접 fetch (실시간)                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**개인정보 보호:**
+- ✅ 프로젝트 데이터는 **본인 GitHub**에만 저장
+- ✅ SSAL Works 서버에는 **GitHub URL 레퍼런스만** 저장
+- ✅ 언제든 GitHub에서 직접 삭제/수정 가능
+- ❌ SSAL Works가 프로젝트 데이터를 저장하지 않음
+
+### "Viewer 연결해줘" 명령어
+
+**사용 시점:** GitHub 배포 완료 후
+
+**Claude Code가 수행하는 작업:**
+```
+1. 현재 Git remote URL 확인
+   git remote get-url origin
+
+2. SSAL Works users 테이블에 github_repo_url 등록
+   (사용자 이메일 기준)
+
+3. 연동 완료 안내
+```
+
+**사용자가 말할 것:**
+```
+"Viewer 연결해줘"
+또는
+"SSAL Works에 연결해줘"
+```
+
+**Claude Code 응답 예시:**
+```
+"✅ SSAL Works 플랫폼 연동 완료!
+
+📊 이제 www.ssalworks.ai.kr에서 확인할 수 있습니다:
+   1. 사이트 접속 후 로그인
+   2. 사이드바 → Project SAL Grid → '내 프로젝트'
+
+🔗 GitHub URL: https://github.com/{username}/{repo}
+📁 데이터 위치: S0_Project-SAL-Grid_생성/method/json/data/
+
+💡 Task 완료 후 git push하면 실시간으로 반영됩니다."
+```
+
+### 연동 전 필수 조건
+
+1. **GitHub 배포 완료** (앞 섹션 참조)
+2. **SSAL Works 계정** (같은 이메일로 로그인)
+3. **Git remote 설정됨** (`git remote -v`로 확인)
+
+### 연동 확인 방법
+
+**SSAL Works 사이트에서:**
+1. www.ssalworks.ai.kr 접속
+2. 같은 이메일로 로그인
+3. 사이드바 → Project SAL Grid → "내 프로젝트" 클릭
+4. 프로젝트 진행 현황 확인
+
+**연동 안 되면:**
+- "GitHub 연결이 필요합니다" 메시지 표시
+- Claude Code에게 "Viewer 연결해줘" 요청
+
+### 연동 관련 체크리스트
+
+- [ ] GitHub 배포 완료되었는가?
+- [ ] Git remote URL이 설정되었는가?
+- [ ] SSAL Works에 같은 이메일로 로그인했는가?
+- [ ] "Viewer 연결해줘" 실행했는가?
+- [ ] SSAL Works에서 프로젝트가 보이는가?
+
+---
+
 ## ⚠️ 빌드 vs 서버 구분 (혼동 금지!)
 
 | 작업 | 사용 파일 | 용도 |
