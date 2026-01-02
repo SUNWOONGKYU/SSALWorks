@@ -475,6 +475,74 @@
             </form>
         </div>
 
+        <!-- 2FA Section -->
+        <div class="card" id="mfaCard">
+            <div class="card-header">
+                <h3 class="card-title">🔐 2단계 인증 (2FA)</h3>
+            </div>
+            <div id="mfaContent">
+                <div id="mfaStatus" class="info-item" style="margin-bottom: 16px;">
+                    <div class="info-label">상태</div>
+                    <div class="info-value" id="mfaStatusText">확인 중...</div>
+                </div>
+
+                <!-- 2FA 비활성화 상태 -->
+                <div id="mfaDisabled" style="display: none;">
+                    <p style="color: var(--gray-500); margin-bottom: 16px; font-size: 14px;">
+                        2단계 인증을 활성화하면 로그인 시 인증 앱(Google Authenticator 등)의 코드를 추가로 입력해야 합니다.
+                        계정 보안이 크게 강화됩니다.
+                    </p>
+                    <button class="btn btn-primary" onclick="startMfaEnroll()">
+                        2FA 활성화
+                    </button>
+                </div>
+
+                <!-- 2FA 활성화 상태 -->
+                <div id="mfaEnabled" style="display: none;">
+                    <div class="info-grid" style="margin-bottom: 16px;">
+                        <div class="info-item">
+                            <div class="info-label">활성화 일시</div>
+                            <div class="info-value" id="mfaCreatedAt">-</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">인증 방식</div>
+                            <div class="info-value active">TOTP (인증 앱)</div>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger" onclick="confirmDisableMfa()">
+                        2FA 해제
+                    </button>
+                </div>
+
+                <!-- 2FA 등록 진행 중 -->
+                <div id="mfaEnrolling" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <p style="margin-bottom: 16px; font-size: 14px; color: var(--gray-700);">
+                            1. 인증 앱(Google Authenticator, Authy 등)에서 아래 QR 코드를 스캔하세요
+                        </p>
+                        <div id="qrCodeContainer" style="display: inline-block; padding: 16px; background: white; border-radius: 8px; border: 1px solid var(--gray-200);">
+                            <img id="qrCodeImg" src="" alt="QR Code" style="width: 200px; height: 200px;">
+                        </div>
+                        <p style="margin-top: 12px; font-size: 12px; color: var(--gray-500);">
+                            또는 수동 입력: <code id="mfaSecret" style="background: var(--gray-100); padding: 4px 8px; border-radius: 4px;"></code>
+                        </p>
+                    </div>
+                    <div style="max-width: 300px; margin: 0 auto;">
+                        <p style="margin-bottom: 8px; font-size: 14px; color: var(--gray-700);">
+                            2. 인증 앱에 표시된 6자리 코드를 입력하세요
+                        </p>
+                        <div style="display: flex; gap: 12px;">
+                            <input type="text" class="form-input" id="mfaCode" placeholder="000000" maxlength="6" pattern="[0-9]*" inputmode="numeric" style="text-align: center; font-size: 24px; letter-spacing: 8px;">
+                            <button class="btn btn-primary" onclick="verifyMfaCode()">확인</button>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 16px;">
+                        <button class="btn" style="background: var(--gray-200); color: var(--gray-700);" onclick="cancelMfaEnroll()">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Login History -->
         <div class="card">
             <div class="card-header">
@@ -630,6 +698,178 @@
             document.getElementById('toastContainer').appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
+
+        // ========== 2FA Functions ==========
+        let currentFactorId = null;
+
+        async function checkMfaStatus() {
+            if (!currentUser) {
+                document.getElementById('mfaStatusText').textContent = '로그인 필요';
+                document.getElementById('mfaStatusText').style.color = 'var(--gray-500)';
+                return;
+            }
+
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                const response = await fetch('/api/auth/mfa/status', {
+                    headers: {
+                        'Authorization': `Bearer ${session.access_token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    if (data.enabled) {
+                        currentFactorId = data.factor_id;
+                        document.getElementById('mfaStatusText').textContent = '✅ 활성화됨';
+                        document.getElementById('mfaStatusText').style.color = 'var(--success)';
+                        document.getElementById('mfaDisabled').style.display = 'none';
+                        document.getElementById('mfaEnabled').style.display = 'block';
+                        document.getElementById('mfaEnrolling').style.display = 'none';
+                        document.getElementById('mfaCreatedAt').textContent = formatDateTime(data.created_at);
+                    } else {
+                        document.getElementById('mfaStatusText').textContent = '⚠️ 비활성화';
+                        document.getElementById('mfaStatusText').style.color = 'var(--warning)';
+                        document.getElementById('mfaDisabled').style.display = 'block';
+                        document.getElementById('mfaEnabled').style.display = 'none';
+                        document.getElementById('mfaEnrolling').style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('MFA status check error:', error);
+                document.getElementById('mfaStatusText').textContent = '상태 확인 실패';
+            }
+        }
+
+        async function startMfaEnroll() {
+            if (!currentUser) {
+                showToast('로그인이 필요합니다', 'error');
+                return;
+            }
+
+            showLoading();
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                const response = await fetch('/api/auth/mfa/enroll', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${session.access_token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    currentFactorId = data.factor_id;
+                    document.getElementById('qrCodeImg').src = data.totp.qr_code;
+                    document.getElementById('mfaSecret').textContent = data.totp.secret;
+                    document.getElementById('mfaDisabled').style.display = 'none';
+                    document.getElementById('mfaEnabled').style.display = 'none';
+                    document.getElementById('mfaEnrolling').style.display = 'block';
+                    document.getElementById('mfaStatusText').textContent = '등록 진행 중...';
+                    document.getElementById('mfaStatusText').style.color = 'var(--primary)';
+                } else {
+                    showToast(data.error || '2FA 등록 시작 실패', 'error');
+                }
+            } catch (error) {
+                console.error('MFA enroll error:', error);
+                showToast('2FA 등록 시작 실패', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function verifyMfaCode() {
+            const code = document.getElementById('mfaCode').value.trim();
+
+            if (!/^\d{6}$/.test(code)) {
+                showToast('6자리 숫자를 입력하세요', 'error');
+                return;
+            }
+
+            showLoading();
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                const response = await fetch('/api/auth/mfa/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${session.access_token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        factor_id: currentFactorId,
+                        code: code
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('2FA가 활성화되었습니다!', 'success');
+                    await checkMfaStatus();
+                } else {
+                    showToast(data.error || '인증 코드가 올바르지 않습니다', 'error');
+                }
+            } catch (error) {
+                console.error('MFA verify error:', error);
+                showToast('2FA 검증 실패', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function cancelMfaEnroll() {
+            currentFactorId = null;
+            document.getElementById('mfaCode').value = '';
+            document.getElementById('mfaDisabled').style.display = 'block';
+            document.getElementById('mfaEnabled').style.display = 'none';
+            document.getElementById('mfaEnrolling').style.display = 'none';
+            document.getElementById('mfaStatusText').textContent = '⚠️ 비활성화';
+            document.getElementById('mfaStatusText').style.color = 'var(--warning)';
+        }
+
+        async function confirmDisableMfa() {
+            if (!confirm('2FA를 해제하시겠습니까?\n\n계정 보안이 약해질 수 있습니다.')) {
+                return;
+            }
+
+            showLoading();
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                const response = await fetch('/api/auth/mfa/unenroll', {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${session.access_token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        factor_id: currentFactorId
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showToast('2FA가 해제되었습니다', 'success');
+                    currentFactorId = null;
+                    await checkMfaStatus();
+                } else {
+                    showToast(data.error || '2FA 해제 실패', 'error');
+                }
+            } catch (error) {
+                console.error('MFA unenroll error:', error);
+                showToast('2FA 해제 실패', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // 페이지 로드 시 MFA 상태 확인
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(checkMfaStatus, 500); // checkAuth 후에 실행
+        });
     </script>
 </body>
 </html>
