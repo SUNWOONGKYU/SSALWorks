@@ -85,9 +85,8 @@ function transformTask(dbTask) {
 
         const value = dbTask[dbField];
 
-        if (value !== null && value !== undefined) {
-            jsonTask[field] = value;
-        }
+        // null/undefined도 빈 문자열로 포함 (22개 속성 모두 유지)
+        jsonTask[field] = value ?? '';
     });
 
     return jsonTask;

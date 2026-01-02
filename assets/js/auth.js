@@ -87,7 +87,7 @@ function showLoggedInUI(nickname = '사용자', email = '') {
     const nicknameEl = document.getElementById('userNickname');
     const adminModeBtn = document.getElementById('adminModeBtn');
 
-    // 이메일을 localStorage에 저장 (viewer_csv.html 등에서 사용)
+    // 이메일을 localStorage에 저장 (viewer_json.html 등에서 사용)
     if (email) {
         localStorage.setItem('userEmail', email);
     }

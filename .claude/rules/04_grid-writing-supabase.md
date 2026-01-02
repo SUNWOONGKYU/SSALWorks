@@ -7,7 +7,7 @@
 >
 > **DB vs CSV 구분:**
 > - **DB (Supabase)** = SSAL Works 예시 데이터 (고정, `viewer_database.html`)
-> - **CSV 파일** = 이용자 본인 프로젝트 데이터 (가변, `viewer_csv.html`)
+> - **JSON 파일** = 이용자 본인 프로젝트 데이터 (가변, `viewer_json.html`)
 
 ---
 
@@ -304,8 +304,8 @@ fetch(SUPABASE_URL + '/rest/v1/project_sal_grid?task_id=eq.S4F5', {
 
 ## 9. 사용자별 JSON 데이터 분리 (Viewer)
 
-> **적용 대상:** CSV Viewer (`viewer_csv.html`, `viewer_mobile_csv.html`)
-> **데이터 형식:** JSON이 Source, CSV는 `json-to-csv.js`로 파생 생성
+> **적용 대상:** JSON Viewer (`viewer_json.html`, `viewer_mobile_json.html`)
+> **데이터 형식:** JSON이 Source
 
 ### JSON 경로 분기 로직
 
@@ -349,8 +349,8 @@ JSON 파일이 없을 때 (404 응답) 표시:
 
 | 파일 | 위치 |
 |------|------|
-| 데스크톱 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_csv.html` |
-| 모바일 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_csv.html` |
+| 데스크톱 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_json.html` |
+| 모바일 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_json.html` |
 | JSON 데이터 폴더 | `S0_Project-SAL-Grid_생성/method/json/data/` |
 | 사용자별 JSON 폴더 | `S0_Project-SAL-Grid_생성/method/json/data/users/{email}/` |
 

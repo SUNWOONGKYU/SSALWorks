@@ -34,7 +34,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 구분 | 데이터 소스 | 용도 | Viewer |
 |------|------------|------|--------|
 | **DB (Supabase)** | SSAL Works 프로젝트 | **예시**로 보여줌 | `viewer_database.html` |
-| **JSON 파일** | 이용자 본인 프로젝트 | **진행 중인 프로젝트** | `viewer_csv.html` |
+| **JSON 파일** | 이용자 본인 프로젝트 | **진행 중인 프로젝트** | `viewer_json.html` |
 
 ### 작동 원리
 
@@ -47,7 +47,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
-│  viewer_csv.html (JSON 파일)                                │
+│  viewer_json.html (JSON 파일)                                │
 │  → 해당 이용자의 "진행 중인 프로젝트" 데이터                   │
 │  → 이용자마다 다른 내용                                       │
 │  → 경로: method/json/data/in_progress/project_sal_grid.json  │
@@ -73,7 +73,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 사용자별 JSON 경로 분기 로직 ⭐
 
-> **viewer_csv.html이 사용자 이메일을 기준으로 데이터 경로를 결정함**
+> **viewer_json.html이 사용자 이메일을 기준으로 데이터 경로를 결정함**
 
 | 사용자 | JSON 경로 | 결과 |
 |--------|----------|------|
@@ -82,7 +82,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 | 파일 없음 (404) | - | "프로젝트 없음" 안내 메시지 |
 
 ```javascript
-// viewer_csv.html 내부 로직
+// viewer_json.html 내부 로직
 if (userEmail === 'wksun999@gmail.com') {
     // SSAL Works 관리자: in_progress 폴더에서 진행 중인 프로젝트 로드
     jsonPath = '../method/json/data/in_progress/project_sal_grid.json';  // SSAL Works

@@ -6,8 +6,8 @@ SAL Grid 데이터를 **시각적으로 조회**할 수 있는 HTML 뷰어를 �
 
 ## 뷰어 종류
 
-- `viewer_csv.html`: PC용 / JSON 파일
-- `viewer_mobile_csv.html`: 모바일용 / JSON 파일
+- `viewer_json.html`: PC용 / JSON 파일
+- `viewer_mobile_json.html`: 모바일용 / JSON 파일
 
 ## 제공 기능
 
@@ -31,18 +31,18 @@ SAL Grid 데이터를 **시각적으로 조회**할 수 있는 HTML 뷰어를 �
 ```
 S0_Project-SAL-Grid_생성/
 └── viewer/
-    ├── viewer_csv.html
-    └── viewer_mobile_csv.html
+    ├── viewer_json.html
+    └── viewer_mobile_json.html
 ```
 
 ## 사용 방법
 
-1. `viewer_csv.html` 파일을 브라우저에서 엽니다
+1. `viewer_json.html` 파일을 브라우저에서 엽니다
 2. JSON 파일 경로가 올바른지 확인합니다
 3. 새로고침하여 최신 데이터를 반영합니다
 
 ## 참고사항
 
 - 뷰어는 **읽기 전용**입니다. 데이터 수정은 JSON 파일에서 직접 수행합니다.
-- 모바일에서는 `viewer_mobile_csv.html`을 사용하세요.
+- 모바일에서는 `viewer_mobile_json.html`을 사용하세요.
 

@@ -1458,12 +1458,12 @@ JSON이 Source, CSV는 <code>json-to-csv.js</code>로 파생 생성</p>
 <tbody>
 <tr>
 <td><code>wksun999@gmail.com</code></td>
-<td><code>../CSV_Method/data/in_progress/project_sal_grid.json</code></td>
+<td><code>../method/json/data/in_progress/project_sal_grid.json</code></td>
 <td>SSAL Works 데이터</td>
 </tr>
 <tr>
 <td>그 외 사용자</td>
-<td><code>../CSV_Method/data/users/{email}/project_sal_grid.json</code></td>
+<td><code>../method/json/data/users/{email}/project_sal_grid.json</code></td>
 <td>개인 프로젝트</td>
 </tr>
 <tr>
@@ -1478,9 +1478,9 @@ JSON이 Source, CSV는 <code>json-to-csv.js</code>로 파생 생성</p>
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> userEmail <span class="op">=</span> localStorage<span class="op">.</span><span class="fu">getItem</span>(<span class="st">&#39;userEmail&#39;</span>)<span class="op">;</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (userEmail <span class="op">===</span> <span class="st">&#39;wksun999@gmail.com&#39;</span>) {</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    jsonPath <span class="op">=</span> <span class="st">&#39;../CSV_Method/data/in_progress/project_sal_grid.json&#39;</span><span class="op">;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>    jsonPath <span class="op">=</span> <span class="st">&#39;../method/json/data/in_progress/project_sal_grid.json&#39;</span><span class="op">;</span></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    jsonPath <span class="op">=</span> <span class="vs">`../CSV_Method/data/users/</span><span class="sc">${</span><span class="pp">encodeURIComponent</span>(userEmail)<span class="sc">}</span><span class="vs">/project_sal_grid.json`</span><span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    jsonPath <span class="op">=</span> <span class="vs">`../method/json/data/users/</span><span class="sc">${</span><span class="pp">encodeURIComponent</span>(userEmail)<span class="sc">}</span><span class="vs">/project_sal_grid.json`</span><span class="op">;</span></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <h3 id="프로젝트-없음-안내-메시지">“프로젝트 없음” 안내 메시지</h3>
 <p>JSON 파일이 없을 때 (404 응답) 표시:</p>
@@ -1516,11 +1516,11 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20
 </tr>
 <tr>
 <td>JSON 데이터 폴더</td>
-<td><code>S0_Project-SAL-Grid_생성/CSV_Method/data/</code></td>
+<td><code>S0_Project-SAL-Grid_생성/method/json/data/</code></td>
 </tr>
 <tr>
 <td>사용자별 JSON 폴더</td>
-<td><code>S0_Project-SAL-Grid_생성/CSV_Method/data/users/{email}/</code></td>
+<td><code>S0_Project-SAL-Grid_생성/method/json/data/users/{email}/</code></td>
 </tr>
 </tbody>
 </table>

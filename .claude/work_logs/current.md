@@ -121,6 +121,37 @@
 
 ---
 
+### 우측 사이드바 공지사항 줄바꿈 버그 수정 ✅
+
+**작업 목표**: 우측 사이드바 공지사항 제목이 줄바꿈 없이 길게 표시되는 문제 수정
+
+**문제 분석:**
+
+| 문제 | 원인 |
+|------|------|
+| 긴 제목이 컨테이너 벗어남 | `.notice-item`에 width 제한 없음 |
+| 단어가 줄바꿈 안 됨 | `.notice-title`에 word-wrap 관련 속성 없음 |
+| CSS 오류 | 중복 `display: flex`와 `REMOVED` 텍스트 존재 |
+
+**수정 내용:**
+
+| 클래스 | 추가된 속성 |
+|--------|------------|
+| `.notice-item` | `width: 100%`, `max-width: 100%`, `box-sizing: border-box` |
+| `.notice-title` | `width: 100%`, `word-wrap: break-word`, `overflow-wrap: break-word`, `word-break: break-word` |
+
+**수정 파일:** `assets/css/main.css` (lines 2524-2564)
+
+**커밋:** `e00cb64` - fix: 우측 사이드바 공지사항 줄바꿈 문제 수정
+
+**배포 확인:**
+- 프로덕션 URL: https://www.ssalworks.ai.kr
+- CSS 속성 반영: ✅ 확인됨
+
+**관련 리포트:** `Human_ClaudeCode_Bridge/Reports/2026-01-02_Notice_CSS_Fix_Report.json`
+
+---
+
 ## 2025-12-31 작업 내역
 
 ### 예시 프로젝트 연결하기 오류수정 ✅

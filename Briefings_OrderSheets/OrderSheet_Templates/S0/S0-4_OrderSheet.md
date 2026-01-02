@@ -25,7 +25,7 @@
 **수행할 작업:**
 
 1. Viewer 확인 및 설정
-   - viewer_csv.html 파일 확인
+   - viewer_json.html 파일 확인
    - JSON 파일 경로 설정
 
 2. 데이터 연동 확인
@@ -68,7 +68,7 @@
 ### 3단계: 실행 (Execution)
 
 **체크리스트**:
-- [ ] viewer_csv.html 파일 확인
+- [ ] viewer_json.html 파일 확인
 - [ ] JSON 파일 경로 설정
 - [ ] 브라우저에서 Viewer 열기
 - [ ] Viewer 기능 테스트
@@ -94,7 +94,7 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- viewer_csv.html 설정 완료
+- viewer_json.html 설정 완료
 - 테스트 결과
 - S0 완료 및 S1 시작 안내
 
@@ -123,12 +123,12 @@
 
 ## B1. 특별 지시사항
 
-**기본 Viewer (CSV Method):**
+**기본 Viewer (JSON Method):**
 
 | Viewer | 플랫폼 |
 |--------|--------|
-| viewer_csv.html | PC |
-| viewer_mobile_csv.html | 모바일 |
+| viewer_json.html | PC |
+| viewer_mobile_json.html | 모바일 |
 
 **Viewer 기능:**
 - 전체 현황 대시보드 (Stage별 진행률)
@@ -143,12 +143,12 @@
 ```
 S0_Project-SAL-Grid_생성/
 └── viewer/
-    ├── viewer_csv.html          ← 기본
-    └── viewer_mobile_csv.html   ← 모바일
+    ├── viewer_json.html          ← 기본
+    └── viewer_mobile_json.html   ← 모바일
 ```
 
 **사용 방법:**
-1. `viewer_csv.html` 파일을 브라우저에서 열기
+1. `viewer_json.html` 파일을 브라우저에서 열기
 2. JSON 파일 경로 확인
 3. 새로고침으로 최신 데이터 반영
 

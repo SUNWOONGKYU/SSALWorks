@@ -10,6 +10,12 @@
     <!-- DOMPurify for XSS Protection -->
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
 
+    <!-- 공통 모듈 (중복 제거) -->
+    <script defer src="/assets/js/supabase-init.js"></script>
+    <script defer src="/assets/js/utils/date-utils.js"></script>
+    <script defer src="/assets/js/components/loading.js"></script>
+    <script defer src="/assets/js/components/toast.js"></script>
+
     <style>
         :root {
             /* Primary Theme - Navy Blue */
@@ -1197,11 +1203,8 @@
     <div id="toastContainer"></div>
 
     <script>
-        // ========== Supabase 설정 ==========
-        const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
-
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // ========== Supabase는 supabase-init.js에서 초기화됨 ==========
+        // window.supabaseClient 사용
 
         // ========== 전역 변수 ==========
         let currentUser = null;
@@ -1210,6 +1213,11 @@
 
         // ========== 초기화 ==========
         document.addEventListener('DOMContentLoaded', async () => {
+            // Supabase 클라이언트 초기화 (supabase-init.js 사용)
+            if (!window.supabaseClient && window.SUPABASE_URL) {
+                window.supabaseClient = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+            }
+
             await checkAuth();
             setupMenuNavigation();
         });
@@ -1219,7 +1227,7 @@
             showLoading();
 
             try {
-                const { data: { session }, error } = await supabaseClient.auth.getSession();
+                const { data: { session }, error } = await window.supabaseClient.auth.getSession();
 
                 if (error || !session) {
                     window.location.href = '../auth/login.html';
@@ -1240,7 +1248,7 @@
         // ========== 사용자 데이터 로드 ==========
         async function loadUserData() {
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await window.supabaseClient
                     .from('users')
                     .select('*')
                     .eq('id', currentUser.id)
@@ -1376,7 +1384,7 @@
 
             // Load payment methods from Supabase
             try {
-                const { data: methods, error } = await supabaseClient
+                const { data: methods, error } = await window.supabaseClient
                     .from('payment_methods')
                     .select('*')
                     .eq('user_id', userData.user_id)
@@ -1399,7 +1407,7 @@
 
             // Load billing history from Supabase
             try {
-                const { data: billingHistory, error } = await supabaseClient
+                const { data: billingHistory, error } = await window.supabaseClient
                     .from('billing_history')
                     .select('*')
                     .eq('user_id', userData.user_id)
@@ -1597,7 +1605,7 @@
 
             // Load credit transactions from Supabase
             try {
-                const { data: transactions, error } = await supabaseClient
+                const { data: transactions, error } = await window.supabaseClient
                     .from('credit_transactions')
                     .select('*')
                     .eq('user_id', userData.user_id)
@@ -1628,7 +1636,7 @@
 
             // Load AI usage log
             try {
-                const { data: usageLogs, error } = await supabaseClient
+                const { data: usageLogs, error } = await window.supabaseClient
                     .from('ai_usage_log')
                     .select('*')
                     .eq('user_id', userData.user_id)
@@ -1887,7 +1895,7 @@
             showLoading();
 
             try {
-                const { error } = await supabaseClient.auth.updateUser({
+                const { error } = await window.supabaseClient.auth.updateUser({
                     password: newPw
                 });
 
@@ -1921,7 +1929,7 @@
         // ========== 로그아웃 ==========
         async function logout() {
             try {
-                await supabaseClient.auth.signOut();
+                await window.supabaseClient.auth.signOut();
                 window.location.href = '../auth/login.html';
             } catch (error) {
                 console.error('Logout error:', error);
@@ -1945,34 +1953,18 @@
             return statusMap[status] || '무료';
         }
 
-        function formatDate(dateString) {
-            if (!dateString) return '-';
-            return new Date(dateString).toLocaleDateString('ko-KR');
-        }
+        // formatDate, formatDateTime → date-utils.js 사용
+        // showToast → toast.js 사용
 
-        function formatDateTime(dateString) {
-            if (!dateString) return '-';
-            return new Date(dateString).toLocaleString('ko-KR');
-        }
-
+        // 페이지 전용 로딩 함수 (loadingOverlay 요소 사용)
         function showLoading() {
-            document.getElementById('loadingOverlay').classList.remove('hidden');
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) overlay.classList.remove('hidden');
         }
 
         function hideLoading() {
-            document.getElementById('loadingOverlay').classList.add('hidden');
-        }
-
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
-            toast.textContent = message;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.remove();
-            }, 3000);
+            const overlay = document.getElementById('loadingOverlay');
+            if (overlay) overlay.classList.add('hidden');
         }
 
         // 모달 팝업 함수

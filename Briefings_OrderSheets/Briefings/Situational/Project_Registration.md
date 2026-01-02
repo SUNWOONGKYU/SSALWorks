@@ -160,17 +160,16 @@ S0_Project-SAL-Grid_생성/
 │   ├── manual_template.md        # 매뉴얼 템플릿
 │   └── build-manual.js           # 매뉴얼 빌드 스크립트
 ├── method/
-│   └── csv/
+│   └── json/
 │       └── data/
 │           ├── in_progress/      # 진행 중인 프로젝트 (Viewer가 읽는 폴더)
-│           │   └── sal_grid.csv
+│           │   └── project_sal_grid.json
 │           └── completed/        # 완료된 프로젝트 보관
 ├── viewer/
-│   ├── viewer_csv.html           # PC용 CSV 뷰어
+│   ├── viewer_json.html           # PC용 JSON 뷰어
 │   ├── viewer_database.html      # PC용 DB 뷰어 (예시용)
-│   ├── viewer_mobile_csv.html    # 모바일용 CSV 뷰어
+│   ├── viewer_mobile_json.html    # 모바일용 JSON 뷰어
 │   └── viewer_mobile_database.html  # 모바일용 DB 뷰어 (예시용)
-└── build-sal-grid-csv.js         # CSV 빌드 스크립트
 ```
 
 ---
