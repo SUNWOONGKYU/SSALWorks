@@ -4752,13 +4752,28 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
         });
 
         // 프로젝트 그리드 전체화면 열기
-        function openGridFullscreen() {
+        async function openGridFullscreen() {
             const modal = document.getElementById('gridFullscreenModal');
             const gridContent = document.querySelector('.workspace-bottom .grid-content');
             const fullscreenContent = document.getElementById('fullscreenGridContent');
 
             // 그리드 콘텐츠 복사
             fullscreenContent.innerHTML = gridContent.innerHTML;
+
+            // 3D 뷰용 태스크 데이터 로드
+            try {
+                const { data, error } = await window.supabaseClient
+                    .from('project_sal_grid')
+                    .select('task_id, task_name, stage, area, task_status, task_progress')
+                    .order('stage', { ascending: true });
+
+                if (!error && data) {
+                    window.allTasks = data;
+                    console.log('✅ 3D 뷰용 태스크 데이터 로드:', data.length + '개');
+                }
+            } catch (e) {
+                console.warn('태스크 데이터 로드 실패:', e);
+            }
 
             // 모달 표시
             modal.classList.add('active');
@@ -4820,6 +4835,8 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 if (!scene3D) {
                     init3DView();
                 } else {
+                    // 데이터가 변경되었을 수 있으므로 블록 재생성
+                    create3DBlocks();
                     animate3D();
                 }
             }
