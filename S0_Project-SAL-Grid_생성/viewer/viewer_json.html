@@ -235,15 +235,15 @@
     <div class="sidebar-overlay" onclick="closeSidebar()"></div>
     <header>
         <button class="close-btn" onclick="window.history.length > 1 ? history.back() : window.close()" title="닫기">✕ 닫기</button>
-        <h1>Project SAL Grid Viewer (CSV)</h1>
-        <p>로컬 CSV 파일 기반 | 22 Attributes | 5 Stages | 11 Areas</p>
+        <h1>Project SAL Grid Viewer</h1>
+        <p>GitHub JSON 기반 | 22 Attributes | 5 Stages | 11 Areas</p>
         <div class="view-switch">
             <button class="active" onclick="switchView('2d')">2D Card View</button>
             <button onclick="switchView('3d')">3D Block View</button>
         </div>
         <div class="connection-status">
             <span class="status-dot"></span>
-            <span id="connectionStatus">CSV 파일 로딩 준비 중...</span>
+            <span id="connectionStatus">데이터 로딩 준비 중...</span>
         </div>
     </header>
 
@@ -531,6 +531,19 @@
 
                 // 사용자 이메일 확인
                 const userEmail = localStorage.getItem('userEmail');
+                console.log('User email:', userEmail);
+
+                // 이메일이 없으면 로그인 필요 안내
+                if (!userEmail) {
+                    allTasks = [];
+                    filteredTasks = [];
+                    render2D();
+                    updateStats();
+                    document.getElementById('connectionStatus').textContent = '로그인 필요';
+                    document.querySelector('.connection-status').style.background = '#ffc107';
+                    console.log('No user email in localStorage');
+                    return;
+                }
 
                 // 모든 사용자: Supabase에서 github_repo_url 조회
                 document.getElementById('connectionStatus').textContent = 'GitHub 정보 확인 중...';
@@ -541,8 +554,22 @@
                     .eq('email', userEmail)
                     .single();
 
-                if (error || !userData || !userData.github_repo_url) {
+                console.log('Supabase query result:', { userData, error });
+
+                if (error) {
+                    console.error('Supabase error:', error);
+                    allTasks = [];
+                    filteredTasks = [];
+                    render2D();
+                    updateStats();
+                    document.getElementById('connectionStatus').textContent = '사용자 조회 실패';
+                    document.querySelector('.connection-status').style.background = '#dc3545';
+                    return;
+                }
+
+                if (!userData || !userData.github_repo_url) {
                     // GitHub URL이 없으면 "프로젝트 없음" 메시지
+                    console.log('No github_repo_url for user');
                     allTasks = [];
                     filteredTasks = [];
                     render2D();
