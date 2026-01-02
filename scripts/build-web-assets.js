@@ -588,6 +588,36 @@ function buildBuilderManual() {
         }
         header h1 { font-size: 2.4rem; font-weight: 700; color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.1); position: relative; border-bottom: none; }
 
+        /* PDF 다운로드 버튼 */
+        .pdf-download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--secondary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(204, 120, 92, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+        .pdf-download-btn:hover {
+            background: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(204, 120, 92, 0.5);
+            text-decoration: none;
+            color: white;
+        }
+        .pdf-download-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
         /* 목차 네비게이션 */
         nav.toc {
             background: var(--bg-white);
@@ -762,6 +792,12 @@ function buildBuilderManual() {
     <div class="container">
         <header>
             <h1>빌더 계정 사용 매뉴얼</h1>
+            <a href="/pages/mypage/manual.pdf" download class="pdf-download-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                PDF 다운로드
+            </a>
         </header>
         <div class="content">
         ${bodyContent}
