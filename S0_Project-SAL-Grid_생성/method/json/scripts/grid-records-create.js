@@ -17,7 +17,7 @@ const path = require('path');
 
 // 경로 설정
 const BASE_DIR = path.join(__dirname, '..');
-const TASKS_DIR = path.join(BASE_DIR, 'data', 'tasks');
+const TASKS_DIR = path.join(BASE_DIR, 'data', 'grid_records');
 const INDEX_FILE = path.join(BASE_DIR, 'data', 'index.json');
 
 // 22개 속성 템플릿
