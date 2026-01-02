@@ -515,13 +515,13 @@
                 // 사용자 이메일 확인
                 const userEmail = localStorage.getItem('userEmail');
 
-                // 사용자별 JSON 경로 결정 (JSON_Method 폴더 사용)
+                // 사용자별 JSON 경로 결정 (method/json 폴더 사용)
                 if (userEmail === 'wksun999@gmail.com') {
                     // SSAL Works 관리자
-                    jsonBasePath = '../JSON_Method/data';
+                    jsonBasePath = '../method/json/data';
                 } else {
                     // 다른 사용자: 사용자별 경로
-                    jsonBasePath = `../JSON_Method/data/users/${encodeURIComponent(userEmail || 'anonymous')}`;
+                    jsonBasePath = `../method/json/data/users/${encodeURIComponent(userEmail || 'anonymous')}`;
                 }
 
                 // index.json 로드 (Task 목록 요약)

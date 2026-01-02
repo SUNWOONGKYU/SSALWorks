@@ -11,7 +11,7 @@
 | 방식 | 사용 대상 | 데이터 저장 | 도구 | Stage Gate 위치 |
 |------|----------|------------|------|----------------|
 | **DB Method** | SSAL Works (내부) | Supabase DB | REST API | `Database_Method/stage-gates/` |
-| **JSON Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `JSON_Method/stage-gates/` |
+| **JSON Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `method/json/stage-gates/` |
 
 **⚠️ SSAL Works는 두 방식을 동시에 사용 (내부 관리용 DB + 사용자 배포용 CSV)**
 
@@ -246,7 +246,7 @@ const { data, error } = await supabase
 
 **JSON 파일 위치 (폴더 구조):**
 ```
-S0_Project-SAL-Grid_생성/JSON_Method/data/
+S0_Project-SAL-Grid_생성/method/json/data/
 ├── in_progress/                ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
 │   └── project_sal_grid.json
 └── completed/                  ← 완료된 프로젝트 보관
@@ -389,7 +389,7 @@ const { error } = await supabase
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 제거
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
 
 ### Step 4: 작업 로그 업데이트
 
@@ -489,7 +489,7 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 찾아 수정
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
 
 **수정 예시:**
 ```json
@@ -597,7 +597,7 @@ console.log(data);
 
 ### 📌 JSON Method (JSON 파일)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
 
 #### 작업 완료 시 (Executed)
 
@@ -728,16 +728,16 @@ console.log(data);
 
 | 항목 | 위치 |
 |------|------|
-| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json` |
-| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/JSON_Method/data/completed/` |
-| Stage Gates | `S0_Project-SAL-Grid_생성/JSON_Method/stage-gates/` |
-| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/JSON_Method/scripts/` |
-| JSON 템플릿 | `S0_Project-SAL-Grid_생성/JSON_Method/templates/` |
+| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json` |
+| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/method/json/data/completed/` |
+| Stage Gates | `S0_Project-SAL-Grid_생성/method/json/stage-gates/` |
+| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/method/json/scripts/` |
+| JSON 템플릿 | `S0_Project-SAL-Grid_생성/method/json/templates/` |
 
 ### JSON Method 폴더 구조 ⭐
 
 ```
-S0_Project-SAL-Grid_생성/JSON_Method/data/
+S0_Project-SAL-Grid_생성/method/json/data/
 ├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
 │   └── project_sal_grid.json
 └── completed/          ← 완료된 프로젝트 보관
