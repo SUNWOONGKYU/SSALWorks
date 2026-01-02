@@ -452,21 +452,65 @@
             }
         }
 
+        // JSON 기본 경로 (전역 변수)
+        let jsonBasePath = '../method/json/data';
+
         // JSON 데이터 로드 함수
         async function loadTasks() {
             try {
                 document.getElementById('connectionStatus').textContent = 'JSON 파일 로딩 중...';
 
-                // JSON 파일 로드 (in_progress 폴더에서 진행 중인 프로젝트만 로드)
-                const response = await fetch('../method/json/data/in_progress/project_sal_grid.json');
-                if (!response.ok) {
-                    throw new Error(`JSON 파일 로드 실패: ${response.status}`);
+                // 1. index.json에서 Task ID 목록 로드
+                const indexPath = `${jsonBasePath}/index.json`;
+                const indexResponse = await fetch(indexPath);
+
+                if (!indexResponse.ok) {
+                    if (indexResponse.status === 404) {
+                        // 프로젝트 데이터가 없는 경우
+                        allTasks = [];
+                        filteredTasks = [];
+                        render2D();
+                        updateStats();
+                        document.getElementById('connectionStatus').textContent = '프로젝트 데이터 없음';
+                        document.querySelector('.connection-status').style.background = '#6c757d';
+                        return;
+                    }
+                    throw new Error(`index.json 로드 실패: ${indexResponse.status}`);
                 }
 
-                const jsonData = await response.json();
+                const indexData = await indexResponse.json();
+                const taskIds = indexData.task_ids || [];
 
-                // tasks 배열 추출 (JSON 구조: { project_id, project_name, tasks: [...] })
-                const data = jsonData.tasks || [];
+                if (taskIds.length === 0) {
+                    allTasks = [];
+                    filteredTasks = [];
+                    render2D();
+                    updateStats();
+                    document.getElementById('connectionStatus').textContent = '프로젝트 데이터 없음';
+                    document.querySelector('.connection-status').style.background = '#6c757d';
+                    return;
+                }
+
+                // 2. 개별 Task 파일 병렬 로드 (grid_records/ 폴더)
+                document.getElementById('connectionStatus').textContent = `개별 Task 로딩 중... (0/${taskIds.length})`;
+
+                const taskPromises = taskIds.map(async (taskId, idx) => {
+                    const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
+                    try {
+                        const res = await fetch(taskPath);
+                        if (!res.ok) return null;
+                        const task = await res.json();
+                        document.getElementById('connectionStatus').textContent =
+                            `개별 Task 로딩 중... (${idx + 1}/${taskIds.length})`;
+                        return task;
+                    } catch (e) {
+                        console.warn(`Task ${taskId} 로드 실패:`, e);
+                        return null;
+                    }
+                });
+
+                const loadedTasks = await Promise.all(taskPromises);
+                const data = loadedTasks.filter(t => t !== null);
 
                 // stage, task_progress를 숫자로 변환 확인
                 data.forEach(task => {
@@ -477,8 +521,8 @@
                 // 정렬: stage → area → task_id
                 data.sort((a, b) => {
                     if (a.stage !== b.stage) return a.stage - b.stage;
-                    if (a.area !== b.area) return a.area.localeCompare(b.area);
-                    return a.task_id.localeCompare(b.task_id);
+                    if (a.area !== b.area) return (a.area || '').localeCompare(b.area || '');
+                    return (a.task_id || '').localeCompare(b.task_id || '');
                 });
 
                 allTasks = data;
@@ -631,6 +675,28 @@
 
         function renderGrid() {
             const gridContent = document.getElementById('gridContent');
+
+            // 프로젝트 데이터가 아예 없는 경우
+            if (allTasks.length === 0) {
+                gridContent.innerHTML = `
+                    <div style="text-align:center; padding:80px 40px; color:#6c757d;">
+                        <div style="font-size:48px; margin-bottom:20px;">📋</div>
+                        <h3 style="color:#343a40; margin-bottom:15px;">진행 중인 프로젝트가 아직 없습니다</h3>
+                        <p style="margin-bottom:25px; line-height:1.8;">
+                            Project SAL Grid를 생성하면<br>
+                            여기에 진행 현황이 표시됩니다.
+                        </p>
+                        <p style="color:#495057;">
+                            👉 S0 단계를 완료하고 Claude Code에게 Grid 생성을 요청하세요.
+                        </p>
+                        <p style="color:#868e96; margin-top:20px; font-size:0.9em;">
+                            💡 Grid 생성 후 GitHub Pages로 배포하면<br>
+                            웹에서 진행 현황을 확인할 수 있습니다.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
 
             let tasksToShow = filteredTasks.filter(task => {
                 const stageMatch = currentStage === 'all' || task.stage === currentStage;

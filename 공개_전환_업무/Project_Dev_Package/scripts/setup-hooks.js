@@ -16,7 +16,9 @@ const PROJECT_ROOT = path.join(__dirname, '..');
 // Pre-commit Hook 내용
 const PRE_COMMIT_HOOK = `#!/bin/sh
 # Pre-commit Hook
-# Stage 폴더 → 루트 폴더 자동 동기화
+# 1. Stage → Root 동기화
+# 2. 웹 배포 파일 빌드
+# 3. 진행률 계산 및 DB 업로드
 
 echo "🔄 Stage → Root 동기화 중..."
 
@@ -27,7 +29,7 @@ if [ $? -ne 0 ]; then
     exit 1
 fi
 
-echo "✅ 동기화 완료! 커밋을 진행합니다."
+echo "✅ 동기화 완료!"
 
 # 빌드 스크립트 실행 (선택)
 if [ -f "scripts/build-web-assets.js" ]; then
@@ -37,8 +39,36 @@ if [ -f "scripts/build-web-assets.js" ]; then
     # 빌드로 생성된 파일도 커밋에 포함
     git add -A
 
-    echo "✅ 빌드 완료! 커밋을 진행합니다."
+    echo "✅ 빌드 완료!"
 fi
+
+# 진행률 계산 및 업로드
+echo "📊 진행률 계산 중..."
+
+if [ -f "Development_Process_Monitor/build-progress.js" ]; then
+    node Development_Process_Monitor/build-progress.js
+
+    if [ $? -ne 0 ]; then
+        echo "⚠️ 진행률 계산 실패 (계속 진행)"
+    else
+        # 진행률 파일 스테이징에 추가
+        git add Development_Process_Monitor/data/phase_progress.json 2>/dev/null
+
+        # DB 업로드 (SSAL Works 연동)
+        if [ -f "scripts/upload-progress.js" ]; then
+            echo "📤 진행률 DB 업로드 중..."
+            node scripts/upload-progress.js
+
+            if [ $? -ne 0 ]; then
+                echo "⚠️ DB 업로드 실패 (계속 진행)"
+            else
+                echo "✅ 진행률 업로드 완료!"
+            fi
+        fi
+    fi
+fi
+
+echo "✅ 커밋을 진행합니다."
 `;
 
 // 메인 함수

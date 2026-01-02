@@ -516,23 +516,20 @@
                 const userEmail = localStorage.getItem('userEmail');
 
                 // 사용자별 JSON 경로 결정 (method/json 폴더 사용)
-                let jsonPath = '';
                 if (userEmail === 'wksun999@gmail.com') {
-                    // SSAL Works 관리자: in_progress 폴더
-                    jsonBasePath = '../method/json/data/in_progress';
-                    jsonPath = `${jsonBasePath}/project_sal_grid.json`;
+                    // SSAL Works 관리자: 메인 데이터 폴더
+                    jsonBasePath = '../method/json/data';
                 } else {
                     // 다른 사용자: 사용자별 경로
                     jsonBasePath = `../method/json/data/users/${encodeURIComponent(userEmail || 'anonymous')}`;
-                    jsonPath = `${jsonBasePath}/project_sal_grid.json`;
                 }
 
-                // project_sal_grid.json 로드
-                const response = await fetch(jsonPath);
+                // 1. index.json에서 Task ID 목록 로드
+                const indexPath = `${jsonBasePath}/index.json`;
+                const indexResponse = await fetch(indexPath);
 
-                // 사용자 JSON 파일이 없는 경우 → 빈 데이터로 처리
-                if (!response.ok) {
-                    if (response.status === 404) {
+                if (!indexResponse.ok) {
+                    if (indexResponse.status === 404) {
                         allTasks = [];
                         filteredTasks = [];
                         render2D();
@@ -541,13 +538,45 @@
                         document.querySelector('.connection-status').style.background = '#6c757d';
                         return;
                     }
-                    throw new Error(`JSON 파일 로드 실패: ${response.status}`);
+                    throw new Error(`index.json 로드 실패: ${indexResponse.status}`);
                 }
 
-                const jsonData = await response.json();
-                const data = jsonData.tasks || [];
+                const indexData = await indexResponse.json();
+                const taskIds = indexData.task_ids || [];
 
-                // 정렬: stage → area → task_id (undefined 체크)
+                if (taskIds.length === 0) {
+                    allTasks = [];
+                    filteredTasks = [];
+                    render2D();
+                    updateStats();
+                    document.getElementById('connectionStatus').textContent = '프로젝트 데이터 없음';
+                    document.querySelector('.connection-status').style.background = '#6c757d';
+                    return;
+                }
+
+                // 2. 개별 Task 파일 병렬 로드 (grid_records/ 폴더)
+                document.getElementById('connectionStatus').textContent = `개별 Task 로딩 중... (0/${taskIds.length})`;
+
+                const taskPromises = taskIds.map(async (taskId, idx) => {
+                    const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
+                    try {
+                        const res = await fetch(taskPath);
+                        if (!res.ok) return null;
+                        const task = await res.json();
+                        // 로딩 진행 상황 업데이트
+                        document.getElementById('connectionStatus').textContent =
+                            `개별 Task 로딩 중... (${idx + 1}/${taskIds.length})`;
+                        return task;
+                    } catch (e) {
+                        console.warn(`Task ${taskId} 로드 실패:`, e);
+                        return null;
+                    }
+                });
+
+                const loadedTasks = await Promise.all(taskPromises);
+                const data = loadedTasks.filter(t => t !== null);
+
+                // 정렬: stage → area → task_id
                 data.sort((a, b) => {
                     const stageA = a.stage || 0;
                     const stageB = b.stage || 0;
@@ -899,7 +928,7 @@
 
             try {
                 // 개별 Task 파일에서 상세 정보 로드 (토큰 효율적!)
-                const taskPath = `${jsonBasePath}/tasks/${taskId}.json`;
+                const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
                 const response = await fetch(taskPath);
 
                 if (!response.ok) {

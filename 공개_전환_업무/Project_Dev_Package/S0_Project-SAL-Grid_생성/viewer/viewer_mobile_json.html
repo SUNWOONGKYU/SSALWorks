@@ -317,18 +317,62 @@
         let allTasks = [];
         let currentStage = 'all';
 
+        // JSON 기본 경로 (전역 변수)
+        const jsonBasePath = '../method/json/data';
+
         // JSON 데이터 로드 함수
         async function loadTasks() {
             try {
                 document.getElementById('statusText').textContent = 'JSON 로딩...';
 
-                const response = await fetch('../method/json/data/in_progress/project_sal_grid.json');
-                if (!response.ok) throw new Error('JSON 파일 로드 실패');
+                // 1. index.json에서 Task ID 목록 로드
+                const indexPath = `${jsonBasePath}/index.json`;
+                const indexResponse = await fetch(indexPath);
 
-                const jsonData = await response.json();
+                if (!indexResponse.ok) {
+                    if (indexResponse.status === 404) {
+                        // 프로젝트 데이터가 없는 경우
+                        allTasks = [];
+                        document.getElementById('statusText').textContent = '데이터 없음';
+                        document.getElementById('taskCount').textContent = '0개 Task';
+                        renderTasks();
+                        updateStats();
+                        return;
+                    }
+                    throw new Error('index.json 로드 실패');
+                }
 
-                // tasks 배열 추출 (JSON 구조: { project_id, project_name, tasks: [...] })
-                const data = jsonData.tasks || [];
+                const indexData = await indexResponse.json();
+                const taskIds = indexData.task_ids || [];
+
+                if (taskIds.length === 0) {
+                    allTasks = [];
+                    document.getElementById('statusText').textContent = '데이터 없음';
+                    document.getElementById('taskCount').textContent = '0개 Task';
+                    renderTasks();
+                    updateStats();
+                    return;
+                }
+
+                // 2. 개별 Task 파일 병렬 로드
+                document.getElementById('statusText').textContent = `로딩 중... (0/${taskIds.length})`;
+
+                const taskPromises = taskIds.map(async (taskId, idx) => {
+                    const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
+                    try {
+                        const res = await fetch(taskPath);
+                        if (!res.ok) return null;
+                        const task = await res.json();
+                        document.getElementById('statusText').textContent = `로딩 중... (${idx + 1}/${taskIds.length})`;
+                        return task;
+                    } catch (e) {
+                        console.warn(`Task ${taskId} 로드 실패:`, e);
+                        return null;
+                    }
+                });
+
+                const loadedTasks = await Promise.all(taskPromises);
+                const data = loadedTasks.filter(t => t !== null);
 
                 // stage, task_progress를 숫자로 변환 확인
                 data.forEach(task => {
@@ -339,7 +383,7 @@
                 // 정렬
                 data.sort((a, b) => {
                     if (a.stage !== b.stage) return a.stage - b.stage;
-                    return a.task_id.localeCompare(b.task_id);
+                    return (a.task_id || '').localeCompare(b.task_id || '');
                 });
 
                 allTasks = data;
@@ -356,12 +400,31 @@
 
         function renderTasks() {
             const list = document.getElementById('taskList');
+
+            // 프로젝트 데이터가 아예 없는 경우
+            if (allTasks.length === 0) {
+                list.innerHTML = `
+                    <div style="text-align:center; padding:40px 20px; color:#6c757d;">
+                        <div style="font-size:36px; margin-bottom:15px;">📋</div>
+                        <div style="font-weight:600; color:#343a40; margin-bottom:10px;">진행 중인 프로젝트가 없습니다</div>
+                        <p style="font-size:12px; margin-bottom:15px; line-height:1.6;">
+                            Project SAL Grid를 생성하면<br>
+                            여기에 진행 현황이 표시됩니다.
+                        </p>
+                        <p style="font-size:11px; color:#868e96;">
+                            💡 S0 단계 완료 후<br>Claude Code에게 Grid 생성을 요청하세요.
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
             const filtered = currentStage === 'all'
                 ? allTasks
                 : allTasks.filter(t => t.stage == currentStage);
 
             if (filtered.length === 0) {
-                list.innerHTML = '<div class="empty">Task가 없습니다</div>';
+                list.innerHTML = '<div class="empty">해당 Stage에 Task가 없습니다</div>';
                 return;
             }
 

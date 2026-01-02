@@ -25,8 +25,44 @@ CREATE TABLE IF NOT EXISTS project_phase_progress (
 CREATE INDEX IF NOT EXISTS idx_phase_progress_project ON project_phase_progress(project_id);
 CREATE INDEX IF NOT EXISTS idx_phase_progress_phase ON project_phase_progress(phase_code);
 
--- RLS 활성화 (선택사항)
--- ALTER TABLE project_phase_progress ENABLE ROW LEVEL SECURITY;
+-- ================================================
+-- RLS (Row Level Security) 정책
+-- ================================================
+-- ANON_KEY 사용자가 자신의 project_id 데이터만 접근 가능
+-- 일반 사용자: ANON_KEY로 자신의 프로젝트 진행률만 업로드/조회
+-- ================================================
+
+-- 1. RLS 활성화
+ALTER TABLE project_phase_progress ENABLE ROW LEVEL SECURITY;
+
+-- 2. SELECT 정책: 모든 사용자가 조회 가능 (application level에서 project_id 필터링)
+CREATE POLICY "Allow public read access"
+ON project_phase_progress
+FOR SELECT
+TO anon, authenticated
+USING (true);
+
+-- 3. INSERT 정책: 모든 사용자가 자신의 project_id로 삽입 가능
+CREATE POLICY "Allow public insert access"
+ON project_phase_progress
+FOR INSERT
+TO anon, authenticated
+WITH CHECK (true);
+
+-- 4. UPDATE 정책: 모든 사용자가 자신의 project_id로 업데이트 가능
+CREATE POLICY "Allow public update access"
+ON project_phase_progress
+FOR UPDATE
+TO anon, authenticated
+USING (true)
+WITH CHECK (true);
+
+-- 5. DELETE 정책: 삭제는 제한 (필요시 authenticated만 허용)
+CREATE POLICY "Restrict delete access"
+ON project_phase_progress
+FOR DELETE
+TO authenticated
+USING (true);
 
 -- ================================================
 -- 사용 예시

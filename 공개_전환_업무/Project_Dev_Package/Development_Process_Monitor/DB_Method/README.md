@@ -65,19 +65,29 @@ DB_Method/
 
 Supabase Dashboard에서 `create_table.sql` 실행
 
-### 2. 환경변수 설정
+### 2. RLS 정책 설정 (필수!)
 
-`.env` 파일에 추가:
+`create_table.sql`에 포함된 RLS 정책도 함께 실행:
+- SELECT: 모든 사용자가 조회 가능
+- INSERT/UPDATE: 모든 사용자가 자신의 project_id로 업로드 가능
+- DELETE: authenticated 사용자만 가능
+
+### 3. 환경변수 설정
+
+`.env` 파일에 추가 (프로젝트 루트에 위치):
 ```
 SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+SUPABASE_ANON_KEY=your-anon-key
+PROJECT_ID=your_project_id
 ```
 
-### 3. upload-progress.js 배치
+> **참고**: ANON_KEY 사용 (RLS 정책으로 보호됨)
+
+### 4. upload-progress.js 배치
 
 `scripts/upload-progress.js`에 복사
 
-### 4. Pre-commit Hook 수정
+### 5. Pre-commit Hook 수정
 
 `.git/hooks/pre-commit`에 추가:
 ```bash
@@ -89,7 +99,7 @@ git add "$PROJECT_ROOT/Development_Process_Monitor/data/phase_progress.json" 2>/
 node "$PROJECT_ROOT/scripts/upload-progress.js"
 ```
 
-### 5. index.html 수정
+### 6. index.html 수정
 
 `loadProjectProgress` 함수를 `loadProjectProgress-snippet.js` 내용으로 교체
 

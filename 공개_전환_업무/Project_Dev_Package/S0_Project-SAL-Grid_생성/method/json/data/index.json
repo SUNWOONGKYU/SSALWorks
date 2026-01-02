@@ -4,6 +4,6 @@
   "created_at": "",
   "updated_at": "",
   "total_tasks": 0,
-  "description": "이 파일은 모든 Task의 요약 인덱스입니다. 각 Task의 상세 데이터는 grid_records/ 폴더에 개별 JSON 파일로 저장됩니다.",
-  "tasks": []
+  "description": "Task ID 목록입니다. 각 Task 상세는 grid_records/{task_id}.json에 저장됩니다.",
+  "task_ids": []
 }

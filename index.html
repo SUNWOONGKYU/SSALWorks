@@ -29,6 +29,10 @@
 
     <!-- Three.js (3D View) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- JSZip & FileSaver (Dev Package 동적 생성용) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
 </head>
 
 <body>
@@ -5903,17 +5907,66 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             const projectName = window.registeredProjectName;
             const projectId = window.registeredProjectId;
 
-            // Dev Package 파일 URL (Google Drive 직접 다운로드 링크 - mypage와 동일)
-            const devPackageUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
+            // Dev Package 템플릿 URL (Vercel public 폴더)
+            const devPackageTemplateUrl = '/assets/dev-package/Project_Dev_Package_Template.zip';
 
-            // 다운로드 링크 생성 및 클릭
-            const link = document.createElement('a');
-            link.href = devPackageUrl;
-            link.download = 'Project_Dev_Package.zip';
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Supabase 설정 (ANON_KEY - 공개 키)
+            const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
+
+            try {
+                showStatus('📦 Dev Package 생성 중...', 'info');
+
+                // 1. 템플릿 zip 다운로드
+                const response = await fetch(devPackageTemplateUrl);
+                if (!response.ok) {
+                    throw new Error('템플릿 다운로드 실패');
+                }
+                const zipBlob = await response.blob();
+
+                // 2. JSZip으로 압축 해제
+                const zip = await JSZip.loadAsync(zipBlob);
+
+                // 3. .ssal-project.json 추가 (project_id 포함)
+                const ssalProjectConfig = {
+                    project_id: projectId,
+                    project_name: projectName,
+                    created_at: new Date().toISOString(),
+                    description: projectName + ' 프로젝트'
+                };
+                zip.file('.ssal-project.json', JSON.stringify(ssalProjectConfig, null, 4));
+
+                // 4. .env 파일 추가 (Supabase ANON_KEY)
+                const envContent = `# Supabase 설정 (자동 생성됨)
+SUPABASE_URL=${SUPABASE_URL}
+SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+
+# Project 설정
+PROJECT_ID=${projectId}
+`;
+                zip.file('.env', envContent);
+
+                // 5. 새 zip 생성 및 다운로드
+                const newZipBlob = await zip.generateAsync({ type: 'blob' });
+                const safeProjectName = projectName.replace(/[^a-zA-Z0-9가-힣_-]/g, '_');
+                saveAs(newZipBlob, `${safeProjectName}_Dev_Package.zip`);
+
+                console.log('✅ Dev Package 생성 완료:', projectId);
+
+            } catch (err) {
+                console.error('Dev Package 생성 오류:', err);
+                // 오류 시 기존 방식으로 폴백 (정적 다운로드)
+                const fallbackUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
+                const link = document.createElement('a');
+                link.href = fallbackUrl;
+                link.download = 'Project_Dev_Package.zip';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                showStatus('⚠️ 기본 Dev Package가 다운로드됩니다. .ssal-project.json을 수동으로 설정해주세요.', 'warning');
+            }
 
             // DB 업데이트: registration_complete = true
             if (projectId && window.supabaseClient) {
@@ -5942,7 +5995,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
 
             // 상태 업데이트
             window.projectRegInStep2 = false;
-            showStatus('🎉 프로젝트 등록 완료! Dev Package 다운로드가 시작되었습니다.', 'success');
+            showStatus('🎉 프로젝트 등록 완료! Project ID가 자동 저장되었습니다.', 'success');
         }
 
         // 미완료 등록 프로젝트 모달 표시 (Dev Package 다운로드 필요)

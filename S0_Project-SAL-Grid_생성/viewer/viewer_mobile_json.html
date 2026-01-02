@@ -377,24 +377,22 @@
                 // 사용자 이메일 확인
                 const userEmail = localStorage.getItem('userEmail');
 
-                // 사용자별 JSON 경로 결정 (method/json 폴더 사용)
-                let jsonPath = '';
+                // 사용자별 JSON 경로 결정 (method/json/data 폴더 사용)
                 if (userEmail === 'wksun999@gmail.com') {
-                    // SSAL Works 관리자: in_progress 폴더
-                    jsonBasePath = '../method/json/data/in_progress';
-                    jsonPath = `${jsonBasePath}/project_sal_grid.json`;
+                    // SSAL Works 관리자
+                    jsonBasePath = '../method/json/data';
                 } else {
                     // 다른 사용자: 사용자별 경로
                     jsonBasePath = `../method/json/data/users/${encodeURIComponent(userEmail || 'anonymous')}`;
-                    jsonPath = `${jsonBasePath}/project_sal_grid.json`;
                 }
 
-                // project_sal_grid.json 로드
-                const response = await fetch(jsonPath);
+                // 1. index.json에서 Task ID 목록 로드
+                const indexPath = `${jsonBasePath}/index.json`;
+                const indexResponse = await fetch(indexPath);
 
-                // 사용자 JSON 파일이 없는 경우 → 빈 데이터로 처리
-                if (!response.ok) {
-                    if (response.status === 404) {
+                // index.json 없으면 → 빈 데이터로 처리
+                if (!indexResponse.ok) {
+                    if (indexResponse.status === 404) {
                         allTasks = [];
                         document.getElementById('statusDot').classList.add('connected');
                         document.getElementById('statusText').textContent = '프로젝트 데이터 없음';
@@ -403,11 +401,27 @@
                         updateStats();
                         return;
                     }
-                    throw new Error('JSON 파일 로드 실패');
+                    throw new Error('index.json 로드 실패');
                 }
 
-                const jsonData = await response.json();
-                const data = jsonData.tasks || [];
+                const indexData = await indexResponse.json();
+                const taskIds = indexData.task_ids || [];
+
+                // 2. 개별 Task 파일 병렬 로드 (grid_records/ 폴더)
+                const taskPromises = taskIds.map(async (taskId) => {
+                    const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
+                    try {
+                        const res = await fetch(taskPath);
+                        if (!res.ok) return null;
+                        return await res.json();
+                    } catch (e) {
+                        console.warn(`Task ${taskId} 로드 실패:`, e);
+                        return null;
+                    }
+                });
+
+                const loadedTasks = await Promise.all(taskPromises);
+                const data = loadedTasks.filter(t => t !== null);
 
                 // 정렬 (undefined 체크)
                 data.sort((a, b) => {
@@ -495,7 +509,7 @@
 
             try {
                 // 개별 Task 파일에서 상세 정보 로드 (토큰 효율적!)
-                const taskPath = `${jsonBasePath}/tasks/${taskId}.json`;
+                const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
                 const response = await fetch(taskPath);
 
                 if (!response.ok) {
