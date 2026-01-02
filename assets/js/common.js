@@ -12,8 +12,10 @@
  */
 
 // 환경 감지 - 배포 환경에서는 localhost 서버 기능 비활성화
-const IS_PRODUCTION = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
-window.IS_PRODUCTION = IS_PRODUCTION;
+// (inline script에서 먼저 선언될 수 있으므로 조건부 설정)
+if (typeof window.IS_PRODUCTION === 'undefined') {
+    window.IS_PRODUCTION = window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1';
+}
 
 /**
  * 상태 메시지 표시 (토스트)
@@ -129,6 +131,5 @@ window.formatTimeAgo = formatTimeAgo;
 window.customConfirm = customConfirm;
 window.escapeHtml = escapeHtml;
 window.formatNumber = formatNumber;
-window.IS_PRODUCTION = IS_PRODUCTION;
 
 console.log('📦 common.js 로드 완료');

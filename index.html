@@ -2120,8 +2120,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             }
         }
 
-        // 현재 선택된 단계 데이터 저장
-        let currentStageData = null;
+        // 현재 선택된 단계 데이터는 modal.js에서 window.currentStageData로 노출됨
 
         // ========== 전체 Stage 데이터 정의 ==========
         const STAGE_DATA = {
@@ -3002,7 +3001,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             }
 
             // 현재 단계 데이터 저장
-            currentStageData = stageData;
+            window.currentStageData = stageData;
 
             // guideUrl이 있으면 GUIDE_CONTENTS에서 로드, 없으면 기존 guideContent 사용
             if (stageData.guideUrl) {
@@ -3017,10 +3016,10 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // [확인] 버튼 클릭 시 - Order Sheet 표준 템플릿을 워크스페이스에 로드 또는 외부 URL 열기
         async function executeStageAction() {
-            if (!currentStageData) return;
+            if (!window.currentStageData) return;
 
             // externalUrl이 있으면 외부 링크 열기 (예: Google Drive) - 빌더 계정만 가능
-            if (currentStageData.externalUrl) {
+            if (window.currentStageData.externalUrl) {
                 // 빌더 계정 확인
                 const { data: { session } } = await window.supabaseClient.auth.getSession();
                 if (!session) {
@@ -3040,7 +3039,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                     return;
                 }
 
-                window.open(currentStageData.externalUrl, '_blank');
+                window.open(window.currentStageData.externalUrl, '_blank');
                 showStatus(`✅ 외부 링크를 새 탭에서 열었습니다.`, 'success');
                 closeGuidePopup();
                 return;
@@ -3050,19 +3049,19 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             // 없으면 기존 orderSheetAfterExecute 사용 (하위 호환)
             let templateContent = '';
 
-            if (currentStageData.orderSheetUrl) {
+            if (window.currentStageData.orderSheetUrl) {
                 // orderSheetUrl에서 키 추출: 'templates/P1-1_Vision_Mission.md' -> 'P1-1_Vision_Mission'
-                const templateKey = currentStageData.orderSheetUrl.replace('templates/', '').replace('.md', '');
+                const templateKey = window.currentStageData.orderSheetUrl.replace('templates/', '').replace('.md', '');
                 templateContent = (typeof ORDER_SHEET_TEMPLATES !== 'undefined')
                     ? ORDER_SHEET_TEMPLATES[templateKey]
                     : null;
 
                 if (!templateContent) {
                     console.error('Order Sheet 템플릿 로드 오류:', templateKey);
-                    templateContent = currentStageData.orderSheetAfterExecute || '';
+                    templateContent = window.currentStageData.orderSheetAfterExecute || '';
                 }
             } else {
-                templateContent = currentStageData.orderSheetAfterExecute || '';
+                templateContent = window.currentStageData.orderSheetAfterExecute || '';
             }
 
             // 워크스페이스에 Order Sheet 템플릿 로드 (마크다운 → 일반 텍스트 변환)
@@ -3076,14 +3075,14 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             closeGuidePopup();
         }
         function loadOrderSheetToWorkspace() {
-            if (!currentStageData) return;
+            if (!window.currentStageData) return;
 
-            document.getElementById('textEditor').value = currentStageData.orderSheet;
+            document.getElementById('textEditor').value = window.currentStageData.orderSheet;
 
             // workspaceGuide 숨기고 textEditor 표시
             showOrderSheetEditor();
 
-            showStatus(`✅ "${currentStageData.stageName}" Order Sheet를 워크스페이스에 로드했습니다. 수정 후 발행하세요.`, 'info');
+            showStatus(`✅ "${window.currentStageData.stageName}" Order Sheet를 워크스페이스에 로드했습니다. 수정 후 발행하세요.`, 'info');
             closeGuidePopup();
         }
 
@@ -8330,10 +8329,7 @@ ${result.answer}`;
         // 공지사항 기능 (Supabase 연동)
         // ========================================
 
-        // Supabase 설정
-        const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
-
+        // Supabase 설정은 supabase-init.js에서 window 객체로 노출됨
         // window.supabaseClient를 window 객체에 명시적으로 선언 (크로스 스크립트 블록 접근 보장)
         window.supabaseClient = null;
 
@@ -8342,7 +8338,7 @@ ${result.answer}`;
             console.log('🔄 initSupabase 시작, supabase 타입:', typeof supabase);
             try {
                 if (typeof supabase !== 'undefined') {
-                    window.supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                    window.supabaseClient = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
                     console.log('✅ Supabase 클라이언트 초기화 완료 (Frontend)');
 
                     // OAuth 콜백 처리 - URL 해시에 토큰이 있으면 세션 설정 대기
@@ -8766,8 +8762,7 @@ ${result.answer}`;
             loadUserProject();
             loadCompletedProjects();
         }
-        // 관리자 이메일 정의
-        const ADMIN_EMAIL = 'wksun999@gmail.com';
+        // 관리자 이메일은 auth.js에서 window.ADMIN_EMAIL로 노출됨
 
 
         // ========================================
@@ -8782,7 +8777,7 @@ ${result.answer}`;
                     return;
                 }
 
-                if (session.user.email !== ADMIN_EMAIL) {
+                if (session.user.email !== window.ADMIN_EMAIL) {
                     alert('관리자 권한이 없습니다.\n관리자 계정으로 로그인해주세요.');
                     return;
                 }
