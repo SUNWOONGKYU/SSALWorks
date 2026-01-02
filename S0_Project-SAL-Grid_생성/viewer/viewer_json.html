@@ -532,37 +532,31 @@
                 // 사용자 이메일 확인
                 const userEmail = localStorage.getItem('userEmail');
 
-                // 관리자(wksun999@gmail.com)는 로컬 파일에서 로드
-                if (userEmail === 'wksun999@gmail.com') {
-                    jsonBasePath = '../method/json/data';
-                    useGitHub = false;
-                } else {
-                    // 일반 사용자: Supabase에서 github_repo_url 조회
-                    document.getElementById('connectionStatus').textContent = 'GitHub 정보 확인 중...';
+                // 모든 사용자: Supabase에서 github_repo_url 조회
+                document.getElementById('connectionStatus').textContent = 'GitHub 정보 확인 중...';
 
-                    const { data: userData, error } = await supabase
-                        .from('users')
-                        .select('github_repo_url')
-                        .eq('email', userEmail)
-                        .single();
+                const { data: userData, error } = await supabase
+                    .from('users')
+                    .select('github_repo_url')
+                    .eq('email', userEmail)
+                    .single();
 
-                    if (error || !userData || !userData.github_repo_url) {
-                        // GitHub URL이 없으면 "프로젝트 없음" 메시지
-                        allTasks = [];
-                        filteredTasks = [];
-                        render2D();
-                        updateStats();
-                        document.getElementById('connectionStatus').textContent = 'GitHub 연결 필요';
-                        document.querySelector('.connection-status').style.background = '#6c757d';
-                        return;
-                    }
-
-                    // GitHub raw URL을 기본 경로로 설정
-                    jsonBasePath = userData.github_repo_url;
-                    useGitHub = true;
+                if (error || !userData || !userData.github_repo_url) {
+                    // GitHub URL이 없으면 "프로젝트 없음" 메시지
+                    allTasks = [];
+                    filteredTasks = [];
+                    render2D();
+                    updateStats();
+                    document.getElementById('connectionStatus').textContent = 'GitHub 연결 필요';
+                    document.querySelector('.connection-status').style.background = '#6c757d';
+                    return;
                 }
 
-                // 1. index.json 로드
+                // GitHub raw URL을 기본 경로로 설정
+                jsonBasePath = userData.github_repo_url;
+                useGitHub = true;
+
+                // 1. index.json 로드 (항상 GitHub에서)
                 let indexUrl;
                 if (useGitHub) {
                     indexUrl = githubToRawUrl(jsonBasePath, 'S0_Project-SAL-Grid_생성/method/json/data/index.json');

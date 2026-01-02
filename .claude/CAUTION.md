@@ -4,18 +4,15 @@
 
 ---
 
-## 개발 환경 RLS 정책
+## ~~개발 환경 RLS 정책~~ ✅ 완료 (2026-01-03)
 
-**현재 상태:** 개발용 RLS 적용 중 (anon 접근 허용)
-- `07_learning_contents_rls_dev.sql`
-- `10_faqs_rls_dev.sql`
+**현재 상태:** ✅ 프로덕션용 RLS 적용 완료
+- `learning_contents`: authenticated만 INSERT/UPDATE/DELETE 가능
+- `faqs`: authenticated만 INSERT/UPDATE/DELETE 가능
 
-**프로덕션 배포 전 필수:**
-```sql
--- 원래 RLS로 교체
-07_learning_contents_rls.sql
-10_faqs_rls.sql
-```
+**적용된 정책:**
+- `learning_contents_insert_auth`, `learning_contents_update_auth`, `learning_contents_delete_auth`
+- `faqs_insert_authenticated`, `faqs_update_authenticated`, `faqs_delete_authenticated`
 
 ---
 
