@@ -3941,13 +3941,43 @@
 
         // Supabase 클라이언트 초기화
         let supabaseClient;
+        const ADMIN_EMAIL = 'wksun999@gmail.com';
 
-        // 페이지 로드 후 초기화
+        // 페이지 로드 후 초기화 및 권한 체크
         if (typeof supabase !== 'undefined') {
             supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
             console.log('✅ Supabase 클라이언트 초기화 완료');
-            // 대시보드 홈 통계 초기화
-            initializeDashboardHomeStats();
+
+            // Admin 권한 체크
+            (async function checkAdminAuth() {
+                try {
+                    const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+                    if (error || !session) {
+                        console.error('❌ 로그인되지 않음 - 메인 페이지로 이동');
+                        alert('로그인이 필요합니다.');
+                        window.location.href = '/index.html';
+                        return;
+                    }
+
+                    const userEmail = session.user.email;
+                    console.log('👤 현재 사용자:', userEmail);
+
+                    if (userEmail !== ADMIN_EMAIL) {
+                        console.error('❌ Admin 권한 없음 - 메인 페이지로 이동');
+                        alert('관리자 권한이 없습니다.');
+                        window.location.href = '/index.html';
+                        return;
+                    }
+
+                    console.log('✅ Admin 권한 확인 완료');
+                    // 대시보드 홈 통계 초기화
+                    initializeDashboardHomeStats();
+                } catch (err) {
+                    console.error('권한 체크 오류:', err);
+                    window.location.href = '/index.html';
+                }
+            })();
         } else {
             console.error('❌ Supabase 라이브러리가 로드되지 않았습니다.');
         }
