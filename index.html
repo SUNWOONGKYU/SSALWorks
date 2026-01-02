@@ -5650,9 +5650,11 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 return;
             }
 
-            // JSON 기반 Viewer 열기 (모바일/데스크톱)
+            // JSON 기반 Viewer 열기 (모바일/데스크톱) - 이메일을 URL 파라미터로 전달
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_mobile_json.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_json.html';
+            const userEmail = encodeURIComponent(session.user.email);
+            const baseUrl = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_mobile_json.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_json.html';
+            const url = `${baseUrl}?email=${userEmail}`;
             window.open(url, '_blank');
         }
 
