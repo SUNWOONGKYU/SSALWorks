@@ -281,7 +281,8 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 - [ ] TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 생성
 - [ ] verification-instructions/{TaskID}_verification.md 생성
-- [ ] project_sal_grid.json에 Task 추가
+- [ ] index.json의 task_ids 배열에 Task ID 추가
+- [ ] grid_records/{TaskID}.json 파일 생성
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -289,7 +290,8 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 
 - [ ] TASK_PLAN.md 업데이트
 - [ ] Instruction 파일 삭제
-- [ ] JSON에서 Task 제거
+- [ ] index.json의 task_ids 배열에서 Task ID 제거
+- [ ] grid_records/{TaskID}.json 파일 삭제
 - [ ] 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -297,7 +299,7 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 
 - [ ] TASK_PLAN.md 업데이트
 - [ ] Instruction 파일 수정
-- [ ] JSON에서 해당 필드 수정
+- [ ] grid_records/{TaskID}.json 파일 수정
 - [ ] 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -320,24 +322,36 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 | Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/TASK_PLAN.md` |
 | Task Instructions | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
 | Verification Instructions | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
-| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json` |
-| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/method/json/data/completed/` |
+| 프로젝트 메타데이터 | `S0_Project-SAL-Grid_생성/method/json/data/index.json` |
+| 개별 Task 데이터 | `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json` |
 | Stage Gates | `S0_Project-SAL-Grid_생성/method/json/stage-gates/` |
 | 작업 로그 | `.claude/work_logs/current.md` |
 
 ---
 
-## JSON 폴더 구조
+## JSON 폴더 구조 (개별 파일 방식)
 
 ```
 S0_Project-SAL-Grid_생성/method/json/data/
-├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
-│   └── project_sal_grid.json
-└── completed/          ← 완료된 프로젝트 보관
-    └── {project_name}_sal_grid.json
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일
+    ├── S1BI1.json
+    ├── S1BI2.json
+    ├── S1D1.json
+    └── ... (Task ID별 파일)
 ```
 
-**프로젝트 완료 시:**
-1. `in_progress/project_sal_grid.json` → `completed/{project_name}_sal_grid.json` 이동
-2. 새 프로젝트 시작 시 `in_progress/`에 새 파일 생성
-3. Viewer는 항상 `in_progress/` 폴더만 읽음
+**index.json 구조:**
+```json
+{
+  "project_id": "프로젝트ID",
+  "project_name": "프로젝트명",
+  "total_tasks": 66,
+  "task_ids": ["S1BI1", "S1BI2", "S1D1", ...]
+}
+```
+
+**Viewer 로딩 순서:**
+1. `index.json` 로드 → `task_ids` 배열 확인
+2. 각 Task ID에 대해 `grid_records/{taskId}.json` 로드
+3. 개별 Task 데이터 표시
