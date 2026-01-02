@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project SAL Grid Viewer - Mobile (CSV)</title>
-    <!-- CSV 기반 로컬 Viewer - Supabase 불필요 -->
+    <title>Project SAL Grid Viewer - Mobile</title>
+    <!-- GitHub JSON 기반 Viewer -->
     <style>
         :root {
             --primary: #10B981;
@@ -313,7 +313,7 @@
     <script>
         // ================================================================
         // Project SAL Grid Mobile Viewer (JSON + GitHub 연동)
-        // - 관리자(wksun999@gmail.com): 로컬 JSON 파일에서 로드
+        // - 모든 사용자: Supabase에서 github_repo_url 조회 후 GitHub에서 로드
         // - 일반 사용자: GitHub 레포에서 직접 로드 (서버 저장 X)
         // ================================================================
 
@@ -423,6 +423,18 @@
 
                 if (error) {
                     console.error('Supabase error:', error);
+                    // PGRST116 = 결과 없음 (사용자가 GitHub URL 미등록)
+                    if (error.code === 'PGRST116') {
+                        allTasks = [];
+                        useGitHub = false;
+                        document.getElementById('statusDot').classList.remove('connected');
+                        document.getElementById('statusText').textContent = 'GitHub 연결 필요';
+                        document.getElementById('taskCount').textContent = '0개 Task';
+                        renderTasks();
+                        updateStats();
+                        return;
+                    }
+                    // 그 외 실제 에러
                     allTasks = [];
                     useGitHub = false;
                     document.getElementById('statusDot').classList.remove('connected');

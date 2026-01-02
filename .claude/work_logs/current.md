@@ -197,6 +197,50 @@
 
 ## 2026-01-03 작업 내역
 
+### 3D 뷰 Task ID 라벨 추가 ✅
+
+**작업 목표**: 3D Block View에서 각 블록에 Task ID 라벨이 표시되도록 수정
+
+**문제 상황:**
+- 3D 뷰가 나오기는 하지만 각 블록에 Task ID가 표시되지 않음
+- 어떤 블록이 어떤 Task인지 구분 불가
+
+**해결 방법:**
+- Canvas + THREE.Sprite 방식으로 텍스트 라벨 구현
+- `createTextSprite()` 함수 추가
+- 각 블록 위에 Task ID 라벨 자동 생성
+
+**수정된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `index.html` | fullscreen 3D 뷰에 `createTextSprite()` 함수 및 라벨 추가 |
+| `S0_Project-SAL-Grid_생성/viewer/viewer_database.html` | Supabase 뷰어 3D 블록에 라벨 추가 |
+| `S0_Project-SAL-Grid_생성/viewer/viewer_json.html` | JSON 뷰어 3D 블록에 라벨 추가 |
+
+**라벨 구현 방식:**
+```javascript
+function createTextSprite(text, bgColor) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    // 배경, 테두리, 텍스트 렌더링
+    const texture = new THREE.CanvasTexture(canvas);
+    const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture }));
+    return sprite;
+}
+```
+
+**라벨 색상 (상태별):**
+- Completed: #28a745 (초록)
+- Executed: #3B82F6 (파랑)
+- In Progress: #ffc107 (노랑)
+- Fixing: #dc3545 (빨강)
+- Pending: #6c757d (회색)
+
+**커밋:** `895e42f` - feat: 3D 뷰에 Task ID 라벨 추가
+
+---
+
 ### 배포 기능 테스트 및 3D 뷰 수정 ✅
 
 **작업 목표**: 아젠다 #4 배포 후 알림 시스템 및 3D 뷰 기능 테스트
@@ -231,6 +275,41 @@
 - `3D 뷰용 태스크 데이터 로드` 로깅 ✅ 배포됨
 
 **관련 리포트:** `Human_ClaudeCode_Bridge/Reports/2026-01-03_deployment_test_report.json`
+
+---
+
+### .claude/ 폴더 문서 업데이트 (JSON 개별 파일 구조) ✅
+
+**작업 목표**: SAL Grid 데이터 구조 변경에 맞춰 `.claude/` 규칙 문서 업데이트
+
+**배경:**
+- SAL Grid 데이터 구조가 단일 파일(`project_sal_grid.json`)에서 개별 파일(`index.json` + `grid_records/*.json`)로 변경됨
+- 규칙 문서들이 이전 구조를 참조하고 있어 업데이트 필요
+
+**변경된 데이터 구조:**
+
+| 항목 | 이전 | 현재 |
+|------|------|------|
+| 데이터 저장 | `in_progress/project_sal_grid.json` (단일) | `index.json` + `grid_records/{TaskID}.json` (개별) |
+| Task 수 | 배열 내 포함 | `index.json`의 `task_ids` 배열 |
+| Task 데이터 | 단일 파일 내 배열 요소 | `grid_records/{TaskID}.json` 개별 파일 |
+
+**업데이트된 파일 (3개):**
+
+| # | 파일 | 주요 변경 내용 |
+|---|------|-------------|
+| 1 | `.claude/CLAUDE.md` | JSON 데이터 구조 섹션 재작성, `index.json` + `grid_records/` 구조 설명 |
+| 2 | `.claude/rules/04_grid-writing-supabase.md` | 섹션 9 "JSON 데이터 구조 (Viewer용 - 개별 파일 방식)" 재작성 |
+| 3 | `.claude/rules/07_task-crud.md` | Task 추가/삭제/수정 시 JSON 파일 처리 방법 업데이트 |
+
+**07_task-crud.md 주요 변경:**
+
+| 섹션 | 이전 | 현재 |
+|------|------|------|
+| Step 5B (Task 추가) | `project_sal_grid.json`에 추가 | 1. `index.json`에 task_id 추가 + 2. `grid_records/` 파일 생성 |
+| Step 3B (Task 삭제) | 단일 파일에서 제거 | 1. `grid_records/` 파일 삭제 + 2. `index.json`에서 제거 |
+| Step 5B (수정) | 단일 파일 수정 | `grid_records/{TaskID}.json` 파일 수정 |
+| 관련 파일 표 | `in_progress/`, `completed/` 구조 | `index.json` + `grid_records/` 구조 |
 
 ## 2025-12-31 작업 내역
 

@@ -240,25 +240,33 @@ const { data, error } = await supabase
 
 ---
 
-#### 📌 Step 5B: JSON Method (JSON 파일)
+#### 📌 Step 5B: JSON Method (개별 파일 방식)
 
 > **적용 대상:** 일반 사용자, Supabase 없는 프로젝트
 
-**JSON 파일 위치 (폴더 구조):**
+**JSON 폴더 구조:**
 ```
 S0_Project-SAL-Grid_생성/method/json/data/
-├── in_progress/                ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
-│   └── project_sal_grid.json
-└── completed/                  ← 완료된 프로젝트 보관
-    └── {project_name}_sal_grid.json
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일
+    ├── S1BI1.json
+    ├── S2F1.json
+    └── ... (Task ID별 파일)
 ```
 
-**핵심:** `in_progress/` 폴더의 JSON 파일만 Viewer에 표시됨
+**핵심:** Viewer는 `index.json` + `grid_records/*.json` 구조를 로드
 
 ##### 시나리오 A: 신규 Task (아직 작업 안 함)
 
+**1. index.json에 task_id 추가:**
 ```json
-// project_sal_grid.json의 tasks 배열에 추가
+{
+  "task_ids": ["S1BI1", "S1BI2", ..., "S4F5"]  // 새 Task ID 추가
+}
+```
+
+**2. grid_records/S4F5.json 파일 생성:**
+```json
 {
     "task_id": "S4F5",
     "task_name": "Task 이름",
@@ -278,6 +286,7 @@ S0_Project-SAL-Grid_생성/method/json/data/
 
 ##### 시나리오 B: 완료된 Task (이미 작업 완료, 사후 등록)
 
+**grid_records/S4F5.json:**
 ```json
 {
     "task_id": "S4F5",
@@ -300,8 +309,8 @@ S0_Project-SAL-Grid_생성/method/json/data/
 
 **Claude Code가 JSON 파일 수정:**
 ```bash
-# Claude Code의 Edit 도구로 JSON 파일 직접 수정
-# tasks 배열에 새 Task 객체 추가
+# 1. index.json의 task_ids 배열에 새 Task ID 추가
+# 2. grid_records/ 폴더에 {TaskID}.json 파일 생성/수정
 ```
 
 ---
@@ -382,14 +391,16 @@ const { error } = await supabase
     .eq('task_id', 'S4F5');
 ```
 
-#### 📌 Step 3B: JSON Method (JSON 파일)
+#### 📌 Step 3B: JSON Method (개별 파일 방식)
 
 ```bash
-# Claude Code의 Edit 도구로 JSON 파일에서 해당 Task 객체 삭제
-# project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 제거
+# 1. index.json의 task_ids 배열에서 해당 task_id 제거
+# 2. grid_records/{TaskID}.json 파일 삭제
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:**
+- 메타데이터: `S0_Project-SAL-Grid_생성/method/json/data/index.json`
+- 개별 Task: `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
 
 ### Step 4: 작업 로그 업데이트
 
@@ -482,16 +493,15 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 
 **주의:** 한글이 포함된 JSON은 파일로 저장 후 `@파일명` 방식 사용
 
-#### 📌 Step 5B: JSON Method (JSON 파일)
+#### 📌 Step 5B: JSON Method (개별 파일 방식)
 
 ```bash
-# Claude Code의 Edit 도구로 JSON 파일에서 해당 Task 필드 수정
-# project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 찾아 수정
+# Claude Code의 Edit 도구로 grid_records/{TaskID}.json 파일 직접 수정
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
 
-**수정 예시:**
+**수정 예시 (grid_records/S4F5.json):**
 ```json
 // 기존
 { "task_id": "S4F5", "task_name": "이전 이름", ... }
@@ -595,14 +605,14 @@ console.log(data);
 
 ---
 
-### 📌 JSON Method (JSON 파일)
+### 📌 JSON Method (개별 파일 방식)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
 
 #### 작업 완료 시 (Executed)
 
 ```json
-// Claude Code Edit 도구로 해당 Task 필드 수정
+// Claude Code Edit 도구로 grid_records/S4F5.json 수정
 {
     "task_id": "S4F5",
     "task_status": "Executed",
@@ -647,9 +657,9 @@ console.log(data);
   - [ ] `task_status` 설정 (Pending 또는 Completed)
   - [ ] `verification_status` 설정 (Not Verified 또는 Verified)
   - [ ] `task_progress` 설정 (0 또는 100)
-- [ ] **[JSON Method]** `project_sal_grid.json`에 Task 추가
-  - [ ] tasks 배열에 새 Task 객체 추가
-  - [ ] 동일한 상태값 설정
+- [ ] **[JSON Method]** 개별 파일 방식으로 Task 추가
+  - [ ] index.json의 task_ids 배열에 새 task_id 추가
+  - [ ] grid_records/{TaskID}.json 파일 생성
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 - [ ] **최종 확인**: DB 또는 JSON에서 상태 확인
@@ -661,7 +671,7 @@ console.log(data);
 - [ ] task-instructions/{TaskID}_instruction.md 삭제
 - [ ] verification-instructions/{TaskID}_verification.md 삭제
 - [ ] **[DB Method]** Supabase `project_sal_grid` 테이블에서 DELETE
-- [ ] **[JSON Method]** `project_sal_grid.json`에서 Task 제거
+- [ ] **[JSON Method]** index.json에서 task_id 제거 + grid_records/{TaskID}.json 삭제
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -672,7 +682,7 @@ console.log(data);
 - [ ] task-instructions/{TaskID}_instruction.md 내용 수정
 - [ ] verification-instructions/{TaskID}_verification.md 내용 수정
 - [ ] **[DB Method]** Supabase `project_sal_grid` 테이블 PATCH
-- [ ] **[JSON Method]** `project_sal_grid.json`에서 해당 Task 필드 수정
+- [ ] **[JSON Method]** `grid_records/{TaskID}.json` 파일에서 해당 필드 수정
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
@@ -699,8 +709,8 @@ console.log(data);
 8. **⚠️ verification_status 필수**: INSERT 시 반드시 verification_status 명시적 설정
 9. **⚠️ SSAL Works는 DB + JSON 둘 다**: 두 방식 동시 적용 시 반드시 양쪽 모두 업데이트
 10. **⚠️ Stage Gate 경로 구분**: DB Method와 JSON Method의 Stage Gate 저장 위치가 다름
-11. **⚠️ JSON 파일 위치**: 반드시 `in_progress/` 폴더에서 작업 (Viewer가 해당 폴더만 읽음)
-12. **⚠️ 프로젝트 완료 시**: `in_progress/` → `completed/` 폴더로 이동 후 새 프로젝트 시작
+11. **⚠️ JSON 파일 구조**: `index.json` + `grid_records/{TaskID}.json` 개별 파일 방식 사용
+12. **⚠️ Task 추가 시**: `index.json`의 `task_ids` 배열에 추가 + `grid_records/`에 새 파일 생성
 
 ---
 
@@ -728,23 +738,35 @@ console.log(data);
 
 | 항목 | 위치 |
 |------|------|
-| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json` |
-| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/method/json/data/completed/` |
+| 프로젝트 메타데이터 | `S0_Project-SAL-Grid_생성/method/json/data/index.json` |
+| 개별 Task 파일 | `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json` |
 | Stage Gates | `S0_Project-SAL-Grid_생성/method/json/stage-gates/` |
 | 유틸리티 스크립트 | `S0_Project-SAL-Grid_생성/method/json/scripts/` |
 | JSON 템플릿 | `S0_Project-SAL-Grid_생성/method/json/templates/` |
 
-### JSON Method 폴더 구조 ⭐
+### JSON Method 폴더 구조 ⭐ (개별 파일 방식)
 
 ```
 S0_Project-SAL-Grid_생성/method/json/data/
-├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
-│   └── project_sal_grid.json
-└── completed/          ← 완료된 프로젝트 보관
-    └── {project_name}_sal_grid.json
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일 (66개)
+    ├── S1BI1.json
+    ├── S1BI2.json
+    ├── S2F1.json
+    └── ... (Task ID별 파일)
 ```
 
-**프로젝트 완료 시:**
-1. `in_progress/project_sal_grid.json` → `completed/{project_name}_sal_grid.json` 이동
-2. 새 프로젝트 시작 시 `in_progress/`에 새 파일 생성
-3. Viewer는 항상 `in_progress/` 폴더만 읽음
+**index.json 구조:**
+```json
+{
+  "project_id": "SSALWORKS",
+  "project_name": "SSAL Works",
+  "total_tasks": 66,
+  "task_ids": ["S1BI1", "S1BI2", "S1D1", ...]
+}
+```
+
+**Viewer 로딩 순서:**
+1. `index.json` 로드 → `task_ids` 배열 확인
+2. 각 `task_id`에 대해 `grid_records/{task_id}.json` 로드
+3. 전체 Task 데이터 조합하여 표시

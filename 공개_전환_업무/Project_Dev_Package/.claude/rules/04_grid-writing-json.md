@@ -134,42 +134,48 @@
 
 ---
 
-## 6. JSON 파일 정보
+## 6. JSON 파일 정보 (개별 파일 방식)
 
-### JSON 파일 위치 (폴더 구조)
+### JSON 폴더 구조
 
 ```
 {project-root}/S0_Project-SAL-Grid_생성/method/json/data/
-├── in_progress/                ← 진행 중인 프로젝트 (Viewer가 읽는 폴더)
-│   └── project_sal_grid.json   ← 현재 프로젝트 데이터
-└── completed/                  ← 완료된 프로젝트 (보관용)
-    └── [project]_sal_grid.json
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일
+    ├── S1BI1.json
+    ├── S1BI2.json
+    ├── S2F1.json
+    └── ... (Task ID별 파일)
 ```
 
 **핵심:**
-- Viewer는 `in_progress/` 폴더만 로드
-- 프로젝트 완료 시 `completed/`로 이동
+- `index.json` = 프로젝트 정보 + Task ID 목록
+- `grid_records/{TaskID}.json` = 개별 Task 데이터
+- Viewer는 `index.json` 먼저 로드 → `task_ids`로 개별 파일 로드
 
-### JSON 파일 구조
+### index.json 구조
 
 ```json
 {
   "project_id": "프로젝트ID",
   "project_name": "프로젝트명",
-  "created_at": "2025-01-01T00:00:00Z",
-  "updated_at": "2025-01-01T00:00:00Z",
-  "tasks": [
-    {
-      "task_id": "S1F1",
-      "task_name": "로그인 페이지 구현",
-      "stage": 1,
-      "area": "F",
-      "task_status": "Pending",
-      "task_progress": 0,
-      "verification_status": "Not Verified",
-      ...
-    }
-  ]
+  "total_tasks": 66,
+  "task_ids": ["S1BI1", "S1BI2", "S1D1", "S1F1", ...]
+}
+```
+
+### 개별 Task JSON 구조 (grid_records/{TaskID}.json)
+
+```json
+{
+  "task_id": "S1F1",
+  "task_name": "로그인 페이지 구현",
+  "stage": 1,
+  "area": "F",
+  "task_status": "Pending",
+  "task_progress": 0,
+  "verification_status": "Not Verified",
+  ...
 }
 ```
 
@@ -192,8 +198,8 @@
 ### 핵심 원칙
 
 ```
-JSON 파일을 직접 수정!
-Read -> Parse -> Modify -> Write 순서로 작업
+개별 Task JSON 파일을 직접 수정!
+해당 Task 파일 Read -> Modify -> Write 순서로 작업
 ```
 
 ### 읽기 (Read)
@@ -202,35 +208,52 @@ Read -> Parse -> Modify -> Write 순서로 작업
 const fs = require('fs');
 const path = require('path');
 
-const jsonPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json');
-const data = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+// index.json 읽기 (Task ID 목록 확인)
+const indexPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/index.json');
+const indexData = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
 
-// tasks 배열에서 특정 Task 찾기
-const task = data.tasks.find(t => t.task_id === 'S1F1');
+// 개별 Task 파일 읽기
+const taskPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/grid_records/S1F1.json');
+const taskData = JSON.parse(fs.readFileSync(taskPath, 'utf-8'));
 ```
 
 ### 수정 (Update)
 
 ```javascript
-// 특정 Task 찾기
-const taskIndex = data.tasks.findIndex(t => t.task_id === 'S1F1');
-
-if (taskIndex !== -1) {
-    // 필드 수정
-    data.tasks[taskIndex].task_status = 'Completed';
-    data.tasks[taskIndex].task_progress = 100;
-    data.tasks[taskIndex].verification_status = 'Verified';
-}
-
-// updated_at 갱신
-data.updated_at = new Date().toISOString();
+// 개별 Task 파일 직접 수정
+taskData.task_status = 'Completed';
+taskData.task_progress = 100;
+taskData.verification_status = 'Verified';
+taskData.updated_at = new Date().toISOString();
 ```
 
 ### 쓰기 (Write)
 
 ```javascript
-// JSON 파일 저장 (pretty print)
-fs.writeFileSync(jsonPath, JSON.stringify(data, null, 2), 'utf-8');
+// 개별 Task JSON 파일 저장 (pretty print)
+fs.writeFileSync(taskPath, JSON.stringify(taskData, null, 2), 'utf-8');
+```
+
+### Task 추가 시
+
+```javascript
+// 1. index.json의 task_ids 배열에 추가
+indexData.task_ids.push('S4F5');
+indexData.total_tasks = indexData.task_ids.length;
+fs.writeFileSync(indexPath, JSON.stringify(indexData, null, 2), 'utf-8');
+
+// 2. 새 Task JSON 파일 생성
+const newTaskData = {
+    task_id: 'S4F5',
+    task_name: 'Task 이름',
+    stage: 4,
+    area: 'F',
+    task_status: 'Pending',
+    task_progress: 0,
+    verification_status: 'Not Verified'
+};
+const newTaskPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/grid_records/S4F5.json');
+fs.writeFileSync(newTaskPath, JSON.stringify(newTaskData, null, 2), 'utf-8');
 ```
 
 ---
@@ -258,9 +281,7 @@ Task 작업만 하고 Grid 업데이트 없이 끝내지 마라!
 ```
 Task 작업 완료
      |
-JSON 파일 읽기
-     |
-해당 task_id 객체 찾기
+grid_records/{TaskID}.json 파일 읽기
      |
 상태/진행률/파일목록 업데이트
      |

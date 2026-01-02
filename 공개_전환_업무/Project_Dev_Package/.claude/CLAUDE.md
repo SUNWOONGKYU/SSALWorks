@@ -48,29 +48,30 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │  viewer_json.html ⭐ 주로 사용                               │
 │  → 내가 진행 중인 프로젝트 데이터                              │
 │  → Task 완료할 때마다 업데이트됨                              │
-│  → 경로: method/json/data/in_progress/project_sal_grid.json │
+│  → 경로: method/json/data/index.json + grid_records/*.json  │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 ### ⚠️ 일반 이용자는 JSON 사용
 
 ```
-✅ 내 프로젝트 진행 상황 = JSON 파일 (method/json/data/in_progress/project_sal_grid.json)
-✅ Task 완료 시 = JSON 파일 업데이트
+✅ 내 프로젝트 진행 상황 = JSON 파일 (index.json + grid_records/*.json)
+✅ Task 완료 시 = 해당 Task의 grid_records/{TaskID}.json 파일 업데이트
+✅ Task 추가 시 = index.json에 task_id 추가 + grid_records/에 새 파일 생성
 ✅ 진행 현황 확인 = viewer_json.html
-✅ 프로젝트 완료 시 = completed/ 폴더로 이동
 
 ❌ Supabase DB = 사용하지 않음 (SSAL Works 예시용)
 ```
 
-### 📂 JSON 폴더 구조
+### 📂 JSON 폴더 구조 (개별 파일 방식)
 
 ```
 method/json/data/
-├── in_progress/        ← Viewer가 읽는 폴더 (진행 중)
-│   └── project_sal_grid.json
-└── completed/          ← 완료된 프로젝트 보관
-    └── [project]_sal_grid.json
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일
+    ├── S1BI1.json
+    ├── S1BI2.json
+    └── ... (Task ID별 파일)
 ```
 
 ---
@@ -232,7 +233,7 @@ verification_status 전이:
 
 **검증 후 필수 기록 위치:**
 ```
-JSON 파일 (method/json/data/in_progress/project_sal_grid.json)
+개별 Task JSON 파일 (method/json/data/grid_records/{TaskID}.json)
    → verification_status: 'Verified' 또는 'Needs Fix'
    → test_result: 테스트 결과
    → build_verification: 빌드 검증
@@ -318,7 +319,7 @@ JSON 파일 (method/json/data/in_progress/project_sal_grid.json)
 ```
 Task 작업 완료
      ↓
-JSON 파일 (method/json/data/in_progress/project_sal_grid.json) 업데이트
+개별 Task JSON 파일 (grid_records/{TaskID}.json) 업데이트
      ↓
 work_logs/current.md 기록
      ↓
@@ -343,25 +344,32 @@ work_logs/current.md 기록
 
 ```
 ✅ AI가 Edit 도구로 JSON 파일 직접 수정!
-✅ JSON 파일 위치: method/json/data/in_progress/project_sal_grid.json
+✅ 프로젝트 메타데이터: method/json/data/index.json
+✅ 개별 Task 파일: method/json/data/grid_records/{TaskID}.json
 ✅ 수정 후 반드시 저장 확인!
 ```
 
 **JSON 파일 수정 프로세스:**
 ```
-1. JSON 파일 읽기 (Read 도구)
+1. 해당 Task의 JSON 파일 읽기 (Read 도구)
+   → grid_records/{TaskID}.json
      ↓
-2. 해당 Task 객체 찾기
+2. 필드 값 수정 (Edit 도구)
      ↓
-3. 필드 값 수정 (Edit 도구)
+3. 저장 확인
+```
+
+**Task 추가 시 프로세스:**
+```
+1. index.json의 task_ids 배열에 새 task_id 추가
      ↓
-4. 저장 확인
+2. grid_records/{TaskID}.json 파일 생성
 ```
 
 **⚠️ JSON 수정 시 주의사항:**
 - JSON 문법 유지 (쉼표, 중괄호 등)
 - UTF-8 인코딩 유지
-- tasks 배열 구조 유지
+- index.json과 grid_records/ 동기화 유지
 
 ---
 
