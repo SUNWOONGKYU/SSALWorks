@@ -5839,3 +5839,56 @@ CREATE POLICY "faqs_delete_authenticated" ...
 **관련 리포트:** `Human_ClaudeCode_Bridge/Reports/2026-01-03_RLS_production_report.json`
 
 ---
+
+### Dev Package 문서 업데이트 (JSON 개별 파일 구조 반영) ✅
+
+**작업 목표:** Dev Package의 `.claude/` 폴더 문서를 새로운 JSON 개별 파일 구조에 맞게 업데이트
+
+**변경된 데이터 구조:**
+```
+이전 구조 (단일 파일):
+S0_.../method/json/data/in_progress/project_sal_grid.json
+└── tasks: [{task_id, task_name, ...}, ...]
+
+새 구조 (개별 파일):
+S0_.../method/json/data/
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일
+    ├── S1BI1.json
+    ├── S2F1.json
+    └── ...
+```
+
+**업데이트된 파일 (3개):**
+
+| # | 파일 | 주요 변경 내용 |
+|---|------|---------------|
+| 1 | `.claude/CLAUDE.md` | viewer 경로, JSON 폴더 구조, CRUD 프로세스 설명 |
+| 2 | `.claude/rules/04_grid-writing-json.md` | 섹션 6~8 전면 재작성 (개별 파일 CRUD) |
+| 3 | `.claude/rules/07_task-crud.md` | Step 5 (추가/삭제/수정), 관련 파일 섹션 전면 업데이트 |
+
+**변경 내용 상세:**
+
+**CLAUDE.md:**
+- viewer 경로: `in_progress/project_sal_grid.json` → `index.json + grid_records/*.json`
+- Task 추가/수정 시 프로세스 설명 업데이트
+- JSON 폴더 구조 다이어그램 추가
+
+**04_grid-writing-json.md:**
+- 섹션 6: JSON 폴더 구조 재작성 (index.json + grid_records/)
+- 섹션 7: JSON CRUD 작업 방법 재작성 (개별 파일 읽기/쓰기)
+- 섹션 8: 업데이트 프로세스 플로우 수정
+
+**07_task-crud.md:**
+- Step 5 (Task 추가): 2단계 프로세스 (index.json + grid_records/)
+- Step 3 (Task 삭제): index.json 제거 + 파일 삭제
+- Step 5 (Task 수정): grid_records/{TaskID}.json 직접 수정
+- 체크리스트: 개별 파일 작업으로 업데이트
+- 관련 파일 섹션: 새 폴더 구조 반영
+- JSON 폴더 구조 섹션: 전면 재작성
+
+**검증:** `findstr` 명령어로 이전 경로 참조 없음 확인 ✅
+
+**상태:** 완료 ✅
+
+---
