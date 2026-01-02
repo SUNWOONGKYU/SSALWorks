@@ -27,13 +27,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## 📊 DB vs CSV 데이터 구분 (핵심 개념)
 
 > **이 구분을 이해해야 viewer 관련 작업 시 혼란이 없음!**
+> **데이터 형식:** JSON이 Source, CSV는 `json-to-csv.js`로 파생 생성
 
 ### 두 가지 데이터 소스
 
 | 구분 | 데이터 소스 | 용도 | Viewer |
 |------|------------|------|--------|
 | **DB (Supabase)** | SSAL Works 프로젝트 | **예시**로 보여줌 | `viewer_database.html` |
-| **CSV 파일** | 이용자 본인 프로젝트 | **진행 중인 프로젝트** | `viewer_csv.html` |
+| **JSON 파일** | 이용자 본인 프로젝트 | **진행 중인 프로젝트** | `viewer_csv.html` |
 
 ### 작동 원리
 
@@ -46,11 +47,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
-│  viewer_csv.html (CSV 파일)                                 │
+│  viewer_csv.html (JSON 파일)                                │
 │  → 해당 이용자의 "진행 중인 프로젝트" 데이터                   │
 │  → 이용자마다 다른 내용                                       │
-│  → 경로: method/csv/data/in_progress/sal_grid.csv           │
-│  → 완료된 프로젝트: method/csv/data/completed/ 보관          │
+│  → 경로: CSV_Method/data/in_progress/project_sal_grid.json  │
+│  → 완료된 프로젝트: CSV_Method/data/completed/ 보관          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -58,7 +59,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```
 예시 (DB)         = SSAL Works 프로젝트
-자기 프로젝트 (CSV) = SSAL Works 프로젝트
+자기 프로젝트 (JSON) = SSAL Works 프로젝트
 → 동일함 (자기가 만든 서비스이므로)
 ```
 
@@ -66,51 +67,51 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```
 예시 (DB)         = SSAL Works 프로젝트 (고정, 참고용)
-자기 프로젝트 (CSV) = 본인이 진행 중인 프로젝트
+자기 프로젝트 (JSON) = 본인이 진행 중인 프로젝트
 → 서로 다름
 ```
 
-### 사용자별 CSV 경로 분기 로직 ⭐
+### 사용자별 JSON 경로 분기 로직 ⭐
 
 > **viewer_csv.html이 사용자 이메일을 기준으로 데이터 경로를 결정함**
 
-| 사용자 | CSV 경로 | 결과 |
+| 사용자 | JSON 경로 | 결과 |
 |--------|----------|------|
-| `wksun999@gmail.com` | `../method/csv/data/in_progress/sal_grid.csv` | SSAL Works 데이터 표시 |
-| 그 외 모든 사용자 | `../method/csv/data/users/{email}/sal_grid.csv` | 개인 프로젝트 데이터 |
+| `wksun999@gmail.com` | `../CSV_Method/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 표시 |
+| 그 외 모든 사용자 | `../CSV_Method/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 데이터 |
 | 파일 없음 (404) | - | "프로젝트 없음" 안내 메시지 |
 
 ```javascript
 // viewer_csv.html 내부 로직
 if (userEmail === 'wksun999@gmail.com') {
     // SSAL Works 관리자: in_progress 폴더에서 진행 중인 프로젝트 로드
-    csvPath = '../method/csv/data/in_progress/sal_grid.csv';  // SSAL Works
+    jsonPath = '../CSV_Method/data/in_progress/project_sal_grid.json';  // SSAL Works
 } else {
-    csvPath = `../method/csv/data/users/${userEmail}/sal_grid.csv`;  // 개인
+    jsonPath = `../CSV_Method/data/users/${userEmail}/project_sal_grid.json`;  // 개인
 }
 ```
 
-### CSV 폴더 구조 ⭐
+### JSON 폴더 구조 ⭐
 
 ```
-method/csv/data/
+S0_Project-SAL-Grid_생성/CSV_Method/data/
 ├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
-│   └── sal_grid.csv
+│   └── project_sal_grid.json
 ├── completed/          ← 완료된 프로젝트 보관
-│   └── {project_name}_sal_grid.csv
+│   └── {project_name}_sal_grid.json
 └── users/              ← 일반 사용자별 데이터
     └── {email}/
-        └── sal_grid.csv
+        └── project_sal_grid.json
 ```
 
 **프로젝트 완료 시:**
-1. `in_progress/sal_grid.csv` → `completed/{project_name}_sal_grid.csv` 이동
-2. 새 프로젝트 시작 시 `in_progress/`에 새 CSV 생성
+1. `in_progress/project_sal_grid.json` → `completed/{project_name}_sal_grid.json` 이동
+2. 새 프로젝트 시작 시 `in_progress/`에 새 JSON 생성
 3. Viewer는 항상 `in_progress/` 폴더만 읽음
 
 ### "프로젝트 없음" 안내 메시지
 
-사용자의 CSV 파일이 없을 때 (404) 표시되는 메시지:
+사용자의 JSON 파일이 없을 때 (404) 표시되는 메시지:
 
 ```
 📋 진행 중인 프로젝트가 아직 없습니다
@@ -127,8 +128,8 @@ method/csv/data/
 ### ⚠️ 주의사항
 
 - **DB 데이터 수정** = SSAL Works 내부 관리용 (일반 이용자 해당 없음)
-- **CSV 데이터 수정** = 이용자 본인 프로젝트 진행 상황 업데이트
-- **사용자별 CSV 폴더** = `method/csv/data/users/{email}/` (S0 완료 후 생성)
+- **JSON 데이터 수정** = 이용자 본인 프로젝트 진행 상황 업데이트
+- **사용자별 JSON 폴더** = `CSV_Method/data/users/{email}/` (S0 완료 후 생성)
 
 ---
 

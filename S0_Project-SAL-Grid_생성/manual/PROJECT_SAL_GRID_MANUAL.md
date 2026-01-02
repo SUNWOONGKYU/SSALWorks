@@ -627,18 +627,19 @@ fetch(SUPABASE_URL + '/rest/v1/project_sal_grid?task_id=eq.S4F5', {
 
 ---
 
-## 9. 사용자별 CSV 데이터 분리 (Viewer)
+## 9. 사용자별 JSON 데이터 분리 (Viewer)
 
 > **적용 대상:** CSV Viewer (`viewer_csv.html`, `viewer_mobile_csv.html`)
+> **데이터 형식:** JSON이 Source, CSV는 `json-to-csv.js`로 파생 생성
 
-### CSV 경로 분기 로직
+### JSON 경로 분기 로직
 
-Viewer가 사용자 이메일을 기준으로 CSV 경로를 결정:
+Viewer가 사용자 이메일을 기준으로 JSON 경로를 결정:
 
-| 사용자 | CSV 경로 | 결과 |
+| 사용자 | JSON 경로 | 결과 |
 |--------|----------|------|
-| `wksun999@gmail.com` | `../method/csv/data/sal_grid.csv` | SSAL Works 데이터 |
-| 그 외 사용자 | `../method/csv/data/users/{email}/sal_grid.csv` | 개인 프로젝트 |
+| `wksun999@gmail.com` | `../CSV_Method/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 |
+| 그 외 사용자 | `../CSV_Method/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 |
 | 파일 없음 (404) | - | "프로젝트 없음" 메시지 |
 
 ### 코드 로직
@@ -647,15 +648,15 @@ Viewer가 사용자 이메일을 기준으로 CSV 경로를 결정:
 const userEmail = localStorage.getItem('userEmail');
 
 if (userEmail === 'wksun999@gmail.com') {
-    csvPath = '../method/csv/data/sal_grid.csv';
+    jsonPath = '../CSV_Method/data/in_progress/project_sal_grid.json';
 } else {
-    csvPath = `../method/csv/data/users/${encodeURIComponent(userEmail)}/sal_grid.csv`;
+    jsonPath = `../CSV_Method/data/users/${encodeURIComponent(userEmail)}/project_sal_grid.json`;
 }
 ```
 
 ### "프로젝트 없음" 안내 메시지
 
-CSV 파일이 없을 때 (404 응답) 표시:
+JSON 파일이 없을 때 (404 응답) 표시:
 
 ```
 📋 진행 중인 프로젝트가 아직 없습니다
@@ -675,7 +676,8 @@ CSV 파일이 없을 때 (404 응답) 표시:
 |------|------|
 | 데스크톱 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_csv.html` |
 | 모바일 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_csv.html` |
-| 사용자별 CSV 폴더 | `method/csv/data/users/{email}/` |
+| JSON 데이터 폴더 | `S0_Project-SAL-Grid_생성/CSV_Method/data/` |
+| 사용자별 JSON 폴더 | `S0_Project-SAL-Grid_생성/CSV_Method/data/users/{email}/` |
 
 ---
 
