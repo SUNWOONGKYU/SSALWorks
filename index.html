@@ -5322,9 +5322,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 return;
             }
 
-            // CSV 기반 Viewer 열기 (모바일/데스크톱)
+            // JSON 기반 Viewer 열기 (모바일/데스크톱)
             const isMobile = window.innerWidth <= 768;
-            const url = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_mobile_csv.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_csv.html';
+            const url = isMobile ? '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_mobile_json.html' : '/S0_Project-SAL-Grid_%EC%83%9D%EC%84%B1/viewer/viewer_json.html';
             window.open(url, '_blank');
         }
 
@@ -9050,7 +9050,7 @@ ${result.answer}`;
             }
         }
 
-        // 공지사항 렌더링 (최신 1개만 표시, 더보기는 h3 헤더에 있음)
+        // 공지사항 렌더링 (최신 2개 표시, 더보기는 h3 헤더에 있음)
         function renderNotices(notices) {
             const noticesList = document.getElementById('noticesList');
 
@@ -9068,23 +9068,27 @@ ${result.answer}`;
                 return;
             }
 
-            // 최신 1개만 표시
-            const latestNotice = notices[0];
-            const safeTitle = typeof DOMPurify !== 'undefined'
-                ? DOMPurify.sanitize(latestNotice.title, { ALLOWED_TAGS: [] })
-                : latestNotice.title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            // 최신 2개 표시
+            const displayNotices = notices.slice(0, 2);
+            let html = '';
 
-            const createdDate = new Date(latestNotice.created_at);
-            const formattedDate = `${createdDate.getFullYear()}.${String(createdDate.getMonth() + 1).padStart(2, '0')}.${String(createdDate.getDate()).padStart(2, '0')} ${String(createdDate.getHours()).padStart(2, '0')}:${String(createdDate.getMinutes()).padStart(2, '0')}`;
+            displayNotices.forEach(notice => {
+                const safeTitle = typeof DOMPurify !== 'undefined'
+                    ? DOMPurify.sanitize(notice.title, { ALLOWED_TAGS: [] })
+                    : notice.title.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
-            noticesList.innerHTML = `
-                <div class="notice-item" onclick="showNoticeDetail('${latestNotice.id}', this)">
-                    <div class="notice-title">
-                        ${safeTitle}
+                const createdDate = new Date(notice.created_at);
+                const formattedDate = `${createdDate.getFullYear()}.${String(createdDate.getMonth() + 1).padStart(2, '0')}.${String(createdDate.getDate()).padStart(2, '0')} ${String(createdDate.getHours()).padStart(2, '0')}:${String(createdDate.getMinutes()).padStart(2, '0')}`;
+
+                html += `
+                    <div class="notice-item" onclick="showNoticeDetail('${notice.id}', this)">
+                        <div class="notice-title">${safeTitle}</div>
+                        <span class="notice-date">${formattedDate}</span>
                     </div>
-                    <span class="notice-date">${formattedDate}</span>
-                </div>
-            `;
+                `;
+            });
+
+            noticesList.innerHTML = html;
         }
 
         // 공지사항 상세 보기
