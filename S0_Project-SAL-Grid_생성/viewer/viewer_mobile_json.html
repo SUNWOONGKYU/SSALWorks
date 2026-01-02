@@ -309,13 +309,35 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         // ================================================================
-        // CSV 기반 Mobile Viewer - Supabase 연결 불필요
+        // Project SAL Grid Mobile Viewer (JSON + GitHub 연동)
+        // - 관리자(wksun999@gmail.com): 로컬 JSON 파일에서 로드
+        // - 일반 사용자: GitHub 레포에서 직접 로드 (서버 저장 X)
         // ================================================================
+
+        // Supabase 설정 (사용자 github_repo_url 조회용)
+        const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // GitHub URL을 raw URL로 변환
+        function githubToRawUrl(githubUrl, filePath) {
+            // https://github.com/owner/repo → https://raw.githubusercontent.com/owner/repo/main/filePath
+            const match = githubUrl.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+            if (!match) return null;
+            const owner = match[1];
+            const repo = match[2].replace(/\.git$/, ''); // .git 제거
+            return `https://raw.githubusercontent.com/${owner}/${repo}/main/${filePath}`;
+        }
 
         let allTasks = [];
         let currentStage = 'all';
+
+        // 현재 JSON 기본 경로 (전역 변수)
+        let jsonBasePath = '';
+        let useGitHub = false;
 
         // CSV 파싱 함수
         function parseCSV(csvText) {
@@ -367,30 +389,54 @@
             return result;
         }
 
-        // 현재 JSON 기본 경로 (전역 변수)
-        let jsonBasePath = '';
-
         async function loadTasks() {
             try {
-                document.getElementById('statusText').textContent = 'JSON 로딩...';
+                document.getElementById('statusText').textContent = '데이터 로딩 중...';
 
                 // 사용자 이메일 확인
                 const userEmail = localStorage.getItem('userEmail');
 
-                // 사용자별 JSON 경로 결정 (method/json/data 폴더 사용)
+                // 관리자(wksun999@gmail.com)는 로컬 파일에서 로드
                 if (userEmail === 'wksun999@gmail.com') {
-                    // SSAL Works 관리자
                     jsonBasePath = '../method/json/data';
+                    useGitHub = false;
                 } else {
-                    // 다른 사용자: 사용자별 경로
-                    jsonBasePath = `../method/json/data/users/${encodeURIComponent(userEmail || 'anonymous')}`;
+                    // 일반 사용자: Supabase에서 github_repo_url 조회
+                    document.getElementById('statusText').textContent = 'GitHub 정보 확인 중...';
+
+                    const { data: userData, error } = await supabase
+                        .from('users')
+                        .select('github_repo_url')
+                        .eq('email', userEmail)
+                        .single();
+
+                    if (error || !userData || !userData.github_repo_url) {
+                        // GitHub URL이 없으면 "GitHub 연결 필요" 메시지
+                        allTasks = [];
+                        useGitHub = false;
+                        document.getElementById('statusDot').classList.remove('connected');
+                        document.getElementById('statusText').textContent = 'GitHub 연결 필요';
+                        document.getElementById('taskCount').textContent = '0개 Task';
+                        renderTasks();
+                        updateStats();
+                        return;
+                    }
+
+                    // GitHub raw URL을 기본 경로로 설정
+                    jsonBasePath = userData.github_repo_url;
+                    useGitHub = true;
                 }
 
-                // 1. index.json에서 Task ID 목록 로드
-                const indexPath = `${jsonBasePath}/index.json`;
-                const indexResponse = await fetch(indexPath);
+                // 1. index.json 로드
+                let indexUrl;
+                if (useGitHub) {
+                    indexUrl = githubToRawUrl(jsonBasePath, 'S0_Project-SAL-Grid_생성/method/json/data/index.json');
+                } else {
+                    indexUrl = `${jsonBasePath}/index.json`;
+                }
 
-                // index.json 없으면 → 빈 데이터로 처리
+                const indexResponse = await fetch(indexUrl);
+
                 if (!indexResponse.ok) {
                     if (indexResponse.status === 404) {
                         allTasks = [];
@@ -401,19 +447,40 @@
                         updateStats();
                         return;
                     }
-                    throw new Error('index.json 로드 실패');
+                    throw new Error(`index.json 로드 실패: ${indexResponse.status}`);
                 }
 
                 const indexData = await indexResponse.json();
                 const taskIds = indexData.task_ids || [];
 
-                // 2. 개별 Task 파일 병렬 로드 (grid_records/ 폴더)
-                const taskPromises = taskIds.map(async (taskId) => {
-                    const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
+                if (taskIds.length === 0) {
+                    allTasks = [];
+                    document.getElementById('statusDot').classList.add('connected');
+                    document.getElementById('statusText').textContent = '프로젝트 데이터 없음';
+                    document.getElementById('taskCount').textContent = '0개 Task';
+                    renderTasks();
+                    updateStats();
+                    return;
+                }
+
+                // 2. 개별 Task 파일 병렬 로드
+                document.getElementById('statusText').textContent = `Task 로딩 중... (0/${taskIds.length})`;
+
+                const taskPromises = taskIds.map(async (taskId, idx) => {
+                    let taskUrl;
+                    if (useGitHub) {
+                        taskUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/grid_records/${taskId}.json`);
+                    } else {
+                        taskUrl = `${jsonBasePath}/grid_records/${taskId}.json`;
+                    }
+
                     try {
-                        const res = await fetch(taskPath);
+                        const res = await fetch(taskUrl);
                         if (!res.ok) return null;
-                        return await res.json();
+                        const task = await res.json();
+                        document.getElementById('statusText').textContent =
+                            `Task 로딩 중... (${idx + 1}/${taskIds.length})`;
+                        return task;
                     } catch (e) {
                         console.warn(`Task ${taskId} 로드 실패:`, e);
                         return null;
@@ -423,11 +490,14 @@
                 const loadedTasks = await Promise.all(taskPromises);
                 const data = loadedTasks.filter(t => t !== null);
 
-                // 정렬 (undefined 체크)
+                // 정렬: stage → area → task_id
                 data.sort((a, b) => {
                     const stageA = a.stage || 0;
                     const stageB = b.stage || 0;
                     if (stageA !== stageB) return stageA - stageB;
+                    const areaA = a.area || '';
+                    const areaB = b.area || '';
+                    if (areaA !== areaB) return areaA.localeCompare(areaB);
                     const taskIdA = a.task_id || '';
                     const taskIdB = b.task_id || '';
                     return taskIdA.localeCompare(taskIdB);
@@ -435,12 +505,14 @@
 
                 allTasks = data;
                 document.getElementById('statusDot').classList.add('connected');
-                document.getElementById('statusText').textContent = 'JSON 로드 완료';
+                const source = useGitHub ? 'GitHub' : 'JSON';
+                document.getElementById('statusText').textContent = `${source} 로드 완료`;
                 document.getElementById('taskCount').textContent = allTasks.length + '개 Task';
 
                 renderTasks();
                 updateStats();
             } catch (err) {
+                console.error('Load error:', err);
                 document.getElementById('statusText').textContent = '오류: ' + err.message;
             }
         }
@@ -450,23 +522,56 @@
 
             // 프로젝트 데이터가 아예 없는 경우
             if (allTasks.length === 0) {
-                list.innerHTML = `
-                    <div style="text-align:center; padding:60px 20px; color:#6c757d;">
-                        <div style="font-size:36px; margin-bottom:15px;">📋</div>
-                        <h4 style="color:#343a40; margin-bottom:12px;">진행 중인 프로젝트가 아직 없습니다</h4>
-                        <p style="font-size:14px; line-height:1.6; margin-bottom:20px;">
-                            프로젝트를 등록하고 Project SAL Grid를 생성하면<br>
-                            여기에 진행 현황이 표시됩니다.
-                        </p>
-                        <p style="color:#495057; font-size:14px;">
-                            👉 메인 화면 왼쪽 사이드바에서 새로운 프로젝트를 등록하세요.
-                        </p>
-                        <p style="color:#868e96; font-size:13px; margin-top:15px;">
-                            💡 진행 프로세스에서 S0 단계인 'Project SAL Grid 생성'이 끝나면,<br>
-                            Claude Code에게 Viewer 연결을 요청하세요.
-                        </p>
-                    </div>
-                `;
+                const userEmail = localStorage.getItem('userEmail');
+                const isAdmin = userEmail === 'wksun999@gmail.com';
+
+                let messageHtml = '';
+
+                if (!isAdmin && !useGitHub) {
+                    // GitHub URL이 등록되지 않은 경우
+                    messageHtml = `
+                        <div style="text-align:center; padding:50px 20px; color:#6c757d;">
+                            <div style="font-size:36px; margin-bottom:15px;">🔗</div>
+                            <h4 style="color:#343a40; margin-bottom:12px;">GitHub 연결이 필요합니다</h4>
+                            <p style="font-size:14px; line-height:1.6; margin-bottom:20px;">
+                                프로젝트 진행 현황을 확인하려면<br>
+                                GitHub 레포지토리 연결이 필요합니다.
+                            </p>
+                            <div style="background:#f8f9fa; padding:15px; border-radius:10px; text-align:left; margin-bottom:20px;">
+                                <p style="color:#495057; font-weight:600; margin-bottom:10px; font-size:14px;">📋 연결 방법:</p>
+                                <ol style="color:#495057; margin:0; padding-left:18px; line-height:1.8; font-size:13px;">
+                                    <li>Dev Package를 GitHub에 업로드</li>
+                                    <li>Claude Code에게 "Viewer 연결해줘" 요청</li>
+                                    <li>자동으로 GitHub URL이 등록됩니다</li>
+                                </ol>
+                            </div>
+                            <p style="color:#868e96; font-size:12px;">
+                                💡 개인정보는 본인의 GitHub에만 저장되어 안전합니다.
+                            </p>
+                        </div>
+                    `;
+                } else {
+                    // GitHub 연결은 됐지만 데이터가 없는 경우
+                    messageHtml = `
+                        <div style="text-align:center; padding:50px 20px; color:#6c757d;">
+                            <div style="font-size:36px; margin-bottom:15px;">📋</div>
+                            <h4 style="color:#343a40; margin-bottom:12px;">진행 중인 프로젝트가 아직 없습니다</h4>
+                            <p style="font-size:14px; line-height:1.6; margin-bottom:20px;">
+                                프로젝트를 등록하고 Project SAL Grid를 생성하면<br>
+                                여기에 진행 현황이 표시됩니다.
+                            </p>
+                            <p style="color:#495057; font-size:14px;">
+                                👉 S0 단계인 'Project SAL Grid 생성'을 먼저 완료하세요.
+                            </p>
+                            <p style="color:#868e96; font-size:12px; margin-top:15px;">
+                                💡 Task 완료 시 자동으로 GitHub에 푸시되며,<br>
+                                이 Viewer에서 실시간으로 확인할 수 있습니다.
+                            </p>
+                        </div>
+                    `;
+                }
+
+                list.innerHTML = messageHtml;
                 return;
             }
 
@@ -500,7 +605,7 @@
             }).join('');
         }
 
-        // Modal Functions (method/json 버전 - 개별 파일에서 22개 속성 로드)
+        // Modal Functions (GitHub + JSON 지원 - 개별 파일에서 22개 속성 로드)
         async function openModal(taskId) {
             document.getElementById('modalTitle').textContent = taskId + ' 상세';
             document.getElementById('modalContent').innerHTML = '<div class="loading">개별 Task 파일 로딩 중...</div>';
@@ -509,7 +614,12 @@
 
             try {
                 // 개별 Task 파일에서 상세 정보 로드 (토큰 효율적!)
-                const taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
+                let taskPath;
+                if (useGitHub) {
+                    taskPath = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/grid_records/${taskId}.json`);
+                } else {
+                    taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
+                }
                 const response = await fetch(taskPath);
 
                 if (!response.ok) {

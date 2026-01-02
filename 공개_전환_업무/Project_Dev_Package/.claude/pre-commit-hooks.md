@@ -1,10 +1,10 @@
 # Pre-commit Hook 자동화 목록
 
-> git commit 실행 시 자동으로 실행되는 8가지 자동화
+> git commit 실행 시 자동으로 실행되는 9가지 자동화
 
 ---
 
-## 자동화 항목 (8개)
+## 자동화 항목 (9개)
 
 | # | 자동화 내용 | 소스 파일 | 출력 파일 |
 |---|------------|----------|----------|
@@ -16,6 +16,7 @@
 | 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `Production/pages/mypage/manual.html` |
 | 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `data/phase_progress.json` |
 | 8 | Stage 폴더 → 배포 폴더 자동 복사 | `S?_*/Frontend/`, `S?_*/Backend_APIs/` 등 | `pages/`, `api/` |
+| 9 | 진행률 DB 업로드 | `data/phase_progress.json` | Supabase `project_phase_progress` 테이블 |
 
 ---
 
@@ -29,12 +30,13 @@
 | 2 | `generate-briefings-js.js` | `Briefings_OrderSheets/Briefings/` |
 | 3 | `generate-service-guides-js.js` | `부수적_고유기능/콘텐츠/외부_연동_설정_Guide/` |
 
-### 루트 scripts/ 폴더 스크립트 (2개)
+### 루트 scripts/ 폴더 스크립트 (3개)
 
 | # | 스크립트 | 담당 |
 |---|---------|------|
 | 1-7 | `build-web-assets.js` | 1~7번 통합 실행 (4-7번 내장) |
 | 8 | `sync-to-root.js` | Stage → Root 자동 복사 |
+| 9 | `upload-progress.js` | 진행률 DB 업로드 (ANON_KEY 사용) |
 
 ---
 
@@ -58,18 +60,24 @@
 #!/bin/sh
 echo "🔄 Pre-commit Hook 실행 중..."
 
-# 1-6번: 웹 자산 빌드
+# 1-7번: 웹 자산 빌드 + 진행률 JSON 생성
 node scripts/build-web-assets.js
 if [ $? -ne 0 ]; then
     echo "❌ 빌드 실패!"
     exit 1
 fi
 
-# 7번: Stage → Root 동기화
+# 8번: Stage → Root 동기화
 node scripts/sync-to-root.js
 if [ $? -ne 0 ]; then
     echo "❌ 동기화 실패!"
     exit 1
+fi
+
+# 9번: 진행률 DB 업로드 (ANON_KEY 사용)
+node scripts/upload-progress.js
+if [ $? -ne 0 ]; then
+    echo "⚠️ DB 업로드 실패 (오프라인 모드로 계속)"
 fi
 
 # 변경된 파일 스테이징
@@ -77,6 +85,8 @@ git add -A
 
 echo "✅ Pre-commit Hook 완료!"
 ```
+
+**⚠️ 참고:** DB 업로드 실패 시에도 커밋은 진행됨 (오프라인 모드 지원)
 
 ---
 

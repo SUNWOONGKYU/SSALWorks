@@ -379,9 +379,13 @@ work_logs/current.md 기록
 ### 필수 설정
 
 1. **Supabase 테이블 생성**: `Development_Process_Monitor/DB_Method/create_table.sql` 실행
-2. **환경변수 설정**: `.env` 파일에 Supabase URL/KEY 추가
-3. **업로드 스크립트 배치**: `DB_Method/upload-progress.js` → `scripts/`에 복사
-4. **pre-commit hook 설정**: git commit 시 자동 업로드
+2. **환경변수 설정**: `.env` 파일에 다음 변수 추가
+   - `SUPABASE_URL`: Supabase 프로젝트 URL
+   - `SUPABASE_ANON_KEY`: Supabase ANON 키 (RLS 적용됨)
+3. **프로젝트 ID 설정**: `.ssal-project.json` 파일의 `project_id` 확인
+4. **pre-commit hook 설정**: `node scripts/setup-hooks.js` 실행 (자동 설정)
+
+**⚠️ 참고:** `scripts/upload-progress.js`는 이미 포함되어 있음 (별도 복사 불필요)
 
 **상세 가이드:** `Development_Process_Monitor/DB_Method/README.md`
 
@@ -392,12 +396,21 @@ git commit
     ↓
 build-progress.js (진행률 계산)
     ↓
-upload-progress.js (DB 업로드) ← 필수!
+upload-progress.js (DB 업로드 - ANON_KEY 사용)
     ↓
 웹에서 loadProjectProgress() (DB 조회)
     ↓
 사이드바 진행률 표시
 ```
+
+### RLS 정책 (자동 적용됨)
+
+| 권한 | 대상 | 설명 |
+|------|------|------|
+| SELECT | anon, authenticated | 누구나 조회 가능 |
+| INSERT | anon, authenticated | 누구나 등록 가능 |
+| UPDATE | anon, authenticated | 누구나 수정 가능 |
+| DELETE | authenticated만 | 로그인 필요 |
 
 ---
 
