@@ -9251,13 +9251,13 @@ ${result.answer}`;
                 overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 
                 const modal = document.createElement('div');
-                modal.style.cssText = 'background: white; border-radius: 12px; max-width: 500px; width: 90%; max-height: 70vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);';
+                modal.style.cssText = 'background: white; border-radius: 12px; max-width: 855px; width: 95%; max-height: 80vh; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3);';
                 modal.innerHTML = `
                     <div style="padding: 16px 20px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
                         <h3 style="margin: 0; font-size: 18px; color: #333;">📢 공지사항</h3>
                         <button onclick="this.closest('.notice-list-overlay').remove()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #666; padding: 4px 8px;">&times;</button>
                     </div>
-                    <div style="max-height: calc(70vh - 60px); overflow-y: auto;">
+                    <div style="max-height: calc(80vh - 60px); overflow-y: auto;">
                         ${listHtml}
                     </div>
                 `;
