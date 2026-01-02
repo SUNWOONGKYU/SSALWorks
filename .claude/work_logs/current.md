@@ -4,6 +4,58 @@
 
 ---
 
+## 2026-01-02 작업 내역
+
+### 플랫폼 개선 아젠다 #1: CORS 정책 강화 ✅
+
+**작업 목표**: CORS `Access-Control-Allow-Origin: *`를 특정 도메인으로 제한하여 보안 강화
+
+**수정 내용:**
+
+| 항목 | 변경 전 | 변경 후 |
+|------|---------|---------|
+| Allow-Origin | `*` | `https://www.ssalworks.ai.kr` |
+| Allow-Methods | `GET,POST,PUT,DELETE,OPTIONS` | `GET,POST,PUT,DELETE,PATCH,OPTIONS` |
+| Allow-Headers | (기존) | + `apikey` 추가 |
+
+**수정 파일:** `vercel.json` (lines 165-175)
+
+---
+
+### 플랫폼 개선 아젠다 #2: S5F3 Task 신설 ✅
+
+**작업 목표**: 단일 파일 비대화 해결 (코드 분할) Task를 Project SAL Grid에 등록
+
+**Task 정보:**
+
+| 항목 | 값 |
+|------|-----|
+| Task ID | S5F3 |
+| Task Name | 단일 파일 비대화 해결 (코드 분할) |
+| Stage | S5 (개발 마무리) |
+| Area | F (Frontend) |
+| Dependencies | S5F1 |
+| 상태 | Pending |
+
+**Task 특징:**
+- 7개 Phase로 분리된 단계별 작업
+- 각 Phase 완료 후 테스트하여 성공 확인 후 다음 Phase 진행
+- index.html (732KB), admin-dashboard.html (315KB) 코드 분할
+
+**업데이트된 파일 (5개 위치):**
+
+| # | 위치 | 파일 |
+|---|------|------|
+| 1 | Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/SSALWORKS_TASK_PLAN.md` (v4.6 → v4.7) |
+| 2 | Task Instruction | `sal-grid/task-instructions/S5F3_instruction.md` (신규) |
+| 3 | Verification Instruction | `sal-grid/verification-instructions/S5F3_verification.md` (신규) |
+| 4 | Supabase DB | `project_sal_grid` 테이블 INSERT (201 Created) |
+| 5 | CSV 파일 | `method/csv/data/in_progress/sal_grid.csv` (행 추가) |
+
+**Task 수 변경:** 65 → 66 tasks
+
+---
+
 ## 2025-12-31 작업 내역
 
 ### 예시 프로젝트 연결하기 오류수정 ✅
