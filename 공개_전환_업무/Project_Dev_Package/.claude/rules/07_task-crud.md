@@ -99,13 +99,29 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 
 **저장 위치:** `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md`
 
-### Step 5: JSON 파일 업데이트
+### Step 5: JSON 파일 업데이트 (개별 파일 방식)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+**JSON 폴더 위치:**
+```
+S0_Project-SAL-Grid_생성/method/json/data/
+├── index.json             ← task_ids 배열에 새 Task ID 추가
+└── grid_records/          ← 새 Task JSON 파일 생성
+    └── {TaskID}.json
+```
 
 #### 시나리오 A: 신규 Task (아직 작업 안 함)
 
-JSON의 tasks 배열에 새 객체 추가:
+**1단계: index.json에 task_id 추가**
+```json
+{
+  "project_id": "프로젝트ID",
+  "project_name": "프로젝트명",
+  "total_tasks": 67,  // ← 1 증가
+  "task_ids": ["S1BI1", ..., "S4F5"]  // ← 새 Task ID 추가
+}
+```
+
+**2단계: grid_records/S4F5.json 파일 생성**
 ```json
 {
     "task_id": "S4F5",
@@ -114,13 +130,15 @@ JSON의 tasks 배열에 새 객체 추가:
     "area": "F",
     "task_status": "Pending",
     "task_progress": 0,
-    "verification_status": "Not Verified",
-    ...
+    "verification_status": "Not Verified"
 }
 ```
 
 #### 시나리오 B: 완료된 Task (이미 작업 완료)
 
+**1단계: index.json에 task_id 추가** (동일)
+
+**2단계: grid_records/S4F5.json 파일 생성**
 ```json
 {
     "task_id": "S4F5",
@@ -130,8 +148,7 @@ JSON의 tasks 배열에 새 객체 추가:
     "task_status": "Completed",
     "task_progress": 100,
     "verification_status": "Verified",
-    "generated_files": "파일1, 파일2",
-    ...
+    "generated_files": "파일1, 파일2"
 }
 ```
 
@@ -162,7 +179,8 @@ JSON의 tasks 배열에 새 객체 추가:
 1. TASK_PLAN.md
 2. task-instructions/{TaskID}_instruction.md
 3. verification-instructions/{TaskID}_verification.md
-4. project_sal_grid.json
+4. index.json (task_ids 배열)
+5. grid_records/{TaskID}.json (새 파일)
 ```
 
 ### Step 7: Git 커밋 & 푸시
@@ -189,11 +207,16 @@ rm S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
 rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
 ```
 
-### Step 3: JSON 파일에서 삭제
+### Step 3: JSON 파일에서 삭제 (개별 파일 방식)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+**1단계: index.json에서 task_id 제거**
+- `task_ids` 배열에서 해당 Task ID 삭제
+- `total_tasks` 감소
 
-tasks 배열에서 해당 task_id 객체 삭제
+**2단계: grid_records/{TaskID}.json 파일 삭제**
+```bash
+rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
+```
 
 ### Step 4: 작업 로그 업데이트 & Git 커밋
 
@@ -213,11 +236,11 @@ tasks 배열에서 해당 task_id 객체 삭제
 2. Task Instruction 파일 수정
 3. Verification Instruction 파일 수정
 
-### Step 5: JSON 파일 업데이트
+### Step 5: JSON 파일 업데이트 (개별 파일 방식)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+**파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
 
-해당 task_id 객체의 필드 수정
+해당 Task의 JSON 파일을 직접 수정
 
 ### Step 6-7: 작업 로그 & Git 커밋
 
@@ -225,11 +248,11 @@ tasks 배열에서 해당 task_id 객체 삭제
 
 ## Task 상태 업데이트 (작업/검증 완료 시)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/in_progress/project_sal_grid.json`
+**파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
 
 ### 작업 완료 시 (Executed)
 
-JSON 파일에서 해당 task_id 객체 수정:
+해당 Task의 JSON 파일 직접 수정:
 ```json
 {
     "task_status": "Executed",

@@ -391,11 +391,17 @@
 
         async function loadTasks() {
             try {
-                document.getElementById('statusText').textContent = '데이터 로딩 중...';
+                document.getElementById('statusText').textContent = '로그인 확인 중...';
 
-                // 사용자 이메일 확인
-                const userEmail = localStorage.getItem('userEmail');
-                console.log('User email:', userEmail);
+                // Supabase 세션에서 직접 사용자 이메일 가져오기
+                const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+                if (sessionError) {
+                    console.error('Session error:', sessionError);
+                }
+
+                const userEmail = session?.user?.email;
+                console.log('User email from session:', userEmail);
 
                 // 이메일이 없으면 로그인 필요 안내
                 if (!userEmail) {
@@ -406,7 +412,7 @@
                     document.getElementById('taskCount').textContent = '0개 Task';
                     renderTasks();
                     updateStats();
-                    console.log('No user email in localStorage');
+                    console.log('No user session - login required');
                     return;
                 }
 
