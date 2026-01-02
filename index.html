@@ -2919,9 +2919,11 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 }
 
                 // 진행률 적용
+                console.log('📊 DB에서 받은 진행률 데이터:', JSON.stringify(data));
                 data.forEach(phase => {
                     const progress = phase.progress || 0;
                     const code = phase.phase_code;
+                    console.log(`📊 처리 중: ${code} = ${progress}%`);
 
                     if (code === 'P0' || code === 'S0') {
                         updateSpecialProgress(code, progress);
@@ -2941,10 +2943,13 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 특정 Stage 진행률 업데이트
         function updateStageProgress(stageId, progress) {
+            console.log(`📊 updateStageProgress 호출: ${stageId} = ${progress}%`);
             const processItems = document.querySelectorAll('.process-item');
+            let found = false;
             processItems.forEach(item => {
                 const header = item.querySelector('.process-icon');
                 if (header && header.textContent.includes(stageId)) {
+                    found = true;
                     const progressFill = item.querySelector('.process-progress-fill');
                     const percentText = item.querySelector('.process-percent');
                     const majorDiv = item.querySelector('.process-major, .process-special-major');
@@ -2959,8 +2964,12 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                             majorDiv.classList.remove('completed');
                         }
                     }
+                    console.log(`✅ ${stageId} 진행률 UI 업데이트 완료: ${progress}%`);
                 }
             });
+            if (!found) {
+                console.warn(`⚠️ ${stageId}에 해당하는 .process-icon 요소를 찾지 못함`);
+            }
         }
 
         // 모든 진행 프로세스 진행률을 0%로 초기화 (새 사용자용)
