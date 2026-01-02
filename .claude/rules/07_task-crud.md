@@ -1,6 +1,6 @@
 # Task 추가/삭제/수정 프로세스
 
-> **두 가지 방식 지원:** DB Method (Supabase) | CSV Method (JSON)
+> **두 가지 방식 지원:** DB Method (Supabase) | JSON Method (JSON)
 >
 > Task 추가, 삭제, 수정 시 반드시 아래 **5개 위치**를 모두 업데이트해야 함
 
@@ -11,7 +11,7 @@
 | 방식 | 사용 대상 | 데이터 저장 | 도구 | Stage Gate 위치 |
 |------|----------|------------|------|----------------|
 | **DB Method** | SSAL Works (내부) | Supabase DB | REST API | `Database_Method/stage-gates/` |
-| **CSV Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `CSV_Method/stage-gates/` |
+| **JSON Method** | 일반 사용자 | JSON 파일 | Claude Code Edit | `JSON_Method/stage-gates/` |
 
 **⚠️ SSAL Works는 두 방식을 동시에 사용 (내부 관리용 DB + 사용자 배포용 CSV)**
 
@@ -20,15 +20,15 @@
 | 상황 | 선택 | 이유 |
 |------|------|------|
 | SSAL Works 내부 Task 관리 | DB Method | 실시간 동기화, 다중 사용자 |
-| 사용자에게 배포할 템플릿 | CSV Method | Supabase 없이 작동 |
-| 외부 이용자 프로젝트 | CSV Method | 독립 실행 가능 |
+| 사용자에게 배포할 템플릿 | JSON Method | Supabase 없이 작동 |
+| 외부 이용자 프로젝트 | JSON Method | 독립 실행 가능 |
 | 두 방식 동시 적용 | **둘 다** | SSAL Works 내부 운영 |
 
 ---
 
 ## 📋 업데이트 필수 위치 (5개)
 
-| # | 위치 | DB Method | CSV Method |
+| # | 위치 | DB Method | JSON Method |
 |---|------|-----------|------------|
 | 1 | SSALWORKS_TASK_PLAN.md | ✅ 동일 | ✅ 동일 |
 | 2 | Task Instruction 파일 | ✅ 동일 | ✅ 동일 |
@@ -240,13 +240,13 @@ const { data, error } = await supabase
 
 ---
 
-#### 📌 Step 5B: CSV Method (JSON 파일)
+#### 📌 Step 5B: JSON Method (JSON 파일)
 
 > **적용 대상:** 일반 사용자, Supabase 없는 프로젝트
 
 **JSON 파일 위치 (폴더 구조):**
 ```
-S0_Project-SAL-Grid_생성/CSV_Method/data/
+S0_Project-SAL-Grid_생성/JSON_Method/data/
 ├── in_progress/                ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
 │   └── project_sal_grid.json
 └── completed/                  ← 완료된 프로젝트 보관
@@ -382,14 +382,14 @@ const { error } = await supabase
     .eq('task_id', 'S4F5');
 ```
 
-#### 📌 Step 3B: CSV Method (JSON 파일)
+#### 📌 Step 3B: JSON Method (JSON 파일)
 
 ```bash
 # Claude Code의 Edit 도구로 JSON 파일에서 해당 Task 객체 삭제
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 제거
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json`
 
 ### Step 4: 작업 로그 업데이트
 
@@ -482,14 +482,14 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 
 **주의:** 한글이 포함된 JSON은 파일로 저장 후 `@파일명` 방식 사용
 
-#### 📌 Step 5B: CSV Method (JSON 파일)
+#### 📌 Step 5B: JSON Method (JSON 파일)
 
 ```bash
 # Claude Code의 Edit 도구로 JSON 파일에서 해당 Task 필드 수정
 # project_sal_grid.json의 tasks 배열에서 해당 task_id 항목 찾아 수정
 ```
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json`
 
 **수정 예시:**
 ```json
@@ -595,9 +595,9 @@ console.log(data);
 
 ---
 
-### 📌 CSV Method (JSON 파일)
+### 📌 JSON Method (JSON 파일)
 
-**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json`
+**JSON 파일 위치:** `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json`
 
 #### 작업 완료 시 (Executed)
 
@@ -639,7 +639,7 @@ console.log(data);
 ### 신규 추가 시
 
 - [ ] **시나리오 확인**: 신규(Pending) vs 완료됨(Completed)?
-- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
+- [ ] **방식 확인**: DB Method / JSON Method / 둘 다?
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 생성
 - [ ] verification-instructions/{TaskID}_verification.md 생성
@@ -647,7 +647,7 @@ console.log(data);
   - [ ] `task_status` 설정 (Pending 또는 Completed)
   - [ ] `verification_status` 설정 (Not Verified 또는 Verified)
   - [ ] `task_progress` 설정 (0 또는 100)
-- [ ] **[CSV Method]** `project_sal_grid.json`에 Task 추가
+- [ ] **[JSON Method]** `project_sal_grid.json`에 Task 추가
   - [ ] tasks 배열에 새 Task 객체 추가
   - [ ] 동일한 상태값 설정
 - [ ] .claude/work_logs/current.md 작업 로그 기록
@@ -656,34 +656,34 @@ console.log(data);
 
 ### 삭제 시
 
-- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
+- [ ] **방식 확인**: DB Method / JSON Method / 둘 다?
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 제거 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 삭제
 - [ ] verification-instructions/{TaskID}_verification.md 삭제
 - [ ] **[DB Method]** Supabase `project_sal_grid` 테이블에서 DELETE
-- [ ] **[CSV Method]** `project_sal_grid.json`에서 Task 제거
+- [ ] **[JSON Method]** `project_sal_grid.json`에서 Task 제거
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
 ### 수정 시
 
-- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
+- [ ] **방식 확인**: DB Method / JSON Method / 둘 다?
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (해당 행 수정 + 의존성 다이어그램 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 내용 수정
 - [ ] verification-instructions/{TaskID}_verification.md 내용 수정
 - [ ] **[DB Method]** Supabase `project_sal_grid` 테이블 PATCH
-- [ ] **[CSV Method]** `project_sal_grid.json`에서 해당 Task 필드 수정
+- [ ] **[JSON Method]** `project_sal_grid.json`에서 해당 Task 필드 수정
 - [ ] .claude/work_logs/current.md 작업 로그 기록
 - [ ] Git 커밋 & 푸시
 
 ### 상태 업데이트 시 (작업/검증 완료)
 
-- [ ] **방식 확인**: DB Method / CSV Method / 둘 다?
+- [ ] **방식 확인**: DB Method / JSON Method / 둘 다?
 - [ ] 작업 완료 시: `task_status` = 'Executed', `task_progress` = 100
 - [ ] 검증 완료 시: `verification_status` = 'Verified'
 - [ ] 최종 완료 시: `task_status` = 'Completed' (Verified 후에만!)
 - [ ] **[DB Method]** DB 조회로 상태 확인
-- [ ] **[CSV Method]** JSON 파일에서 상태 확인
+- [ ] **[JSON Method]** JSON 파일에서 상태 확인
 
 ---
 
@@ -698,7 +698,7 @@ console.log(data);
 7. **⚠️ 상태 전이 규칙 준수**: Completed는 반드시 Verified 후에만 설정 가능
 8. **⚠️ verification_status 필수**: INSERT 시 반드시 verification_status 명시적 설정
 9. **⚠️ SSAL Works는 DB + CSV 둘 다**: 두 방식 동시 적용 시 반드시 양쪽 모두 업데이트
-10. **⚠️ Stage Gate 경로 구분**: DB Method와 CSV Method의 Stage Gate 저장 위치가 다름
+10. **⚠️ Stage Gate 경로 구분**: DB Method와 JSON Method의 Stage Gate 저장 위치가 다름
 11. **⚠️ CSV 파일 위치**: 반드시 `in_progress/` 폴더에서 작업 (Viewer가 해당 폴더만 읽음)
 12. **⚠️ 프로젝트 완료 시**: `in_progress/` → `completed/` 폴더로 이동 후 새 프로젝트 시작
 
@@ -724,20 +724,20 @@ console.log(data);
 | Stage Gates | `S0_Project-SAL-Grid_생성/Database_Method/stage-gates/` |
 | .env 파일 | `P3_프로토타입_제작/Database/.env` |
 
-### CSV Method 전용 파일
+### JSON Method 전용 파일
 
 | 항목 | 위치 |
 |------|------|
-| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/CSV_Method/data/in_progress/project_sal_grid.json` |
-| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/CSV_Method/data/completed/` |
-| Stage Gates | `S0_Project-SAL-Grid_생성/CSV_Method/stage-gates/` |
-| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/CSV_Method/scripts/` |
-| JSON 템플릿 | `S0_Project-SAL-Grid_생성/CSV_Method/templates/` |
+| JSON 데이터 (진행 중) | `S0_Project-SAL-Grid_생성/JSON_Method/data/in_progress/project_sal_grid.json` |
+| JSON 데이터 (완료됨) | `S0_Project-SAL-Grid_생성/JSON_Method/data/completed/` |
+| Stage Gates | `S0_Project-SAL-Grid_생성/JSON_Method/stage-gates/` |
+| JSON→CSV 스크립트 | `S0_Project-SAL-Grid_생성/JSON_Method/scripts/` |
+| JSON 템플릿 | `S0_Project-SAL-Grid_생성/JSON_Method/templates/` |
 
-### CSV Method 폴더 구조 ⭐
+### JSON Method 폴더 구조 ⭐
 
 ```
-S0_Project-SAL-Grid_생성/CSV_Method/data/
+S0_Project-SAL-Grid_생성/JSON_Method/data/
 ├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
 │   └── project_sal_grid.json
 └── completed/          ← 완료된 프로젝트 보관

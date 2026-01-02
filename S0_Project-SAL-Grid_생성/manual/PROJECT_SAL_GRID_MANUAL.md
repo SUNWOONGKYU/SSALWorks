@@ -638,8 +638,8 @@ Viewer가 사용자 이메일을 기준으로 JSON 경로를 결정:
 
 | 사용자 | JSON 경로 | 결과 |
 |--------|----------|------|
-| `wksun999@gmail.com` | `../CSV_Method/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 |
-| 그 외 사용자 | `../CSV_Method/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 |
+| `wksun999@gmail.com` | `../JSON_Method/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 |
+| 그 외 사용자 | `../JSON_Method/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 |
 | 파일 없음 (404) | - | "프로젝트 없음" 메시지 |
 
 ### 코드 로직
@@ -648,9 +648,9 @@ Viewer가 사용자 이메일을 기준으로 JSON 경로를 결정:
 const userEmail = localStorage.getItem('userEmail');
 
 if (userEmail === 'wksun999@gmail.com') {
-    jsonPath = '../CSV_Method/data/in_progress/project_sal_grid.json';
+    jsonPath = '../JSON_Method/data/in_progress/project_sal_grid.json';
 } else {
-    jsonPath = `../CSV_Method/data/users/${encodeURIComponent(userEmail)}/project_sal_grid.json`;
+    jsonPath = `../JSON_Method/data/users/${encodeURIComponent(userEmail)}/project_sal_grid.json`;
 }
 ```
 
@@ -676,8 +676,8 @@ JSON 파일이 없을 때 (404 응답) 표시:
 |------|------|
 | 데스크톱 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_csv.html` |
 | 모바일 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_csv.html` |
-| JSON 데이터 폴더 | `S0_Project-SAL-Grid_생성/CSV_Method/data/` |
-| 사용자별 JSON 폴더 | `S0_Project-SAL-Grid_생성/CSV_Method/data/users/{email}/` |
+| JSON 데이터 폴더 | `S0_Project-SAL-Grid_생성/JSON_Method/data/` |
+| 사용자별 JSON 폴더 | `S0_Project-SAL-Grid_생성/JSON_Method/data/users/{email}/` |
 
 ---
 

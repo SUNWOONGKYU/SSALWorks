@@ -5469,3 +5469,27 @@ Dev Package 4개 Task 완료 후 5개 서브에이전트를 활용한 종합 테
 `Human_ClaudeCode_Bridge/Reports/comprehensive_testing_issues_fix_2026-01-02.json`
 
 ---
+
+### 규칙 파일 경로 업데이트 ✅
+
+**작업 목표**: 규칙 파일과 실제 구현 간의 경로/파일형식 불일치 해결
+
+**문제점:**
+- 규칙 파일에는 이전 경로(`method/csv/`)와 CSV 파일 형식이 명시됨
+- 실제 구현은 `CSV_Method/` 폴더와 JSON 파일 형식 사용
+
+**수정 내용:**
+
+| 파일 | 변경 전 | 변경 후 |
+|------|---------|---------|
+| 04_grid-writing-supabase.md 섹션 9 | `method/csv/data/sal_grid.csv` | `CSV_Method/data/in_progress/project_sal_grid.json` |
+| CLAUDE.md DB vs CSV 섹션 | `method/csv/data/` + CSV | `CSV_Method/data/` + JSON |
+
+**핵심 변경:**
+- 파일 형식: CSV → JSON (JSON이 Source, CSV는 파생)
+- 폴더 경로: `method/csv/` → `CSV_Method/`
+- 파일명: `sal_grid.csv` → `project_sal_grid.json`
+
+**커밋:** `43f1f95 - fix: 규칙 파일 경로를 실제 구현에 맞게 업데이트`
+
+---

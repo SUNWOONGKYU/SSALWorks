@@ -50,8 +50,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 │  viewer_csv.html (JSON 파일)                                │
 │  → 해당 이용자의 "진행 중인 프로젝트" 데이터                   │
 │  → 이용자마다 다른 내용                                       │
-│  → 경로: CSV_Method/data/in_progress/project_sal_grid.json  │
-│  → 완료된 프로젝트: CSV_Method/data/completed/ 보관          │
+│  → 경로: JSON_Method/data/in_progress/project_sal_grid.json  │
+│  → 완료된 프로젝트: JSON_Method/data/completed/ 보관          │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -77,24 +77,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 | 사용자 | JSON 경로 | 결과 |
 |--------|----------|------|
-| `wksun999@gmail.com` | `../CSV_Method/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 표시 |
-| 그 외 모든 사용자 | `../CSV_Method/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 데이터 |
+| `wksun999@gmail.com` | `../JSON_Method/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 표시 |
+| 그 외 모든 사용자 | `../JSON_Method/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 데이터 |
 | 파일 없음 (404) | - | "프로젝트 없음" 안내 메시지 |
 
 ```javascript
 // viewer_csv.html 내부 로직
 if (userEmail === 'wksun999@gmail.com') {
     // SSAL Works 관리자: in_progress 폴더에서 진행 중인 프로젝트 로드
-    jsonPath = '../CSV_Method/data/in_progress/project_sal_grid.json';  // SSAL Works
+    jsonPath = '../JSON_Method/data/in_progress/project_sal_grid.json';  // SSAL Works
 } else {
-    jsonPath = `../CSV_Method/data/users/${userEmail}/project_sal_grid.json`;  // 개인
+    jsonPath = `../JSON_Method/data/users/${userEmail}/project_sal_grid.json`;  // 개인
 }
 ```
 
 ### JSON 폴더 구조 ⭐
 
 ```
-S0_Project-SAL-Grid_생성/CSV_Method/data/
+S0_Project-SAL-Grid_생성/JSON_Method/data/
 ├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
 │   └── project_sal_grid.json
 ├── completed/          ← 완료된 프로젝트 보관
@@ -129,7 +129,7 @@ S0_Project-SAL-Grid_생성/CSV_Method/data/
 
 - **DB 데이터 수정** = SSAL Works 내부 관리용 (일반 이용자 해당 없음)
 - **JSON 데이터 수정** = 이용자 본인 프로젝트 진행 상황 업데이트
-- **사용자별 JSON 폴더** = `CSV_Method/data/users/{email}/` (S0 완료 후 생성)
+- **사용자별 JSON 폴더** = `JSON_Method/data/users/{email}/` (S0 완료 후 생성)
 
 ---
 

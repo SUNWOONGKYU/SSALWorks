@@ -1,0 +1,667 @@
+{
+  "project_id": "SSALWORKS",
+  "project_name": "SSAL Works",
+  "created_at": "2026-01-02T07:01:04.042Z",
+  "updated_at": "2026-01-02T10:07:48.353Z",
+  "total_tasks": 66,
+  "tasks": [
+    {
+      "task_id": "S1BI1",
+      "task_name": "환경변수 설정",
+      "stage": 1,
+      "area": "BI",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1F1"
+    },
+    {
+      "task_id": "S1BI2",
+      "task_name": "Sentry 에러 트래킹 설정",
+      "stage": 1,
+      "area": "BI",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1BI1"
+    },
+    {
+      "task_id": "S1D1",
+      "task_name": "DB 스키마 확정",
+      "stage": 1,
+      "area": "D",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "-"
+    },
+    {
+      "task_id": "S1F1",
+      "task_name": "Vercel 프로젝트 설정",
+      "stage": 1,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "-"
+    },
+    {
+      "task_id": "S1F2",
+      "task_name": "vercel.json 설정",
+      "stage": 1,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1F1"
+    },
+    {
+      "task_id": "S1M1",
+      "task_name": "개발 가이드",
+      "stage": 1,
+      "area": "M",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "-"
+    },
+    {
+      "task_id": "S1O1",
+      "task_name": "DNS 설정 및 도메인 연결",
+      "stage": 1,
+      "area": "O",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "-"
+    },
+    {
+      "task_id": "S1S1",
+      "task_name": "Supabase Auth Provider 설정",
+      "stage": 1,
+      "area": "S",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1BI1"
+    },
+    {
+      "task_id": "S1T1",
+      "task_name": "테스트 환경 설정",
+      "stage": 1,
+      "area": "T",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1F1"
+    },
+    {
+      "task_id": "S2BA1",
+      "task_name": "Google OAuth Serverless API",
+      "stage": 2,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1S1"
+    },
+    {
+      "task_id": "S2BA2",
+      "task_name": "이메일 발송 API (Resend)",
+      "stage": 2,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BI1"
+    },
+    {
+      "task_id": "S2BA3",
+      "task_name": "구독 관리 API",
+      "stage": 2,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1D1"
+    },
+    {
+      "task_id": "S2BA4",
+      "task_name": "회원가입 API",
+      "stage": 2,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1S1"
+    },
+    {
+      "task_id": "S2BA5",
+      "task_name": "프로젝트 관리 API",
+      "stage": 2,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1D1"
+    },
+    {
+      "task_id": "S2BI1",
+      "task_name": "Resend 이메일 서비스 설정",
+      "stage": 2,
+      "area": "BI",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1BI1"
+    },
+    {
+      "task_id": "S2BI2",
+      "task_name": "에러 핸들링 시스템",
+      "stage": 2,
+      "area": "BI",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "-"
+    },
+    {
+      "task_id": "S2BI3",
+      "task_name": "이메일 도메인 인증 (Resend)",
+      "stage": 2,
+      "area": "BI",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BI1"
+    },
+    {
+      "task_id": "S2C1",
+      "task_name": "Books 콘텐츠 업로드",
+      "stage": 2,
+      "area": "C",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1D1"
+    },
+    {
+      "task_id": "S2D1",
+      "task_name": "인덱스 최��화",
+      "stage": 2,
+      "area": "D",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1D1"
+    },
+    {
+      "task_id": "S2F1",
+      "task_name": "Google 소셜 로그인 UI",
+      "stage": 2,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA1"
+    },
+    {
+      "task_id": "S2F2",
+      "task_name": "비밀번호 재설정 UI",
+      "stage": 2,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA2"
+    },
+    {
+      "task_id": "S2F3",
+      "task_name": "회원��입 UI",
+      "stage": 2,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA4"
+    },
+    {
+      "task_id": "S2M1",
+      "task_name": "API 문서 v1",
+      "stage": 2,
+      "area": "M",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA1, S2BA2, S2BA3"
+    },
+    {
+      "task_id": "S2M2",
+      "task_name": "Project Registration Process Documentation",
+      "stage": 2,
+      "area": "M",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified"
+    },
+    {
+      "task_id": "S2S1",
+      "task_name": "인증 미들웨어",
+      "stage": 2,
+      "area": "S",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA1"
+    },
+    {
+      "task_id": "S2T1",
+      "task_name": "인증 API 테스트",
+      "stage": 2,
+      "area": "T",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA1, S2BA2"
+    },
+    {
+      "task_id": "S3BA1",
+      "task_name": "AI Q&A API",
+      "stage": 3,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S3BI1"
+    },
+    {
+      "task_id": "S3BA2",
+      "task_name": "AI 가격 조회 API",
+      "stage": 3,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S3BI1"
+    },
+    {
+      "task_id": "S3BI1",
+      "task_name": "AI API 클라이언트 통합",
+      "stage": 3,
+      "area": "BI",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "-"
+    },
+    {
+      "task_id": "S3E1",
+      "task_name": "AI API 키 설정",
+      "stage": 3,
+      "area": "E",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1BI1"
+    },
+    {
+      "task_id": "S3F1",
+      "task_name": "AI Q&A 인터페이스",
+      "stage": 3,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S3BA1"
+    },
+    {
+      "task_id": "S3S1",
+      "task_name": "AI 서비스 구독 상태 확인 (Health Check)",
+      "stage": 3,
+      "area": "S",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2S1"
+    },
+    {
+      "task_id": "S4BA1",
+      "task_name": "결제 API (토스 페이먼트)",
+      "stage": 4,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA3"
+    },
+    {
+      "task_id": "S4BA2",
+      "task_name": "결제 웹훅 API",
+      "stage": 4,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4BA1"
+    },
+    {
+      "task_id": "S4BA3",
+      "task_name": "토스 페이먼트 결제 API",
+      "stage": 4,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4BA2, S4D1"
+    },
+    {
+      "task_id": "S4BA4",
+      "task_name": "크레딧 충전 API",
+      "stage": 4,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4D1"
+    },
+    {
+      "task_id": "S4BA5",
+      "task_name": "설치비 입금 확인 API",
+      "stage": 4,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4D1"
+    },
+    {
+      "task_id": "S4BA6",
+      "task_name": "결제/알림 이메일 템플릿",
+      "stage": 4,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA2, S4BA1, S4BA2"
+    },
+    {
+      "task_id": "S4BI1",
+      "task_name": "SAL Grid JSON/CSV 빌드 시스템",
+      "stage": 4,
+      "area": "BI",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1BI1"
+    },
+    {
+      "task_id": "S4D1",
+      "task_name": "결제/크레딧 테이블",
+      "stage": 4,
+      "area": "D",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1D1"
+    },
+    {
+      "task_id": "S4D2",
+      "task_name": "user_notifications 테이블 생성",
+      "stage": 4,
+      "area": "D",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1D1"
+    },
+    {
+      "task_id": "S4F1",
+      "task_name": "관리자 대시보드 강화",
+      "stage": 4,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4BA2"
+    },
+    {
+      "task_id": "S4F3",
+      "task_name": "크레딧 충전 UI",
+      "stage": 4,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4BA4"
+    },
+    {
+      "task_id": "S4F4",
+      "task_name": "결제 수단 등록 UI",
+      "stage": 4,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4BA3"
+    },
+    {
+      "task_id": "S4F5",
+      "task_name": "프로젝트 등록 API 연동",
+      "stage": 4,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2BA5"
+    },
+    {
+      "task_id": "S4F6",
+      "task_name": "마이페이지 기능 (알림/문의)",
+      "stage": 4,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4D2"
+    },
+    {
+      "task_id": "S4F8",
+      "task_name": "SAL Grid Viewer UI 구현",
+      "stage": 4,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4F5"
+    },
+    {
+      "task_id": "S4M1",
+      "task_name": "관리자 가이드",
+      "stage": 4,
+      "area": "M",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4F1"
+    },
+    {
+      "task_id": "S4O1",
+      "task_name": "Cron Jobs 설정",
+      "stage": 4,
+      "area": "O",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S1F2"
+    },
+    {
+      "task_id": "S4S1",
+      "task_name": "관리자 권한 체크",
+      "stage": 4,
+      "area": "S",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S2S1"
+    },
+    {
+      "task_id": "S4S2",
+      "task_name": "Viewer 접근 보안 구현",
+      "stage": 4,
+      "area": "S",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4F8, S2S1"
+    },
+    {
+      "task_id": "S4T1",
+      "task_name": "E2E 테스트",
+      "stage": 4,
+      "area": "T",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4F1"
+    },
+    {
+      "task_id": "S4T2",
+      "task_name": "API 통합 테스트",
+      "stage": 4,
+      "area": "T",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4BA2"
+    },
+    {
+      "task_id": "S5BA1",
+      "task_name": "API 버그 수정 및 최적화",
+      "stage": 5,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5O1"
+    },
+    {
+      "task_id": "S5BA2",
+      "task_name": "예시 프로젝트 서약서 시스템",
+      "stage": 5,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified"
+    },
+    {
+      "task_id": "S5BA3",
+      "task_name": "크레딧 차감 기능 구현",
+      "stage": 5,
+      "area": "BA",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S3BA1, S4BA4"
+    },
+    {
+      "task_id": "S5D1",
+      "task_name": "Supabase 백업 설정 확인",
+      "stage": 5,
+      "area": "D",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5O1"
+    },
+    {
+      "task_id": "S5F1",
+      "task_name": "버그 수정 (프론트엔드)",
+      "stage": 5,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5O1 (배포상황 최종 검증)"
+    },
+    {
+      "task_id": "S5F2",
+      "task_name": "프로젝트 완료 처리 및 완료 프로젝트 관리",
+      "stage": 5,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4F5"
+    },
+    {
+      "task_id": "S5F3",
+      "task_name": "단일 파일 ���대화 해결 (코드 분할)",
+      "stage": 5,
+      "area": "F",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5F1"
+    },
+    {
+      "task_id": "S5O1",
+      "task_name": "배포상황 최종 검증",
+      "stage": 5,
+      "area": "O",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S4T2"
+    },
+    {
+      "task_id": "S5S1",
+      "task_name": "보안 점검 및 패치",
+      "stage": 5,
+      "area": "S",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5O1"
+    },
+    {
+      "task_id": "S5S2",
+      "task_name": "API Rate Limiting 구현",
+      "stage": 5,
+      "area": "S",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5O1"
+    },
+    {
+      "task_id": "S5T1",
+      "task_name": "프로덕션 완성도 점검",
+      "stage": 5,
+      "area": "T",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5O1 (배포상황 최종 검증)"
+    },
+    {
+      "task_id": "S5U1",
+      "task_name": "디자인 QA 및 일관성 점검",
+      "stage": 5,
+      "area": "U",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5O1"
+    },
+    {
+      "task_id": "S5U2",
+      "task_name": "반응형 디자인 최적화",
+      "stage": 5,
+      "area": "U",
+      "task_status": "Completed",
+      "task_progress": 100,
+      "verification_status": "Verified",
+      "dependencies": "S5U1"
+    }
+  ]
+}
