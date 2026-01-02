@@ -47,11 +47,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
-│  viewer_json.html (JSON 파일)                                │
+│  viewer_json.html (JSON 파일 - 개별 파일 구조)                │
 │  → 해당 이용자의 "진행 중인 프로젝트" 데이터                   │
 │  → 이용자마다 다른 내용                                       │
-│  → 경로: method/json/data/in_progress/project_sal_grid.json  │
-│  → 완료된 프로젝트: method/json/data/completed/ 보관          │
+│  → 경로: method/json/data/index.json + grid_records/*.json   │
+│  → 개별 Task 파일: grid_records/S1BI1.json, S2F1.json 등     │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -71,43 +71,49 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 → 서로 다름
 ```
 
-### 사용자별 JSON 경로 분기 로직 ⭐
+### JSON 데이터 구조 ⭐ (개별 파일 방식)
 
-> **viewer_json.html이 사용자 이메일을 기준으로 데이터 경로를 결정함**
+> **viewer_json.html은 index.json + grid_records/ 구조를 사용**
 
-| 사용자 | JSON 경로 | 결과 |
-|--------|----------|------|
-| `wksun999@gmail.com` | `../method/json/data/in_progress/project_sal_grid.json` | SSAL Works 데이터 표시 |
-| 그 외 모든 사용자 | `../method/json/data/users/{email}/project_sal_grid.json` | 개인 프로젝트 데이터 |
-| 파일 없음 (404) | - | "프로젝트 없음" 안내 메시지 |
+**데이터 구조:**
+```
+S0_Project-SAL-Grid_생성/method/json/data/
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일 (66개)
+    ├── S1BI1.json
+    ├── S1BI2.json
+    ├── S2F1.json
+    └── ... (Task ID별 파일)
+```
 
-```javascript
-// viewer_json.html 내부 로직
-if (userEmail === 'wksun999@gmail.com') {
-    // SSAL Works 관리자: in_progress 폴더에서 진행 중인 프로젝트 로드
-    jsonPath = '../method/json/data/in_progress/project_sal_grid.json';  // SSAL Works
-} else {
-    jsonPath = `../method/json/data/users/${userEmail}/project_sal_grid.json`;  // 개인
+**index.json 구조:**
+```json
+{
+  "project_id": "SSALWORKS",
+  "project_name": "SSAL Works",
+  "total_tasks": 66,
+  "task_ids": ["S1BI1", "S1BI2", "S1D1", ...]
 }
 ```
 
-### JSON 폴더 구조 ⭐
-
+**개별 Task JSON (grid_records/S1BI1.json):**
+```json
+{
+  "task_id": "S1BI1",
+  "task_name": "Task 이름",
+  "stage": 1,
+  "area": "BI",
+  "task_status": "Completed",
+  "task_progress": 100,
+  "verification_status": "Verified",
+  ...
+}
 ```
-S0_Project-SAL-Grid_생성/method/json/data/
-├── in_progress/        ← Viewer가 읽는 폴더 (진행 중인 프로젝트)
-│   └── project_sal_grid.json
-├── completed/          ← 완료된 프로젝트 보관
-│   └── {project_name}_sal_grid.json
-└── users/              ← 일반 사용자별 데이터
-    └── {email}/
-        └── project_sal_grid.json
-```
 
-**프로젝트 완료 시:**
-1. `in_progress/project_sal_grid.json` → `completed/{project_name}_sal_grid.json` 이동
-2. 새 프로젝트 시작 시 `in_progress/`에 새 JSON 생성
-3. Viewer는 항상 `in_progress/` 폴더만 읽음
+**Viewer 로딩 순서:**
+1. `index.json` 로드 → `task_ids` 배열 확인
+2. 각 `task_id`에 대해 `grid_records/{task_id}.json` 로드
+3. 전체 Task 데이터 조합하여 표시
 
 ### "프로젝트 없음" 안내 메시지
 
@@ -128,8 +134,8 @@ S0_Project-SAL-Grid_생성/method/json/data/
 ### ⚠️ 주의사항
 
 - **DB 데이터 수정** = SSAL Works 내부 관리용 (일반 이용자 해당 없음)
-- **JSON 데이터 수정** = 이용자 본인 프로젝트 진행 상황 업데이트
-- **사용자별 JSON 폴더** = `method/json/data/users/{email}/` (S0 완료 후 생성)
+- **JSON 데이터 수정** = 개별 Task JSON 파일 수정 (`grid_records/{task_id}.json`)
+- **Task 추가 시** = `index.json`의 `task_ids` 배열에 추가 + `grid_records/`에 새 파일 생성
 
 ---
 
