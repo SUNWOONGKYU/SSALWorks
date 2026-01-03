@@ -40,13 +40,57 @@ claude
 ### Step 3: 자동 초기화
 
 Claude Code가 자동으로 다음을 수행합니다:
+- `.claude/CLAUDE.md` 읽어서 프로젝트 규칙 파악
 - 개발 환경 확인 및 설정
 - 프로젝트 초기화
 - Pre-commit Hook 설치
 
 ---
 
-## 4. 패키지 구조
+## 4. Claude Code 작동 방식
+
+### Claude Code가 참조하는 파일
+
+| 파일 | 역할 | 위치 |
+|------|------|------|
+| **CLAUDE.md** | 전체 작업 규칙 (필수) | `.claude/CLAUDE.md` |
+| **01_file-naming.md** | 파일명 규칙 | `.claude/rules/` |
+| **02_save-location.md** | 저장 위치 규칙 | `.claude/rules/` |
+| **03_area-stage.md** | Area/Stage 매핑 | `.claude/rules/` |
+| **04_grid-writing-json.md** | Grid/JSON 작업 | `.claude/rules/` |
+| **05_execution-process.md** | 6단계 실행 프로세스 | `.claude/rules/` |
+| **06_verification.md** | 검증 기준 | `.claude/rules/` |
+| **07_task-crud.md** | Task 추가/삭제/수정 | `.claude/rules/` |
+
+### Claude Code의 작업 순서
+
+```
+1. CLAUDE.md 읽기 (프로젝트 규칙 파악)
+        ↓
+2. 사용자 요청 확인
+        ↓
+3. 관련 규칙 파일 참조 (.claude/rules/)
+        ↓
+4. Task Instruction 확인 (해당 시)
+        ↓
+5. 작업 수행
+        ↓
+6. 검증 수행
+        ↓
+7. 결과 기록 (work_logs, JSON 업데이트)
+```
+
+### 세션 시작 시 확인 파일
+
+Claude Code는 매 세션 시작 시 다음을 확인합니다:
+
+1. `.claude/work_logs/current.md` - 이전 작업 기록
+2. `Human_ClaudeCode_Bridge/Reports/` - 이전 작업 결과
+3. `P0_작업_디렉토리_구조_생성/Project_Status.md` - 프로젝트 상태
+
+---
+
+## 5. 패키지 구조
 
 ### 개발 프로세스 폴더 (순서대로 진행)
 
@@ -75,6 +119,10 @@ Claude Code가 자동으로 다음을 수행합니다:
 
 ```
 ├── .claude/                     # AI 작업 규칙 (수정 X)
+│   ├── CLAUDE.md                # 메인 규칙 파일
+│   ├── rules/                   # 7대 작업 규칙
+│   ├── methods/                 # 작업 방법
+│   └── work_logs/               # 작업 기록
 ├── scripts/                     # 자동화 스크립트
 ├── Development_Process_Monitor/  # 진행률 확인
 ├── Human_ClaudeCode_Bridge/      # Claude Code와 파일 주고받기
@@ -85,7 +133,7 @@ Claude Code가 자동으로 다음을 수행합니다:
 
 ---
 
-## 5. 작업 흐름
+## 6. 작업 흐름
 
 ```
 1. SSAL Works 웹사이트 (www.ssalworks.ai.kr) 접속
@@ -96,23 +144,25 @@ Claude Code가 자동으로 다음을 수행합니다:
         ↓
 4. "Order Sheet"를 Claude Code에게 전달
         ↓
-5. Claude Code가 작업 수행
+5. Claude Code가 작업 수행 (규칙에 따라 자동 처리)
         ↓
-6. 다음 단계로 이동
+6. 결과 확인 후 다음 단계로 이동
 ```
 
 ---
 
-## 6. 데이터 저장
+## 7. 데이터 저장
 
 | 용도 | 방식 | 위치 |
 |------|------|------|
 | Task 관리 | JSON | `S0_.../method/json/data/` |
+| 작업 기록 | Markdown | `.claude/work_logs/` |
+| 작업 결과 | JSON | `Human_ClaudeCode_Bridge/Reports/` |
 | 진행률 표시 | DB (선택) | SSAL Works 연동 시 설정 |
 
 ---
 
-## 7. 도움이 필요할 때
+## 8. 도움이 필요할 때
 
 SSAL Works 웹사이트에서 확인:
 
@@ -136,3 +186,6 @@ SSAL Works 웹사이트에서 확인:
 
 ### Q: 코딩을 몰라도 되나요?
 **A:** 네. Claude Code가 코드를 작성합니다. 여러분은 지시만 하면 됩니다.
+
+### Q: Claude Code가 규칙을 어떻게 알아요?
+**A:** `.claude/CLAUDE.md` 파일을 자동으로 읽습니다. 이 파일에 모든 규칙이 정의되어 있습니다.
