@@ -78,11 +78,12 @@
 │  │                                                                         │       │
 │  │  MyProject/                                                             │       │
 │  │  ├── .ssal-project.json  ◀─── project_id: "2512000002TH-P001" (자동!)  │       │
-│  │  ├── .env                ◀─── PROJECT_ID=2512000002TH-P001             │       │
+│  │  ├── .env                ◀─── SUPABASE_ANON_KEY, PROJECT_ID 등         │       │
 │  │  ├── .claude/                                                           │       │
-│  │  ├── scripts/                                                           │       │
-│  │  │   ├── build-progress.js                                              │       │
-│  │  │   └── upload-progress.js                                             │       │
+│  │  ├── Development_Process_Monitor/                                       │       │
+│  │  │   ├── build-progress.js      ◀─── 진행률 계산                        │       │
+│  │  │   └── DB_Method/                                                     │       │
+│  │  │       └── upload-progress.js ◀─── DB 업로드                          │       │
 │  │  ├── S0_Project-SAL-Grid_생성/                                          │       │
 │  │  │   └── method/json/data/                                              │       │
 │  │  │       ├── index.json                                                 │       │

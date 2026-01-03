@@ -6263,3 +6263,68 @@ Supabase DB (project_phase_progress 테이블)
 **상태:** 완료 ✅
 
 ---
+
+### Dev Package upload-progress.js 경로 및 KEY 통일 수정 ✅
+
+**작업 일시:** 2026-01-03
+
+**발견된 문제:**
+
+새로운 Claude Code 시뮬레이션을 통해 발견한 문제:
+
+| 문제 | 현재 (잘못됨) | 수정 후 |
+|------|-------------|---------|
+| ENV_PATH 경로 | `P3_프로토타입_제작/Database/.env` | 루트 `.env` |
+| Supabase KEY | `SERVICE_ROLE_KEY` | `ANON_KEY` |
+
+**원인:**
+- 메인 프로젝트(SSAL Works Private)의 코드를 Dev Package로 복사하면서 경로를 Dev Package 구조에 맞게 수정하지 않음
+- 메인 프로젝트는 `P3_프로토타입_제작/Database/.env`에 `.env` 파일이 있음
+- Dev Package는 루트에 `.env.sample`이 있고, 사용자가 루트에 `.env`를 생성함
+
+**수정된 파일 (2개):**
+
+| # | 파일 | 변경 내용 |
+|---|------|----------|
+| 1 | `Development_Process_Monitor/DB_Method/upload-progress.js` | ENV_PATH, ANON_KEY 변경 |
+| 2 | `Development_Process_Monitor/PROGRESS_DB_CONNECTION_PROCESS.md` | PHASE 3 다이어그램 수정 |
+
+**upload-progress.js 변경 상세:**
+
+```javascript
+// 22줄: ENV_PATH 수정
+// 이전
+const ENV_PATH = path.join(PROJECT_ROOT, 'P3_프로토타입_제작', 'Database', '.env');
+// 이후
+const ENV_PATH = path.join(PROJECT_ROOT, '.env');  // Dev Package는 루트에 .env
+
+// 115-116줄: API 호출 시 KEY 변경
+// 이전
+'apikey': env.SUPABASE_SERVICE_ROLE_KEY,
+'Authorization': `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+// 이후
+'apikey': env.SUPABASE_ANON_KEY,
+'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
+
+// 168-169줄: 환경변수 검증
+// 이전
+if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
+// 이후
+if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+```
+
+**PROGRESS_DB_CONNECTION_PROCESS.md 변경:**
+- PHASE 3 다이어그램에서 `scripts/` → `Development_Process_Monitor/` 실제 경로로 수정
+- `.env` 설명에 `SUPABASE_ANON_KEY` 반영
+
+**통일된 상태:**
+```
+.env.sample (루트)          upload-progress.js
+─────────────────          ──────────────────
+SUPABASE_ANON_KEY    ←──→   env.SUPABASE_ANON_KEY  ✅ 일치
+루트/.env            ←──→   ENV_PATH = 루트/.env   ✅ 일치
+```
+
+**상태:** 완료 ✅
+
+---

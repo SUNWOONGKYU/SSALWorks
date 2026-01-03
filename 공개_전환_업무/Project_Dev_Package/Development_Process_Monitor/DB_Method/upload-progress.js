@@ -19,7 +19,7 @@ const { execSync } = require('child_process');
 // 프로젝트 루트까지 두 단계 올라가야 함
 const PROJECT_ROOT = path.join(__dirname, '..', '..');
 const PROGRESS_JSON_PATH = path.join(PROJECT_ROOT, 'Development_Process_Monitor', 'data', 'phase_progress.json');
-const ENV_PATH = path.join(PROJECT_ROOT, 'P3_프로토타입_제작', 'Database', '.env');
+const ENV_PATH = path.join(PROJECT_ROOT, '.env');  // Dev Package는 루트에 .env
 
 // ============================================
 // 환경변수 로드
@@ -112,8 +112,8 @@ function readProgressJson() {
 async function upsertToSupabase(env, projectId, phases) {
     const url = `${env.SUPABASE_URL}/rest/v1/project_phase_progress?on_conflict=project_id,phase_code`;
     const headers = {
-        'apikey': env.SUPABASE_SERVICE_ROLE_KEY,
-        'Authorization': `Bearer ${env.SUPABASE_SERVICE_ROLE_KEY}`,
+        'apikey': env.SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${env.SUPABASE_ANON_KEY}`,
         'Content-Type': 'application/json',
         'Prefer': 'return=minimal,resolution=merge-duplicates'
     };
@@ -165,8 +165,8 @@ async function main() {
 
     // 1. 환경변수 로드
     const env = loadEnv();
-    if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_ROLE_KEY) {
-        console.error('❌ SUPABASE_URL 또는 SUPABASE_SERVICE_ROLE_KEY 없음');
+    if (!env.SUPABASE_URL || !env.SUPABASE_ANON_KEY) {
+        console.error('❌ SUPABASE_URL 또는 SUPABASE_ANON_KEY 없음');
         process.exit(1);
     }
     console.log('✅ 환경변수 로드 완료');
