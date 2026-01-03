@@ -48,13 +48,13 @@ Project_Dev_Package/
 ├── P1_사업계획/                   # 사업 계획
 ├── P2_프로젝트_기획/              # 프로젝트 기획
 ├── P3_프로토타입_제작/            # 프로토타입
-├── S0_Project-SAL-Grid_생성/     # SAL Grid 설정
+├── S0_Project-SAL-Grid_생성/     # SAL Grid 설정 (JSON Method)
 ├── S1_개발_준비/                  # 개발 환경 구축
 ├── S2_개발-1차/                   # 핵심 기능 개발
 ├── S3_개발-2차/                   # 고급 기능 개발
 ├── S4_개발-3차/                   # QA 및 최적화
 ├── S5_개발_마무리/                # 배포 및 문서화
-├── Development_Process_Monitor/   # 진행 상황 시각화
+├── Development_Process_Monitor/   # 진행 상황 시각화 (DB 업로드 선택)
 ├── Human_ClaudeCode_Bridge/       # 작업 지시/결과 교환
 ├── .claude/                       # AI 설정
 ├── index.html                     # 메인 페이지
@@ -73,6 +73,24 @@ node scripts/setup-hooks.js
 ```
 
 이후 git commit 시 자동으로 Stage → Root 동기화가 실행됩니다.
+
+## 데이터 저장 방식
+
+| 용도 | 방식 | 위치 |
+|------|------|------|
+| **Task 관리** | JSON Method (기본) | `S0_Project-SAL-Grid_생성/method/json/data/` |
+| **진행률 표시** | DB 업로드 (선택) | SSAL Works 플랫폼 연동 시 |
+
+**JSON 폴더 구조:**
+```
+method/json/data/
+├── index.json          # 프로젝트 메타데이터 + Task ID 목록
+└── grid_records/       # 개별 Task JSON 파일
+    ├── S1F1.json
+    └── ...
+```
+
+---
 
 ## 다음 단계
 
