@@ -429,7 +429,7 @@
             </div>
         </div>
 
-        <div class="gate-info">Stage Gate 승인을 Claude Code에게 요청하세요</div>
+        <div class="gate-info" id="gateGuidanceMessage">Stage Gate 승인을 Claude Code에게 요청하세요</div>
     </div>
 
     <div class="task-list" id="taskList">
@@ -558,6 +558,12 @@
             document.getElementById('gatePONote').textContent = gate.po_approval_note || '-';
             document.getElementById('gatePODate').textContent = gate.po_approval_date ?
                 new Date(gate.po_approval_date).toLocaleDateString('ko-KR') : '-';
+
+            // 안내 메시지 - 승인 완료 시 숨김
+            const guidanceEl = document.getElementById('gateGuidanceMessage');
+            if (guidanceEl) {
+                guidanceEl.style.display = status === 'Approved' ? 'none' : 'block';
+            }
 
             // 패널 토글
             if (panel.classList.contains('active') && currentGateStage === stageNum) {

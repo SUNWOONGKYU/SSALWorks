@@ -323,7 +323,7 @@
                             <span style="font-size: 0.85em; color: #666;">📅 승인 날짜:</span>
                             <span id="poApprovalDate" style="font-size: 0.9em; font-weight: 600; color: #FF8C00;">-</span>
                         </div>
-                        <div style="background: #e7f3ff; border: 1px solid #b8daff; border-radius: 6px; padding: 10px; text-align: center;">
+                        <div id="gateGuidanceMessage" style="background: #e7f3ff; border: 1px solid #b8daff; border-radius: 6px; padding: 10px; text-align: center;">
                             <span style="font-size: 0.85em; color: #004085;">💡 Stage Gate 승인을 Claude Code에게 요청하세요</span>
                         </div>
                     </div>
@@ -555,10 +555,16 @@
 
             // Stage Gate 상태 표시
             const statusEl = document.getElementById('gateStatusDisplay');
+            const gateStatus = gate.stage_gate_status || 'Not Started';
             if (statusEl) {
-                const status = gate.stage_gate_status || 'Not Started';
-                statusEl.textContent = status;
-                statusEl.className = status === 'Approved' ? 'gate-status approved' : status === 'Rejected' ? 'gate-status rejected' : 'gate-status pending';
+                statusEl.textContent = gateStatus;
+                statusEl.className = gateStatus === 'Approved' ? 'gate-status approved' : gateStatus === 'Rejected' ? 'gate-status rejected' : 'gate-status pending';
+            }
+
+            // 안내 메시지 - 승인 완료 시 숨김
+            const guidanceEl = document.getElementById('gateGuidanceMessage');
+            if (guidanceEl) {
+                guidanceEl.style.display = gateStatus === 'Approved' ? 'none' : 'block';
             }
 
             panel.style.display = 'block';
