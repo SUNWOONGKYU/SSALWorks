@@ -559,6 +559,38 @@ function createTextSprite(text, bgColor) {
 
 ---
 
+### 모달 닫기 버튼 스타일 통일 ✅
+
+**작업 목표**: 모달 헤더의 닫기 버튼을 "✕ 닫기" 형식의 회색 버튼으로 통일
+
+**수정된 모달 (7개):**
+
+| # | 모달 ID | 모달명 |
+|---|---------|--------|
+| 1 | agreementModal | 서약서 모달 |
+| 2 | agreementSuccessModal | 서약 완료 안내 모달 |
+| 3 | alreadyConnectedModal | 이미 연결됨 안내 모달 |
+| 4 | loginRequiredModal | 로그인 필요 안내 모달 |
+| 5 | builderRequiredModal | 빌더 계정 필요 모달 |
+| 6 | addProjectModal | 프로젝트 등록 모달 |
+| 7 | myInquiriesModal | 내 문의 내역 모달 |
+
+**변경 전:**
+```html
+<button class="popup-modal-close" onclick="..." style="color: white;">&times;</button>
+```
+
+**변경 후:**
+```html
+<button onclick="..." style="padding: 5px 12px; background: #6c757d; border: none; color: white; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500;">✕ 닫기</button>
+```
+
+**수정된 파일:**
+- `index.html`: 7개 모달의 닫기 버튼 수정
+- `P2_프로젝트_기획/Design_System/CLOSE_BUTTON_RULES.md`: 적용 대상 목록 업데이트
+
+---
+
 ### 배포 기능 테스트 및 3D 뷰 수정 ✅
 
 **작업 목표**: 아젠다 #4 배포 후 알림 시스템 및 3D 뷰 기능 테스트
