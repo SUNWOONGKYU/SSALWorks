@@ -4,6 +4,26 @@
 
 ---
 
+## 2026-01-04 작업 내역
+
+### Legacy Viewer 문서 삭제 ✅
+
+**작업 상태:** 완료
+
+**삭제된 파일:**
+- `S0_Project-SAL-Grid_생성/07_Viewer_Implementation_Guide.md` (1477줄)
+
+**삭제 이유:**
+| 항목 | `07_Viewer_Implementation_Guide.md` (삭제됨) | `PROJECT_SAL_GRID_VIEWER_PROCESS.md` (유지) |
+|------|---------------------------------------------|---------------------------------------------|
+| 데이터 방식 | DB + CSV 방식 (구버전) | JSON 방식 (현재 사용 중) |
+| Viewer | viewer_database.html, viewer_csv.html | viewer_json.html |
+| 수정일 | 2025-12-26 | 2026-01-03 |
+
+**결론:** 새로운 프로세스 문서가 JSON Method를 완전히 커버하므로 구버전 문서 삭제
+
+---
+
 ## 2026-01-03 작업 내역
 
 ### SAL Grid Viewer 문서 정비 최종 완료 ✅
