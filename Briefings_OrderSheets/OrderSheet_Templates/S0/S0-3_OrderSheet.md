@@ -2,7 +2,7 @@
 
 > **버전**: 5.4
 > **단계**: S0-3 (Method)
-> **목적**: SAL Grid 데이터 저장 방식 (CSV Method) 설정
+> **목적**: SAL Grid 데이터 저장 방식 (JSON Method 기본, Database Method 선택) 설정
 
 ---
 
@@ -24,13 +24,17 @@
 
 **수행할 작업:**
 
-1. CSV Method 설정 (기본)
-   - project_sal_grid.json 파일 확인
+1. JSON Method 설정 (기본)
+   - index.json + grid_records/*.json 구조 확인
    - JSON 파일 구조 검증
    - 데이터 입력 방법 안내
 
-2. JSON 파일 초기화
-   - S0-2에서 생성한 Task 목록을 JSON에 반영
+2. Database Method 설정 (선택)
+   - Supabase DB 연결 설정 (필요 시)
+   - project_sal_grid 테이블 구조 확인
+
+3. Task 데이터 초기화
+   - S0-2에서 생성한 Task 목록을 JSON/DB에 반영
    - 22개 속성 확인
    - 초기 상태값 설정 (Pending, Not Verified)
 
@@ -65,8 +69,9 @@
 ### 3단계: 실행 (Execution)
 
 **체크리스트:**
-- [ ] project_sal_grid.json 파일 확인
-- [ ] S0-2에서 생성한 Task 목록을 JSON에 반영
+- [ ] JSON Method: index.json + grid_records/*.json 구조 확인
+- [ ] (선택) Database Method: Supabase 연결 설정
+- [ ] S0-2에서 생성한 Task 목록을 JSON/DB에 반영
 - [ ] 22개 속성 구조 검증
 - [ ] 초기 상태값 설정 (task_status: Pending, verification_status: Not Verified)
 - [ ] 사용 방법 안내
@@ -76,8 +81,9 @@
 ### 4단계: 검증 (Verification)
 
 **체크리스트:**
-- [ ] JSON 파일 구조가 올바른가?
-- [ ] 모든 Task가 JSON에 포함되었는가?
+- [ ] JSON Method: index.json과 grid_records/*.json 구조가 올바른가?
+- [ ] (선택) Database Method: Supabase 연결 테스트 성공했는가?
+- [ ] 모든 Task가 JSON/DB에 포함되었는가?
 - [ ] 22개 속성이 모두 정의되었는가?
 - [ ] 초기 상태값이 올바른가?
 
@@ -92,8 +98,9 @@
 - 저장 위치: `Human_ClaudeCode_Bridge/Reports/`
 
 **보고 내용**:
-- CSV Method 설정 완료
-- JSON 파일 초기화 완료
+- JSON Method 설정 완료
+- (선택) Database Method 설정 완료
+- Task 데이터 초기화 완료
 - 다음 단계 안내 (S0-4 Viewer)
 
 ---
@@ -102,7 +109,8 @@
 
 | 산출물 | 저장 위치 |
 |--------|----------|
-| project_sal_grid.json | `S0_Project-SAL-Grid_생성/method/csv/data/` |
+| index.json | `S0_Project-SAL-Grid_생성/method/json/data/` |
+| grid_records/*.json | `S0_Project-SAL-Grid_생성/method/json/data/grid_records/` |
 | 완료 보고서 | `Human_ClaudeCode_Bridge/Reports/` |
 
 ---
@@ -121,23 +129,27 @@
 
 ## B1. 특별 지시사항
 
-**CSV Method가 기본입니다.**
+**JSON Method가 기본, Database Method는 선택입니다.**
 
-외부 서비스 없이 JSON 파일로 Task를 관리합니다.
+- **JSON Method**: 외부 서비스 없이 로컬 JSON 파일로 Task 관리
+- **Database Method**: Supabase DB 연동 시 사용 (SSAL Works 플랫폼 연동용)
 
-**JSON 파일 구조:**
+**JSON 파일 구조 (개별 파일 방식):**
 ```
 S0_Project-SAL-Grid_생성/
 └── method/
-    └── csv/
-        ├── data/
-        │   ├── project_sal_grid.json  ← Task 데이터
-        │   └── stage_verification.json
-        ├── scripts/
-        │   └── json-to-csv.js
-        └── templates/
-            └── template.json
+    └── json/
+        └── data/
+            ├── index.json           ← 프로젝트 정보 + task_ids 배열
+            └── grid_records/        ← 개별 Task JSON 파일
+                ├── S1BI1.json
+                ├── S1BI2.json
+                └── ...
 ```
+
+**병행 사용 시 (SSAL Works 내부):**
+- JSON과 DB 모두 업데이트
+- Viewer는 JSON (사용자용) / DB (예시용) 분리
 
 ---
 

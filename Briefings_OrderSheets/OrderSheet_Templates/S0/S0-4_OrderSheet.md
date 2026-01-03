@@ -123,12 +123,19 @@
 
 ## B1. 특별 지시사항
 
-**기본 Viewer (JSON Method):**
+**JSON Method용 Viewer (기본):**
 
-| Viewer | 플랫폼 |
-|--------|--------|
-| viewer_json.html | PC |
-| viewer_mobile_json.html | 모바일 |
+| Viewer | 플랫폼 | 용도 |
+|--------|--------|------|
+| viewer_json.html | PC | 내 프로젝트 데이터 |
+| viewer_mobile_json.html | 모바일 | 내 프로젝트 데이터 |
+
+**Database Method용 Viewer (선택):**
+
+| Viewer | 플랫폼 | 용도 |
+|--------|--------|------|
+| viewer_database.html | PC | 예시 데이터 (SSAL Works) |
+| viewer_mobile_database.html | 모바일 | 예시 데이터 (SSAL Works) |
 
 **Viewer 기능:**
 - 전체 현황 대시보드 (Stage별 진행률)
@@ -143,13 +150,15 @@
 ```
 S0_Project-SAL-Grid_생성/
 └── viewer/
-    ├── viewer_json.html          ← 기본
-    └── viewer_mobile_json.html   ← 모바일
+    ├── viewer_json.html              ← JSON Method (기본)
+    ├── viewer_mobile_json.html       ← JSON Method (모바일)
+    ├── viewer_database.html          ← Database Method (선택)
+    └── viewer_mobile_database.html   ← Database Method (모바일)
 ```
 
 **사용 방법:**
-1. `viewer_json.html` 파일을 브라우저에서 열기
-2. JSON 파일 경로 확인
+1. JSON Method: `viewer_json.html` 파일을 브라우저에서 열기
+2. Database Method: `viewer_database.html` 파일 사용 (Supabase 연동 시)
 3. 새로고침으로 최신 데이터 반영
 
 **S0-4 완료 후:**

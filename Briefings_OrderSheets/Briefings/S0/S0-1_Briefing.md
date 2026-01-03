@@ -49,7 +49,7 @@
 - 3단계 검증, Stage Gate, Git 통합
 
 ### PART 4: Method 설정 (섹션 13-17)
-- CSV Method (기본), Database Method (선택)
+- JSON Method (기본), Database Method (선택)
 
 ### PART 5: Viewer 및 자동화 (섹션 18-21)
 - HTML Viewer, Task CRUD, Claude Code 자동화

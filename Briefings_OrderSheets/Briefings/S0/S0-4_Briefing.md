@@ -6,8 +6,13 @@ SAL Grid 데이터를 **시각적으로 조회**할 수 있는 HTML 뷰어를 �
 
 ## 뷰어 종류
 
-- `viewer_json.html`: PC용 / JSON 파일
+### JSON Method 용 (기본)
+- `viewer_json.html`: PC용 / JSON 파일 (내 프로젝트)
 - `viewer_mobile_json.html`: 모바일용 / JSON 파일
+
+### Database Method 용 (선택)
+- `viewer_database.html`: PC용 / Supabase DB (예시용, SSAL Works 데이터)
+- `viewer_mobile_database.html`: 모바일용 / Supabase DB
 
 ## 제공 기능
 
