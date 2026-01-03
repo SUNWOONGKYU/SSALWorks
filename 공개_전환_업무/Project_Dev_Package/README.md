@@ -203,6 +203,17 @@ S0_Project-SAL-Grid_생성/
     └── viewer_mobile_json.html   # 모바일용 JSON 뷰어
 ```
 
+**초기 상태 (다운로드 직후):**
+
+| 파일/폴더 | 초기 상태 | S0 완료 후 |
+|-----------|----------|-----------|
+| `index.json` | 빈 상태 (project_id, task_ids 비어있음) | 프로젝트 정보 + Task ID 목록 |
+| `grid_records/` | `_TEMPLATE.json` 템플릿만 있음 | 각 Task별 JSON 파일 생성 |
+| `task-instructions/` | 비어있음 | 각 Task별 지침 파일 생성 |
+| `verification-instructions/` | 비어있음 | 각 Task별 검증 지침 생성 |
+
+**S0 단계에서 Claude Code가 Task 목록을 정하고 SAL Grid를 생성하면 이 파일들이 채워집니다.**
+
 ## S1~S5 (개발 Stage 폴더)
 
 각 Stage 폴더는 11개 Area 폴더를 포함합니다:
