@@ -544,8 +544,29 @@
         }
 
         async function loadStageGates() {
-            // JSON 버전에서는 Stage Gate 정보 없음 (DB 전용 기능)
+            // stage_gate_records 폴더에서 Stage Gate JSON 로드
             stageGates = [];
+
+            const stageNumbers = [1, 2, 3, 4, 5];
+            const gatePromises = stageNumbers.map(async (stageNum) => {
+                const gatePath = `${jsonBasePath}/stage_gate_records/S${stageNum}_gate.json`;
+                try {
+                    const res = await fetch(gatePath);
+                    if (!res.ok) return null;
+                    const gate = await res.json();
+                    // stage_name 필드가 없으면 추가
+                    if (!gate.stage_name) {
+                        gate.stage_name = `Stage ${stageNum}`;
+                    }
+                    return gate;
+                } catch (e) {
+                    // 파일이 없으면 무시 (템플릿만 있는 초기 상태)
+                    return null;
+                }
+            });
+
+            const results = await Promise.all(gatePromises);
+            stageGates = results.filter(g => g !== null);
             renderStageGates();
         }
 
