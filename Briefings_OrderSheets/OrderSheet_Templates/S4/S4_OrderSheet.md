@@ -31,7 +31,8 @@
 Project SAL Grid의 S4에 있는 모든 Task를 수행하라.
 
 **Project SAL Grid란:**
-- 위치: `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json`
+- JSON Method (기본): `S0_Project-SAL-Grid_생성/method/json/data/index.json` + `grid_records/*.json`
+- DB Method (선택): Supabase `project_sal_grid` 테이블
 - Task Instruction: `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/`
 - Verification Instruction: `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/`
 
@@ -167,9 +168,11 @@ Project SAL Grid의 S4에 있는 모든 Task를 수행하라.
 
 #### 6-1. SAL Grid 상태 확인 (필수)
 
-**파일 위치**: `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json`
+**데이터 위치**:
+- JSON Method: `S0_Project-SAL-Grid_생성/method/json/data/grid_records/*.json`
+- DB Method: Supabase `project_sal_grid` 테이블
 
-**확인 방법**: 해당 파일에서 `stage: 4`인 Task들의 상태 확인
+**확인 방법**: 해당 Stage의 Task들의 상태 확인
 
 **통과 조건**: 모든 Task가 `task_status: Completed`, `verification_status: Verified`
 
@@ -316,7 +319,8 @@ cd Production && npm test
 | Task Instruction | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
 | Verification Instruction | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
 | Grid Manual | `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md` |
-| SAL Grid | `S0_Project-SAL-Grid_생성/method/csv/data/project_sal_grid.json` |
+| SAL Grid (JSON) | `S0_Project-SAL-Grid_생성/method/json/data/` |
+| SAL Grid (DB) | Supabase `project_sal_grid` 테이블 |
 
 ---
 

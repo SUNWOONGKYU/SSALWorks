@@ -401,11 +401,11 @@ node scripts/upload-progress.js
 2. **테이블 존재 확인** - `project_phase_progress` 테이블 생성 여부
 3. **네트워크 확인** - Supabase 연결 가능 여부
 
-### CSV 파싱 오류 (S1~S5 진행률)
+### JSON 파싱 오류 (S1~S5 진행률)
 
-1. **CSV 경로 확인** - `S0_Project-SAL-Grid_생성/method/csv/data/in_progress/sal_grid.csv`
-2. **CSV 형식 확인** - `stage`, `task_status` 컬럼 존재 여부
-3. **CSV 파일 미존재 시** - S1~S5 진행률이 모두 0%로 표시됨 (정상 동작)
+1. **JSON 경로 확인** - `S0_Project-SAL-Grid_생성/method/json/data/` (index.json + grid_records/*.json)
+2. **JSON 형식 확인** - 각 Task JSON에 `stage`, `task_status` 필드 존재 여부
+3. **JSON 파일 미존재 시** - S1~S5 진행률이 모두 0%로 표시됨 (정상 동작)
 
 ---
 
