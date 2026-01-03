@@ -252,6 +252,97 @@
         .badge-stage { background: #e0e7ff; color: #3730a3; }
         .badge-area { background: #dcfce7; color: #166534; }
         .badge-progress { background: #fef3c7; color: #92400e; }
+
+        /* Stage Gate Tab */
+        .stage-tab.gate-tab {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe5b4 100%);
+            border: 1px solid #FFD700;
+            font-size: 11px;
+        }
+        .stage-tab.gate-tab.approved {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            border-color: var(--primary);
+        }
+        .stage-tab.gate-tab.rejected {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border-color: #dc3545;
+        }
+
+        /* Stage Gate Panel */
+        .gate-panel {
+            display: none;
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe5b4 100%);
+            border: 2px solid #FFD700;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 12px;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
+        }
+        .gate-panel.active { display: block; }
+        .gate-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .gate-title {
+            color: #FF8C00;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .gate-status-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .gate-status-badge.approved { background: #d4edda; color: #155724; }
+        .gate-status-badge.rejected { background: #f8d7da; color: #721c24; }
+        .gate-status-badge.pending { background: #fff3cd; color: #856404; }
+
+        .gate-section {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .gate-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .gate-section-title.ai { color: var(--secondary); }
+        .gate-section-title.po { color: #FF8C00; }
+
+        .gate-field {
+            margin-bottom: 8px;
+        }
+        .gate-field-label {
+            font-size: 11px;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        .gate-field-value {
+            font-size: 13px;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            min-height: 36px;
+        }
+        .gate-field-value.multiline {
+            min-height: 60px;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .gate-info {
+            background: #e7f3ff;
+            border: 1px solid #b8daff;
+            border-radius: 6px;
+            padding: 10px;
+            text-align: center;
+            font-size: 12px;
+            color: #004085;
+        }
     </style>
 </head>
 <body>
@@ -293,6 +384,54 @@
         </div>
     </div>
 
+    <!-- Stage Gate Panel (read-only) -->
+    <div class="gate-panel" id="stageGatePanel">
+        <div class="gate-header">
+            <span class="gate-title" id="gateTitle">Stage Gate</span>
+            <span class="gate-status-badge pending" id="gateStatusBadge">Not Started</span>
+        </div>
+
+        <!-- AI 검증 영역 -->
+        <div class="gate-section">
+            <div class="gate-section-title ai">AI 검증 (Claude Code)</div>
+            <div class="gate-field">
+                <div class="gate-field-label">검증 의견</div>
+                <div class="gate-field-value multiline" id="gateAINote">-</div>
+            </div>
+            <div class="gate-field">
+                <div class="gate-field-label">검증 리포트</div>
+                <div class="gate-field-value" id="gateAIReport">-</div>
+            </div>
+            <div class="gate-field">
+                <div class="gate-field-label">검증 날짜</div>
+                <div class="gate-field-value" id="gateAIDate">-</div>
+            </div>
+        </div>
+
+        <!-- PO 승인 영역 -->
+        <div class="gate-section">
+            <div class="gate-section-title po">Project Owner 승인</div>
+            <div class="gate-field">
+                <div class="gate-field-label">승인 상태</div>
+                <div class="gate-field-value" id="gatePOStatus">-</div>
+            </div>
+            <div class="gate-field">
+                <div class="gate-field-label">승인자</div>
+                <div class="gate-field-value" id="gatePOUser">-</div>
+            </div>
+            <div class="gate-field">
+                <div class="gate-field-label">승인 의견</div>
+                <div class="gate-field-value multiline" id="gatePONote">-</div>
+            </div>
+            <div class="gate-field">
+                <div class="gate-field-label">승인 날짜</div>
+                <div class="gate-field-value" id="gatePODate">-</div>
+            </div>
+        </div>
+
+        <div class="gate-info">Stage Gate 승인은 Claude Code에게 요청하세요</div>
+    </div>
+
     <div class="task-list" id="taskList">
         <div class="loading">데이터 로딩 중...</div>
     </div>
@@ -315,7 +454,9 @@
 
         let supabaseClient = null;
         let allTasks = [];
+        let stageGates = [];
         let currentStage = 'all';
+        let currentGateStage = null;
 
         try {
             const { createClient } = supabase;
@@ -346,9 +487,102 @@
 
                 renderTasks();
                 updateStats();
+
+                // Stage Gate 로드
+                await loadStageGates();
+                renderStageTabs();
             } catch (err) {
                 document.getElementById('statusText').textContent = '오류: ' + err.message;
             }
+        }
+
+        // Stage Gate 데이터 로드 (Supabase DB)
+        async function loadStageGates() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('stage_verification')
+                    .select('*')
+                    .order('stage_name');
+
+                if (error) throw error;
+                stageGates = data || [];
+            } catch (err) {
+                console.warn('Stage Gate 로드 실패:', err.message);
+                stageGates = [];
+            }
+        }
+
+        // Stage 탭 렌더링 (Gate 탭 포함)
+        function renderStageTabs() {
+            const container = document.getElementById('stageTabs');
+            let html = '<button class="stage-tab active" data-stage="all" onclick="selectStage(\'all\')">전체</button>';
+
+            for (let s = 1; s <= 5; s++) {
+                const gate = stageGates.find(g => g.stage_name === `Stage ${s}`) || {};
+                const gateStatus = gate.stage_gate_status || 'Not Started';
+                const gateClass = gateStatus === 'Approved' ? 'approved' : gateStatus === 'Rejected' ? 'rejected' : '';
+                const gateIcon = gateStatus === 'Approved' ? '✅' : gateStatus === 'Rejected' ? '❌' : '🔐';
+
+                html += `<button class="stage-tab" data-stage="${s}" onclick="selectStage(${s})">S${s}</button>`;
+                html += `<button class="stage-tab gate-tab ${gateClass}" onclick="showGatePanel(${s})">${gateIcon}</button>`;
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Gate 패널 표시
+        function showGatePanel(stageNum) {
+            currentGateStage = stageNum;
+            const panel = document.getElementById('stageGatePanel');
+            const gate = stageGates.find(g => g.stage_name === `Stage ${stageNum}`) || {};
+
+            // 제목 및 상태 배지
+            document.getElementById('gateTitle').textContent = `🔐 Stage ${stageNum} Gate`;
+            const statusBadge = document.getElementById('gateStatusBadge');
+            const status = gate.stage_gate_status || 'Not Started';
+            statusBadge.textContent = status;
+            statusBadge.className = 'gate-status-badge ' +
+                (status === 'Approved' ? 'approved' : status === 'Rejected' ? 'rejected' : 'pending');
+
+            // AI 검증 정보
+            document.getElementById('gateAINote').textContent = gate.ai_verification_note || '-';
+            document.getElementById('gateAIReport').textContent = gate.verification_report_path || '-';
+            document.getElementById('gateAIDate').textContent = gate.ai_verification_date ?
+                new Date(gate.ai_verification_date).toLocaleDateString('ko-KR') : '-';
+
+            // PO 승인 정보
+            const poStatus = gate.po_approval_status === 'Approved' ? '✅ 승인' :
+                            gate.po_approval_status === 'Rejected' ? '❌ 거부' : '-';
+            document.getElementById('gatePOStatus').textContent = poStatus;
+            document.getElementById('gatePOUser').textContent = gate.po_approval_user || '-';
+            document.getElementById('gatePONote').textContent = gate.po_approval_note || '-';
+            document.getElementById('gatePODate').textContent = gate.po_approval_date ?
+                new Date(gate.po_approval_date).toLocaleDateString('ko-KR') : '-';
+
+            // 패널 토글
+            if (panel.classList.contains('active') && currentGateStage === stageNum) {
+                panel.classList.remove('active');
+                currentGateStage = null;
+            } else {
+                panel.classList.add('active');
+            }
+        }
+
+        // Stage 선택
+        function selectStage(stage) {
+            currentStage = stage;
+
+            // 탭 활성화 상태 업데이트
+            document.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
+            const activeTab = document.querySelector(`.stage-tab[data-stage="${stage}"]`);
+            if (activeTab) activeTab.classList.add('active');
+
+            // Gate 패널 닫기
+            document.getElementById('stageGatePanel').classList.remove('active');
+            currentGateStage = null;
+
+            renderTasks();
+            updateStats();
         }
 
         function renderTasks() {
@@ -566,16 +800,7 @@
             document.getElementById('completedCount').textContent = filtered.filter(t => t.task_status === 'Completed').length;
         }
 
-        // Stage Tab Click
-        document.querySelectorAll('.stage-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.stage-tab').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentStage = tab.dataset.stage;
-                renderTasks();
-                updateStats();
-            });
-        });
+        // Stage Tab Click - 동적 렌더링으로 대체됨 (selectStage 함수 사용)
 
         // Init
         loadTasks();

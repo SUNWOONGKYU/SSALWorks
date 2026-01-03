@@ -283,52 +283,49 @@
                     <span id="gateStatusDisplay" class="gate-status pending" style="padding: 6px 12px; border-radius: 20px; font-weight: 600; font-size: 0.85em;">Not Started</span>
                 </div>
                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
-                    <!-- AI 검증 영역 (왼쪽) -->
+                    <!-- AI 검증 영역 (왼쪽) - 읽기 전용 -->
                     <div style="flex: 1; min-width: 280px; background: white; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
                         <div style="font-weight: 600; color: var(--secondary); margin-bottom: 10px; font-size: 0.95em;">🤖 AI 검증 (Claude Code)</div>
                         <div style="margin-bottom: 12px;">
                             <label style="font-size: 0.85em; font-weight: 600; color: #333;">검증 의견</label>
-                            <textarea id="aiVerificationNote" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; resize: vertical; min-height: 80px;" placeholder="AI가 작성한 검증 의견..."></textarea>
+                            <textarea id="aiVerificationNote" readonly style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; resize: vertical; min-height: 80px; background: #f8f9fa;" placeholder="Claude Code가 기록한 검증 의견"></textarea>
                         </div>
                         <div style="margin-bottom: 12px;">
                             <label style="font-size: 0.85em; font-weight: 600; color: #333;">검증 리포트</label>
                             <div style="display: flex; gap: 8px; align-items: center;">
-                                <input id="aiReportPath" type="text" style="flex: 1; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em;" placeholder="예: docs/STAGE1_VERIFICATION_REPORT.md" />
+                                <input id="aiReportPath" type="text" readonly style="flex: 1; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; background: #f8f9fa;" />
                             </div>
                         </div>
                         <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <span style="font-size: 0.85em; color: #666;">📅 검증 날짜:</span>
                             <span id="aiVerificationDate" style="font-size: 0.9em; font-weight: 600; color: var(--secondary);">-</span>
                         </div>
-                        <button onclick="saveAIVerification()" style="width: 100%; padding: 10px; background: var(--secondary); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">💾 AI 검증 결과 저장</button>
                     </div>
 
-                    <!-- PO 승인 영역 (오른쪽) -->
+                    <!-- PO 승인 영역 (오른쪽) - 읽기 전용 -->
                     <div style="flex: 1; min-width: 280px; background: white; padding: 15px; border-radius: 10px; border: 1px solid #e9ecef;">
                         <div style="font-weight: 600; color: #FF8C00; margin-bottom: 10px; font-size: 0.95em;">👤 Project Owner 승인</div>
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
                             <div>
                                 <label style="font-size: 0.85em; font-weight: 600; color: #333;">승인 상태</label>
-                                <select id="gateApprovalStatus" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em;">
-                                    <option value="">-- 선택 --</option>
-                                    <option value="승인">✅ 승인</option>
-                                    <option value="거부">❌ 거부</option>
-                                </select>
+                                <input id="gateApprovalStatus" type="text" readonly style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; background: #f8f9fa;" />
                             </div>
                             <div>
                                 <label style="font-size: 0.85em; font-weight: 600; color: #333;">Project Owner</label>
-                                <input id="gateApprovalUser" type="text" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em;" placeholder="이름" />
+                                <input id="gateApprovalUser" type="text" readonly style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; background: #f8f9fa;" />
                             </div>
                         </div>
                         <div style="margin-bottom: 12px;">
-                            <label style="font-size: 0.85em; font-weight: 600; color: #333;">승인 여부 의견</label>
-                            <textarea id="gateApprovalNote" style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; resize: vertical; min-height: 80px;" placeholder="승인/거부 사유..."></textarea>
+                            <label style="font-size: 0.85em; font-weight: 600; color: #333;">승인 의견</label>
+                            <textarea id="gateApprovalNote" readonly style="width: 100%; padding: 8px; border: 1px solid #dee2e6; border-radius: 6px; font-size: 0.9em; resize: vertical; min-height: 80px; background: #f8f9fa;" placeholder="Claude Code가 기록한 승인 의견"></textarea>
                         </div>
                         <div style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
                             <span style="font-size: 0.85em; color: #666;">📅 승인 날짜:</span>
                             <span id="poApprovalDate" style="font-size: 0.9em; font-weight: 600; color: #FF8C00;">-</span>
                         </div>
-                        <button onclick="submitGateApproval()" style="width: 100%; padding: 10px; background: #FF8C00; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer;">💾 승인 여부 의견 저장</button>
+                        <div style="background: #e7f3ff; border: 1px solid #b8daff; border-radius: 6px; padding: 10px; text-align: center;">
+                            <span style="font-size: 0.85em; color: #004085;">💡 Stage Gate 승인은 Claude Code에게 요청하세요</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -543,13 +540,11 @@
                 aiDateEl.textContent = gate.ai_verification_date ? new Date(gate.ai_verification_date).toLocaleDateString('ko-KR') : '-';
             }
 
-            // PO 승인 정보 로드
-            if (gate.po_approval_status) {
-                document.getElementById('gateApprovalStatus').value = gate.po_approval_status === 'Approved' ? '승인' : gate.po_approval_status === 'Rejected' ? '거부' : '';
-            } else {
-                document.getElementById('gateApprovalStatus').value = '';
-            }
-            document.getElementById('gateApprovalUser').value = gate.po_approval_user || '';
+            // PO 승인 정보 로드 (읽기 전용)
+            const statusText = gate.po_approval_status === 'Approved' ? '✅ 승인' :
+                              gate.po_approval_status === 'Rejected' ? '❌ 거부' : '-';
+            document.getElementById('gateApprovalStatus').value = statusText;
+            document.getElementById('gateApprovalUser').value = gate.po_approval_user || '-';
             document.getElementById('gateApprovalNote').value = gate.po_approval_note || '';
 
             // PO 승인 날짜 표시
