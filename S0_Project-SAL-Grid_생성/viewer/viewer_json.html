@@ -413,7 +413,7 @@
         // Supabase 설정 (사용자 github_repo_url 조회용)
         const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
         // GitHub URL을 raw URL로 변환
         function githubToRawUrl(githubUrl, filePath) {
@@ -542,7 +542,7 @@
                     console.log('User email from URL:', userEmail);
                 } else {
                     // 2. URL에 없으면 Supabase 세션에서 가져오기 (fallback)
-                    const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+                    const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
                     if (sessionError) {
                         console.error('Session error:', sessionError);
                     }
@@ -566,7 +566,7 @@
                 document.getElementById('connectionStatus').textContent = 'GitHub 정보 확인 중...';
                 console.log('Step 2: Supabase 쿼리 시작, email:', userEmail);
 
-                const { data: userData, error } = await supabase
+                const { data: userData, error } = await supabaseClient
                     .from('users')
                     .select('github_repo_url')
                     .eq('email', userEmail)
