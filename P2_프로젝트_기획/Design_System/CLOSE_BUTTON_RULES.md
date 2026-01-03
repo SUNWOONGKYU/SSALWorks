@@ -43,6 +43,20 @@ SSALWorks UI에서 사용되는 닫기 버튼의 일관성 규칙을 정의합�
 - 질문 이력 모달
 - 서비스 가이드 모달
 - Tips 전체뷰어 모달
+- 이미 연결됨 안내 모달
+- AI Tutor 닫기 버튼
+- 서약서 모달 (agreementModal)
+- 서약 완료 안내 모달 (agreementSuccessModal)
+- 로그인 필요 안내 모달 (loginRequiredModal)
+- 빌더 계정 필요 모달 (builderRequiredModal)
+- 프로젝트 등록 모달 (addProjectModal)
+- 내 문의 내역 모달 (myInquiriesModal)
+
+**배경색 변형:**
+| 컨텍스트 | 배경색 |
+|----------|--------|
+| 어두운 헤더 | `rgba(255, 255, 255, 0.2)` |
+| 밝은/컬러 헤더 | `#6c757d` |
 
 ---
 

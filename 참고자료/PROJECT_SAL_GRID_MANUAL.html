@@ -1433,13 +1433,14 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 │  완료 보고                                                       │
 └─────────────────────────────────────────────────────────────────┘</code></pre>
 <hr />
-<h2 id="json-데이터-구조-viewer용---개별-파일-방식">9. JSON 데이터 구조
-(Viewer용 - 개별 파일 방식)</h2>
+<h2 id="json-데이터-구조-및-viewer-로딩-방식-github-url-통합">9. JSON
+데이터 구조 및 Viewer 로딩 방식 (GitHub URL 통합)</h2>
 <blockquote>
 <p><strong>적용 대상:</strong> JSON Viewer
 (<code>viewer_json.html</code>, <code>viewer_mobile_json.html</code>)
 <strong>데이터 형식:</strong> index.json + grid_records/*.json (개별
-파일)</p>
+파일) <strong>로딩 방식:</strong> Supabase users 테이블 →
+github_repo_url → GitHub raw URL</p>
 </blockquote>
 <h3 id="json-폴더-구조">JSON 폴더 구조</h3>
 <pre><code>S0_Project-SAL-Grid_생성/method/json/data/
@@ -1449,18 +1450,125 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
     ├── S1BI2.json
     ├── S2F1.json
     └── ... (Task ID별 파일)</code></pre>
-<h3 id="viewer-로딩-순서">Viewer 로딩 순서</h3>
+<h3 id="viewer-데이터-로딩-방식-github-url-통합">Viewer 데이터 로딩 방식
+⭐ (GitHub URL 통합)</h3>
+<blockquote>
+<p><strong>모든 사용자가 동일한 방식으로 GitHub raw URL에서 데이터
+로드</strong></p>
+</blockquote>
 <div class="sourceCode" id="cb21"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. index.json 로드</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> indexUrl <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>jsonBasePath<span class="sc">}</span><span class="vs">/index.json`</span><span class="op">;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> indexData <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(indexUrl)<span class="op">.</span><span class="fu">then</span>(r <span class="kw">=&gt;</span> r<span class="op">.</span><span class="fu">json</span>())<span class="op">;</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 1. 사용자 이메일 확인 (URL 파라미터 또는 Supabase 세션)</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> urlParams <span class="op">=</span> <span class="kw">new</span> <span class="fu">URLSearchParams</span>(<span class="bu">window</span><span class="op">.</span><span class="at">location</span><span class="op">.</span><span class="at">search</span>)<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> userEmail <span class="op">=</span> urlParams<span class="op">.</span><span class="fu">get</span>(<span class="st">&#39;email&#39;</span>) <span class="op">||</span> session<span class="op">?.</span><span class="at">user</span><span class="op">?.</span><span class="at">email</span><span class="op">;</span></span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. 각 Task JSON 파일 로드</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> taskId <span class="kw">of</span> indexData<span class="op">.</span><span class="at">task_ids</span>) {</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> taskUrl <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>jsonBasePath<span class="sc">}</span><span class="vs">/grid_records/</span><span class="sc">${</span>taskId<span class="sc">}</span><span class="vs">.json`</span><span class="op">;</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> taskData <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(taskUrl)<span class="op">.</span><span class="fu">then</span>(r <span class="kw">=&gt;</span> r<span class="op">.</span><span class="fu">json</span>())<span class="op">;</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Task 데이터 처리</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 2. Supabase users 테이블에서 github_repo_url 조회</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> { <span class="dt">data</span><span class="op">:</span> userData } <span class="op">=</span> <span class="cf">await</span> supabaseClient</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">from</span>(<span class="st">&#39;users&#39;</span>)</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">select</span>(<span class="st">&#39;github_repo_url&#39;</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">eq</span>(<span class="st">&#39;email&#39;</span><span class="op">,</span> userEmail)</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">single</span>()<span class="op">;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="co">// 3. GitHub repo URL → raw URL 변환</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a><span class="co">// 예: github.com/user/repo → raw.githubusercontent.com/user/repo/master</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> rawBaseUrl <span class="op">=</span> <span class="fu">githubToRawUrl</span>(userData<span class="op">.</span><span class="at">github_repo_url</span>)<span class="op">;</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co">// 4. index.json 로드</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> indexUrl <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>rawBaseUrl<span class="sc">}</span><span class="vs">/S0_.../method/json/data/index.json`</span><span class="op">;</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="kw">const</span> indexData <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(indexUrl)<span class="op">.</span><span class="fu">then</span>(r <span class="kw">=&gt;</span> r<span class="op">.</span><span class="fu">json</span>())<span class="op">;</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">// 5. 각 Task JSON 파일 로드</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">const</span> taskId <span class="kw">of</span> indexData<span class="op">.</span><span class="at">task_ids</span>) {</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> taskUrl <span class="op">=</span> <span class="vs">`</span><span class="sc">${</span>rawBaseUrl<span class="sc">}</span><span class="vs">/S0_.../method/json/data/grid_records/</span><span class="sc">${</span>taskId<span class="sc">}</span><span class="vs">.json`</span><span class="op">;</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> taskData <span class="op">=</span> <span class="cf">await</span> <span class="fu">fetch</span>(taskUrl)<span class="op">.</span><span class="fu">then</span>(r <span class="kw">=&gt;</span> r<span class="op">.</span><span class="fu">json</span>())<span class="op">;</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">// Task 데이터 처리</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="핵심-포인트">핵심 포인트</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사용자 분기</td>
+<td>없음 (모든 사용자 동일 방식)</td>
+</tr>
+<tr>
+<td>데이터 소스</td>
+<td>Supabase <code>users</code> 테이블의 <code>github_repo_url</code>
+필드</td>
+</tr>
+<tr>
+<td>로딩 URL</td>
+<td>GitHub raw URL (<code>raw.githubusercontent.com/...</code>)</td>
+</tr>
+<tr>
+<td>캐시</td>
+<td>없음 (즉시 반영)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="코드-위치-참조">코드 위치 참조</h3>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>파일</th>
+<th>라인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>githubToRawUrl()</code> 함수</td>
+<td><code>viewer_json.html</code></td>
+<td>416-425</td>
+</tr>
+<tr>
+<td>에러 핸들링</td>
+<td><code>viewer_json.html</code></td>
+<td>574-598</td>
+</tr>
+</tbody>
+</table>
+<h3 id="에러-핸들링">에러 핸들링</h3>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 34%" />
+<col style="width: 31%" />
+</colgroup>
+<thead>
+<tr>
+<th>에러 상황</th>
+<th>에러 코드</th>
+<th>UI 표시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사용자 미등록 (users 테이블)</td>
+<td><code>PGRST116</code></td>
+<td>“GitHub 연결 필요” (회색 배지)</td>
+</tr>
+<tr>
+<td>github_repo_url 없음</td>
+<td>-</td>
+<td>“프로젝트 없음” 메시지</td>
+</tr>
+<tr>
+<td>기타 조회 실패</td>
+<td>-</td>
+<td>“사용자 조회 실패” (빨강 배지)</td>
+</tr>
+<tr>
+<td>JSON 파일 404</td>
+<td>fetch error</td>
+<td>“프로젝트 없음” 메시지</td>
+</tr>
+</tbody>
+</table>
 <h3 id="프로젝트-없음-안내-메시지">“프로젝트 없음” 안내 메시지</h3>
 <p>index.json 파일이 없을 때 (404 응답) 표시:</p>
 <pre><code>📋 진행 중인 프로젝트가 아직 없습니다
@@ -1500,6 +1608,10 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21
 <tr>
 <td>개별 Task 파일</td>
 <td><code>S0_Project-SAL-Grid_생성/method/json/data/grid_records/*.json</code></td>
+</tr>
+<tr>
+<td>사용자 정보 (github_repo_url)</td>
+<td>Supabase <code>users</code> 테이블</td>
 </tr>
 </tbody>
 </table>

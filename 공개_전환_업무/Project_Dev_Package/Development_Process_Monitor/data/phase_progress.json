@@ -1,6 +1,6 @@
 {
-  "project_id": "YOUR_PROJECT_ID",
-  "updated_at": "2026-01-03T13:48:52.888Z",
+  "project_id": "DEV_PACKAGE_TEST",
+  "updated_at": "2026-01-03T14:17:05.222Z",
   "phases": {
     "P0": {
       "name": "작업 디렉토리 구조 생성",
