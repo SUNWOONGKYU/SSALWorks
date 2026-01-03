@@ -54,7 +54,7 @@ Project_Dev_Package/
 ├── S3_개발-2차/                   # 고급 기능 개발
 ├── S4_개발-3차/                   # QA 및 최적화
 ├── S5_개발_마무리/                # 배포 및 문서화
-├── Development_Process_Monitor/   # 진행 상황 시각화 (DB 업로드 선택)
+├── Development_Process_Monitor/   # 진행 상황 시각화 (DB 업로드 필수)
 ├── Human_ClaudeCode_Bridge/       # 작업 지시/결과 교환
 ├── .claude/                       # AI 설정
 ├── index.html                     # 메인 페이지
@@ -79,7 +79,7 @@ node scripts/setup-hooks.js
 | 용도 | 방식 | 위치 |
 |------|------|------|
 | **Task 관리** | JSON Method (기본) | `S0_Project-SAL-Grid_생성/method/json/data/` |
-| **진행률 표시** | DB 업로드 (선택) | SSAL Works 플랫폼 연동 시 |
+| **진행률 표시** | DB 업로드 (필수) | `Development_Process_Monitor/` 설정 필요 |
 
 **JSON 폴더 구조:**
 ```
