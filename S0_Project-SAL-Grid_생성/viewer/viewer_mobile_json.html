@@ -429,7 +429,7 @@
             </div>
         </div>
 
-        <div class="gate-info">Stage Gate 승인은 Claude Code에게 요청하세요</div>
+        <div class="gate-info">Stage Gate 승인을 Claude Code에게 요청하세요</div>
     </div>
 
     <div class="task-list" id="taskList">
@@ -769,13 +769,17 @@
             // AI 검증 정보
             document.getElementById('gateAINote').textContent = gate.ai_verification_note || '-';
             document.getElementById('gateAIReport').textContent = gate.verification_report_path || '-';
-            document.getElementById('gateAIDate').textContent = gate.approved_at || '-';
+            document.getElementById('gateAIDate').textContent = gate.ai_verification_date ?
+                new Date(gate.ai_verification_date).toLocaleDateString('ko-KR') : '-';
 
             // PO 승인 정보
-            document.getElementById('gatePOStatus').textContent = gate.stage_gate_status || '-';
-            document.getElementById('gatePOUser').textContent = gate.approved_by || '-';
-            document.getElementById('gatePONote').textContent = gate.remarks || '-';
-            document.getElementById('gatePODate').textContent = gate.approved_at || '-';
+            const poStatus = gate.po_approval_status === 'Approved' ? '✅ 승인' :
+                            gate.po_approval_status === 'Rejected' ? '❌ 거부' : '-';
+            document.getElementById('gatePOStatus').textContent = poStatus;
+            document.getElementById('gatePOUser').textContent = gate.po_approval_user || '-';
+            document.getElementById('gatePONote').textContent = gate.po_approval_note || '-';
+            document.getElementById('gatePODate').textContent = gate.po_approval_date ?
+                new Date(gate.po_approval_date).toLocaleDateString('ko-KR') : '-';
 
             // 패널 토글
             if (panel.classList.contains('active') && currentGateStage === stageNum) {

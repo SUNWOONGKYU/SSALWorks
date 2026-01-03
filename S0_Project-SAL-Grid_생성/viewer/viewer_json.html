@@ -324,7 +324,7 @@
                             <span id="poApprovalDate" style="font-size: 0.9em; font-weight: 600; color: #FF8C00;">-</span>
                         </div>
                         <div style="background: #e7f3ff; border: 1px solid #b8daff; border-radius: 6px; padding: 10px; text-align: center;">
-                            <span style="font-size: 0.85em; color: #004085;">💡 Stage Gate 승인은 Claude Code에게 요청하세요</span>
+                            <span style="font-size: 0.85em; color: #004085;">💡 Stage Gate 승인을 Claude Code에게 요청하세요</span>
                         </div>
                     </div>
                 </div>
@@ -849,12 +849,14 @@
             let html = '<button class="stage-tab active" onclick="selectStage(\'all\')">전체</button>';
             for (let s = 1; s <= 5; s++) {
                 const count = allTasks.filter(t => t.stage === s).length;
-                const gate = stageGates.find((g, i) => i + 1 === s) || {};
+                const gate = stageGates.find(g => g.stage === s) || {};
                 const gateStatus = gate.stage_gate_status || 'Not Started';
+                // AI Verified는 아직 PO 승인 전이므로 pending 상태로 표시
                 const gateClass = gateStatus === 'Approved' ? 'approved' : gateStatus === 'Rejected' ? 'rejected' : '';
+                const gateIcon = gateStatus === 'Approved' ? '✅' : gateStatus === 'Rejected' ? '❌' : '🔐';
 
                 html += `<button class="stage-tab" onclick="selectStage(${s})">S${s}: ${STAGE_NAMES[s]} (${count})</button>`;
-                html += `<button class="stage-tab gate-tab ${gateClass}" onclick="showGatePanel(${s})">${gateStatus === 'Approved' ? '✅' : gateStatus === 'Rejected' ? '❌' : '🔐'} Gate ${s}</button>`;
+                html += `<button class="stage-tab gate-tab ${gateClass}" onclick="showGatePanel(${s})">${gateIcon} Gate ${s}</button>`;
             }
             document.getElementById('stageTabs').innerHTML = html;
         }

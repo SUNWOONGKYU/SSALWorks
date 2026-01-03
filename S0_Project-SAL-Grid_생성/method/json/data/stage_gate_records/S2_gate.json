@@ -6,10 +6,13 @@
   "completed_tasks": 17,
   "verification_status": "Verified",
   "ai_verification_note": "S2 Stage 모든 Task 완료. OAuth 로그인, 이메일 인증, 회원가입 기능 구현 및 검증 완료.",
-  "stage_gate_status": "Approved",
+  "ai_verification_date": "2025-12-22",
   "verification_report_path": "stage-gates/S2GATE_verification_report.md",
-  "approved_at": "2025-12-22",
-  "approved_by": "PO",
+  "stage_gate_status": "AI Verified",
+  "po_approval_status": null,
+  "po_approval_user": null,
+  "po_approval_note": null,
+  "po_approval_date": null,
   "checklist": {
     "all_tasks_completed": true,
     "all_verifications_passed": true,
@@ -17,5 +20,5 @@
     "build_success": true,
     "test_success": true
   },
-  "remarks": "인증/회원 시스템 완료. Google OAuth, 이메일 로그인 정상 작동."
+  "remarks": "인증/회원 시스템 완료. PO 승인 대기 중."
 }
