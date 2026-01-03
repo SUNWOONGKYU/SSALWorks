@@ -528,8 +528,10 @@
         let useGitHub = false;
 
         async function loadTasks() {
+            console.log('=== loadTasks 시작 ===');
             try {
                 document.getElementById('connectionStatus').textContent = '사용자 확인 중...';
+                console.log('Step 1: connectionStatus 업데이트됨');
 
                 // 1. URL 파라미터에서 이메일 가져오기 (우선)
                 const urlParams = new URLSearchParams(window.location.search);
@@ -562,6 +564,7 @@
 
                 // 모든 사용자: Supabase에서 github_repo_url 조회
                 document.getElementById('connectionStatus').textContent = 'GitHub 정보 확인 중...';
+                console.log('Step 2: Supabase 쿼리 시작, email:', userEmail);
 
                 const { data: userData, error } = await supabase
                     .from('users')
@@ -569,7 +572,7 @@
                     .eq('email', userEmail)
                     .single();
 
-                console.log('Supabase query result:', { userData, error });
+                console.log('Step 2 결과:', { userData, error });
 
                 if (error) {
                     console.error('Supabase error:', error);
@@ -617,7 +620,11 @@
                     indexUrl = `${jsonBasePath}/index.json`;
                 }
 
+                console.log('Step 3: index.json URL:', indexUrl);
+                document.getElementById('connectionStatus').textContent = 'index.json 로딩 중...';
+
                 const indexResponse = await fetch(indexUrl);
+                console.log('Step 4: index.json 응답:', indexResponse.status);
 
                 if (!indexResponse.ok) {
                     if (indexResponse.status === 404) {
