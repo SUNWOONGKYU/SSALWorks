@@ -717,7 +717,7 @@
 
             for (const num of stageNums) {
                 try {
-                    const gateUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/stage_gates/S${num}_gate.json`);
+                    const gateUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/stage_gate_records/S${num}_gate.json`);
                     console.log(`Loading Stage Gate ${num}:`, gateUrl);
                     const response = await fetch(gateUrl);
                     if (response.ok) {
