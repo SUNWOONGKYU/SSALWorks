@@ -1,438 +1,1352 @@
-# Development Process Monitor - DB Method
+# SSAL Works 진행률 데이터 수집 완벽 가이드
 
-> 프로젝트 P0~S5 진행률을 사이드바에 표시하는 시스템
-> **버전:** 3.0 (DB Method)
-> **최종 수정일:** 2026-01-02
-
----
-
-## 개요
-
-Development Process Monitor는 git commit 시 진행률을 계산하여 Supabase DB에 업로드하고, 웹에서 DB를 조회하여 사이드바에 표시하는 **DB Method** 시스템입니다.
+> **이 문서의 목적:** 초보자도, 다른 Claude Code도 이 문서만 보고 완벽하게 따라할 수 있는 프로세스 제시
+>
+> **문서 버전:** 2.0
+> **최종 수정:** 2026-01-03
 
 ---
 
-## 핵심 특징
-
-| 항목 | 내용 |
-|------|------|
-| **방식** | DB Method (Supabase) |
-| **데이터 소스** | `project_phase_progress` 테이블 |
-| **업데이트 시점** | git commit 시 자동 업로드 |
-| **조회 방식** | index.html에서 DB 직접 조회 |
-
----
-
-## 데이터 흐름
+# 🎯 한눈에 보는 전체 프로세스
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    git commit 실행                               │
-│                         ↓                                       │
-│                 pre-commit hook 실행                             │
-└─────────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 1: build-progress.js                                      │
-│  - P0~S0: 폴더/파일 존재 여부로 진행률 계산                        │
-│  - S1~S5: sal_grid.csv에서 Task 완료율로 진행률 계산              │
-│  - 출력: Development_Process_Monitor/data/phase_progress.json    │
-└─────────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 2: upload-progress.js                                     │
-│  - phase_progress.json 읽기                                     │
-│  - Supabase project_phase_progress 테이블에 UPSERT              │
-│  - Project ID: .ssal-project.json 또는 이메일 기반 생성          │
-└─────────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────────┐
-│  Step 3: index.html loadProjectProgress()                       │
-│  - Supabase에서 project_phase_progress 테이블 조회               │
-│  - 사이드바 진행률 표시                                          │
-└─────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 관련 파일
-
-| 파일 | 위치 | 역할 |
-|------|------|------|
-| `build-progress.js` | `Development_Process_Monitor/` | 진행률 계산 → JSON 생성 |
-| `upload-progress.js` | `scripts/` | JSON → DB 업로드 |
-| `phase_progress.json` | `Development_Process_Monitor/data/` | 중간 산출물 (JSON) |
-| `index.html` | 프로젝트 루트 | DB 조회 → 사이드바 표시 |
-| `pre-commit` | `.git/hooks/` | 자동 실행 hook |
-
----
-
-## 1. Pre-commit Hook
-
-**위치:** `.git/hooks/pre-commit`
-
-> **참고:** 실제 pre-commit hook은 4단계로 구성됨. 아래는 진행률 관련 부분만 발췌.
-
-```bash
-#!/bin/sh
-PROJECT_ROOT="$(git rev-parse --show-toplevel)"
-
-# === 1. 웹 배포 파일 빌드 ===
-node "$PROJECT_ROOT/scripts/build-web-assets.js"
-
-# === 2. 매뉴얼 빌드 ===
-node "$PROJECT_ROOT/S0_Project-SAL-Grid_생성/manual/build-manual.js"
-
-# === 3. 진행률 빌드 (phase_progress.json 생성) ===
-echo "📊 진행률 빌드 중..."
-node "$PROJECT_ROOT/Development_Process_Monitor/build-progress.js"
-
-if [ $? -ne 0 ]; then
-    echo "⚠️ 진행률 빌드 실패 (계속 진행)"
-fi
-
-# 진행률 파일 스테이징에 추가
-git add "$PROJECT_ROOT/Development_Process_Monitor/data/phase_progress.json" 2>/dev/null
-
-# === 4. 진행률 DB 업로드 ===
-echo "📤 진행률 DB 업로드 중..."
-node "$PROJECT_ROOT/scripts/upload-progress.js"
-
-if [ $? -ne 0 ]; then
-    echo "⚠️ 진행률 DB 업로드 실패 (계속 진행)"
-fi
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║                        SSAL Works 진행률 수집 전체 흐름                               ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │      👨‍💻 PO가 Claude Code에게 커밋 요청                                          │ ║
+║   │                                                                                 │ ║
+║   │              PO: "커밋해줘" 또는 "작업 완료했으니 커밋해"                        │ ║
+║   │                                                                                 │ ║
+║   │              ↓ Claude Code가 실행                                               │ ║
+║   │                                                                                 │ ║
+║   │              $ git add .                                                        │ ║
+║   │              $ git commit -m "S2F1 작업 완료"                                   │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                         │                                             ║
+║                                         ▼                                             ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │      ⚡ Pre-commit Hook 자동 실행                                               │ ║
+║   │                                                                                 │ ║
+║   │              .git/hooks/pre-commit 스크립트가 자동으로 실행됨                    │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                         │                                             ║
+║                    ┌────────────────────┼────────────────────┐                        ║
+║                    ▼                    ▼                    ▼                        ║
+║   ┌─────────────────────┐ ┌─────────────────────┐ ┌─────────────────────┐            ║
+║   │                     │ │                     │ │                     │            ║
+║   │  📦 웹 빌드         │ │  📊 진행률 계산     │ │  📤 DB 업로드       │            ║
+║   │                     │ │                     │ │                     │            ║
+║   │  build-web-assets   │ │  build-progress.js  │ │  upload-progress.js │            ║
+║   │                     │ │                     │ │                     │            ║
+║   └─────────────────────┘ └──────────┬──────────┘ └──────────┬──────────┘            ║
+║                                      │                       │                        ║
+║                                      ▼                       │                        ║
+║                    ┌─────────────────────────────────┐       │                        ║
+║                    │                                 │       │                        ║
+║                    │  📄 phase_progress.json         │───────┘                        ║
+║                    │     (로컬 파일)                 │                                ║
+║                    │                                 │                                ║
+║                    └─────────────────────────────────┘                                ║
+║                                      │                                                ║
+║                                      ▼                                                ║
+║                    ┌─────────────────────────────────┐                                ║
+║                    │                                 │                                ║
+║                    │  🗄️ Supabase DB                 │                                ║
+║                    │     project_phase_progress      │                                ║
+║                    │                                 │                                ║
+║                    └─────────────────────────────────┘                                ║
+║                                      │                                                ║
+║                                      ▼                                                ║
+║                    ┌─────────────────────────────────┐                                ║
+║                    │                                 │                                ║
+║                    │  🌐 index.html 사이드바         │                                ║
+║                    │     진행률 바 표시              │                                ║
+║                    │                                 │                                ║
+║                    └─────────────────────────────────┘                                ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-## 2. 빌드 스크립트: build-progress.js
+# 📁 파일 위치 지도
 
-**위치:** `Development_Process_Monitor/build-progress.js`
-
-### 진행률 계산 방식
-
-| 단계 | 계산 방식 | 데이터 소스 |
-|------|----------|------------|
-| P0~S0 | 폴더/파일 존재 여부 | 로컬 폴더 구조 |
-| S1~S5 | Task 완료율 | sal_grid.csv |
-
-- **P0~S0:** 하위 폴더 중 파일이 있는 폴더 수 / 전체 하위 폴더 수
-- **S1~S5:** Completed 상태 Task 수 / 전체 Task 수
-
-### 출력 파일: phase_progress.json
-
-**위치:** `Development_Process_Monitor/data/phase_progress.json`
-
-```json
-{
-  "project_id": "SSALWORKS",
-  "updated_at": "2026-01-02T00:00:00.000Z",
-  "phases": {
-    "P0": { "name": "작업 디렉토리 구조 생성", "progress": 100, "completed": 2, "total": 2 },
-    "P1": { "name": "사업계획", "progress": 100, "completed": 5, "total": 5 },
-    "S5": { "name": "개발 마무리", "progress": 0, "completed": 0, "total": 9 }
-  }
-}
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║                           프로젝트 파일 구조 지도                                     ║
+║                                                                                       ║
+║   C:\!SSAL_Works_Private\                                                             ║
+║   │                                                                                   ║
+║   ├── .git\hooks\                                                                     ║
+║   │   │                                                                               ║
+║   │   └── pre-commit ◀────────────────── [1] 트리거 스크립트                          ║
+║   │                                       git commit 시 자동 실행                     ║
+║   │                                                                                   ║
+║   ├── Development_Process_Monitor\                                                    ║
+║   │   │                                                                               ║
+║   │   ├── build-progress.js ◀──────────── [2] 진행률 계산 스크립트                    ║
+║   │   │                                    P0~S5 진행률 계산                          ║
+║   │   │                                                                               ║
+║   │   └── data\                                                                       ║
+║   │       │                                                                           ║
+║   │       └── phase_progress.json ◀────── [3] 계산 결과 저장 파일                     ║
+║   │                                        중간 산출물                                ║
+║   │                                                                                   ║
+║   ├── scripts\                                                                        ║
+║   │   │                                                                               ║
+║   │   └── upload-progress.js ◀─────────── [4] DB 업로드 스크립트                      ║
+║   │                                        JSON → Supabase                            ║
+║   │                                                                                   ║
+║   ├── P3_프로토타입_제작\Database\                                                    ║
+║   │   │                                                                               ║
+║   │   └── .env ◀───────────────────────── [5] Supabase 인증 정보                      ║
+║   │                                        URL + SERVICE_ROLE_KEY                     ║
+║   │                                                                                   ║
+║   ├── .ssal-project.json ◀─────────────── [6] 프로젝트 ID 설정                        ║
+║   │                                        { "project_id": "2512...-P001" }           ║
+║   │                                                                                   ║
+║   ├── S0_Project-SAL-Grid_생성\method\json\data\                                      ║
+║   │   │                                                                               ║
+║   │   ├── index.json ◀─────────────────── [7] Task ID 목록                            ║
+║   │   │                                    { "task_ids": ["S1M1", ...] }              ║
+║   │   │                                                                               ║
+║   │   └── grid_records\                                                               ║
+║   │       │                                                                           ║
+║   │       ├── S1M1.json ◀──────────────── [8] 개별 Task 파일들                        ║
+║   │       ├── S1D1.json                    task_status 필드로 완료 여부 판단          ║
+║   │       ├── S2F1.json                                                               ║
+║   │       └── ... (총 66개)                                                           ║
+║   │                                                                                   ║
+║   └── index.html ◀─────────────────────── [9] 웹 메인 페이지                          ║
+║                                            loadProjectProgress() 함수                 ║
+║                                            사이드바에 진행률 표시                     ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-## 3. 업로드 스크립트: upload-progress.js
+# 🔢 단계별 상세 프로세스
 
-**위치:** `scripts/upload-progress.js`
-
-### Project ID 결정 순서
-
-1. `.ssal-project.json` 파일에서 `project_id` 읽기 (우선)
-2. 없으면 Git 이메일에서 생성: `{email_prefix}_PROJECT`
-
-### DB 테이블 구조
-
-**테이블명:** `project_phase_progress`
-
-```sql
-CREATE TABLE project_phase_progress (
-    id SERIAL PRIMARY KEY,
-    project_id VARCHAR(100) NOT NULL,
-    phase_code VARCHAR(10) NOT NULL,
-    phase_name VARCHAR(100),
-    progress INTEGER DEFAULT 0,
-    completed_items INTEGER DEFAULT 0,
-    total_items INTEGER DEFAULT 0,
-    status VARCHAR(20) DEFAULT 'pending',
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(project_id, phase_code)
-);
-```
-
-### UPSERT 로직
-
-```javascript
-const record = {
-    project_id: projectId,
-    phase_code: phaseCode,          // P0, P1, ..., S5
-    phase_name: phaseData.name,
-    progress: phaseData.progress,   // 0~100
-    completed_items: phaseData.completed,
-    total_items: phaseData.total,
-    status: phaseData.progress === 100 ? 'completed'
-          : phaseData.progress > 0 ? 'in_progress'
-          : 'pending',
-    updated_at: new Date().toISOString()
-};
-```
-
----
-
-## 4. 웹 조회: index.html loadProjectProgress()
-
-**위치:** `index.html` (line 2888~2940)
-
-```javascript
-async function loadProjectProgress(projectId) {
-    console.log('📊 프로젝트 진행률 로드, Project ID:', projectId);
-
-    try {
-        // 로그인 사용자 확인
-        const { data: { session } } = await window.supabaseClient.auth.getSession();
-        if (!session || !session.user) {
-            console.log('📊 로그인 필요 - 진행률 0%');
-            resetAllProgressToZero();
-            return;
-        }
-
-        // DB에서 진행률 조회
-        const { data, error } = await window.supabaseClient
-            .from('project_phase_progress')
-            .select('*')
-            .eq('project_id', projectId);
-
-        if (error || !data || data.length === 0) {
-            resetAllProgressToZero();
-            return;
-        }
-
-        // 진행률 적용
-        data.forEach(phase => {
-            const progress = phase.progress || 0;
-            const code = phase.phase_code;
-
-            if (code === 'P0' || code === 'S0') {
-                updateSpecialProgress(code, progress);
-            } else if (code.startsWith('P')) {
-                updatePrepProgressByCode(code, progress);
-            } else if (code.startsWith('S')) {
-                updateStageProgress(code, progress);
-            }
-        });
-
-        console.log('📊 DB에서 진행률 로드 완료:', data.length + '개 단계');
-    } catch (e) {
-        console.warn('📊 진행률 로드 오류:', e);
-        resetAllProgressToZero();
-    }
-}
-```
-
----
-
-## 5. 진행률 업데이트 함수
-
-### updateStageProgress() - 일반단계 (P1~P3, S1~S5)
-
-```javascript
-function updateStageProgress(stageId, progress) {
-    const processItems = document.querySelectorAll('.process-item');
-    processItems.forEach(item => {
-        const header = item.querySelector('.process-icon');
-        if (header && header.textContent.includes(stageId)) {
-            const progressFill = item.querySelector('.process-progress-fill');
-            const percentText = item.querySelector('.process-percent');
-            const majorDiv = item.querySelector('.process-major, .process-special-major');
-
-            if (progressFill) progressFill.style.width = progress + '%';
-            if (percentText) percentText.textContent = progress + '%';
-            if (majorDiv) {
-                majorDiv.setAttribute('data-progress', progress);
-                if (progress === 100) {
-                    majorDiv.classList.add('completed');
-                } else {
-                    majorDiv.classList.remove('completed');
-                }
-            }
-        }
-    });
-}
-```
-
-### updateSpecialProgress() - 특별단계 (P0, S0)
-
-```javascript
-function updateSpecialProgress(stageId, progress) {
-    const iconText = stageId + '.';
-    document.querySelectorAll('.process-special-major').forEach(el => {
-        const iconEl = el.querySelector('.process-icon');
-        if (iconEl && iconEl.textContent === iconText) {
-            el.setAttribute('data-progress', progress);
-            const fillEl = el.querySelector('.process-progress-fill');
-            if (fillEl) fillEl.style.width = `${progress}%`;
-            const percentEl = el.querySelector('.process-percent');
-            if (percentEl) percentEl.textContent = `${progress}%`;
-            if (progress === 100) {
-                el.classList.add('completed');
-            } else {
-                el.classList.remove('completed');
-            }
-        }
-    });
-}
-```
-
----
-
-## 6. 폴더 구조
+## STEP 0: 사전 준비 (최초 1회만)
 
 ```
-Development_Process_Monitor/
-├── build-progress.js          # 진행률 계산 스크립트
-├── README.md                  # 이 문서
-├── DEVELOPMENT_PROCESS_WORKFLOW.md  # 워크플로우 개요
-├── DB_Method/                 # DB 관련 참조 파일
-│   └── create_table.sql       # 테이블 생성 SQL
-└── data/
-    └── phase_progress.json    # 빌드 출력 (중간 산출물)
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 0: 사전 준비 확인 (최초 1회만)                                                 ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   ☑️ 체크리스트 - 아래 항목들이 모두 준비되어 있는지 확인                       │ ║
+║   │                                                                                 │ ║
+║   │   □ 1. Node.js 18 이상 설치됨 (fetch API 사용)                                  │ ║
+║   │      → 터미널에서 확인: node --version                                          │ ║
+║   │      → 결과 예시: v20.10.0 (18 미만이면 업그레이드 필요!)                       │ ║
+║   │                                                                                 │ ║
+║   │   □ 2. Git 설치됨                                                              │ ║
+║   │      → 터미널에서 확인: git --version                                           │ ║
+║   │      → 결과 예시: git version 2.43.0                                            │ ║
+║   │                                                                                 │ ║
+║   │   □ 3. .env 파일 존재                                                          │ ║
+║   │      → 경로: C:\!SSAL_Works_Private\P3_프로토타입_제작\Database\.env            │ ║
+║   │      → 내용 확인:                                                               │ ║
+║   │         SUPABASE_URL=https://zwjmfewyshhwpgwdtrus.supabase.co                   │ ║
+║   │         SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJI...                               │ ║
+║   │                                                                                 │ ║
+║   │   □ 4. .ssal-project.json 파일 존재                                            │ ║
+║   │      → 경로: C:\!SSAL_Works_Private\.ssal-project.json                          │ ║
+║   │      → 내용 예시:                                                               │ ║
+║   │         {                                                                       │ ║
+║   │           "project_id": "2512000002TH-P001",                                    │ ║
+║   │           "project_name": "SSAL Works",                                         │ ║
+║   │           "created_at": "2025-12-23"                                            │ ║
+║   │         }                                                                       │ ║
+║   │                                                                                 │ ║
+║   │   □ 5. Pre-commit Hook 설정됨                                                  │ ║
+║   │      → 경로: C:\!SSAL_Works_Private\.git\hooks\pre-commit                      │ ║
+║   │      → 실행 권한 확인: ls -la .git/hooks/pre-commit                            │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
 
-scripts/
-└── upload-progress.js         # DB 업로드 스크립트
+### .env 파일 내용 상세
 
-.git/hooks/
-└── pre-commit                 # 자동 실행 hook
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   .env 파일 구조 (P3_프로토타입_제작/Database/.env)                                   ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   # Supabase 프로젝트 URL                                                       │ ║
+║   │   SUPABASE_URL=https://zwjmfewyshhwpgwdtrus.supabase.co                         │ ║
+║   │   │            │                        │                                       │ ║
+║   │   │            │                        └─ 프로젝트 고유 ID                     │ ║
+║   │   │            └─ https:// 필수                                                 │ ║
+║   │   └─ 변수명 (고정)                                                              │ ║
+║   │                                                                                 │ ║
+║   │   # Supabase Service Role Key (관리자 권한)                                     │ ║
+║   │   SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...             │ ║
+║   │   │                        │                                                    │ ║
+║   │   │                        └─ JWT 토큰 (매우 긴 문자열)                         │ ║
+║   │   └─ 변수명 (고정)                                                              │ ║
+║   │                                                                                 │ ║
+║   │   ⚠️ 주의: SERVICE_ROLE_KEY는 RLS(Row Level Security)를 우회함                 │ ║
+║   │           절대 클라이언트에 노출하면 안 됨!                                     │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+### Pre-commit Hook 파일 내용
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   Pre-commit Hook 파일                                                                ║
+║   📂 위치: C:\!SSAL_Works_Private\.git\hooks\pre-commit                               ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   #!/bin/sh                                    ← 쉘 스크립트 선언               │ ║
+║   │                                                                                 │ ║
+║   │   # 프로젝트 루트 경로 가져오기                                                 │ ║
+║   │   PROJECT_ROOT="$(git rev-parse --show-toplevel)"                               │ ║
+║   │   │                                                                             │ ║
+║   │   └─ 결과: C:\!SSAL_Works_Private                                               │ ║
+║   │                                                                                 │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   # 1. 웹 배포 파일 빌드                                                        │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   echo "🔨 웹 배포 파일 빌드 중..."                                              │ ║
+║   │   node "$PROJECT_ROOT/scripts/build-web-assets.js"                              │ ║
+║   │                                                                                 │ ║
+║   │   if [ $? -ne 0 ]; then                        ← 실패 시 커밋 중단              │ ║
+║   │       echo "❌ 웹 배포 파일 빌드 실패!"                                          │ ║
+║   │       exit 1                                                                    │ ║
+║   │   fi                                                                            │ ║
+║   │                                                                                 │ ║
+║   │   git add Production/Frontend/*.js 2>/dev/null  ← 빌드 결과 스테이징            │ ║
+║   │   git add Production/index.html 2>/dev/null                                     │ ║
+║   │                                                                                 │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   # 2. 매뉴얼 빌드 (rules/ 자동 포함)                                           │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   echo "📖 매뉴얼 빌드 중..."                                                   │ ║
+║   │   node "$PROJECT_ROOT/S0_Project-SAL-Grid_생성/manual/build-manual.js"          │ ║
+║   │                                                                                 │ ║
+║   │   if [ $? -ne 0 ]; then                        ← 실패 시 커밋 중단              │ ║
+║   │       echo "❌ 매뉴얼 빌드 실패!"                                                │ ║
+║   │       exit 1                                                                    │ ║
+║   │   fi                                                                            │ ║
+║   │                                                                                 │ ║
+║   │   git add "$PROJECT_ROOT/S0_.../manual/PROJECT_SAL_GRID_MANUAL.md" 2>/dev/null  │ ║
+║   │                                                                                 │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   # 3. ★★★ 진행률 빌드 ★★★                                                  │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   echo "📊 진행률 빌드 중..."                                                   │ ║
+║   │   node "$PROJECT_ROOT/Development_Process_Monitor/build-progress.js"            │ ║
+║   │   │                                                                             │ ║
+║   │   └─ 이 스크립트가 phase_progress.json 생성                                     │ ║
+║   │                                                                                 │ ║
+║   │   if [ $? -ne 0 ]; then                        ← 실패해도 계속 진행             │ ║
+║   │       echo "⚠️ 진행률 빌드 실패 (계속 진행)"                                    │ ║
+║   │   fi                                                                            │ ║
+║   │                                                                                 │ ║
+║   │   git add "$PROJECT_ROOT/Development_Process_Monitor/data/phase_progress.json"  │ ║
+║   │   │       2>/dev/null                                                           │ ║
+║   │   └─ 생성된 파일을 스테이징 영역에 추가                                         │ ║
+║   │                                                                                 │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   # 4. ★★★ 진행률 DB 업로드 ★★★                                              │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │   echo "📤 진행률 DB 업로드 중..."                                              │ ║
+║   │   node "$PROJECT_ROOT/scripts/upload-progress.js"                               │ ║
+║   │   │                                                                             │ ║
+║   │   └─ 이 스크립트가 Supabase DB에 업로드                                         │ ║
+║   │                                                                                 │ ║
+║   │   if [ $? -ne 0 ]; then                        ← 실패해도 계속 진행             │ ║
+║   │       echo "⚠️ 진행률 DB 업로드 실패 (계속 진행)"                               │ ║
+║   │   fi                                                                            │ ║
+║   │                                                                                 │ ║
+║   │   # ═══════════════════════════════════════════════════════════════════════════ │ ║
+║   │                                                                                 │ ║
+║   │   echo "✅ 모든 빌드 완료! 커밋을 진행합니다."                                   │ ║
+║   │   exit 0   ← 성공적으로 종료 (커밋 진행됨)                                      │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-## 7. 환경 설정
-
-### 필수 환경변수
-
-**위치:** `P3_프로토타입_제작/Database/.env`
+## STEP 1: git commit 실행
 
 ```
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
-```
-
-### 프로젝트 설정 파일 (선택)
-
-**위치:** `.ssal-project.json`
-
-```json
-{
-  "project_id": "SSALWORKS",
-  "project_name": "SSAL Works"
-}
-```
-
----
-
-## 8. 실행 방법
-
-### 자동 실행 (권장)
-
-```bash
-git commit -m "작업 내용"
-# pre-commit hook이 자동으로:
-# 1. build-progress.js 실행
-# 2. upload-progress.js 실행
-```
-
-### 수동 실행
-
-```bash
-# 진행률 계산
-node Development_Process_Monitor/build-progress.js
-
-# DB 업로드
-node scripts/upload-progress.js
-```
-
-### 예상 출력
-
-```
-📊 Progress Builder - P0~S5 진행률 계산
-
-=== P0~S0 (폴더/파일 기반) ===
-✅ P0: 2/2 = 100%
-✅ P1: 5/5 = 100%
-...
-
-=== S1~S5 (SAL Grid CSV 기반) ===
-⏳ S1: 0/9 = 0%
-...
-
-✅ 저장 완료: Development_Process_Monitor/data/phase_progress.json
-
-📤 Progress Uploader - DB 업로드 시작
-✅ 환경변수 로드 완료
-🆔 Project ID: SSALWORKS
-📊 Phase 데이터: 10개
-🔄 Supabase에 업로드 중...
-📊 업로드 결과: 10/10 성공
-✅ Progress 업로드 완료
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 1: PO가 Claude Code에게 커밋 요청 → Claude Code가 git commit 실행              ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   👨‍💻 PO → Claude Code                                                          │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   PO: "작업 끝났으니 커밋해줘"                                            │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   ↓ Claude Code가 실행                                                    │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   C:\!SSAL_Works_Private> git add .                                       │ │ ║
+║   │   │                           │                                               │ │ ║
+║   │   │                           └─ 변경된 모든 파일을 스테이징                   │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   C:\!SSAL_Works_Private> git commit -m "S2F1 로그인 UI 완료"             │ │ ║
+║   │   │                           │            │                                  │ │ ║
+║   │   │                           │            └─ 커밋 메시지                     │ │ ║
+║   │   │                           │                                               │ │ ║
+║   │   │                           └─ 이 순간 Pre-commit Hook 실행됨!              │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │                                         │                                       │ ║
+║   │                                         ▼                                       │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   Git 내부 동작:                                                          │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   1. 커밋 요청 수신                                                       │ │ ║
+║   │   │              │                                                            │ │ ║
+║   │   │              ▼                                                            │ │ ║
+║   │   │   2. .git/hooks/pre-commit 파일 확인                                      │ │ ║
+║   │   │              │                                                            │ │ ║
+║   │   │              ├─ 파일 있음? ─────────────────────────┐                     │ │ ║
+║   │   │              │                                      │                     │ │ ║
+║   │   │              ▼                                      ▼                     │ │ ║
+║   │   │   3. 스크립트 실행                          그냥 커밋 진행               │ │ ║
+║   │   │              │                                                            │ │ ║
+║   │   │              ▼                                                            │ │ ║
+║   │   │   4. 스크립트 결과 확인                                                   │ │ ║
+║   │   │              │                                                            │ │ ║
+║   │   │              ├─ exit 0 (성공) ──────────────┐                             │ │ ║
+║   │   │              │                              │                             │ │ ║
+║   │   │              ├─ exit 1 (실패) ───┐          │                             │ │ ║
+║   │   │              │                   │          │                             │ │ ║
+║   │   │              ▼                   ▼          ▼                             │ │ ║
+║   │   │         커밋 중단          커밋 진행                                      │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-## 9. 트러블슈팅
+## STEP 2: build-progress.js 실행
 
-### 진행률이 표시되지 않음
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 2: build-progress.js 실행 (진행률 계산)                                        ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📂 파일 위치: C:\!SSAL_Works_Private\Development_Process_Monitor\build-progress.js │ ║
+║   │   🔧 언어: Node.js                                                              │ ║
+║   │   ⏱️ 실행 시간: 약 1~2초                                                        │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   수동 실행 방법:                                                         │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   $ cd C:\!SSAL_Works_Private                                             │ │ ║
+║   │   │   $ node Development_Process_Monitor/build-progress.js                    │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
 
-1. **로그인 확인** - 로그인하지 않으면 0% 표시
-2. **DB 데이터 확인**
-   ```sql
-   SELECT * FROM project_phase_progress WHERE project_id = 'SSALWORKS';
-   ```
-3. **브라우저 콘솔 확인** - `📊 DB에서 진행률 로드 완료` 메시지 확인
+### 2-A: P0~S0 진행률 계산 (폴더/파일 기반)
 
-### DB 업로드 실패
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   P0~S0 진행률 계산 로직 (폴더/파일 기반)                                             ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📌 핵심 원리:                                                                 │ ║
+║   │                                                                                 │ ║
+║   │   "하위 폴더 중 파일이 있는 폴더 수"                                            │ ║
+║   │   ────────────────────────────────── × 100 = 진행률(%)                         │ ║
+║   │   "전체 하위 폴더 수"                                                           │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   예시: P1_사업계획 폴더                                                        │ ║
+║   │                                                                                 │ ║
+║   │   P1_사업계획/                                                                  │ ║
+║   │   │                                                                             │ ║
+║   │   ├── Business_Model/          ← 📄 파일 있음 ✅                                │ ║
+║   │   │   └── business_model.md                                                     │ ║
+║   │   │                                                                             │ ║
+║   │   ├── Revenue_Structure/       ← 📄 파일 있음 ✅                                │ ║
+║   │   │   └── revenue.md                                                            │ ║
+║   │   │                                                                             │ ║
+║   │   ├── Market_Analysis/         ← 📄 파일 있음 ✅                                │ ║
+║   │   │   └── market.md                                                             │ ║
+║   │   │                                                                             │ ║
+║   │   ├── Competitor_Analysis/     ← 📄 파일 있음 ✅                                │ ║
+║   │   │   └── competitor.md                                                         │ ║
+║   │   │                                                                             │ ║
+║   │   └── Growth_Strategy/         ← 📄 파일 있음 ✅                                │ ║
+║   │       └── growth.md                                                             │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   계산:                                                                         │ ║
+║   │                                                                                 │ ║
+║   │   파일 있는 폴더: 5개 (✅ 5개)                                                  │ ║
+║   │   전체 폴더: 5개                                                                │ ║
+║   │                                                                                 │ ║
+║   │   진행률 = 5 / 5 × 100 = 100%                                                   │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📊 P0~S0 각 Phase의 폴더 정의:                                                │ ║
+║   │                                                                                 │ ║
+║   │   ┌──────────┬─────────────────────────────────┬───────────────────────┐       │ ║
+║   │   │ Phase    │ 폴더 경로                       │ 폴더명 (한글)          │       │ ║
+║   │   ├──────────┼─────────────────────────────────┼───────────────────────┤       │ ║
+║   │   │ P0       │ P0_작업_디렉토리_구조_생성      │ 작업 디렉토리 구조 생성│       │ ║
+║   │   │ P1       │ P1_사업계획                     │ 사업계획               │       │ ║
+║   │   │ P2       │ P2_프로젝트_기획                │ 프로젝트 기획          │       │ ║
+║   │   │ P3       │ P3_프로토타입_제작              │ 프로토타입 제작        │       │ ║
+║   │   │ S0       │ S0_Project-SAL-Grid_생성        │ Project SAL Grid 생성 │       │ ║
+║   │   └──────────┴─────────────────────────────────┴───────────────────────┘       │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
 
-1. **환경변수 확인** - `.env` 파일에 `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` 있는지
-2. **테이블 존재 확인** - `project_phase_progress` 테이블 생성 여부
-3. **네트워크 확인** - Supabase 연결 가능 여부
+### 2-B: S1~S5 진행률 계산 (SAL Grid JSON 기반)
 
-### JSON 파싱 오류 (S1~S5 진행률)
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   S1~S5 진행률 계산 로직 (SAL Grid JSON 기반)                                         ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📌 핵심 원리:                                                                 │ ║
+║   │                                                                                 │ ║
+║   │   "task_status가 'Completed'인 Task 수"                                         │ ║
+║   │   ──────────────────────────────────────── × 100 = 진행률(%)                   │ ║
+║   │   "해당 Stage의 전체 Task 수"                                                   │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📂 데이터 소스 위치:                                                          │ ║
+║   │                                                                                 │ ║
+║   │   S0_Project-SAL-Grid_생성/method/json/data/                                    │ ║
+║   │   │                                                                             │ ║
+║   │   ├── index.json              ← Task ID 목록                                   │ ║
+║   │   │   │                                                                         │ ║
+║   │   │   │  {                                                                      │ ║
+║   │   │   │    "project_id": "2512000002TH-P001",                                    │ ║
+║   │   │   │    "task_ids": [                                                        │ ║
+║   │   │   │      "S1M1", "S1D1", "S1D2", ...,                                       │ ║
+║   │   │   │      "S2F1", "S2F2", ...,                                               │ ║
+║   │   │   │      "S5T3"                                                             │ ║
+║   │   │   │    ]                                                                    │ ║
+║   │   │   │  }                                                                      │ ║
+║   │   │   │                                                                         │ ║
+║   │   │   └─ 총 66개 Task ID가 배열에 있음                                          │ ║
+║   │   │                                                                             │ ║
+║   │   └── grid_records/           ← 개별 Task JSON 파일 폴더                        │ ║
+║   │       │                                                                         │ ║
+║   │       ├── S1M1.json                                                             │ ║
+║   │       ├── S1D1.json                                                             │ ║
+║   │       ├── S2F1.json                                                             │ ║
+║   │       └── ... (총 66개 파일)                                                    │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📄 개별 Task JSON 파일 구조 (예: S2F1.json):                                  │ ║
+║   │                                                                                 │ ║
+║   │   {                                                                             │ ║
+║   │     "task_id": "S2F1",                                                          │ ║
+║   │     "task_name": "Google 로그인 UI",                                            │ ║
+║   │                                                                                 │ ║
+║   │     "stage": 2,              ◀───── ★ 이 값으로 Stage 분류 (S2)                │ ║
+║   │                                                                                 │ ║
+║   │     "area": "F",                                                                │ ║
+║   │                                                                                 │ ║
+║   │     "task_status": "Completed",  ◀── ★ 이 값이 "Completed"면 완료로 카운트     │ ║
+║   │                                                                                 │ ║
+║   │     "task_progress": 100,                                                       │ ║
+║   │     "verification_status": "Verified",                                          │ ║
+║   │     ...                                                                         │ ║
+║   │   }                                                                             │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   🔄 계산 과정 (순서대로):                                                      │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   STEP 2-B-1: index.json 읽기                                             │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   const indexData = JSON.parse(fs.readFileSync('index.json'));            │ │ ║
+║   │   │   const taskIds = indexData.task_ids;  // ["S1M1", "S1D1", ...]           │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                         │                                                       │ ║
+║   │                         ▼                                                       │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   STEP 2-B-2: 각 Task JSON 파일 읽기                                      │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   taskIds.forEach(taskId => {                                             │ │ ║
+║   │   │     const task = JSON.parse(fs.readFileSync(`grid_records/${taskId}.json`));│ │ ║
+║   │   │     const stage = task.stage;        // 2                                 │ │ ║
+║   │   │     const status = task.task_status; // "Completed"                       │ │ ║
+║   │   │     ...                                                                   │ │ ║
+║   │   │   });                                                                     │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                         │                                                       │ ║
+║   │                         ▼                                                       │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   STEP 2-B-3: Stage별 집계                                                │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   ┌──────────┬───────────┬─────────┬──────────┐                          │ │ ║
+║   │   │   │ Stage    │ completed │ total   │ progress │                          │ │ ║
+║   │   │   ├──────────┼───────────┼─────────┼──────────┤                          │ │ ║
+║   │   │   │ S1       │ 9         │ 9       │ 100%     │                          │ │ ║
+║   │   │   │ S2       │ 17        │ 17      │ 100%     │                          │ │ ║
+║   │   │   │ S3       │ 6         │ 6       │ 100%     │                          │ │ ║
+║   │   │   │ S4       │ 21        │ 21      │ 100%     │                          │ │ ║
+║   │   │   │ S5       │ 13        │ 13      │ 100%     │                          │ │ ║
+║   │   │   └──────────┴───────────┴─────────┴──────────┘                          │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   총 Task: 9 + 17 + 6 + 21 + 13 = 66개                                    │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
 
-1. **JSON 경로 확인** - `S0_Project-SAL-Grid_생성/method/json/data/` (index.json + grid_records/*.json)
-2. **JSON 형식 확인** - 각 Task JSON에 `stage`, `task_status` 필드 존재 여부
-3. **JSON 파일 미존재 시** - S1~S5 진행률이 모두 0%로 표시됨 (정상 동작)
+### 2-C: phase_progress.json 생성
 
----
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   phase_progress.json 생성 (최종 출력)                                                ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📂 저장 위치: Development_Process_Monitor/data/phase_progress.json            │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   {                                                                       │ │ ║
+║   │   │     "project_id": "2512000002TH-P001",                                     │ │ ║
+║   │   │     "updated_at": "2026-01-03T06:34:21.079Z",                             │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │     "phases": {                                                           │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │       ┌─── P0~S0: 폴더/파일 기반 계산 결과 ───┐                           │ │ ║
+║   │   │       │                                       │                           │ │ ║
+║   │   │       │  "P0": {                              │                           │ │ ║
+║   │   │       │    "name": "작업 디렉토리 구조 생성", │                           │ │ ║
+║   │   │       │    "progress": 100,                   │                           │ │ ║
+║   │   │       │    "completed": 2,                    │                           │ │ ║
+║   │   │       │    "total": 2                         │                           │ │ ║
+║   │   │       │  },                                   │                           │ │ ║
+║   │   │       │  "P1": {                              │                           │ │ ║
+║   │   │       │    "name": "사업계획",                │                           │ │ ║
+║   │   │       │    "progress": 100,                   │                           │ │ ║
+║   │   │       │    "completed": 5,                    │                           │ │ ║
+║   │   │       │    "total": 5                         │                           │ │ ║
+║   │   │       │  },                                   │                           │ │ ║
+║   │   │       │  "P2": { ... },                       │                           │ │ ║
+║   │   │       │  "P3": { ... },                       │                           │ │ ║
+║   │   │       │  "S0": { ... },                       │                           │ │ ║
+║   │   │       │                                       │                           │ │ ║
+║   │   │       └───────────────────────────────────────┘                           │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │       ┌─── S1~S5: SAL Grid JSON 기반 계산 결과 ───┐                       │ │ ║
+║   │   │       │                                           │                       │ │ ║
+║   │   │       │  "S1": {                                  │                       │ │ ║
+║   │   │       │    "name": "개발 준비",                   │                       │ │ ║
+║   │   │       │    "progress": 100,                       │                       │ │ ║
+║   │   │       │    "completed": 9,                        │                       │ │ ║
+║   │   │       │    "total": 9                             │                       │ │ ║
+║   │   │       │  },                                       │                       │ │ ║
+║   │   │       │  "S2": {                                  │                       │ │ ║
+║   │   │       │    "name": "개발 1차",                    │                       │ │ ║
+║   │   │       │    "progress": 100,                       │                       │ │ ║
+║   │   │       │    "completed": 17,                       │                       │ │ ║
+║   │   │       │    "total": 17                            │                       │ │ ║
+║   │   │       │  },                                       │                       │ │ ║
+║   │   │       │  "S3": { ... },                           │                       │ │ ║
+║   │   │       │  "S4": { ... },                           │                       │ │ ║
+║   │   │       │  "S5": {                                  │                       │ │ ║
+║   │   │       │    "name": "개발 마무리",                 │                       │ │ ║
+║   │   │       │    "progress": 100,                       │                       │ │ ║
+║   │   │       │    "completed": 13,                       │                       │ │ ║
+║   │   │       │    "total": 13                            │                       │ │ ║
+║   │   │       │  }                                        │                       │ │ ║
+║   │   │       │                                           │                       │ │ ║
+║   │   │       └───────────────────────────────────────────┘                       │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │     }                                                                     │ │ ║
+║   │   │   }                                                                       │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   📊 총 Phase 개수: 10개 (P0, P1, P2, P3, S0, S1, S2, S3, S4, S5)               │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
 
-## 10. 테이블 생성 SQL
+### 2-D: 콘솔 출력 예시
 
-**위치:** `Development_Process_Monitor/DB_Method/create_table.sql`
-
-```sql
-CREATE TABLE IF NOT EXISTS project_phase_progress (
-    id SERIAL PRIMARY KEY,
-    project_id VARCHAR(100) NOT NULL,
-    phase_code VARCHAR(10) NOT NULL,
-    phase_name VARCHAR(100),
-    progress INTEGER DEFAULT 0,
-    completed_items INTEGER DEFAULT 0,
-    total_items INTEGER DEFAULT 0,
-    status VARCHAR(20) DEFAULT 'pending',
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-    UNIQUE(project_id, phase_code)
-);
-
-CREATE INDEX IF NOT EXISTS idx_phase_progress_project ON project_phase_progress(project_id);
-CREATE INDEX IF NOT EXISTS idx_phase_progress_phase ON project_phase_progress(phase_code);
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   build-progress.js 실행 시 콘솔 출력                                                 ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   $ node Development_Process_Monitor/build-progress.js                          │ ║
+║   │                                                                                 │ ║
+║   │   📊 Progress Builder - P0~S5 진행률 계산                                       │ ║
+║   │                                                                                 │ ║
+║   │   === P0~S0 (폴더/파일 기반) ===                                                │ ║
+║   │   ✅ P0: 2/2 = 100%                                                             │ ║
+║   │   ✅ P1: 5/5 = 100%                                                             │ ║
+║   │   ✅ P2: 8/8 = 100%                                                             │ ║
+║   │   ✅ P3: 3/3 = 100%                                                             │ ║
+║   │   ✅ S0: 4/4 = 100%                                                             │ ║
+║   │                                                                                 │ ║
+║   │   === S1~S5 (SAL Grid 개별 JSON 기반) ===                                       │ ║
+║   │   ✅ S1: 9/9 = 100%                                                             │ ║
+║   │   ✅ S2: 17/17 = 100%                                                           │ ║
+║   │   ✅ S3: 6/6 = 100%                                                             │ ║
+║   │   ✅ S4: 21/21 = 100%                                                           │ ║
+║   │   ✅ S5: 13/13 = 100%                                                           │ ║
+║   │                                                                                 │ ║
+║   │   ✅ 저장 완료: Development_Process_Monitor/data/phase_progress.json            │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   아이콘 의미:                                                                  │ ║
+║   │   ✅ = 100% 완료                                                                │ ║
+║   │   🔄 = 1~99% 진행 중                                                            │ ║
+║   │   ⏳ = 0% 대기                                                                  │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
 ```
 
 ---
 
-**작성일:** 2026-01-02
-**버전:** 3.0 (DB Method)
+## STEP 3: upload-progress.js 실행
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 3: upload-progress.js 실행 (DB 업로드)                                         ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📂 파일 위치: C:\!SSAL_Works_Private\scripts\upload-progress.js                │ ║
+║   │   🔧 언어: Node.js                                                              │ ║
+║   │   ⏱️ 실행 시간: 약 2~5초 (네트워크 상태에 따라 다름)                            │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   수동 실행 방법:                                                         │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   $ cd C:\!SSAL_Works_Private                                             │ │ ║
+║   │   │   $ node scripts/upload-progress.js                                       │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+### 3-A: 환경변수 로드
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 3-A: 환경변수 로드                                                             ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📂 .env 파일 위치: C:\!SSAL_Works_Private\P3_프로토타입_제작\Database\.env     │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   loadEnv() 함수 동작:                                                    │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   ┌─────────────────────────────────────────────────────────────────────┐ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   INPUT: .env 파일                                                  │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   SUPABASE_URL=https://zwjmfewyshhwpgwdtrus.supabase.co             │ │ │ ║
+║   │   │   │   SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIs...                 │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   └─────────────────────────────────────────────────────────────────────┘ │ │ ║
+║   │   │                               │                                           │ │ ║
+║   │   │                               ▼                                           │ │ ║
+║   │   │   ┌─────────────────────────────────────────────────────────────────────┐ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   OUTPUT: JavaScript 객체                                           │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   {                                                                 │ │ │ ║
+║   │   │   │     SUPABASE_URL: "https://zwjmfewyshhwpgwdtrus.supabase.co",       │ │ │ ║
+║   │   │   │     SUPABASE_SERVICE_ROLE_KEY: "eyJhbGciOiJIUzI1NiIs..."            │ │ │ ║
+║   │   │   │   }                                                                 │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   └─────────────────────────────────────────────────────────────────────┘ │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+### 3-B: Project ID 결정
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 3-B: Project ID 결정                                                           ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   🔀 Project ID 결정 로직 (우선순위):                                           │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   ┌─────────────────────────────────────────────────────────────────────┐ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   우선순위 1: .ssal-project.json 파일 확인                          │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   📂 파일 위치: 프로젝트 루트/.ssal-project.json                    │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   {                                                                 │ │ │ ║
+║   │   │   │     "project_id": "2512000002TH-P001", ◀── 이 값 사용                      │ │ │ ║
+║   │   │   │     "project_name": "A씨의 프로젝트"                                 │ │ │ ║
+║   │   │   │   }                                                                 │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   └─────────────────────────────────────────────────────────────────────┘ │ │ ║
+║   │   │                               │                                           │ │ ║
+║   │   │            파일 있음? ────────┼─────────── 파일 없음?                     │ │ ║
+║   │   │                               │                   │                       │ │ ║
+║   │   │                               ▼                   ▼                       │ │ ║
+║   │   │   ┌───────────────────────────────┐ ┌───────────────────────────────────┐ │ │ ║
+║   │   │   │                               │ │                                   │ │ │ ║
+║   │   │   │   "2512...TH-P001" 반환       │ │   우선순위 2: Git 이메일 기반     │ │ │ ║
+║   │   │   │                               │ │                                   │ │ │ ║
+║   │   │   │   ✅ 완료                     │ │   $ git config user.email         │ │ │ ║
+║   │   │   │                               │ │   → "wksun999@gmail.com"          │ │ │ ║
+║   │   │   │                               │ │                                   │ │ │ ║
+║   │   │   │                               │ │   Project ID 생성:                │ │ │ ║
+║   │   │   │                               │ │   "wksun999" + "_PROJECT"         │ │ │ ║
+║   │   │   │                               │ │   = "wksun999_PROJECT"            │ │ │ ║
+║   │   │   │                               │ │                                   │ │ │ ║
+║   │   │   └───────────────────────────────┘ └───────────────────────────────────┘ │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+### 3-C: Supabase REST API 호출
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 3-C: Supabase REST API 호출 (UPSERT)                                           ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📌 UPSERT란?                                                                  │ ║
+║   │                                                                                 │ ║
+║   │   UPDATE + INSERT = UPSERT                                                      │ ║
+║   │   → 데이터가 있으면 UPDATE, 없으면 INSERT                                       │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   🌐 HTTP 요청 구조:                                                            │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   URL:                                                                    │ │ ║
+║   │   │   ┌─────────────────────────────────────────────────────────────────────┐ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │ https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_phase_progress │ │ ║
+║   │   │   │         │                                │             │            │ │ │ ║
+║   │   │   │         │                                │             │            │ │ │ ║
+║   │   │   │         └─ 프로젝트 ID                   │             │            │ │ │ ║
+║   │   │   │                                          │             │            │ │ │ ║
+║   │   │   │                       REST API 엔드포인트┘             │            │ │ │ ║
+║   │   │   │                                                        │            │ │ │ ║
+║   │   │   │                                            테이블명 ───┘            │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │ ?on_conflict=project_id,phase_code                                  │ │ │ ║
+║   │   │   │  │                                                                  │ │ │ ║
+║   │   │   │  └─ UPSERT 조건: 이 컬럼 조합이 같으면 UPDATE, 다르면 INSERT        │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   └─────────────────────────────────────────────────────────────────────┘ │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   Method: POST                                                            │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   Headers:                                                                │ │ ║
+║   │   │   ┌─────────────────────────────────────────────────────────────────────┐ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   {                                                                 │ │ │ ║
+║   │   │   │     "apikey": "eyJhbGciOiJI...",         ← SERVICE_ROLE_KEY         │ │ │ ║
+║   │   │   │     "Authorization": "Bearer eyJhbGciOiJI...",                      │ │ │ ║
+║   │   │   │     "Content-Type": "application/json",                             │ │ │ ║
+║   │   │   │     "Prefer": "return=minimal,resolution=merge-duplicates"          │ │ │ ║
+║   │   │   │   }            │                         │                          │ │ │ ║
+║   │   │   │                │                         │                          │ │ │ ║
+║   │   │   │                │                         └─ 충돌 시 병합            │ │ │ ║
+║   │   │   │                └─ 응답 본문 최소화                                  │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   └─────────────────────────────────────────────────────────────────────┘ │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   Body (각 Phase별로 반복 - 총 10번 호출):                                │ │ ║
+║   │   │   ┌─────────────────────────────────────────────────────────────────────┐ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   │   {                                                                 │ │ │ ║
+║   │   │   │     "project_id": "2512000002TH-P001",                                      │ │ │ ║
+║   │   │   │     "phase_code": "S2",              ← P0, P1, ..., S5              │ │ │ ║
+║   │   │   │     "phase_name": "개발 1차",                                       │ │ │ ║
+║   │   │   │     "progress": 100,                                                │ │ │ ║
+║   │   │   │     "completed_items": 17,                                          │ │ │ ║
+║   │   │   │     "total_items": 17,                                              │ │ │ ║
+║   │   │   │     "status": "completed",           ← pending/in_progress/completed│ │ │ ║
+║   │   │   │     "updated_at": "2026-01-03T06:00:00.000Z"                        │ │ │ ║
+║   │   │   │   }                                                                 │ │ │ ║
+║   │   │   │                                                                     │ │ │ ║
+║   │   │   └─────────────────────────────────────────────────────────────────────┘ │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+### 3-D: DB 테이블 구조
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   Supabase DB 테이블: project_phase_progress                                          ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────┬────────────────┬───────────────────────────────────────┐│ ║
+║   │   │ 컬럼명            │ 타입           │ 설명                                  ││ ║
+║   │   ├───────────────────┼────────────────┼───────────────────────────────────────┤│ ║
+║   │   │ id                │ SERIAL         │ 자동 증가 Primary Key                 ││ ║
+║   │   │ project_id        │ VARCHAR(100)   │ 프로젝트 ID (예: "2512...TH-P001")         ││ ║
+║   │   │ phase_code        │ VARCHAR(10)    │ 단계 코드 (P0, P1, ..., S5)           ││ ║
+║   │   │ phase_name        │ VARCHAR(100)   │ 단계 이름 (예: "개발 준비")           ││ ║
+║   │   │ progress          │ INTEGER        │ 진행률 (0~100)                        ││ ║
+║   │   │ completed_items   │ INTEGER        │ 완료 항목 수                          ││ ║
+║   │   │ total_items       │ INTEGER        │ 전체 항목 수                          ││ ║
+║   │   │ status            │ VARCHAR(20)    │ pending / in_progress / completed    ││ ║
+║   │   │ updated_at        │ TIMESTAMP      │ 마지막 업데이트 시간                  ││ ║
+║   │   │ created_at        │ TIMESTAMP      │ 생성 시간                             ││ ║
+║   │   └───────────────────┴────────────────┴───────────────────────────────────────┘│ ║
+║   │                                                                                 │ ║
+║   │   ⚠️ UNIQUE 제약조건: (project_id, phase_code)                                  │ ║
+║   │      → 같은 프로젝트의 같은 Phase는 1개만 존재                                  │ ║
+║   │      → UPSERT 시 이 조합으로 충돌 처리                                          │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📊 저장된 데이터 예시:                                                        │ ║
+║   │                                                                                 │ ║
+║   │   ┌────┬─────────────┬────────────┬───────────────────────┬──────────┬─────────┐│ ║
+║   │   │ id │ project_id  │ phase_code │ phase_name            │ progress │ status  ││ ║
+║   │   ├────┼─────────────┼────────────┼───────────────────────┼──────────┼─────────┤│ ║
+║   │   │ 1  │ 2512...P001 │ P0         │ 작업 디렉토리 구조 생성│ 100      │ completed│ ║
+║   │   │ 2  │ 2512...P001 │ P1         │ 사업계획              │ 100      │ completed│ ║
+║   │   │ 3  │ 2512...P001 │ P2         │ 프로젝트 기획         │ 100      │ completed│ ║
+║   │   │ 4  │ 2512...P001 │ P3         │ 프로토타입 제작       │ 100      │ completed│ ║
+║   │   │ 5  │ 2512...P001 │ S0         │ Project SAL Grid 생성 │ 100      │ completed│ ║
+║   │   │ 6  │ 2512...P001 │ S1         │ 개발 준비             │ 100      │ completed│ ║
+║   │   │ 7  │ 2512...P001 │ S2         │ 개발 1차              │ 100      │ completed│ ║
+║   │   │ 8  │ 2512...P001 │ S3         │ 개발 2차              │ 100      │ completed│ ║
+║   │   │ 9  │ 2512...P001 │ S4         │ 개발 3차              │ 100      │ completed│ ║
+║   │   │ 10 │ 2512...P001 │ S5         │ 개발 마무리           │ 100      │ completed│ ║
+║   │   └────┴─────────────┴────────────┴───────────────────────┴──────────┴─────────┘│ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+### 3-E: 콘솔 출력 예시
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   upload-progress.js 실행 시 콘솔 출력                                                ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   $ node scripts/upload-progress.js                                             │ ║
+║   │                                                                                 │ ║
+║   │   📤 Progress Uploader - DB 업로드 시작                                         │ ║
+║   │                                                                                 │ ║
+║   │   ✅ 환경변수 로드 완료                                                         │ ║
+║   │   ✅ .ssal-project.json에서 Project ID 로드                                     │ ║
+║   │   🆔 Project ID: 2512000002TH-P001                                                      │ ║
+║   │   📊 Phase 데이터: 10개                                                         │ ║
+║   │                                                                                 │ ║
+║   │   🔄 Supabase에 업로드 중...                                                    │ ║
+║   │   📊 업로드 결과: 10/10 성공                                                    │ ║
+║   │                                                                                 │ ║
+║   │   ✅ Progress 업로드 완료                                                       │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+## STEP 4: 웹에서 진행률 표시
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   STEP 4: 웹에서 진행률 표시 (index.html)                                             ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📂 파일 위치: index.html                                                      │ ║
+║   │   🔧 함수 위치: loadProjectProgress() (약 line 2888~2940)                       │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   🔄 데이터 흐름:                                                               │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   1. 사용자가 index.html 페이지 접속                                      │ │ ║
+║   │   │                               │                                           │ │ ║
+║   │   │                               ▼                                           │ │ ║
+║   │   │   2. 로그인 상태 확인                                                     │ │ ║
+║   │   │                               │                                           │ │ ║
+║   │   │              ┌────────────────┼────────────────┐                          │ │ ║
+║   │   │              │                │                │                          │ │ ║
+║   │   │         로그인 안됨      로그인 됨                                        │ │ ║
+║   │   │              │                │                                           │ │ ║
+║   │   │              ▼                ▼                                           │ │ ║
+║   │   │   ┌─────────────────┐ ┌─────────────────────────────────────────────────┐ │ │ ║
+║   │   │   │                 │ │                                                 │ │ │ ║
+║   │   │   │  모든 진행률    │ │  3. Supabase에서 데이터 조회                    │ │ │ ║
+║   │   │   │  0%로 표시      │ │                                                 │ │ │ ║
+║   │   │   │                 │ │     SELECT * FROM project_phase_progress        │ │ │ ║
+║   │   │   │                 │ │     WHERE project_id = '2512000002TH-P001';             │ │ │ ║
+║   │   │   │                 │ │                                                 │ │ │ ║
+║   │   │   └─────────────────┘ │                                                 │ │ │ ║
+║   │   │                       │     ───────────────────────────────────────     │ │ │ ║
+║   │   │                       │                                                 │ │ │ ║
+║   │   │                       │  4. 결과: 10개 레코드 반환                       │ │ │ ║
+║   │   │                       │                                                 │ │ │ ║
+║   │   │                       │     [                                           │ │ │ ║
+║   │   │                       │       { phase_code: 'P0', progress: 100, ... }, │ │ │ ║
+║   │   │                       │       { phase_code: 'P1', progress: 100, ... }, │ │ │ ║
+║   │   │                       │       ...                                       │ │ │ ║
+║   │   │                       │       { phase_code: 'S5', progress: 100, ... }  │ │ │ ║
+║   │   │                       │     ]                                           │ │ │ ║
+║   │   │                       │                                                 │ │ │ ║
+║   │   │                       │     ───────────────────────────────────────     │ │ │ ║
+║   │   │                       │                                                 │ │ │ ║
+║   │   │                       │  5. 사이드바 DOM 업데이트                        │ │ │ ║
+║   │   │                       │                                                 │ │ │ ║
+║   │   │                       │     progressFill.style.width = '100%';          │ │ │ ║
+║   │   │                       │     percentText.textContent = '100%';           │ │ │ ║
+║   │   │                       │                                                 │ │ │ ║
+║   │   │                       └─────────────────────────────────────────────────┘ │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+### 사이드바 시각적 표시
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   사이드바 진행률 표시 (시각적 결과)                                                  ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   ┌──────────────────────────────────────────────────────────────────────────┐  │ ║
+║   │   │                                                                          │  │ ║
+║   │   │   🌾 SSAL Works                                    [사이드바]            │  │ ║
+║   │   │   ══════════════════════════════════════════════════════════════════════ │  │ ║
+║   │   │                                                                          │  │ ║
+║   │   │   📋 준비 과정                                                           │  │ ║
+║   │   │   ┌────────────────────────────────────────────────────────────────────┐ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ P0. 디렉토리 구조  [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ P1. 사업계획      [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ P2. 프로젝트 기획 [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ P3. 프로토타입    [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ S0. SAL Grid      [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   └────────────────────────────────────────────────────────────────────┘ │  │ ║
+║   │   │                                                                          │  │ ║
+║   │   │   ⚙️ 개발 진행                                                           │  │ ║
+║   │   │   ┌────────────────────────────────────────────────────────────────────┐ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ S1. 개발 준비     [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ S2. 개발 1차      [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ S3. 개발 2차      [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ S4. 개발 3차      [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   │  ✅ S5. 개발 마무리   [████████████████████████████████] 100%     │ │  │ ║
+║   │   │   │                                                                    │ │  │ ║
+║   │   │   └────────────────────────────────────────────────────────────────────┘ │  │ ║
+║   │   │                                                                          │  │ ║
+║   │   └──────────────────────────────────────────────────────────────────────────┘  │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   범례:                                                                         │ ║
+║   │   ✅ = 완료 (100%)           [████████████████████████████████] = 진행률 바    │ ║
+║   │   🔄 = 진행 중 (1~99%)       [████████████░░░░░░░░░░░░░░░░░░░░] = 50%          │ ║
+║   │   ⏳ = 대기 (0%)             [░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] = 0%           │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+# 🔧 수동 실행 방법
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   수동 실행 명령어 (Claude Code가 직접 실행할 때)                                     ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   📂 1단계: 프로젝트 루트로 이동                                                │ ║
+║   │                                                                                 │ ║
+║   │   $ cd C:\!SSAL_Works_Private                                                   │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   📊 2단계: 진행률 계산 (JSON 생성)                                             │ ║
+║   │                                                                                 │ ║
+║   │   $ node Development_Process_Monitor/build-progress.js                          │ ║
+║   │                                                                                 │ ║
+║   │   → 결과: Development_Process_Monitor/data/phase_progress.json 생성            │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   📤 3단계: DB 업로드                                                           │ ║
+║   │                                                                                 │ ║
+║   │   $ node scripts/upload-progress.js                                             │ ║
+║   │                                                                                 │ ║
+║   │   → 결과: Supabase project_phase_progress 테이블 업데이트                       │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   🔄 또는: PO가 Claude Code에게 커밋 요청 시 자동 실행                          │ ║
+║   │                                                                                 │ ║
+║   │   PO: "커밋해줘"                                                                │ ║
+║   │   ↓                                                                             │ ║
+║   │   Claude Code:                                                                  │ ║
+║   │   $ git add .                                                                   │ ║
+║   │   $ git commit -m "작업 내용"                                                   │ ║
+║   │                                                                                 │ ║
+║   │   → Pre-commit Hook이 위 2개 스크립트를 자동으로 실행함                         │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+# ❗ 트러블슈팅
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   자주 발생하는 문제와 해결 방법                                                      ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 1: 진행률이 0%로 표시됨                                               │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   원인:                                                                   │ │ ║
+║   │   │   - 로그인하지 않은 상태                                                  │ │ ║
+║   │   │   - DB에 데이터가 없음                                                    │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. Google 계정으로 로그인                                               │ │ ║
+║   │   │   2. $ node scripts/upload-progress.js 실행                               │ │ ║
+║   │   │   3. 새로고침                                                             │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 2: DB 업로드 실패 (.env 파일 없음)                                    │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   에러 메시지:                                                            │ │ ║
+║   │   │   ❌ .env 파일 로드 실패: ENOENT: no such file or directory               │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. C:\!SSAL_Works_Private\P3_프로토타입_제작\Database\ 폴더에 .env 생성 │ │ ║
+║   │   │   2. Supabase Dashboard에서 URL과 Key 복사                                │ │ ║
+║   │   │   3. .env 파일에 붙여넣기:                                                │ │ ║
+║   │   │      SUPABASE_URL=https://xxx.supabase.co                                 │ │ ║
+║   │   │      SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOi...                              │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 3: S1~S5 진행률이 0%                                                  │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   경고 메시지:                                                            │ │ ║
+║   │   │   ⚠️ index.json not found, S1~S5 progress will be 0                       │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. SAL Grid JSON 파일 존재 확인:                                        │ │ ║
+║   │   │      C:\!SSAL_Works_Private\S0_Project-SAL-Grid_생성\method\json\data\index.json        │ │ ║
+║   │   │      C:\!SSAL_Works_Private\S0_...\method\json\data\grid_records\*.json   │ │ ║
+║   │   │   2. 없으면 SAL Grid 설정 먼저 진행                                       │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 4: Pre-commit Hook 실행 안됨                                          │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   증상:                                                                   │ │ ║
+║   │   │   git commit 해도 진행률 스크립트가 실행되지 않음                         │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. Hook 파일 존재 확인:                                                 │ │ ║
+║   │   │      $ ls -la .git/hooks/pre-commit                                       │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   2. 실행 권한 부여 (Git Bash에서):                                       │ │ ║
+║   │   │      $ chmod +x .git/hooks/pre-commit                                     │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   3. 파일 형식 확인 (CRLF → LF 변환 필요할 수 있음)                        │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 5: Node.js 명령어를 찾을 수 없음                                      │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   에러 메시지:                                                            │ │ ║
+║   │   │   'node'은(는) 내부 또는 외부 명령... 인식되지 않습니다                   │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. Node.js 설치: https://nodejs.org                                     │ │ ║
+║   │   │   2. 터미널 재시작                                                        │ │ ║
+║   │   │   3. 설치 확인: $ node --version                                          │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 6: fetch is not defined (Node.js 버전)                                │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   에러: ReferenceError: fetch is not defined                              │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   원인: Node.js 18 미만 버전 (fetch는 18부터 내장)                        │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. $ node --version 으로 확인                                           │ │ ║
+║   │   │   2. v18 미만이면 https://nodejs.org에서 LTS 다운로드                     │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 7: .ssal-project.json 파싱 오류                                       │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   에러: SyntaxError: Unexpected token in JSON                             │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. 올바른 형식 확인:                                                    │ │ ║
+║   │   │      {                                                                    │ │ ║
+║   │   │        "project_id": "2512000002TH-P001",                                 │ │ ║
+║   │   │        "project_name": "프로젝트명",                                      │ │ ║
+║   │   │        "created_at": "2025-12-23"                                         │ │ ║
+║   │   │      }                                                                    │ │ ║
+║   │   │   2. 따옴표, 콤마 등 JSON 문법 확인                                       │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ❌ 문제 8: Supabase 401/403 에러                                              │ ║
+║   │                                                                                 │ ║
+║   │   ┌───────────────────────────────────────────────────────────────────────────┐ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   원인: SERVICE_ROLE_KEY가 아닌 ANON_KEY 사용                             │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   │   해결:                                                                   │ │ ║
+║   │   │   1. Supabase Dashboard → Settings → API                                  │ │ ║
+║   │   │   2. "service_role" 키 복사 (anon 키 아님!)                               │ │ ║
+║   │   │   3. .env 파일의 SUPABASE_SERVICE_ROLE_KEY 갱신                           │ │ ║
+║   │   │                                                                           │ │ ║
+║   │   └───────────────────────────────────────────────────────────────────────────┘ │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+# 📋 Claude Code용 체크리스트
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   다른 Claude Code가 따라할 때 확인할 체크리스트                                      ║
+║                                                                                       ║
+║   ┌─────────────────────────────────────────────────────────────────────────────────┐ ║
+║   │                                                                                 │ ║
+║   │   ☑️ 사전 확인                                                                  │ ║
+║   │                                                                                 │ ║
+║   │   □ Node.js 설치 확인                                                          │ ║
+║   │     $ node --version                                                            │ ║
+║   │                                                                                 │ ║
+║   │   □ .env 파일 존재 확인                                                        │ ║
+║   │     경로: C:\!SSAL_Works_Private\P3_프로토타입_제작\Database\.env               │ ║
+║   │                                                                                 │ ║
+║   │   □ .ssal-project.json 존재 확인                                               │ ║
+║   │     경로: C:\!SSAL_Works_Private\.ssal-project.json                             │ ║
+║   │                                                                                 │ ║
+║   │   □ SAL Grid JSON 파일 존재 확인                                               │ ║
+║   │     경로: C:\!SSAL_Works_Private\S0_Project-SAL-Grid_생성\method\json\data\index.json │ ║
+║   │     경로: C:\!SSAL_Works_Private\S0_...\method\json\data\grid_records\*.json    │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ☑️ 실행                                                                       │ ║
+║   │                                                                                 │ ║
+║   │   □ 진행률 계산 실행                                                           │ ║
+║   │     $ node Development_Process_Monitor/build-progress.js                        │ ║
+║   │                                                                                 │ ║
+║   │   □ phase_progress.json 생성 확인                                              │ ║
+║   │     경로: C:\!SSAL_Works_Private\Development_Process_Monitor\data\phase_progress.json │ ║
+║   │                                                                                 │ ║
+║   │   □ DB 업로드 실행                                                             │ ║
+║   │     $ node scripts/upload-progress.js                                           │ ║
+║   │                                                                                 │ ║
+║   │   □ 업로드 결과 확인 (10/10 성공)                                              │ ║
+║   │                                                                                 │ ║
+║   │   ───────────────────────────────────────────────────────────────────────────── │ ║
+║   │                                                                                 │ ║
+║   │   ☑️ 검증                                                                       │ ║
+║   │                                                                                 │ ║
+║   │   □ 웹에서 로그인 후 진행률 표시 확인                                          │ ║
+║   │     URL: index.html → 사이드바 확인                                             │ ║
+║   │                                                                                 │ ║
+║   └─────────────────────────────────────────────────────────────────────────────────┘ ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+**문서 끝**
