@@ -73,7 +73,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### JSON 데이터 구조 ⭐ (개별 파일 방식)
 
-> **viewer_json.html은 index.json + grid_records/ 구조를 사용**
+> **viewer_json.html은 GitHub URL을 통해 index.json + grid_records/ 구조를 로드**
 
 **데이터 구조:**
 ```
@@ -110,10 +110,42 @@ S0_Project-SAL-Grid_생성/method/json/data/
 }
 ```
 
-**Viewer 로딩 순서:**
-1. `index.json` 로드 → `task_ids` 배열 확인
-2. 각 `task_id`에 대해 `grid_records/{task_id}.json` 로드
-3. 전체 Task 데이터 조합하여 표시
+### viewer_json.html 데이터 로딩 방식 ⭐ (GitHub URL 통합)
+
+> **모든 사용자가 동일한 방식으로 GitHub raw URL에서 데이터 로드**
+
+**로딩 프로세스:**
+```javascript
+// 1. 사용자 이메일 확인 (URL 파라미터 또는 Supabase 세션)
+const urlParams = new URLSearchParams(window.location.search);
+let userEmail = urlParams.get('email') || session?.user?.email;
+
+// 2. Supabase users 테이블에서 github_repo_url 조회
+const { data: userData } = await supabaseClient
+    .from('users')
+    .select('github_repo_url')
+    .eq('email', userEmail)
+    .single();
+
+// 3. GitHub repo URL → raw URL 변환
+// 예: github.com/user/repo → raw.githubusercontent.com/user/repo/main
+const rawBaseUrl = githubToRawUrl(userData.github_repo_url);
+
+// 4. index.json 로드
+const indexUrl = `${rawBaseUrl}/S0_.../method/json/data/index.json`;
+const indexData = await fetch(indexUrl).then(r => r.json());
+
+// 5. 각 Task JSON 파일 로드
+for (const taskId of indexData.task_ids) {
+    const taskUrl = `${rawBaseUrl}/S0_.../method/json/data/grid_records/${taskId}.json`;
+    const taskData = await fetch(taskUrl).then(r => r.json());
+}
+```
+
+**핵심 포인트:**
+- 모든 사용자 동일한 로딩 방식 (wksun999 특별 처리 없음)
+- Supabase `users` 테이블의 `github_repo_url` 필드 사용
+- GitHub raw URL로 즉시 반영 (캐시 없음)
 
 ### "프로젝트 없음" 안내 메시지
 

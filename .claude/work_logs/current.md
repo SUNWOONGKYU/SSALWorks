@@ -6,6 +6,71 @@
 
 ## 2026-01-03 작업 내역
 
+### SAL Grid Viewer 프로세스 문서 불일치 발견 (검토 대기)
+
+**작업 내용:**
+1. `PROJECT_SAL_GRID_VIEWER_PROCESS.md` 문서 작성 (DB/JSON Method 포함)
+2. 서브에이전트 투입하여 역검증 수행
+3. **불일치 사항 3건 발견**
+
+**불일치 요약:**
+
+| # | 항목 | 문서 설명 | 실제 구현 |
+|---|------|----------|----------|
+| 1 | 폴더 구조 | `in_progress/`, `users/` 폴더 존재 | 해당 폴더 없음 |
+| 2 | 데이터 로드 | `localStorage` + 이메일 분기 | Supabase → GitHub raw URL |
+| 3 | 데이터 형식 | 단일 `project_sal_grid.json` | `index.json` + 66개 개별 JSON |
+
+**흥미로운 점:**
+- CLAUDE.md는 이미 개별 파일 방식(`index.json` + `grid_records/*.json`)으로 업데이트됨
+- PROJECT_SAL_GRID_VIEWER_PROCESS.md는 이전 방식(`in_progress/`, `users/`)으로 작성됨
+- 문서 작성 시점에 구버전 설계 기준을 참조한 것으로 추정
+
+**리포트:**
+- `2026-01-03_SAL_Grid_Viewer_Process_Discrepancy_Report.md`
+- `2026-01-03_SAL_Grid_Viewer_Discrepancy_Root_Cause_Analysis.md` ← 상세 원인 분석
+
+**근본 원인 (Git 이력 분석):**
+- 76b37ff 커밋 (2026-01-03 02:34)에서 viewer_json.html 동작 방식 완전 변경
+- 이전: wksun999@gmail.com 분기 + 로컬 폴더 (in_progress/, users/)
+- 이후: 모든 사용자 GitHub URL 통합 방식
+- 🔴 코드는 변경했으나 문서 동기화 누락!
+
+**다음 액션:** ~~PO 검토 후 수정 방향 결정~~ ✅ 완료
+
+---
+
+### JSON Method 문서 불일치 수정 ✅
+
+**작업 내용:**
+1. `PROJECT_SAL_GRID_VIEWER_PROCESS.md` - JSON Method 섹션 전면 수정 완료
+2. `.claude/CLAUDE.md` - GitHub URL 로딩 방식 설명 추가
+3. `.claude/rules/04_grid-writing-supabase.md` - 섹션 9에 GitHub URL 로딩 방식 추가
+4. `.claude/rules/07_task-crud.md` - 이미 개별 파일 구조로 올바르게 업데이트됨 (수정 불필요)
+
+**수정된 내용:**
+
+| 항목 | 이전 (잘못된 내용) | 이후 (수정된 내용) |
+|------|-------------------|-------------------|
+| 폴더 구조 | `in_progress/`, `users/` 참조 | 제거 |
+| 데이터 로드 | localStorage + wksun999 이메일 분기 | Supabase users 테이블 → github_repo_url |
+| CDN | jsdelivr CDN (5분 캐시) | GitHub raw URL (즉시 반영) |
+| 핵심 설명 | 누락 | **GitHub URL 통합 로딩 방식** 설명 추가 |
+
+**추가된 핵심 내용 (모든 파일에 동일하게 반영):**
+```javascript
+// 1. 사용자 이메일 확인 (URL 파라미터 또는 Supabase 세션)
+// 2. Supabase users 테이블에서 github_repo_url 조회
+// 3. GitHub repo URL → raw URL 변환
+// 4. index.json + grid_records/*.json 로드
+```
+
+**커밋:**
+- `fa0daeb`: fix: JSON Method 문서를 실제 구현에 맞게 수정 (PROJECT_SAL_GRID_VIEWER_PROCESS.md)
+- 추가 커밋 예정: CLAUDE.md, 04_grid-writing-supabase.md 수정
+
+---
+
 ### PoliticianFinder 성능 최적화 ✅
 
 **작업 목표**: Next.js 성능 최적화 (폰트, 이미지, 번들 크기)
@@ -45,6 +110,151 @@
 ```
 
 **리포트 저장**: `Human_ClaudeCode_Bridge/Reports/2026-01-03_PoliticianFinder_Performance_Optimization_Report.md`
+
+---
+
+### PoliticianFinder 모바일 수정 ✅
+
+**작업 목표**: 모바일 홈 화면 정치인 순위 10명 전체 상세 표시
+
+**수정 내용**:
+- 기존: 1-3위만 상세 카드, 4-10위는 간략 카드
+- 수정: 1-10위 전체 상세 카드로 표시
+
+**Git 커밋**: `827c1cb fix: 모바일 홈 정치인 순위 10명 전체 상세 표시`
+
+---
+
+### PoliticianFinder 접근성 개선 ✅
+
+**작업 목표**: WCAG 웹 접근성 기준 준수
+
+**완료 항목:**
+
+| # | 항목 | 상태 | 내용 |
+|---|------|:----:|------|
+| 1 | Skip Navigation | ✅ | 키보드 사용자 메인 콘텐츠 바로 이동 |
+| 2 | ARIA 속성 | ✅ | aria-label, aria-expanded, aria-controls |
+| 3 | 포커스 표시기 | ✅ | focus-visible 스타일 (주황색 아웃라인) |
+| 4 | 고대비 모드 | ✅ | prefers-contrast: high 지원 |
+| 5 | 모션 감소 | ✅ | prefers-reduced-motion 지원 |
+
+**수정된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/app/components/header.tsx` | Skip Nav, ARIA 속성, role 추가 |
+| `src/app/page.tsx` | main에 id, role 추가 |
+| `src/app/globals.css` | 접근성 CSS 스타일 추가 (70줄) |
+
+**Git 커밋**: `78c0d9f a11y: 접근성 개선 - Skip Nav, ARIA, 포커스 스타일`
+
+**리포트 저장**: `Human_ClaudeCode_Bridge/Reports/2026-01-03_PoliticianFinder_Accessibility_Report.md`
+
+---
+
+### PoliticianFinder SEO 개선 ✅
+
+**작업 목표**: 검색 엔진 최적화 (메타데이터, Open Graph, sitemap, robots.txt)
+
+**완료 항목:**
+
+| # | 항목 | 상태 | 내용 |
+|---|------|:----:|------|
+| 1 | 메타데이터 확장 | ✅ | title 템플릿, description, keywords |
+| 2 | Open Graph | ✅ | 소셜 미디어 공유 최적화 |
+| 3 | Twitter Card | ✅ | 트위터 대형 이미지 카드 |
+| 4 | sitemap.ts | ✅ | 동적 사이트맵 생성기 |
+| 5 | robots.ts | ✅ | 동적 robots.txt 생성기 |
+| 6 | Googlebot 최적화 | ✅ | 이미지/스니펫 설정 |
+
+**수정/생성된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/app/layout.tsx` | 메타데이터 확장 (69줄 추가) |
+| `src/app/sitemap.ts` | 동적 사이트맵 생성기 (신규) |
+| `src/app/robots.ts` | 동적 robots.txt 생성기 (신규) |
+
+**Git 커밋**: `c172dd7 seo: 메타데이터, Open Graph, sitemap, robots.txt 추가`
+
+**리포트 저장**: `Human_ClaudeCode_Bridge/Reports/2026-01-03_PoliticianFinder_SEO_Report.md`
+
+---
+
+### PoliticianFinder 에러 핸들링 개선 ✅
+
+**작업 목표**: 에러 페이지 다크모드 지원 및 글로벌 에러 핸들러 추가
+
+**완료 항목:**
+
+| # | 항목 | 상태 | 내용 |
+|---|------|:----:|------|
+| 1 | error.tsx 확인 | ✅ | 이미 잘 구현됨 (다크모드 포함) |
+| 2 | not-found.tsx 다크모드 | ✅ | 다크모드 스타일 추가 |
+| 3 | global-error.tsx | ✅ | 루트 레이아웃 에러 핸들러 신규 생성 |
+
+**수정/생성된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/app/not-found.tsx` | 다크모드 스타일 추가 |
+| `src/app/global-error.tsx` | 루트 에러 핸들러 (신규) |
+
+**Git 커밋**: `b83b46c fix: 에러 핸들링 개선 - 404 다크모드, global-error 추가`
+
+**리포트 저장**: `Human_ClaudeCode_Bridge/Reports/2026-01-03_PoliticianFinder_ErrorHandling_Report.md`
+
+---
+
+### PoliticianFinder PWA 구현 ✅
+
+**작업 목표**: Progressive Web App 지원 추가 (홈 화면 추가 시 네이티브 앱처럼 작동)
+
+**완료 항목:**
+
+| # | 항목 | 상태 | 내용 |
+|---|------|:----:|------|
+| 1 | manifest.ts | ✅ | Web App Manifest 동적 생성 |
+| 2 | Viewport 설정 | ✅ | theme-color (라이트/다크 분기) |
+| 3 | iOS Safari 지원 | ✅ | apple-mobile-web-app 메타태그 |
+
+**수정/생성된 파일:**
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `src/app/manifest.ts` | Web App Manifest (신규) |
+| `src/app/layout.tsx` | Viewport 설정, iOS 메타태그 추가 |
+
+**Git 커밋**: `574a01e feat: PWA 지원 추가 - manifest, viewport, iOS Safari`
+
+**리포트 저장**: `Human_ClaudeCode_Bridge/Reports/2026-01-03_PoliticianFinder_PWA_Report.md`
+
+**후속 작업**: 실제 아이콘 이미지 파일 생성 필요 (public/icons/)
+
+---
+
+### PoliticianFinder 테스트 현황 확인 ✅
+
+**작업 목표**: 테스트 환경 확인 및 현황 리포트
+
+**테스트 환경 (이미 구성됨):**
+
+| 도구 | 버전 | 용도 |
+|------|------|------|
+| Jest | ^29.7.0 | 유닛 테스트 |
+| Testing Library | ^14.1.2 | React 컴포넌트 테스트 |
+| Playwright | ^1.56.1 | E2E 테스트 |
+
+**테스트 결과:**
+
+```
+Tests: 492 passed, 11 failed (503 total)
+Pass Rate: 97.8%
+Time: 18.127s
+```
+
+**리포트 저장**: `Human_ClaudeCode_Bridge/Reports/2026-01-03_PoliticianFinder_Testing_Report.md`
 
 ---
 

@@ -302,10 +302,11 @@ fetch(SUPABASE_URL + '/rest/v1/project_sal_grid?task_id=eq.S4F5', {
 
 ---
 
-## 9. JSON 데이터 구조 (Viewer용 - 개별 파일 방식)
+## 9. JSON 데이터 구조 및 Viewer 로딩 방식 (GitHub URL 통합)
 
 > **적용 대상:** JSON Viewer (`viewer_json.html`, `viewer_mobile_json.html`)
 > **데이터 형식:** index.json + grid_records/*.json (개별 파일)
+> **로딩 방식:** Supabase users 테이블 → github_repo_url → GitHub raw URL
 
 ### JSON 폴더 구조
 
@@ -319,20 +320,46 @@ S0_Project-SAL-Grid_생성/method/json/data/
     └── ... (Task ID별 파일)
 ```
 
-### Viewer 로딩 순서
+### Viewer 데이터 로딩 방식 ⭐ (GitHub URL 통합)
+
+> **모든 사용자가 동일한 방식으로 GitHub raw URL에서 데이터 로드**
 
 ```javascript
-// 1. index.json 로드
-const indexUrl = `${jsonBasePath}/index.json`;
+// 1. 사용자 이메일 확인 (URL 파라미터 또는 Supabase 세션)
+const urlParams = new URLSearchParams(window.location.search);
+let userEmail = urlParams.get('email') || session?.user?.email;
+
+// 2. Supabase users 테이블에서 github_repo_url 조회
+const { data: userData } = await supabaseClient
+    .from('users')
+    .select('github_repo_url')
+    .eq('email', userEmail)
+    .single();
+
+// 3. GitHub repo URL → raw URL 변환
+// 예: github.com/user/repo → raw.githubusercontent.com/user/repo/main
+const rawBaseUrl = githubToRawUrl(userData.github_repo_url);
+
+// 4. index.json 로드
+const indexUrl = `${rawBaseUrl}/S0_.../method/json/data/index.json`;
 const indexData = await fetch(indexUrl).then(r => r.json());
 
-// 2. 각 Task JSON 파일 로드
+// 5. 각 Task JSON 파일 로드
 for (const taskId of indexData.task_ids) {
-    const taskUrl = `${jsonBasePath}/grid_records/${taskId}.json`;
+    const taskUrl = `${rawBaseUrl}/S0_.../method/json/data/grid_records/${taskId}.json`;
     const taskData = await fetch(taskUrl).then(r => r.json());
     // Task 데이터 처리
 }
 ```
+
+### 핵심 포인트
+
+| 항목 | 내용 |
+|------|------|
+| 사용자 분기 | 없음 (모든 사용자 동일 방식) |
+| 데이터 소스 | Supabase `users` 테이블의 `github_repo_url` 필드 |
+| 로딩 URL | GitHub raw URL (`raw.githubusercontent.com/...`) |
+| 캐시 | 없음 (즉시 반영) |
 
 ### "프로젝트 없음" 안내 메시지
 
@@ -358,6 +385,7 @@ index.json 파일이 없을 때 (404 응답) 표시:
 | 모바일 Viewer | `S0_Project-SAL-Grid_생성/viewer/viewer_mobile_json.html` |
 | 프로젝트 메타데이터 | `S0_Project-SAL-Grid_생성/method/json/data/index.json` |
 | 개별 Task 파일 | `S0_Project-SAL-Grid_생성/method/json/data/grid_records/*.json` |
+| 사용자 정보 (github_repo_url) | Supabase `users` 테이블 |
 
 ---
 
