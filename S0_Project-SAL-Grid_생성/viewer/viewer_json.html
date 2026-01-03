@@ -702,8 +702,7 @@
                 document.querySelector('.connection-status').style.background = '#28a745';
 
                 // Stage Gates 로드
-                stageGates = [];
-                renderStageGates();
+                await loadStageGates();
             } catch (err) {
                 console.error('Load error:', err);
                 document.getElementById('connectionStatus').textContent = 'JSON 로드 실패: ' + err.message;
@@ -712,8 +711,30 @@
         }
 
         async function loadStageGates() {
-            // GitHub 버전에서는 Stage Gate 정보 없음 (DB 전용 기능)
+            // GitHub에서 Stage Gate JSON 파일들 로드
             stageGates = [];
+            const stageNums = [1, 2, 3, 4, 5];
+
+            for (const num of stageNums) {
+                try {
+                    const gateUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/stage_gates/S${num}_gate.json`);
+                    console.log(`Loading Stage Gate ${num}:`, gateUrl);
+                    const response = await fetch(gateUrl);
+                    if (response.ok) {
+                        const gateData = await response.json();
+                        // stage_name을 "Stage N" 형식으로 맞춤
+                        gateData.stage_name = `Stage ${num}`;
+                        stageGates.push(gateData);
+                        console.log(`Stage ${num} Gate 로드 성공:`, gateData.stage_gate_status);
+                    } else {
+                        console.log(`Stage ${num} Gate 파일 없음`);
+                    }
+                } catch (err) {
+                    console.warn(`Stage ${num} Gate 로드 실패:`, err.message);
+                }
+            }
+
+            console.log('Stage Gates 로드 완료:', stageGates.length, '개');
             renderStageGates();
         }
 
