@@ -9066,12 +9066,18 @@ ${result.answer}`;
                     else taskStatus['Pending']++;
                 });
 
-                // DOM 업데이트
-                document.getElementById('grid-stat-pending').textContent = taskStatus['Pending'];
-                document.getElementById('grid-stat-inprogress').textContent = taskStatus['In Progress'];
-                document.getElementById('grid-stat-executed').textContent = taskStatus['Executed'];
-                document.getElementById('grid-stat-completed').textContent = taskStatus['Completed'];
-                document.getElementById('grid-stat-fixing').textContent = taskStatus['Fixing'];
+                // DOM 업데이트 (요소가 있을 때만)
+                const pendingEl = document.getElementById('grid-stat-pending');
+                const inprogressEl = document.getElementById('grid-stat-inprogress');
+                const executedEl = document.getElementById('grid-stat-executed');
+                const completedEl = document.getElementById('grid-stat-completed');
+                const fixingEl = document.getElementById('grid-stat-fixing');
+
+                if (pendingEl) pendingEl.textContent = taskStatus['Pending'];
+                if (inprogressEl) inprogressEl.textContent = taskStatus['In Progress'];
+                if (executedEl) executedEl.textContent = taskStatus['Executed'];
+                if (completedEl) completedEl.textContent = taskStatus['Completed'];
+                if (fixingEl) fixingEl.textContent = taskStatus['Fixing'];
 
                 console.log('✅ Grid 통계 로드 완료:', taskStatus);
             } catch (e) {
