@@ -6180,3 +6180,86 @@ S0_.../method/json/data/
 **상태:** 완료 ✅
 
 ---
+
+### Dev Package Progress DB 연결 프로세스 구현 ✅
+
+**작업 목표:** Dev Package에서 Progress Monitor DB 업로드가 Main Project와 동일하게 작동하도록 개선
+
+**문제점:**
+- Main Project의 `build-progress.js`는 `.ssal-project.json`에서 `project_id`를 읽음
+- Dev Package의 `build-progress.js`는 `getProjectId()` 함수가 없어 폴더명 기반으로 ID 생성
+- `upload-progress.js`의 `PROJECT_ROOT` 경로 계산 오류 (1단계 → 2단계 필요)
+
+**수정된 파일:**
+
+| # | 파일 | 변경 내용 |
+|---|------|----------|
+| 1 | `Development_Process_Monitor/build-progress.js` | `getProjectId()` 함수 추가 - `.ssal-project.json`에서 project_id 읽기 |
+| 2 | `Development_Process_Monitor/DB_Method/upload-progress.js` | `PROJECT_ROOT` 경로 수정 (`..` → `../..`), `getProjectIdFromConfig()` 함수 추가 |
+| 3 | `Development_Process_Monitor/PROGRESS_DB_CONNECTION_PROCESS.md` | 스크립트 경로 및 체크리스트 수정 |
+
+**핵심 변경 사항:**
+
+**1. build-progress.js - getProjectId() 추가:**
+```javascript
+function getProjectId() {
+    const projectConfigPath = path.join(PROJECT_ROOT, '.ssal-project.json');
+    try {
+        if (fs.existsSync(projectConfigPath)) {
+            const config = JSON.parse(fs.readFileSync(projectConfigPath, 'utf-8'));
+            return config.project_id || 'UNKNOWN_PROJECT';
+        }
+    } catch (e) {
+        console.warn('.ssal-project.json 읽기 실패:', e.message);
+    }
+    return 'UNKNOWN_PROJECT';
+}
+```
+
+**2. upload-progress.js - 경로 수정:**
+```javascript
+// 이전 (잘못됨)
+const PROJECT_ROOT = path.join(__dirname, '..');
+
+// 이후 (수정됨)
+const PROJECT_ROOT = path.join(__dirname, '..', '..');  // DB_Method → Development_Process_Monitor → 프로젝트 루트
+```
+
+**3. upload-progress.js - getProjectIdFromConfig() 추가:**
+```javascript
+function getProjectIdFromConfig() {
+    // phase_progress.json에서 project_id 읽기 (build-progress.js가 설정)
+    // Fallback: 이메일 기반 ID 생성
+}
+```
+
+**project_id 흐름:**
+```
+.ssal-project.json
+       ↓
+build-progress.js (getProjectId)
+       ↓
+phase_progress.json (project_id 포함)
+       ↓
+upload-progress.js (getProjectIdFromConfig)
+       ↓
+Supabase DB (project_phase_progress 테이블)
+```
+
+**역검증 결과:**
+- 서브에이전트 투입하여 프로세스 역검증 수행
+- `PROJECT_ROOT` 경로 계산 오류 발견 및 수정
+- 문서의 스크립트 경로 불일치 발견 및 수정
+
+**스크립트 테스트:**
+| 스크립트 | 결과 | 비고 |
+|---------|------|------|
+| `build-progress.js` | ✅ 성공 | `Project ID: YOUR_PROJECT_ID` (템플릿 값) |
+| `upload-progress.js` | ❌ 예상된 실패 | `.env` 파일 없음 (Dev Package 템플릿) |
+
+**생성된 파일:**
+- `Development_Process_Monitor/data/phase_progress.json` - 진행률 데이터 (project_id 포함)
+
+**상태:** 완료 ✅
+
+---

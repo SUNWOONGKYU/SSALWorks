@@ -15,7 +15,9 @@ const { execSync } = require('child_process');
 // 설정
 // ============================================
 
-const PROJECT_ROOT = path.join(__dirname, '..');
+// __dirname = Development_Process_Monitor/DB_Method/
+// 프로젝트 루트까지 두 단계 올라가야 함
+const PROJECT_ROOT = path.join(__dirname, '..', '..');
 const PROGRESS_JSON_PATH = path.join(PROJECT_ROOT, 'Development_Process_Monitor', 'data', 'phase_progress.json');
 const ENV_PATH = path.join(PROJECT_ROOT, 'P3_프로토타입_제작', 'Database', '.env');
 
@@ -60,15 +62,27 @@ function getGitUserEmail() {
 }
 
 // ============================================
-// Project ID 생성 (이메일 기반)
+// Project ID 가져오기 (.ssal-project.json 또는 phase_progress.json)
 // ============================================
 
-function generateProjectId(email) {
-    // 이메일에서 @ 앞 부분 추출
+function getProjectIdFromConfig() {
+    // 1. phase_progress.json에서 project_id 확인 (build-progress.js가 이미 설정)
+    try {
+        if (fs.existsSync(PROGRESS_JSON_PATH)) {
+            const content = fs.readFileSync(PROGRESS_JSON_PATH, 'utf-8');
+            const data = JSON.parse(content);
+            if (data.project_id && data.project_id !== 'UNKNOWN_PROJECT') {
+                return data.project_id;
+            }
+        }
+    } catch (e) {
+        console.warn('⚠️ phase_progress.json에서 project_id 읽기 실패');
+    }
+
+    // 2. Fallback: 이메일 기반 생성 (설정 안 된 경우)
+    const email = getGitUserEmail();
     const username = email.split('@')[0] || 'user';
-    // 날짜 (YYMMDD 형식)
-    const date = new Date().toISOString().slice(2, 10).replace(/-/g, '');
-    // Project ID: {email_prefix}_{date}
+    console.warn('⚠️ .ssal-project.json 미설정 - 이메일 기반 ID 생성');
     return `${username}_PROJECT`;
 }
 
@@ -157,9 +171,9 @@ async function main() {
     }
     console.log('✅ 환경변수 로드 완료');
 
-    // 2. Git 사용자 이메일 가져오기
+    // 2. Project ID 가져오기 (phase_progress.json에서 읽음 - build-progress.js가 .ssal-project.json에서 설정)
+    const projectId = getProjectIdFromConfig();
     const email = getGitUserEmail();
-    const projectId = generateProjectId(email);
     console.log(`📧 사용자: ${email}`);
     console.log(`🆔 Project ID: ${projectId}`);
 

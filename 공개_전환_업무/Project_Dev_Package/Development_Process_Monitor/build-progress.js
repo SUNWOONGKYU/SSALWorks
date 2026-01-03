@@ -225,12 +225,29 @@ function calculateStageProgressFromJSON(basePath) {
     }
 }
 
+// .ssal-project.json에서 project_id 읽기
+function getProjectId() {
+    const projectConfigPath = path.join(PROJECT_ROOT, '.ssal-project.json');
+    try {
+        if (fs.existsSync(projectConfigPath)) {
+            const config = JSON.parse(fs.readFileSync(projectConfigPath, 'utf-8'));
+            return config.project_id || 'UNKNOWN_PROJECT';
+        }
+    } catch (e) {
+        console.warn('.ssal-project.json 읽기 실패:', e.message);
+    }
+    return 'UNKNOWN_PROJECT';
+}
+
 // 메인 실행
 function main() {
     console.log('📊 Progress Builder - P0~S5 진행률 계산\n');
 
+    const projectId = getProjectId();
+    console.log(`🆔 Project ID: ${projectId}\n`);
+
     const result = {
-        project_id: path.basename(PROJECT_ROOT) || 'MY_PROJECT',
+        project_id: projectId,
         updated_at: new Date().toISOString(),
         phases: {}
     };
