@@ -704,6 +704,52 @@ git push
 - [ ] "Viewer 연결해줘" 실행했는가?
 - [ ] SSAL Works에서 프로젝트가 보이는가?
 
+### SSAL Works Viewer 데이터 로딩 방식 ⭐
+
+> SSAL Works 플랫폼의 viewer_json.html이 GitHub에서 데이터를 로드하는 과정
+
+**로딩 프로세스:**
+```javascript
+// 1. 사용자 이메일 확인 (URL 파라미터 또는 Supabase 세션)
+const urlParams = new URLSearchParams(window.location.search);
+let userEmail = urlParams.get('email') || session?.user?.email;
+
+// 2. Supabase users 테이블에서 github_repo_url 조회
+const { data: userData } = await supabaseClient
+    .from('users')
+    .select('github_repo_url')
+    .eq('email', userEmail)
+    .single();
+
+// 3. GitHub repo URL → raw URL 변환
+// 예: github.com/user/repo → raw.githubusercontent.com/user/repo/master
+const rawBaseUrl = githubToRawUrl(userData.github_repo_url);
+
+// 4. index.json + grid_records/*.json 로드
+```
+
+**핵심 포인트:**
+| 항목 | 설명 |
+|------|------|
+| 데이터 저장 위치 | 본인 GitHub 레포지토리 |
+| SSAL Works 저장 | `github_repo_url` 레퍼런스만 저장 |
+| 로딩 방식 | GitHub raw URL에서 직접 fetch |
+| 캐시 | 없음 (즉시 반영) |
+
+**함수 위치 (SSAL Works viewer_json.html):**
+- `githubToRawUrl()`: 라인 416-425
+- 에러 핸들링: 라인 574-598
+
+**에러 핸들링:**
+
+| 에러 상황 | 코드 | UI 표시 |
+|----------|------|---------|
+| 사용자 미등록 | `PGRST116` | "GitHub 연결 필요" (회색) |
+| github_repo_url 없음 | - | "프로젝트 없음" 메시지 |
+| JSON 파일 404 | fetch error | "프로젝트 없음" 메시지 |
+
+**상세 규칙:** `.claude/rules/04_grid-writing-json.md` 섹션 9.5 참조
+
 ---
 
 ## ⚠️ 빌드 vs 서버 구분 (혼동 금지!)

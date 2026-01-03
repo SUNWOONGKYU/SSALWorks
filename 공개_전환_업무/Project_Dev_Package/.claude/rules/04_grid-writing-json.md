@@ -542,3 +542,74 @@ git push
 - [ ] SSAL Works에 같은 이메일로 로그인했는가?
 - [ ] "Viewer 연결해줘" 실행했는가?
 - [ ] SSAL Works에서 프로젝트가 보이는가?
+
+#### SSAL Works Viewer 데이터 로딩 방식 ⭐
+
+> SSAL Works 플랫폼의 viewer_json.html이 GitHub에서 데이터를 로드하는 과정
+
+**로딩 프로세스:**
+```javascript
+// 1. 사용자 이메일 확인 (URL 파라미터 또는 Supabase 세션)
+const urlParams = new URLSearchParams(window.location.search);
+let userEmail = urlParams.get('email') || session?.user?.email;
+
+// 2. Supabase users 테이블에서 github_repo_url 조회
+const { data: userData } = await supabaseClient
+    .from('users')
+    .select('github_repo_url')
+    .eq('email', userEmail)
+    .single();
+
+// 3. GitHub repo URL → raw URL 변환
+// 예: github.com/user/repo → raw.githubusercontent.com/user/repo/master
+const rawBaseUrl = githubToRawUrl(userData.github_repo_url);
+
+// 4. index.json 로드
+const indexUrl = `${rawBaseUrl}/S0_.../method/json/data/index.json`;
+const indexData = await fetch(indexUrl).then(r => r.json());
+
+// 5. 각 Task JSON 파일 로드
+for (const taskId of indexData.task_ids) {
+    const taskUrl = `${rawBaseUrl}/S0_.../method/json/data/grid_records/${taskId}.json`;
+    const taskData = await fetch(taskUrl).then(r => r.json());
+}
+```
+
+**핵심 포인트:**
+| 항목 | 설명 |
+|------|------|
+| 데이터 저장 위치 | 본인 GitHub 레포지토리 |
+| SSAL Works 저장 | `github_repo_url` 레퍼런스만 저장 |
+| 로딩 방식 | GitHub raw URL에서 직접 fetch |
+| 캐시 | 없음 (즉시 반영) |
+
+**코드 위치 참조 (SSAL Works viewer_json.html):**
+
+| 항목 | 파일 | 라인 |
+|------|------|------|
+| `githubToRawUrl()` 함수 | `viewer_json.html` | 416-425 |
+| 에러 핸들링 | `viewer_json.html` | 574-598 |
+
+**에러 핸들링:**
+
+| 에러 상황 | 에러 코드 | UI 표시 |
+|----------|----------|---------|
+| 사용자 미등록 (users 테이블) | `PGRST116` | "GitHub 연결 필요" (회색) |
+| github_repo_url 없음 | - | "프로젝트 없음" 메시지 |
+| 기타 조회 실패 | - | "사용자 조회 실패" (빨강) |
+| JSON 파일 404 | fetch error | "프로젝트 없음" 메시지 |
+
+**"프로젝트 없음" 안내 메시지:**
+
+사용자의 JSON 파일이 없을 때 표시:
+```
+📋 진행 중인 프로젝트가 아직 없습니다
+
+프로젝트를 등록하고 Project SAL Grid를 생성하면
+여기에 진행 현황이 표시됩니다.
+
+👉 메인 화면 왼쪽 사이드바에서 새로운 프로젝트를 등록하세요.
+
+💡 진행 프로세스에서 S0 단계인 'Project SAL Grid 생성'이 끝나면,
+   Claude Code에게 Viewer 연결을 요청하세요.
+```
