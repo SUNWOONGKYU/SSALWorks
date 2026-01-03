@@ -373,42 +373,94 @@ work_logs/current.md 기록
 
 ---
 
-## 📊 Progress Monitor - DB 업로드 (필수!) ⭐
+## 📊 Progress Monitor - DB 업로드 ⭐
 
-> **웹에서 개인별 진행률을 표시하려면 반드시 설정해야 함!**
+> **웹에서 개인별 진행률을 표시하려면 설정 필요!**
+> **SSAL Works 플랫폼 연동을 원하는 경우에만 설정**
 
-### 왜 필수인가?
+### 왜 필요한가?
 
 ```
-❌ 로컬 JSON만 생성 → 웹에서 개인별 진행률 표시 불가
-✅ DB에 업로드 → 웹에서 로그인한 사용자별 진행률 표시
+❌ 로컬 JSON만 = GitHub Pages로 Viewer만 사용 가능
+✅ DB에 업로드 = SSAL Works 플랫폼에서 진행률 표시 가능
 ```
 
-### 필수 설정
+### 언제 설정하는가?
 
-1. **Supabase 테이블 생성**: `Development_Process_Monitor/DB_Method/create_table.sql` 실행
-2. **환경변수 설정**: `.env` 파일에 다음 변수 추가
-   - `SUPABASE_URL`: Supabase 프로젝트 URL
-   - `SUPABASE_ANON_KEY`: Supabase ANON 키 (RLS 적용됨)
-3. **프로젝트 ID 설정**: `.ssal-project.json` 파일의 `project_id` 확인
-4. **pre-commit hook 설정**: `node scripts/setup-hooks.js` 실행 (자동 설정)
+| 상황 | 필요 여부 |
+|------|----------|
+| GitHub Pages로 Viewer만 사용 | ❌ 불필요 |
+| SSAL Works 플랫폼 연동 원함 | ✅ 필요 |
 
-**⚠️ 참고:** `scripts/upload-progress.js`는 이미 포함되어 있음 (별도 복사 불필요)
+---
 
-**상세 가이드:** `Development_Process_Monitor/DB_Method/README.md`
+### 초기 설정 단계 (순서대로)
+
+**Step 1: .ssal-project.json 설정**
+
+프로젝트 루트의 `.ssal-project.json` 파일 수정:
+```json
+{
+  "project_id": "your-unique-project-id",
+  "project_name": "내 프로젝트명",
+  "owner_email": "your-email@example.com"
+}
+```
+
+**Step 2: .env 파일 생성**
+
+`.env.sample`을 복사하여 `.env` 생성 후 값 입력:
+```bash
+cp .env.sample .env
+```
+
+필수 값:
+```
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+PROJECT_ID=your-project-id
+OWNER_EMAIL=your-email@example.com
+```
+
+**Step 3: Supabase 테이블 생성**
+
+`Development_Process_Monitor/DB_Method/create_table.sql` 실행
+
+**Step 4: Pre-commit Hook 설정**
+
+```bash
+node scripts/setup-hooks.js
+```
+
+이 스크립트가 `.git/hooks/pre-commit` 파일을 자동 생성합니다.
+
+---
+
+### 스크립트 위치 (이미 포함됨)
+
+```
+scripts/
+├── build-progress.js     ← 진행률 계산
+├── upload-progress.js    ← DB 업로드
+└── setup-hooks.js        ← Hook 자동 설정
+```
+
+**⚠️ 별도 복사 불필요 - 이미 포함되어 있음!**
+
+---
 
 ### 작동 흐름
 
 ```
-git commit
-    ↓
+git commit 실행
+      ↓
+Pre-commit Hook 자동 실행
+      ↓
 build-progress.js (진행률 계산)
-    ↓
-upload-progress.js (DB 업로드 - ANON_KEY 사용)
-    ↓
-웹에서 loadProjectProgress() (DB 조회)
-    ↓
-사이드바 진행률 표시
+      ↓
+upload-progress.js (DB 업로드)
+      ↓
+SSAL Works 플랫폼에서 진행률 표시
 ```
 
 ### RLS 정책 (자동 적용됨)
@@ -419,6 +471,10 @@ upload-progress.js (DB 업로드 - ANON_KEY 사용)
 | INSERT | anon, authenticated | 누구나 등록 가능 |
 | UPDATE | anon, authenticated | 누구나 수정 가능 |
 | DELETE | authenticated만 | 로그인 필요 |
+
+### 상세 가이드
+
+> `Development_Process_Monitor/DB_Method/README.md`
 
 ---
 

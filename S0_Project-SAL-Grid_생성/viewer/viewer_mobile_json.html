@@ -329,7 +329,9 @@
             if (!match) return null;
             const owner = match[1];
             const repo = match[2].replace(/\.git$/, ''); // .git 제거
-            return `https://raw.githubusercontent.com/${owner}/${repo}/master/${filePath}`;
+            // 한글 경로 URL 인코딩 (슬래시는 유지)
+            const encodedPath = filePath.split('/').map(part => encodeURIComponent(part)).join('/');
+            return `https://raw.githubusercontent.com/${owner}/${repo}/master/${encodedPath}`;
         }
 
         let allTasks = [];

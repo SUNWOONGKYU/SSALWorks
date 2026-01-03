@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project SAL Grid Viewer</title>
     <!-- GitHub JSON 기반 Viewer -->
-    <link rel="stylesheet" href="/Production/assets/css/responsive.css">
+    <link rel="stylesheet" href="/assets/css/responsive.css">
     <style>
         :root {
             --primary: #10B981;
@@ -422,7 +422,9 @@
             if (!match) return null;
             const owner = match[1];
             const repo = match[2].replace(/\.git$/, ''); // .git 제거
-            return `https://raw.githubusercontent.com/${owner}/${repo}/master/${filePath}`;
+            // 한글 경로 URL 인코딩 (슬래시는 유지)
+            const encodedPath = filePath.split('/').map(part => encodeURIComponent(part)).join('/');
+            return `https://raw.githubusercontent.com/${owner}/${repo}/master/${encodedPath}`;
         }
 
         // Area Names (매뉴얼 정의대로)
