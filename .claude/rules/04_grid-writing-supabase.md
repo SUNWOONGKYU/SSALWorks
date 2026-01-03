@@ -337,7 +337,7 @@ const { data: userData } = await supabaseClient
     .single();
 
 // 3. GitHub repo URL → raw URL 변환
-// 예: github.com/user/repo → raw.githubusercontent.com/user/repo/main
+// 예: github.com/user/repo → raw.githubusercontent.com/user/repo/master
 const rawBaseUrl = githubToRawUrl(userData.github_repo_url);
 
 // 4. index.json 로드
