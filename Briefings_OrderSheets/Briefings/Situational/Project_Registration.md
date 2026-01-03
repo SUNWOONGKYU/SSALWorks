@@ -164,10 +164,11 @@ S0_Project-SAL-Grid_생성/
 │   └── json/
 │       └── data/
 │           ├── index.json        # 프로젝트 메타데이터 + task_ids 배열
-│           └── grid_records/     # 개별 Task JSON 파일
-│               ├── S1BI1.json
-│               ├── S1BI2.json
-│               └── ...           # (Task ID별 파일)
+│           ├── grid_records/     # 개별 Task JSON 파일
+│           │   ├── S1BI1.json
+│           │   ├── S1BI2.json
+│           │   └── ...           # (Task ID별 파일)
+│           └── stage_gate_records/  # Stage Gate 기록 (S1~S5)
 ├── viewer/
 │   ├── viewer_json.html           # PC용 JSON 뷰어 (내 프로젝트)
 │   ├── viewer_database.html      # PC용 DB 뷰어 (예시용)

@@ -39,7 +39,7 @@ project_phase_progress 테이블
 | 단계 | 계산 방식 | 데이터 소스 |
 |------|----------|------------|
 | P0~S0 | 폴더/파일 존재 여부 | 로컬 폴더 구조 |
-| S1~S5 | Task 완료율 | sal_grid.csv |
+| S1~S5 | Task 완료율 | `index.json + grid_records/*.json` |
 
 - P0~S0: 하위 폴더 중 파일이 있는 폴더 수 / 전체 하위 폴더 수
 - S1~S5: Completed 상태 Task 수 / 전체 Task 수

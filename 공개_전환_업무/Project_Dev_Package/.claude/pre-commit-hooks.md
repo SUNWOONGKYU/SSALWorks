@@ -14,7 +14,7 @@
 | 4 | 서비스 소개 모달 MD → index.html 삽입 | `P2_.../Service_Introduction/서비스_소개.md` | `index.html` |
 | 5 | SAL Grid 매뉴얼 MD → HTML 변환 | `S0_.../manual/PROJECT_SAL_GRID_MANUAL.md` | `참고자료/*.html` |
 | 6 | 빌더 계정 매뉴얼 MD → HTML 변환 | `P2_.../Service_Introduction/빌더용_사용_매뉴얼.md` | `Production/pages/mypage/manual.html` |
-| 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `sal_grid.csv` | `data/phase_progress.json` |
+| 7 | P0~S5 진행률 → JSON 생성 | `P0~S0 폴더`, `index.json + grid_records/*.json` | `data/phase_progress.json` |
 | 8 | Stage 폴더 → 배포 폴더 자동 복사 | `S?_*/Frontend/`, `S?_*/Backend_APIs/` 등 | `pages/`, `api/` |
 | 9 | 진행률 DB 업로드 | `data/phase_progress.json` | Supabase `project_phase_progress` 테이블 |
 

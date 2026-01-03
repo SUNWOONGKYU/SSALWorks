@@ -1,6 +1,7 @@
-# JSON Data Folder Structure
+# JSON Data Folder Structure (개별 파일 방식)
 
 > Project SAL Grid JSON 데이터 관리 가이드
+> **방식:** 개별 Task 파일 방식 (index.json + grid_records/*.json)
 
 ---
 
@@ -8,24 +9,13 @@
 
 ```
 data/
-├── in_progress/                ← 진행 중인 프로젝트 (Viewer가 읽는 폴더)
-│   └── project_sal_grid.json   ← 현재 프로젝트의 Task Grid (전체 요약)
-│
-├── grid_records/               ← 개별 Task 상세 데이터
-│   ├── _TEMPLATE.json          ← Task JSON 템플릿
-│   ├── S1F1.json               ← 개별 Task 상세 정보
-│   └── ...
-│
-├── completed/                  ← 완료된 프로젝트 (보관용)
-│   └── [project]_sal_grid.json
-│
-├── users/                      ← 사용자별 데이터 (다중 사용자용)
-│   └── [email]/
-│       └── project_sal_grid.json
-│
-├── index.json                  ← 전체 Task 인덱스 (요약)
-│
-└── README.md                   ← 이 파일
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+├── grid_records/          ← 개별 Task JSON 파일
+│   ├── S1BI1.json
+│   ├── S1BI2.json
+│   ├── S1D1.json
+│   └── ... (Task ID별 파일)
+└── README.md              ← 이 파일
 ```
 
 ---
@@ -34,81 +24,31 @@ data/
 
 | 파일/폴더 | 역할 | 용도 |
 |-----------|------|------|
-| `in_progress/project_sal_grid.json` | **Viewer가 읽는 파일** | Task 목록 표시 |
-| `grid_records/{TaskID}.json` | 개별 Task 상세 데이터 | Task별 전체 22개 속성 저장 |
-| `index.json` | 전체 Task 인덱스 | Task 목록 요약 (빠른 조회용) |
-| `completed/` | 완료된 프로젝트 보관 | 히스토리 관리 |
-| `users/` | 다중 사용자 지원 | 사용자별 프로젝트 분리 |
+| `index.json` | 프로젝트 메타데이터 + Task ID 목록 | Viewer가 먼저 로드 |
+| `grid_records/{TaskID}.json` | 개별 Task 상세 데이터 | 22개 속성 전체 저장 |
 
 ---
 
-## 사용 방법
-
-### 1. 진행 중인 프로젝트
-
-- `in_progress/` 폴더에 `project_sal_grid.json` 파일을 저장
-- **Viewer는 이 폴더의 JSON만 로드**
-- Task 완료 시 JSON 파일 업데이트
-
-### 2. 개별 Task 상세 관리
-
-- `grid_records/` 폴더에 `{TaskID}.json` 파일로 개별 저장
-- `_TEMPLATE.json`을 복사하여 새 Task 생성
-- Task당 전체 22개 속성 저장 가능
-
-### 3. 프로젝트 완료 시
-
-프로젝트가 완료되면 JSON을 `completed/` 폴더로 이동:
-
-```bash
-# 예시: 프로젝트명을 붙여서 이동
-mv in_progress/project_sal_grid.json completed/myproject_sal_grid.json
-```
-
-### 4. 새 프로젝트 시작 시
-
-1. 기존 JSON이 있다면 `completed/`로 이동
-2. 새 `project_sal_grid.json`을 `in_progress/`에 생성
-
----
-
-## Viewer 동작
-
-| Viewer | 읽는 폴더 | 설명 |
-|--------|----------|------|
-| `viewer_json.html` | `in_progress/` | 진행 중인 프로젝트만 표시 |
-| `viewer_mobile_json.html` | `in_progress/` | 모바일용 Viewer |
-
-**경로**: `../method/json/data/in_progress/project_sal_grid.json`
-
----
-
-## JSON 파일 구조
-
-### project_sal_grid.json (Viewer용)
+## index.json 구조
 
 ```json
 {
   "project_id": "프로젝트ID",
   "project_name": "프로젝트명",
-  "created_at": "2025-01-01T00:00:00Z",
-  "updated_at": "2025-01-01T00:00:00Z",
-  "tasks": [
-    {
-      "task_id": "S1F1",
-      "task_name": "Task 이름",
-      "stage": 1,
-      "area": "F",
-      "task_status": "Pending",
-      "task_progress": 0,
-      "verification_status": "Not Verified",
-      ...
-    }
-  ]
+  "total_tasks": 66,
+  "task_ids": ["S1BI1", "S1BI2", "S1D1", "S1F1", ...]
 }
 ```
 
-### grid_records/{TaskID}.json (개별 Task 상세)
+**필드 설명:**
+- `project_id`: 고유 프로젝트 식별자
+- `project_name`: 프로젝트 표시명
+- `total_tasks`: 전체 Task 수
+- `task_ids`: 모든 Task ID 배열 (Viewer가 순회하여 개별 파일 로드)
+
+---
+
+## grid_records/{TaskID}.json 구조
 
 ```json
 {
@@ -139,22 +79,86 @@ mv in_progress/project_sal_grid.json completed/myproject_sal_grid.json
 
 ---
 
-## 여러 프로젝트 관리
+## Viewer 데이터 로딩 순서
 
-여러 프로젝트를 순차적으로 진행할 경우:
+```
+1. index.json 로드
+     ↓
+2. task_ids 배열 확인
+     ↓
+3. 각 Task ID에 대해 grid_records/{taskId}.json 로드
+     ↓
+4. 전체 Task 데이터 조합하여 표시
+```
 
-1. **현재 프로젝트**: `in_progress/project_sal_grid.json`
-2. **이전 프로젝트**: `completed/project1_sal_grid.json`
-3. **더 이전**: `completed/project2_sal_grid.json`
+**코드 예시:**
+```javascript
+// 1. index.json 로드
+const indexUrl = `${baseUrl}/method/json/data/index.json`;
+const indexData = await fetch(indexUrl).then(r => r.json());
 
-**핵심**: `in_progress/`에는 항상 하나의 프로젝트만 존재
+// 2. 각 Task JSON 파일 로드
+const allTasks = [];
+for (const taskId of indexData.task_ids) {
+    const taskUrl = `${baseUrl}/method/json/data/grid_records/${taskId}.json`;
+    const taskData = await fetch(taskUrl).then(r => r.json());
+    allTasks.push(taskData);
+}
+```
+
+---
+
+## Claude Code가 JSON 수정하는 방법
+
+### Task 상태 업데이트
+
+```
+1. Read 도구로 grid_records/{TaskID}.json 파일 읽기
+2. Edit 도구로 필요한 필드 수정
+3. 저장 확인
+```
+
+**예시 - Task 완료 처리:**
+```json
+// 변경 전
+"task_status": "In Progress",
+"task_progress": 50,
+
+// 변경 후
+"task_status": "Completed",
+"task_progress": 100,
+```
+
+### 새 Task 추가
+
+```
+1. index.json의 task_ids 배열에 새 Task ID 추가
+2. total_tasks 값 업데이트
+3. grid_records/ 폴더에 새 {TaskID}.json 파일 생성
+```
+
+### Task 삭제
+
+```
+1. index.json의 task_ids 배열에서 해당 Task ID 제거
+2. total_tasks 값 업데이트
+3. grid_records/{TaskID}.json 파일 삭제
+```
 
 ---
 
 ## 주의사항
 
-- `in_progress/` 폴더가 비어있으면 Viewer에서 "프로젝트 없음" 메시지 표시
-- JSON 파일명은 반드시 `project_sal_grid.json`으로 유지 (in_progress 내)
-- 완료된 프로젝트는 구분을 위해 프로젝트명 접두사 권장
-- JSON 문법 오류 시 Viewer에서 로드 실패
-- `grid_records/` 폴더의 파일명은 Task ID와 동일하게 유지 (예: `S1F1.json`)
+- JSON 문법 유지 (쉼표, 중괄호 등)
+- UTF-8 인코딩 유지
+- index.json과 grid_records/ 동기화 유지
+- Task ID는 중복 불가
+- stage 필드는 정수 (1, 2, 3, 4, 5)
+
+---
+
+## 관련 문서
+
+- 상세 규칙: `.claude/rules/04_grid-writing-json.md`
+- Task CRUD: `.claude/rules/07_task-crud.md`
+- JSON CRUD 방법: `.claude/methods/01_json-crud.md`
