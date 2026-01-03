@@ -35,11 +35,15 @@
 
 **1.** 위 방법으로 폴더 준비
 
-**2.** 폴더에서 터미널 열기
+**2.** 프로젝트 루트의 `.env.sample`을 `.env`로 복사 후 Supabase 키 입력
 
-**3.** `claude` 명령어로 Claude Code 실행
+**3.** 폴더에서 터미널 열기
 
-**4.** 개발 시작!
+**4.** `claude` 명령어로 Claude Code 실행
+
+**5.** 개발 시작!
+
+> **📌 .env 설정**: DB 업로드 기능을 사용하려면 `.env` 파일에 `SUPABASE_URL`과 `SUPABASE_ANON_KEY`를 입력해야 합니다.
 
 ---
 

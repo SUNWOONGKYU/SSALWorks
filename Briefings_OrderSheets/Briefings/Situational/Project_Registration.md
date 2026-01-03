@@ -77,12 +77,12 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 │   ├── 01_file-naming.md
 │   ├── 02_save-location.md
 │   ├── 03_area-stage.md
-│   ├── 04_grid-writing-csv.md
+│   ├── 04_grid-writing-json.md
 │   ├── 05_execution-process.md
 │   ├── 06_verification.md
 │   └── 07_task-crud.md
 ├── methods/                     # 작업 방법
-│   └── 01_csv-crud.md
+│   └── 01_json-crud.md
 ├── commands/                    # 슬래시 커맨드 (15개)
 ├── skills/                      # AI 스킬 정의 (14개)
 ├── subagents/                   # 서브에이전트 정의 (17개)
@@ -97,7 +97,7 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 - 01: 파일명 규칙 (kebab-case)
 - 02: 저장 위치 규칙 (Stage → Root 자동 복사)
 - 03: Area/Stage 매핑 (11개 Area, 5개 Stage)
-- 04: Grid 작성 및 CSV 작업 규칙
+- 04: Grid 작성 및 JSON 작업 규칙
 - 05: 6단계 실행 프로세스
 - 06: 검증 규칙 및 상태 전이
 - 07: Task CRUD 프로세스
@@ -139,9 +139,11 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 
 하위 폴더: Database, Documentation, Frontend
 
-- Database/: DB 스키마, 환경변수(.env)
+- Database/: DB 스키마
 - Documentation/: 프로토타입 관련 문서
 - Frontend/Prototype/: 프로토타입 HTML 페이지
+
+> **📌 환경변수(.env) 위치**: 프로젝트 루트에 `.env.sample` 파일이 있습니다. 이 파일을 `.env`로 복사한 후 Supabase 키를 입력하세요.
 
 ---
 
@@ -149,28 +151,29 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 
 ```
 S0_Project-SAL-Grid_생성/
-├── data/
-│   └── sal_grid.csv              # Task 데이터 (CSV)
 ├── sal-grid/
 │   ├── stage-gates/              # Stage Gate 검증 리포트
 │   ├── task-instructions/        # Task 수행 지침
-│   └── task-results/             # Task 결과 저장
+│   ├── verification-instructions/ # 검증 지침
+│   └── TASK_PLAN.md              # Task 계획 문서
 ├── manual/
-│   ├── PROJECT_SAL_GRID_MANUAL.md  # SAL Grid 매뉴얼
-│   ├── manual_template.md        # 매뉴얼 템플릿
-│   └── build-manual.js           # 매뉴얼 빌드 스크립트
+│   └── PROJECT_SAL_GRID_MANUAL.md  # SAL Grid 매뉴얼
 ├── method/
 │   └── json/
 │       └── data/
-│           ├── in_progress/      # 진행 중인 프로젝트 (Viewer가 읽는 폴더)
-│           │   └── project_sal_grid.json
-│           └── completed/        # 완료된 프로젝트 보관
+│           ├── index.json        # 프로젝트 메타데이터 + task_ids 배열
+│           └── grid_records/     # 개별 Task JSON 파일
+│               ├── S1BI1.json
+│               ├── S1BI2.json
+│               └── ...           # (Task ID별 파일)
 ├── viewer/
-│   ├── viewer_json.html           # PC용 JSON 뷰어
+│   ├── viewer_json.html           # PC용 JSON 뷰어 (내 프로젝트)
 │   ├── viewer_database.html      # PC용 DB 뷰어 (예시용)
 │   ├── viewer_mobile_json.html    # 모바일용 JSON 뷰어
 │   └── viewer_mobile_database.html  # 모바일용 DB 뷰어 (예시용)
 ```
+
+> **JSON 데이터 구조**: `index.json`에서 Task ID 목록을 읽고, 각 `grid_records/{TaskID}.json` 파일에서 개별 Task 데이터를 로드합니다.
 
 ---
 
@@ -198,12 +201,13 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 - README.md: 모니터 사용 가이드 (v3.0 DB 업로드 필수)
 - **DB_Method/**: DB 업로드 관련 파일 (필수!)
   - create_table.sql: Supabase 테이블 생성 SQL
-  - upload-progress.js: DB 업로드 스크립트
+  - upload-progress.js: DB 업로드 스크립트 (루트 `.env`에서 `SUPABASE_ANON_KEY` 사용)
   - pre-commit-hook-example.sh: pre-commit hook 예시
-  - loadProjectProgress-snippet.js: index.html 함수 스니펫
   - README.md: DB Method 상세 가이드
 
 > **⚠️ DB 업로드가 필수입니다!** 로컬 JSON만 생성하면 웹에서 개인별 진행률 표시 불가. 반드시 DB_Method 설정을 완료해야 합니다.
+>
+> **📌 환경변수 설정**: 프로젝트 루트의 `.env.sample`을 `.env`로 복사 후 `SUPABASE_URL`과 `SUPABASE_ANON_KEY` 입력
 
 ---
 
