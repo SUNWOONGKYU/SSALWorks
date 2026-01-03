@@ -686,6 +686,22 @@ for (const taskId of indexData.task_ids) {
 | 로딩 URL | GitHub raw URL (`raw.githubusercontent.com/...`) |
 | 캐시 | 없음 (즉시 반영) |
 
+### 코드 위치 참조
+
+| 항목 | 파일 | 라인 |
+|------|------|------|
+| `githubToRawUrl()` 함수 | `viewer_json.html` | 416-425 |
+| 에러 핸들링 | `viewer_json.html` | 574-598 |
+
+### 에러 핸들링
+
+| 에러 상황 | 에러 코드 | UI 표시 |
+|----------|----------|---------|
+| 사용자 미등록 (users 테이블) | `PGRST116` | "GitHub 연결 필요" (회색 배지) |
+| github_repo_url 없음 | - | "프로젝트 없음" 메시지 |
+| 기타 조회 실패 | - | "사용자 조회 실패" (빨강 배지) |
+| JSON 파일 404 | fetch error | "프로젝트 없음" 메시지 |
+
 ### "프로젝트 없음" 안내 메시지
 
 index.json 파일이 없을 때 (404 응답) 표시:

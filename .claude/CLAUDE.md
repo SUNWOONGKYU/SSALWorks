@@ -147,6 +147,19 @@ for (const taskId of indexData.task_ids) {
 - Supabase `users` 테이블의 `github_repo_url` 필드 사용
 - GitHub raw URL로 즉시 반영 (캐시 없음)
 
+**함수 위치:**
+- `githubToRawUrl()`: `viewer_json.html` 라인 416-425
+- 에러 핸들링: `viewer_json.html` 라인 574-598
+
+### 에러 핸들링 ⭐
+
+| 에러 상황 | 코드 | UI 표시 |
+|----------|------|---------|
+| 사용자 미등록 (users 테이블) | `PGRST116` | "GitHub 연결 필요" (회색) |
+| github_repo_url 없음 | - | "프로젝트 없음" 메시지 |
+| 기타 조회 실패 | - | "사용자 조회 실패" (빨강) |
+| JSON 파일 404 | fetch error | "프로젝트 없음" 메시지 |
+
 ### "프로젝트 없음" 안내 메시지
 
 사용자의 JSON 파일이 없을 때 (404) 표시되는 메시지:
