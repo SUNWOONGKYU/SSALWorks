@@ -89,20 +89,6 @@ method/json/data/
     └── ...
 ```
 
-## 초기 설정 (필수)
-
-패키지 설치 후 `.ssal-project.json` 파일 수정:
-
-```json
-{
-  "project_id": "your-unique-project-id",
-  "project_name": "내 프로젝트명",
-  "owner_email": "your-email@example.com"
-}
-```
-
----
-
 ## 다음 단계
 
 1. **Dashboard 접속**: 웹사이트에서 프로젝트 Dashboard로 이동

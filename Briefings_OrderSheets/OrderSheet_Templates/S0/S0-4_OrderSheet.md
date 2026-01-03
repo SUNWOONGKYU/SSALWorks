@@ -29,7 +29,7 @@
    - JSON 파일 경로 설정
 
 2. 데이터 연동 확인
-   - project_sal_grid.json 연결 확인
+   - index.json + grid_records/*.json 연결 확인
    - Task 목록이 정상 표시되는지 확인
 
 3. 기능 테스트
