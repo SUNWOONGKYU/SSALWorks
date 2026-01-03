@@ -117,26 +117,19 @@
 ║   │   │   │                                                                                       ║
 ║   │   │   └── data\                                                                               ║
 ║   │   │       │                                                                                   ║
-║   │   │       ├── index.json ◀───────────────── Task ID 목록 (S1M1, S1D1, ...)                    ║
-║   │   │       │                                                                                   ║
-║   │   │       ├── in_progress\ ◀─────────────── Viewer가 읽는 폴더                                ║
-║   │   │       │   └── project_sal_grid.json     (진행 중인 프로젝트)                              ║
+║   │   │       ├── index.json ◀───────────────── Task ID 목록 + 프로젝트 메타데이터               ║
 ║   │   │       │                                                                                   ║
 ║   │   │       ├── grid_records\ ◀────────────── 개별 Task JSON 파일들                             ║
 ║   │   │       │   ├── S1M1.json                  (총 66개)                                        ║
 ║   │   │       │   ├── S1D1.json                                                                   ║
 ║   │   │       │   └── ...                                                                         ║
 ║   │   │       │                                                                                   ║
-║   │   │       ├── stage_gate_records\ ◀──────── Stage Gate JSON 파일들                            ║
-║   │   │       │   ├── S1_gate.json               (S1~S5 총 5개)                                   ║
-║   │   │       │   ├── S2_gate.json                                                                ║
-║   │   │       │   ├── S3_gate.json                                                                ║
-║   │   │       │   ├── S4_gate.json                                                                ║
-║   │   │       │   └── S5_gate.json                                                                ║
-║   │   │       │                                                                                   ║
-║   │   │       └── users\ ◀───────────────────── 일반 사용자별 데이터                              ║
-║   │   │           └── {email}\                   (이메일별 폴더)                                  ║
-║   │   │               └── project_sal_grid.json                                                   ║
+║   │   │       └── stage_gate_records\ ◀──────── Stage Gate JSON 파일들                            ║
+║   │   │           ├── S1_gate.json               (S1~S5 총 5개)                                   ║
+║   │   │           ├── S2_gate.json                                                                ║
+║   │   │           ├── S3_gate.json                                                                ║
+║   │   │           ├── S4_gate.json                                                                ║
+║   │   │           └── S5_gate.json                                                                ║
 ║   │   │                                                                                           ║
 ║   │   └── sal-grid\ ◀──────────────────────────── [3] Task/Verification Instructions              ║
 ║   │       │                                                                                       ║
@@ -186,7 +179,7 @@
 ║   │   🔄 데이터 업데이트:               │   🔄 데이터 업데이트:               │                   ║
 ║   │   • Claude Code가 REST API로        │   • Claude Code가 Edit 도구로       │                   ║
 ║   │   • 실시간 반영                     │   • git commit & push 후 반영       │                   ║
-║   │   • curl 또는 Supabase SDK          │   • jsdelivr CDN 캐시 (5분)         │                   ║
+║   │   • curl 또는 Supabase SDK          │   • GitHub raw URL 직접 로드        │                   ║
 ║   │                                     │                                     │                   ║
 ║   ├─────────────────────────────────────┼─────────────────────────────────────┤                   ║
 ║   │                                     │                                     │                   ║
@@ -394,11 +387,12 @@
 ║                                         ▼                                                         ║
 ║   ┌─────────────────────────────────────────────────────────────────────────────────────────────┐ ║
 ║   │                                                                                             │ ║
-║   │   🌐 jsdelivr CDN (캐시)                                                                    │ ║
+║   │   🌐 GitHub Raw URL (직접 로드)                                                             │ ║
 ║   │                                                                                             │ ║
-║   │   https://cdn.jsdelivr.net/gh/{owner}/{repo}@latest/path/to/file.json                      │ ║
+║   │   https://raw.githubusercontent.com/{owner}/{repo}/{branch}/path/to/file.json             │ ║
 ║   │                                                                                             │ ║
-║   │   ⚠️ 캐시 갱신 시간: 최대 5분 소요                                                          │ ║
+║   │   ✅ git push 후 즉시 반영 (캐시 없음)                                                      │ ║
+║   │   📌 Viewer는 Supabase users 테이블의 github_repo_url을 사용하여 URL 생성                  │ ║
 ║   │                                                                                             │ ║
 ║   └─────────────────────────────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                                                   ║
@@ -418,34 +412,42 @@
 ║   │                                                                                             │ ║
 ║   │   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │ ║
 ║   │   │                                                                                     │   │ ║
-║   │   │   // 1. 사용자별 JSON 경로 분기                                                     │   │ ║
-║   │   │   const userEmail = localStorage.getItem('userEmail');                              │   │ ║
+║   │   │   // 1. 사용자 이메일 확인 (URL 파라미터 또는 Supabase 세션)                        │   │ ║
+║   │   │   const urlParams = new URLSearchParams(window.location.search);                    │   │ ║
+║   │   │   let userEmail = urlParams.get('email') || session?.user?.email;                   │   │ ║
 ║   │   │                                                                                     │   │ ║
-║   │   │   if (userEmail === 'wksun999@gmail.com') {                                         │   │ ║
-║   │   │       // SSAL Works 관리자: in_progress 폴더                                        │   │ ║
-║   │   │       jsonPath = '../method/json/data/in_progress/project_sal_grid.json';           │   │ ║
-║   │   │   } else {                                                                          │   │ ║
-║   │   │       // 일반 사용자: users/{email}/ 폴더                                           │   │ ║
-║   │   │       jsonPath = `../method/json/data/users/${email}/project_sal_grid.json`;        │   │ ║
-║   │   │   }                                                                                 │   │ ║
+║   │   │   // 2. Supabase users 테이블에서 github_repo_url 조회                              │   │ ║
+║   │   │   const { data: userData } = await supabaseClient                                   │   │ ║
+║   │   │       .from('users')                                                                │   │ ║
+║   │   │       .select('github_repo_url')                                                    │   │ ║
+║   │   │       .eq('email', userEmail)                                                       │   │ ║
+║   │   │       .single();                                                                    │   │ ║
 ║   │   │                                                                                     │   │ ║
-║   │   │   // 2. index.json에서 Task ID 목록 로드                                            │   │ ║
-║   │   │   const indexRes = await fetch('../method/json/data/index.json');                   │   │ ║
+║   │   │   // 3. GitHub raw URL로 index.json 로드                                            │   │ ║
+║   │   │   const baseUrl = githubToRawUrl(userData.github_repo_url);                         │   │ ║
+║   │   │   const indexRes = await fetch(baseUrl + '/method/json/data/index.json');           │   │ ║
 ║   │   │   const { task_ids } = await indexRes.json();                                       │   │ ║
 ║   │   │                                                                                     │   │ ║
-║   │   │   // 3. 개별 Task JSON 병렬 로드                                                    │   │ ║
+║   │   │   // 4. 개별 Task JSON 병렬 로드 (GitHub raw URL)                                   │   │ ║
 ║   │   │   const tasks = await Promise.all(                                                  │   │ ║
-║   │   │       task_ids.map(id => fetch(`grid_records/${id}.json`).then(r => r.json()))      │   │ ║
+║   │   │       task_ids.map(id =>                                                            │   │ ║
+║   │   │           fetch(baseUrl + `/method/json/data/grid_records/${id}.json`)              │   │ ║
+║   │   │               .then(r => r.json())                                                  │   │ ║
+║   │   │       )                                                                             │   │ ║
 ║   │   │   );                                                                                │   │ ║
 ║   │   │                                                                                     │   │ ║
-║   │   │   // 4. Stage Gate JSON 로드                                                        │   │ ║
+║   │   │   // 5. Stage Gate JSON 로드 (GitHub raw URL)                                       │   │ ║
 ║   │   │   const gates = await Promise.all(                                                  │   │ ║
 ║   │   │       [1,2,3,4,5].map(s =>                                                          │   │ ║
-║   │   │           fetch(`stage_gate_records/S${s}_gate.json`).then(r => r.json())           │   │ ║
+║   │   │           fetch(baseUrl + `/method/json/data/stage_gate_records/S${s}_gate.json`)   │   │ ║
+║   │   │               .then(r => r.json())                                                  │   │ ║
 ║   │   │       )                                                                             │   │ ║
 ║   │   │   );                                                                                │   │ ║
 ║   │   │                                                                                     │   │ ║
 ║   │   └─────────────────────────────────────────────────────────────────────────────────────┘   │ ║
+║   │                                                                                             │ ║
+║   │   📌 핵심: 모든 사용자가 동일한 방식으로 GitHub에서 데이터 로드                             │ ║
+║   │   📌 github_repo_url은 Supabase users 테이블에 저장됨                                      │ ║
 ║   │                                                                                             │ ║
 ║   └─────────────────────────────────────────────────────────────────────────────────────────────┘ ║
 ║                                                                                                   ║
