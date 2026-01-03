@@ -54,13 +54,12 @@ Project_Dev_Package/
 ├── S3_개발-2차/                   # 고급 기능 개발
 ├── S4_개발-3차/                   # QA 및 최적화
 ├── S5_개발_마무리/                # 배포 및 문서화
-├── Development_Process_Monitor/   # 진행 상황 시각화 (DB 업로드 필수)
+├── Development_Process_Monitor/   # 진행 상황 시각화
 ├── Human_ClaudeCode_Bridge/       # 작업 지시/결과 교환
-├── .claude/                       # AI 설정
-├── index.html                     # 메인 페이지
-├── 404.html                       # 에러 페이지
+├── .claude/                       # AI 설정 및 규칙
+├── .ssal-project.json             # 프로젝트 설정 (project_id 등)
+├── .env.sample                    # 환경 변수 템플릿
 ├── .gitignore
-├── package.json
 └── README.md
 ```
 
@@ -78,8 +77,8 @@ node scripts/setup-hooks.js
 
 | 용도 | 방식 | 위치 |
 |------|------|------|
-| **Task 관리** | JSON Method (기본) | `S0_Project-SAL-Grid_생성/method/json/data/` |
-| **진행률 표시** | DB 업로드 (필수) | `Development_Process_Monitor/` 설정 필요 |
+| **Task 관리** | JSON Method | `S0_Project-SAL-Grid_생성/method/json/data/` |
+| **진행률 표시** | DB 업로드 (선택) | `Development_Process_Monitor/` - SSAL Works 연동 시 설정 |
 
 **JSON 폴더 구조:**
 ```
@@ -88,6 +87,18 @@ method/json/data/
 └── grid_records/       # 개별 Task JSON 파일
     ├── S1F1.json
     └── ...
+```
+
+## 초기 설정 (필수)
+
+패키지 설치 후 `.ssal-project.json` 파일 수정:
+
+```json
+{
+  "project_id": "your-unique-project-id",
+  "project_name": "내 프로젝트명",
+  "owner_email": "your-email@example.com"
+}
 ```
 
 ---

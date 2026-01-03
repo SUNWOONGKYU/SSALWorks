@@ -57,6 +57,8 @@ Project_Dev_Package/
 ├── S3_개발-2차/                      # 2차 개발 (확장 기능)
 ├── S4_개발-3차/                      # 3차 개발 (고급 기능)
 ├── S5_개발_마무리/                   # 개발 마무리 (배포/안정화)
+├── .ssal-project.json                # 프로젝트 설정 (project_id 등)
+├── .env.sample                       # 환경 변수 템플릿 (DB 연동 시)
 ├── .gitignore                        # Git 제외 설정
 └── README.md                         # 패키지 설명
 ```
@@ -198,16 +200,16 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 
 - build-progress.js: 진행률 계산 스크립트
 - data/phase_progress.json: 단계별 진행률 데이터
-- README.md: 모니터 사용 가이드 (v3.0 DB 업로드 필수)
-- **DB_Method/**: DB 업로드 관련 파일 (필수!)
+- README.md: 모니터 사용 가이드
+- **DB_Method/**: DB 업로드 관련 파일 (SSAL Works 연동 시 필요)
   - create_table.sql: Supabase 테이블 생성 SQL
-  - upload-progress.js: DB 업로드 스크립트 (루트 `.env`에서 `SUPABASE_ANON_KEY` 사용)
+  - upload-progress.js: DB 업로드 스크립트
   - pre-commit-hook-example.sh: pre-commit hook 예시
   - README.md: DB Method 상세 가이드
 
-> **⚠️ DB 업로드가 필수입니다!** 로컬 JSON만 생성하면 웹에서 개인별 진행률 표시 불가. 반드시 DB_Method 설정을 완료해야 합니다.
+> **📌 DB 업로드는 선택사항입니다.** SSAL Works 플랫폼에서 개인별 진행률을 표시하려면 DB_Method 설정이 필요합니다. GitHub Pages로 Viewer만 사용할 경우 설정하지 않아도 됩니다.
 >
-> **📌 환경변수 설정**: 프로젝트 루트의 `.env.sample`을 `.env`로 복사 후 `SUPABASE_URL`과 `SUPABASE_ANON_KEY` 입력
+> **📌 환경변수 설정 (DB 연동 시)**: 프로젝트 루트의 `.env.sample`을 `.env`로 복사 후 `SUPABASE_URL`과 `SUPABASE_ANON_KEY` 입력
 
 ---
 
