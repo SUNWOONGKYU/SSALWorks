@@ -253,7 +253,7 @@ function getProjectId() {
 │                                                                 │
 │  P0~S0: 폴더/파일 존재 여부로 진행률 계산                         │
 │       ↓                                                         │
-│  S1~S5: sal_grid.csv에서 Task 완료율로 진행률 계산               │
+│  S1~S5: 개별 JSON 파일 (grid_records/*.json)에서 Task 완료율 계산 │
 │       ↓                                                         │
 │  프로젝트 루트/data/phase_progress.json 파일 생성 (로컬 백업)    │
 │                                                                 │
@@ -294,8 +294,9 @@ function getProjectId() {
 |------|------|------|
 | `build-progress.js` | Development_Process_Monitor/ | 빌드 스크립트 (JSON 생성) |
 | `upload-progress.js` | scripts/ (복사) | **DB 업로드 스크립트 (필수!)** |
-| `sal_grid.csv` | S0_Project-SAL-Grid_생성/data/ | S1~S5 Task 데이터 (입력) |
-| `phase_progress.json` | 프로젝트 루트/data/ | 진행률 데이터 (로컬 백업) |
+| `index.json` | S0_.../method/json/data/ | Task ID 목록 (입력) |
+| `grid_records/*.json` | S0_.../method/json/data/grid_records/ | 개별 Task 데이터 (입력) |
+| `phase_progress.json` | Development_Process_Monitor/data/ | 진행률 데이터 (출력) |
 | `index.html` | 프로젝트 루트 | 사이드바 표시 (DB 조회) |
 
 ### DB_Method 파일 (필수 설정)
@@ -314,77 +315,27 @@ function getProjectId() {
 
 **위치:** `Development_Process_Monitor/build-progress.js`
 
-### 전체 코드
+### 핵심 기능
+
+- **P0~S0**: 폴더/파일 구조에서 진행률 계산
+- **S1~S5**: 개별 Task JSON 파일 (`grid_records/*.json`)에서 완료율 계산
+
+### 데이터 소스
+
+```
+S0_Project-SAL-Grid_생성/method/json/data/
+├── index.json             ← Task ID 목록
+└── grid_records/          ← 개별 Task JSON 파일
+    ├── S1BI1.json
+    ├── S1BI2.json
+    └── ... (Task ID별 파일)
+```
+
+### 주요 함수
 
 ```javascript
-/**
- * build-progress.js
- * P0~S0: 폴더/파일 구조에서 진행률 계산
- * S1~S5: sal_grid.csv에서 Task 완료율 계산
- */
-
-const fs = require('fs');
-const path = require('path');
-
-const PROJECT_ROOT = path.join(__dirname, '..');
-
-// P0~S0 Phase 정의
-const PHASES = {
-    'P0': { folder: 'P0_작업_디렉토리_구조_생성', name: '작업 디렉토리 구조 생성' },
-    'P1': { folder: 'P1_사업계획', name: '사업계획' },
-    'P2': { folder: 'P2_프로젝트_기획', name: '프로젝트 기획' },
-    'P3': { folder: 'P3_프로토타입_제작', name: '프로토타입 제작' },
-    'S0': { folder: 'S0_Project-SAL-Grid_생성', name: 'Project SAL Grid 생성' }
-};
-
-// 폴더 안에 파일이 1개 이상 있는지 확인
-function hasFiles(folderPath) {
-    try {
-        const items = fs.readdirSync(folderPath);
-        return items.some(item => {
-            const itemPath = path.join(folderPath, item);
-            try {
-                return fs.statSync(itemPath).isFile();
-            } catch (e) {
-                return false;
-            }
-        });
-    } catch (e) {
-        return false;
-    }
-}
-
-// P0~S0 진행률 계산 (폴더/파일 기반)
-function calculatePhaseProgress(phaseCode, phasePath) {
-    try {
-        const items = fs.readdirSync(phasePath);
-
-        // 하위 폴더 목록 (숨김 폴더 제외)
-        const subfolders = items.filter(item => {
-            if (item.startsWith('.') || item.startsWith('_')) return false;
-            const itemPath = path.join(phasePath, item);
-            try {
-                return fs.statSync(itemPath).isDirectory();
-            } catch (e) {
-                return false;
-            }
-        });
-
-        const total = subfolders.length;
-        const completed = subfolders.filter(folder =>
-            hasFiles(path.join(phasePath, folder))
-        ).length;
-
-        const progress = total > 0 ? Math.round(completed / total * 100) : 0;
-
-        return { completed, total, progress };
-    } catch (e) {
-        return { completed: 0, total: 0, progress: 0 };
-    }
-}
-
-// S1~S5 진행률 계산 (CSV 기반)
-function calculateStageProgressFromCSV(csvPath) {
+// S1~S5 진행률 계산 (개별 JSON 파일 기반)
+function calculateStageProgressFromJSON(basePath) {
     const stageProgress = {
         'S1': { name: '개발 준비', progress: 0, completed: 0, total: 0 },
         'S2': { name: '개발 1차', progress: 0, completed: 0, total: 0 },
@@ -394,28 +345,19 @@ function calculateStageProgressFromCSV(csvPath) {
     };
 
     try {
-        if (!fs.existsSync(csvPath)) {
-            console.warn('sal_grid.csv not found');
-            return stageProgress;
-        }
+        const indexPath = path.join(basePath, 'index.json');
+        const gridRecordsPath = path.join(basePath, 'grid_records');
 
-        const csvContent = fs.readFileSync(csvPath, 'utf-8');
-        const lines = csvContent.trim().split('\n');
+        // index.json에서 task_ids 가져오기
+        const indexData = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
 
-        if (lines.length < 2) return stageProgress;
+        // 각 Task JSON 파일 읽기
+        indexData.task_ids.forEach(taskId => {
+            const taskFilePath = path.join(gridRecordsPath, `${taskId}.json`);
+            const task = JSON.parse(fs.readFileSync(taskFilePath, 'utf-8'));
 
-        // 헤더에서 stage, task_status 인덱스 찾기
-        const headers = lines[0].split(',').map(h => h.trim());
-        const stageIndex = headers.indexOf('stage');
-        const statusIndex = headers.indexOf('task_status');
-
-        if (stageIndex === -1 || statusIndex === -1) return stageProgress;
-
-        // 데이터 파싱
-        for (let i = 1; i < lines.length; i++) {
-            const values = parseCSVLine(lines[i]);
-            const stage = values[stageIndex];
-            const status = values[statusIndex];
+            const stage = task.stage;  // integer: 1~5
+            const status = task.task_status;
 
             const stageKey = `S${stage}`;
             if (stageProgress[stageKey]) {
@@ -424,7 +366,7 @@ function calculateStageProgressFromCSV(csvPath) {
                     stageProgress[stageKey].completed++;
                 }
             }
-        }
+        });
 
         // 진행률 계산
         Object.keys(stageProgress).forEach(key => {
@@ -434,74 +376,45 @@ function calculateStageProgressFromCSV(csvPath) {
 
         return stageProgress;
     } catch (e) {
-        console.error('Error reading CSV:', e.message);
+        console.error('Error calculating stage progress:', e.message);
         return stageProgress;
     }
 }
+```
 
-// CSV 라인 파싱 (쉼표 포함 값 처리)
-function parseCSVLine(line) {
-    const result = [];
-    let current = '';
-    let inQuotes = false;
+### 실행 흐름
 
-    for (let i = 0; i < line.length; i++) {
-        const char = line[i];
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
-            result.push(current.trim());
-            current = '';
-        } else {
-            current += char;
-        }
-    }
-    result.push(current.trim());
-    return result;
-}
-
+```javascript
 // 메인 실행
 function main() {
-    console.log('📊 Progress Builder\n');
+    console.log('📊 Progress Builder - P0~S5 진행률 계산\n');
+
+    const projectId = getProjectId();  // .ssal-project.json에서 읽기
 
     const result = {
-        project_id: 'YOUR_PROJECT',
+        project_id: projectId,
         updated_at: new Date().toISOString(),
         phases: {}
     };
 
-    // P0~S0 계산
+    // P0~S0 계산 (폴더/파일 기반)
     Object.entries(PHASES).forEach(([code, config]) => {
         const phasePath = path.join(PROJECT_ROOT, config.folder);
         const progress = calculatePhaseProgress(code, phasePath);
-        result.phases[code] = {
-            name: config.name,
-            progress: progress.progress,
-            completed: progress.completed,
-            total: progress.total
-        };
-        console.log(`${code}: ${progress.completed}/${progress.total} = ${progress.progress}%`);
+        result.phases[code] = { name: config.name, ...progress };
     });
 
-    // S1~S5 계산
-    const csvPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'data', 'sal_grid.csv');
-    const stageProgress = calculateStageProgressFromCSV(csvPath);
+    // S1~S5 계산 (개별 JSON 파일 기반)
+    const gridDataPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data');
+    const stageProgress = calculateStageProgressFromJSON(gridDataPath);
     Object.entries(stageProgress).forEach(([code, data]) => {
         result.phases[code] = data;
-        console.log(`${code}: ${data.completed}/${data.total} = ${data.progress}%`);
     });
 
-    // JSON 저장 (프로젝트 루트/data/)
-    const outputDir = path.join(PROJECT_ROOT, 'data');
-    if (!fs.existsSync(outputDir)) {
-        fs.mkdirSync(outputDir, { recursive: true });
-    }
-    const outputPath = path.join(outputDir, 'phase_progress.json');
+    // JSON 저장
+    const outputPath = path.join(__dirname, 'data', 'phase_progress.json');
     fs.writeFileSync(outputPath, JSON.stringify(result, null, 2), 'utf-8');
-    console.log(`\n✅ 저장: ${outputPath}`);
 }
-
-main();
 ```
 
 ---
@@ -1191,13 +1104,33 @@ window.addEventListener('load', () => {
 
 ---
 
-## 6. sal_grid.csv 구조
+## 6. JSON 데이터 구조 (개별 파일 방식)
 
-**위치:** `S0_Project-SAL-Grid_생성/data/sal_grid.csv`
+**위치:** `S0_Project-SAL-Grid_생성/method/json/data/`
 
-**생성:** build-sal-grid-csv.js 스크립트로 생성 (별도 참조)
+```
+method/json/data/
+├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
+└── grid_records/          ← 개별 Task JSON 파일
+    ├── S1BI1.json
+    ├── S1BI2.json
+    └── ... (Task ID별 파일)
+```
 
-| 컬럼 | 설명 | 진행률 계산 사용 |
+### index.json 구조
+
+```json
+{
+  "project_id": "프로젝트ID",
+  "project_name": "프로젝트명",
+  "total_tasks": 66,
+  "task_ids": ["S1BI1", "S1BI2", "S1D1", ...]
+}
+```
+
+### 개별 Task JSON (grid_records/{TaskID}.json)
+
+| 필드 | 설명 | 진행률 계산 사용 |
 |------|------|:----------------:|
 | task_id | Task ID | |
 | task_name | Task 이름 | |
@@ -1213,9 +1146,10 @@ window.addEventListener('load', () => {
 ### 진행률 계산 로직
 
 ```
-completed = task_status === 'Completed' 인 Task 수
-total = 해당 Stage의 전체 Task 수
-progress = Math.round(completed / total * 100)
+1. index.json에서 task_ids 배열 가져오기
+2. 각 task_id에 대해 grid_records/{task_id}.json 파일 읽기
+3. task_status === 'Completed' 인 Task 수 계산
+4. progress = Math.round(completed / total * 100)
 ```
 
 ---
@@ -1244,7 +1178,8 @@ S5: 9/9 = 100%
 ```
 
 **전제 조건:**
-- `S0_Project-SAL-Grid_생성/data/sal_grid.csv` 파일이 존재해야 함
+- `S0_Project-SAL-Grid_생성/method/json/data/index.json` 파일이 존재해야 함
+- `S0_Project-SAL-Grid_생성/method/json/data/grid_records/` 폴더에 개별 Task JSON 파일이 존재해야 함
 - P0~S0 폴더 구조가 존재해야 함
 
 ---
@@ -1270,11 +1205,11 @@ S5: 9/9 = 100%
 
 | 항목 | 위치 | 수정 내용 |
 |------|------|----------|
-| 프로젝트 ID | `main()` 함수 | `project_id` 값 변경 |
+| 프로젝트 ID | `.ssal-project.json` | `project_id` 값 변경 |
 | Phase 폴더명 | `PHASES` 객체 | `folder` 값을 프로젝트 구조에 맞게 변경 |
-| Stage 수 | `calculateStageProgressFromCSV()` | `stageProgress` 객체 수정 |
-| CSV 경로 | `main()` 함수 | `csvPath` 변수를 프로젝트 구조에 맞게 수정 |
-| JSON 출력 경로 | `main()` 함수 | `outputPath` 변수를 원하는 위치로 수정 |
+| Stage 수 | `calculateStageProgressFromJSON()` | `stageProgress` 객체 수정 |
+| JSON 경로 | `main()` 함수 | `gridDataPath` 변수를 프로젝트 구조에 맞게 수정 |
+| 출력 경로 | `main()` 함수 | `outputPath` 변수를 원하는 위치로 수정 |
 
 ### Step 3: HTML 사이드바 추가
 
@@ -1312,6 +1247,8 @@ Development_Process_Monitor/
 ├── build-progress.js                      # 진행률 빌드 스크립트
 ├── README.md                              # 이 파일 (DB 필수 버전)
 ├── DEVELOPMENT_PROCESS_WORKFLOW.md        # 개발 프로세스 워크플로우
+├── data/
+│   └── phase_progress.json                # 빌드 출력 (진행률 JSON)
 └── DB_Method/                             # ⭐ DB 업로드 설정 (필수!)
     ├── README.md                          # DB Method 상세 설명
     ├── create_table.sql                   # 테이블 생성 SQL
@@ -1322,12 +1259,12 @@ Development_Process_Monitor/
 scripts/
 └── upload-progress.js                     # DB_Method에서 복사 (필수!)
 
-data/
-└── phase_progress.json                    # 빌드 출력 (로컬 백업)
-
-S0_Project-SAL-Grid_생성/
-└── data/
-    └── sal_grid.csv                       # S1~S5 진행률 입력
+S0_Project-SAL-Grid_생성/method/json/data/
+├── index.json                             # Task ID 목록 (입력)
+└── grid_records/                          # S1~S5 개별 Task JSON
+    ├── S1BI1.json
+    ├── S1BI2.json
+    └── ...
 ```
 
 ---
@@ -1337,8 +1274,8 @@ S0_Project-SAL-Grid_생성/
 ### 빌드 스크립트 (build-progress.js)
 - [ ] PHASES 객체에 P0~S0 폴더 매핑
 - [ ] calculatePhaseProgress() 함수 구현
-- [ ] calculateStageProgressFromCSV() 함수 구현
-- [ ] parseCSVLine() 함수 구현 (쉼표 포함 값 처리)
+- [ ] calculateStageProgressFromJSON() 함수 구현
+- [ ] index.json + grid_records/ 경로 설정
 - [ ] JSON 출력 경로 설정
 
 ### HTML (index.html)
@@ -1405,16 +1342,18 @@ S0_Project-SAL-Grid_생성/
    - `!important` 규칙 확인
    - 인라인 스타일 제거
 
-### CSV 파싱 오류
+### JSON 파싱 오류
 
-1. **CSV 형식 확인**
-   - 쉼표 포함 값은 따옴표로 감싸기
-   - 개행 문자 확인
+1. **JSON 형식 확인**
+   - index.json이 올바른 JSON 형식인지 확인
+   - task_ids 배열이 존재하는지 확인
 
-2. **헤더 확인**
-   - `stage`, `task_status` 컬럼 존재 확인
+2. **개별 Task 파일 확인**
+   - grid_records/ 폴더에 파일이 있는지 확인
+   - 각 파일이 올바른 JSON 형식인지 확인
+   - `stage`, `task_status` 필드 존재 확인
 
 ---
 
-**작성일:** 2025-12-26
-**버전:** 2.0 (완전판)
+**작성일:** 2026-01-04
+**버전:** 3.0 (JSON Method 통합판)
