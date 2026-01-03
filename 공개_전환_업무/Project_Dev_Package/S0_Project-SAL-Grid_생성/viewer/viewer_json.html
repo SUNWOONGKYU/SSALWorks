@@ -533,9 +533,8 @@
                 document.getElementById('connectionStatus').textContent = `JSON 로드 완료 (${allTasks.length}개 Task)`;
                 document.querySelector('.connection-status').style.background = '#28a745';
 
-                // Stage Gates는 JSON에 별도로 저장 (현재는 스킵)
-                stageGates = [];
-                renderStageGates();
+                // Stage Gates JSON 로드
+                await loadStageGates();
             } catch (err) {
                 console.error('Load error:', err);
                 document.getElementById('connectionStatus').textContent = 'JSON 로드 실패: ' + err.message;
@@ -581,8 +580,8 @@
             const panel = document.getElementById('stageGatePanel');
             currentGateStage = stageNum;
 
-            // Gate 정보 찾기 - stage_name으로 정확히 매칭
-            const gate = stageGates.find(g => g.stage_name === `Stage ${stageNum}`) || {};
+            // Gate 정보 찾기 - stage 번호로 정확히 매칭 (더 안정적)
+            const gate = stageGates.find(g => g.stage === stageNum) || {};
 
             document.getElementById('gateTitle').innerHTML = `🔐 Stage ${stageNum} Gate - ${STAGE_NAMES[stageNum]}`;
 
