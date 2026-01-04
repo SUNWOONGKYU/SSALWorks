@@ -65,7 +65,7 @@ function mdToHtml(md) {
     // 2. 들여쓰기 하위 항목 처리 (   - 로 시작하는 줄)
     html = html.replace(/^   - (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 6px; font-size: 12px; line-height: 1.7; color: #555;">• $1</div>');
 
-    // 3. 제목 변환 (크기: h1=15px, h2=14px, h3=13px - 사이드바와 동일)
+    // 3. 제목 변환 (크기: h1=15px, h2=14px, h3=13px)
     html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 16px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #333;">$1</h3>');
     html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 20px; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 6px;">$1</h2>');
     html = html.replace(/^# (.+)$/gm, '<h1 style="margin-top: 0; margin-bottom: 14px; font-size: 15px; font-weight: 700; color: var(--primary-dark);">$1</h1>');
@@ -103,7 +103,7 @@ function mdToHtml(md) {
         const separatorIndex = lines.findIndex(line => /^\|[\s\-:|]+\|$/.test(line));
         if (separatorIndex === -1) return match;
 
-        let tableHtml = '<table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; table-layout: auto; word-wrap: break-word;">';
+        let tableHtml = '<table style="width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; table-layout: auto; word-wrap: break-word;">';
 
         lines.forEach((line, index) => {
             // 구분선 행은 건너뛰기
@@ -131,7 +131,7 @@ function mdToHtml(md) {
     const blockTags = /^<(h[1-6]|ul|ol|li|table|tr|td|th|blockquote|hr|div|pre|p)/;
     html = html.split('\n\n').map(para => {
         if (blockTags.test(para) || para.trim() === '') return para;
-        return '<p style="margin: 16px 0; font-size: 14px; line-height: 1.8;">' + para + '</p>';
+        return '<p style="margin: 12px 0; font-size: 12px; line-height: 1.8;">' + para + '</p>';
     }).join('\n');
 
     return html;
