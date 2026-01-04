@@ -6707,3 +6707,76 @@ node scripts/generate-embeddings.js
 - 임베딩 실행하여 52개 파일 추가
 
 ---
+
+## 2026-01-05 작업 내역
+
+### "다른 AI에게 질문하기" 기능 버그 수정 🔧
+
+**작업 상태:** ✅ 완료 (2026-01-05)
+
+**증상:** "다른 AI에게 질문하기" 기능이 작동하지 않음
+
+**원인 분석 (2가지):**
+
+#### 1. api/External/ai-qa.js 구문 오류 (4곳)
+
+| 라인 | 문제 코드 | 원인 |
+|------|----------|------|
+| 104 | `description: ,` | 템플릿 문자열 누락 |
+| 122 | `ai_model: ,` | 템플릿 문자열 누락 |
+| 215 | `learningContext = ;` | 할당값 누락 |
+| 224 | `? :` | 삼항 연산자 값 누락 |
+
+**추정 원인:** Git 머지 또는 에디터 오류로 백틱(\`) 안의 내용이 손실됨
+
+#### 2. index.html 인증 헤더 누락
+
+```javascript
+// 수정 전 - Authorization 헤더 없음
+const response = await fetch('/api/ai/qa', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    ...
+});
+```
+
+**결과:** API가 사용자를 인식하지 못해 크레딧 확인 불가
+
+**해결 방법:**
+
+#### 1. ai-qa.js 수정 (4곳)
+
+```javascript
+// Line 104: 크레딧 이력 설명
+description: `AI Q&A (${provider}/${model})`
+
+// Line 122: AI 모델 기록
+ai_model: `${provider}/${model}`
+
+// Line 215: 학습 콘텐츠 컨텍스트
+learningContext = `[참고 콘텐츠: ${content.title}]\n${content.description || ''}\n\n${content.content}`
+
+// Line 224: 전체 질문 조합
+? `${learningContext}\n\n질문: ${question}`
+```
+
+#### 2. index.html 인증 헤더 추가
+
+```javascript
+// 세션에서 인증 토큰 가져오기
+const { data: { session } } = await window.supabaseClient.auth.getSession();
+const headers = { 'Content-Type': 'application/json' };
+if (session?.access_token) {
+    headers['Authorization'] = `Bearer ${session.access_token}`;
+}
+```
+
+**수정된 파일:**
+1. `api/External/ai-qa.js` - 구문 오류 4곳 수정
+2. `index.html` - Authorization 헤더 추가
+
+**Git 커밋:** `8820ba0` - fix: 다른 AI에게 질문하기 기능 수정 - 구문 오류 및 인증 헤더 추가
+
+**관련 리포트:** `Human_ClaudeCode_Bridge/Reports/ai_qa_bugfix_report.json`
+
+---

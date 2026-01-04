@@ -1,0 +1,129 @@
+{
+  "report_type": "bugfix",
+  "created_at": "2026-01-05T00:00:00.000Z",
+  "title": "다른 AI에게 질문하기 기능 버그 수정",
+  "feature": "AI Q&A (ChatGPT, Gemini, Perplexity)",
+
+  "symptom": {
+    "description": "다른 AI에게 질문하기 기능이 작동하지 않음",
+    "affected_feature": "사이드바 > 다른 AI에게 질문하기",
+    "user_action": "질문 입력 후 제출하기 클릭",
+    "expected_result": "AI 답변 표시",
+    "actual_result": "API 오류 또는 무응답"
+  },
+
+  "root_cause_analysis": {
+    "cause_count": 2,
+    "causes": [
+      {
+        "id": 1,
+        "file": "api/External/ai-qa.js",
+        "type": "syntax_error",
+        "description": "템플릿 문자열(백틱) 내용 손실로 인한 구문 오류",
+        "affected_lines": [104, 122, 215, 224],
+        "details": [
+          {
+            "line": 104,
+            "before": "description: ,",
+            "issue": "크레딧 이력 설명 누락"
+          },
+          {
+            "line": 122,
+            "before": "ai_model: ,",
+            "issue": "AI 모델 기록 누락"
+          },
+          {
+            "line": 215,
+            "before": "learningContext = ;",
+            "issue": "학습 콘텐츠 컨텍스트 할당값 누락"
+          },
+          {
+            "line": 224,
+            "before": "? :",
+            "issue": "삼항 연산자 값 누락"
+          }
+        ],
+        "probable_origin": "Git 머지 충돌 또는 에디터 오류로 백틱 내용 손실"
+      },
+      {
+        "id": 2,
+        "file": "index.html",
+        "type": "missing_feature",
+        "description": "API 호출 시 Authorization 헤더 누락",
+        "affected_function": "askAI()",
+        "details": "fetch 요청에 Bearer 토큰이 포함되지 않아 API가 사용자를 인식하지 못함",
+        "impact": "크레딧 확인 및 사용 로그 기록 불가"
+      }
+    ]
+  },
+
+  "solution": {
+    "files_modified": [
+      {
+        "file": "api/External/ai-qa.js",
+        "changes": 4,
+        "fixes": [
+          {
+            "line": 104,
+            "after": "description: `AI Q&A (${provider}/${model})`"
+          },
+          {
+            "line": 122,
+            "after": "ai_model: `${provider}/${model}`"
+          },
+          {
+            "line": 215,
+            "after": "learningContext = `[참고 콘텐츠: ${content.title}]\\n${content.description || ''}\\n\\n${content.content}`"
+          },
+          {
+            "line": 224,
+            "after": "? `${learningContext}\\n\\n질문: ${question}`"
+          }
+        ]
+      },
+      {
+        "file": "index.html",
+        "changes": 1,
+        "fixes": [
+          {
+            "function": "askAI()",
+            "description": "Supabase 세션에서 access_token 가져와서 Authorization 헤더에 추가",
+            "code_added": "const { data: { session } } = await window.supabaseClient.auth.getSession(); headers['Authorization'] = `Bearer ${session.access_token}`;"
+          }
+        ]
+      }
+    ]
+  },
+
+  "git_commit": {
+    "hash": "8820ba0",
+    "message": "fix: 다른 AI에게 질문하기 기능 수정 - 구문 오류 및 인증 헤더 추가",
+    "files_changed": 3,
+    "insertions": 14,
+    "deletions": 6
+  },
+
+  "verification": {
+    "status": "pending_production_test",
+    "note": "Vercel 배포 후 프로덕션에서 테스트 필요"
+  },
+
+  "related_files": [
+    "api/External/ai-qa.js",
+    "index.html",
+    "api/Backend_Infra/ai/index.js",
+    "vercel.json"
+  ],
+
+  "api_endpoint": {
+    "path": "/api/ai/qa",
+    "method": "POST",
+    "routing": "/api/External/ai-qa"
+  },
+
+  "lessons_learned": [
+    "템플릿 문자열(백틱)은 Git 머지 시 손상되기 쉬움 - 주의 필요",
+    "API 호출 시 인증 헤더 포함 여부 항상 확인",
+    "구문 오류는 런타임 전에 발견하기 어려울 수 있음 - 린터 활용 권장"
+  ]
+}
