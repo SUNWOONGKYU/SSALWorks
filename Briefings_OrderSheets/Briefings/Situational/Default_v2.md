@@ -13,7 +13,7 @@
 
 ---
 
-<div style="background-color: #FEF3C7; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
+<div style="background-color: #FFFBEB; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
 <strong>얼리버드 특가 진행 중</strong><br>
 빌더 계정 개설비 300만원 (미래 가격 3,000만원의 1/10)<br>
 + 3개월 내 완성 + 유료 고객 30명 확보 시 50% 환불
@@ -30,7 +30,7 @@
 - **중앙 하단**: Project SAL Grid Viewer에서 66개 Task 관리 예시를 볼 수 있습니다
 - **오른쪽**: Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개를 열람할 수 있습니다
 
-<div style="background-color: #FEF3C7; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
+<div style="background-color: #FFFBEB; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
 <strong>회원가입/로그인 방법</strong>: 오른쪽 상단 "로그인" 또는 "회원가입" 버튼 클릭 → Google 또는 이메일로 가입/로그인
 </div>
 
@@ -120,7 +120,7 @@
 | 빌더 계정 개설비 | 300만원 | 얼리버드, 부가세 포함. 향후 3,000만원까지 인상 예정. 3개월 내 완성 + 유료 고객 30명 확보 시 50% 환불 |
 | 플랫폼 이용료 | 월&nbsp;5만원 | 처음 3개월 면제 |
 
-<div style="background-color: #FEF3C7; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
+<div style="background-color: #FFFBEB; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
 <strong>개설 방법</strong>: 왼쪽 사이드바 → My Page → 서비스 이용 현황 → 빌더 계정 개설비 "입금하기" 클릭 → 무통장 입금 → 입금 확인 후 빌더 계정 활성화
 </div>
 

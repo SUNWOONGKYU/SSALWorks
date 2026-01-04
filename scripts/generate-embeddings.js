@@ -60,7 +60,22 @@ const CONTENT_PATHS = {
     manuals: path.join(BASE_PATH, 'S0_Project-SAL-Grid_생성/manual'),
 
     // 서비스 안내문
-    service_guides: path.join(BASE_PATH, 'P3_프로토타입_제작/Frontend/Prototype')
+    service_guides: path.join(BASE_PATH, 'P3_프로토타입_제작/Frontend/Prototype'),
+
+    // 서비스 소개 (2026-01-05 추가)
+    service_intro: path.join(BASE_PATH, 'P2_프로젝트_기획/Service_Introduction'),
+
+    // 기술 스택 (2026-01-05 추가)
+    tech_stack: path.join(BASE_PATH, 'P2_프로젝트_기획/Tech_Stack'),
+
+    // AI 준수사항 (2026-01-05 추가)
+    compliance: path.join(BASE_PATH, '.claude/compliance'),
+
+    // 작업 규칙 (2026-01-05 추가)
+    rules: path.join(BASE_PATH, '.claude/rules'),
+
+    // 작업 방법 (2026-01-05 추가)
+    methods: path.join(BASE_PATH, '.claude/methods')
 };
 
 // 청킹 설정

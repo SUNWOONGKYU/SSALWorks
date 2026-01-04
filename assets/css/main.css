@@ -1708,7 +1708,7 @@ h6 {
 }
 .service-guide-item:hover {
     border-color: #D97706;
-    background: #FEF3C7;
+    background: #FFFBEB;
 }
 .service-guide-header {
     padding: 10px 12px;
@@ -1821,7 +1821,7 @@ h6 {
 }
 .service-guide-content blockquote {
     border-left: 4px solid #D97706;
-    background: #FEF3C7;
+    background: #FFFBEB;
     margin: 12px 0;
     padding: 12px 16px;
     color: #92400E;
@@ -2536,14 +2536,14 @@ h6 {
     border-radius: 4px;
     margin-bottom: 2px;
     transition: all 0.2s;
-    background: #FEF3C7;
+    background: rgba(245, 158, 11, 0.08);
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
 }
 
 .notice-item:hover {
-    background: #FDE68A !important;
+    background: rgba(245, 158, 11, 0.15) !important;
     color: #333;
 }
 

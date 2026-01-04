@@ -6645,3 +6645,65 @@ SUPABASE_ANON_KEY    ←──→   env.SUPABASE_ANON_KEY  ✅ 일치
 
 **관련 리포트:** `Human_ClaudeCode_Bridge/Reports/briefing_font_size_rules.md`
 
+
+---
+
+## 2026-01-05 작업 내역
+
+### AI Tutor 임베딩 프로세스 문서화
+
+**작업 상태:** ✅ 완료 (2026-01-05)
+
+**목적:** AI Tutor RAG 시스템의 콘텐츠 임베딩 프로세스 문서화
+
+**임베딩 프로세스:**
+```
+1. MD 파일 읽기 (각 콘텐츠 폴더에서)
+       ↓
+2. 프론트매터 제거 + 제목 추출
+       ↓
+3. 텍스트 청킹 (1000자, 200자 오버랩)
+       ↓
+4. Gemini API로 임베딩 생성 (768차원 벡터)
+       ↓
+5. Supabase content_embeddings 테이블에 저장
+```
+
+**현재 임베딩 현황 (1,324개 청크):**
+
+| content_type | 경로 | 파일 수 | 상태 |
+|--------------|------|---------|------|
+| tips | 실전_Tips | 67개 | ✅ 임베딩됨 |
+| books | 학습용_Books_New | 87개 | ✅ 임베딩됨 |
+| guides | 외부_연동_설정_Guide | 6개 | ✅ 임베딩됨 |
+| briefings | Briefings | 34개 | ✅ 임베딩됨 |
+| manuals | manual | 1개 | ✅ 임베딩됨 |
+
+**추가 예정 콘텐츠 (52개):**
+
+| content_type | 경로 | 파일 수 |
+|--------------|------|---------|
+| ordersheets | Briefings_OrderSheets/OrderSheet_Templates | 30개 |
+| service_intro | P2_프로젝트_기획/Service_Introduction | 10개 |
+| tech_stack | P2_프로젝트_기획/Tech_Stack | 1개 |
+| compliance | .claude/compliance | 1개 |
+| rules | .claude/rules | 7개 |
+| methods | .claude/methods | 3개 |
+
+**생성된 문서:**
+1. `scripts/EMBEDDING_PROCESS.md` - 프로세스 상세 문서
+2. `Human_ClaudeCode_Bridge/Reports/embedding_process_report.json` - JSON 리포트
+3. `.claude/work_logs/current.md` - 이 로그
+
+**스크립트 위치:** `scripts/generate-embeddings.js`
+
+**실행 방법:**
+```bash
+node scripts/generate-embeddings.js
+```
+
+**다음 단계:**
+- 스크립트에 5개 새 경로 추가
+- 임베딩 실행하여 52개 파일 추가
+
+---
