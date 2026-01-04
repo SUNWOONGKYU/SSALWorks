@@ -72,7 +72,7 @@ Project_Dev_Package/
 |-----------|------|
 | `index.json` | 빈 템플릿 (project_id, task_ids 비어있음) |
 | `grid_records/` | 템플릿 파일만 존재 |
-| `task-instructions/` | 비어있음 |
+| `task-instructions/` | `TEMPLATE_instruction.md` 템플릿만 있음 |
 
 ### S0 완료 후
 
