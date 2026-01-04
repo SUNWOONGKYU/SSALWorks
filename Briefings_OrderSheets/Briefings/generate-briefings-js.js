@@ -63,12 +63,12 @@ function mdToHtml(md) {
     });
 
     // 2. 들여쓰기 하위 항목 처리 (   - 로 시작하는 줄)
-    html = html.replace(/^   - (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 6px; font-size: 14px; line-height: 1.7; color: #555;">• $1</div>');
+    html = html.replace(/^   - (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 6px; font-size: 12px; line-height: 1.7; color: #555;">• $1</div>');
 
-    // 3. 제목 변환 (크기: h1=20px, h2=16px, h3=14px)
-    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 20px; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: #333;">$1</h3>');
-    html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 28px; margin-bottom: 14px; font-size: 16px; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 8px;">$1</h2>');
-    html = html.replace(/^# (.+)$/gm, '<h1 style="margin-top: 0; margin-bottom: 18px; font-size: 20px; font-weight: 700; color: var(--primary-dark);">$1</h1>');
+    // 3. 제목 변환 (크기: h1=15px, h2=14px, h3=13px - 사이드바와 동일)
+    html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 16px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #333;">$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2 style="margin-top: 20px; margin-bottom: 10px; font-size: 14px; font-weight: 600; color: var(--primary-dark); border-bottom: 2px solid var(--primary); padding-bottom: 6px;">$1</h2>');
+    html = html.replace(/^# (.+)$/gm, '<h1 style="margin-top: 0; margin-bottom: 14px; font-size: 15px; font-weight: 700; color: var(--primary-dark);">$1</h1>');
 
     // 4. 굵은 글씨
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -77,22 +77,22 @@ function mdToHtml(md) {
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
     // 6. 인라인 코드 (코드 블록 내부가 아닌 경우만)
-    html = html.replace(/`([^`\n]+)`/g, '<code style="background: #f0f0f0; padding: 3px 8px; border-radius: 4px; font-size: 13px; font-family: Consolas, Monaco, monospace;">$1</code>');
+    html = html.replace(/`([^`\n]+)`/g, '<code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-family: Consolas, Monaco, monospace;">$1</code>');
 
     // 7. 인용문 (> 로 시작하는 줄)
-    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid var(--primary); padding-left: 16px; margin: 16px 0; color: #555; font-size: 14px; line-height: 1.7; background: #f8f9fa; padding: 12px 16px; border-radius: 0 6px 6px 0;">$1</blockquote>');
+    html = html.replace(/^> (.+)$/gm, '<blockquote style="border-left: 4px solid var(--primary); padding-left: 12px; margin: 12px 0; color: #555; font-size: 12px; line-height: 1.7; background: #f8f9fa; padding: 10px 12px; border-radius: 0 6px 6px 0;">$1</blockquote>');
 
     // 8. 수평선
-    html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #e0e0e0; margin: 28px 0;">');
+    html = html.replace(/^---$/gm, '<hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">');
 
     // 9. 리스트 변환 (- 로 시작)
-    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 10px; font-size: 14px; line-height: 1.7;">$1</li>');
+    html = html.replace(/^- (.+)$/gm, '<li style="margin-bottom: 8px; font-size: 12px; line-height: 1.7;">$1</li>');
     html = html.replace(/(<li.+<\/li>\n?)+/g, (match) => {
-        return '<ul style="padding-left: 24px; margin: 16px 0;">' + match + '</ul>';
+        return '<ul style="padding-left: 20px; margin: 12px 0;">' + match + '</ul>';
     });
 
     // 10. 숫자 리스트
-    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 10px; font-size: 14px; line-height: 1.7;">$1</li>');
+    html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 8px; font-size: 12px; line-height: 1.7;">$1</li>');
 
     // 11. 마크다운 표(table) 변환
     html = html.replace(/(?:^|\n)((?:\|[^\n]+\|\n)+)/g, (match, tableBlock) => {
