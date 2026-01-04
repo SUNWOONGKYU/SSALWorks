@@ -124,7 +124,7 @@
 <strong>개설 방법</strong>: 왼쪽 사이드바 → My Page → 서비스 이용 현황 → 빌더 계정 개설비 "입금하기" 클릭 → 무통장 입금 → 입금 확인 후 빌더 계정 활성화
 </div>
 
-<div style="background-color: #ECFDF5; padding: 12px 12px 12px 20px; border-left: 4px solid #059669; margin: 16px 0;">
+<div style="background-color: #F0FDF4; padding: 12px 12px 12px 20px; border-left: 4px solid #059669; margin: 16px 0;">
 <strong style="color: #059669;">빌더 계정 개설 후 진행 순서</strong><br><br>
 1. <strong>프로젝트 정보 입력</strong>: 프로젝트명과 설명을 입력합니다<br>
 2. <strong>등록 완료</strong>: 등록번호가 부여되고 Dev Package가 자동 다운로드됩니다 (압축 해제 후 원하는 폴더에 저장)<br>
