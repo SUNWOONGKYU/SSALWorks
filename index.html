@@ -938,20 +938,315 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     질문하기
                 </button>
             </div>
-            <!-- AI Tutor Modal (Fixed Position) -->
-            <div id="ai-tutor-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9998;" onclick="toggleAITutor()"></div>
-            <div id="ai-tutor-expanded" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 95%; max-width: 600px; height: 85vh; z-index: 9999; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); padding: 0; margin: 0; overflow: hidden;">
-                <div style="padding: 10px 12px; border-bottom: 1px solid #e9ecef; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px 12px 0 0; flex-shrink: 0;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <span style="color: white; font-weight: 600; font-size: 14px;">🎓 AI Tutor</span>
-                        <button onclick="toggleAITutor()" style="padding: 5px 12px; background: #6c757d; border: none; color: white; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 500;">✕ 닫기</button>
+            <!-- AI Tutor Modal (자체 RAG 기반) -->
+            <div id="ai-tutor-overlay" class="ai-tutor-overlay" style="display: none;"></div>
+            <div id="ai-tutor-modal" class="ai-tutor-modal" style="display: none;">
+                <!-- 헤더 -->
+                <div class="ai-tutor-header">
+                    <button id="ai-tutor-sidebar-toggle" class="ai-tutor-sidebar-toggle" onclick="toggleAITutorSidebar()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                    <span class="ai-tutor-title">🎓 AI Tutor</span>
+                    <div class="ai-tutor-header-actions">
+                        <button id="ai-tutor-new-chat" class="ai-tutor-new-btn" onclick="startNewTutorChat()">새 대화</button>
+                        <span id="ai-tutor-credits" class="ai-tutor-credits">0 크레딧</span>
+                        <button onclick="toggleAITutor()" class="ai-tutor-close-btn">✕</button>
                     </div>
-                    <div style="color: rgba(255,255,255,0.9); font-size: 11px; line-height: 1.4;">답변을 잘못 할 수 있으니 검색 등을 통해서 다시 한번 확인해 주세요.</div>
                 </div>
-                <iframe id="ai-tutor-iframe" data-src="https://aitalker.co.kr/biz019?fullwidth=true" scrolling="yes"
-                        style="width: 100%; height: calc(85vh - 70px); border: none; background: white; margin: 0; padding: 0; display: block; min-height: 400px;">
-                </iframe>
+                <!-- 사이드바 (대화 히스토리) -->
+                <div id="ai-tutor-sidebar" class="ai-tutor-sidebar" style="display: none;">
+                    <div class="ai-tutor-sidebar-header">
+                        <h4>대화 목록</h4>
+                    </div>
+                    <div id="ai-tutor-conversation-list" class="ai-tutor-conversation-list">
+                        <!-- 동적 생성 -->
+                    </div>
+                </div>
+                <!-- 메시지 영역 -->
+                <div id="ai-tutor-messages" class="ai-tutor-messages">
+                    <div class="ai-tutor-welcome">
+                        <h4>SSAL Works AI 튜터</h4>
+                        <p>SSAL Works의 학습 콘텐츠, 브리핑스, 매뉴얼 등에 대해 무엇이든 물어보세요!</p>
+                        <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">답변을 잘못 할 수 있으니 검색 등을 통해서 다시 한번 확인해 주세요.</p>
+                    </div>
+                </div>
+                <!-- 입력 영역 -->
+                <div class="ai-tutor-input-area">
+                    <textarea id="ai-tutor-input" class="ai-tutor-input" placeholder="질문을 입력하세요..." rows="1"></textarea>
+                    <button id="ai-tutor-send" class="ai-tutor-send-btn" onclick="sendTutorMessage()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22,2 15,22 11,13 2,9"></polygon>
+                        </svg>
+                    </button>
+                </div>
             </div>
+            <style>
+                /* AI Tutor 스타일 */
+                .ai-tutor-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    z-index: 9998;
+                }
+                .ai-tutor-modal {
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 95%;
+                    max-width: 500px;
+                    height: 85vh;
+                    max-height: 700px;
+                    background: white;
+                    border-radius: 16px;
+                    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                    z-index: 9999;
+                    display: flex;
+                    flex-direction: column;
+                    overflow: hidden;
+                }
+                .ai-tutor-header {
+                    display: flex;
+                    align-items: center;
+                    padding: 12px 16px;
+                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    gap: 12px;
+                    flex-shrink: 0;
+                }
+                .ai-tutor-sidebar-toggle {
+                    background: rgba(255,255,255,0.2);
+                    border: none;
+                    border-radius: 6px;
+                    padding: 6px;
+                    cursor: pointer;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .ai-tutor-sidebar-toggle:hover { background: rgba(255,255,255,0.3); }
+                .ai-tutor-title {
+                    color: white;
+                    font-weight: 600;
+                    font-size: 15px;
+                    flex: 1;
+                }
+                .ai-tutor-header-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+                .ai-tutor-new-btn {
+                    background: rgba(255,255,255,0.2);
+                    border: none;
+                    color: white;
+                    padding: 5px 10px;
+                    border-radius: 6px;
+                    font-size: 12px;
+                    cursor: pointer;
+                }
+                .ai-tutor-new-btn:hover { background: rgba(255,255,255,0.3); }
+                .ai-tutor-credits {
+                    background: rgba(0,0,0,0.2);
+                    color: white;
+                    padding: 4px 8px;
+                    border-radius: 12px;
+                    font-size: 11px;
+                    font-weight: 500;
+                }
+                .ai-tutor-close-btn {
+                    background: #6c757d;
+                    border: none;
+                    color: white;
+                    padding: 5px 12px;
+                    border-radius: 6px;
+                    font-size: 14px;
+                    cursor: pointer;
+                }
+                .ai-tutor-close-btn:hover { background: #5a6268; }
+                .ai-tutor-sidebar {
+                    position: absolute;
+                    left: 0;
+                    top: 52px;
+                    bottom: 60px;
+                    width: 200px;
+                    background: #f8f9fa;
+                    border-right: 1px solid #e5e7eb;
+                    overflow-y: auto;
+                    z-index: 10;
+                }
+                .ai-tutor-sidebar-header {
+                    padding: 12px;
+                    border-bottom: 1px solid #e5e7eb;
+                    font-weight: 600;
+                    font-size: 13px;
+                }
+                .ai-tutor-conversation-list {
+                    padding: 8px;
+                }
+                .ai-tutor-conv-item {
+                    padding: 10px 12px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    margin-bottom: 4px;
+                    font-size: 12px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+                .ai-tutor-conv-item:hover { background: #e5e7eb; }
+                .ai-tutor-conv-item.active { background: #dbeafe; color: #1d4ed8; }
+                .ai-tutor-conv-delete {
+                    background: none;
+                    border: none;
+                    color: #9ca3af;
+                    cursor: pointer;
+                    padding: 2px;
+                    font-size: 14px;
+                    opacity: 0;
+                }
+                .ai-tutor-conv-item:hover .ai-tutor-conv-delete { opacity: 1; }
+                .ai-tutor-messages {
+                    flex: 1;
+                    overflow-y: auto;
+                    padding: 16px;
+                    background: #f9fafb;
+                }
+                .ai-tutor-welcome {
+                    text-align: center;
+                    padding: 40px 20px;
+                    color: #6b7280;
+                }
+                .ai-tutor-welcome h4 {
+                    color: #374151;
+                    margin-bottom: 8px;
+                    font-size: 16px;
+                }
+                .ai-tutor-message {
+                    margin-bottom: 16px;
+                    max-width: 88%;
+                    animation: fadeIn 0.2s ease-out;
+                }
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(8px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                .ai-tutor-message.user {
+                    margin-left: auto;
+                    background: #3b82f6;
+                    color: white;
+                    border-radius: 16px 16px 4px 16px;
+                    padding: 12px 16px;
+                }
+                .ai-tutor-message.assistant {
+                    background: white;
+                    border: 1px solid #e5e7eb;
+                    border-radius: 16px 16px 16px 4px;
+                    padding: 12px 16px;
+                }
+                .ai-tutor-message.assistant .content {
+                    white-space: pre-wrap;
+                    line-height: 1.6;
+                    font-size: 14px;
+                }
+                .ai-tutor-message .sources {
+                    margin-top: 12px;
+                    padding-top: 10px;
+                    border-top: 1px solid #e5e7eb;
+                    font-size: 11px;
+                    color: #6b7280;
+                }
+                .ai-tutor-message .source-tag {
+                    display: inline-block;
+                    background: #f3f4f6;
+                    padding: 2px 8px;
+                    border-radius: 12px;
+                    margin: 2px 4px 2px 0;
+                    font-size: 10px;
+                }
+                .ai-tutor-input-area {
+                    display: flex;
+                    padding: 12px 16px;
+                    border-top: 1px solid #e5e7eb;
+                    gap: 10px;
+                    background: white;
+                    flex-shrink: 0;
+                }
+                .ai-tutor-input {
+                    flex: 1;
+                    resize: none;
+                    border: 1px solid #d1d5db;
+                    border-radius: 12px;
+                    padding: 10px 14px;
+                    font-size: 14px;
+                    max-height: 100px;
+                    font-family: inherit;
+                }
+                .ai-tutor-input:focus {
+                    outline: none;
+                    border-color: #3b82f6;
+                    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+                }
+                .ai-tutor-send-btn {
+                    background: #3b82f6;
+                    border: none;
+                    border-radius: 12px;
+                    padding: 10px 14px;
+                    cursor: pointer;
+                    color: white;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: background 0.2s;
+                }
+                .ai-tutor-send-btn:hover { background: #2563eb; }
+                .ai-tutor-send-btn:disabled {
+                    background: #9ca3af;
+                    cursor: not-allowed;
+                }
+                .ai-tutor-typing {
+                    display: inline-flex;
+                    gap: 4px;
+                    padding: 8px;
+                }
+                .ai-tutor-typing span {
+                    width: 8px;
+                    height: 8px;
+                    background: #9ca3af;
+                    border-radius: 50%;
+                    animation: typing 1.2s infinite;
+                }
+                .ai-tutor-typing span:nth-child(2) { animation-delay: 0.2s; }
+                .ai-tutor-typing span:nth-child(3) { animation-delay: 0.4s; }
+                @keyframes typing {
+                    0%, 60%, 100% { transform: translateY(0); }
+                    30% { transform: translateY(-6px); }
+                }
+                @media (max-width: 768px) {
+                    .ai-tutor-modal {
+                        width: 100%;
+                        height: 100%;
+                        max-width: none;
+                        max-height: none;
+                        border-radius: 0;
+                        top: 0;
+                        left: 0;
+                        transform: none;
+                    }
+                    .ai-tutor-sidebar { width: 80%; max-width: 280px; }
+                }
+            </style>
 
             <!-- Knowledge Content -->
             <div class="sidebar-section">
@@ -5092,16 +5387,19 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             window.open('/%EB%B6%80%EC%88%98%EC%A0%81_%EA%B3%A0%EC%9C%A0%EA%B8%B0%EB%8A%A5/%EC%BD%98%ED%85%90%EC%B8%A0/%ED%95%99%EC%8A%B5%EC%9A%A9_Books_New/viewer.html', '_blank');
         }
 
+        // ========== AI Tutor 자체 구현 (RAG 기반) ==========
+        let currentTutorConversationId = null;
+        let tutorIsSending = false;
+
         // AI Tutor 토글 (빌더 계정 전용)
         async function toggleAITutor() {
             const overlay = document.getElementById('ai-tutor-overlay');
-            const expanded = document.getElementById('ai-tutor-expanded');
-            const iframe = document.getElementById('ai-tutor-iframe');
+            const modal = document.getElementById('ai-tutor-modal');
 
             // 팝업 닫기인 경우 바로 처리
-            if (expanded.style.display !== 'none') {
+            if (modal.style.display !== 'none') {
                 overlay.style.display = 'none';
-                expanded.style.display = 'none';
+                modal.style.display = 'none';
                 return;
             }
 
@@ -5120,7 +5418,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 console.log('[AI Tutor] 빌더 계정 확인 중... user_id:', session.user.id);
                 const { data: userData, error: userError } = await window.supabaseClient
                     .from('users')
-                    .select('installation_fee_paid')
+                    .select('installation_fee_paid, credit_balance')
                     .eq('id', session.user.id)
                     .single();
 
@@ -5141,58 +5439,310 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
                 console.log('[AI Tutor] 빌더 계정 확인됨.');
 
-                // 모바일: 새 탭으로 열기 (iframe 호환성 문제)
-                const isMobile = window.innerWidth <= 768;
-                if (isMobile) {
-                    console.log('[AI Tutor] 모바일 - 새 탭으로 열기');
-                    window.open(iframe.dataset.src, '_blank');
-                    return;
-                }
+                // 크레딧 표시
+                updateTutorCredits(userData.credit_balance || 0);
 
-                // PC: 모달로 열기
+                // 모달 열기
                 overlay.style.display = 'block';
-                expanded.style.display = 'block';
-                expanded.style.top = '50%';
-                expanded.style.left = '50%';
-                expanded.style.transform = 'translate(-50%, -50%)';
-                if (!iframe.src && iframe.dataset.src) {
-                    iframe.src = iframe.dataset.src;
-                }
+                modal.style.display = 'flex';
+
+                // 대화 목록 로드
+                loadTutorConversations();
+
+                // 입력창 포커스
+                document.getElementById('ai-tutor-input').focus();
+
             } catch (error) {
                 console.error('로그인 상태 확인 실패:', error);
                 alert('로그인 상태를 확인할 수 없습니다. 페이지를 새로고침 해주세요.');
             }
         }
 
-        // AI Tutor 드래그 이동 기능
-        (function() {
-            let isDragging = false;
-            let offsetX, offsetY;
-            const modal = document.getElementById('ai-tutor-expanded');
-            const header = modal ? modal.querySelector('div') : null;
+        // 오버레이 클릭 시 닫기
+        document.getElementById('ai-tutor-overlay')?.addEventListener('click', toggleAITutor);
 
-            if (header) {
-                header.style.cursor = 'move';
-                header.addEventListener('mousedown', function(e) {
-                    if (e.target.tagName === 'BUTTON') return;
-                    isDragging = true;
-                    modal.style.transform = 'none';
-                    offsetX = e.clientX - modal.offsetLeft;
-                    offsetY = e.clientY - modal.offsetTop;
+        // 크레딧 표시 업데이트
+        function updateTutorCredits(credits) {
+            const el = document.getElementById('ai-tutor-credits');
+            if (el) el.textContent = `${credits} 크레딧`;
+        }
+
+        // 사이드바 토글
+        function toggleAITutorSidebar() {
+            const sidebar = document.getElementById('ai-tutor-sidebar');
+            sidebar.style.display = sidebar.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // 대화 목록 로드
+        async function loadTutorConversations() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const response = await fetch('/api/ai-tutor/conversations', {
+                    headers: { 'Authorization': `Bearer ${session.access_token}` }
                 });
+
+                if (!response.ok) return;
+
+                const conversations = await response.json();
+                renderTutorConversationList(conversations);
+            } catch (error) {
+                console.error('[AI Tutor] 대화 목록 로드 실패:', error);
+            }
+        }
+
+        // 대화 목록 렌더링
+        function renderTutorConversationList(conversations) {
+            const list = document.getElementById('ai-tutor-conversation-list');
+            if (!list) return;
+
+            if (!conversations || conversations.length === 0) {
+                list.innerHTML = '<p style="padding: 12px; font-size: 12px; color: #9ca3af;">대화 내역이 없습니다.</p>';
+                return;
             }
 
-            document.addEventListener('mousemove', function(e) {
-                if (isDragging && modal) {
-                    modal.style.left = (e.clientX - offsetX) + 'px';
-                    modal.style.top = (e.clientY - offsetY) + 'px';
-                }
-            });
+            list.innerHTML = conversations.map(conv => `
+                <div class="ai-tutor-conv-item ${conv.id === currentTutorConversationId ? 'active' : ''}"
+                     onclick="loadTutorConversation('${conv.id}')">
+                    <span style="flex:1;overflow:hidden;text-overflow:ellipsis;">${conv.title}</span>
+                    <button class="ai-tutor-conv-delete" onclick="event.stopPropagation();deleteTutorConversation('${conv.id}')">✕</button>
+                </div>
+            `).join('');
+        }
 
-            document.addEventListener('mouseup', function() {
-                isDragging = false;
-            });
-        })();
+        // 특정 대화 로드
+        async function loadTutorConversation(conversationId) {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+
+                const response = await fetch(`/api/ai-tutor/conversations?id=${conversationId}`, {
+                    headers: { 'Authorization': `Bearer ${session.access_token}` }
+                });
+
+                if (!response.ok) return;
+
+                const conversation = await response.json();
+                currentTutorConversationId = conversationId;
+
+                // 메시지 영역 렌더링
+                const messagesDiv = document.getElementById('ai-tutor-messages');
+                messagesDiv.innerHTML = '';
+
+                if (conversation.tutor_messages && conversation.tutor_messages.length > 0) {
+                    conversation.tutor_messages.forEach(msg => {
+                        appendTutorMessage(msg.role, msg.content, msg.sources);
+                    });
+                }
+
+                // 대화 목록 업데이트 (active 표시)
+                loadTutorConversations();
+
+                // 사이드바 닫기 (모바일)
+                if (window.innerWidth <= 768) {
+                    document.getElementById('ai-tutor-sidebar').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('[AI Tutor] 대화 로드 실패:', error);
+            }
+        }
+
+        // 대화 삭제
+        async function deleteTutorConversation(conversationId) {
+            if (!confirm('이 대화를 삭제하시겠습니까?')) return;
+
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) return;
+
+                await fetch(`/api/ai-tutor/conversations?id=${conversationId}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${session.access_token}` }
+                });
+
+                // 현재 대화였으면 초기화
+                if (conversationId === currentTutorConversationId) {
+                    startNewTutorChat();
+                }
+
+                loadTutorConversations();
+            } catch (error) {
+                console.error('[AI Tutor] 대화 삭제 실패:', error);
+            }
+        }
+
+        // 새 대화 시작
+        function startNewTutorChat() {
+            currentTutorConversationId = null;
+            document.getElementById('ai-tutor-messages').innerHTML = `
+                <div class="ai-tutor-welcome">
+                    <h4>SSAL Works AI 튜터</h4>
+                    <p>SSAL Works의 학습 콘텐츠, 브리핑스, 매뉴얼 등에 대해 무엇이든 물어보세요!</p>
+                    <p style="font-size: 11px; color: #9ca3af; margin-top: 8px;">답변을 잘못 할 수 있으니 검색 등을 통해서 다시 한번 확인해 주세요.</p>
+                </div>
+            `;
+            loadTutorConversations();
+        }
+
+        // 메시지 전송 (SSE 스트리밍)
+        async function sendTutorMessage() {
+            const input = document.getElementById('ai-tutor-input');
+            const message = input.value.trim();
+            if (!message || tutorIsSending) return;
+
+            input.value = '';
+            tutorIsSending = true;
+            document.getElementById('ai-tutor-send').disabled = true;
+
+            // 사용자 메시지 표시
+            appendTutorMessage('user', message);
+
+            // AI 응답 컨테이너 생성 (타이핑 애니메이션)
+            const assistantDiv = appendTutorMessage('assistant', '<div class="ai-tutor-typing"><span></span><span></span><span></span></div>');
+            const contentDiv = assistantDiv.querySelector('.content');
+
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session) {
+                    contentDiv.innerHTML = '로그인이 필요합니다.';
+                    return;
+                }
+
+                // SSE fetch
+                const response = await fetch('/api/ai-tutor/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session.access_token}`
+                    },
+                    body: JSON.stringify({
+                        message,
+                        conversationId: currentTutorConversationId
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    contentDiv.innerHTML = `오류: ${errorData.error || '알 수 없는 오류'}`;
+                    return;
+                }
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullText = '';
+                let isFirstChunk = true;
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+
+                                switch (data.type) {
+                                    case 'content':
+                                        if (isFirstChunk) {
+                                            contentDiv.innerHTML = '';
+                                            isFirstChunk = false;
+                                        }
+                                        fullText += data.text;
+                                        contentDiv.textContent = fullText;
+                                        break;
+                                    case 'sources':
+                                        renderTutorSources(assistantDiv, data.sources);
+                                        break;
+                                    case 'done':
+                                        currentTutorConversationId = data.conversationId;
+                                        if (data.creditsRemaining !== undefined) {
+                                            updateTutorCredits(data.creditsRemaining);
+                                        }
+                                        loadTutorConversations();
+                                        break;
+                                    case 'error':
+                                        contentDiv.innerHTML = `오류: ${data.message}`;
+                                        break;
+                                }
+                            } catch (e) {
+                                // JSON 파싱 오류 무시
+                            }
+                        }
+                    }
+                }
+
+                // 빈 응답 처리
+                if (isFirstChunk) {
+                    contentDiv.innerHTML = '응답을 받지 못했습니다.';
+                }
+
+            } catch (error) {
+                console.error('[AI Tutor] 전송 오류:', error);
+                contentDiv.innerHTML = `오류: ${error.message}`;
+            } finally {
+                tutorIsSending = false;
+                document.getElementById('ai-tutor-send').disabled = false;
+                // 메시지 영역 스크롤
+                const messagesDiv = document.getElementById('ai-tutor-messages');
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        }
+
+        // 메시지 렌더링
+        function appendTutorMessage(role, content, sources = null) {
+            const messagesDiv = document.getElementById('ai-tutor-messages');
+
+            // Welcome 메시지 제거
+            const welcome = messagesDiv.querySelector('.ai-tutor-welcome');
+            if (welcome) welcome.remove();
+
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `ai-tutor-message ${role}`;
+            messageDiv.innerHTML = `<div class="content">${content}</div>`;
+
+            if (sources && sources.length > 0) {
+                renderTutorSources(messageDiv, sources);
+            }
+
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            return messageDiv;
+        }
+
+        // 참조 문서 렌더링
+        function renderTutorSources(messageDiv, sources) {
+            if (!sources || sources.length === 0) return;
+
+            // 기존 sources 제거
+            const existing = messageDiv.querySelector('.sources');
+            if (existing) existing.remove();
+
+            const sourcesDiv = document.createElement('div');
+            sourcesDiv.className = 'sources';
+            sourcesDiv.innerHTML = `
+                <strong>참조 문서:</strong>
+                ${sources.map(s => `<span class="source-tag">${s.title || s.content_id}</span>`).join('')}
+            `;
+            messageDiv.appendChild(sourcesDiv);
+        }
+
+        // Enter 키 전송
+        document.getElementById('ai-tutor-input')?.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendTutorMessage();
+            }
+        });
+
+        // 입력창 자동 높이 조절
+        document.getElementById('ai-tutor-input')?.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+        });
 
         // 학습용 콘텐츠 목록 (로컬 검색용)
         const LEARNING_CONTENTS = [

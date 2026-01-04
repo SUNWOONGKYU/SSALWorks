@@ -60,4 +60,31 @@ async function sendGeminiMessage(message, options = {}) {
   }
 }
 
-module.exports = { sendGeminiMessage, getGenAI };
+/**
+ * Gemini 스트리밍 메시지 전송
+ * @param {string} systemPrompt - 시스템 프롬프트
+ * @param {string} userMessage - 사용자 메시지
+ * @param {Object} options - 옵션
+ * @returns {Promise<AsyncGenerator>} 스트리밍 결과
+ */
+async function sendGeminiMessageStream(systemPrompt, userMessage, options = {}) {
+  const ai = getGenAI();
+  const modelName = options.model || 'gemini-2.0-flash-exp';
+
+  const model = ai.getGenerativeModel({
+    model: modelName,
+    generationConfig: {
+      maxOutputTokens: options.maxTokens || 2048,
+      temperature: options.temperature || 0.7
+    }
+  });
+
+  const fullPrompt = systemPrompt
+    ? `${systemPrompt}\n\n사용자: ${userMessage}`
+    : userMessage;
+
+  const result = await model.generateContentStream(fullPrompt);
+  return result.stream;
+}
+
+module.exports = { sendGeminiMessage, sendGeminiMessageStream, getGenAI };

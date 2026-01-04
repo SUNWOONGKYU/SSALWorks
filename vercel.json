@@ -110,6 +110,18 @@
       "destination": "/api/External/ai-health"
     },
     {
+      "source": "/api/ai-tutor/chat",
+      "destination": "/api/External/ai-tutor-chat"
+    },
+    {
+      "source": "/api/ai-tutor/conversations",
+      "destination": "/api/External/ai-tutor-conversations"
+    },
+    {
+      "source": "/api/ai-tutor/conversations/:id",
+      "destination": "/api/External/ai-tutor-conversations?id=:id"
+    },
+    {
       "source": "/api/payment/installation-request",
       "destination": "/api/Backend_APIs/payment/installation-request"
     },
