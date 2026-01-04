@@ -28,7 +28,7 @@
 - **왼쪽 사이드바**: 10단계 진행 프로세스, 안내문, Order Sheet
 - **중앙 상단**: Control Desk 사용, Order Sheet 작성 및 전달
 - **중앙 하단**: Project SAL Grid Viewer (66개 Task 관리 예시)
-- **오른쪽**: Books 80편, Tips 66개, 외부 연동 Guide 5개
+- **오른쪽**: Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개
 
 <div style="background-color: #ECFDF5; padding: 8px 12px; border-left: 4px solid #059669; margin-top: 16px;">
 <strong>회원가입/로그인</strong>: 오른쪽 상단 버튼 (Google 또는 이메일)
@@ -77,7 +77,7 @@
 
 **[콘텐츠 1가지]**
 
-8. **학습 콘텐츠** - Books, Tips, 외부 연동 Guide. 초보자도 따라할 수 있는 수준
+8. **학습 콘텐츠** - Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개. 초보자도 따라할 수 있는 수준
 
 **[서비스 2가지]**
 
@@ -106,7 +106,7 @@
 
 - 10단계 진행 프로세스로 체계적 개발, Project SAL Grid로 66개(예시) Task 관리
 - Dev Package 다운로드, Order Sheet로 AI 작업 지시
-- Books, Tips, 외부 연동 Guide, AI Tutor 질의응답
+- Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개, AI Tutor 질의응답
 - SSAL Works 예시 프로젝트 전체 소스코드 참조
 
 **가격**
