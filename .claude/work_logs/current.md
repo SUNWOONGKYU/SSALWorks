@@ -6780,3 +6780,38 @@ if (session?.access_token) {
 **관련 리포트:** `Human_ClaudeCode_Bridge/Reports/ai_qa_bugfix_report.json`
 
 ---
+
+### "다른 AI에게 질문하기" 컨트롤 데스크 표시 문제 추가 수정 🔧
+
+**작업 상태:** ✅ 완료 (2026-01-05)
+
+**증상:** AI 답변이 이력에는 저장되지만 컨트롤 데스크에 표시되지 않음
+
+**원인:** CSS !important 우선순위 문제
+- 다른 함수들이 `display: none !important`로 textEditor를 숨김
+- askAI()는 일반 `style.display = 'block'` 사용 → 우선순위에 밀림
+
+**해결:**
+```javascript
+// 수정 전
+workspace.style.display = 'block';
+
+// 수정 후
+workspace.setAttribute('style', 'display: block !important; visibility: visible !important; ...');
+```
+
+**추가 수정:**
+- 폰트 크기: 14px → 12pt
+
+**Git 커밋:**
+- `fe7f8f5` - fix: AI Q&A 결과가 컨트롤 데스크에 표시되지 않는 문제 수정
+- `ca1e4f1` - debug: 디버깅 로그 추가
+
+**검증:** ✅ 프로덕션 테스트 완료 (www.ssalworks.ai.kr)
+
+**교훈:**
+1. CSS !important 사용 시 같은 요소 수정하는 다른 코드도 !important 필요
+2. 이력 저장되는데 화면 표시 안 되면 CSS 문제 의심
+3. console.log로 단계별 디버깅 효과적
+
+---
