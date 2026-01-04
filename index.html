@@ -1241,8 +1241,43 @@ The content you enter in the Control Desk will be displayed here.</pre>
                         top: 0;
                         left: 0;
                         transform: none;
+                        padding-top: env(safe-area-inset-top);
+                        padding-bottom: env(safe-area-inset-bottom);
+                        padding-left: env(safe-area-inset-left);
+                        padding-right: env(safe-area-inset-right);
                     }
                     .ai-tutor-sidebar { width: 80%; max-width: 280px; }
+                    .ai-tutor-header {
+                        padding: 14px 12px;
+                    }
+                    .ai-tutor-title {
+                        font-size: 14px;
+                    }
+                    .ai-tutor-messages {
+                        padding: 12px;
+                        font-size: 15px;
+                        line-height: 1.6;
+                    }
+                    .ai-tutor-message {
+                        max-width: 90%;
+                        font-size: 14px;
+                    }
+                    .ai-tutor-input-area {
+                        padding: 10px 12px;
+                        padding-bottom: calc(10px + env(safe-area-inset-bottom));
+                        gap: 10px;
+                    }
+                    .ai-tutor-input {
+                        font-size: 16px;
+                        padding: 12px 14px;
+                        min-height: 44px;
+                    }
+                    .ai-tutor-welcome h4 {
+                        font-size: 16px;
+                    }
+                    .ai-tutor-welcome p {
+                        font-size: 13px;
+                    }
                 }
             </style>
 
