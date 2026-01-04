@@ -101,7 +101,7 @@ async function deductCredits(supabase, userId, amount, provider, model) {
       amount: -amount,
       balance_after: newBalance,
       type: 'usage',
-      description: ,
+      description: `AI Q&A (${provider}/${model})`,
       reference_id: null
     });
 
@@ -119,7 +119,7 @@ async function logAIUsage(supabase, userId, provider, model, usage, responseTime
       user_id: userId,
       endpoint: '/api/ai-qa',
       method: 'POST',
-      ai_model: ,
+      ai_model: `${provider}/${model}`,
       input_tokens: usage?.prompt_tokens || null,
       output_tokens: usage?.completion_tokens || null,
       cost_credits: creditCost,
@@ -212,7 +212,7 @@ module.exports = async function handler(req, res) {
         .eq('id', contentId)
         .single();
       if (content) {
-        learningContext = ;
+        learningContext = `[참고 콘텐츠: ${content.title}]\n${content.description || ''}\n\n${content.content}`;
       }
     } catch (e) {
       console.error('Failed to load learning content:', e);
@@ -221,7 +221,8 @@ module.exports = async function handler(req, res) {
 
   // 학습 콘텐츠가 있으면 질문에 포함
   const fullQuestion = learningContext
-    ?     : question;
+    ? `${learningContext}\n\n질문: ${question}`
+    : question;
 
   try {
     const startTime = Date.now();

@@ -7284,10 +7284,17 @@ Claude Code가 작업을 완료하면:
             }
 
             try {
+                // 세션에서 인증 토큰 가져오기
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                const headers = { 'Content-Type': 'application/json' };
+                if (session?.access_token) {
+                    headers['Authorization'] = `Bearer ${session.access_token}`;
+                }
+
                 // Vercel API 엔드포인트 사용
                 const response = await fetch('/api/ai/qa', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: headers,
                     body: JSON.stringify({
                         question: question,
                         provider: selectedAI
