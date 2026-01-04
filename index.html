@@ -952,7 +952,8 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     </button>
                     <span class="ai-tutor-title">🎓 AI Tutor</span>
                     <div class="ai-tutor-header-actions">
-                        <button onclick="toggleAITutor()" class="ai-tutor-close-btn">닫기</button>
+                        <button id="ai-tutor-new-chat" class="ai-tutor-new-btn" onclick="startNewTutorChat()">+ 새 대화</button>
+                        <button onclick="toggleAITutor()" class="ai-tutor-close-btn">✕ 닫기</button>
                     </div>
                 </div>
                 <!-- 사이드바 (대화 히스토리) -->
@@ -1014,7 +1015,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     display: flex;
                     align-items: center;
                     padding: 12px 16px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                    background: linear-gradient(135deg, #6B5CC4 0%, #8B7DD4 100%);
                     gap: 12px;
                     flex-shrink: 0;
                 }
@@ -1060,15 +1061,15 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     font-weight: 500;
                 }
                 .ai-tutor-close-btn {
-                    background: #6c757d;
+                    background: rgba(255,255,255,0.2);
                     border: none;
                     color: white;
-                    padding: 5px 12px;
+                    padding: 4px 10px;
                     border-radius: 6px;
-                    font-size: 14px;
+                    font-size: 12px;
                     cursor: pointer;
                 }
-                .ai-tutor-close-btn:hover { background: #5a6268; }
+                .ai-tutor-close-btn:hover { background: rgba(255,255,255,0.3); }
                 .ai-tutor-sidebar {
                     position: absolute;
                     left: 0;
@@ -1103,7 +1104,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     align-items: center;
                 }
                 .ai-tutor-conv-item:hover { background: #e5e7eb; }
-                .ai-tutor-conv-item.active { background: #dbeafe; color: #1d4ed8; }
+                .ai-tutor-conv-item.active { background: #ede9fe; color: #6B5CC4; }
                 .ai-tutor-conv-delete {
                     background: none;
                     border: none;
@@ -1141,7 +1142,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 }
                 .ai-tutor-message.user {
                     margin-left: auto;
-                    background: #3b82f6;
+                    background: #6B5CC4;
                     color: white;
                     border-radius: 16px 16px 4px 16px;
                     padding: 12px 16px;
@@ -1192,11 +1193,11 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 }
                 .ai-tutor-input:focus {
                     outline: none;
-                    border-color: #3b82f6;
-                    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+                    border-color: #6B5CC4;
+                    box-shadow: 0 0 0 2px rgba(107, 92, 196, 0.1);
                 }
                 .ai-tutor-send-btn {
-                    background: #3b82f6;
+                    background: #6B5CC4;
                     border: none;
                     border-radius: 12px;
                     padding: 10px 14px;
@@ -1207,7 +1208,7 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     justify-content: center;
                     transition: background 0.2s;
                 }
-                .ai-tutor-send-btn:hover { background: #2563eb; }
+                .ai-tutor-send-btn:hover { background: #5A4BB3; }
                 .ai-tutor-send-btn:disabled {
                     background: #9ca3af;
                     cursor: not-allowed;
