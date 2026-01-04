@@ -336,9 +336,26 @@ work_logs/current.md 기록
 
 | # | 방법 파일 | 적용 시점 | 핵심 |
 |---|----------|----------|------|
+| 0 | `00_initial-setup.md` | **Dev Package 첫 실행 시** ⭐ | 개발 환경 확인, 프로젝트 초기화 |
 | 1 | `01_json-crud.md` | **JSON CRUD 작업 시** | AI가 Edit 도구로 직접 수정 |
 
 **📁 위치:** `.claude/methods/`
+
+### Dev Package 첫 실행 시 (초기 설정)
+
+사용자가 "개발 환경 확인해줘", "프로젝트 초기 설정 해줘" 등을 요청하면:
+
+```
+1. 개발 도구 확인 (git --version, node --version)
+2. 미설치 도구 안내
+3. 프로젝트 초기화 (git init)
+4. 설정 파일 확인 (.ssal-project.json 등)
+5. 다음 단계 안내
+```
+
+**상세 프로세스:** `.claude/methods/00_initial-setup.md` 참조
+
+---
 
 ### JSON CRUD 작업 시 필수 준수
 

@@ -6,9 +6,101 @@
 
 ## 2026-01-04 작업 내역
 
-### Project_Registration.md 개편 계획 📋
+### Dev Package 초기 설정 안내문 추가 📋
 
-**작업 상태:** 계획 수립 완료, PO 검토 대기
+**작업 상태:** ✅ 완료 (2026-01-04)
+
+**목적:** Dev Package 다운로드 후 Claude Code가 모든 설정을 자동으로 처리하도록 시스템 구성
+
+**생성된 파일:**
+1. `공개_전환_업무/Project_Dev_Package/.claude/methods/00_initial-setup.md` - Claude Code용 초기 설정 안내문
+
+**수정된 파일:**
+1. `공개_전환_업무/Project_Dev_Package/.claude/CLAUDE.md` - Methods 섹션에 초기 설정 참조 추가
+
+**핵심 내용:**
+```
+사용자가 Dev Package를 다운로드하고 Claude Code를 실행했다면,
+나머지는 모두 Claude Code가 알아서 처리한다.
+```
+
+**초기 설정 트리거 표현:**
+- "개발 환경 확인해줘"
+- "프로젝트 초기 설정 해줘"
+- "개발 환경 설정"
+
+**Claude Code가 자동으로 수행하는 작업:**
+1. 개발 도구 확인 (git --version, node --version)
+2. 미설치 도구 안내 (Git 미설치 시)
+3. 프로젝트 초기화 (git init)
+4. 설정 파일 확인 (.ssal-project.json 등)
+5. 다음 단계 안내
+
+**관련 문서:**
+- Project_Registration.md (사람용 웹 안내문)
+- 00_initial-setup.md (Claude Code용 안내문)
+
+---
+
+### project_id 자동 주입 프로그램 위치 분석 📋
+
+**작업 상태:** ✅ 완료 (2026-01-04)
+
+**분석 결과:** project_id 자동 주입 **완벽하게 구현되어 있음**
+
+**핵심 파일 3개:**
+
+| 단계 | 역할 | 파일 경로 | 라인 |
+|------|------|----------|------|
+| 1 | project_id 생성 | `api/Backend_APIs/projects/create.js` | 162-180 |
+| 2 | ID 전달 + 저장 | `index.html` | 6313-6567 |
+| 3 | ZIP 동적 생성 + 주입 | `index.html` | 5959-6052 |
+
+**작동 흐름:**
+```
+[다음] 클릭 → Backend에서 project_id 생성 → 전역 변수 저장
+→ [다운로드] 클릭 → JSZip으로 .ssal-project.json + .env 주입
+→ ZIP 다운로드
+```
+
+**저장된 파일 (3곳):**
+1. `Human_ClaudeCode_Bridge/Reports/Project_ID_Auto_Injection_Structure.md`
+2. `P2_프로젝트_기획/User_Flows/Project_ID_Auto_Injection_Structure.md`
+3. `.claude/work_logs/current.md` (이 로그)
+
+---
+
+### Project_Registration.md 개편 📋
+
+**작업 상태:** ✅ 1차 수정안 작성 완료 (2026-01-04)
+
+**수정안 파일:** `Briefings_OrderSheets/Briefings/Situational/Project_Registration_v2_draft.md`
+
+**변경 사항:**
+| 항목 | 원본 | 수정안 |
+|------|------|--------|
+| 분량 | 406줄 | 285줄 |
+| 구조 | 혼재 | 5단계 Quick Start |
+
+**반영 내용:**
+1. ✅ 폴더 트리 전체 유지, 설명 간략화
+2. ✅ Claude Code 비용 안내 추가
+3. ✅ Windows/Mac 터미널 사용법 추가
+4. ✅ .ssal-project.json 초기 설정 안내
+5. ✅ **DB 업로드 필수** 내용 추가 (STEP 4)
+   - project_id, .env 자동 주입 안내
+   - Pre-commit Hook 활성화 명령어
+   - SSAL Works 플랫폼 진행률 확인 방법
+
+**다음 단계:**
+- 사용자 최종 검토
+- 원본 파일 교체 (`Project_Registration.md`)
+
+---
+
+### [이전] Project_Registration.md 개편 계획 📋
+
+**작업 상태:** 1차 수정안으로 대체됨
 
 **담당 범위:** 이 세션은 **Project_Registration.md**만 담당
 - Default.md, README.md는 별도 세션에서 처리
