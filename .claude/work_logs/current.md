@@ -6,6 +6,56 @@
 
 ## 2026-01-04 작업 내역
 
+### Project_Registration.md 개편 계획 📋
+
+**작업 상태:** 계획 수립 완료, PO 검토 대기
+
+**담당 범위:** 이 세션은 **Project_Registration.md**만 담당
+- Default.md, README.md는 별도 세션에서 처리
+
+**개편 목표:**
+
+| 항목 | 현재 | 목표 |
+|------|------|------|
+| 분량 | 406줄 | 180-200줄 |
+| 목적 | 인간+AI 혼재 | 설치/첫 실행에만 집중 |
+
+**폴더 구조 처리:**
+- 전체 트리: **전부 보여줌** (인간이 뭐가 생기는지 알아야 함)
+- 설명: **간략하게** (각 폴더 한 줄)
+- 상세 설명: README.md 참조
+
+**핵심 작업:**
+1. 폴더 트리 유지, 설명만 간략화
+2. Quick Start 형태로 재구성
+3. 기존 아젠다 내용 통합:
+   - Claude Code 비용 안내
+   - .ssal-project.json 초기 설정
+   - 터미널 사용법 (Windows/Mac)
+   - Claude Code 초기화 명령어
+
+**상세 계획:**
+`Human_ClaudeCode_Bridge/Reports/Project_Registration_Improvement_Agenda.md`
+
+---
+
+### Dev Package 레거시 정리 ✅
+
+**작업 상태:** 완료
+
+**삭제된 레거시 폴더:**
+- `S0_Project-SAL-Grid_생성/method/json/data/in_progress/`
+- `S0_Project-SAL-Grid_생성/method/json/data/completed/`
+- `S0_Project-SAL-Grid_생성/method/json/data/users/`
+
+**수정된 Briefing 파일:**
+- `Briefings_OrderSheets/Briefings/Situational/Project_Registration.md`
+  - S0 폴더 구조에 `stage_gate_records/` 폴더 추가
+
+**커밋:** `refactor: Dev Package 레거시 정리 및 Briefing 문서 수정`
+
+---
+
 ### Legacy Viewer 문서 삭제 ✅
 
 **작업 상태:** 완료
