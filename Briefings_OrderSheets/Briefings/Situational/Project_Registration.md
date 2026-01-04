@@ -247,7 +247,7 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 
 ## STEP 2: 필요한 개발 도구 (참고용)
 
-다음 도구들이 필요합니다. **직접 설치하지 않아도 됩니다** - Claude Code가 확인하고 안내해드립니다.
+다음 도구들이 필요합니다. **Git은 직접 설치하지 않아도 됩니다** - Claude Code가 확인하고 안내해드립니다.
 
 아래 내용은 "이런 게 왜 필요한지" 이해를 돕기 위한 참고 자료입니다.
 
@@ -305,7 +305,7 @@ Node.js 설치 후, 터미널에서 다음 명령어를 실행하세요:
 npm install -g @anthropic-ai/claude-code
 ```
 
-> ⚠️ **Claude Code만 직접 설치하면 됩니다.** Git, Node.js는 Claude Code가 알아서 확인하고 안내해드립니다.
+> ⚠️ **Node.js와 Claude Code를 직접 설치하면 됩니다.** Git은 Claude Code가 알아서 확인하고 안내해드립니다.
 
 **사용 요금:**
 | 옵션 | 비용 | 설명 |

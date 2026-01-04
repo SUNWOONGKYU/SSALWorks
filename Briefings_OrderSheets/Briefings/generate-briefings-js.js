@@ -103,7 +103,7 @@ function mdToHtml(md) {
         const separatorIndex = lines.findIndex(line => /^\|[\s\-:|]+\|$/.test(line));
         if (separatorIndex === -1) return match;
 
-        let tableHtml = '<table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;">';
+        let tableHtml = '<table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; table-layout: auto; word-wrap: break-word;">';
 
         lines.forEach((line, index) => {
             // 구분선 행은 건너뛰기
@@ -115,9 +115,9 @@ function mdToHtml(md) {
             tableHtml += '<tr>';
             cells.forEach(cell => {
                 if (isHeader) {
-                    tableHtml += `<th style="background: #F3F4F6; font-weight: 600; text-align: left; padding: 10px 12px; border: 1px solid #E5E7EB;">${cell}</th>`;
+                    tableHtml += `<th style="background: #F3F4F6; font-weight: 600; text-align: left; padding: 10px 12px; border: 1px solid #E5E7EB; white-space: normal; word-break: keep-all;">${cell}</th>`;
                 } else {
-                    tableHtml += `<td style="background: #ffffff; padding: 10px 12px; border: 1px solid #E5E7EB; vertical-align: top;">${cell}</td>`;
+                    tableHtml += `<td style="background: #ffffff; padding: 10px 12px; border: 1px solid #E5E7EB; vertical-align: top; white-space: normal; word-break: keep-all; line-height: 1.6;">${cell}</td>`;
                 }
             });
             tableHtml += '</tr>';
