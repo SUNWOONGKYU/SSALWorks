@@ -107,7 +107,7 @@
 **빌더 계정으로 할 수 있는 것**
 
 1) 프로젝트 등록 및 Dev Package 다운로드
-2) Order Sheet로 Claude Code에 작업 지시
+2) Order Sheet로 Claude Code에게 작업 지시
 3) 작업 Reports 불러오기
 4) SAL Grid Viewer로 개발 진행 현황 확인
 5) SSAL Works 예시 프로젝트 전체 소스코드 복사
