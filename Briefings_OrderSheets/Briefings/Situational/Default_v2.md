@@ -31,7 +31,7 @@
 - **오른쪽**: Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개를 열람할 수 있습니다
 
 <div style="background-color: #FEF3C7; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
-<strong>회원가입/로그인</strong>: 오른쪽 상단 버튼 (Google 또는 이메일)
+<strong>회원가입/로그인 방법</strong>: 오른쪽 상단 "로그인" 또는 "회원가입" 버튼 클릭 → Google 또는 이메일로 가입/로그인
 </div>
 
 ---
