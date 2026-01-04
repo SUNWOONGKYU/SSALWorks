@@ -25,7 +25,7 @@
 
 | 위치 | 내용 |
 |------|------|
-| **왼쪽 사이드바** | 10단계 진행 프로세스, 35개 안내문, 30개 Order Sheet |
+| **왼쪽 사이드바** | 10단계 진행 프로세스, 30개 안내문, 30개 Order Sheet |
 | **중앙 상단** | Control Desk, Order Sheet 작성법 |
 | **중앙 하단** | Project SAL Grid Viewer (66개 Task 관리 예시) |
 | **오른쪽** | Books 82편, Tips 65개, 외부 연동 Guide 5개 |
@@ -51,13 +51,21 @@
 
 ### 빌더 계정으로 할 수 있는 것
 
-1. Dev Package 다운로드 (개발환경 일체)
-2. 10단계 진행 프로세스로 체계적 개발
-3. Order Sheet로 AI에게 작업 지시
-4. Project SAL Grid로 Task 관리
-5. SSAL Works 예시 프로젝트 전체 소스코드 참조
-6. AI Tutor 질의응답
-7. **Sunny 1:1 코칭 3개월** (개발 + 창업 + 경영)
+**방법론**
+- 10단계 프로세스로 체계적 개발
+- Project SAL Grid로 66개 Task 관리
+- 3단계 검증 프로세스 적용
+- AI 규칙 체계로 품질 확보
+
+**도구**
+- Dev Package 다운로드 (개발환경 일체)
+- Order Sheet 30개로 AI 작업 지시
+- SAL Grid Viewer로 진행 현황 실시간 확인
+
+**콘텐츠**
+- Books 82편, Tips 65개, 외부 연동 Guide 5개
+- AI Tutor 질의응답
+- SSAL Works 예시 프로젝트 전체 소스코드 참조
 
 ### 가격
 
@@ -73,13 +81,14 @@
 
 ### 빌더 계정 개설 후 진행 순서
 
-1. **Dev Package 다운로드** - 개설 완료 후 자동으로 다운로드 화면 표시
-2. **압축 해제** - 원하는 폴더에 압축 풀기
+1. **프로젝트 등록** - 개설 완료 후 프로젝트 정보 입력
+2. **Dev Package 다운로드** - 등록 완료 시 자동 다운로드 (압축 풀고 원하는 폴더에 저장)
 3. **Claude Code 실행** - 터미널에서 `claude` 입력하여 시작
-4. **P0-1 Order Sheet 실행** - 왼쪽 사이드바 → P0-1 Order Sheet 복사 → Claude Code에 붙여넣기
-5. **10단계 프로세스 순서대로** - P0 → P1 → P2 → P3 → S0 → S1 → S2 → S3 → S4 → S5
+4. **개발 환경 설정** - Claude Code에게 "개발 환경 확인해줘"라고 말하면 필요한 도구 설치 안내
+5. **10단계 프로세스 진행** - P0 → P1 → P2 → P3 → S0 → S1 → S2 → S3 → S4 → S5
+   - 각 단계마다: 안내문 확인 → Order Sheet 전달
 
-<span style="color: #059669;">**첫 시작**: Dev Package 다운로드 → 압축 해제 → Claude Code 실행 → P0-1 Order Sheet 붙여넣기</span>
+<span style="color: #059669;">**첫 시작**: 프로젝트 등록 → Dev Package 다운로드 → Claude Code 실행 → 개발 환경 설정</span>
 
 ---
 

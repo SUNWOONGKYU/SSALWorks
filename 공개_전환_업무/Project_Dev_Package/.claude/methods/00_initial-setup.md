@@ -30,11 +30,30 @@
 # Step 1: Git 확인
 git --version
 
-# Step 2: Node.js 확인 (이미 설치됨 - Claude Code 실행 가능하면)
+# Step 2: Git 사용자 설정 확인
+git config user.name
+git config user.email
+
+# Step 3: Node.js 확인 (이미 설치됨 - Claude Code 실행 가능하면)
 node --version
 
-# Step 3: npm 확인
+# Step 4: npm 확인
 npm --version
+```
+
+### Git 사용자 설정 안내
+
+Git 사용자 정보가 설정되어 있지 않으면 커밋이 불가능합니다.
+
+**미설정 시 안내:**
+```
+"Git 사용자 정보가 설정되어 있지 않습니다.
+
+다음 명령어로 설정해주세요:
+git config --global user.name \"이름\"
+git config --global user.email \"이메일@example.com\"
+
+설정 완료 후 '다시 확인해줘'라고 말씀해주세요."
 ```
 
 ### 결과별 대응
@@ -88,6 +107,14 @@ git init
 
 ### .ssal-project.json 설정 안내
 
+**필드 설명:**
+
+| 필드 | 설명 | 예시 |
+|------|------|------|
+| `project_id` | 프로젝트 고유 식별자 (영문, 숫자, 하이픈) | `my-saas-project` |
+| `project_name` | 프로젝트 표시명 (한글 가능) | `내 SaaS 프로젝트` |
+| `owner_email` | SSAL Works 가입 이메일 | `user@example.com` |
+
 ```
 ".ssal-project.json 파일을 확인해주세요.
 
@@ -101,6 +128,8 @@ git init
 → 프로젝트에 맞게 수정이 필요합니다.
   수정하시겠습니까? (프로젝트명과 이메일을 알려주세요)"
 ```
+
+> **참고**: `owner_email`은 SSAL Works 플랫폼 연동 시 사용됩니다. 가입한 이메일과 동일해야 합니다.
 
 ---
 
@@ -134,6 +163,12 @@ git commit -m "Initial commit: Project setup complete"
 
 '진행 프로세스 확인해줘' 또는 '다음 단계 알려줘'라고 말씀해주세요."
 ```
+
+---
+
+# 후속 단계 (S0 완료 후)
+
+> 아래 내용은 초기 설정이 아닌, S0 (Project SAL Grid 생성) 완료 후 수행하는 작업입니다.
 
 ---
 
@@ -182,7 +217,7 @@ git commit -m "Initial commit: Project SAL Grid setup complete"
 gh repo create {프로젝트명} --public --source=. --push
 
 # Step 4: GitHub Pages 활성화
-gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"}'
+gh api repos/{owner}/{repo}/pages -X POST --input - <<< '{"build_type":"legacy","source":{"branch":"main","path":"/"}}'
 ```
 
 ---
@@ -200,10 +235,18 @@ git remote get-url origin
 
 ### Supabase users 테이블 업데이트
 
-```javascript
-// github_repo_url 필드에 레포지토리 URL 저장
-// 사용자 이메일 기준으로 업데이트
+SSAL Works 플랫폼의 users 테이블에 GitHub 레포지토리 URL을 등록합니다.
+
+```bash
+# REST API로 users 테이블 업데이트
+curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/users?email=eq.{사용자이메일}" \
+  -H "apikey: {SUPABASE_ANON_KEY}" \
+  -H "Authorization: Bearer {SUPABASE_ANON_KEY}" \
+  -H "Content-Type: application/json" \
+  -d '{"github_repo_url": "https://github.com/{username}/{repo}"}'
 ```
+
+> **참고**: 환경변수는 SSAL Works 플랫폼에서 제공됩니다. Claude Code가 자동으로 처리합니다.
 
 ### 완료 메시지
 
