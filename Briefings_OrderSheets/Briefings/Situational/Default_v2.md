@@ -26,7 +26,7 @@
 무료로 회원가입하고 메인 화면의 각 영역별로 제공되는 여러 가지 기능을 살펴보고 체험해보세요.
 
 - **왼쪽 사이드바**: 10단계 진행 프로세스, 안내문, Order Sheet
-- **중앙 상단**: Control Desk, Order Sheet 작성법
+- **중앙 상단**: Control Desk 사용, Order Sheet 작성 및 전달
 - **중앙 하단**: Project SAL Grid Viewer (66개 Task 관리 예시)
 - **오른쪽**: Books 80편, Tips 66개, 외부 연동 Guide 5개
 
