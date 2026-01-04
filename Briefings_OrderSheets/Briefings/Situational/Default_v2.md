@@ -2,7 +2,7 @@
 
 <span style="color: #6B7280;">※ 모바일에서는 조회만 가능합니다. 개발 작업은 PC에서 진행하세요.</span>
 
-**SSAL Works**는 Claude Code에 체계적인 방법론을 적용하여 풀스택 웹사이트를 개발하는 플랫폼입니다.
+**SSAL Works**는 Claude Code를 활용하고 차별화된 체계적 방법론을 적용하여 풀스택 웹사이트를 개발하는 플랫폼입니다.
 
 **Claude Code**는 Anthropic이 만든 AI 코딩 도구로, 사람 대신 코딩을 수행합니다.
 
