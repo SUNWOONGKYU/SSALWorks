@@ -16,7 +16,7 @@
 <div style="background-color: #FEF3C7; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
 <strong>얼리버드 특가 진행 중</strong><br>
 빌더 계정 개설비 300만원 (미래 가격 3,000만원의 1/10)<br>
-+ 3개월 내 완성 + 유료 고객 30명 시 50% 환불
++ 3개월 내 완성 + 유료 고객 30명 확보 시 50% 환불
 </div>
 
 ---
