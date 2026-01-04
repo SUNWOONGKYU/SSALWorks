@@ -94,7 +94,40 @@ function mdToHtml(md) {
     // 10. 숫자 리스트
     html = html.replace(/^\d+\. (.+)$/gm, '<li style="margin-bottom: 10px; font-size: 14px; line-height: 1.7;">$1</li>');
 
-    // 11. 단락 (빈 줄로 구분된 텍스트) - 블록 요소만 제외
+    // 11. 마크다운 표(table) 변환
+    html = html.replace(/(?:^|\n)((?:\|[^\n]+\|\n)+)/g, (match, tableBlock) => {
+        const lines = tableBlock.trim().split('\n').filter(line => line.trim());
+        if (lines.length < 2) return match;
+
+        // 구분선 행 찾기 (|---|---|)
+        const separatorIndex = lines.findIndex(line => /^\|[\s\-:|]+\|$/.test(line));
+        if (separatorIndex === -1) return match;
+
+        let tableHtml = '<table style="width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px;">';
+
+        lines.forEach((line, index) => {
+            // 구분선 행은 건너뛰기
+            if (/^\|[\s\-:|]+\|$/.test(line)) return;
+
+            const cells = line.split('|').slice(1, -1).map(cell => cell.trim());
+            const isHeader = index < separatorIndex;
+
+            tableHtml += '<tr>';
+            cells.forEach(cell => {
+                if (isHeader) {
+                    tableHtml += `<th style="background: #F3F4F6; font-weight: 600; text-align: left; padding: 10px 12px; border: 1px solid #E5E7EB;">${cell}</th>`;
+                } else {
+                    tableHtml += `<td style="background: #ffffff; padding: 10px 12px; border: 1px solid #E5E7EB; vertical-align: top;">${cell}</td>`;
+                }
+            });
+            tableHtml += '</tr>';
+        });
+
+        tableHtml += '</table>';
+        return '\n' + tableHtml + '\n';
+    });
+
+    // 12. 단락 (빈 줄로 구분된 텍스트) - 블록 요소만 제외
     const blockTags = /^<(h[1-6]|ul|ol|li|table|tr|td|th|blockquote|hr|div|pre|p)/;
     html = html.split('\n\n').map(para => {
         if (blockTags.test(para) || para.trim() === '') return para;
