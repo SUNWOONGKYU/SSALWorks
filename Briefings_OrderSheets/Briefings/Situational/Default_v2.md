@@ -30,7 +30,9 @@
 - **중앙 하단**: Project SAL Grid Viewer (66개 Task 관리 예시)
 - **오른쪽**: Books 80편, Tips 66개, 외부 연동 Guide 5개
 
-<span style="color: #059669;">**회원가입/로그인**: 오른쪽 상단 버튼 (Google 또는 이메일)</span>
+<div style="background-color: #ECFDF5; padding: 8px 12px; border-left: 4px solid #059669; margin-top: 16px;">
+<strong>회원가입/로그인</strong>: 오른쪽 상단 버튼 (Google 또는 이메일)
+</div>
 
 ---
 
