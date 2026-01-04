@@ -109,8 +109,12 @@
 1) 프로젝트 등록 및 Dev Package 다운로드
 2) Order Sheet로 Claude Code에게 작업 지시
 3) 작업 Reports 불러오기
-4) SAL Grid Viewer로 개발 진행 현황 확인
-5) SSAL Works 예시 프로젝트 전체 소스코드 복사
+4) 10단계 진행 프로세스 진척도 확인
+5) SAL Grid Viewer로 개발 진행 현황 확인
+6) SSAL Works 예시 프로젝트 전체 소스코드 복사
+7) AI Tutor 사용
+8) 다른 AI에게 질문하기
+9) Sunny에게 질문하기
 
 **가격**
 
