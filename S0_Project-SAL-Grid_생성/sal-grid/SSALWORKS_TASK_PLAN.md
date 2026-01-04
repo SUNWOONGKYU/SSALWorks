@@ -1,10 +1,10 @@
 # SSALWorks Task 기획서 [★ 실전용 ★]
 
 > **작성일**: 2025-11-27
-> **수정일**: 2026-01-02
-> **버전**: v4.7
+> **수정일**: 2026-01-04
+> **버전**: v4.8
 > **프로젝트**: SSALWorks v1.0 (프로덕션)
-> **총 Task 수**: 66개 (GRID 관리 범위: S1-S5)
+> **총 Task 수**: 71개 (GRID 관리 범위: S1-S5)
 > **유형**: ★ 실전용 (템플릿 아님) ★
 > **아키텍처**: HTML + Serverless Functions (Vercel)
 
@@ -73,10 +73,10 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 |-------|------|---------|
 | S1 개발 준비 | Vercel 설정 + 환경 준비 + 도메인 연결 + Sentry | 9 |
 | S2 개발 1차 | OAuth + 이메일 + 핵심 API + 회원가입 + 프로젝트관리 | 17 |
-| S3 개발 2차 | AI 연동 + 구독 권한 + AI UI | 6 |
+| S3 개발 2차 | AI 연동 + 구독 권한 + AI UI + **AI 튜터** | 11 |
 | S4 개발 3차 | 결제 (무통장 입금) + 관리자 + QA + 크레딧 + 이메일 템플릿 + 인앱 알림 + Viewer | 20 |
 | S5 개발 마무리 | 배포 + QA + 안정화 + 코드 최적화 | 10 |
-| **합계** | | **62** |
+| **합계** | | **67** |
 
 ### Area별 분포
 
@@ -84,10 +84,10 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 |-------|---|---|---|----|----|----|---|---|---|---|---|------|
 | S1 | 1 | - | 2 | 2 | - | 1 | 1 | 1 | 1 | - | - | **9** |
 | S2 | 2 | - | 3 | 3 | 5 | 1 | 1 | 1 | - | - | 1 | **17** |
-| S3 | - | - | 1 | 1 | 2 | - | 1 | - | - | 1 | - | **6** |
+| S3 | - | - | 2 | 2 | 3 | 1 | 1 | 1 | - | 1 | - | **11** |
 | S4 | 1 | - | 5 | 1 | 6 | 2 | 2 | 2 | 1 | - | - | **20** |
 | S5 | - | 2 | 2 | - | 1 | 1 | 1 | 1 | 2 | - | - | **10** |
-| **합계** | 4 | 2 | 13 | 7 | 14 | 5 | 6 | 5 | 4 | 1 | 1 | **62** |
+| **합계** | 4 | 2 | 14 | 8 | 15 | 6 | 6 | 6 | 4 | 1 | 1 | **67** |
 
 > **참고**:
 > - Area U (Design)는 P3에서 대부분 완료됨 (S5U1: 디자인 QA, S5U2: 반응형 디자인 최적화)
@@ -210,36 +210,51 @@ PROJECT SAL GRID 5×11 매트릭스 체계에 따라 작성되었습니다.
 
 ---
 
-## 4. Stage 3: 개발 2차 (6 Tasks)
+## 4. Stage 3: 개발 2차 (11 Tasks)
 
-> **목표**: AI 연동 + 구독 권한 + AI UI
-> **Areas**: F(1), BI(1), BA(2), S(1), E(1)
+> **목표**: AI 연동 + 구독 권한 + AI UI + **AI 튜터 (RAG 기반 자체 개발)**
+> **Areas**: F(2), BI(2), BA(3), D(1), S(1), T(1), E(1)
 > **참고**: Project SAL GRID 자체 기능(그리드 뷰어, Task CRUD 등)은 GRID 생성 단계에서 별도 처리
 
-### Area F - Frontend (1)
+### Area D - Database (1) ⭐ NEW
+
+| Task ID | Task명 | 설명 | 의존성 |
+|---------|--------|------|--------|
+| S3D1 | AI 튜터 DB 스키마 | content_embeddings, tutor_conversations, tutor_messages 테이블, pgvector 확장 | S1D1 |
+
+### Area F - Frontend (2)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S3F1 | AI Q&A 인터페이스 | Gemini/ChatGPT/Perplexity 선택, 질문 입력, 답변 표시, 크레딧, 크레딧 부족 모달/경고 UI | S3BA1 |
+| S3F2 | AI 튜터 UI 개발 | iframe 제거, 자체 채팅 모달, 스트리밍 렌더링, 대화 히스토리 | S3BA3 |
 
-### Area BI - Backend Infrastructure (1)
+### Area BI - Backend Infrastructure (2)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S3BI1 | AI API 클라이언트 통합 | Gemini, ChatGPT, Perplexity 3개 서비스 연동 구조 | - |
+| S3BI2 | RAG 파이프라인 구축 | Gemini 임베딩, 벡터 검색, 컨텍스트 증강, 225개 MD 파일 청킹 | S3D1 |
 
-### Area BA - Backend APIs (2)
+### Area BA - Backend APIs (3)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S3BA1 | AI Q&A API | Gemini, ChatGPT, Perplexity 프록시 API, 크레딧 차감 | S3BI1 |
 | S3BA2 | AI 가격 조회 API | GET /api/ai/pricing (실시간 가격 조회) | S3BI1 |
+| S3BA3 | AI 튜터 API 개발 | POST /api/ai-tutor/chat (RAG+스트리밍), 대화 CRUD API | S3BI2 |
 
 ### Area S - Security (1)
 
 | Task ID | Task명 | 설명 | 의존성 |
 |---------|--------|------|--------|
 | S3S1 | AI 서비스 구독 상태 확인 (Health Check) | Books/AI 접근 권한 검증 | S2S1 |
+
+### Area T - Testing (1) ⭐ NEW
+
+| Task ID | Task명 | 설명 | 의존성 |
+|---------|--------|------|--------|
+| S3T1 | AI 튜터 통합 테스트 | E2E 테스트, 크레딧 차감 검증, RAG 정확도 테스트 | S3F2, S3BA3 |
 
 ### Area E - External (1)
 
@@ -397,6 +412,13 @@ S1BI1 ──> S3E1 (AI API 키)
 S3BI1 (API 클라이언트) ──> S3BA1 (AI Q&A API)
 S3BI1 ──> S3BA2 (AI 가격 조회)
 S3BA1 ──> S3F1 (AI Q&A UI)
+
+# AI 튜터 의존성 (NEW)
+S1D1 ──> S3D1 (AI 튜터 DB 스키마)
+S3D1 ──> S3BI2 (RAG 파이프라인)
+S3BI2 ──> S3BA3 (AI 튜터 API)
+S3BA3 ──> S3F2 (AI 튜터 UI)
+S3F2, S3BA3 ──> S3T1 (AI 튜터 통합 테스트)
 ```
 
 ### S3 → S4 의존성
@@ -436,7 +458,7 @@ S5O1 ──> S5F1, S5BA1, S5D1, S5S1
          │               │               │
          └───────────────┼───────────────┘
                          ▼
-                    S3 (6 tasks)
+                    S3 (11 tasks)
                          │
          ┌───────────────┼───────────────┐
          ▼               ▼               ▼
@@ -500,6 +522,19 @@ S5O1 ──> S5F1, S5BA1, S5D1, S5S1
 ---
 
 ## 9. 변경 이력
+
+### v4.8 (2026-01-04)
+- **신규 Task 추가 5개**: AI 튜터 자체 개발 (RAG 기반)
+  - S3D1: AI 튜터 DB 스키마 (content_embeddings, tutor_conversations, tutor_messages)
+  - S3BI2: RAG 파이프라인 구축 (Gemini 임베딩, 벡터 검색, 컨텍스트 증강)
+  - S3BA3: AI 튜터 API 개발 (채팅 API, 대화 CRUD API)
+  - S3F2: AI 튜터 UI 개발 (iframe 제거, 자체 채팅 모달, 스트리밍 렌더링)
+  - S3T1: AI 튜터 통합 테스트 (E2E 테스트, 크레딧 검증)
+- **Task 수 변경**: 66 → 71 tasks (+5)
+- **S3 Task 수**: 6 → 11
+- **Area 분포 변경**: D(5→6), BI(7→8), BA(14→15), F(13→14), T(5→6)
+- **기술 선택**: Gemini만 사용 (임베딩 + 답변 모두)
+- **이유**: 외부 서비스(aitalker.co.kr) iframe을 제거하고 RAG 기반 자체 AI 튜터 시스템 구축
 
 ### v4.7 (2026-01-02)
 - **신규 Task 추가**: S5F3 (단일 파일 비대화 해결 - 코드 분할)

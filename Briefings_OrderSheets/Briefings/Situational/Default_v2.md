@@ -155,10 +155,4 @@ AI(Claude Code)가 코딩을 대신하고, 체계적인 프로세스(SAL Grid)�
 
 ---
 
-## 도움이 필요하면
-
-- **Books** - Claude/Claude Code, 풀스택 개발 (80편)
-- **Tips** - 18개 카테고리 (66개)
-- **Sunny에게 질문** - 1:1 상담
-
 더 자세한 내용은 하단 Footer의 [서비스 소개](/service-intro)를 참고하세요.

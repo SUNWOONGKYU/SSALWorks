@@ -6,6 +6,63 @@
 
 ## 2026-01-04 작업 내역
 
+### AI 튜터 자체 개발 Task 추가 (5개) 📋
+
+**작업 상태:** ✅ 완료 (2026-01-04)
+
+**목적:** 외부 서비스(aitalker.co.kr) iframe을 제거하고, RAG 기반 자체 AI 튜터 시스템 구축을 위한 Task 5개 추가
+
+**Task CRUD 프로세스 (07_task-crud.md) 완료:**
+
+| 단계 | 상태 | 내용 |
+|------|------|------|
+| 1. SSALWORKS_TASK_PLAN.md 업데이트 | ✅ | v4.7 → v4.8, 66 → 71 Tasks |
+| 2. Task Instruction 파일 생성 (5개) | ✅ | sal-grid/task-instructions/ |
+| 3. Verification Instruction 파일 생성 (5개) | ✅ | sal-grid/verification-instructions/ |
+| 4. Supabase project_sal_grid INSERT | ✅ | 5개 레코드 INSERT 완료 |
+| 5. JSON grid_records 파일 생성 | ✅ | 5개 파일 + index.json 업데이트 |
+| 6. work_logs 기록 | ✅ | 이 로그 |
+
+**추가된 Task (5개):**
+
+| Task ID | Task Name | Area | 설명 |
+|---------|-----------|------|------|
+| S3D1 | AI 튜터 DB 스키마 | D | content_embeddings, tutor_conversations, tutor_messages 테이블, pgvector |
+| S3BI2 | RAG 파이프라인 구축 | BI | Gemini 임베딩(768차원), 벡터 검색, 컨텍스트 증강, 1000자 청킹 |
+| S3BA3 | AI 튜터 API 개발 | BA | POST /api/ai-tutor/chat (SSE 스트리밍), 대화 CRUD API |
+| S3F2 | AI 튜터 UI 개발 | F | iframe 제거, 자체 채팅 모달, 스트리밍 렌더링, 대화 히스토리 |
+| S3T1 | AI 튜터 통합 테스트 | T | E2E 테스트, 크레딧 차감 검증, RAG 정확도 테스트 |
+
+**생성된 파일 (12개):**
+1. `S3_개발-2차/Documentation/AI_Tutor_Development_Plan.md` - 구현 계획서
+2. `sal-grid/task-instructions/S3D1_instruction.md`
+3. `sal-grid/task-instructions/S3BI2_instruction.md`
+4. `sal-grid/task-instructions/S3BA3_instruction.md`
+5. `sal-grid/task-instructions/S3F2_instruction.md`
+6. `sal-grid/task-instructions/S3T1_instruction.md`
+7. `sal-grid/verification-instructions/S3D1_verification.md`
+8. `sal-grid/verification-instructions/S3BI2_verification.md`
+9. `sal-grid/verification-instructions/S3BA3_verification.md`
+10. `sal-grid/verification-instructions/S3F2_verification.md`
+11. `sal-grid/verification-instructions/S3T1_verification.md`
+12. `method/json/data/grid_records/S3D1.json, S3BI2.json, S3BA3.json, S3F2.json, S3T1.json`
+
+**수정된 파일:**
+1. `SSALWORKS_TASK_PLAN.md` - 버전 v4.8, Task 수 66→71
+2. `method/json/data/index.json` - total_tasks 66→71, task_ids 배열 업데이트
+
+**기술 선택:**
+- **임베딩**: Gemini Embedding (768차원, 무료)
+- **LLM**: Gemini 2.5 Flash (단일 모델로 단순화)
+- **벡터 DB**: Supabase pgvector
+- **스트리밍**: SSE (Server-Sent Events)
+- **청킹**: 1000자, 200자 오버랩
+
+**다음 단계:**
+S3D1부터 순서대로 실행 (S3D1 → S3BI2 → S3BA3 → S3F2 → S3T1)
+
+---
+
 ### Dev Package 초기 설정 안내문 추가 📋
 
 **작업 상태:** ✅ 완료 (2026-01-04)
