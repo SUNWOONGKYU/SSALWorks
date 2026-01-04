@@ -11,6 +11,30 @@ SSAL Works 접속 → 로그인 → 빌더 계정 개설 → 프로젝트 등록
 
 ---
 
+## Initial Setup (첫 실행 시)
+
+### 환경 확인
+```bash
+git --version      # Git 설치 확인
+node --version     # Node.js 18+ 권장
+npm --version      # npm 확인
+```
+
+### 초기 설정
+```bash
+npm install        # 패키지 설치 (package.json 있는 경우)
+cp .env.sample .env  # 환경 변수 파일 생성 (선택)
+```
+
+### 첫 지시 예시
+```
+"개발 환경 확인하고 프로젝트 초기 설정 해줘"
+```
+
+**상세 가이드:** SSAL Works 웹사이트 (www.ssalworks.ai.kr) → 프로젝트 등록 안내문 참조
+
+---
+
 ## Rules Location
 
 **모든 작업 규칙은 `.claude/CLAUDE.md`에 있습니다.**
