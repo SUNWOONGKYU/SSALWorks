@@ -106,10 +106,10 @@
 
 **빌더 계정으로 할 수 있는 것**
 
-- 10단계 진행 프로세스로 체계적으로 개발하고, Project SAL Grid로 66개(예시) Task를 관리합니다
-- Dev Package를 다운로드하고, Order Sheet로 AI에게 작업을 지시합니다
-- Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개를 열람하고, AI Tutor에게 질의응답합니다
-- SSAL Works 예시 프로젝트의 전체 소스코드를 참조할 수 있습니다
+- 프로젝트 등록 및 Dev Package 다운로드
+- Order Sheet로 Claude Code에 작업 지시
+- SAL Grid Viewer로 개발 진행 현황 확인
+- SSAL Works 예시 프로젝트 전체 소스코드 참조
 
 **가격**
 
