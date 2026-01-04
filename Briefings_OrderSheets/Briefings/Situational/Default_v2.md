@@ -127,15 +127,14 @@
 <strong>개설 방법</strong>: 왼쪽 사이드바 → My Page → 서비스 이용 현황 → 빌더 계정 개설비 "입금하기" 클릭 → 무통장 입금 → 입금 확인 후 빌더 계정 활성화
 </div>
 
-**빌더 계정 개설 후 진행 순서**
-
-1. **프로젝트 등록**: 개설 완료 후 프로젝트 정보를 입력합니다
-2. **Dev Package 다운로드**: 등록 완료 시 자동 다운로드됩니다 (압축 풀고 원하는 폴더에 저장)
-3. **Claude Code 실행**: 작업 폴더에서 마우스 오른쪽 → "터미널에서 열기" → `claude` 입력
-4. **개발 환경 설정**: Claude Code에게 "개발 환경 확인해줘"라고 말하면 필요한 도구 설치를 안내받습니다
-5. **10단계 진행 프로세스 진행**: 각 단계마다 안내문 확인 → Order Sheet 작성 → Claude Code에 전달
-
-<span style="color: #059669;">**첫 시작**: 프로젝트 등록 → Dev Package 다운로드 → Claude Code 실행 → 개발 환경 설정</span>
+<div style="background-color: #ECFDF5; padding: 12px; border-left: 4px solid #059669; margin: 16px 0;">
+<strong style="color: #059669;">빌더 계정 개설 후 진행 순서</strong><br><br>
+1. <strong>프로젝트 등록</strong>: 개설 완료 후 프로젝트 정보를 입력합니다<br>
+2. <strong>Dev Package 다운로드</strong>: 등록 완료 시 자동 다운로드됩니다 (압축 풀고 원하는 폴더에 저장)<br>
+3. <strong>Claude Code 실행</strong>: 작업 폴더에서 마우스 오른쪽 → "터미널에서 열기" → <code>claude</code> 입력<br>
+4. <strong>개발 환경 설정</strong>: Claude Code에게 "개발 환경 확인해줘"라고 말하면 필요한 도구 설치를 안내받습니다<br>
+5. <strong>10단계 진행 프로세스 진행</strong>: 각 단계마다 안내문 확인 → Order Sheet 작성 → Claude Code에 전달
+</div>
 
 ---
 
