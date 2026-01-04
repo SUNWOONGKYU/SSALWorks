@@ -158,8 +158,6 @@ Claude Code가 프로젝트 실행 시 가장 먼저 읽는 폴더.
 - Documentation/: 프로토타입 관련 문서
 - Frontend/Prototype/: 프로토타입 HTML 페이지
 
-> **📌 환경변수(.env) 위치**: 프로젝트 루트에 `.env.sample` 파일이 있습니다. 이 파일을 `.env`로 복사한 후 Supabase 키를 입력하세요.
-
 ---
 
 ### S0_Project-SAL-Grid_생성/
@@ -221,9 +219,7 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
   - pre-commit-hook-example.sh: pre-commit hook 예시
   - README.md: DB Method 상세 가이드
 
-> **📌 DB 업로드는 선택사항입니다.** SSAL Works 플랫폼에서 개인별 진행률을 표시하려면 DB_Method 설정이 필요합니다. GitHub Pages로 Viewer만 사용할 경우 설정하지 않아도 됩니다.
->
-> **📌 환경변수 설정 (DB 연동 시)**: 프로젝트 루트의 `.env.sample`을 `.env`로 복사 후 `SUPABASE_URL`과 `SUPABASE_ANON_KEY` 입력
+> **📌 진행률 DB 연동 (필수)**: SSAL Works 플랫폼에서 진행률을 확인하려면 DB 연동이 필요합니다. `.env` 파일은 Dev Package 다운로드 시 자동 생성됩니다.
 
 ---
 
@@ -473,6 +469,6 @@ Claude Code를 처음 실행하면 로그인이 필요합니다.
 
 ## 도움이 필요하면
 
-- **학습용 Books**, **실전 Tips**, **외부 연동 설정 가이드**를 확인해 보세요
-- **AI 튜터**에게 질문하거나 **써니에게 질문하기**를 통해 해결하세요
+- **📚 학습용 Books**, **💡 실전 Tips**, **🔗 외부 연동 설정 Guide**를 확인해 보세요
+- **다른 AI에게 질문하기** 또는 **☀️ Sunny에게 질문하기**를 통해 해결하세요
 
