@@ -55,11 +55,11 @@ module.exports = async function handler(req, res) {
             return res.status(401).json({ error: 'Invalid token', details: authError?.message });
         }
 
-        // Admin 여부 확인 (users 테이블에서 - email 또는 id로 조회)
+        // Admin 여부 확인 (users 테이블에서 - email로 조회)
         const { data: userData, error: userError } = await supabase
             .from('users')
             .select('role, email')
-            .or(`id.eq.${user.id},email.eq.${user.email}`)
+            .eq('email', user.email)
             .single();
 
         console.log('User lookup:', { userId: user.id, email: user.email, userData, userError });
