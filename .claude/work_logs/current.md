@@ -4,6 +4,47 @@
 
 ---
 
+## 2026-01-05 작업 내역
+
+### Sunny 문의 답변 저장 버그 수정
+
+**작업 상태:** ✅ 완료 (2026-01-05)
+
+**증상:** Admin 대시보드에서 "Sunny에게 질문하기" 문의에 대한 답변 저장이 안 됨
+
+**근본 원인 (2개):**
+1. **RLS 정책 차단**: ANON_KEY 사용으로 인해 sunny_inquiries UPDATE가 차단됨
+2. **잘못된 컬럼명**: API에서 `question` 컬럼 조회했으나 실제 컬럼명은 `content`
+
+**디버깅 과정 (4회 반복):**
+| 회차 | 발견된 문제 | 수정 내용 |
+|------|-----------|----------|
+| 1차 | RLS 정책 차단 | Service Role Key 사용하는 API 생성 |
+| 2차 | Admin 권한 확인 실패 | email 기반 Admin 확인 로직 추가 |
+| 3차 | .or() 쿼리 문법 에러 | .eq('email', user.email)로 단순화 |
+| 4차 | 400 Bad Request | question → content 컬럼명 수정 |
+
+**해결 방법:**
+- Admin 전용 API 엔드포인트 생성 (`/api/admin/sunny-answer`)
+- Service Role Key로 RLS 우회
+- 실제 테이블 컬럼명 사용 (content, title)
+
+**생성된 파일:**
+- `api/Backend_APIs/admin-sunny-answer.js`
+
+**수정된 파일:**
+- `vercel.json` - API 라우트 추가
+- `pages/admin-dashboard.html` - API fetch 호출로 변경
+
+**Git 커밋:**
+- `c97a83e`: fix: Sunny 문의 답변 저장 API 추가 (RLS 우회)
+- `2006b8d`: fix: Admin 권한 확인 로직 개선
+- `3841054`: fix: Sunny 문의 답변 API 컬럼명 수정 (question -> content)
+
+**리포트:** `Human_ClaudeCode_Bridge/Reports/sunny_inquiry_answer_fix_report.json`
+
+---
+
 ## 2026-01-04 작업 내역
 
 ### AI 튜터 자체 개발 Task 추가 (5개) 📋
