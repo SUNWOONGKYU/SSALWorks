@@ -75,10 +75,10 @@ module.exports = async function handler(req, res) {
             });
         }
 
-        // 1. 문의 정보 조회
+        // 1. 문의 정보 조회 (content 컬럼 사용 - question이 아님!)
         const { data: inquiry, error: fetchError } = await supabase
             .from('sunny_inquiries')
-            .select('user_id, question')
+            .select('user_id, content, title')
             .eq('id', inquiryId)
             .single();
 
@@ -105,13 +105,15 @@ module.exports = async function handler(req, res) {
 
         // 3. 사용자에게 알림 생성
         if (inquiry.user_id) {
+            // content 또는 title을 사용하여 알림 메시지 생성
+            const notificationMessage = inquiry.title || inquiry.content?.substring(0, 50) + (inquiry.content?.length > 50 ? '...' : '');
             await supabase
                 .from('user_notifications')
                 .insert({
                     user_id: inquiry.user_id,
                     notification_type: 'sunny_answer',
                     title: '써니가 답변했습니다',
-                    message: inquiry.question?.substring(0, 50) + (inquiry.question?.length > 50 ? '...' : ''),
+                    message: notificationMessage || '문의에 답변이 등록되었습니다.',
                     is_read: false,
                     created_at: new Date().toISOString()
                 });
