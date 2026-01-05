@@ -167,14 +167,31 @@ const SERVICE_INTRO_STYLES = {
     tableCell: 'padding: 10px; border: 1px solid #dee2e6;'
 };
 
-// MD 파싱 (v4.0 구조: [개요] + [상세] with numbered sections)
+// MD 파싱 (v5.0 구조: ## N. 제목 형식 - 10개 섹션 통합 구조)
 function parseServiceIntroMd(content) {
-    const parts = content.split(/^---$/m);
-    const mainContent = parts.length > 1 ? parts.slice(1).join('---') : content;
+    // style 태그와 프론트매터 제거
+    let mainContent = content;
+
+    // <style>...</style> 태그 제거
+    mainContent = mainContent.replace(/<style[\s\S]*?<\/style>/gi, '');
+
+    // 프론트매터(문서 시작의 ---로 감싸진 YAML 블록) 제거
+    // 주의: 문서 내 구분선 ---는 제거하지 않음
+    // 프론트매터는 문서 시작에서 ---\nkey: value\n---\n 형식으로만 존재
+    // 서비스_소개.md는 style 태그 이후 구분선 ---만 있으므로 프론트매터 없음
+    // 따라서 전통적인 YAML 프론트매터만 제거 (문서 시작에서 key: value 패턴이 있는 경우)
+    mainContent = mainContent.replace(/^---\n(?:[a-z_-]+:.+\n)+---\n?/im, '');
+
+    // 첫 번째 # 제목 (문서 제목) 제거
+    mainContent = mainContent.replace(/^# .+\n+/m, '');
+
+    // > 인용문 (용도, 구조 설명) 제거
+    mainContent = mainContent.replace(/^> .+\n?/gm, '');
+
     const sections = [];
 
-    // "# [개요]", "# [상세]", "# N." 인식 (파트 제거)
-    const sectionRegex = /^# (?:\[(개요|상세)\].*|(\d+)\. (.+)|파트 (\d+): (.+)|섹션 (\d+): (.+))$/gm;
+    // "## N. 제목" 형식 인식 (H2 레벨, 숫자.제목)
+    const sectionRegex = /^## (\d+)\. (.+)$/gm;
     const matches = [...mainContent.matchAll(sectionRegex)];
 
     for (let i = 0; i < matches.length; i++) {
@@ -182,24 +199,8 @@ function parseServiceIntroMd(content) {
         const nextMatch = matches[i + 1];
         const endIndex = nextMatch ? nextMatch.index : mainContent.length;
 
-        let number, title;
-        if (match[1]) {
-            // [개요] 또는 [상세]
-            number = match[1] === '개요' ? '0' : '99';
-            title = match[1] === '개요' ? 'SSAL Works 소개' : 'SSAL Works 완전 가이드';
-        } else if (match[2]) {
-            // N. 제목 (새 형식)
-            number = match[2];
-            title = match[3];
-        } else if (match[4]) {
-            // 파트 N: 제목 (레거시 호환)
-            number = match[4];
-            title = match[5];
-        } else {
-            // 섹션 N: 제목 (레거시 호환)
-            number = match[6];
-            title = match[7];
-        }
+        const number = match[1];
+        const title = match[2].trim();
 
         sections.push({
             number: number,
@@ -207,6 +208,7 @@ function parseServiceIntroMd(content) {
             content: mainContent.slice(match.index + match[0].length, endIndex).trim()
         });
     }
+
     return sections;
 }
 
