@@ -51,18 +51,28 @@ module.exports = async function handler(req, res) {
         const { data: { user }, error: authError } = await supabase.auth.getUser(token);
 
         if (authError || !user) {
-            return res.status(401).json({ error: 'Invalid token' });
+            console.error('Auth error:', authError);
+            return res.status(401).json({ error: 'Invalid token', details: authError?.message });
         }
 
-        // Admin 여부 확인 (users 테이블에서)
+        // Admin 여부 확인 (users 테이블에서 - email 또는 id로 조회)
         const { data: userData, error: userError } = await supabase
             .from('users')
-            .select('role')
-            .eq('id', user.id)
+            .select('role, email')
+            .or(`id.eq.${user.id},email.eq.${user.email}`)
             .single();
 
-        if (userError || !userData || userData.role !== 'admin') {
-            return res.status(403).json({ error: 'Admin access required' });
+        console.log('User lookup:', { userId: user.id, email: user.email, userData, userError });
+
+        // Admin 확인: role이 'admin'이거나, 특정 Admin 이메일인 경우 허용
+        const ADMIN_EMAILS = ['wksun999@gmail.com', 'admin@ssalworks.ai.kr'];
+        const isAdmin = (userData?.role === 'admin') || ADMIN_EMAILS.includes(user.email);
+
+        if (!isAdmin) {
+            return res.status(403).json({
+                error: 'Admin access required',
+                debug: { role: userData?.role, email: user.email }
+            });
         }
 
         // 1. 문의 정보 조회
