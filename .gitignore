@@ -1,4 +1,4 @@
-# Dependencies
+﻿# Dependencies
 node_modules/
 .pnp
 .pnp.js
@@ -67,12 +67,12 @@ ENV/
 # Docker
 .dockerignore
 
-# PROJECT GRID 매뉴얼 (비밀 노하우)
-**/PROJECT_GRID_매뉴얼*.md
+# PROJECT GRID 留ㅻ돱??(鍮꾨? ?명븯??
+**/PROJECT_GRID_留ㅻ돱??.md
 **/PROJECT_GRID_MANUAL*.md
 
-# PROJECT GRID 아카이브 (구버전 보관)
-**/2_개발준비/2-4_Project_Grid/archive/
+# PROJECT GRID ?꾩뭅?대툕 (援щ쾭??蹂닿?)
+**/2_媛쒕컻以鍮?2-4_Project_Grid/archive/
 
 # Claude Code
 claude_code/
@@ -96,7 +96,7 @@ NUL
 AI_Link/README.md
 .vercel
 Web_ClaudeCode_Bridge/
-P1_사업계획/Patent/
+
 
 # Archives
 *.zip
