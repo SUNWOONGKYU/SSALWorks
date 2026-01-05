@@ -8,26 +8,37 @@
         </marker>
     </defs>
     <text x="800" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 2: SAL ID 구조도</text>
+
+    <!-- SAL ID (40) -->
     <rect x="600" y="150" width="400" height="120" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="800.0" y="200" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">SAL ID</text>
-    <text x="980" y="190" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(40)</text>
-    <text x="800.0" y="260" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">고유 식별자</text>
+    <text x="800" y="200" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">SAL ID</text>
+    <text x="800" y="240" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">고유 식별자</text>
+    <text x="990" y="190" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(40)</text>
+
+    <!-- Stage (41) -->
     <rect x="125" y="400" width="300" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="275.0" y="450" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Stage</text>
-    <text x="405" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(41)</text>
-    <text x="275.0" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">시간/단계</text>
+    <text x="275" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Stage</text>
+    <text x="275" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">시간/단계</text>
+    <text x="415" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(41)</text>
+
+    <!-- Area (42) -->
     <rect x="475" y="400" width="300" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="625.0" y="450" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Area</text>
-    <text x="755" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(42)</text>
-    <text x="625.0" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">영역/모듈</text>
+    <text x="625" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Area</text>
+    <text x="625" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">영역/모듈</text>
+    <text x="765" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(42)</text>
+
+    <!-- Level (43) -->
     <rect x="825" y="400" width="300" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="975.0" y="450" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Level</text>
-    <text x="1105" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(43)</text>
-    <text x="975.0" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">의존 계층</text>
+    <text x="975" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Level</text>
+    <text x="975" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">의존 계층</text>
+    <text x="1115" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(43)</text>
+
+    <!-- Variant (44) -->
     <rect x="1175" y="400" width="300" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="1325.0" y="450" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Variant</text>
-    <text x="1455" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(44)</text>
-    <text x="1325.0" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">병렬 분기</text>
+    <text x="1325" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Variant</text>
+    <text x="1325" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">병렬 분기</text>
+    <text x="1465" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(44)</text>
+
     <path d="M 800,270 L 800,350" stroke="black" stroke-width="2" fill="none"/>
     <path d="M 275.0,350 L 1325.0,350" stroke="black" stroke-width="2" fill="none"/>
     <path d="M 275.0,350 L 275.0,400" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>

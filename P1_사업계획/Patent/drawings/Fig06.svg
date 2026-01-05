@@ -10,24 +10,32 @@
     <text x="700" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 6: 3D Renderer/UI 구조</text>
     <rect x="50" y="100" width="1300" height="1050" fill="white" stroke="black" stroke-width="5" rx="10" stroke-dasharray="10,5" />
     <text x="700.0" y="150" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">3D Renderer/UI (80)</text>
+
+    <!-- 좌표 매핑부 (81) -->
     <rect x="150" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="375.0" y="300" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">좌표 매핑부</text>
+    <text x="375.0" y="320" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">좌표 매핑부</text>
     <text x="580" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(81)</text>
-    <text x="375.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">SAL -&gt; (x,y,z)</text>
+    <text x="375.0" y="380" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">SAL -&gt; (x,y,z)</text>
     <path d="M 600,375 L 800,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+
+    <!-- 렌더링 엔진 (82) -->
     <rect x="800" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1025.0" y="300" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">렌더링 엔진</text>
+    <text x="1025.0" y="320" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">렌더링 엔진</text>
     <text x="1230" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(82)</text>
-    <text x="1025.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">WebGL/Three.js</text>
+    <text x="1025.0" y="380" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">WebGL/Three.js</text>
     <path d="M 1025,500 L 1025,700" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+
+    <!-- 상호작용 처리부 (83) -->
     <rect x="800" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1025.0" y="750" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">상호작용 처리부</text>
+    <text x="1025.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">상호작용 처리부</text>
     <text x="1230" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(83)</text>
-    <text x="580" y="740" font-weight="normal">Drag and Drop</text>
+    <text x="1025.0" y="830" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Drag and Drop</text>
     <path d="M 800,825 L 600,825" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+
+    <!-- 실시간 갱신부 (84) -->
     <rect x="150" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="375.0" y="750" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">실시간 갱신부</text>
+    <text x="375.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">실시간 갱신부</text>
     <text x="580" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(84)</text>
-    <text x="375.0" y="810" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">UI Update</text>
+    <text x="375.0" y="830" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">UI Update</text>
     <path d="M 375,700 L 375,500" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
 </svg>

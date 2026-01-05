@@ -27,8 +27,8 @@
 
 - **왼쪽 사이드바**: 10단계 진행 프로세스, 안내문, Order Sheet를 확인할 수 있습니다
 - **중앙 상단**: Control Desk 사용법과 Order Sheet 작성 및 전달 방법을 체험할 수 있습니다
-- **중앙 하단**: Project SAL Grid Viewer에서 66개 Task 관리 예시를 볼 수 있습니다
-- **오른쪽**: Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개를 열람할 수 있습니다
+- **중앙 하단**: Project SAL Grid Viewer에서 71개 Task 관리 예시를 볼 수 있습니다
+- **오른쪽**: Books 80편, 실전 Tips 66개, 외부 연동 설정 Guide 5개를 열람할 수 있습니다
 
 <div style="background-color: #FFFBEB; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
 <strong>회원가입/로그인 방법</strong>: 오른쪽 상단 "로그인" 또는 "회원가입" 버튼 클릭 → Google 또는 이메일로 가입/로그인
@@ -65,19 +65,19 @@
 **[방법론 4가지]**
 
 1. **10단계 진행 프로세스**: P0~P3(기획) + S0~S5(개발)의 10단계로 아이디어부터 배포까지 전 과정을 체계화
-2. **SAL Grid**: 5 Stage × 11 Area × 3 Level의 3차원 좌표계로 66개(예시) Task를 22개 속성으로 관리
+2. **SAL Grid**: 5 Stage × 11 Area × 3 Level의 3차원 좌표계로 71개(예시) Task를 22개 속성으로 관리
 3. **3단계 검증**: 작업 AI → 검증 AI → 빌더 최종승인 순서로 진행. 작업 담당 AI와 검증 담당 AI 분리로 품질 확보
-4. **AI 규칙 체계**: 7대 Rules + 3대 Methods + 12대 Compliance로 AI 작업의 일관성과 품질 확보
+4. **AI 규칙 체계**: 7대 Rules + 3대 Methods + 12대 Compliance + 5대 절대 규칙으로 AI 작업의 일관성과 품질 확보
 
 **[도구 3가지]**
 
 5. **Dev Package**: 프로젝트 등록 시 자동 다운로드되며, 폴더 구조, 규칙 파일, 설정 일체를 포함
 6. **Order Sheet**: 단계별 AI 작업 지시서 템플릿으로, 필요시 내용을 추가 작성한 후 Claude Code에 전달하면 작업 시작
-7. **SAL Grid Viewer**: 66개(예시) Task의 작업 상태와 검증 상태를 Stage별로 시각화하여 개발 진행 현황을 한눈에 파악
+7. **SAL Grid Viewer**: 71개(예시) Task의 작업 상태와 검증 상태를 Stage별로 시각화하여 개발 진행 현황을 한눈에 파악
 
 **[콘텐츠 1가지]**
 
-8. **학습 콘텐츠**: Books 80편, 실전 Tips 65개, 외부 연동 설정 Guide 5개를 제공하며, 초보자도 따라할 수 있는 수준으로 구성
+8. **학습 콘텐츠**: Books 80편, 실전 Tips 66개, 외부 연동 설정 Guide 5개를 제공하며, 초보자도 따라할 수 있는 수준으로 구성
 
 **[서비스 2가지]**
 

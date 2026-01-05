@@ -9,25 +9,33 @@
     </defs>
     <text x="600" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 8: Analytics 파이프라인</text>
     <text x="600.0" y="150" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Reporting/Analytics (100)</text>
+
+    <!-- 데이터 수집부 (101) -->
     <rect x="350.0" y="250" width="500" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="600.0" y="300" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">데이터 수집부</text>
+    <text x="600.0" y="320" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">데이터 수집부</text>
     <text x="830.0" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(101)</text>
-    <text x="600.0" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Log Collection</text>
+    <text x="600.0" y="370" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Log Collection</text>
     <path d="M 600,450 L 600,550" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+
+    <!-- 집계/분석부 (102) -->
     <rect x="350.0" y="550" width="500" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="600.0" y="600" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">집계/분석부</text>
+    <text x="600.0" y="620" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">집계/분석부</text>
     <text x="830.0" y="590" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(102)</text>
-    <text x="600.0" y="660" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">KPI Calc</text>
+    <text x="600.0" y="670" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">KPI Calc</text>
     <path d="M 600,750 L 600,800" stroke="black" stroke-width="2" fill="none" />
     <path d="M 300,800 L 900,800" stroke="black" stroke-width="2" fill="none" />
+
+    <!-- 리포트 생성부 (103) -->
     <rect x="100" y="850" width="400" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="300.0" y="900" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">리포트 생성부</text>
+    <text x="300.0" y="920" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">리포트 생성부</text>
     <text x="480" y="890" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(103)</text>
-    <text x="300.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">PDF/Dash</text>
+    <text x="300.0" y="970" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">PDF/Dash</text>
     <path d="M 300,800 L 300,850" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+
+    <!-- 알림 발송부 (104) -->
     <rect x="700" y="850" width="400" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="900.0" y="900" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">알림 발송부</text>
+    <text x="900.0" y="920" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">알림 발송부</text>
     <text x="1080" y="890" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(104)</text>
-    <text x="900.0" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Email/Slack</text>
+    <text x="900.0" y="970" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Email/Slack</text>
     <path d="M 900,800 L 900,850" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
 </svg>

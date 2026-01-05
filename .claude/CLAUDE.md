@@ -4,6 +4,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## 📋 AI 규칙 체계 (4가지)
+
+| # | 카테고리 | 개수 | 위치 | 성격 |
+|---|----------|:----:|------|------|
+| 1 | 7대 Rules | 7개 | `.claude/rules/` | 작업별 상세 규칙 |
+| 2 | 3대 Methods | 3개 | `.claude/methods/` | 특정 상황 절차 |
+| 3 | 12대 Compliance | 12개 | `.claude/compliance/` | 행동 원칙 |
+| 4 | 5대 절대 규칙 | 5개 | 이 파일 (아래) | 위반 시 즉시 중단 |
+
+> **상세 목록:** `.claude/AI_RULE_LIST.md` 참조
+
+---
+
 ## 🚨🚨🚨 7대 작업 규칙 - 반드시 먼저 확인! 🚨🚨🚨
 
 > **⛔ 파일 생성/저장 전 반드시 해당 규칙 파일을 읽어야 함!**

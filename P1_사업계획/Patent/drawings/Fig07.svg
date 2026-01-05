@@ -9,28 +9,38 @@
     </defs>
     <text x="800" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 7: ID Chain 구조</text>
     <text x="800.0" y="150" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">ID Chain (90)</text>
+
+    <!-- chain_text (91) -->
     <rect x="100" y="300" width="350" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="275.0" y="350" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Block #1</text>
+    <text x="275.0" y="370" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">chain_text</text>
     <text x="430" y="340" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(91)</text>
-    <text x="275.0" y="410" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">ID: 1...</text>
+    <text x="275.0" y="420" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">전체 체인 문자열</text>
     <path d="M 450,400 L 550,400" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+
+    <!-- chain_list (92) -->
     <rect x="550" y="300" width="350" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="725.0" y="350" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Block #2</text>
+    <text x="725.0" y="370" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">chain_list</text>
     <text x="880" y="340" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(92)</text>
-    <text x="725.0" y="410" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">ID: 2...</text>
-    <text x="725.0" y="450" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Prev: 1...</text>
+    <text x="725.0" y="420" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">체인 배열</text>
+    <text x="725.0" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">["S1DE1a", "S2DE2a"]</text>
     <path d="M 900,400 L 1000,400" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+
+    <!-- current_id (93) -->
     <rect x="1000" y="300" width="350" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1175.0" y="350" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Block #3</text>
+    <text x="1175.0" y="370" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">current_id</text>
     <text x="1330" y="340" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(93)</text>
-    <text x="1175.0" y="410" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">ID: 3...</text>
-    <text x="1175.0" y="450" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Prev: 2...</text>
+    <text x="1175.0" y="420" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">현재(최신) ID</text>
+    <text x="1175.0" y="460" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">S3QA3a</text>
+
+    <!-- 체인 Append부 (94) -->
     <rect x="200" y="650" width="500" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="450.0" y="700" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">체인 Append부</text>
+    <text x="450.0" y="720" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">체인 Append부</text>
     <text x="680" y="690" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(94)</text>
-    <text x="450.0" y="760" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Append-Only</text>
+    <text x="450.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Append-Only</text>
+
+    <!-- 리졸버(Resolver) (95) -->
     <rect x="800" y="650" width="500" height="200" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1050.0" y="700" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">리졸버(Resolver)</text>
+    <text x="1050.0" y="720" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">리졸버(Resolver)</text>
     <text x="1280" y="690" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(95)</text>
-    <text x="1050.0" y="760" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">ID Lookup</text>
+    <text x="1050.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">ID Lookup</text>
 </svg>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1600" height="1200" viewBox="0 0 1600 1200" xmlns="http://www.w3.org/2000/svg">
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" xmlns="http://www.w3.org/2000/svg">
     <rect width="100%" height="100%" fill="white"/>
 
     <defs>
@@ -7,40 +7,78 @@
             <path d="M0,0 L12,6 L0,12 L3,6 Z" fill="black"/>
         </marker>
     </defs>
-    <text x="800" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 1: 전체 시스템 구성도</text>
-    <rect x="600" y="400" width="400" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="800.0" y="450" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">SAL 3D Grid</text>
-    <text x="980" y="440" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(10)</text>
-    <text x="800.0" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Stage, Area, Level</text>
-    <text x="800.0" y="550" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">3차원 좌표계</text>
-    <rect x="100" y="150" width="350" height="180" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="275.0" y="200" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Parser/Normalizer</text>
-    <text x="430" y="190" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(50)</text>
-    <text x="275.0" y="260" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">SAL ID 파싱</text>
-    <path d="M 275,330 L 275,500 L 600,500" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="1150" y="150" width="350" height="180" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="1325.0" y="200" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Graph Builder</text>
-    <text x="1480" y="190" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(60)</text>
-    <text x="1325.0" y="260" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">DAG 자동 구성</text>
-    <path d="M 1000,500 L 1325,500 L 1325,330" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="100" y="800" width="350" height="180" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="275.0" y="850" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">3D Renderer/UI</text>
-    <text x="430" y="840" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(80)</text>
-    <text x="275.0" y="910" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">시각화/상호작용</text>
-    <path d="M 275,330 L 275,800" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="1150" y="800" width="350" height="180" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="1325.0" y="850" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Scheduler/Leveler</text>
-    <text x="1480" y="840" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(70)</text>
-    <text x="1325.0" y="910" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">자원/일정 최적화</text>
-    <path d="M 1325,330 L 1325,800" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="1150" y="500" width="350" height="180" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="1325.0" y="550" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Reporting</text>
-    <text x="1480" y="540" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(100)</text>
-    <text x="1325.0" y="610" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">분석/리포팅</text>
-    <path d="M 1325,800 L 1325,680" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-    <rect x="100" y="500" width="350" height="180" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="275.0" y="550" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">ID Chain</text>
-    <text x="430" y="540" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(90)</text>
-    <text x="275.0" y="610" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">이력 추적</text>
-    <path d="M 600,500 L 450,500" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+    <!-- 제목 -->
+    <text x="800" y="55" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="42" font-weight="bold">도 1: SAL 3D Grid 개념도</text>
+
+    <!-- 중앙: SAL 3D Grid (10) -->
+    <rect x="600" y="450" width="400" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="800" y="530" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="32" font-weight="bold">SAL 3D Grid</text>
+    <text x="800" y="570" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="24" font-weight="normal">Stage, Area, Level</text>
+    <text x="800" y="605" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="24" font-weight="normal">3차원 좌표계</text>
+    <text x="990" y="490" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(10)</text>
+
+    <!-- 좌상: Parser/Normalizer (50) -->
+    <rect x="100" y="150" width="380" height="160" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="290" y="220" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="30" font-weight="bold">Parser/Normalizer</text>
+    <text x="290" y="265" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="22" font-weight="normal">SAL ID 파싱</text>
+    <text x="470" y="190" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(50)</text>
+
+    <!-- 우상: Graph Builder (60) -->
+    <rect x="1120" y="150" width="380" height="160" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="1310" y="220" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="30" font-weight="bold">Graph Builder</text>
+    <text x="1310" y="265" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="22" font-weight="normal">DAG 자동 구성</text>
+    <text x="1490" y="190" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(60)</text>
+
+    <!-- 좌중: ID Chain (90) -->
+    <rect x="100" y="470" width="380" height="160" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="290" y="540" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="30" font-weight="bold">ID Chain</text>
+    <text x="290" y="585" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="22" font-weight="normal">이력 추적</text>
+    <text x="470" y="510" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(90)</text>
+
+    <!-- 우중: Reporting (100) -->
+    <rect x="1120" y="470" width="380" height="160" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="1310" y="540" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="30" font-weight="bold">Reporting</text>
+    <text x="1310" y="585" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="22" font-weight="normal">분석/리포팅</text>
+    <text x="1490" y="510" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(100)</text>
+
+    <!-- 좌하: 3D Renderer/UI (80) -->
+    <rect x="100" y="790" width="380" height="160" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="290" y="860" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="30" font-weight="bold">3D Renderer/UI</text>
+    <text x="290" y="905" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="22" font-weight="normal">시각화/상호작용</text>
+    <text x="470" y="830" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(80)</text>
+
+    <!-- 우하: Scheduler/Leveler (70) -->
+    <rect x="1120" y="790" width="380" height="160" fill="white" stroke="black" stroke-width="3" rx="10"/>
+    <text x="1310" y="860" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="30" font-weight="bold">Scheduler/Leveler</text>
+    <text x="1310" y="905" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="22" font-weight="normal">자원/일정 최적화</text>
+    <text x="1490" y="830" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(70)</text>
+
+    <!-- 화살표 연결 -->
+    <!-- 1. Parser (290, 310) -> ID Chain (290, 470) -->
+    <path d="M 290,310 L 290,470" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+    
+    <!-- parser -> Grid (290,310 -> 600,550): DETOUR ID Chain -->
+    <!-- Parser Center(290,310) -> Right(310,310) -> Down(310,400) -> Right(550,400) -> Down(550,550) -> Right(600,550) -->
+    <!-- 우회 경로: Parser 우측(310)에서 출발 -> ID Chain 위쪽(y=400)으로 수평 이동 -> ID Chain 우측(x=550)으로 수직 이동 -> Grid 좌측(x=600)으로 진입 -->
+    <path d="M 310,310 L 310,400 L 550,400 L 550,550 L 600,550" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+    <!-- ID Chain -> 3D Renderer (290,630 -> 290,790) -->
+    <path d="M 290,630 L 290,790" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+    <!-- Grid -> ID Chain (600,550 -> 480,550) -->
+    <path d="M 600,550 L 480,550" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+    <!-- Grid -> Graph Builder (1000,530 -> 1120,230) : Separated Y -->
+    <path d="M 1000,530 L 1060,530 L 1060,230 L 1120,230" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+    <!-- Reporting -> Grid (1120,570 -> 1000,570) : Separated Y -->
+    <path d="M 1120,570 L 1000,570" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+    <!-- Graph Builder -> Reporting (1310,310 -> 1310,470) -->
+    <path d="M 1310,310 L 1310,470" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
+    <!-- Reporting -> Scheduler (1310,630 -> 1310,790) -->
+    <path d="M 1310,630 L 1310,790" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+
 </svg>
