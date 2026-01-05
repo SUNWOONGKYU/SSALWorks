@@ -146,6 +146,10 @@
       "destination": "/api/Backend_APIs/admin/ai-usage"
     },
     {
+      "source": "/api/admin/sunny-answer",
+      "destination": "/api/Backend_APIs/admin-sunny-answer"
+    },
+    {
       "source": "/api/credit/:action",
       "destination": "/api/Backend_APIs/credit/:action"
     },

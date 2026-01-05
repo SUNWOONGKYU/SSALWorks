@@ -7276,40 +7276,30 @@
             try {
                 showLoading();
 
-                // 1. 문의 정보 조회 (user_id, question)
-                const { data: inquiry, error: fetchError } = await supabaseClient
-                    .from('sunny_inquiries')
-                    .select('user_id, question')
-                    .eq('id', inquiryId)
-                    .single();
+                // API를 통해 답변 저장 (RLS 우회)
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (!session) {
+                    showToast('로그인이 필요합니다.', 'error');
+                    return;
+                }
 
-                if (fetchError) throw fetchError;
-
-                // 2. 답변 저장
-                const { error } = await supabaseClient
-                    .from('sunny_inquiries')
-                    .update({
-                        admin_answer: answerText,
-                        status: 'answered',
-                        answered_at: new Date().toISOString(),
-                        answered_by: 'ADMIN001'
+                const response = await fetch('/api/admin/sunny-answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${session.access_token}`
+                    },
+                    body: JSON.stringify({
+                        inquiryId: inquiryId,
+                        answer: answerText,
+                        adminId: 'ADMIN001'
                     })
-                    .eq('id', inquiryId);
+                });
 
-                if (error) throw error;
+                const result = await response.json();
 
-                // 3. 사용자에게 알림 생성
-                if (inquiry.user_id) {
-                    await supabaseClient
-                        .from('user_notifications')
-                        .insert({
-                            user_id: inquiry.user_id,
-                            notification_type: 'sunny_answer',
-                            title: '써니가 답변했습니다',
-                            message: inquiry.question?.substring(0, 50) + (inquiry.question?.length > 50 ? '...' : ''),
-                            is_read: false,
-                            created_at: new Date().toISOString()
-                        });
+                if (!response.ok) {
+                    throw new Error(result.error || result.details || '답변 저장 실패');
                 }
 
                 showToast('답변이 저장되었습니다.', 'success');
@@ -7317,7 +7307,7 @@
                 await loadSunnyInquiriesData();
             } catch (error) {
                 console.error('답변 저장 실패:', error);
-                showToast('답변 저장에 실패했습니다.', 'error');
+                showToast(`답변 저장에 실패했습니다: ${error.message}`, 'error');
             } finally {
                 hideLoading();
             }
