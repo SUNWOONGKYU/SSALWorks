@@ -238,7 +238,12 @@ function convertServiceIntroSection(section) {
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
 
-    // 5. 테이블 변환
+    // 4.5. 링크 변환 [text](url) → <a href="url">text</a>
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" style="color: #1F3563; text-decoration: underline;">$1</a>');
+
+    // 5. 테이블 변환 (Windows \r\n 및 Unix \n 모두 지원)
+    // 먼저 \r\n을 \n으로 통일
+    html = html.replace(/\r\n/g, '\n');
     html = html.replace(/\|(.+)\|\n\|[-| ]+\|\n((?:\|.+\|\n?)+)/g, (match, header, rows) => {
         const headerCells = header.split('|').filter(c => c.trim());
         const rowLines = rows.trim().split('\n');
