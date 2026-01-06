@@ -9,7 +9,7 @@
     </defs>
 
     <!-- 제목 -->
-    <text x="800" y="55" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="42" font-weight="bold">도 1: SAL 3D Grid 개념도</text>
+    <text x="800" y="55" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="42" font-weight="bold">도 1: 3차원 그리드 좌표(SAL 3D Grid) 개념도</text>
 
     <!-- 중앙: SAL 3D Grid (10) -->
     <rect x="600" y="450" width="400" height="200" fill="white" stroke="black" stroke-width="3" rx="10"/>
