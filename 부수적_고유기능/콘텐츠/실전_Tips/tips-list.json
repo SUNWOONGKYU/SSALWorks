@@ -128,7 +128,8 @@
         { "name": "최적화 성능 개선 작업 시키기", "file": "최적화_성능_개선_작업_시키기.md" },
         { "name": "콘텐츠 작성부터 웹사이트 게시까지 자동화 프로세스", "file": "콘텐츠_작성부터_웹사이트_게시까지_자동화_프로세스.md" },
         { "name": "Vanilla와 React란 무엇인가", "file": "Vanilla와_React란_무엇인가.md" },
-        { "name": "Vanilla에서 React로 전환하는 경우", "file": "Vanilla에서_React로_전환하는_경우.md" }
+        { "name": "Vanilla에서 React로 전환하는 경우", "file": "Vanilla에서_React로_전환하는_경우.md" },
+        { "name": "다국어 웹사이트 효율적으로 개발하는 방법", "file": "다국어_웹사이트_효율적으로_개발하는_방법.md" }
       ]
     },
     {
