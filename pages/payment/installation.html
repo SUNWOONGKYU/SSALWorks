@@ -385,8 +385,8 @@
             <div class="card">
                 <div class="price-box">
                     <div class="price-label">빌더 계정 개설비 (1회)</div>
-                    <div class="price-value">₩3,000,000</div>
-                    <div class="price-note">부가세 포함</div>
+                    <div class="price-value">₩3,300,000</div>
+                    <div class="price-note">부가세 별도</div>
                 </div>
 
                 <!-- 포함 내용 -->
@@ -554,7 +554,7 @@
                 return;
             }
 
-            if (!confirm(`입금자명: ${depositorName}\n금액: ₩3,000,000\n\n입금 확인을 요청하시겠습니까?`)) {
+            if (!confirm(`입금자명: ${depositorName}\n금액: ₩3,300,000\n\n입금 확인을 요청하시겠습니까?`)) {
                 return;
             }
 
@@ -565,7 +565,7 @@
                     .insert({
                         user_id: userData.user_id,
                         depositor_name: depositorName,
-                        amount: 3000000,
+                        amount: 3300000,
                         status: 'pending'
                     });
 

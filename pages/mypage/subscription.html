@@ -514,7 +514,8 @@
                         </div>
                     </div>
                     <div style="text-align: right;">
-                        <div style="font-weight: 700; color: var(--primary);">₩3,000,000</div>
+                        <div style="font-weight: 700; color: var(--primary);">₩3,300,000</div>
+                        <div style="font-size: 12px; color: var(--gray-500);">(부가세 별도)</div>
                         <div style="font-size: 12px; color: var(--gray-500);" id="installFeeStatus">미납</div>
                     </div>
                 </div>
@@ -577,7 +578,10 @@
                 </div>
                 <div style="display: flex; justify-content: space-between; padding: 12px 0;">
                     <span style="color: var(--gray-500);">입금 금액</span>
-                    <span style="font-weight: 700; color: var(--primary); font-size: 18px;" id="depositAmount">₩3,000,000</span>
+                    <span style="font-weight: 700; color: var(--primary); font-size: 18px;" id="depositAmount">₩3,300,000</span>
+                </div>
+                <div style="font-size: 12px; color: var(--gray-500); text-align: center; padding-top: 8px;">
+                    세금계산서가 필요하시면 고객센터를 통해 요청해 주세요.
                 </div>
             </div>
 
@@ -763,8 +767,8 @@
         }
 
         let currentDepositType = 'install_fee'; // install_fee or credit
-        let currentDepositAmount = 3000000;
-        let installationFeeAmount = 3000000; // admin_settings에서 가져온 값
+        let currentDepositAmount = 3300000;
+        let installationFeeAmount = 3300000; // admin_settings에서 가져온 값 (부가세 포함)
 
         // 페이지 로드 시 설치비 정보 가져오기
         async function loadInstallationInfo() {
