@@ -67,12 +67,31 @@ Not Verified → In Review → Verified (또는 Needs Fix)
 
 ## Task 신규 추가 프로세스
 
-### Step 1: Task ID 결정
+### Step 1: Task ID 결정 + SAL ID 부여 (Provisional, 가확정)
 
 ```
 형식: S[Stage][Area][번호]
 예시: S4F5 = Stage 4 + Frontend + 5번째
 ```
+
+**⚠️ SAL ID 부여 규칙 (의존성 기반):**
+```
+┌─────────────────────────────────────────────────────────────┐
+│ SAL ID는 의존성·병렬성·인접성을 인코딩합니다                  │
+│                                                             │
+│ 1. 선행 Task ID < 후행 Task ID (의존성 방향)                │
+│    예: S1D1 → S2F1 (O), S2F1 → S1D1 (X)                    │
+│                                                             │
+│ 2. 동일 Stage·Area 내 Task는 병렬 실행 가능                 │
+│    예: S2F1, S2F2, S2F3는 동시 실행 가능                    │
+│                                                             │
+│ 3. Stage 번호가 작을수록 먼저 실행됨                         │
+│    S1 → S2 → S3 → S4 → S5 순서                            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**이 단계에서 ID는 '가확정(Provisional)' 상태입니다.**
+→ Step 5에서 의존성 검증 후 '최종 확정(Finalization)'됩니다.
 
 **기존 Task 확인:**
 ```bash
@@ -179,14 +198,42 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 | `.claude/rules/06_verification.md` | 검증 기준 | 핵심 참조 |
 ```
 
-### Step 5: 데이터 저장 (방식별 분기)
+### Step 5: 의존성 검증 (SAL ID Finalization)
 
-**⚠️ 시나리오에 따라 상태값 다르게 설정!**
-**⚠️ SSAL Works는 5A + 5B 둘 다 수행!**
+> **⚠️ 데이터 저장 전 반드시 의존성 검증 수행!**
+
+**의존성 검증 체크리스트:**
+```
+┌─────────────────────────────────────────────────────────────┐
+│ □ 선행 Task ID < 후행 Task ID인가?                          │
+│   → dependencies 필드에 명시된 Task가 현재 Task보다 작아야 함 │
+│   → 예: S2F1의 dependencies가 "S1D1"이면 OK (1 < 2)         │
+│   → 예: S2F1의 dependencies가 "S3BA1"이면 ERROR (2 < 3 위반)│
+│                                                             │
+│ □ 순환 의존성이 없는가?                                      │
+│   → A → B → A 같은 순환 금지                                │
+│                                                             │
+│ □ 존재하지 않는 Task를 참조하지 않는가?                      │
+│   → dependencies에 없는 Task ID 참조 금지                   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**검증 결과 처리:**
+| 결과 | 조치 |
+|------|------|
+| ✅ 통과 | SAL ID **확정(Finalization)** → Step 6 진행 |
+| ❌ 위반 | Step 1로 돌아가 **ID 수정** 후 재검증 |
 
 ---
 
-#### 📌 Step 5A: DB Method (Supabase)
+### Step 6: 데이터 저장 (방식별 분기)
+
+**⚠️ 시나리오에 따라 상태값 다르게 설정!**
+**⚠️ SSAL Works는 6A + 6B 둘 다 수행!**
+
+---
+
+#### 📌 Step 6A: DB Method (Supabase)
 
 > **적용 대상:** SSAL Works 내부 관리, Supabase 사용 프로젝트
 
@@ -240,7 +287,7 @@ const { data, error } = await supabase
 
 ---
 
-#### 📌 Step 5B: JSON Method (개별 파일 방식)
+#### 📌 Step 6B: JSON Method (개별 파일 방식)
 
 > **적용 대상:** 일반 사용자, Supabase 없는 프로젝트
 
@@ -324,7 +371,7 @@ S0_Project-SAL-Grid_생성/method/json/data/
 | S4 | 4 |
 | S5 | 5 |
 
-### Step 6: 작업 로그 업데이트
+### Step 7: 작업 로그 업데이트
 
 **파일 위치:** `.claude/work_logs/current.md`
 
@@ -346,7 +393,7 @@ S0_Project-SAL-Grid_생성/method/json/data/
 4. Supabase DB (project_sal_grid)
 ```
 
-### Step 7: Git 커밋 & 푸시
+### Step 8: Git 커밋 & 푸시
 
 ```bash
 git add S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
@@ -469,9 +516,9 @@ git push
 
 ### Step 5: 데이터 업데이트 (방식별 분기)
 
-**⚠️ SSAL Works는 5A + 5B 둘 다 수행!**
+**⚠️ SSAL Works는 6A + 6B 둘 다 수행!**
 
-#### 📌 Step 5A: DB Method (Supabase)
+#### 📌 Step 6A: DB Method (Supabase)
 
 ```bash
 # curl로 PATCH 요청
@@ -493,7 +540,7 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/project_sal_grid
 
 **주의:** 한글이 포함된 JSON은 파일로 저장 후 `@파일명` 방식 사용
 
-#### 📌 Step 5B: JSON Method (개별 파일 방식)
+#### 📌 Step 6B: JSON Method (개별 파일 방식)
 
 ```bash
 # Claude Code의 Edit 도구로 grid_records/{TaskID}.json 파일 직접 수정
@@ -653,6 +700,10 @@ console.log(data);
 - [ ] SSALWORKS_TASK_PLAN.md 업데이트 (Task 추가 + 수치 변경 + 변경 이력)
 - [ ] task-instructions/{TaskID}_instruction.md 생성
 - [ ] verification-instructions/{TaskID}_verification.md 생성
+- [ ] **의존성 검증 (SAL ID Finalization)**
+  - [ ] 선행 Task ID < 후행 Task ID 확인
+  - [ ] 순환 의존성 없음 확인
+  - [ ] 존재하지 않는 Task 참조 없음 확인
 - [ ] **[DB Method]** Supabase `project_sal_grid` 테이블에 INSERT
   - [ ] `task_status` 설정 (Pending 또는 Completed)
   - [ ] `verification_status` 설정 (Not Verified 또는 Verified)
@@ -711,6 +762,8 @@ console.log(data);
 10. **⚠️ Stage Gate 경로 구분**: DB Method와 JSON Method의 Stage Gate 저장 위치가 다름
 11. **⚠️ JSON 파일 구조**: `index.json` + `grid_records/{TaskID}.json` 개별 파일 방식 사용
 12. **⚠️ Task 추가 시**: `index.json`의 `task_ids` 배열에 추가 + `grid_records/`에 새 파일 생성
+13. **⚠️ SAL ID 의존성 규칙**: 선행 Task ID < 후행 Task ID (역방향 의존성 금지)
+14. **⚠️ 의존성 검증 필수**: 데이터 저장 전 반드시 의존성 검증 수행 (Provisional → Finalization)
 
 ---
 
