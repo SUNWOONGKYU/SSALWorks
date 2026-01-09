@@ -22,6 +22,25 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **📁 위치:** `.claude/rules/`
 
+### SAL ID 의존성 규칙 요약 ⭐
+
+> **Task 추가/수정 시 반드시 확인! 상세: `03_area-stage.md` 섹션 3.1**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│ 1. 의존성 방향: 선행 Task ID < 후행 Task ID                  │
+│    → S1D1 → S2F1 (O), S2F1 → S1D1 (X) 역방향 금지          │
+│                                                             │
+│ 2. 병렬 실행: 동일 Stage·Area 내 Task는 병렬 가능           │
+│    → S2F1, S2F2, S2F3는 동시 실행 가능                      │
+│                                                             │
+│ 3. 실행 순서: S1 → S2 → S3 → S4 → S5 순서                  │
+│                                                             │
+│ 4. SAL ID Provisional → Finalization 프로세스 필수          │
+│    → 의존성 검증 후에만 ID 확정                              │
+└─────────────────────────────────────────────────────────────┘
+```
+
 ---
 
 ## 📊 DB vs JSON 데이터 구분 (핵심 개념)
