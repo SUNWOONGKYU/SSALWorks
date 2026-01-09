@@ -37,8 +37,10 @@
       "icon": "💻",
       "description": "Claude Code 설치 및 실행",
       "files": [
+        { "name": "Claude Code 설치 전에 Node.js와 Git을 설치하는 이유", "file": "Claude_Code_설치_전에_Node.js와_Git을_설치하는_이유.md" },
         { "name": "Claude Code 설치 방법 및 오류 해결", "file": "Claude_Code_설치_방법_및_오류_해결.md" },
-        { "name": "폴더에서 터미널 열어 실행하기", "file": "폴더에서_터미널_열어_실행하기.md" }
+        { "name": "폴더에서 터미널 열어 실행하기", "file": "폴더에서_터미널_열어_실행하기.md" },
+        { "name": "클로드 코드 삭제 및 개발 환경 초기화 방법", "file": "클로드_코드_삭제_및_개발_환경_초기화_방법.md" }
       ]
     },
     {
