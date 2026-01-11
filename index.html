@@ -134,7 +134,7 @@
                 <div id="mypageLinks" style="display: none; margin-top: 4px;">
                     <div style="display: flex; flex-direction: column; gap: 4px;">
                         <a href="/pages/mypage/downloads.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
-                            파일 다운로드
+                            사용 매뉴얼 다운로드
                         </a>
                         <a href="/pages/mypage/credit.html" style="display: block; padding: 6px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(16, 185, 129, 0.08); transition: all 0.2s;" onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'" onmouseout="this.style.background='rgba(16, 185, 129, 0.08)'">
                             크레딧 관리
@@ -6658,19 +6658,6 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             // (두 번째 이후 프로젝트는 등록 시작 시 안내문 표시)
         }
 
-        // Step 2에서 다운로드 없이 모달 닫기 (나중에 하기)
-        function closeAddProjectModalWithoutDownload() {
-            const modal = document.getElementById('addProjectModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-
-            // 모달 상태 초기화
-            resetProjectModalSteps();
-            document.getElementById('newProjectForm').reset();
-
-            // 안내 메시지
-            showStatus('📋 프로젝트가 등록되었습니다. My Page에서 Dev Package를 다운로드할 수 있습니다.', 'info');
-        }
 
         // ========== 내 문의 내역 모달 함수 ==========
 
@@ -8526,16 +8513,6 @@ Claude Code가 작업을 완료하면:
                         </div>
                     </div>
 
-                    <!-- 나중에 하기 버튼 -->
-                    <div style="text-align: center; margin-top: 16px;">
-                        <button onclick="closeAddProjectModalWithoutDownload()"
-                            style="padding: 10px 24px; background: transparent; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer; font-size: 13px; color: #6b7280;">
-                            나중에 하기
-                        </button>
-                        <div style="font-size: 11px; color: #9ca3af; margin-top: 8px;">
-                            My Page에서 언제든 다운로드할 수 있습니다.
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Step 3: 등록 완료 (다운로드 후 표시) -->

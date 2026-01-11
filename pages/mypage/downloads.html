@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>파일 다운로드 - SSAL Works</title>
+    <title>사용 매뉴얼 다운로드 - SSAL Works</title>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
@@ -426,7 +426,7 @@
             <span>›</span>
             <a href="index.html">My Page</a>
             <span>›</span>
-            <span>파일 다운로드</span>
+            <span>사용 매뉴얼 다운로드</span>
         </div>
 
         <div class="dashboard-grid">
@@ -442,7 +442,7 @@
                             <a href="subscription.html" class="menu-link">서비스 이용 현황</a>
                         </li>
                         <li class="menu-item">
-                            <a href="downloads.html" class="menu-link active">파일 다운로드</a>
+                            <a href="downloads.html" class="menu-link active">사용 매뉴얼 다운로드</a>
                         </li>
                         <li class="menu-item">
                             <a href="credit.html" class="menu-link">크레딧 관리</a>
@@ -459,23 +459,7 @@
 
             <!-- Main Content -->
             <div class="main-content-area">
-                <h1 class="page-title">파일 다운로드</h1>
-
-                <!-- Dev Package 다운로드 카드 -->
-                <div class="download-card" id="devPackageCard">
-                    <div class="download-header">
-                        <h3 class="download-title">Dev Package 다운로드</h3>
-                        <span class="download-badge badge-builder" id="devPackageBadge">빌더 전용</span>
-                    </div>
-                    <p class="download-desc">
-                        풀스택 웹사이트 개발 프로젝트를 Claude Code와 함께<br>
-                        처음부터 끝까지 체계적으로 수행할 수 있도록 설계된 통합 개발 환경입니다.
-                    </p>
-                    <button class="download-btn dev-package" id="devPackageDownloadBtn" onclick="downloadDevPackage()">
-                        📦 Dev Package 다운로드
-                    </button>
-                    <p class="download-note">※ ZIP 파일로 다운로드됩니다. 압축을 풀어 사용하세요.</p>
-                </div>
+                <h1 class="page-title">사용 매뉴얼 다운로드</h1>
 
                 <!-- 빌더 계정 사용 매뉴얼 카드 -->
                 <div class="download-card" id="manualDownloadCard">
@@ -582,79 +566,18 @@
         function updateDownloadButtons() {
             if (!userData) return;
 
-            const devBtn = document.getElementById('devPackageDownloadBtn');
-            const devBadge = document.getElementById('devPackageBadge');
             const manualBtn = document.getElementById('manualDownloadBtn');
             const manualBadge = document.getElementById('manualBuilderBadge');
 
             if (userData.builder_id) {
                 // 빌더 계정: 버튼 활성화
-                devBtn.disabled = false;
-                devBtn.style.opacity = '1';
-                devBadge.textContent = '다운로드 가능';
-                devBadge.className = 'download-badge badge-available';
-
                 manualBtn.disabled = false;
                 manualBtn.style.opacity = '1';
                 manualBadge.textContent = '다운로드 가능';
                 manualBadge.className = 'download-badge badge-available';
             } else {
                 // 일반 회원: 버튼 비활성화 스타일
-                devBtn.style.opacity = '0.6';
                 manualBtn.style.opacity = '0.6';
-            }
-        }
-
-        // ========== Dev Package 폴더 열기 ==========
-        async function downloadDevPackage() {
-            if (!userData || !userData.builder_id) {
-                showPopup('빌더 계정 전용', '빌더 계정 개설 후 이용할 수 있습니다.', 'warning');
-                return;
-            }
-
-            try {
-                showLoading();
-
-                // Dev Package ZIP 다운로드 URL
-                const devPackageUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
-
-                // 새 탭에서 ZIP 다운로드
-                window.open(devPackageUrl, '_blank');
-
-                hideLoading();
-                showPopup('다운로드 시작', 'Dev Package ZIP 파일 다운로드가 시작되었습니다.\n\n1. 작업용 폴더를 C드라이브에 먼저 만드세요\n2. 다운로드한 ZIP 파일의 압축을 풀어서 작업용 폴더로 이동시키세요', 'success');
-
-                // 접근 기록 저장
-                try {
-                    await supabaseClient
-                        .from('user_activity_logs')
-                        .insert({
-                            user_id: userData.user_id,
-                            activity_type: 'dev_package_download',
-                            activity_data: { method: 'zip_download' },
-                            created_at: new Date().toISOString()
-                        });
-                } catch (logError) {
-                    console.log('접근 기록 저장 실패 (무시):', logError);
-                }
-
-                // 프로젝트 등록 완료 처리 (registration_complete = true)
-                try {
-                    await supabaseClient
-                        .from('projects')
-                        .update({ registration_complete: true })
-                        .eq('user_id', userData.user_id)
-                        .eq('registration_complete', false);
-                    console.log('✅ 프로젝트 등록 완료 처리됨');
-                } catch (regError) {
-                    console.log('등록 완료 처리 실패 (무시):', regError);
-                }
-
-            } catch (error) {
-                console.error('Dev Package 다운로드 오류:', error);
-                showToast('Dev Package 다운로드에 실패했습니다.', 'error');
-            } finally {
-                hideLoading();
             }
         }
 
