@@ -7092,5 +7092,28 @@ const escapedName = project.project_name.replace(/'/g, "\'").replace(/"/g, '&quo
 1. `0103111` - Dev Package 다운로드 링크 업데이트
 2. `707f2cd` - My Page에서 Dev Package 다운로드 제거
 3. `28d4d6e` - 프로젝트 이름 특수문자 이스케이프 처리
+4. `e67d224` - Dev Package 다운로드 설명 문서 수정
+
+---
+
+### 문서 업데이트: Dev Package 다운로드 설명 수정
+
+**작업 상태:** ✅ 완료 (2026-01-12)
+
+**문제:**
+Default_v2.md와 서비스_소개.md 문서가 "Dev Package 자동 다운로드"라고 안내하고 있으나, 실제 구현은 사용자가 버튼을 클릭해야 다운로드됨
+
+**수정 내용:**
+
+| 파일 | 변경 전 | 변경 후 |
+|------|--------|--------|
+| `Default_v2.md` | "등록번호가 부여되고 Dev Package가 자동 다운로드됩니다" | "등록번호가 부여되면 다운로드 버튼을 클릭하여 Dev Package를 다운로드합니다" |
+| `서비스_소개.md` | "4. Dev Package 자동 다운로드" | "4. Dev Package 다운로드 버튼 클릭" |
+
+**수정 파일:**
+- `Briefings_OrderSheets/Briefings/Situational/Default_v2.md` (라인 130)
+- `P2_프로젝트_기획/Service_Introduction/서비스_소개.md` (라인 560)
+
+**커밋:** `e67d224` - docs: Dev Package 다운로드 설명 수정 (자동 → 버튼 클릭)
 
 ---
