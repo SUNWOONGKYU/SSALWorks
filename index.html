@@ -9578,8 +9578,9 @@ Claude Code가 작업을 완료하면:
                     console.log('⚠️ 프로젝트 등록 미완료 (개발환경 설정 필요):', project.project_name);
 
                     // 등록 미완료 프로젝트 표시 (클릭 시 Dev Package 다운로드 모달 표시)
+                    const escapedNameIncomplete = project.project_name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                     currentProjectList.innerHTML = `
-                        <div class="project-list-item" onclick="showIncompleteRegistrationModal('${project.project_id}', '${project.project_name}')" style="border-left: 3px solid #F59E0B;">
+                        <div class="project-list-item" onclick="showIncompleteRegistrationModal('${project.project_id}', '${escapedNameIncomplete}')" style="border-left: 3px solid #F59E0B;">
                             <span class="project-name">${project.project_name}</span>
                             <span class="project-status" style="background: rgba(245, 158, 11, 0.1); color: #D97706;">다운로드 필요</span>
                         </div>
@@ -9594,8 +9595,9 @@ Claude Code가 작업을 완료하면:
                     return;
                 }
 
+                const escapedName = project.project_name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
                 currentProjectList.innerHTML = `
-                    <div class="project-list-item selected" onclick="completeProject('${project.project_id}', '${project.project_name}')">
+                    <div class="project-list-item selected" onclick="completeProject('${project.project_id}', '${escapedName}')">
                         <span class="project-name">${project.project_name}</span>
                         <span class="project-status">진행중</span>
                     </div>
