@@ -472,9 +472,9 @@
                         프로젝트 시작 시 이 패키지를 설치하면 AI 협업 개발 환경이 자동으로 구성됩니다.
                     </p>
                     <button class="download-btn dev-package" id="devPackageDownloadBtn" onclick="downloadDevPackage()">
-                        📂 Dev Package 폴더 열기
+                        📦 Dev Package 다운로드
                     </button>
-                    <p class="download-note">※ Dev Package는 폴더 형태로 제공됩니다</p>
+                    <p class="download-note">※ ZIP 파일로 다운로드됩니다. 압축을 풀어 사용하세요.</p>
                 </div>
 
                 <!-- 빌더 계정 사용 매뉴얼 카드 -->
@@ -615,14 +615,14 @@
             try {
                 showLoading();
 
-                // Dev Package 폴더 URL (Google Drive 폴더 공유 링크)
-                const devPackageFolderUrl = 'https://drive.google.com/drive/folders/1BAzFKJT76fNkcX7Lx__6RfdR6bKFJgXm?usp=drive_link';
+                // Dev Package ZIP 다운로드 URL
+                const devPackageUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
 
-                // 새 탭에서 폴더 열기
-                window.open(devPackageFolderUrl, '_blank');
+                // 새 탭에서 ZIP 다운로드
+                window.open(devPackageUrl, '_blank');
 
                 hideLoading();
-                showPopup('폴더 열기 완료', 'Google Drive에서 Dev Package 폴더가 열렸습니다.\n\n1. 작업용 폴더를 C드라이브에 먼저 만드세요\n2. Dev Package를 복사하여 작업용 폴더로 이동시키세요', 'success');
+                showPopup('다운로드 시작', 'Dev Package ZIP 파일 다운로드가 시작되었습니다.\n\n1. 작업용 폴더를 C드라이브에 먼저 만드세요\n2. 다운로드한 ZIP 파일의 압축을 풀어서 작업용 폴더로 이동시키세요', 'success');
 
                 // 접근 기록 저장
                 try {
@@ -630,8 +630,8 @@
                         .from('user_activity_logs')
                         .insert({
                             user_id: userData.user_id,
-                            activity_type: 'dev_package_access',
-                            activity_data: { method: 'google_drive_folder' },
+                            activity_type: 'dev_package_download',
+                            activity_data: { method: 'zip_download' },
                             created_at: new Date().toISOString()
                         });
                 } catch (logError) {

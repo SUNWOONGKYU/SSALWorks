@@ -6534,27 +6534,25 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             window.isFirstProject = false;
         }
 
-        // Dev Package 폴더 열기 후 등록 완료 처리
-        // (ZIP 다운로드 대신 Google Drive 폴더 공유 방식)
+        // Dev Package ZIP 다운로드 후 등록 완료 처리
         async function downloadDevPackageAndComplete() {
             const projectName = window.registeredProjectName;
             const projectId = window.registeredProjectId;
 
-            // Google Drive Dev Package 폴더 링크
-            // 사용자는 이 폴더를 "내 드라이브에 추가" 또는 "사본 만들기"로 복사
-            const devPackageFolderUrl = 'https://drive.google.com/drive/folders/1BAzFKJT76fNkcX7Lx__6RfdR6bKFJgXm?usp=drive_link';
+            // Google Drive ZIP 직접 다운로드 URL
+            const devPackageZipUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
 
             try {
-                showStatus('📂 Dev Package 폴더를 열고 있습니다...', 'info');
+                showStatus('📦 Dev Package를 다운로드합니다...', 'info');
 
-                // Google Drive 폴더 열기 (새 창)
-                window.open(devPackageFolderUrl, '_blank');
+                // ZIP 파일 다운로드 (새 창)
+                window.open(devPackageZipUrl, '_blank');
 
-                console.log('✅ Dev Package 폴더 링크 열림:', projectId);
+                console.log('✅ Dev Package ZIP 다운로드 시작:', projectId);
 
             } catch (err) {
-                console.error('Dev Package 링크 열기 오류:', err);
-                showStatus('⚠️ 링크를 직접 열어주세요: ' + devPackageFolderUrl, 'warning');
+                console.error('Dev Package 다운로드 오류:', err);
+                showStatus('⚠️ 링크를 직접 열어주세요: ' + devPackageZipUrl, 'warning');
             }
 
             // DB 업데이트: registration_complete = true
@@ -8435,12 +8433,12 @@ Claude Code가 작업을 완료하면:
                     </form>
                 </div>
 
-                <!-- Step 2: Dev Package 폴더 가져가기 -->
+                <!-- Step 2: Dev Package 다운로드 -->
                 <div id="projectRegStep2" style="display: none;">
                     <!-- 단계 표시 -->
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 12px 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%); border-radius: 8px;">
                         <div style="width: 28px; height: 28px; background: #6366F1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px;">2</div>
-                        <span style="font-weight: 600; color: #4F46E5;">Dev Package 가져가기</span>
+                        <span style="font-weight: 600; color: #4F46E5;">Dev Package 다운로드</span>
                         <span style="color: #9ca3af; margin-left: auto; font-size: 13px;">Step 2/2</span>
                     </div>
 
@@ -8451,20 +8449,20 @@ Claude Code가 작업을 완료하면:
                         <div style="color: #6b7280; font-size: 13px; margin-top: 4px;">프로젝트명: <strong id="registeredProjectName"></strong></div>
                     </div>
 
-                    <!-- Dev Package 폴더 안내 -->
+                    <!-- Dev Package 다운로드 안내 -->
                     <div style="background: #f8fafc; border: 2px dashed #6366F1; border-radius: 12px; padding: 20px; text-align: center;">
-                        <div style="font-size: 40px; margin-bottom: 12px;">📂</div>
-                        <div style="font-weight: 700; color: #1f2937; font-size: 16px; margin-bottom: 8px;">Dev Package를 가져가세요</div>
+                        <div style="font-size: 40px; margin-bottom: 12px;">📦</div>
+                        <div style="font-weight: 700; color: #1f2937; font-size: 16px; margin-bottom: 8px;">Dev Package를 다운로드하세요</div>
                         <div style="color: #6b7280; font-size: 13px; line-height: 1.6; margin-bottom: 16px;">
-                            Google Drive에서 Dev Package 폴더가 열립니다.<br>
-                            <strong>"내 드라이브에 추가"</strong> 또는 <strong>"다운로드"</strong>를 선택해주세요.
+                            ZIP 파일이 다운로드됩니다.<br>
+                            다운로드 후 <strong>압축을 풀어서</strong> 작업용 폴더로 이동시키세요.
                         </div>
                         <button id="devPackageDownloadBtnModal" onclick="downloadDevPackageAndComplete()"
                             style="padding: 14px 32px; background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; color: white; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);">
-                            <span style="font-size: 18px;">📂</span> Dev Package 폴더 열기
+                            <span style="font-size: 18px;">📦</span> Dev Package 다운로드
                         </button>
                         <div style="font-size: 11px; color: #9ca3af; margin-top: 12px;">
-                            ※ Dev Package는 폴더 형태로 제공됩니다
+                            ※ ZIP 파일로 다운로드됩니다
                         </div>
                     </div>
 
@@ -8490,7 +8488,7 @@ Claude Code가 작업을 완료하면:
                             <div style="font-weight: 600; color: #166534; margin-bottom: 12px; font-size: 14px;">📋 다음 단계</div>
                             <ol style="color: #166534; font-size: 13px; line-height: 1.8; margin: 0; padding-left: 20px;">
                                 <li>작업용 폴더를 내 컴퓨터의 C드라이브에 먼저 만드세요 (예: C:\Projects\내프로젝트명)</li>
-                                <li>Google Drive에 공유된 Dev Package를 그대로 복사하여 작업용 폴더로 이동시키세요</li>
+                                <li>다운로드한 Dev Package ZIP 파일의 압축을 풀어서 작업용 폴더로 이동시키세요</li>
                                 <li>작업용 폴더에서 마우스 우클릭하고 '터미널에서 열기'를 선택하세요</li>
                                 <li>터미널에서 <code style="background: #dcfce7; padding: 2px 6px; border-radius: 4px;">claude</code>를 입력하여 Claude Code를 실행하세요</li>
                                 <li>Claude Code에게 "개발 환경 확인해줘"라고 이야기하세요</li>

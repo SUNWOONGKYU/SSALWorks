@@ -234,10 +234,10 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 
 ### 📥 Dev Package 가져오기
 
-**프로젝트 등록 완료 시 Google Drive 폴더가 열립니다.**
+**프로젝트 등록 완료 시 Dev Package ZIP 파일이 다운로드됩니다.**
 
 1. 작업용 폴더를 내 컴퓨터의 C드라이브에 먼저 만드세요 (예: `C:\Projects\내프로젝트명`)
-2. Google Drive에 공유된 Dev Package를 그대로 복사하여 작업용 폴더로 이동시키세요
+2. 다운로드한 Dev Package ZIP 파일의 압축을 풀어서 작업용 폴더로 이동시키세요
 
 ---
 
