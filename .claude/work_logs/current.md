@@ -4,6 +4,81 @@
 
 ---
 
+## 2026-01-10 작업 내역
+
+### SAL ID 의존성 규칙 추가
+
+**작업 상태:** ✅ 완료 (2026-01-10)
+
+**작업 내용:**
+SAL ID 부여 시 의존성·병렬성·인접성 규칙을 규칙 파일들에 추가
+
+**핵심 규칙:**
+```
+1. 의존성 방향: 선행 Task ID < 후행 Task ID (역방향 금지)
+2. 병렬 실행: 동일 Stage·Area 내 Task는 병렬 가능
+3. 실행 순서: S1 → S2 → S3 → S4 → S5
+4. SAL ID Provisional → Finalization 프로세스 필수
+```
+
+**수정된 파일 (메인 프로젝트):**
+| 파일 | 추가 내용 |
+|------|----------|
+| `.claude/rules/03_area-stage.md` | 섹션 3.1 SAL ID 의존성 규칙 |
+| `.claude/rules/04_grid-writing-supabase.md` | 섹션 1.1 의존성 규칙 + Provisional→Finalization |
+| `.claude/rules/07_task-crud.md` | Step 5 의존성 검증, 체크리스트, 주의사항 #13-14 |
+| `.claude/CLAUDE.md` | SAL ID 의존성 규칙 요약 섹션 |
+
+**수정된 파일 (Dev Package):**
+| 파일 | 추가 내용 |
+|------|----------|
+| `공개_전환_업무/Project_Dev_Package/.claude/rules/03_area-stage.md` | 섹션 3.1 SAL ID 의존성 규칙 |
+| `공개_전환_업무/Project_Dev_Package/.claude/rules/04_grid-writing-json.md` | 섹션 1.1 의존성 규칙 |
+| `공개_전환_업무/Project_Dev_Package/.claude/rules/07_task-crud.md` | Step 5 의존성 검증, 체크리스트, 주의사항 #6-8 |
+| `공개_전환_업무/Project_Dev_Package/.claude/CLAUDE.md` | SAL ID 의존성 규칙 요약 섹션 |
+
+**Git 커밋:**
+- `a95edf7`: docs: SAL ID 의존성 규칙 추가 (07_task-crud.md 체크리스트, 주의사항)
+- `8985d6f`: docs: CLAUDE.md에 SAL ID 의존성 규칙 요약 추가
+- `04998ed`: docs: Dev Package에 SAL ID 의존성 규칙 추가
+
+---
+
+## 2026-01-07 작업 내역
+
+### 빌더 계정 개설비 부가세 별도 변경
+
+**작업 상태:** ✅ 완료 (2026-01-07)
+
+**변경 사항:**
+| 항목 | 변경 전 | 변경 후 |
+|------|--------|--------|
+| 빌더 계정 개설비 표기 | 300만원 (부가세 포함) | 300만원 (부가세 별도) |
+| 실제 입금 금액 | ₩3,000,000 | ₩3,300,000 |
+| 월 이용료 표기 | 5만원 (부가세 포함) | 5만원 (부가세 별도) |
+
+**수정 파일 (10개):**
+- `Briefings_OrderSheets/Briefings/Situational/Default_v2.md`
+- `P2_프로젝트_기획/Service_Introduction/서비스_소개.md`
+- `P2_프로젝트_기획/Service_Introduction/빌더용_사용_매뉴얼.md`
+- `index.html`
+- `pages/mypage/subscription.html` (금액 + 세금계산서 안내 추가)
+- `pages/mypage/index.html`
+- `pages/mypage/manual.html`
+- `pages/payment/installation.html`
+- `P3_프로토타입_제작/Frontend/Prototype/pages/payment/installation.html`
+
+**추가된 내용:**
+- 세금계산서 안내: "세금계산서가 필요하시면 고객센터를 통해 요청해 주세요."
+
+**Git 커밋:**
+- `75db4bf`: fix: 빌더 계정 개설비 부가세 별도로 변경 (300만원 + VAT = 330만원)
+- `f810ca4`: build: 안내문/매뉴얼 빌드 반영
+
+**리포트:** `Human_ClaudeCode_Bridge/Reports/빌더_계정_개설비_부가세_변경_2025-01-07.md`
+
+---
+
 ## 2026-01-05 작업 내역
 
 ### Sunny 문의 답변 저장 버그 수정
