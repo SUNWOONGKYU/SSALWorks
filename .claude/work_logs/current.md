@@ -4,6 +4,80 @@
 
 ---
 
+## 2026-01-12 작업 내역
+
+### Dev Package project_id 자동 주입 기능 복원
+
+**작업 상태:** ✅ 완료 (2026-01-12)
+
+**문제:**
+Dev Package 다운로드 시 `.ssal-project.json`에 project_id가 자동 주입되지 않고, 빈 템플릿이 다운로드됨
+
+**원인:**
+`downloadDevPackageAndComplete()` 함수가 설계대로 구현되지 않음
+- 설계: JSZip으로 템플릿 ZIP을 로드 → project_id 주입 → 새 ZIP 생성
+- 실제 구현: Google Drive URL에서 정적 ZIP 직접 다운로드
+
+**수정 내용:**
+| 항목 | 변경 전 | 변경 후 |
+|------|--------|--------|
+| ZIP 소스 | Google Drive URL | 로컬 템플릿 (`/assets/dev-package/Project_Dev_Package_Template.zip`) |
+| 방식 | `window.open()` 직접 열기 | JSZip으로 동적 생성 |
+| project_id | 주입 안 됨 | `.ssal-project.json`에 자동 주입 |
+| 다운로드 파일명 | 고정 | `{프로젝트명}_Dev_Package.zip` |
+
+**수정 파일:**
+- `index.html` (라인 6537-6590): `downloadDevPackageAndComplete()` 함수 재구현
+
+**주입되는 데이터:**
+```json
+{
+    "project_id": "2512000001TH-P001",  // ← 자동 주입
+    "project_name": "프로젝트명",        // ← 자동 주입
+    "owner_email": "user@email.com",    // ← 자동 주입
+    "created_at": "2026-01-12T...",     // ← 자동 주입
+    "version": "1.0.0"
+}
+```
+
+**사용 라이브러리:**
+- JSZip (v3.10.1) - ZIP 해제/생성
+- FileSaver.js (v2.0.5) - 브라우저 다운로드
+
+**참조 문서:** `P2_프로젝트_기획/User_Flows/Project_ID_Auto_Injection_Structure.md`
+
+---
+
+### Step 3 안내 문구 수정
+
+**작업 상태:** ✅ 완료 (2026-01-12)
+
+**수정 내용:**
+| 항목 | 변경 전 | 변경 후 |
+|------|--------|--------|
+| 2번 항목 | "다운로드한 Dev Package ZIP 파일의 압축을 풀어서 작업용 폴더로 이동시키세요" | "다운로드 폴더에 자동으로 다운로드된 Dev Package ZIP 파일의 압축을 풀어서 그대로 작업용 폴더로 이동시키세요" |
+
+**수정 파일:**
+- `index.html` (라인 8530)
+
+---
+
+### 초기 설정 메소드 파일 확인
+
+**작업 상태:** ✅ 확인 완료 (2026-01-12)
+
+**확인 파일:** `공개_전환_업무/Dev_Package/.claude/methods/00_initial-setup.md`
+
+**이중 안전장치 로직 확정:**
+```
+1. project_id가 이미 주입됨 → OK, 스킵
+2. 주입 안 됨 → 이메일 입력 요청 후 API 조회 (백업용)
+```
+
+**결론:** 현재 구조 유지 (수정 불필요)
+
+---
+
 ## 2026-01-10 작업 내역
 
 ### SAL ID 의존성 규칙 추가
@@ -6929,5 +7003,94 @@ workspace.setAttribute('style', 'display: block !important; visibility: visible 
 1. CSS !important 사용 시 같은 요소 수정하는 다른 코드도 !important 필요
 2. 이력 저장되는데 화면 표시 안 되면 CSS 문제 의심
 3. console.log로 단계별 디버깅 효과적
+
+---
+
+### Dev Package 및 My Page 다운로드 기능 개선 (2026-01-12 오후)
+
+**작업 상태:** ✅ 완료
+
+#### 1. Dev Package 다운로드 링크 업데이트
+
+**변경 내용:**
+- 새로운 Google Drive 파일로 교체
+- 파일 ID: `1__YoVMew4GUVJzhByE_NsrH4rzh-WIiI`
+
+**수정 파일:**
+- `index.html` (라인 6553): devPackageTemplateUrl 변경
+
+---
+
+#### 2. My Page에서 Dev Package 다운로드 제거
+
+**이유:**
+- My Page에서 Dev Package 다운로드 시 project_id 자동 주입이 안 됨
+- 프로젝트 등록 시에만 JSZip으로 project_id가 주입됨
+- My Page에서 다운로드하면 빈 템플릿이 제공되어 혼란 야기
+
+**변경 내용:**
+
+| 항목 | 변경 전 | 변경 후 |
+|------|--------|--------|
+| downloads.html | Dev Package + 매뉴얼 2개 카드 | 매뉴얼 카드만 |
+| 메뉴명 | "파일 다운로드" | "사용 매뉴얼 다운로드" |
+| "나중에 하기" 버튼 | 있음 | 제거 |
+
+**수정 파일:**
+1. `pages/mypage/downloads.html`
+   - Dev Package 다운로드 카드 제거
+   - 페이지 제목, breadcrumb, 사이드바 메뉴명 변경
+   - `downloadDevPackage()` 함수 제거
+   - `updateDownloadButtons()` 함수 간소화
+
+2. `index.html`
+   - 사이드바 메뉴명 변경 (라인 137)
+   - "나중에 하기" 버튼 및 안내 메시지 제거 (Step 2)
+   - `closeAddProjectModalWithoutDownload()` 함수 제거
+
+**Git 커밋:** `707f2cd`
+
+---
+
+#### 3. 테스트 프로젝트 DB 삭제
+
+**삭제된 프로젝트 (6개):**
+
+| project_id | project_name | builder_id |
+|------------|--------------|------------|
+| 2512000001TH-P001 | FEWFWEFWFWF | 251104TH |
+| 2512000001TH-P002 | R32R2R23R | 251104TH |
+| 2512000001TH-P003 | ERYEYEWYEY | 251104TH |
+| 2512000001TH-P004 | ERGEGEGGWWWG | 251104TH |
+| 2512000001TH-P005 | YERYEYEYY | 251104TH |
+| 2512000006TH-P001 | ValueLine | 251103TH |
+
+**실행 방법:** Supabase REST API DELETE
+
+---
+
+#### 4. 프로젝트 완료 기능 에러 수정
+
+**문제:**
+- 프로젝트 이름에 작은따옴표(') 또는 큰따옴표(")가 있을 때 onclick 핸들러가 깨짐
+- 예: `onclick="completeProject('123', 'Sunny's Project')"` → 구문 에러
+
+**해결:**
+```javascript
+// 이스케이프 처리 추가
+const escapedName = project.project_name.replace(/'/g, "\'").replace(/"/g, '&quot;');
+```
+
+**수정 파일:**
+- `index.html` (라인 9598, 9581): `completeProject`, `showIncompleteRegistrationModal` 호출부
+
+**Git 커밋:** `28d4d6e`
+
+---
+
+**전체 커밋 목록:**
+1. `0103111` - Dev Package 다운로드 링크 업데이트
+2. `707f2cd` - My Page에서 Dev Package 다운로드 제거
+3. `28d4d6e` - 프로젝트 이름 특수문자 이스케이프 처리
 
 ---
