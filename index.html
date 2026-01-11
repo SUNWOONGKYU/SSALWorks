@@ -6658,6 +6658,20 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             // (두 번째 이후 프로젝트는 등록 시작 시 안내문 표시)
         }
 
+        // Step 2에서 다운로드 없이 모달 닫기 (나중에 하기)
+        function closeAddProjectModalWithoutDownload() {
+            const modal = document.getElementById('addProjectModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+
+            // 모달 상태 초기화
+            resetProjectModalSteps();
+            document.getElementById('newProjectForm').reset();
+
+            // 안내 메시지
+            showStatus('📋 프로젝트가 등록되었습니다. My Page에서 Dev Package를 다운로드할 수 있습니다.', 'info');
+        }
+
         // ========== 내 문의 내역 모달 함수 ==========
 
         // 내 문의 내역 모달 열기
@@ -8509,6 +8523,17 @@ Claude Code가 작업을 완료하면:
                     <div style="margin-top: 16px; padding: 12px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 3px solid #F59E0B;">
                         <div style="font-size: 13px; color: #92400e; line-height: 1.5;">
                             <strong>💡 중요:</strong> 다운로드 버튼을 클릭하면 프로젝트 등록이 완료됩니다.
+                        </div>
+                    </div>
+
+                    <!-- 나중에 하기 버튼 -->
+                    <div style="text-align: center; margin-top: 16px;">
+                        <button onclick="closeAddProjectModalWithoutDownload()"
+                            style="padding: 10px 24px; background: transparent; border: 1px solid #d1d5db; border-radius: 6px; cursor: pointer; font-size: 13px; color: #6b7280;">
+                            나중에 하기
+                        </button>
+                        <div style="font-size: 11px; color: #9ca3af; margin-top: 8px;">
+                            My Page에서 언제든 다운로드할 수 있습니다.
                         </div>
                     </div>
                 </div>
