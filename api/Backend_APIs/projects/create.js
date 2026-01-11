@@ -160,11 +160,11 @@ module.exports = async (req, res) => {
         }
 
         // 5. project_id 생성 (builder_id-P001 형식)
-        // 기존 프로젝트 ID에서 MAX 번호를 찾아 다음 번호 부여
+        // builder_id로 시작하는 project_id들에서 MAX 번호를 찾아 다음 번호 부여
         const { data: existingProjects, error: queryError } = await supabase
             .from('projects')
             .select('project_id')
-            .eq('user_id', userId);
+            .like('project_id', `${builderId}-%`);
 
         if (queryError) {
             console.error('Project query failed:', queryError);
