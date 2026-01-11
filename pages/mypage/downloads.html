@@ -472,9 +472,9 @@
                         프로젝트 시작 시 이 패키지를 설치하면 AI 협업 개발 환경이 자동으로 구성됩니다.
                     </p>
                     <button class="download-btn dev-package" id="devPackageDownloadBtn" onclick="downloadDevPackage()">
-                        📦 Dev Package 다운로드 (ZIP)
+                        📂 Dev Package 폴더 열기
                     </button>
-                    <p class="download-note">※ 패키지 크기: 약 12MB | 설치 안내는 패키지 내 README 참조</p>
+                    <p class="download-note">※ Dev Package는 폴더 형태로 제공됩니다</p>
                 </div>
 
                 <!-- 빌더 계정 사용 매뉴얼 카드 -->
@@ -605,43 +605,37 @@
             }
         }
 
-        // ========== Dev Package 다운로드 ==========
+        // ========== Dev Package 폴더 열기 ==========
         async function downloadDevPackage() {
             if (!userData || !userData.builder_id) {
-                showPopup('빌더 계정 전용', '빌더 계정 개설 후 다운로드할 수 있습니다.', 'warning');
+                showPopup('빌더 계정 전용', '빌더 계정 개설 후 이용할 수 있습니다.', 'warning');
                 return;
             }
 
             try {
                 showLoading();
 
-                // Dev Package 파일 URL (Google Drive 직접 다운로드 링크)
-                const devPackageUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
+                // Dev Package 폴더 URL (Google Drive 폴더 공유 링크)
+                const devPackageFolderUrl = 'https://drive.google.com/drive/folders/1BAzFKJT76fNkcX7Lx__6RfdR6bKFJgXm?usp=drive_link';
 
-                // 다운로드 링크 생성 및 클릭
-                const link = document.createElement('a');
-                link.href = devPackageUrl;
-                link.download = 'Dev_Package.zip';
-                link.target = '_blank';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
+                // 새 탭에서 폴더 열기
+                window.open(devPackageFolderUrl, '_blank');
 
                 hideLoading();
-                showPopup('다운로드 완료', 'Dev Package 다운로드가 완료되었습니다.', 'success');
+                showPopup('폴더 열기 완료', 'Google Drive에서 Dev Package 폴더가 열렸습니다.\n\n1. 작업용 폴더를 C드라이브에 먼저 만드세요\n2. Dev Package를 복사하여 작업용 폴더로 이동시키세요', 'success');
 
-                // 다운로드 기록 저장
+                // 접근 기록 저장
                 try {
                     await supabaseClient
                         .from('user_activity_logs')
                         .insert({
                             user_id: userData.user_id,
-                            activity_type: 'dev_package_download',
-                            activity_data: { file: 'Dev_Package.zip' },
+                            activity_type: 'dev_package_access',
+                            activity_data: { method: 'google_drive_folder' },
                             created_at: new Date().toISOString()
                         });
                 } catch (logError) {
-                    console.log('다운로드 기록 저장 실패 (무시):', logError);
+                    console.log('접근 기록 저장 실패 (무시):', logError);
                 }
 
                 // 프로젝트 등록 완료 처리 (registration_complete = true)

@@ -52,7 +52,7 @@
 ### Dev Package 전체 구조
 
 ```
-Project_Dev_Package/
+Dev_Package/
 ├── .claude/                          # Claude Code 설정 (63개 파일)
 ├── api/                              # 백엔드 API (배포용)
 ├── assets/                           # 정적 자원 (CSS, JS, 이미지)
@@ -232,16 +232,12 @@ Backend_APIs, Backend_Infra, Content_System, Database, Design, DevOps, Documenta
 
 ---
 
-### 📥 다운로드 방법
+### 📥 Dev Package 가져오기
 
-**지금 바로 다운로드하세요!**
+**프로젝트 등록 완료 시 Google Drive 폴더가 열립니다.**
 
-👉 **[파일 다운로드 페이지로 이동](/pages/mypage/downloads.html)**
-
-1. 위 링크를 클릭하여 **파일 다운로드** 페이지에서 Dev Package 다운로드
-2. ZIP 파일 압축 해제
-3. 원하는 위치에 폴더 이동 (권장: `C:\Projects\내프로젝트명`)
-4. 폴더 이름을 프로젝트에 맞게 변경 (예: `MyWebsite`)
+1. 작업용 폴더를 내 컴퓨터의 C드라이브에 먼저 만드세요 (예: `C:\Projects\내프로젝트명`)
+2. Google Drive에 공유된 Dev Package를 그대로 복사하여 작업용 폴더로 이동시키세요
 
 ---
 

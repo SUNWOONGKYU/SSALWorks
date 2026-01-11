@@ -6534,70 +6534,27 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             window.isFirstProject = false;
         }
 
-        // Dev Package 다운로드 후 등록 완료 처리
+        // Dev Package 폴더 열기 후 등록 완료 처리
+        // (ZIP 다운로드 대신 Google Drive 폴더 공유 방식)
         async function downloadDevPackageAndComplete() {
             const projectName = window.registeredProjectName;
             const projectId = window.registeredProjectId;
 
-            // Dev Package 템플릿 URL (Vercel public 폴더)
-            const devPackageTemplateUrl = '/assets/dev-package/Dev_Package_Template.zip';
-
-            // Supabase 설정 (ANON_KEY - 공개 키)
-            const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
-            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NzE1NTEsImV4cCI6MjA3OTE0NzU1MX0.AJy34h5VR8QS6WFEcUcBeJJu8I3bBQ6UCk1I84Wb7y4';
+            // Google Drive Dev Package 폴더 링크
+            // 사용자는 이 폴더를 "내 드라이브에 추가" 또는 "사본 만들기"로 복사
+            const devPackageFolderUrl = 'https://drive.google.com/drive/folders/1BAzFKJT76fNkcX7Lx__6RfdR6bKFJgXm?usp=drive_link';
 
             try {
-                showStatus('📦 Dev Package 생성 중...', 'info');
+                showStatus('📂 Dev Package 폴더를 열고 있습니다...', 'info');
 
-                // 1. 템플릿 zip 다운로드
-                const response = await fetch(devPackageTemplateUrl);
-                if (!response.ok) {
-                    throw new Error('템플릿 다운로드 실패');
-                }
-                const zipBlob = await response.blob();
+                // Google Drive 폴더 열기 (새 창)
+                window.open(devPackageFolderUrl, '_blank');
 
-                // 2. JSZip으로 압축 해제
-                const zip = await JSZip.loadAsync(zipBlob);
-
-                // 3. .ssal-project.json 추가 (project_id 포함)
-                const ssalProjectConfig = {
-                    project_id: projectId,
-                    project_name: projectName,
-                    created_at: new Date().toISOString(),
-                    description: projectName + ' 프로젝트'
-                };
-                zip.file('.ssal-project.json', JSON.stringify(ssalProjectConfig, null, 4));
-
-                // 4. .env 파일 추가 (Supabase ANON_KEY)
-                const envContent = `# Supabase 설정 (자동 생성됨)
-SUPABASE_URL=${SUPABASE_URL}
-SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-
-# Project 설정
-PROJECT_ID=${projectId}
-`;
-                zip.file('.env', envContent);
-
-                // 5. 새 zip 생성 및 다운로드
-                const newZipBlob = await zip.generateAsync({ type: 'blob' });
-                const safeProjectName = projectName.replace(/[^a-zA-Z0-9가-힣_-]/g, '_');
-                saveAs(newZipBlob, `${safeProjectName}_Dev_Package.zip`);
-
-                console.log('✅ Dev Package 생성 완료:', projectId);
+                console.log('✅ Dev Package 폴더 링크 열림:', projectId);
 
             } catch (err) {
-                console.error('Dev Package 생성 오류:', err);
-                // 오류 시 기존 방식으로 폴백 (정적 다운로드)
-                const fallbackUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
-                const link = document.createElement('a');
-                link.href = fallbackUrl;
-                link.download = 'Dev_Package.zip';
-                link.target = '_blank';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                showStatus('⚠️ 기본 Dev Package가 다운로드됩니다. .ssal-project.json을 수동으로 설정해주세요.', 'warning');
+                console.error('Dev Package 링크 열기 오류:', err);
+                showStatus('⚠️ 링크를 직접 열어주세요: ' + devPackageFolderUrl, 'warning');
             }
 
             // DB 업데이트: registration_complete = true
@@ -8478,12 +8435,12 @@ Claude Code가 작업을 완료하면:
                     </form>
                 </div>
 
-                <!-- Step 2: Dev Package 다운로드 -->
+                <!-- Step 2: Dev Package 폴더 가져가기 -->
                 <div id="projectRegStep2" style="display: none;">
                     <!-- 단계 표시 -->
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 12px 16px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(79, 70, 229, 0.1) 100%); border-radius: 8px;">
                         <div style="width: 28px; height: 28px; background: #6366F1; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 14px;">2</div>
-                        <span style="font-weight: 600; color: #4F46E5;">Dev Package 다운로드</span>
+                        <span style="font-weight: 600; color: #4F46E5;">Dev Package 가져가기</span>
                         <span style="color: #9ca3af; margin-left: auto; font-size: 13px;">Step 2/2</span>
                     </div>
 
@@ -8494,27 +8451,27 @@ Claude Code가 작업을 완료하면:
                         <div style="color: #6b7280; font-size: 13px; margin-top: 4px;">프로젝트명: <strong id="registeredProjectName"></strong></div>
                     </div>
 
-                    <!-- Dev Package 다운로드 안내 -->
+                    <!-- Dev Package 폴더 안내 -->
                     <div style="background: #f8fafc; border: 2px dashed #6366F1; border-radius: 12px; padding: 20px; text-align: center;">
-                        <div style="font-size: 40px; margin-bottom: 12px;">📦</div>
-                        <div style="font-weight: 700; color: #1f2937; font-size: 16px; margin-bottom: 8px;">Dev Package를 다운로드하세요</div>
+                        <div style="font-size: 40px; margin-bottom: 12px;">📂</div>
+                        <div style="font-weight: 700; color: #1f2937; font-size: 16px; margin-bottom: 8px;">Dev Package를 가져가세요</div>
                         <div style="color: #6b7280; font-size: 13px; line-height: 1.6; margin-bottom: 16px;">
-                            풀스택 웹사이트 개발 프로젝트를 Claude Code와 함께<br>
-                            처음부터 끝까지 체계적으로 수행할 수 있도록 설계된 통합 개발 환경입니다.
+                            Google Drive에서 Dev Package 폴더가 열립니다.<br>
+                            <strong>"내 드라이브에 추가"</strong> 또는 <strong>"다운로드"</strong>를 선택해주세요.
                         </div>
                         <button id="devPackageDownloadBtnModal" onclick="downloadDevPackageAndComplete()"
                             style="padding: 14px 32px; background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%); border: none; border-radius: 8px; cursor: pointer; font-size: 15px; font-weight: 600; color: white; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);">
-                            <span style="font-size: 18px;">⬇️</span> Dev Package 다운로드 (ZIP)
+                            <span style="font-size: 18px;">📂</span> Dev Package 폴더 열기
                         </button>
                         <div style="font-size: 11px; color: #9ca3af; margin-top: 12px;">
-                            ※ Package 크기: 약 12MB | 설치 안내는 Package 내 README 참조
+                            ※ Dev Package는 폴더 형태로 제공됩니다
                         </div>
                     </div>
 
                     <!-- 안내 문구 -->
                     <div style="margin-top: 16px; padding: 12px; background: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 3px solid #F59E0B;">
                         <div style="font-size: 13px; color: #92400e; line-height: 1.5;">
-                            <strong>💡 중요:</strong> 다운로드 버튼을 클릭하면 프로젝트 등록이 완료됩니다.
+                            <strong>💡 Project ID 자동 설정:</strong> Claude Code 첫 실행 시 이메일만 알려주시면 Project ID가 자동으로 설정됩니다.
                         </div>
                     </div>
                 </div>
@@ -8532,10 +8489,11 @@ Claude Code가 작업을 완료하면:
                         <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 16px; margin-bottom: 20px; text-align: left;">
                             <div style="font-weight: 600; color: #166534; margin-bottom: 12px; font-size: 14px;">📋 다음 단계</div>
                             <ol style="color: #166534; font-size: 13px; line-height: 1.8; margin: 0; padding-left: 20px;">
-                                <li>다운로드한 ZIP 파일의 압축을 해제하세요</li>
-                                <li>Package 내 README.md를 읽고 설치를 진행하세요</li>
-                                <li>프로젝트 폴더에 가서 마우스 우측 클릭하여 '터미널에서 열기' 선택 후 claude를 입력하세요</li>
-                                <li>Claude Code를 실행하여 개발을 시작하세요</li>
+                                <li>작업용 폴더를 내 컴퓨터의 C드라이브에 먼저 만드세요 (예: C:\Projects\내프로젝트명)</li>
+                                <li>Google Drive에 공유된 Dev Package를 그대로 복사하여 작업용 폴더로 이동시키세요</li>
+                                <li>작업용 폴더에서 마우스 우클릭하고 '터미널에서 열기'를 선택하세요</li>
+                                <li>터미널에서 <code style="background: #dcfce7; padding: 2px 6px; border-radius: 4px;">claude</code>를 입력하여 Claude Code를 실행하세요</li>
+                                <li>Claude Code에게 "개발 환경 확인해줘"라고 이야기하세요</li>
                             </ol>
                         </div>
 

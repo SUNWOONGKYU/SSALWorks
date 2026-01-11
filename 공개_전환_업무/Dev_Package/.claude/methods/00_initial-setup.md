@@ -1,6 +1,6 @@
 # 00. 초기 설정 (Dev Package 첫 실행 시)
 
-> **적용 시점**: 사용자가 Dev Package 다운로드 후 처음 `claude` 명령어를 실행했을 때
+> **적용 시점**: 사용자가 Dev Package 폴더를 복사한 후 처음 `claude` 명령어를 실행했을 때
 > **트리거 표현**: "개발 환경 확인해줘", "프로젝트 초기 설정 해줘", "개발 환경 설정"
 
 ---
@@ -8,8 +8,9 @@
 ## 핵심 원칙
 
 ```
-사용자가 Dev Package를 다운로드하고 Claude Code를 실행했다면,
+사용자가 Dev Package를 내 드라이브에 복사하고 Claude Code를 실행했다면,
 나머지는 모두 Claude Code가 알아서 처리한다.
+→ project_id는 API로 자동 조회하여 .ssal-project.json 생성!
 ```
 
 ---
@@ -105,31 +106,120 @@ git init
 | `.gitignore` | Git 제외 설정 | 존재해야 함 |
 | `README.md` | 패키지 설명 | 존재해야 함 |
 
-### .ssal-project.json 설정 안내
+### .ssal-project.json 자동 설정 ⭐ 핵심 기능
 
-**필드 설명:**
+> **project_id는 수동 입력 아님!** SSAL Works API로 자동 조회!
 
-| 필드 | 설명 | 예시 |
-|------|------|------|
-| `project_id` | 프로젝트 고유 식별자 (영문, 숫자, 하이픈) | `my-saas-project` |
-| `project_name` | 프로젝트 표시명 (한글 가능) | `내 SaaS 프로젝트` |
-| `owner_email` | SSAL Works 가입 이메일 | `user@example.com` |
+**자동 설정 프로세스:**
 
 ```
-".ssal-project.json 파일을 확인해주세요.
+┌─────────────────────────────────────────────────────────────┐
+│  Step 1: .ssal-project.json 확인                            │
+│  → 파일이 템플릿 상태인지 확인 (project_id가 빈 값인가?)      │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Step 2: 사용자 이메일 입력 요청                             │
+│  → "SSAL Works 가입 시 사용한 이메일을 알려주세요"           │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Step 3: API로 project_id 조회 (2단계)                      │
+│  → users 테이블: email → user_id 조회                       │
+│  → projects 테이블: user_id → project_id 조회               │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│  Step 4: .ssal-project.json 자동 생성                       │
+│  → project_id, project_name, owner_email 자동 입력          │
+└─────────────────────────────────────────────────────────────┘
+```
 
-현재 내용:
-{
-  \"project_id\": \"your-project-id\",
-  \"project_name\": \"내 프로젝트명\",
-  \"owner_email\": \"your-email@example.com\"
+**API 조회 코드:**
+
+```bash
+# Step 1: users 테이블에서 user_id 조회
+SUPABASE_URL="https://zwjmfewyshhwpgwdtrus.supabase.co"
+SUPABASE_ANON_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inp3am1mZXd5c2hod3Bnd2R0cnVzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI2NTk5MDUsImV4cCI6MjA0ODIzNTkwNX0.2MzKf9o08rsVjNGzUkdgaGpULBvDVSQ1_X8QXhopPmg"
+USER_EMAIL="사용자이메일@example.com"
+
+# users 테이블에서 email로 user_id 조회
+USER_ID=$(curl -s "${SUPABASE_URL}/rest/v1/users?select=user_id&email=eq.${USER_EMAIL}" \
+  -H "apikey: ${SUPABASE_ANON_KEY}" \
+  -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" | jq -r '.[0].user_id')
+
+# Step 2: projects 테이블에서 project_id, project_name 조회
+PROJECT_DATA=$(curl -s "${SUPABASE_URL}/rest/v1/projects?select=project_id,project_name&user_id=eq.${USER_ID}&status=eq.in_progress" \
+  -H "apikey: ${SUPABASE_ANON_KEY}" \
+  -H "Authorization: Bearer ${SUPABASE_ANON_KEY}")
+```
+
+**Claude Code JavaScript 버전:**
+
+```javascript
+async function getProjectId(userEmail) {
+    const SUPABASE_URL = "https://zwjmfewyshhwpgwdtrus.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+
+    // 1. email → user_id
+    const usersRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/users?select=user_id&email=eq.${encodeURIComponent(userEmail)}`,
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` } }
+    );
+    const users = await usersRes.json();
+    if (!users.length) throw new Error('등록된 이메일이 아닙니다.');
+
+    const userId = users[0].user_id;
+
+    // 2. user_id → project_id
+    const projectsRes = await fetch(
+        `${SUPABASE_URL}/rest/v1/projects?select=project_id,project_name&user_id=eq.${userId}&status=eq.in_progress`,
+        { headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` } }
+    );
+    const projects = await projectsRes.json();
+    if (!projects.length) throw new Error('진행 중인 프로젝트가 없습니다.');
+
+    return {
+        project_id: projects[0].project_id,
+        project_name: projects[0].project_name,
+        owner_email: userEmail
+    };
 }
-
-→ 프로젝트에 맞게 수정이 필요합니다.
-  수정하시겠습니까? (프로젝트명과 이메일을 알려주세요)"
 ```
 
-> **참고**: `owner_email`은 SSAL Works 플랫폼 연동 시 사용됩니다. 가입한 이메일과 동일해야 합니다.
+**성공 시 생성되는 .ssal-project.json:**
+
+```json
+{
+  "project_id": "A3B5C7D9-P001",
+  "project_name": "내 SaaS 프로젝트",
+  "owner_email": "user@example.com",
+  "created_at": "2025-01-12T12:00:00.000Z"
+}
+```
+
+**에러 처리:**
+
+| 에러 상황 | 메시지 | 대응 |
+|----------|--------|------|
+| 이메일 미등록 | "등록된 이메일이 아닙니다" | SSAL Works 가입 확인 안내 |
+| 프로젝트 없음 | "진행 중인 프로젝트가 없습니다" | 프로젝트 등록 안내 |
+| API 연결 실패 | "API 연결에 실패했습니다" | 인터넷 연결 확인 |
+
+**에러 시 안내 메시지:**
+
+```
+"프로젝트 정보를 가져올 수 없습니다.
+
+문제 해결 방법:
+1. SSAL Works (www.ssalworks.ai.kr)에 가입했는지 확인해주세요
+2. 사이드바에서 '프로젝트 등록'이 완료되었는지 확인해주세요
+3. 이메일 주소가 정확한지 다시 확인해주세요
+
+해결 후 다시 '초기 설정 해줘'라고 말씀해주세요."
+```
+
+> **참고**: SSAL Works에서 프로젝트 등록을 완료해야 project_id가 생성됩니다.
 
 ---
 
