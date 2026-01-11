@@ -430,43 +430,42 @@ work_logs/current.md 기록
 
 ---
 
-### 초기 설정 단계 (순서대로)
+### 초기 설정 단계 (Claude Code가 자동 처리)
 
-**Step 1: .ssal-project.json 설정**
+> **핵심: project_id는 수동 입력 아님!** SSAL Works API로 자동 조회!
 
-프로젝트 루트의 `.ssal-project.json` 파일 수정:
+**Step 1: 사용자 이메일 확인**
+
+Claude Code가 사용자에게 질문:
+```
+"SSAL Works 가입 시 사용한 이메일을 알려주세요"
+```
+
+**Step 2: API로 project_id 자동 조회**
+
+```
+1. users 테이블: email → user_id 조회
+2. projects 테이블: user_id → project_id 조회
+```
+
+**Step 3: .ssal-project.json 자동 생성**
+
+Claude Code가 조회 결과로 파일 자동 생성:
 ```json
 {
-  "project_id": "your-unique-project-id",
-  "project_name": "내 프로젝트명",
-  "owner_email": "your-email@example.com"
+  "project_id": "A3B5C7D9-P001",  // ← API 조회 결과
+  "project_name": "프로젝트명",    // ← API 조회 결과
+  "owner_email": "user@email.com" // ← 사용자 입력 이메일
 }
 ```
-
-**Step 2: .env 파일 생성**
-
-`.env.sample`을 복사하여 `.env` 생성 후 값 입력:
-```bash
-cp .env.sample .env
-```
-
-필수 값:
-```
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_ANON_KEY=your-anon-key
-PROJECT_ID=your-project-id
-OWNER_EMAIL=your-email@example.com
-```
-
-**Step 3: Supabase 테이블 생성**
-
-`Development_Process_Monitor/DB_Method/create_table.sql` 실행
 
 **Step 4: Pre-commit Hook 설정**
 
 ```bash
 node scripts/setup-hooks.js
 ```
+
+**상세 프로세스:** `.claude/methods/00_initial-setup.md` 참조
 
 이 스크립트가 `.git/hooks/pre-commit` 파일을 자동 생성합니다.
 
