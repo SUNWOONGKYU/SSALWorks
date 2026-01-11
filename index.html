@@ -7081,13 +7081,18 @@ Claude Code가 작업을 완료하면:
                     document.getElementById('projectModalCloseBtn').style.display = 'none';
 
                 } else {
-                    throw new Error(result.error || '프로젝트 생성 실패');
+                    // 서버 에러 상세 정보 포함
+                    const errorMsg = result.error || '프로젝트 생성 실패';
+                    const errorDetails = result.details ? `\n상세: ${result.details}` : '';
+                    const errorCode = result.code ? `\n코드: ${result.code}` : '';
+                    console.error('서버 에러 응답:', result);
+                    throw new Error(errorMsg + errorDetails + errorCode);
                 }
 
             } catch (error) {
                 console.error('프로젝트 생성 오류:', error);
                 showStatus('❌ 프로젝트 생성 실패', 'error');
-                alert('프로젝트 생성 중 오류가 발생했습니다.\n\n잠시 후 다시 시도해주세요.');
+                alert('프로젝트 생성 중 오류가 발생했습니다.\n\n' + error.message);
             }
             });
         }); // DOMContentLoaded 끝
