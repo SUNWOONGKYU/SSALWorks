@@ -6540,7 +6540,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             const projectId = window.registeredProjectId;
 
             // Dev Package 템플릿 URL (Vercel public 폴더)
-            const devPackageTemplateUrl = '/assets/dev-package/Project_Dev_Package_Template.zip';
+            const devPackageTemplateUrl = '/assets/dev-package/Dev_Package_Template.zip';
 
             // Supabase 설정 (ANON_KEY - 공개 키)
             const SUPABASE_URL = 'https://zwjmfewyshhwpgwdtrus.supabase.co';
@@ -6591,7 +6591,7 @@ PROJECT_ID=${projectId}
                 const fallbackUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
                 const link = document.createElement('a');
                 link.href = fallbackUrl;
-                link.download = 'Project_Dev_Package.zip';
+                link.download = 'Dev_Package.zip';
                 link.target = '_blank';
                 document.body.appendChild(link);
                 link.click();

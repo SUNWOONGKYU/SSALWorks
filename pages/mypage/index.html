@@ -1160,7 +1160,7 @@
                     <!-- Dev Package 다운로드 카드 (위) -->
                     <div class="card" id="devPackageCard">
                         <div class="card-header">
-                            <h3 class="card-title">Project Dev Package 다운로드</h3>
+                            <h3 class="card-title">Dev Package 다운로드</h3>
                             <span id="devPackageBadge" style="font-size: 11px; background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); color: white; padding: 4px 10px; border-radius: 12px; font-weight: 600;">빌더 전용</span>
                         </div>
                         <div id="devPackageContent">
@@ -1567,7 +1567,7 @@
                 // 다운로드 링크 생성 및 클릭
                 const link = document.createElement('a');
                 link.href = devPackageUrl;
-                link.download = 'Project_Dev_Package.zip';
+                link.download = 'Dev_Package.zip';
                 link.target = '_blank';
                 document.body.appendChild(link);
                 link.click();
@@ -1582,7 +1582,7 @@
                         .insert({
                             user_id: userData.user_id,
                             activity_type: 'dev_package_download',
-                            activity_data: { file: 'Project_Dev_Package.zip' },
+                            activity_data: { file: 'Dev_Package.zip' },
                             created_at: new Date().toISOString()
                         });
                 } catch (logError) {

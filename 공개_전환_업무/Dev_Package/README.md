@@ -60,7 +60,7 @@ cp .env.sample .env  # 환경 변수 파일 생성 (선택)
 ## Project Structure
 
 ```
-Project_Dev_Package/
+Dev_Package/
 ├── .claude/                         ← Claude Code 설정 및 규칙
 ├── P0_작업_디렉토리_구조_생성/       ← 기획 단계
 ├── P1_사업계획_수립/

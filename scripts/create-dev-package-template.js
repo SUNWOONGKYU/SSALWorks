@@ -2,7 +2,7 @@
  * create-dev-package-template.js
  *
  * Dev Package 템플릿 zip 파일 생성 스크립트
- * Project_Dev_Package 폴더를 zip으로 압축하여 assets/dev-package/에 저장
+ * Dev_Package 폴더를 zip으로 압축하여 assets/dev-package/에 저장
  *
  * 사용법: node scripts/create-dev-package-template.js
  */
@@ -12,9 +12,9 @@ const path = require('path');
 const archiver = require('archiver');
 
 // 경로 설정
-const SOURCE_DIR = path.join(__dirname, '..', '공개_전환_업무', 'Project_Dev_Package');
+const SOURCE_DIR = path.join(__dirname, '..', '공개_전환_업무', 'Dev_Package');
 const OUTPUT_DIR = path.join(__dirname, '..', 'assets', 'dev-package');
-const OUTPUT_FILE = path.join(OUTPUT_DIR, 'Project_Dev_Package_Template.zip');
+const OUTPUT_FILE = path.join(OUTPUT_DIR, 'Dev_Package_Template.zip');
 
 // 제외할 파일/폴더 목록 (프로젝트별로 동적 생성되는 것들)
 const EXCLUDE_PATTERNS = [
