@@ -160,23 +160,36 @@ module.exports = async (req, res) => {
         }
 
         // 5. project_id 생성 (builder_id-P001 형식)
-        // 빌더 계정 ID 기준으로 프로젝트 ID 생성
-        const { count: projectCount, error: countError } = await supabase
+        // 기존 프로젝트 ID에서 MAX 번호를 찾아 다음 번호 부여
+        const { data: existingProjects, error: queryError } = await supabase
             .from('projects')
-            .select('*', { count: 'exact', head: true })
+            .select('project_id')
             .eq('user_id', userId);
 
-        if (countError) {
-            console.error('Project count failed:', countError);
+        if (queryError) {
+            console.error('Project query failed:', queryError);
             return res.status(500).json({
                 success: false,
-                error: '프로젝트 수 조회 실패',
-                details: countError.message,
+                error: '프로젝트 조회 실패',
+                details: queryError.message,
                 builderId: builderId
             });
         }
 
-        const nextProjectNum = (projectCount || 0) + 1;
+        // 기존 프로젝트 ID에서 최대 번호 추출
+        let maxNum = 0;
+        if (existingProjects && existingProjects.length > 0) {
+            for (const proj of existingProjects) {
+                // project_id 형식: {builder_id}-P001
+                const match = proj.project_id.match(/-P(\d+)$/);
+                if (match) {
+                    const num = parseInt(match[1], 10);
+                    if (num > maxNum) maxNum = num;
+                }
+            }
+        }
+
+        const nextProjectNum = maxNum + 1;
         const projectId = `${builderId}-P${String(nextProjectNum).padStart(3, '0')}`;
 
         console.log('Creating project:', { builderId, userId, projectId, projectName: projectName.trim() });
