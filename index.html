@@ -6356,9 +6356,9 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             openGuideModalFromUrl('처음 프로젝트 개발환경설정 가이드', 'guides/Project_Registration.html', '', false);
         }
 
-        // 새 프로젝트 폴더 준비 안내 표시 (두 번째 이후 프로젝트용)
+        // 새 프로젝트 시작 안내 표시 (두 번째 이후 프로젝트용)
         function showNewProjectFolderGuide() {
-            openGuideModalFromUrl('새 프로젝트 폴더 준비 안내', 'guides/Project_Registration_Subsequent.html', '', false);
+            openGuideModalFromUrl('새 프로젝트 시작 안내', 'guides/Project_Registration_Subsequent.html', '', false);
         }
 
         // 완료 프로젝트 펼치기/접기
@@ -6665,17 +6665,8 @@ PROJECT_ID=${projectId}
             resetProjectModalSteps();
             document.getElementById('newProjectForm').reset();
 
-            // 첫 번째 프로젝트: 전체 설치 안내 표시
-            // 두 번째 이후 프로젝트: 새 폴더 준비 안내만
-            if (window.isFirstProject) {
-                setTimeout(() => {
-                    showPackageInstallGuide();
-                }, 300);
-            } else {
-                setTimeout(() => {
-                    showNewProjectFolderGuide();
-                }, 300);
-            }
+            // 프로젝트 등록 완료 후 안내문은 띄우지 않음
+            // (두 번째 이후 프로젝트는 등록 시작 시 안내문 표시)
         }
 
         // ========== 내 문의 내역 모달 함수 ==========

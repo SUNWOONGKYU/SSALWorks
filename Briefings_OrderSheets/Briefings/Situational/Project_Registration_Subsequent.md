@@ -1,4 +1,4 @@
-# 새 프로젝트 폴더 준비 안내
+# 새 프로젝트 시작 안내
 
 > **두 번째 이후 프로젝트용 안내입니다.**
 
@@ -12,9 +12,7 @@
 
 ---
 
-## 새 프로젝트 폴더 준비
-
-### Dev Package 새로 다운로드
+## Dev Package 새로 다운로드
 
 **1단계:** My Page → 자료 다운로드에서 Dev Package 다운로드
 
@@ -25,7 +23,7 @@
 **4단계:** 원하는 위치에 폴더 이동
 
 **예시:**
-- 다운로드한 파일: `SSAL_Works_Dev_Package.zip`
+- 다운로드한 파일: `Dev_Package.zip`
 - 압축 해제 후 폴더명 변경: `MyNewProject`
 - 최종 위치: `C:\Projects\MyNewProject`
 
