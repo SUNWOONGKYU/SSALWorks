@@ -127,7 +127,7 @@
 <div style="background-color: #F0FDF4; padding: 12px 12px 12px 20px; border-left: 4px solid #059669; margin: 16px 0;">
 <strong style="color: #059669;">빌더 계정 개설 후 진행 순서</strong><br><br>
 1. <strong>프로젝트 정보 입력</strong>: 프로젝트명과 설명을 입력합니다<br>
-2. <strong>등록 완료</strong>: 등록번호가 부여되고 Dev Package가 자동 다운로드됩니다 (압축 해제 후 원하는 폴더에 저장)<br>
+2. <strong>Dev Package 다운로드</strong>: 등록번호가 부여되면 다운로드 버튼을 클릭하여 Dev Package를 다운로드합니다 (압축 해제 후 원하는 폴더에 저장)<br>
 3. <strong>Claude Code 실행</strong>: 저장한 폴더에서 마우스 오른쪽 → "터미널에서 열기" → <code>claude</code> 입력<br>
 4. <strong>개발 환경 설정</strong>: "개발 환경 확인해줘"라고 말하면 Claude Code가 필요한 도구를 확인하고 개발 준비를 완료합니다<br>
 5. <strong>개발 시작</strong>: 각 단계마다 안내문 확인 → Order Sheet 작성 → Claude Code에 전달합니다
