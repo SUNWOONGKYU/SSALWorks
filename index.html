@@ -6535,24 +6535,58 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
         }
 
         // Dev Package ZIP 다운로드 후 등록 완료 처리
+        // JSZip을 사용하여 project_id를 .ssal-project.json에 동적 주입
         async function downloadDevPackageAndComplete() {
             const projectName = window.registeredProjectName;
             const projectId = window.registeredProjectId;
 
-            // Google Drive ZIP 직접 다운로드 URL
-            const devPackageZipUrl = 'https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds';
+            // 현재 로그인한 사용자 이메일 가져오기
+            let userEmail = '';
+            try {
+                const { data: { user } } = await window.supabaseClient.auth.getUser();
+                userEmail = user?.email || '';
+            } catch (e) {
+                console.warn('사용자 이메일 조회 실패:', e);
+            }
+
+            // 템플릿 ZIP 파일 경로 (로컬)
+            const devPackageTemplateUrl = '/assets/dev-package/Project_Dev_Package_Template.zip';
 
             try {
-                showStatus('📦 Dev Package를 다운로드합니다...', 'info');
+                showStatus('📦 Dev Package를 생성 중입니다...', 'info');
 
-                // ZIP 파일 다운로드 (새 창)
-                window.open(devPackageZipUrl, '_blank');
+                // 1. 템플릿 ZIP 다운로드
+                const response = await fetch(devPackageTemplateUrl);
+                if (!response.ok) {
+                    throw new Error('템플릿 ZIP 다운로드 실패: ' + response.status);
+                }
+                const zipBlob = await response.blob();
 
-                console.log('✅ Dev Package ZIP 다운로드 시작:', projectId);
+                // 2. JSZip으로 ZIP 해제
+                const zip = await JSZip.loadAsync(zipBlob);
+
+                // 3. .ssal-project.json 생성 + project_id 주입
+                const ssalProjectConfig = {
+                    project_id: projectId,
+                    project_name: projectName,
+                    owner_email: userEmail,
+                    created_at: new Date().toISOString(),
+                    version: "1.0.0"
+                };
+                zip.file('.ssal-project.json', JSON.stringify(ssalProjectConfig, null, 4));
+
+                // 4. 새 ZIP 생성 및 브라우저 다운로드
+                const newZipBlob = await zip.generateAsync({ type: 'blob' });
+                const safeProjectName = (projectName || 'Project').replace(/[^a-zA-Z0-9가-힣_-]/g, '_');
+                saveAs(newZipBlob, `${safeProjectName}_Dev_Package.zip`);
+
+                console.log('✅ Dev Package ZIP 생성 완료:', projectId);
+                showStatus('✅ Dev Package 다운로드 완료!', 'success');
 
             } catch (err) {
-                console.error('Dev Package 다운로드 오류:', err);
-                showStatus('⚠️ 링크를 직접 열어주세요: ' + devPackageZipUrl, 'warning');
+                console.error('Dev Package 생성 오류:', err);
+                showStatus('⚠️ Dev Package 생성 실패. 페이지를 새로고침 후 다시 시도해주세요.', 'error');
+                return; // 실패 시 함수 종료 (Step 3으로 전환하지 않음)
             }
 
             // DB 업데이트: registration_complete = true
@@ -8493,7 +8527,7 @@ Claude Code가 작업을 완료하면:
                             <div style="font-weight: 600; color: #166534; margin-bottom: 12px; font-size: 14px;">📋 다음 단계</div>
                             <ol style="color: #166534; font-size: 13px; line-height: 1.8; margin: 0; padding-left: 20px;">
                                 <li>작업용 폴더를 내 컴퓨터의 C드라이브에 먼저 만드세요 (예: C:\Projects\내프로젝트명)</li>
-                                <li>다운로드한 Dev Package ZIP 파일의 압축을 풀어서 작업용 폴더로 이동시키세요</li>
+                                <li>다운로드 폴더에 자동으로 다운로드된 Dev Package ZIP 파일의 압축을 풀어서 그대로 작업용 폴더로 이동시키세요</li>
                                 <li>작업용 폴더에서 마우스 우클릭하고 '터미널에서 열기'를 선택하세요</li>
                                 <li>터미널에서 <code style="background: #dcfce7; padding: 2px 6px; border-radius: 4px;">claude</code>를 입력하여 Claude Code를 실행하세요</li>
                                 <li>Claude Code에게 "개발 환경 확인해줘"라고 이야기하세요</li>
