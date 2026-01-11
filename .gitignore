@@ -100,4 +100,6 @@ Web_ClaudeCode_Bridge/
 
 # Archives
 *.zip
+# Dev Package 템플릿은 배포에 필요하므로 예외
+!assets/dev-package/Project_Dev_Package_Template.zip
 test-results/
