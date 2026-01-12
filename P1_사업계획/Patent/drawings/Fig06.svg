@@ -1,41 +1,75 @@
-<?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1400" viewBox="0 0 1400 1400">
-    <rect width="100%" height="100%" fill="white" />
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- REFINED: Spec-Compliant Figure 6 (Recorder + Viewer System) -->
+<svg width="1000" height="900" viewBox="0 0 1000 900" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="white"/>
+    
     <defs>
-        <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-            <path d="M0,0 L12,6 L0,12 L3,6 Z" fill="black" />
+        <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 L1.5,3 Z" fill="black"/>
         </marker>
     </defs>
-    <text x="700" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 6: 3D Renderer/UI 구조</text>
-    <rect x="50" y="100" width="1300" height="1050" fill="white" stroke="black" stroke-width="5" rx="10" stroke-dasharray="10,5" />
-    <text x="700.0" y="150" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">3D Renderer/UI (80)</text>
 
-    <!-- 좌표 매핑부 (81) -->
-    <rect x="150" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="375.0" y="320" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">좌표 매핑부</text>
-    <text x="580" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(81)</text>
-    <text x="375.0" y="380" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">SAL -&gt; (x,y,z)</text>
-    <path d="M 600,375 L 800,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <!-- TITLE -->
+    <text x="500" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">도 6: SAL 그리드 레코더 및 뷰어 시스템</text>
 
-    <!-- 렌더링 엔진 (82) -->
-    <rect x="800" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1025.0" y="320" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">렌더링 엔진</text>
-    <text x="1230" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(82)</text>
-    <text x="1025.0" y="380" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">WebGL/Three.js</text>
-    <path d="M 1025,500 L 1025,700" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <!-- 0. Recorder (60) - Added at TOP as requested -->
+    <g transform="translate(100, 120)">
+        <rect x="0" y="0" width="800" height="80" fill="white" stroke="black" stroke-width="3"/>
+        <text x="400" y="50" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="28" font-weight="bold">SAL 그리드 레코더 (60)</text>
+    </g>
+    <!-- Arrow: Recorder -> Data Source -->
+    <line x1="500" y1="200" x2="500" y2="250" stroke="black" stroke-width="3" marker-end="url(#arrow)"/>
 
-    <!-- 상호작용 처리부 (83) -->
-    <rect x="800" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1025.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">상호작용 처리부</text>
-    <text x="1230" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(83)</text>
-    <text x="1025.0" y="830" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Drag and Drop</text>
-    <path d="M 800,825 L 600,825" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
 
-    <!-- 실시간 갱신부 (84) -->
-    <rect x="150" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="375.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">실시간 갱신부</text>
-    <text x="580" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(84)</text>
-    <text x="375.0" y="830" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">UI Update</text>
-    <path d="M 375,700 L 375,500" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <!-- Layer 1: Data Source (61) - Shifted Down -->
+    <g transform="translate(100, 250)">
+        <rect x="0" y="0" width="800" height="150" fill="white" stroke="black" stroke-width="3"/>
+        <text x="400" y="40" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="28" font-weight="bold">데이터 소스 레이어 (61)</text>
+        
+        <!-- DB Source -->
+        <rect x="100" y="60" width="250" height="70" fill="white" stroke="black" stroke-width="2"/>
+        <text x="225" y="95" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">데이터베이스 소스</text>
+        <text x="225" y="120" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(관계형 DB)</text>
+
+        <!-- "OR" -->
+        <text x="400" y="105" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20" font-weight="bold">또는</text>
+
+        <!-- File Source -->
+        <rect x="450" y="60" width="250" height="70" fill="white" stroke="black" stroke-width="2"/>
+        <text x="575" y="95" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">파일 저장소</text>
+        <text x="575" y="120" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(JSON/XML)</text>
+    </g>
+    <line x1="500" y1="400" x2="500" y2="450" stroke="black" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <!-- Layer 2: Viewer Engine (62) - Shifted Down -->
+    <g transform="translate(100, 450)">
+        <rect x="0" y="0" width="800" height="150" fill="white" stroke="black" stroke-width="3"/>
+        <text x="400" y="40" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="28" font-weight="bold">뷰어 엔진 (62)</text>
+
+        <!-- Data Loader -->
+        <rect x="100" y="60" width="250" height="70" fill="white" stroke="black" stroke-width="2"/>
+        <text x="225" y="105" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="24">Data Loader</text>
+
+        <line x1="350" y1="95" x2="450" y2="95" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+
+        <!-- State Parser -->
+        <rect x="450" y="60" width="250" height="70" fill="white" stroke="black" stroke-width="2"/>
+        <text x="575" y="105" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="24">State Parser</text>
+    </g>
+    <line x1="500" y1="600" x2="500" y2="650" stroke="black" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <!-- Layer 3: UI Rendering (63) - Shifted Down -->
+    <g transform="translate(100, 650)">
+        <rect x="0" y="0" width="800" height="150" fill="white" stroke="black" stroke-width="3"/>
+        <text x="400" y="40" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="28" font-weight="bold">UI 렌더링 레이어 (63)</text>
+
+        <!-- 3D Canvas -->
+        <rect x="100" y="60" width="250" height="70" fill="white" stroke="black" stroke-width="2"/>
+        <text x="225" y="105" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="24">3D Canvas</text>
+
+        <!-- Dashboard -->
+        <rect x="450" y="60" width="250" height="70" fill="white" stroke="black" stroke-width="2"/>
+        <text x="575" y="105" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="24">Dashboard</text>
+    </g>
+
 </svg>

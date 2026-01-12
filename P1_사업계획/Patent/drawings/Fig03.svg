@@ -1,60 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1200" height="1400" viewBox="0 0 1200 1400" xmlns="http://www.w3.org/2000/svg">
+<!-- FINAL POLISH: Spec-Compliant Figure 3 (No Numbers, SAL Grid, Pure B/W) -->
+<svg width="1000" height="500" viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg">
     <rect width="100%" height="100%" fill="white"/>
-
+    
     <defs>
-        <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-            <path d="M0,0 L12,6 L0,12 L3,6 Z" fill="black"/>
+        <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 L1.5,3 Z" fill="black"/>
         </marker>
     </defs>
 
-    <!-- 제목 -->
-    <text x="600" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 3: Parser/Normalizer 구조</text>
+    <!-- TITLE -->
+    <text x="500" y="80" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="40" font-weight="bold">도 3: SAL ID 인코딩 구조도 및 예시</text>
 
-    <!-- Main Container: Parser/Normalizer (50) -->
-    <rect x="100" y="120" width="1000" height="1200" fill="white" stroke="black" stroke-width="3" rx="10" stroke-dasharray="10,5"/>
-    <text x="600" y="170" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Parser/Normalizer (50)</text>
+    <!-- MAIN ID BLOCK (30) -->
+    <g transform="translate(100, 180)">
+        <rect x="0" y="0" width="800" height="150" fill="white" stroke="black" stroke-width="3"/>
+        
+        <!-- Stage (31) -->
+        <rect x="0" y="0" width="200" height="150" fill="white" stroke="black" stroke-width="2"/>
+        <text x="100" y="50" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="32">Stage</text>
+        <text x="100" y="80" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">(단계)</text>
+        <text x="100" y="110" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20" font-weight="bold">01~99</text>
+        <text x="100" y="135" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(31)</text>
 
-    <!-- 1. 입력 수신부 (50a) -->
-    <rect x="350" y="250" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="600" y="310" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">입력 수신부</text>
-    <text x="600" y="360" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">SAL ID 문자열 수신</text>
-    <text x="830" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(50a)</text>
+        <!-- Area (32) -->
+        <rect x="200" y="0" width="200" height="150" fill="white" stroke="black" stroke-width="2"/>
+        <text x="300" y="50" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="32">Area</text>
+        <text x="300" y="80" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">(영역)</text>
+        <text x="300" y="110" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20" font-weight="bold">AA~ZZ</text>
+        <text x="300" y="135" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(32)</text>
 
-    <!-- Arrow 1 -->
-    <path d="M 600,400 L 600,450" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
+        <!-- Level (33) -->
+        <rect x="400" y="0" width="200" height="150" fill="white" stroke="black" stroke-width="2"/>
+        <text x="500" y="50" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="32">Level</text>
+        <text x="500" y="80" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">(계층)</text>
+        <text x="500" y="110" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20" font-weight="bold">01~99</text>
+        <text x="500" y="135" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(33)</text>
 
-    <!-- 2. 정규식 매칭부 (51) -->
-    <rect x="350" y="450" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="600" y="510" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">정규식 매칭부</text>
-    <text x="600" y="560" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Regex Pattern Check</text>
-    <text x="830" y="490" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(51)</text>
+        <!-- Variant (34) -->
+        <rect x="600" y="0" width="200" height="150" fill="white" stroke="black" stroke-width="2" stroke-dasharray="8,8"/>
+        <text x="700" y="50" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="32">Variant</text>
+        <text x="700" y="80" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">(병렬 분기)</text>
+        <text x="700" y="110" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20" font-weight="bold">a~z</text>
+        <text x="700" y="135" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(34)</text>
+    </g>
 
-    <!-- Arrow 2 -->
-    <path d="M 600,600 L 600,650" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-
-    <!-- 3. 구성요소 추출부 (52) -->
-    <rect x="350" y="650" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="600" y="710" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">구성요소 추출부</text>
-    <text x="600" y="760" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Stage, Area, Level 분리</text>
-    <text x="830" y="690" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(52)</text>
-
-    <!-- Arrow 3 -->
-    <path d="M 600,800 L 600,850" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-
-    <!-- 4. 유효성 검사부 (53) -->
-    <rect x="350" y="850" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="600" y="910" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">유효성 검사부</text>
-    <text x="600" y="960" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Range/Code/Conflict Check</text>
-    <text x="830" y="890" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(53)</text>
-
-    <!-- Arrow 4 -->
-    <path d="M 600,1000 L 600,1050" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)"/>
-
-    <!-- 5. 정렬키 생성부 (54) -->
-    <rect x="350" y="1050" width="500" height="150" fill="white" stroke="black" stroke-width="3" rx="10"/>
-    <text x="600" y="1110" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">정렬키 생성부</text>
-    <text x="600" y="1160" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Sort Key Generation</text>
-    <text x="830" y="1090" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(54)</text>
+    <!-- Example Text -->
+    <text x="500" y="420" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="28">예시: S2FE2a (2단계, Frontend 영역, 계층 2, a 병렬 분기)</text>
 
 </svg>

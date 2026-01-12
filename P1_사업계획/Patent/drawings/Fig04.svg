@@ -1,44 +1,96 @@
-<?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1200" viewBox="0 0 1400 1200">
-    <rect width="100%" height="100%" fill="white" />
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- REFINED: Spec-Compliant Figure 4 (Solid Parser Module, External Grid Gen connection) -->
+<svg width="1000" height="1200" viewBox="0 0 1000 1200" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100%" height="100%" fill="white"/>
+    
     <defs>
-        <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-            <path d="M0,0 L12,6 L0,12 L3,6 Z" fill="black" />
+        <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6 L1.5,3 Z" fill="black"/>
         </marker>
     </defs>
-    <text x="700" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="48" font-weight="bold">도 4: Graph Builder DAG 생성</text>
-    <text x="700.0" y="150" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Graph Builder (60)</text>
 
-    <!-- Cell 그룹화부 (61) -->
-    <rect x="150" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="375.0" y="320" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">Cell 그룹화부</text>
-    <text x="375.0" y="380" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">동일 Cell 병렬 처리</text>
-    <text x="580" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(61)</text>
+    <!-- TITLE -->
+    <text x="500" y="60" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="40" font-weight="bold">도 4: 파서 프로세스</text>
 
-    <path d="M 600,375 L 800,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <!-- PARENT: Parser Module (40) - SOLID BOX -->
+    <rect x="100" y="120" width="800" height="900" rx="10" fill="none" stroke="black" stroke-width="3"/>
+    <text x="500" y="160" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="30" font-weight="bold">파서 모듈 (40)</text>
 
-    <!-- 엣지 생성부 (62) -->
-    <rect x="800" y="250" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1025.0" y="320" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">엣지 생성부</text>
-    <text x="1025.0" y="380" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Level 후행 규칙</text>
-    <text x="1230" y="290" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(62)</text>
+    <!-- 1. Input -->
+    <g transform="translate(350, 200)">
+        <rect x="0" y="0" width="300" height="60" rx="10" fill="white" stroke="black" stroke-width="2"/>
+        <text x="150" y="40" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">입력: SAL ID 문자열</text>
+    </g>
+    <line x1="500" y1="260" x2="500" y2="300" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
 
-    <path d="M 1025,500 L 1025,700" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <!-- 2. Regex Matching (Decision) -->
+    <!-- Diamond -->
+    <path d="M 500,300 L 700,360 L 500,420 L 300,360 Z" fill="white" stroke="black" stroke-width="2" />
+    <text x="500" y="360" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">정규식 매칭</text>
+    <text x="500" y="385" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(Regex)</text>
+    
+    <!-- Yes Path -->
+    <text x="520" y="440" font-family="Malgun Gothic, sans-serif" font-size="16">Yes</text>
+    <line x1="500" y1="420" x2="500" y2="480" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+    
+    <!-- No Path (Right -> Exception) -->
+    <text x="710" y="350" font-family="Malgun Gothic, sans-serif" font-size="16">No</text>
+    <line x1="700" y1="360" x2="780" y2="360" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
 
-    <!-- 순환 검출부 (63) -->
-    <rect x="800" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="1025.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">순환 검출부</text>
-    <text x="1025.0" y="830" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Cycle Detection</text>
-    <text x="1230" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(63)</text>
 
-    <path d="M 800,825 L 600,825" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <!-- 3. Range Check (Decision) -->
+    <path d="M 500,480 L 700,540 L 500,600 L 300,540 Z" fill="white" stroke="black" stroke-width="2" />
+    <text x="500" y="540" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">범위 검사</text>
+    <text x="500" y="565" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(Range)</text>
 
-    <!-- 병목 마킹부 (64) -->
-    <rect x="150" y="700" width="450" height="250" fill="white" stroke="black" stroke-width="3" rx="10" />
-    <text x="375.0" y="770" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="36" font-weight="bold">병목 마킹부</text>
-    <text x="375.0" y="830" text-anchor="middle" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="normal">Critical Path 식별</text>
-    <text x="580" y="740" text-anchor="end" font-family="Malgun Gothic, AppleGothic, Dotum, sans-serif" font-size="28" font-weight="bold">(64)</text>
+    <!-- Yes Path -->
+    <text x="520" y="620" font-family="Malgun Gothic, sans-serif" font-size="16">Yes</text>
+    <line x1="500" y1="600" x2="500" y2="660" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
 
-    <path d="M 1250,825 L 1300,825 L 1300,375 L 1250,375" stroke="black" stroke-width="3" fill="none" marker-end="url(#arrowhead)" />
+    <!-- No Path -->
+    <text x="710" y="530" font-family="Malgun Gothic, sans-serif" font-size="16">No</text>
+    <path d="M 700,540 L 780,540 L 780,450" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)"/> 
+
+
+    <!-- 4. Code Validation (Decision) -->
+    <path d="M 500,660 L 700,720 L 500,780 L 300,720 Z" fill="white" stroke="black" stroke-width="2" />
+    <text x="500" y="720" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">코드 유효성 검사</text>
+    <text x="500" y="745" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="16">(Validation)</text>
+
+    <!-- Yes Path -->
+    <text x="520" y="800" font-family="Malgun Gothic, sans-serif" font-size="16">Yes</text>
+    <line x1="500" y1="780" x2="500" y2="840" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- No Path -->
+    <text x="710" y="710" font-family="Malgun Gothic, sans-serif" font-size="16">No</text>
+    <path d="M 700,720 L 840,720 L 840,450" fill="none" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+
+
+    <!-- EXCEPTION HANDLING BOX (Inside Parent, Right Side) -->
+    <g transform="translate(750, 300)">
+        <rect x="0" y="0" width="130" height="150" rx="5" fill="white" stroke="black" stroke-width="2"/>
+        <text x="65" y="40" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="18" font-weight="bold">예외 처리</text>
+        <text x="65" y="80" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="14">(Unassigned</text>
+        <text x="65" y="100" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="14">Queue)</text>
+    </g>
+
+
+    <!-- 5. Sort Key Generation (Process) -->
+    <rect x="300" y="840" width="400" height="60" fill="white" stroke="black" stroke-width="2"/>
+    <text x="500" y="880" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">정렬키 생성</text>
+    <line x1="500" y1="900" x2="500" y2="940" stroke="black" stroke-width="2" marker-end="url(#arrow)"/>
+
+    <!-- 6. Parsed Object (Internal Result) -->
+    <g transform="translate(300, 940)">
+        <rect x="0" y="0" width="400" height="60" fill="white" stroke="black" stroke-width="2"/>
+        <text x="200" y="35" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="20">파싱된 객체</text>
+    </g>
+    
+    <!-- ARROW TO EXTERNAL -->
+    <line x1="500" y1="1000" x2="500" y2="1080" stroke="black" stroke-width="3" marker-end="url(#arrow)"/>
+
+    <!-- 7. EXTERNAL: Grid Generator -->
+    <rect x="300" y="1080" width="400" height="80" fill="white" stroke="black" stroke-width="3"/>
+    <text x="500" y="1130" text-anchor="middle" font-family="Malgun Gothic, sans-serif" font-size="24" font-weight="bold">SAL 그리드 생성기 (52)</text>
+
 </svg>

@@ -5,16 +5,16 @@ For KIPO (Korean Intellectual Property Office) submission, you typically need **
 
 ## Files
 The following files are located in the `drawings` folder:
-- `Fig01.svg` (SAL 3D Grid)
-- `Fig02.svg` (SAL ID Schema)
-- `Fig03.svg` (Parser Flow)
-- `Fig04.svg` (Graph Builder)
-- `Fig05.svg` (Scheduler)
-- `Fig06.svg` (Renderer/UI)
-- `Fig07.svg` (ID Chain)
-- `Fig08.svg` (Reporting)
-- `Fig09.svg` (Domain Examples)
-- `Fig10.svg` (Incremental Computation)
+- `Fig01.svg` (System Configuration)
+- `Fig02.svg` (SAL 3D Grid)
+- `Fig03.svg` (SAL ID Schema)
+- `Fig04.svg` (Parser Flow)
+- `Fig05.svg` (Graph Builder)
+- `Fig06.svg` (Scheduler)
+- `Fig07.svg` (Renderer/UI)
+- `Fig08.svg` (ID Chain)
+- `Fig09.svg` (Reporting/Analytics 모듈 데이터 파이프라인)
+- `Fig10.svg` (오케스트레이션 실행 사이클 및 상태 전이도)
 
 ## How to Convert to TIFF
 

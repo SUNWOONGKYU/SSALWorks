@@ -1,5 +1,5 @@
 $mapping = @{
-    "Fig01.svg" = "도 1: 전체 시스템 구성도"
+    "Fig01.svg" = "도 1: 오케스트레이션 시스템 구성도"
     "Fig02.svg" = "도 2: SAL ID 구조도"
     "Fig03.svg" = "도 3: Parser/Normalizer 처리 흐름"
     "Fig04.svg" = "도 4: Graph Builder DAG 생성 과정"
@@ -25,10 +25,12 @@ foreach ($file in $mapping.Keys) {
             $newContent = $content -replace $pattern, ">$title<"
             $newContent | Set-Content $path -Encoding UTF8
             Write-Host "Updated $file with title: $title"
-        } else {
+        }
+        else {
             Write-Warning "Pattern not found in $file"
         }
-    } else {
+    }
+    else {
         Write-Warning "File not found: $file"
     }
 }
