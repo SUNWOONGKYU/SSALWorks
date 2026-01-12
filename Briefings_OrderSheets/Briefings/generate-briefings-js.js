@@ -59,7 +59,7 @@ function mdToHtml(md) {
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')
             .trim();
-        return `<pre style="background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; line-height: 1.5;"><code>${escapedCode}</code></pre>`;
+        return `<pre style="background: #3a3a3a; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; line-height: 1.5;"><code>${escapedCode}</code></pre>`;
     });
 
     // 2. 들여쓰기 하위 항목 처리 (   - 로 시작하는 줄)
