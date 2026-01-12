@@ -186,6 +186,16 @@ claude
 - Claude Pro ($20/월) 또는 Claude Max ($100/월)
 - 또는 Anthropic API 키 + 크레딧 충전
 
+### 로그인 후 첫 번째로 할 일
+
+Claude Code가 실행되면 아래와 같이 입력하세요:
+
+```
+개발 환경 확인해 줘
+```
+
+Claude Code가 현재 컴퓨터의 개발 환경(Node.js, Git, npm 등)이 제대로 설치되어 있는지 자동으로 확인해줍니다.
+
 ---
 
 ## 흔한 오류와 해결 방법
