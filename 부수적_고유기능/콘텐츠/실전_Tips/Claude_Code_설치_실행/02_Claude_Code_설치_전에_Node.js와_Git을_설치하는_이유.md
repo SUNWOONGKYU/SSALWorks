@@ -82,4 +82,4 @@ Node.js는 Claude Code의 실행 환경이고, Git은 코드 버전 관리 도�
 
 ---
 
-*관련 내용: `Claude_Code_설치_방법_및_오류_해결.md` 참조*
+*관련 내용: `01_Claude_Code_설치_방법_및_오류_해결.md` 참조*

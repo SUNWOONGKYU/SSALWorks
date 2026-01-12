@@ -272,4 +272,4 @@ npm uninstall -g @anthropic-ai/claude-code
 
 ---
 
-*관련 문서: `Claude_Code_설치_전에_Node.js와_Git을_설치하는_이유.md`*
+*관련 문서: `02_Claude_Code_설치_전에_Node.js와_Git을_설치하는_이유.md`*
