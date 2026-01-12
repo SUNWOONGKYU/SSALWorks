@@ -6638,8 +6638,8 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
             document.getElementById('registeredProjectName').textContent = projectName;
             document.getElementById('projectModalTitle').textContent = '📦 프로젝트 등록 완료하기';
 
-            // 닫기 버튼 비활성화 (다운로드 완료 전까지)
-            document.getElementById('projectModalCloseBtn').style.display = 'none';
+            // 닫기 버튼 표시
+            document.getElementById('projectModalCloseBtn').style.display = 'block';
 
             console.log('⚠️ 미완료 등록 모달 표시:', projectName);
         }
@@ -7112,8 +7112,8 @@ Claude Code가 작업을 완료하면:
                     document.getElementById('registeredProjectName').textContent = name;
                     document.getElementById('projectModalTitle').textContent = '📦 Dev Package 다운로드';
 
-                    // 닫기 버튼 비활성화 (다운로드 완료 전까지)
-                    document.getElementById('projectModalCloseBtn').style.display = 'none';
+                    // 닫기 버튼 표시
+                    document.getElementById('projectModalCloseBtn').style.display = 'block';
 
                 } else {
                     // 서버 에러 상세 정보 포함
