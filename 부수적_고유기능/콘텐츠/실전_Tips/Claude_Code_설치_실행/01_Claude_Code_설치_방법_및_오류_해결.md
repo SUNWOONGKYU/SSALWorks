@@ -76,11 +76,15 @@ npm --version
 ### 2-2. Git 설치
 
 1. 다운로드된 파일 더블클릭
-2. **"Next"** 계속 클릭 (모든 설정 기본값 그대로)
-3. **"Install"** 클릭
-4. 완료되면 **"Finish"** 클릭
+2. **"Next"** 계속 클릭
+3. **중요!** "Adjusting your PATH environment" 화면에서:
+   - **"Git from the command line and also from 3rd-party software"** 선택 (기본값)
+   - 이게 선택되어 있어야 CMD에서 git 명령어가 작동합니다
+4. 나머지는 **"Next"** 계속 클릭
+5. **"Install"** 클릭
+6. 완료되면 **"Finish"** 클릭
 
-> **설치 위치는 건드리지 마세요!** 자동으로 `C:\Program Files\Git\`에 설치됩니다. 설치 후 어느 폴더에서든 `git` 명령어를 사용할 수 있습니다.
+> **설치 위치는 건드리지 마세요!** 자동으로 `C:\Program Files\Git\`에 설치됩니다.
 
 ### 2-3. 설치 확인
 
