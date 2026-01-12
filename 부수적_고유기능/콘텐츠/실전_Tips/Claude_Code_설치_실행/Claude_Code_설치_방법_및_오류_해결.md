@@ -1,145 +1,158 @@
-# Claude Code 설치 방법과 흔한 오류 해결
+# Claude Code 설치 방법 (완전 초보자용)
 
-> Claude Code를 설치하기 전에 Node.js와 Git을 먼저 설치해야 합니다.
+> 컴퓨터를 처음 다루는 분도 이 안내만 따라하면 Claude Code를 설치할 수 있습니다.
 
 ---
 
-## 설치 순서 (중요!)
+## 설치 순서 (반드시 이 순서대로!)
 
 ```
-1. Node.js 설치 (npm 포함)
+1. Node.js 설치
       ↓
 2. Git 설치
       ↓
 3. Claude Code 설치
 ```
 
+**왜 이 순서인가요?**
+- Node.js: Claude Code가 실행되는 환경 (필수)
+- Git: 코드 버전 관리 도구 (필수)
+- 둘 다 먼저 설치해야 Claude Code가 작동합니다
+
 ---
 
 ## Step 1: Node.js 설치
 
-Node.js는 Claude Code가 실행되는 환경입니다. npm(패키지 관리자)이 함께 설치됩니다.
+### 1-1. Node.js 다운로드
 
-### 설치 방법
+1. 인터넷 브라우저(크롬, 엣지 등)를 엽니다
+2. 주소창에 `nodejs.org` 입력하고 Enter
+3. **초록색 "LTS" 버튼** 클릭하여 다운로드
+   - LTS = 안정 버전 (권장)
+   - 파일명 예시: `node-v20.xx.x-x64.msi`
 
-1. https://nodejs.org 접속
-2. **LTS 버전** 다운로드 (안정 버전 권장)
-3. 설치 파일 실행 → 기본 설정으로 Next 클릭
+### 1-2. Node.js 설치
 
-### 설치 확인
+1. 다운로드된 파일을 더블클릭
+2. 설치 마법사가 열리면 **"Next"** 클릭 (계속)
+3. 라이선스 동의 체크 → **"Next"**
+4. 설치 경로 그대로 두고 → **"Next"**
+5. 기본 설정 그대로 → **"Next"**
+6. **"Install"** 클릭
+7. 설치 완료되면 **"Finish"** 클릭
 
-```bash
-node --version    # v18.0.0 이상
-npm --version     # 9.0.0 이상
+### 1-3. 설치 확인 (명령 프롬프트에서)
+
+**명령 프롬프트(CMD) 여는 방법:**
+
+1. 키보드에서 **Windows 키** 누르기 (키보드 왼쪽 아래 창문 모양)
+2. `cmd` 입력
+3. **"명령 프롬프트"** 클릭
+
+**확인 명령어 입력:**
+
+검은 화면이 열리면 아래 명령어를 입력하고 Enter:
+
 ```
+node --version
+```
+
+**성공 시 결과:** `v20.x.x` 같은 버전 번호가 나옴
+
+```
+npm --version
+```
+
+**성공 시 결과:** `10.x.x` 같은 버전 번호가 나옴
 
 ---
 
 ## Step 2: Git 설치
 
-Git은 코드 버전 관리 도구입니다. Claude Code가 프로젝트를 관리할 때 사용합니다.
+### 2-1. Git 다운로드
 
-### Windows 설치
+1. 브라우저에서 `git-scm.com` 접속
+2. 큰 **"Download for Windows"** 버튼 클릭
+3. 파일이 자동으로 다운로드됨
 
-1. https://git-scm.com 접속
-2. **Download for Windows** 클릭
-3. 설치 파일 실행 → 기본 설정으로 Next 클릭
+### 2-2. Git 설치
 
-### Mac 설치
+1. 다운로드된 파일 더블클릭
+2. **"Next"** 계속 클릭 (모든 설정 기본값 그대로)
+3. 마지막에 **"Install"** 클릭
+4. 완료되면 **"Finish"** 클릭
 
-```bash
-# 터미널에서 실행
-xcode-select --install
+### 2-3. 설치 확인
+
+1. **기존 CMD 창을 닫고** 새로 열기 (중요!)
+   - Windows 키 → `cmd` → Enter
+2. 아래 명령어 입력:
+
+```
+git --version
 ```
 
-### 설치 확인
-
-```bash
-git --version    # git version 2.x.x
-```
+**성공 시 결과:** `git version 2.x.x` 같은 버전 정보가 나옴
 
 ---
 
 ## Step 3: Claude Code 설치
 
-Node.js와 Git이 설치되어 있어야 합니다.
+### 3-1. 명령 프롬프트 열기
 
-### 설치 명령어
+1. Windows 키 누르기
+2. `cmd` 입력
+3. **"명령 프롬프트"** 클릭
 
-```bash
+### 3-2. Claude Code 설치 명령어 실행
+
+아래 명령어를 **복사**해서 CMD에 **붙여넣기**:
+
+```
 npm install -g @anthropic-ai/claude-code
 ```
 
-### 설치 확인
+**복사/붙여넣기 방법:**
+1. 위 명령어를 마우스로 드래그해서 선택
+2. Ctrl + C (복사)
+3. CMD 창에서 **마우스 오른쪽 클릭** (붙여넣기됨)
+4. Enter 누르기
 
-```bash
+**설치 중:** 여러 줄의 텍스트가 나오면서 설치 진행 (1~2분 소요)
+
+### 3-3. 설치 확인
+
+설치가 끝나면 아래 명령어로 확인:
+
+```
 claude --version
 ```
 
----
-
-## 흔한 설치 오류
-
-### 1. npm 권한 오류 (Windows)
-
-```
-Error: EPERM: operation not permitted
-```
-
-**해결:**
-- 관리자 권한으로 PowerShell 실행
-- 또는 npm 캐시 정리: `npm cache clean --force`
+**성공 시 결과:** `1.x.x` 같은 버전 번호가 나옴
 
 ---
 
-### 2. Node.js 버전 오류
+## Claude Code 처음 실행하기
+
+### 프로젝트 폴더에서 실행
+
+1. **파일 탐색기**를 열고 작업할 폴더로 이동
+   - 예: `C:\Projects\내프로젝트`
+2. 폴더 안의 빈 공간에서 **Shift + 마우스 오른쪽 클릭**
+3. **"PowerShell 창 열기"** 또는 **"터미널에서 열기"** 클릭
+4. 열린 창에서 입력:
 
 ```
-Error: Node.js version must be >= 18
-```
-
-**해결:**
-- Node.js 최신 LTS 버전 재설치: https://nodejs.org
-- nvm 사용자: `nvm install 20 && nvm use 20`
-
----
-
-### 3. 'claude' 명령어를 찾을 수 없음
-
-```
-'claude'은(는) 내부 또는 외부 명령... 이 아닙니다
-```
-
-**해결:**
-- 터미널 완전히 닫고 재시작
-- 또는 npx로 실행: `npx @anthropic-ai/claude-code`
-
----
-
-### 4. Git이 설치되지 않음
-
-```
-git is not recognized as an internal or external command
-```
-
-**해결:**
-- Git 설치: https://git-scm.com
-- 설치 후 터미널 재시작
-
----
-
-## 첫 실행 및 로그인
-
-```bash
-# 프로젝트 폴더에서 실행
-cd 내프로젝트폴더
 claude
 ```
 
-첫 실행 시:
-1. 브라우저가 자동으로 열림
+5. Enter 누르기
+
+### 처음 실행 시 로그인
+
+1. 자동으로 브라우저가 열림
 2. Anthropic 계정으로 로그인
-3. 로그인 완료 후 터미널로 돌아오면 사용 가능
+3. 로그인 완료 후 터미널로 돌아오면 사용 가능!
 
 **필요한 구독:**
 - Claude Pro ($20/월) 또는 Claude Max ($100/월)
@@ -147,9 +160,90 @@ claude
 
 ---
 
+## 흔한 오류와 해결 방법
+
+### 오류 1: 'node'를 찾을 수 없습니다
+
+```
+'node'은(는) 내부 또는 외부 명령... 이 아닙니다
+```
+
+**해결:**
+1. CMD 창 닫기
+2. 컴퓨터 재시작
+3. 다시 CMD 열고 `node --version` 확인
+4. 안 되면 Node.js 재설치
+
+---
+
+### 오류 2: 'git'을 찾을 수 없습니다
+
+```
+'git'은(는) 내부 또는 외부 명령... 이 아닙니다
+```
+
+**해결:**
+1. CMD 창 닫기
+2. 새 CMD 창 열기
+3. 다시 `git --version` 확인
+4. 안 되면 Git 재설치
+
+---
+
+### 오류 3: npm 권한 오류
+
+```
+Error: EPERM: operation not permitted
+```
+
+**해결:**
+1. CMD 창 닫기
+2. Windows 키 → `cmd` 입력
+3. **"관리자 권한으로 실행"** 클릭 (마우스 오른쪽 버튼으로 선택)
+4. 다시 설치 명령어 실행:
+
+```
+npm install -g @anthropic-ai/claude-code
+```
+
+---
+
+### 오류 4: 'claude'를 찾을 수 없습니다
+
+```
+'claude'은(는) 내부 또는 외부 명령... 이 아닙니다
+```
+
+**해결:**
+1. CMD 창 완전히 닫기
+2. 새 CMD 창 열기
+3. 다시 `claude --version` 확인
+4. 안 되면 아래 명령어로 실행:
+
+```
+npx @anthropic-ai/claude-code
+```
+
+---
+
+### 오류 5: Node.js 버전이 낮습니다
+
+```
+Error: Node.js version must be >= 18
+```
+
+**해결:**
+1. `nodejs.org`에서 최신 LTS 버전 다운로드
+2. 기존 버전 위에 덮어쓰기 설치
+3. CMD 재시작 후 `node --version`으로 확인
+
+---
+
 ## 업데이트 방법
 
-```bash
+Claude Code를 최신 버전으로 업데이트하려면:
+
+```
 npm update -g @anthropic-ai/claude-code
 ```
 
@@ -157,18 +251,24 @@ npm update -g @anthropic-ai/claude-code
 
 ## 제거 방법
 
-```bash
+Claude Code를 삭제하려면:
+
+```
 npm uninstall -g @anthropic-ai/claude-code
 ```
 
 ---
 
-## 문제 해결 안 될 때
+## 문제가 계속될 때
 
-1. Node.js 완전 제거 후 재설치
-2. Git 재설치
-3. npm 캐시 정리: `npm cache clean --force`
-4. Claude Code 재설치: `npm install -g @anthropic-ai/claude-code`
+모든 것을 처음부터 다시 설치:
+
+1. Node.js 완전 제거
+   - 제어판 → 프로그램 제거 → Node.js 선택 → 제거
+2. Git 완전 제거
+   - 제어판 → 프로그램 제거 → Git 선택 → 제거
+3. 컴퓨터 재시작
+4. Step 1부터 다시 시작
 
 ---
 
