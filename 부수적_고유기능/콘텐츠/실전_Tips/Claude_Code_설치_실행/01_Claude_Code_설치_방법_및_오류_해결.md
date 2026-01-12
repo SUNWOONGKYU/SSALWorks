@@ -80,11 +80,14 @@ npm --version
 3. **중요!** "Adjusting your PATH environment" 화면에서:
    - **"Git from the command line and also from 3rd-party software"** 선택 (기본값)
    - 이게 선택되어 있어야 CMD에서 git 명령어가 작동합니다
-4. 나머지는 **"Next"** 계속 클릭
+   - **Claude Code가 Git Bash를 사용하므로 이 설정이 필수입니다**
+4. 나머지는 **"Next"** 계속 클릭 (모두 기본값 그대로)
 5. **"Install"** 클릭
 6. 완료되면 **"Finish"** 클릭
 
 > **설치 위치는 건드리지 마세요!** 자동으로 `C:\Program Files\Git\`에 설치됩니다.
+>
+> **참고:** 마지막 화면의 "Launch Git Bash" 체크박스는 체크 안 해도 됩니다. 이건 설치 후 Git Bash를 바로 열어주는 것일 뿐, Claude Code 작동과 무관합니다.
 
 ### 2-3. 설치 확인
 
@@ -211,7 +214,24 @@ claude
 1. CMD 창 닫기
 2. 새 CMD 창 열기
 3. 다시 `git --version` 확인
-4. 안 되면 Git 재설치
+4. 안 되면 Git 재설치 (PATH 설정 확인!)
+
+---
+
+### 오류 2-1: Claude Code가 Git Bash를 찾지 못합니다
+
+Claude Code 실행 시 Git Bash 관련 오류가 나오면:
+
+**해결 방법 1: Git 재설치**
+- Git을 다시 설치하면서 "Git from the command line and also from 3rd-party software" 옵션 선택
+
+**해결 방법 2: 환경변수 직접 설정**
+1. Windows 키 → "환경 변수" 검색 → "시스템 환경 변수 편집" 클릭
+2. "환경 변수" 버튼 클릭
+3. "사용자 변수"에서 "새로 만들기" 클릭
+4. 변수 이름: `CLAUDE_CODE_GIT_BASH_PATH`
+5. 변수 값: `C:\Program Files\Git\bin\bash.exe`
+6. 확인 → CMD 창 다시 열기
 
 ---
 
