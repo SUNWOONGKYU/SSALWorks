@@ -294,6 +294,40 @@ Error: Node.js version must be >= 18
 
 ---
 
+### 오류 6: Claude Code가 아무 반응 없이 종료됨 (Node.js 버전이 너무 높음)
+
+**증상:**
+- `claude` 명령어 실행 시 아무 반응 없이 바로 종료됨
+- `claude --version`은 정상 출력됨
+- `claude --help`도 정상 출력됨
+- `claude login` 등 모든 명령어가 무반응
+
+**원인:** Node.js 버전이 너무 최신 (v24 이상) - Claude Code와 호환성 문제
+
+**해결:**
+
+1. 기존 Node.js 제거
+   - Windows 키 → "앱 및 기능" 검색 → Node.js 찾아서 제거
+
+2. PC 재시작
+
+3. Node.js LTS 버전 설치
+   - `nodejs.org` 접속
+   - **22.x LTS** (왼쪽 초록 버튼) 다운로드
+   - 설치 (기본 설정으로 진행)
+
+4. 확인 및 실행
+
+```
+node --version
+```
+
+`v22.x.x`가 나오면 정상. 다시 `claude` 실행하면 작동합니다.
+
+> **핵심:** Node.js는 반드시 **LTS 버전 (v20 또는 v22)** 사용! 최신 버전(v24+)은 호환성 문제가 발생할 수 있습니다.
+
+---
+
 ## 업데이트 방법
 
 Claude Code를 최신 버전으로 업데이트하려면:
