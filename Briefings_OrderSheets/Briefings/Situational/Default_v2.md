@@ -15,8 +15,7 @@
 
 <div style="background-color: #FFFBEB; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
 <strong>얼리버드 특가 진행 중</strong><br>
-빌더 계정 개설비 300만원 (미래 가격 3,000만원의 1/10)<br>
-+ 3개월 내 완성 + 유료 고객 30명 확보 시 50% 환불
+빌더 계정 개설비 300만원 (부가세 별도)
 </div>
 
 ---
@@ -117,7 +116,7 @@
 
 | 항목 | 금액 | 비고 |
 |------|------|------|
-| 빌더 계정 개설비 | 300만원 | 얼리버드, 부가세 별도. 향후 3,000만원까지 인상 예정. 3개월 내 완성 + 유료 고객 30명 확보 시 50% 환불 |
+| 빌더 계정 개설비 | 300만원 | 얼리버드, 부가세 별도. 향후 3,000만원까지 인상 예정 |
 | 플랫폼 이용료 | 월&nbsp;5만원 | 처음 3개월 면제 |
 
 <div style="background-color: #FFFBEB; padding: 12px; border-left: 4px solid #D97706; margin: 16px 0;">
