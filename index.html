@@ -8012,6 +8012,21 @@ Claude Code가 작업을 완료하면:
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>Level (Z축 - 작업 순서):</strong></p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">Level은 각 Task의 Stage별, Area별 순서를 나타냅니다. </p>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">예: S2F1, S2F2, S2F3 → Stage 2, Frontend Area의 1번, 2번, 3번 Task </p>
+<h5 style="font-size: 13px; font-weight: 600; color: #374151; margin: 14px 0 6px 0;">SAL ID의 구조적 장점</h5>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">SAL ID는 웹사이트 개발 프로젝트의 Stage(단계), Area(영역), Level(계층) 3차원 정보와 Variant(병렬분기)를 인코딩하여 절차적 순서, 의존성, 인접성, 병렬성 정보를 구조적으로 내재화합니다. </p>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>SAL ID가 인코딩하는 정보:</strong></p>
+<ul style="font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;"><li><strong>절차적 순서</strong>: S1 → S2 → S3 순서로 진행</li>
+<li><strong>의존성</strong>: 선행 Task와 후행 Task 관계</li>
+<li><strong>인접성</strong>: 같은 Area 내 Task들의 연관성</li>
+<li><strong>병렬성</strong>: 동일 Stage 내 독립 Task의 동시 실행 가능 여부</li>
+</ul>
+<p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;"><strong>결과적 효과:</strong></p>
+<ul style="font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;"><li>ID만으로 작업의 위치와 맥락을 쉽고 빠르게 파악</li>
+<li>Task 지시서와 검증 지시서 체계적 생성</li>
+<li>다수의 복잡한 작업을 최적화된 방식으로 진행</li>
+<li>관리·통제·검증이 자동으로 이루어짐</li>
+<li>프로젝트의 효율성과 효과성 극대화, 결과물 품질 향상</li>
+</ul>
 <h5 style="font-size: 13px; font-weight: 600; color: #374151; margin: 14px 0 6px 0;">Task의 22개 속성</h5>
 <p style="font-size: 14px; margin-bottom: 14px; line-height: 1.8;">SAL Grid에서 각 Task는 22개의 속성으로 관리됩니다. </p>
 <ul style="font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;"><li><strong>#1 task_id</strong>: Task 고유 ID (예: S2F1)</li>
