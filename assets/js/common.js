@@ -125,11 +125,64 @@ function formatNumber(num) {
     return num.toLocaleString('ko-KR');
 }
 
+/**
+ * 에러 메시지 정제 (PostgREST/Supabase 에러 숨김)
+ * DB 구조 노출 방지를 위해 사용자에게는 일반 메시지만 표시
+ * @param {Error|object} error - 에러 객체
+ * @param {string} fallbackMessage - 기본 표시 메시지
+ * @returns {string} 정제된 에러 메시지
+ */
+function sanitizeErrorMessage(error, fallbackMessage = '처리 중 오류가 발생했습니다.') {
+    // 콘솔에는 전체 에러 기록 (디버깅용)
+    console.error('[Error Detail]', error);
+
+    // PostgREST 에러 코드 패턴 (DB 구조 노출 위험)
+    const postgrestCodes = ['PGRST', '42', '23', '22', '28', '08', 'P0'];
+
+    if (error && error.code) {
+        // PostgreSQL/PostgREST 에러 코드가 있으면 일반 메시지 반환
+        const isPostgrestError = postgrestCodes.some(prefix =>
+            error.code.toString().startsWith(prefix)
+        );
+        if (isPostgrestError) {
+            return fallbackMessage;
+        }
+    }
+
+    // 에러 메시지에 민감한 정보가 포함되어 있는지 확인
+    const sensitivePatterns = [
+        /column.*does not exist/i,
+        /relation.*does not exist/i,
+        /table.*does not exist/i,
+        /permission denied/i,
+        /violates.*constraint/i,
+        /duplicate key/i,
+        /foreign key/i,
+        /syntax error/i,
+        /chr\(\d+\)/i,  // chr() 함수 패턴
+        /\bpublic\./i,  // 스키마 이름
+        /\brls\b/i      // RLS 관련
+    ];
+
+    const errorMessage = error?.message || error?.toString() || '';
+    const hasSensitiveInfo = sensitivePatterns.some(pattern =>
+        pattern.test(errorMessage)
+    );
+
+    if (hasSensitiveInfo) {
+        return fallbackMessage;
+    }
+
+    // 민감 정보 없으면 원본 메시지 반환 (간결하게)
+    return errorMessage || fallbackMessage;
+}
+
 // 전역 함수로 노출
 window.showStatus = showStatus;
 window.formatTimeAgo = formatTimeAgo;
 window.customConfirm = customConfirm;
 window.escapeHtml = escapeHtml;
 window.formatNumber = formatNumber;
+window.sanitizeErrorMessage = sanitizeErrorMessage;
 
 console.log('📦 common.js 로드 완료');

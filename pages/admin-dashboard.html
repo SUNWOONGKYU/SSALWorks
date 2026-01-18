@@ -3224,7 +3224,7 @@
         async function loadApiCosts() {
             try {
                 const res = await fetch(
-                    `${SUPABASE_URL}/rest/v1/api_costs?select=*&order=is_default.desc,provider,model_name`,
+                    `${SUPABASE_URL}/rest/v1/api_costs?select=id,provider,model_name,model_display_name,is_default,input_cost_per_1m,output_cost_per_1m,usd_to_krw_rate,margin_percent,notes&order=is_default.desc,provider,model_name`,
                     { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }
                 );
                 allApiCosts = await res.json();
@@ -4028,7 +4028,7 @@
 
                 const { data, error } = await supabaseClient
                     .from('notices')
-                    .select('*')
+                    .select('id, title, content, created_at, important')
                     .order('created_at', { ascending: false });
 
                 console.log('📥 Supabase 응답:', { count: data?.length, error });
@@ -4213,7 +4213,7 @@
                 // 기존 데이터 가져오기
                 const { data: existingNotice, error: fetchError } = await supabaseClient
                     .from('notices')
-                    .select('*')
+                    .select('id, title, content, created_at, important')
                     .eq('id', noticeId)
                     .single();
 
@@ -4330,7 +4330,7 @@
 
                 const { data, error } = await supabaseClient
                     .from('learning_contents')
-                    .select('*')
+                    .select('id, depth1, depth2, depth3, title, display_order, content')
                     .order('depth1')
                     .order('depth2')
                     .order('display_order');
@@ -4681,7 +4681,7 @@
                 // 현재 데이터 조회
                 const { data, error: fetchError } = await supabaseClient
                     .from('learning_contents')
-                    .select('*')
+                    .select('id, depth1, depth2, depth3, title, display_order, content')
                     .eq('id', id)
                     .single();
 
@@ -4817,7 +4817,7 @@
 
                 const { data, error } = await supabaseClient
                     .from('users')
-                    .select('*')
+                    .select('id, email, nickname, name, real_name, role, credit_balance, created_at, builder_id, installation_fee_paid, user_id')
                     .order('created_at', { ascending: false });
 
                 console.log('📥 Supabase 응답:', { count: data?.length, error });
@@ -4995,7 +4995,7 @@
 
                 const { data, error } = await supabaseClient
                     .from('users')
-                    .select('*')
+                    .select('id, email, nickname, name, real_name, role, credit_balance, created_at, builder_id, installation_fee_paid, user_id')
                     .eq('id', userId)
                     .single();
 
@@ -5185,7 +5185,7 @@
                 // 1. 대기 목록: deposit_notifications에서 pending만 조회
                 const { data: pendingData, error: pendingError } = await supabaseClient
                     .from('deposit_notifications')
-                    .select('*')
+                    .select('id, user_id, user_email, amount, status, deposit_type, depositor_name, created_at')
                     .eq('deposit_type', 'install_fee')
                     .eq('status', 'pending')
                     .order('created_at', { ascending: false });
@@ -5786,7 +5786,7 @@
 
                 const { data, error } = await supabaseClient
                     .from('projects')
-                    .select('*')
+                    .select('id, project_id, project_name, user_id, status, progress, created_at, description')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
@@ -5918,7 +5918,7 @@
                 // 결제 내역 조회
                 const { data, error } = await supabaseClient
                     .from('billing_history')
-                    .select('*')
+                    .select('id, user_id, amount, payment_method, status, billing_date, billing_type')
                     .order('billing_date', { ascending: false });
 
                 if (error) throw error;
@@ -6123,7 +6123,7 @@
 
                 const { data: todayTrans } = await supabaseClient
                     .from('credit_transactions')
-                    .select('*')
+                    .select('id, user_id, amount, type, description, created_at, balance_after')
                     .gte('created_at', today.toISOString());
 
                 if (todayTrans) {
@@ -6164,7 +6164,7 @@
                 // deposit_notifications 테이블에서 크레딧 입금 요청 조회
                 const { data, error } = await supabaseClient
                     .from('deposit_notifications')
-                    .select('*')
+                    .select('id, user_id, user_email, amount, status, deposit_type, depositor_name, created_at')
                     .eq('deposit_type', 'credit')
                     .order('created_at', { ascending: false });
 
@@ -6368,7 +6368,7 @@
             try {
                 const { data: transactions, error } = await supabaseClient
                     .from('credit_transactions')
-                    .select('*')
+                    .select('id, user_id, amount, type, description, created_at, balance_after')
                     .order('created_at', { ascending: false })
                     .limit(20);
 
@@ -6414,7 +6414,7 @@
             try {
                 const { data: logs, error } = await supabaseClient
                     .from('ai_usage_log')
-                    .select('*')
+                    .select('id, created_at, user_id, service_name, tokens_used, cost, response_time_ms, prompt')
                     .order('created_at', { ascending: false })
                     .limit(20);
 
@@ -6577,7 +6577,7 @@
                 // 해당 사용자의 거래 내역 조회
                 const { data: transactions, error } = await supabaseClient
                     .from('credit_transactions')
-                    .select('*')
+                    .select('id, user_id, amount, type, description, created_at, balance_after')
                     .eq('user_id', userId)
                     .order('created_at', { ascending: false })
                     .limit(20);
@@ -6749,7 +6749,7 @@
             try {
                 const { data, error } = await supabaseClient
                     .from('inquiries')
-                    .select('*')
+                    .select('id, inquiry_type, status, created_at, title, content, user_email, user_name')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
@@ -7129,7 +7129,7 @@
             try {
                 const { data, error } = await supabaseClient
                     .from('sunny_inquiries')
-                    .select('*')
+                    .select('id, title, content, user_name, user_email, status, created_at')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
@@ -7409,7 +7409,7 @@
             try {
                 const { data, error } = await supabaseClient
                     .from('admin_settings')
-                    .select('*')
+                    .select('id, platform_name, admin_email, timezone, notify_inquiry, notify_payment, notify_signup, notify_installation_request, install_fee, monthly_fee, credit_price, last_backup')
                     .single();
 
                 if (error) {

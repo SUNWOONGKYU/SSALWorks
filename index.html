@@ -3231,7 +3231,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
                 // DB에서 진행률 조회
                 const { data, error } = await window.supabaseClient
                     .from('project_phase_progress')
-                    .select('*')
+                    .select('id, project_id, phase_code, progress')
                     .eq('project_id', projectId);
 
                 if (error) {
@@ -3464,7 +3464,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
             // DB에서 연결 이력 확인
             const { data: agreements, error } = await window.supabaseClient
                 .from('download_agreements')
-                .select('*')
+                .select('id, user_id, resource_type')
                 .eq('user_id', session.user.id)
                 .eq('resource_type', 'ssalworks_example');
 
@@ -4952,7 +4952,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             } catch (error) {
                 console.error('문의 제출 실패:', error);
-                alert('문의 제출 중 오류가 발생했습니다.\n' + (error.message || '잠시 후 다시 시도해주세요.'));
+                alert('문의 제출 중 오류가 발생했습니다.\n' + sanitizeErrorMessage(error, '잠시 후 다시 시도해주세요.'));
                 showStatus('❌ 문의 접수 실패', 'error');
             }
         }
@@ -5711,7 +5711,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
             } catch (error) {
                 console.error('[AI Tutor] 전송 오류:', error);
-                contentDiv.innerHTML = `오류: ${error.message}`;
+                contentDiv.innerHTML = `오류: ${sanitizeErrorMessage(error, '응답 처리 중 문제가 발생했습니다.')}`;
             } finally {
                 tutorIsSending = false;
                 document.getElementById('ai-tutor-send').disabled = false;
@@ -6733,7 +6733,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                 // 고객센터 문의 로드 (inquiries 테이블)
                 const { data: customerData, error: customerError } = await window.supabaseClient
                     .from('inquiries')
-                    .select('*')
+                    .select('id, status, created_at, title, content, answer')
                     .eq('email', userEmail)
                     .order('created_at', { ascending: false });
 
@@ -6745,7 +6745,7 @@ Google Drive에서 프로젝트 전체를 다운로드하실 수 있습니다.
                 // 써니에게 묻기 로드 (sunny_inquiries 테이블)
                 const { data: sunnyData, error: sunnyError } = await window.supabaseClient
                     .from('sunny_inquiries')
-                    .select('*')
+                    .select('id, status, created_at, title, content, admin_answer, user_id, user_email')
                     .or(`user_id.eq.${userId},user_email.eq.${userEmail}`)
                     .order('created_at', { ascending: false });
 
@@ -7127,7 +7127,7 @@ Claude Code가 작업을 완료하면:
             } catch (error) {
                 console.error('프로젝트 생성 오류:', error);
                 showStatus('❌ 프로젝트 생성 실패', 'error');
-                alert('프로젝트 생성 중 오류가 발생했습니다.\n\n' + error.message);
+                alert('프로젝트 생성 중 오류가 발생했습니다.\n\n' + sanitizeErrorMessage(error, '잠시 후 다시 시도해주세요.'));
             }
             });
         }); // DOMContentLoaded 끝
@@ -7496,7 +7496,7 @@ Claude Code가 작업을 완료하면:
                 // Supabase에서 sunny_inquiries 가져오기
                 const { data: inquiries, error } = await window.supabaseClient
                     .from('sunny_inquiries')
-                    .select('*')
+                    .select('id, title, content, user_name, user_email, status, created_at, answer, answered_at')
                     .eq('user_id', user.id)
                     .order('created_at', { ascending: false });
 
@@ -7506,7 +7506,7 @@ Claude Code가 작업을 완료하면:
                         <div style="text-align: center; padding: 60px 20px; color: #dc3545;">
                             <div style="font-size: 48px; margin-bottom: 13px;">❌</div>
                             <div style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">로드 실패</div>
-                            <div style="font-size: 14px;">${error.message}</div>
+                            <div style="font-size: 14px;">${sanitizeErrorMessage(error, '질문 이력을 불러올 수 없습니다.')}</div>
                         </div>
                     `;
                     return;
@@ -9181,7 +9181,7 @@ Claude Code가 작업을 완료하면:
                 // user_notifications 테이블에서 조회
                 const { data, error } = await window.supabaseClient
                     .from('user_notifications')
-                    .select('*')
+                    .select('id, is_read, notification_type, title, message, created_at')
                     .eq('user_id', userId)
                     .order('created_at', { ascending: false })
                     .limit(20);
@@ -9592,7 +9592,7 @@ Claude Code가 작업을 완료하면:
                 // 사용자의 진행중 프로젝트 조회
                 const { data: projects, error } = await window.supabaseClient
                     .from('projects')
-                    .select('*')
+                    .select('id, project_id, project_name, user_id, status, created_at, description, progress')
                     .eq('user_id', userData.user_id)
                     .eq('status', 'in_progress')
                     .order('created_at', { ascending: false });
@@ -9710,7 +9710,7 @@ Claude Code가 작업을 완료하면:
 
                 const { data: projects, error } = await window.supabaseClient
                     .from('projects')
-                    .select('*')
+                    .select('id, project_id, project_name, user_id, status, updated_at')
                     .eq('user_id', userData.user_id)
                     .eq('status', 'completed')
                     .order('updated_at', { ascending: false });
@@ -9778,7 +9778,7 @@ Claude Code가 작업을 완료하면:
                     console.log('📤 Supabase 클라이언트로 쿼리...');
                     const result = await window.supabaseClient
                         .from('notices')
-                        .select('*')
+                        .select('id, title, content, created_at, important')
                         .order('important', { ascending: false })
                         .order('created_at', { ascending: false })
                         .limit(3);
@@ -9789,7 +9789,7 @@ Claude Code가 작업을 완료하면:
                     // Fallback: fetch API로 직접 호출
                     console.log('📤 Fetch API fallback으로 쿼리...');
                     const response = await fetch(
-                        `${SUPABASE_URL}/rest/v1/notices?select=*&order=important.desc,created_at.desc&limit=3`,
+                        `${SUPABASE_URL}/rest/v1/notices?select=id,title,content,created_at,important&order=important.desc,created_at.desc&limit=3`,
                         {
                             headers: {
                                 'apikey': SUPABASE_ANON_KEY,
@@ -9869,7 +9869,7 @@ Claude Code가 작업을 완료하면:
 
                 const { data: notice, error } = await window.supabaseClient
                     .from('notices')
-                    .select('*')
+                    .select('id, title, content, created_at, important')
                     .eq('id', noticeId)
                     .single();
 
@@ -9965,7 +9965,7 @@ Claude Code가 작업을 완료하면:
                 if (window.supabaseClient) {
                     const result = await window.supabaseClient
                         .from('notices')
-                        .select('*')
+                        .select('id, title, content, created_at, important')
                         .order('important', { ascending: false })
                         .order('created_at', { ascending: false });
 
@@ -9973,7 +9973,7 @@ Claude Code가 작업을 완료하면:
                     data = result.data;
                 } else {
                     const response = await fetch(
-                        `${SUPABASE_URL}/rest/v1/notices?select=*&order=important.desc,created_at.desc`,
+                        `${SUPABASE_URL}/rest/v1/notices?select=id,title,content,created_at,important&order=important.desc,created_at.desc`,
                         {
                             headers: {
                                 'apikey': SUPABASE_ANON_KEY,
@@ -10060,7 +10060,7 @@ Claude Code가 작업을 완료하면:
 
                 const { data, error } = await window.supabaseClient
                     .from('learning_contents')
-                    .select('*')
+                    .select('id, depth1, depth2, depth3, title, display_order, url, description')
                     .order('depth1')
                     .order('depth2')
                     .order('display_order');
@@ -10353,7 +10353,7 @@ Claude Code가 작업을 완료하면:
 
                 const { data, error } = await window.supabaseClient
                     .from('faqs')
-                    .select('*')
+                    .select('id, depth1, depth2, depth3, description, answer')
                     .order('depth1')
                     .order('depth2')
                     .order('depth3');
@@ -10379,7 +10379,7 @@ Claude Code가 작업을 완료하면:
                     containerEl.innerHTML = `
                         <div style="padding: 12px; text-align: center; color: #EF4444; font-size: 13px;">
                             ❌ FAQ를 불러오는데 실패했습니다.<br/>
-                            <small>${error.message}</small>
+                            <small>${sanitizeErrorMessage(error, '잠시 후 다시 시도해주세요.')}</small>
                         </div>
                     `;
                 }
@@ -10779,7 +10779,7 @@ Claude Code가 작업을 완료하면:
                         <div style="text-align: center; padding: 40px; color: #EF4444;">
                             <div style="font-size: 24px; margin-bottom: 12px;">❌</div>
                             <div>콘텐츠를 불러올 수 없습니다.</div>
-                            <div style="font-size: 11px; margin-top: 8px; color: #6c757d;">${error.message}</div>
+                            <div style="font-size: 11px; margin-top: 8px; color: #6c757d;">${sanitizeErrorMessage(error, '잠시 후 다시 시도해주세요.')}</div>
                         </div>
                     `;
                 }
