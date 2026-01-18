@@ -7442,3 +7442,71 @@ Human_ClaudeCode_Bridge/Reports/production_security_screening_2026-01-19.json
 프로덕션 코드베이스는 안전한 상태입니다. 악성코드, 백도어, 데이터 침해 흔적이 발견되지 않았습니다.
 
 ---
+
+## PostgREST 스키마 노출 방지 - 보안 개선 (2026-01-19)
+
+### 작업 상태: ✅ 완료
+
+**배경**: 전문가 보안 조언에 따라 PostgREST/Supabase 사용 시 DB 스키마 노출 문제 해결
+
+### 전문가 지적 사항
+
+1. `select=*` URL 파라미터로 모든 DB 컬럼 노출
+2. 클라이언트 코드에서 DB 필드명 직접 참조 (`role`, `credit_balance` 등)
+3. PostgREST 에러 메시지에서 테이블/컬럼 정보 유출 가능
+4. 공격자가 스키마 파악 후 취약점 탐색 가능
+
+### 조치 사항
+
+| 단계 | 작업 | 수정 위치 | 결과 |
+|:----:|------|----------|------|
+| 1-2 | notices select(*) 제거 | index.html 5곳 | ✅ 테스트 통과 |
+| 3-4 | users select(*) 제거 | admin-dashboard 2곳 | ✅ 테스트 통과 |
+| 5 | notices select(*) 제거 | admin-dashboard 2곳 | ✅ 완료 |
+| 6 | api_costs select(*) 제거 | admin-dashboard 1곳 | ✅ 완료 |
+| 7 | inquiries select(*) 제거 | admin-dashboard 1곳 | ✅ 완료 |
+| 8 | 기타 테이블 select(*) 제거 | admin-dashboard 12곳 | ✅ 완료 |
+| 9 | 에러 메시지 정제 | common.js + index.html | ✅ 완료 |
+| 10 | 통합 테스트 및 커밋 | 전체 | ✅ 완료 |
+
+### 변경 파일
+
+| 파일 | 변경 내용 |
+|------|----------|
+| `index.html` | 15개 select(*) → 명시적 필드 지정, 6개 에러 메시지 sanitize |
+| `pages/admin-dashboard.html` | 18개 select(*) → 명시적 필드 지정 |
+| `assets/js/common.js` | sanitizeErrorMessage() 함수 추가 |
+
+### sanitizeErrorMessage 함수 기능
+
+```javascript
+// PostgREST 에러 코드 감지
+const postgrestCodes = ['PGRST', '42', '23', '22', '28', '08', 'P0'];
+
+// 민감 패턴 감지
+const sensitivePatterns = [
+    /column.*does not exist/i,
+    /relation.*does not exist/i,
+    /permission denied/i,
+    /violates.*constraint/i,
+    /chr\(\d+\)/i,  // chr() 함수 패턴
+    /\bpublic\./i,  // 스키마 이름
+];
+```
+
+### 커밋
+
+- `da138a2` - security: PostgREST 스키마 노출 방지 - select(*) 제거 및 에러 메시지 정제
+- `9f8db73` - build: 웹 배포 파일 빌드 반영
+
+### 보안 효과
+
+1. **클라이언트에서 DB 컬럼명 노출 방지**: 명시적 필드만 요청
+2. **에러 메시지에서 DB 구조 정보 숨김**: PostgreSQL 에러 코드 감지 및 일반화
+3. **공격자 스키마 파악 난이도 상승**: select=* 차단으로 숨겨진 필드 탐색 불가
+
+### 리포트
+
+Human_ClaudeCode_Bridge/Reports/postgrest_schema_protection_2026-01-19.json
+
+---
