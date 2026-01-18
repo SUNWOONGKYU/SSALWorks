@@ -62,25 +62,26 @@ cp .env.sample .env  # 환경 변수 파일 생성 (선택)
 ```
 Dev_Package/
 ├── .claude/                         ← Claude Code 설정 및 규칙
-├── P0_작업_디렉토리_구조_생성/       ← 기획 단계
-├── P1_사업계획_수립/
-├── P2_프로젝트_기획/
-├── P3_프로토타입_제작/
-├── S0_Project-SAL-Grid_생성/        ← SAL Grid 시스템
-│   ├── method/json/data/            ← Task 데이터 (JSON)
-│   │   ├── index.json               ← 프로젝트 메타 + task_ids
-│   │   └── grid_records/            ← 개별 Task JSON 파일
-│   ├── sal-grid/                    ← Task Instructions
-│   │   ├── task-instructions/
-│   │   └── verification-instructions/
-│   └── viewer/                      ← Viewer HTML
-├── S1_개발_준비/                     ← 본개발 Stage 폴더
-├── S2_개발-1차/
-├── S3_개발-2차/
-├── S4_개발-3차/
-├── S5_개발_마무리/
+├── Process/                         ← 진행 프로세스 (P0~S5)
+│   ├── P0_작업_디렉토리_구조_생성/   ← 기획 단계
+│   ├── P1_사업계획_수립/
+│   ├── P2_프로젝트_기획/
+│   ├── P3_프로토타입_제작/
+│   ├── S0_Project-SAL-Grid_생성/    ← SAL Grid 시스템
+│   │   ├── method/json/data/        ← Task 데이터 (JSON)
+│   │   │   ├── index.json           ← 프로젝트 메타 + task_ids
+│   │   │   └── grid_records/        ← 개별 Task JSON 파일
+│   │   ├── sal-grid/                ← Task Instructions
+│   │   │   ├── task-instructions/
+│   │   │   └── verification-instructions/
+│   │   └── viewer/                  ← Viewer HTML
+│   ├── S1_개발_준비/                 ← 본개발 Stage 폴더
+│   ├── S2_개발-1차/
+│   ├── S3_개발-2차/
+│   ├── S4_개발-3차/
+│   └── S5_개발_마무리/
 ├── Human_ClaudeCode_Bridge/         ← Orders/Reports
-├── Development_Process_Monitor/     ← 진행률 모니터
+├── Process_Monitor/     ← 진행률 모니터
 └── .env.sample                      ← 환경 변수 템플릿
 ```
 
@@ -88,7 +89,7 @@ Dev_Package/
 
 ## Data Files (JSON Method)
 
-**위치:** `S0_Project-SAL-Grid_생성/method/json/data/`
+**위치:** `Process/S0_Project-SAL-Grid_생성/method/json/data/`
 
 ### 초기 상태 (다운로드 직후)
 
@@ -152,7 +153,7 @@ P0~P3 (기획) → S0 (SAL Grid 생성) → S1~S5 (본개발) → 배포/연동
 | 문서 | 위치 | 내용 |
 |------|------|------|
 | **핵심 규칙** | `.claude/CLAUDE.md` | 7대 규칙, 절대 규칙, 작업 방법, 배포, 연동 |
-| SAL Grid 매뉴얼 | `S0_Project-SAL-Grid_생성/manual/` | Grid 시스템 상세 |
+| SAL Grid 매뉴얼 | `Process/S0_Project-SAL-Grid_생성/manual/` | Grid 시스템 상세 |
 | AI 준수사항 | `.claude/compliance/` | AI 12대 준수사항 |
 | 주의사항 | `.claude/CAUTION.md` | 일반 주의사항 |
 

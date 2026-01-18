@@ -18,7 +18,7 @@
 ## JSON 폴더 구조 (개별 파일 방식)
 
 ```
-{project-root}/S0_Project-SAL-Grid_생성/method/json/data/
+{project-root}/Process/S0_Project-SAL-Grid_생성/method/json/data/
 ├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
 └── grid_records/          ← 개별 Task JSON 파일
     ├── S1BI1.json
@@ -84,11 +84,11 @@ const fs = require('fs');
 const path = require('path');
 
 // index.json 읽기 (Task ID 목록 확인)
-const indexPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/index.json');
+const indexPath = path.join(__dirname, 'Process/S0_Project-SAL-Grid_생성/method/json/data/index.json');
 const indexData = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
 
 // 개별 Task 파일 읽기
-const taskPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/grid_records/S1F1.json');
+const taskPath = path.join(__dirname, 'Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/S1F1.json');
 const taskData = JSON.parse(fs.readFileSync(taskPath, 'utf-8'));
 ```
 
@@ -133,7 +133,7 @@ const newTaskData = {
     task_progress: 0,
     verification_status: 'Not Verified'
 };
-const newTaskPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/grid_records/S4F5.json');
+const newTaskPath = path.join(__dirname, 'Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/S4F5.json');
 fs.writeFileSync(newTaskPath, JSON.stringify(newTaskData, null, 2), 'utf-8');
 ```
 

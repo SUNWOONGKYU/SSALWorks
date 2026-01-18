@@ -26,11 +26,11 @@
 
 | # | 코드 | 영문명 | 한글명 | 주요 내용 | 폴더명 |
 |---|------|--------|--------|----------|--------|
-| 1 | **S1** | Development Setup | 개발 준비 | 환경설정, DB스키마, Auth설정 | `S1_개발_준비/` |
-| 2 | **S2** | Auth & Registration | 개발 1차 | OAuth, 이메일, 회원가입 | `S2_개발-1차/` |
-| 3 | **S3** | AI Integration | 개발 2차 | AI 연동, AI Q&A | `S3_개발-2차/` |
-| 4 | **S4** | Payment & Admin | 개발 3차 | 결제, 관리자, 크레딧 | `S4_개발-3차/` |
-| 5 | **S5** | Development Stabilization | 개발 마무리 | 배포, QA, 안정화 | `S5_개발_마무리/` |
+| 1 | **S1** | Development Setup | 개발 준비 | 환경설정, DB스키마, Auth설정 | `Process/S1_개발_준비/` |
+| 2 | **S2** | Auth & Registration | 개발 1차 | OAuth, 이메일, 회원가입 | `Process/S2_개발-1차/` |
+| 3 | **S3** | AI Integration | 개발 2차 | AI 연동, AI Q&A | `Process/S3_개발-2차/` |
+| 4 | **S4** | Payment & Admin | 개발 3차 | 결제, 관리자, 크레딧 | `Process/S4_개발-3차/` |
+| 5 | **S5** | Development Stabilization | 개발 마무리 | 배포, QA, 안정화 | `Process/S5_개발_마무리/` |
 
 ---
 
@@ -90,11 +90,11 @@ S2BA1
 
 | Task ID | 폴더 경로 |
 |---------|----------|
-| S1S1 | `S1_개발_준비/Security/` |
-| S1M1 | `S1_개발_준비/Documentation/` |
-| S2F1 | `S2_개발-1차/Frontend/` |
-| S2BA1 | `S2_개발-1차/Backend_APIs/` |
-| S3E1 | `S3_개발-2차/External/` |
+| S1S1 | `Process/S1_개발_준비/Security/` |
+| S1M1 | `Process/S1_개발_준비/Documentation/` |
+| S2F1 | `Process/S2_개발-1차/Frontend/` |
+| S2BA1 | `Process/S2_개발-1차/Backend_APIs/` |
+| S3E1 | `Process/S3_개발-2차/External/` |
 
 ---
 

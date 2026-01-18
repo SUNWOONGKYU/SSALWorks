@@ -86,7 +86,7 @@ Development Process Monitor는 빌드 시점에 진행률을 계산하여 **DB�
 │  │  ├── .ssal-project.json  ◀─── project_id: "2512000002TH-P001" (자동!)  │       │
 │  │  ├── .env                ◀─── SUPABASE_ANON_KEY, PROJECT_ID 등         │       │
 │  │  ├── .claude/                                                           │       │
-│  │  ├── Development_Process_Monitor/                                       │       │
+│  │  ├── Process_Monitor/                                       │       │
 │  │  │   ├── build-progress.js      ◀─── 진행률 계산                        │       │
 │  │  │   └── DB_Method/                                                     │       │
 │  │  │       └── upload-progress.js ◀─── DB 업로드                          │       │
@@ -248,7 +248,7 @@ function getProjectId() {
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                    빌드 시점 (Build Time)                        │
-│          node Development_Process_Monitor/build-progress.js     │
+│          node Process_Monitor/build-progress.js     │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
 │  P0~S0: 폴더/파일 존재 여부로 진행률 계산                         │
@@ -292,11 +292,11 @@ function getProjectId() {
 
 | 파일 | 위치 | 역할 |
 |------|------|------|
-| `build-progress.js` | Development_Process_Monitor/ | 빌드 스크립트 (JSON 생성) |
+| `build-progress.js` | Process_Monitor/ | 빌드 스크립트 (JSON 생성) |
 | `upload-progress.js` | scripts/ (복사) | **DB 업로드 스크립트 (필수!)** |
 | `index.json` | S0_.../method/json/data/ | Task ID 목록 (입력) |
 | `grid_records/*.json` | S0_.../method/json/data/grid_records/ | 개별 Task 데이터 (입력) |
-| `phase_progress.json` | Development_Process_Monitor/data/ | 진행률 데이터 (출력) |
+| `phase_progress.json` | Process_Monitor/data/ | 진행률 데이터 (출력) |
 | `index.html` | 프로젝트 루트 | 사이드바 표시 (DB 조회) |
 
 ### DB_Method 파일 (필수 설정)
@@ -313,7 +313,7 @@ function getProjectId() {
 
 ## 1. 빌드 스크립트: build-progress.js
 
-**위치:** `Development_Process_Monitor/build-progress.js`
+**위치:** `Process_Monitor/build-progress.js`
 
 ### 핵심 기능
 
@@ -1158,7 +1158,7 @@ method/json/data/
 
 ```bash
 # 빌드 실행
-node Development_Process_Monitor/build-progress.js
+node Process_Monitor/build-progress.js
 
 # 예상 출력
 📊 Progress Builder
@@ -1229,7 +1229,7 @@ S5: 9/9 = 100%
 
 ```bash
 # 빌드 실행
-node Development_Process_Monitor/build-progress.js
+node Process_Monitor/build-progress.js
 
 # DB 업로드 테스트
 node scripts/upload-progress.js
@@ -1243,7 +1243,7 @@ git commit -m "test"
 ## 9. 폴더 구조
 
 ```
-Development_Process_Monitor/
+Process_Monitor/
 ├── build-progress.js                      # 진행률 빌드 스크립트
 ├── README.md                              # 이 파일 (DB 필수 버전)
 ├── DEVELOPMENT_PROCESS_WORKFLOW.md        # 개발 프로세스 워크플로우

@@ -53,7 +53,7 @@
 Task: S2F1
 File: google-login.html
 
-1. 저장: S2_개발-1차/Frontend/pages/auth/google-login.html  ← 원본
+1. 저장: Process/S2_개발-1차/Frontend/pages/auth/google-login.html  ← 원본
 2. 자동복사: pages/auth/google-login.html                    ← 배포
 ```
 
@@ -62,7 +62,7 @@ File: google-login.html
 Task: S2BA1
 File: subscription-cancel.js
 
-1. 저장: S2_개발-1차/Backend_APIs/subscription-cancel.js    ← 원본
+1. 저장: Process/S2_개발-1차/Backend_APIs/subscription-cancel.js    ← 원본
 2. 자동복사: api/Backend_APIs/subscription-cancel.js        ← 배포
 ```
 
@@ -71,7 +71,7 @@ File: subscription-cancel.js
 Task: S2S1
 File: google-callback.js
 
-1. 저장: S2_개발-1차/Security/google-callback.js            ← 원본
+1. 저장: Process/S2_개발-1차/Security/google-callback.js            ← 원본
 2. 자동복사: api/Security/google-callback.js                ← 배포
 ```
 

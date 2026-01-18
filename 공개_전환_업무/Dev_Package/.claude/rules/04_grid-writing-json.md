@@ -179,7 +179,7 @@
 ### JSON 폴더 구조
 
 ```
-{project-root}/S0_Project-SAL-Grid_생성/method/json/data/
+{project-root}/Process/S0_Project-SAL-Grid_생성/method/json/data/
 ├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
 └── grid_records/          ← 개별 Task JSON 파일
     ├── S1BI1.json
@@ -249,11 +249,11 @@ const fs = require('fs');
 const path = require('path');
 
 // index.json 읽기 (Task ID 목록 확인)
-const indexPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/index.json');
+const indexPath = path.join(__dirname, 'Process/S0_Project-SAL-Grid_생성/method/json/data/index.json');
 const indexData = JSON.parse(fs.readFileSync(indexPath, 'utf-8'));
 
 // 개별 Task 파일 읽기
-const taskPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/grid_records/S1F1.json');
+const taskPath = path.join(__dirname, 'Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/S1F1.json');
 const taskData = JSON.parse(fs.readFileSync(taskPath, 'utf-8'));
 ```
 
@@ -292,7 +292,7 @@ const newTaskData = {
     task_progress: 0,
     verification_status: 'Not Verified'
 };
-const newTaskPath = path.join(__dirname, 'S0_Project-SAL-Grid_생성/method/json/data/grid_records/S4F5.json');
+const newTaskPath = path.join(__dirname, 'Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/S4F5.json');
 fs.writeFileSync(newTaskPath, JSON.stringify(newTaskData, null, 2), 'utf-8');
 ```
 
@@ -388,7 +388,7 @@ python -m http.server 3000
 
 **접속 URL:**
 ```
-http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
+http://localhost:3000/Process/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 ```
 
 **⚠️ 주의:** `file://` 프로토콜로 직접 열면 JSON 로드가 안 됨 (CORS 제한)
@@ -399,7 +399,7 @@ http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 
 1. 터미널에서 프로젝트 폴더로 이동
 2. 다음 명령어 실행: npx serve
-3. 브라우저에서 열기: http://localhost:3000/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
+3. 브라우저에서 열기: http://localhost:3000/Process/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 
 서버를 종료하려면 터미널에서 Ctrl+C를 누르세요."
 ```
@@ -471,7 +471,7 @@ gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"
 ```
 "배포 완료!
 
-Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
+Viewer URL: https://{username}.github.io/{repo}/Process/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 
 첫 배포는 1-2분 후 접속 가능합니다.
 북마크 해두면 언제든 진행 상황을 확인할 수 있습니다!"
@@ -605,12 +605,12 @@ const { data: userData } = await supabaseClient
 const rawBaseUrl = githubToRawUrl(userData.github_repo_url);
 
 // 4. index.json 로드
-const indexUrl = `${rawBaseUrl}/S0_.../method/json/data/index.json`;
+const indexUrl = `${rawBaseUrl}/Process/S0_.../method/json/data/index.json`;
 const indexData = await fetch(indexUrl).then(r => r.json());
 
 // 5. 각 Task JSON 파일 로드
 for (const taskId of indexData.task_ids) {
-    const taskUrl = `${rawBaseUrl}/S0_.../method/json/data/grid_records/${taskId}.json`;
+    const taskUrl = `${rawBaseUrl}/Process/S0_.../method/json/data/grid_records/${taskId}.json`;
     const taskData = await fetch(taskUrl).then(r => r.json());
 }
 ```

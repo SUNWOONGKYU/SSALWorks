@@ -302,7 +302,7 @@ verification_status 전이:
 ```
 "코드 파일 저장 완료
 
-📁 Stage 저장: S2_개발-1차/Frontend/pages/auth/login.html (원본)
+📁 Stage 저장: Process/S2_개발-1차/Frontend/pages/auth/login.html (원본)
 📁 자동 복사: pages/auth/login.html (배포용)
 
 ✅ git commit 시 자동 동기화됨"
@@ -509,7 +509,7 @@ SSAL Works 플랫폼에서 진행률 표시
 
 ### 상세 가이드
 
-> `Development_Process_Monitor/DB_Method/README.md`
+> `Process_Monitor/DB_Method/README.md`
 
 ---
 
@@ -519,12 +519,12 @@ SSAL Works 플랫폼에서 진행률 표시
 > `.claude/compliance/AI_12_COMPLIANCE.md`
 
 ### SAL Grid 매뉴얼 (v4.0 일반화 버전)
-> `S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
+> `Process/S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md`
 > - **Task 데이터 저장: JSON Method 사용**
 > - 27개 섹션으로 구성된 완전 매뉴얼
 
 ### Progress Monitor DB Method (필수!)
-> `Development_Process_Monitor/DB_Method/README.md`
+> `Process_Monitor/DB_Method/README.md`
 > - **진행률 표시: DB 업로드 필수**
 > - 웹에서 개인별 진행률 표시를 위해 반드시 설정
 
@@ -542,8 +542,8 @@ SSAL Works 플랫폼에서 진행률 표시
 `Human_ClaudeCode_Bridge/Reports/` 확인
 
 ### 3. 프로젝트 상태
-- `P0_작업_디렉토리_구조_생성/Project_Status.md`
-- `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
+- `Process/P0_작업_디렉토리_구조_생성/Project_Status.md`
+- `Process/P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
 
 ---
 
@@ -626,7 +626,7 @@ gh api repos/{owner}/{repo}/pages -X POST -f source='{"branch":"main","path":"/"
 ```
 "🎉 배포 완료!
 
-📊 Viewer URL: https://{username}.github.io/{repo}/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
+📊 Viewer URL: https://{username}.github.io/{repo}/Process/S0_Project-SAL-Grid_생성/viewer/viewer_json.html
 
 ⏱️ 첫 배포는 1-2분 후 접속 가능합니다.
    (GitHub Pages 빌드 시간)
@@ -708,7 +708,7 @@ git push
    2. 사이드바 → Project SAL Grid → '내 프로젝트'
 
 🔗 GitHub URL: https://github.com/{username}/{repo}
-📁 데이터 위치: S0_Project-SAL-Grid_생성/method/json/data/
+📁 데이터 위치: Process/S0_Project-SAL-Grid_생성/method/json/data/
 
 💡 Task 완료 후 git push하면 실시간으로 반영됩니다."
 ```

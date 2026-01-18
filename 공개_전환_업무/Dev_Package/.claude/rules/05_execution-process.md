@@ -116,7 +116,7 @@ Main Agent가 직접 검증:
 ```
 
 **리포트 저장:**
-- 위치: `S0_Project-SAL-Grid_생성/sal-grid/stage-gates/`
+- 위치: `Process/S0_Project-SAL-Grid_생성/sal-grid/stage-gates/`
 - 파일명: `S{N}GATE_verification_report.md`
 
 **JSON 기록:**

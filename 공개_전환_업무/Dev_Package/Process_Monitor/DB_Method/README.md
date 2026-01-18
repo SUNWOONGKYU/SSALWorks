@@ -92,8 +92,8 @@ PROJECT_ID=your_project_id
 `.git/hooks/pre-commit`에 추가:
 ```bash
 # 진행률 빌드
-node "$PROJECT_ROOT/Development_Process_Monitor/build-progress.js"
-git add "$PROJECT_ROOT/Development_Process_Monitor/data/phase_progress.json" 2>/dev/null
+node "$PROJECT_ROOT/Process_Monitor/build-progress.js"
+git add "$PROJECT_ROOT/Process_Monitor/data/phase_progress.json" 2>/dev/null
 
 # 진행률 DB 업로드
 node "$PROJECT_ROOT/scripts/upload-progress.js"

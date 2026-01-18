@@ -73,12 +73,12 @@ Not Verified → In Review → Verified (또는 Needs Fix)
 
 **기존 Task 확인:**
 ```bash
-ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
+ls Process/S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 ```
 
 ### Step 2: TASK_PLAN.md 업데이트
 
-**파일 위치:** `S0_Project-SAL-Grid_생성/sal-grid/TASK_PLAN.md`
+**파일 위치:** `Process/S0_Project-SAL-Grid_생성/sal-grid/TASK_PLAN.md`
 
 **업데이트 항목:**
 1. **총 Task 수 업데이트**: 헤더의 `총 Task 수` 변경
@@ -90,7 +90,7 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 
 ### Step 3: Task Instruction 파일 생성
 
-**저장 위치:** `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md`
+**저장 위치:** `Process/S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md`
 
 **템플릿:**
 ```markdown
@@ -116,7 +116,7 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 
 ### Step 4: Verification Instruction 파일 생성
 
-**저장 위치:** `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md`
+**저장 위치:** `Process/S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md`
 
 ### Step 5: 의존성 검증 (SAL ID Finalization)
 
@@ -148,7 +148,7 @@ ls S0_Project-SAL-Grid_생성/sal-grid/task-instructions/ | grep "S4F"
 
 **JSON 폴더 위치:**
 ```
-S0_Project-SAL-Grid_생성/method/json/data/
+Process/S0_Project-SAL-Grid_생성/method/json/data/
 ├── index.json             ← task_ids 배열에 새 Task ID 추가
 └── grid_records/          ← 새 Task JSON 파일 생성
     └── {TaskID}.json
@@ -231,7 +231,7 @@ S0_Project-SAL-Grid_생성/method/json/data/
 ### Step 8: Git 커밋 & 푸시
 
 ```bash
-git add S0_Project-SAL-Grid_생성/
+git add Process/S0_Project-SAL-Grid_생성/
 git add .claude/work_logs/current.md
 git commit -m "feat: {TaskID} {Task Name} Task 추가"
 git push
@@ -248,8 +248,8 @@ git push
 ### Step 2: Instruction 파일 삭제
 
 ```bash
-rm S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
-rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
+rm Process/S0_Project-SAL-Grid_생성/sal-grid/task-instructions/{TaskID}_instruction.md
+rm Process/S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verification.md
 ```
 
 ### Step 3: JSON 파일에서 삭제 (개별 파일 방식)
@@ -260,7 +260,7 @@ rm S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/{TaskID}_verifi
 
 **2단계: grid_records/{TaskID}.json 파일 삭제**
 ```bash
-rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
+rm Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 ```
 
 ### Step 4: 작업 로그 업데이트 & Git 커밋
@@ -283,7 +283,7 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 
 ### Step 5: JSON 파일 업데이트 (개별 파일 방식)
 
-**파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
+**파일 위치:** `Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
 
 해당 Task의 JSON 파일을 직접 수정
 
@@ -293,7 +293,7 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 
 ## Task 상태 업데이트 (작업/검증 완료 시)
 
-**파일 위치:** `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
+**파일 위치:** `Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json`
 
 ### 작업 완료 시 (Executed)
 
@@ -371,12 +371,12 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 
 | 항목 | 위치 |
 |------|------|
-| Task Plan | `S0_Project-SAL-Grid_생성/sal-grid/TASK_PLAN.md` |
-| Task Instructions | `S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
-| Verification Instructions | `S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
-| 프로젝트 메타데이터 | `S0_Project-SAL-Grid_생성/method/json/data/index.json` |
-| 개별 Task 데이터 | `S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json` |
-| Stage Gates | `S0_Project-SAL-Grid_생성/method/json/stage-gates/` |
+| Task Plan | `Process/S0_Project-SAL-Grid_생성/sal-grid/TASK_PLAN.md` |
+| Task Instructions | `Process/S0_Project-SAL-Grid_생성/sal-grid/task-instructions/` |
+| Verification Instructions | `Process/S0_Project-SAL-Grid_생성/sal-grid/verification-instructions/` |
+| 프로젝트 메타데이터 | `Process/S0_Project-SAL-Grid_생성/method/json/data/index.json` |
+| 개별 Task 데이터 | `Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json` |
+| Stage Gates | `Process/S0_Project-SAL-Grid_생성/method/json/stage-gates/` |
 | 작업 로그 | `.claude/work_logs/current.md` |
 
 ---
@@ -384,7 +384,7 @@ rm S0_Project-SAL-Grid_생성/method/json/data/grid_records/{TaskID}.json
 ## JSON 폴더 구조 (개별 파일 방식)
 
 ```
-S0_Project-SAL-Grid_생성/method/json/data/
+Process/S0_Project-SAL-Grid_생성/method/json/data/
 ├── index.json             ← 프로젝트 메타데이터 + task_ids 배열
 └── grid_records/          ← 개별 Task JSON 파일
     ├── S1BI1.json
