@@ -5201,7 +5201,7 @@
                     <tr>
                         <td>${fee.users?.email || fee.depositor_name || '-'}</td>
                         <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
-                        <td>₩${(fee.amount || 0).toLocaleString()}</td>
+                        <td>₩${Math.round((fee.amount || 0) * 1.1).toLocaleString()} <small style="color:#888">(VAT포함)</small></td>
                         <td>${formatDateTime(fee.requested_at)}</td>
                         <td>
                             <a href="#" class="action-link" style="color: var(--success);" onclick="event.preventDefault(); confirmInstallation('${fee.id}', '${fee.user_id}', ${fee.amount})">✅ 입금 확인</a>
@@ -5226,7 +5226,7 @@
                         <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${fee.users?.builder_id || '-'}</code></td>
                         <td>${fee.users?.email || fee.depositor_name || '-'}</td>
                         <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
-                        <td>₩${(fee.amount || 0).toLocaleString()}</td>
+                        <td>₩${Math.round((fee.amount || 0) * 1.1).toLocaleString()} <small style="color:#888">(VAT포함)</small></td>
                         <td>${formatDateTime(fee.requested_at)}</td>
                         <td>${formatDateTime(fee.confirmed_at)}</td>
                     </tr>
