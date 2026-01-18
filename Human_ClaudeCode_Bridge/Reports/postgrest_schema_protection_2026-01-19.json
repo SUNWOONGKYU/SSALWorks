@@ -120,6 +120,33 @@
     }
   },
 
+  "production_verification": {
+    "status": "COMPLETED",
+    "total_endpoints_tested": 13,
+    "all_passed": true,
+    "additional_fixes": [
+      {
+        "table": "inquiries",
+        "issue": "user_email, user_name columns do not exist",
+        "fix": "Changed to email, name"
+      },
+      {
+        "table": "deposit_notifications",
+        "issue": "user_email column does not exist",
+        "fix": "Removed user_email from select"
+      },
+      {
+        "table": "billing_history",
+        "issue": "payment_method, billing_date, billing_type columns do not exist",
+        "fix": "Changed to created_at, description"
+      }
+    ],
+    "endpoints_verified": {
+      "public": ["notices", "faqs", "learning_contents"],
+      "admin": ["users", "inquiries", "sunny_inquiries", "credit_transactions", "user_notifications", "projects", "deposit_notifications", "billing_history", "api_costs", "admin_settings"]
+    }
+  },
+
   "commits": [
     {
       "hash": "da138a2",
@@ -128,6 +155,10 @@
     {
       "hash": "9f8db73",
       "message": "build: 웹 배포 파일 빌드 반영"
+    },
+    {
+      "hash": "25c191b",
+      "message": "fix: admin-dashboard 스키마 불일치 수정"
     }
   ],
 

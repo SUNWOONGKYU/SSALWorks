@@ -7510,3 +7510,23 @@ const sensitivePatterns = [
 Human_ClaudeCode_Bridge/Reports/postgrest_schema_protection_2026-01-19.json
 
 ---
+
+### 프로덕션 검증 (추가 작업)
+
+검증 중 발견된 추가 스키마 불일치 3건 수정:
+
+| 테이블 | 문제 | 수정 |
+|--------|------|------|
+| `inquiries` | `user_email`, `user_name` 미존재 | `email`, `name`으로 변경 |
+| `deposit_notifications` | `user_email` 미존재 | 필드 제거 |
+| `billing_history` | `payment_method`, `billing_date`, `billing_type` 미존재 | `created_at`, `description`으로 대체 |
+
+### 최종 검증 결과
+
+13개 API 엔드포인트 모두 정상 작동 확인:
+- Public (3개): notices, faqs, learning_contents
+- Admin (10개): users, inquiries, sunny_inquiries, credit_transactions, user_notifications, projects, deposit_notifications, billing_history, api_costs, admin_settings
+
+### 추가 커밋
+
+- `25c191b` - fix: admin-dashboard 스키마 불일치 수정
