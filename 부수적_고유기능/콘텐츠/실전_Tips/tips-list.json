@@ -50,7 +50,8 @@
       "description": "Claude Code 효율적 사용 방법",
       "files": [
         { "name": "/status 명령어로 모든 것 확인하기", "file": "status_명령어로_모든_것_확인하기.md" },
-        { "name": "5회 반복 디버깅 기법", "file": "5회_반복_디버깅_기법.md" }
+        { "name": "5회 반복 디버깅 기법", "file": "5회_반복_디버깅_기법.md" },
+        { "name": "듀얼 모드로 Claude Code 활용하기", "file": "듀얼_모드로_Claude_Code_활용하기.md" }
       ]
     },
     {
