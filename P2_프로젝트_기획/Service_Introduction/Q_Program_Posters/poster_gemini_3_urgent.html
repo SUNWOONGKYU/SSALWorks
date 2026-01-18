@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSAL Q Program - Gemini V3 Urgent</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background: #222;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px;
+        }
+
+        .poster-container {
+            width: 1080px;
+            height: 1350px;
+            background: #FBBF24;
+            /* Warning Yellow */
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Diagonal Stripe Background */
+        .stripes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(45deg,
+                    #FBBF24,
+                    #FBBF24 20px,
+                    #F59E0B 20px,
+                    #F59E0B 40px);
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 10;
+            padding: 60px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .top-badge {
+            background: #000;
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transform: skew(-10deg);
+            margin-bottom: 40px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-family: 'Black Han Sans', sans-serif;
+            font-size: 140px;
+            line-height: 0.9;
+            color: #000;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            transform: rotate(-2deg);
+        }
+
+        h1 span {
+            color: #DC2626;
+            /* Red for emphasis */
+            font-size: 160px;
+        }
+
+        .mid-box {
+            background: #000;
+            color: #fff;
+            padding: 50px 80px;
+            margin: 40px 0;
+            transform: skew(-2deg);
+            box-shadow: 20px 20px 0px rgba(255, 255, 255, 0.5);
+            width: 90%;
+        }
+
+        .mid-box h2 {
+            font-size: 56px;
+            margin-bottom: 10px;
+            color: #10B981;
+            /* Brand Green */
+        }
+
+        .mid-box p {
+            font-size: 28px;
+            font-weight: 300;
+        }
+
+        .checklist {
+            text-align: left;
+            margin: 40px 0;
+            font-size: 32px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .checklist li {
+            margin-bottom: 15px;
+            list-style: none;
+        }
+
+        .checklist li::before {
+            content: "✅";
+            margin-right: 15px;
+        }
+
+        .cta-btn {
+            background: #DC2626;
+            color: white;
+            font-size: 48px;
+            font-weight: 900;
+            padding: 30px 100px;
+            border-radius: 100px;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            border: 5px solid #fff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .gemini-badge {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 10px;
+            color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="poster-container">
+        <div class="stripes"></div>
+
+        <div class="content-layer">
+            <div class="top-badge">SSAL Works Q-Program</div>
+
+            <h1>
+                딱 <span>3개월</span><br>
+                미치세요!
+            </h1>
+
+            <div class="mid-box">
+                <h2>당신의 플랫폼이 탄생합니다</h2>
+                <p>아이디어만 가져오세요. 만드는 건 우리가 가르쳐 드립니다.</p>
+            </div>
+
+            <ul class="checklist">
+                <li>나만의 풀스택 웹사이트 런칭</li>
+                <li>회계사 Sunny의 1:1 창업 코칭</li>
+                <li>정부지원사업 합격 노하우 전수</li>
+            </ul>
+
+            <a href="#" class="cta-btn">지금 바로 도전하기</a>
+
+            <p style="margin-top: 30px; font-weight: 700; color: #000;">
+                www.ssalworks.ai.kr
+            </p>
+        </div>
+        <div class="gemini-badge">Designed by Gemini</div>
+    </div>
+</body>
+
+</html>

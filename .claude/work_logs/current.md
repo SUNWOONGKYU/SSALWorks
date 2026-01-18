@@ -4,6 +4,126 @@
 
 ---
 
+## 2026-01-18 보안 침해 대응 및 RLS 강화
+
+### 보안 침해 사고 대응
+
+**작업 상태:** ✅ 완료
+
+**발생 상황:**
+- 관리자 패널에서 의심스러운 계정 2개 발견
+- 임시 이메일(oremal.com)로 가입 후 권한 상승 공격 수행
+- 공격자가 `role`을 'admin'으로, `credit_balance`를 999981로 변경
+
+**근본 원인:**
+- 개발용 RLS 정책이 프로덕션에 적용되어 있었음
+- `users_dev_update_all` 정책이 모든 필드 수정을 허용
+
+**대응 조치:**
+1. ✅ 침입 계정 2개 삭제 (auth.users + public.users)
+2. ✅ users 테이블 보안 RLS 적용 (민감 필드 보호)
+3. ✅ 전체 테이블 RLS 점검 및 강화
+
+**적용된 RLS 정책:**
+
+| 테이블 | user_id 타입 | 적용 방식 |
+|--------|-------------|----------|
+| users | uuid | 직접 비교 + 민감필드(role, credit_balance 등) 보호 |
+| projects | varchar | ::text 캐스팅 |
+| installation_payment_requests | varchar | ::text 캐스팅 |
+| payment_methods | varchar | ::text 캐스팅 |
+| manuals | 없음 | 전체 읽기, Admin만 수정 |
+| billing_history | uuid | 직접 비교 |
+| credit_transactions | varchar | ::text 캐스팅 |
+| ai_usage_log | varchar | ::text 캐스팅 |
+| inquiries | 없음 (email) | email 매칭 |
+
+**보안 강화 내용:**
+- 권한 상승 차단: `role`, `credit_balance` 등 민감 필드 사용자 수정 불가
+- 본인 데이터만 접근: 각 테이블에서 본인 데이터만 조회/수정
+- Admin 권한 분리: 관리 작업은 Admin만 가능
+- 로그/거래 기록 보호: 수정/삭제 불가 (감사 추적용)
+
+**생성된 SQL 파일:**
+- `S1_개발_준비/Database/30_users_rls_secure.sql`
+- `S1_개발_준비/Database/31_all_tables_rls_secure.sql`
+
+---
+
+## 2026-01-16 예정 작업 ⏳
+
+### 특허명세서 기반 서비스 소개 업데이트 검토
+
+**작업 상태:** 🔜 예정
+
+**작업 내용:**
+특허명세서 내용을 기반으로 서비스 소개 문서 업데이트 필요 여부 분석
+
+**비교 대상 파일:**
+| 문서 | 위치 |
+|------|------|
+| 특허명세서 | `P1_사업계획/Patent/특허명세서_통합_제출용.md` |
+| 서비스 소개 | `P2_프로젝트_기획/Service_Introduction/서비스_소개.md` |
+
+**검토 항목:**
+- [ ] SAL ID 구조적 특성 (절차적 순서, 의존성, 병렬성, 인접성) 반영 여부
+- [ ] 5계층 아키텍처 설명 추가 필요성
+- [ ] 22개 속성 상세 설명 일치 여부
+- [ ] No-Code 자동화 개념 강조 수준
+- [ ] ID Chain (변경 이력 관리) 설명 추가 필요성
+- [ ] 선행기술 대비 차별성 마케팅 활용 가능성
+
+---
+
+## 2026-01-15 작업 내역
+
+### 페이스북 게시글 작성 - SSAL Works 장점 및 미래 가능성
+
+**작업 상태:** ✅ 완료
+
+**작업 내용:**
+특허명세서 + 서비스 소개 문서를 기반으로 페이스북용 글 작성 (약 1,000자)
+
+**생성 파일:**
+- `Human_ClaudeCode_Bridge/Reports/SSAL_Works_장점_미래가능성_페이스북.md`
+
+**핵심 내용:**
+1. SAL ID 3차원 좌표 체계 (특허 출원)
+2. 관리 중심 패러다임 (vs 코드 중심)
+3. AI 실행, 사람 검증 역할 분담
+4. 미래 가능성: 확장성, 진입장벽 해소, 데이터 주권
+
+---
+
+### MOAI-ADK 레퍼런스 문서 생성
+
+**작업 상태:** ✅ 완료
+
+**작업 내용:**
+MOAI-ADK GitHub 저장소 분석 후 참조 문서 생성
+
+**생성 파일:**
+| 파일 | 내용 |
+|------|------|
+| `.claude/references/MOAI_ADK_SKILLS_REFERENCE.md` | 48개 스킬 정리 (7개 카테고리) |
+| `.claude/references/MOAI_ADK_HOOKS_REFERENCE.md` | 12개 훅 정리 (5개 카테고리) |
+
+**용도:** 향후 스킬/훅 추가 시 참고용
+
+---
+
+### 누락 서브에이전트 추가
+
+**작업 상태:** ✅ 완료
+
+**추가 파일:**
+| 파일 | 역할 |
+|------|------|
+| `.claude/subagents/content-specialist.md` | 콘텐츠 생성 (Area C) |
+| `.claude/subagents/qa-specialist.md` | 품질 보증/검증 |
+
+---
+
 ## 2026-01-12 작업 내역
 
 ### Dev Package project_id 자동 주입 기능 복원
