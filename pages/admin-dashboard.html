@@ -5185,7 +5185,7 @@
                 // 1. 대기 목록: deposit_notifications에서 pending만 조회
                 const { data: pendingData, error: pendingError } = await supabaseClient
                     .from('deposit_notifications')
-                    .select('id, user_id, user_email, amount, status, deposit_type, depositor_name, created_at')
+                    .select('id, user_id, amount, status, deposit_type, depositor_name, created_at')
                     .eq('deposit_type', 'install_fee')
                     .eq('status', 'pending')
                     .order('created_at', { ascending: false });
@@ -5918,7 +5918,7 @@
                 // 결제 내역 조회
                 const { data, error } = await supabaseClient
                     .from('billing_history')
-                    .select('id, user_id, amount, payment_method, status, billing_date, billing_type')
+                    .select('id, user_id, amount, status, created_at, description')
                     .order('billing_date', { ascending: false });
 
                 if (error) throw error;
@@ -5992,7 +5992,7 @@
 
             tbody.innerHTML = billingHistory.map(bill => {
                 const status = statusLabels[bill.status] || { text: bill.status, class: '' };
-                const type = typeLabels[bill.billing_type] || bill.billing_type;
+                const type = typeLabels[bill.description] || bill.description;
 
                 return `
                     <tr>
@@ -6001,7 +6001,7 @@
                         <td>₩${(bill.amount || 0).toLocaleString()}</td>
                         <td>${bill.payment_method || '-'}</td>
                         <td><span class="status-badge ${status.class}">${status.text}</span></td>
-                        <td>${formatDateTime(bill.billing_date)}</td>
+                        <td>${formatDateTime(bill.created_at)}</td>
                         <td>
                             <a href="#" class="action-link" onclick="event.preventDefault(); viewBillingDetail('${bill.id}')">상세</a>
                             ${bill.status === 'failed' ? `<a href="#" class="action-link" style="color: #f59e0b;" onclick="event.preventDefault(); retryPayment('${bill.id}')">재시도</a>` : ''}
@@ -6033,11 +6033,11 @@
             let details = `결제 상세 정보\n\n`;
             details += `결제 ID: ${bill.id}\n`;
             details += `사용자 ID: ${bill.user_id}\n`;
-            details += `결제 유형: ${typeLabels[bill.billing_type] || bill.billing_type}\n`;
+            details += `결제 유형: ${typeLabels[bill.description] || bill.description}\n`;
             details += `금액: ₩${(bill.amount || 0).toLocaleString()}\n`;
             details += `상태: ${statusLabels[bill.status] || bill.status}\n`;
             details += `결제 수단: ${bill.payment_method || '-'}\n`;
-            details += `결제일: ${formatDateTime(bill.billing_date)}\n`;
+            details += `결제일: ${formatDateTime(bill.created_at)}\n`;
 
             if (bill.failure_reason) {
                 details += `실패 사유: ${bill.failure_reason}\n`;
@@ -6164,7 +6164,7 @@
                 // deposit_notifications 테이블에서 크레딧 입금 요청 조회
                 const { data, error } = await supabaseClient
                     .from('deposit_notifications')
-                    .select('id, user_id, user_email, amount, status, deposit_type, depositor_name, created_at')
+                    .select('id, user_id, amount, status, deposit_type, depositor_name, created_at')
                     .eq('deposit_type', 'credit')
                     .order('created_at', { ascending: false });
 
@@ -6749,7 +6749,7 @@
             try {
                 const { data, error } = await supabaseClient
                     .from('inquiries')
-                    .select('id, inquiry_type, status, created_at, title, content, user_email, user_name')
+                    .select('id, inquiry_type, status, created_at, title, content, email, name')
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
@@ -7195,7 +7195,7 @@
                             ${DOMPurify.sanitize(inquiry.title || inquiry.content?.substring(0, 50) || '(제목 없음)')}
                         </div>
                     </td>
-                    <td>${DOMPurify.sanitize(inquiry.user_name || inquiry.user_email || '익명')}</td>
+                    <td>${DOMPurify.sanitize(inquiry.name || inquiry.email || '익명')}</td>
                     <td>${statusLabels[inquiry.status] || inquiry.status}</td>
                     <td>${formatDate(inquiry.created_at)}</td>
                     <td>
@@ -7240,11 +7240,11 @@
                         </div>
                         <div>
                             <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">작성자</div>
-                            <div style="font-weight: 500;">${DOMPurify.sanitize(inquiry.user_name || '익명')}</div>
+                            <div style="font-weight: 500;">${DOMPurify.sanitize(inquiry.name || '익명')}</div>
                         </div>
                         <div>
                             <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">이메일</div>
-                            <div style="font-weight: 500;">${DOMPurify.sanitize(inquiry.user_email || '-')}</div>
+                            <div style="font-weight: 500;">${DOMPurify.sanitize(inquiry.email || '-')}</div>
                         </div>
                         <div>
                             <div style="font-size: 12px; color: #6c757d; margin-bottom: 4px;">접수일</div>
