@@ -3908,6 +3908,45 @@
 
                     console.log('✅ 써니에게 묻기 미처리:', sunnyPending);
                 }
+
+                // 4. 이번 달 매출 로드 (billing_history)
+                const thisMonth = new Date().toISOString().slice(0, 7); // YYYY-MM
+                const { data: billingData } = await supabaseClient
+                    .from('billing_history')
+                    .select('amount, billing_date, status')
+                    .eq('status', 'paid')
+                    .gte('billing_date', thisMonth + '-01');
+
+                if (billingData) {
+                    const monthlyRevenue = billingData.reduce((sum, b) => sum + (b.amount || 0), 0);
+                    const overviewRevenue = document.getElementById('overviewMonthlyRevenue');
+                    if (overviewRevenue) {
+                        overviewRevenue.textContent = '₩' + monthlyRevenue.toLocaleString();
+                    }
+                    console.log('✅ 이번 달 매출:', monthlyRevenue);
+                } else {
+                    const overviewRevenue = document.getElementById('overviewMonthlyRevenue');
+                    if (overviewRevenue) overviewRevenue.textContent = '₩0';
+                }
+
+                // 5. 크레딧 판매 로드 (credit_transactions)
+                const { data: creditData } = await supabaseClient
+                    .from('credit_transactions')
+                    .select('amount, created_at, transaction_type')
+                    .eq('transaction_type', 'purchase')
+                    .gte('created_at', thisMonth + '-01');
+
+                if (creditData) {
+                    const creditSales = creditData.reduce((sum, c) => sum + (c.amount || 0), 0);
+                    const overviewCredit = document.getElementById('overviewCreditSales');
+                    if (overviewCredit) {
+                        overviewCredit.textContent = creditSales.toLocaleString() + ' 크레딧';
+                    }
+                    console.log('✅ 크레딧 판매:', creditSales);
+                } else {
+                    const overviewCredit = document.getElementById('overviewCreditSales');
+                    if (overviewCredit) overviewCredit.textContent = '0 크레딧';
+                }
             } catch (e) {
                 console.error('대시보드 홈 통계 로드 실패:', e);
             }
