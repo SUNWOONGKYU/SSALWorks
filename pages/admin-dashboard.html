@@ -5172,6 +5172,8 @@
 
         let installationFees = [];
 
+        let confirmedBuilders = []; // users 테이블 기준 입금 확인 완료 목록
+
         async function loadInstallationRequests() {
             console.log('📋 빌더 계정 개설비 목록 로드 시작');
 
@@ -5180,16 +5182,19 @@
                     throw new Error('Supabase 클라이언트가 초기화되지 않았습니다.');
                 }
 
-                // deposit_notifications 테이블에서 install_fee 타입만 조회
-                const { data, error } = await supabaseClient
+                // 1. 대기 목록: deposit_notifications에서 pending만 조회
+                const { data: pendingData, error: pendingError } = await supabaseClient
                     .from('deposit_notifications')
                     .select('*')
                     .eq('deposit_type', 'install_fee')
+                    .eq('status', 'pending')
                     .order('created_at', { ascending: false });
 
-                // user_id로 users 테이블에서 추가 정보 조회
-                if (data && data.length > 0) {
-                    const userIds = [...new Set(data.map(d => d.user_id).filter(id => id && id !== 'GUEST'))];
+                if (pendingError) throw pendingError;
+
+                // 대기 목록 사용자 정보 병합
+                if (pendingData && pendingData.length > 0) {
+                    const userIds = [...new Set(pendingData.map(d => d.user_id).filter(id => id && id !== 'GUEST'))];
                     const { data: usersData } = await supabaseClient
                         .from('users')
                         .select('id, email, real_name, user_id, builder_id')
@@ -5199,18 +5204,25 @@
                     if (usersData) {
                         usersData.forEach(u => { usersMap[u.id] = u; });
                     }
-
-                    // 사용자 정보 병합 + 필드명 호환성 유지
-                    data.forEach(d => {
+                    pendingData.forEach(d => {
                         d.users = usersMap[d.user_id] || null;
-                        d.requested_at = d.created_at; // 필드명 호환
+                        d.requested_at = d.created_at;
                     });
                 }
 
-                if (error) throw error;
+                installationFees = pendingData || [];
 
-                installationFees = data || [];
-                console.log('✅ 개설비 목록 로드 성공:', installationFees.length, '개');
+                // 2. 완료 목록: users 테이블에서 installation_fee_paid = true 조회
+                const { data: confirmedData, error: confirmedError } = await supabaseClient
+                    .from('users')
+                    .select('id, user_id, email, real_name, builder_id, created_at, updated_at')
+                    .eq('installation_fee_paid', true)
+                    .order('updated_at', { ascending: false });
+
+                if (confirmedError) throw confirmedError;
+
+                confirmedBuilders = confirmedData || [];
+                console.log('✅ 대기 목록:', installationFees.length, '건, 완료 목록:', confirmedBuilders.length, '건');
 
                 renderInstallationTables();
                 updateInstallationStats();
@@ -5231,11 +5243,8 @@
             const pendingTableBody = document.getElementById('installationPendingTableBody');
             const processedTableBody = document.getElementById('installationProcessedTableBody');
 
-            const pendingList = installationFees.filter(f => f.status === 'pending');
-            const confirmedList = installationFees.filter(f => f.status === 'confirmed');
-
-            // 입금 확인 대기 목록
-            if (pendingList.length === 0) {
+            // 입금 확인 대기 목록 (deposit_notifications 기준)
+            if (installationFees.length === 0) {
                 pendingTableBody.innerHTML = `
                     <tr>
                         <td colspan="5" style="text-align: center; color: #6c757d; padding: 40px;">
@@ -5244,7 +5253,7 @@
                     </tr>
                 `;
             } else {
-                pendingTableBody.innerHTML = pendingList.map(fee => `
+                pendingTableBody.innerHTML = installationFees.map(fee => `
                     <tr>
                         <td>${fee.users?.email || fee.depositor_name || '-'}</td>
                         <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
@@ -5257,8 +5266,8 @@
                 `).join('');
             }
 
-            // 입금 확인 완료 목록
-            if (confirmedList.length === 0) {
+            // 입금 확인 완료 목록 (users 테이블 기준 - installation_fee_paid = true)
+            if (confirmedBuilders.length === 0) {
                 processedTableBody.innerHTML = `
                     <tr>
                         <td colspan="7" style="text-align: center; color: #6c757d; padding: 40px;">
@@ -5267,26 +5276,35 @@
                     </tr>
                 `;
             } else {
-                processedTableBody.innerHTML = confirmedList.map(fee => `
+                // builder_id 끝 2자리로 금액 파악
+                const amountMap = { 'TH': 3000000, 'FO': 4000000, 'FI': 5000000, 'SI': 6000000, 'SE': 7000000, 'EI': 8000000, 'NI': 9000000 };
+                processedTableBody.innerHTML = confirmedBuilders.map(user => {
+                    const code = user.builder_id ? user.builder_id.slice(-2) : 'TH';
+                    const amount = amountMap[code] || 3000000;
+                    return `
                     <tr>
-                        <td><code style="background: #e8f4fc; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${fee.users?.user_id || '-'}</code></td>
-                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${fee.users?.builder_id || '-'}</code></td>
-                        <td>${fee.users?.email || fee.depositor_name || '-'}</td>
-                        <td>${fee.depositor_name || fee.users?.real_name || '-'}</td>
-                        <td>₩${Math.round((fee.amount || 0) * 1.1).toLocaleString()} <small style="color:#888">(VAT포함)</small></td>
-                        <td>${formatDateTime(fee.requested_at)}</td>
-                        <td>${formatDateTime(fee.confirmed_at)}</td>
+                        <td><code style="background: #e8f4fc; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${user.user_id || '-'}</code></td>
+                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${user.builder_id || '-'}</code></td>
+                        <td>${user.email || '-'}</td>
+                        <td>${user.real_name || '-'}</td>
+                        <td>₩${Math.round(amount * 1.1).toLocaleString()} <small style="color:#888">(VAT포함)</small></td>
+                        <td>${formatDateTime(user.created_at)}</td>
+                        <td>${formatDateTime(user.updated_at)}</td>
                     </tr>
-                `).join('');
+                `;
+                }).join('');
             }
         }
 
         function updateInstallationStats() {
-            const pendingCount = installationFees.filter(f => f.status === 'pending').length;
-            const confirmedCount = installationFees.filter(f => f.status === 'confirmed').length;
-            const totalAmount = installationFees
-                .filter(f => f.status === 'confirmed')
-                .reduce((sum, f) => sum + (f.amount || 0), 0);
+            const pendingCount = installationFees.length;
+            const confirmedCount = confirmedBuilders.length;
+            // 완료 금액 계산 (builder_id 기준)
+            const amountMap = { 'TH': 3000000, 'FO': 4000000, 'FI': 5000000, 'SI': 6000000, 'SE': 7000000, 'EI': 8000000, 'NI': 9000000 };
+            const totalAmount = confirmedBuilders.reduce((sum, user) => {
+                const code = user.builder_id ? user.builder_id.slice(-2) : 'TH';
+                return sum + (amountMap[code] || 3000000);
+            }, 0);
 
             document.getElementById('installationPendingCount').textContent = pendingCount;
             document.getElementById('installationApprovedCount').textContent = confirmedCount;
