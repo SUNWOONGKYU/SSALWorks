@@ -1,11 +1,13 @@
 /**
  * @task S3BA3
  * @description AI 튜터 채팅 API (RAG + SSE 스트리밍)
+ * OWASP A05 대응: CORS 도메인 제한 적용 (2026-01-18)
  */
 
 const { createClient } = require('@supabase/supabase-js');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { ragPipeline } = require('../Backend_Infra/rag');
+const { setCorsHeaders } = require('../Backend_APIs/lib/cors');
 
 // 환경변수
 const SUPABASE_URL = process.env.SUPABASE_URL;
@@ -39,12 +41,9 @@ function checkRateLimit(userId) {
 }
 
 module.exports = async function handler(req, res) {
-    // CORS preflight
-    if (req.method === 'OPTIONS') {
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        return res.status(200).end();
+    // CORS 처리 (OWASP A05 대응: 도메인 제한)
+    if (setCorsHeaders(req, res)) {
+        return; // Preflight 요청 처리 완료
     }
 
     if (req.method !== 'POST') {

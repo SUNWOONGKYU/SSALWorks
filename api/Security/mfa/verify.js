@@ -2,9 +2,13 @@
  * @task S2S-2FA
  * 2FA 검증 API - TOTP 코드 확인 및 활성화
  * POST /api/auth/mfa/verify
+ * OWASP A05 대응: CORS 도메인 제한 적용 (2026-01-18)
  */
 
 import { createClient } from '@supabase/supabase-js';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { setCorsHeaders } = require('../../Backend_APIs/lib/cors.js');
 
 const supabase = createClient(
     process.env.SUPABASE_URL,
@@ -12,13 +16,9 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
-    // CORS
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-    if (req.method === 'OPTIONS') {
-        return res.status(200).end();
+    // CORS (OWASP A05 대응: 도메인 제한)
+    if (setCorsHeaders(req, res)) {
+        return; // Preflight 요청 처리 완료
     }
 
     if (req.method !== 'POST') {

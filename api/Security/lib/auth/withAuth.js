@@ -4,9 +4,11 @@
 // Task ID: S2S1
 // 작성일: 2025-12-14
 // 목적: 인증이 필요한 API 엔드포인트를 위한 래퍼 함수
+// OWASP A05 대응: CORS 도메인 제한 적용 (2026-01-18)
 // ================================================================
 
 const { verifyAuth, getUserProfile } = require('./middleware');
+const { setCorsHeaders } = require('../../../Backend_APIs/lib/cors');
 
 /**
  * 인증 필수 API 래퍼
@@ -25,12 +27,9 @@ const { verifyAuth, getUserProfile } = require('./middleware');
  */
 function withAuth(handler, options = {}) {
   return async (req, res) => {
-    // CORS 프리플라이트 처리
-    if (req.method === 'OPTIONS') {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-      return res.status(200).end();
+    // CORS 처리 (OWASP A05 대응: 도메인 제한)
+    if (setCorsHeaders(req, res)) {
+      return; // Preflight 요청 처리 완료
     }
 
     // 인증 검증
@@ -74,12 +73,9 @@ function withAuth(handler, options = {}) {
  */
 function withOptionalAuth(handler) {
   return async (req, res) => {
-    // CORS 프리플라이트 처리
-    if (req.method === 'OPTIONS') {
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-      return res.status(200).end();
+    // CORS 처리 (OWASP A05 대응: 도메인 제한)
+    if (setCorsHeaders(req, res)) {
+      return; // Preflight 요청 처리 완료
     }
 
     // 인증 시도 (실패해도 계속 진행)

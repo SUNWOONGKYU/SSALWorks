@@ -1,23 +1,17 @@
 // Task ID: S2BA1
 // 로그아웃 엔드포인트
 // Supabase 세션을 종료하고 쿠키를 삭제
+// OWASP A05 대응: CORS 도메인 제한 적용 (2026-01-18)
 
 import { createClient } from '@supabase/supabase-js';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const { setCorsHeaders } = require('../Backend_APIs/lib/cors.js');
 
 export default async function handler(req, res) {
-  // CORS 헤더 설정
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization'
-  );
-
-  // Preflight 요청 처리
-  if (req.method === 'OPTIONS') {
-    res.status(200).end();
-    return;
+  // CORS 처리 (OWASP A05 대응: 도메인 제한)
+  if (setCorsHeaders(req, res)) {
+    return; // Preflight 요청 처리 완료
   }
 
   // POST 메서드만 허용

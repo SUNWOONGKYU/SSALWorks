@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@google-cloud/translate": "^9.3.0",
-    "@google/generative-ai": "^0.21.0",
+    "@google/generative-ai": "^0.24.1",
     "@supabase/supabase-js": "^2.81.1",
     "chokidar": "^4.0.3",
     "cors": "^2.8.5",
@@ -35,7 +35,7 @@
   "devDependencies": {
     "@playwright/test": "^1.57.0",
     "@tailwindcss/postcss": "^4.0.0",
-    "@types/node": "^20.0.0",
+    "@types/node": "^20.19.30",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "archiver": "^7.0.1",
