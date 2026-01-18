@@ -3928,8 +3928,7 @@
                     paidUsers.forEach(u => {
                         if (u.builder_id) {
                             const code = u.builder_id.slice(-2);
-                            const baseAmount = amountMap[code] || 3000000;
-                            monthlyRevenue += Math.round(baseAmount * 1.1); // VAT 포함
+                            monthlyRevenue += amountMap[code] || 3000000; // VAT 제외 순매출
                         }
                     });
                 }
