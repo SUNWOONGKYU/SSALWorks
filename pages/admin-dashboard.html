@@ -5488,7 +5488,7 @@
                 // 개설비 납부 완료 사용자 조회
                 const { data: paidUsers, error } = await supabaseClient
                     .from('users')
-                    .select('id, user_id, email, real_name, installation_date, installation_fee_paid')
+                    .select('id, user_id, builder_id, email, real_name, installation_date, installation_fee_paid')
                     .eq('installation_fee_paid', true)
                     .order('installation_date', { ascending: false });
 
@@ -5546,7 +5546,7 @@
 
                 return `
                     <tr>
-                        <td>${user.user_id || '-'}</td>
+                        <td><code style="background: #f8f9fa; padding: 2px 6px; border-radius: 4px; font-size: 11px;">${user.builder_id || '-'}</code></td>
                         <td>${user.email || '-'}</td>
                         <td>${user.real_name || '-'}</td>
                         <td>${installDate.toLocaleDateString('ko-KR')}</td>
