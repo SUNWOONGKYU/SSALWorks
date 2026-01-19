@@ -114,6 +114,10 @@
       "destination": "/api/External/ai-tutor-chat"
     },
     {
+      "source": "/api/ai-tutor/test",
+      "destination": "/api/External/ai-tutor-test"
+    },
+    {
       "source": "/api/ai-tutor/conversations",
       "destination": "/api/External/ai-tutor-conversations"
     },
