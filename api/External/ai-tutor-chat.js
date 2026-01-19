@@ -106,7 +106,7 @@ module.exports = async function handler(req, res) {
         // RAG 파이프라인 실행
         const ragResult = await ragPipeline(supabaseAdmin, message, {
             matchThreshold: 0.25, // 검색 감도 향상 (0.5 → 0.3 → 0.25)
-            matchCount: 5,
+            matchCount: 10, // 검색 문서 수 증가 (5 → 10)
             history: history
         });
 
