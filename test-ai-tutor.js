@@ -10,11 +10,11 @@ const path = require('path');
 // 테스트 케이스 정의
 const TEST_CASES = [
   {
-    id: 'supabase-setup',
-    question: 'Supabase 프로젝트를 생성하는 방법을 알려줘',
-    correctKeywords: ['supabase.com', 'https://supabase.com'],
-    incorrectKeywords: ['SSAL Works에 로그인', 'SSAL Works에서', 'SSAL 워크스'],
-    source: '2권_풀스택_웹사이트_개발_기초지식/30편_심화_-_Supabase.md (45번 줄)'
+    id: 'supabase-database',
+    question: 'Supabase 데이터베이스는 무엇을 기반으로 하나요?',
+    correctKeywords: ['PostgreSQL'],
+    incorrectKeywords: ['SSAL Works', 'SSAL 워크스', 'MySQL', 'MongoDB'],
+    source: '2권_풀스택_웹사이트_개발_기초지식/30편_심화_-_Supabase.md (10번 줄)'
   },
   {
     id: 'git-install',
