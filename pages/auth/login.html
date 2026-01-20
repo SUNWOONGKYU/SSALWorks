@@ -565,8 +565,25 @@
 
                 if (error) throw error;
 
-                // 로그인 성공 - 마지막 로그인 시간 업데이트
+                // 로그인 성공 - 이메일 인증 여부 확인
                 if (data.user) {
+                    // users 테이블에서 subscription_status 확인
+                    const { data: userData, error: userError } = await supabaseClient
+                        .from('users')
+                        .select('subscription_status')
+                        .eq('id', data.user.id)
+                        .single();
+
+                    // subscription_status가 'inactive'면 이메일 미인증 상태
+                    if (userData && userData.subscription_status === 'inactive') {
+                        // 로그아웃 처리
+                        await supabaseClient.auth.signOut();
+                        hideLoading();
+                        showAlert('이메일 인증이 완료되지 않았습니다.\n가입 시 발송된 인증 링크를 클릭해주세요.');
+                        return;
+                    }
+
+                    // 마지막 로그인 시간 업데이트
                     await supabaseClient
                         .from('users')
                         .update({ last_login_at: new Date().toISOString() })

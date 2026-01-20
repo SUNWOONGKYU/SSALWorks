@@ -666,7 +666,8 @@
                             real_name: realName,
                             phone: phone || null,
                             marketing_agreed: marketingAgreed
-                        }
+                        },
+                        emailRedirectTo: window.location.origin + '/pages/auth/verify-email.html'
                     }
                 });
 
@@ -683,7 +684,7 @@
                         nickname: nickname,
                         real_name: realName,
                         phone: phone || null,
-                        subscription_status: 'free',
+                        subscription_status: 'inactive',  // 이메일 인증 완료 전까지 inactive
                         installation_fee_paid: false,
                         credit_balance: 0,
                         marketing_agreed: marketingAgreed,
