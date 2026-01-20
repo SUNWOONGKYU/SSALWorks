@@ -5131,6 +5131,7 @@
 
         /**
          * 회원 삭제
+         * auth.users와 users 테이블 모두에서 삭제하는 서버 API 호출
          */
         async function deleteUser() {
             if (!currentDetailUser) {
@@ -5146,13 +5147,27 @@
             try {
                 showLoading();
 
-                // 회원 삭제 (관련 데이터는 DB cascade 또는 별도 처리)
-                const { error } = await supabaseClient
-                    .from('users')
-                    .delete()
-                    .eq('id', currentDetailUser.id);
+                // 현재 세션 토큰 가져오기
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                const adminToken = session?.access_token;
 
-                if (error) throw error;
+                // 서버 API를 통해 회원 삭제 (auth.users + users 테이블)
+                const response = await fetch('/api/Backend_APIs/admin/delete-user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: currentDetailUser.id,
+                        adminToken: adminToken
+                    })
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || result.details || '삭제 실패');
+                }
 
                 showToast('회원이 삭제되었습니다.', 'success');
                 closeUserDetail();
