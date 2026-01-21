@@ -261,7 +261,7 @@ for (const taskId of indexData.task_ids) {
 ### Dev Package URL
 
 ```
-https://drive.google.com/uc?export=download&id=1Lz0Qi99dSVDlrTEsxeXsUWbM8dv9W-ds
+https://drive.google.com/uc?export=download&id=1jTsna28NUbVTuYzo1S6ny6UTXX1s7Tk0
 ```
 
 **상세 문서**: `P2_프로젝트_기획/User_Flows/Project_Registration_Process.md`
