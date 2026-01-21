@@ -90,10 +90,11 @@ Development Process Monitor는 빌드 시점에 진행률을 계산하여 **DB�
 │  │  │   ├── build-progress.js      ◀─── 진행률 계산                        │       │
 │  │  │   └── DB_Method/                                                     │       │
 │  │  │       └── upload-progress.js ◀─── DB 업로드                          │       │
-│  │  ├── S0_Project-SAL-Grid_생성/                                          │       │
-│  │  │   └── method/json/data/                                              │       │
-│  │  │       ├── index.json                                                 │       │
-│  │  │       └── grid_records/*.json                                        │       │
+│  │  ├── Process/                                                           │       │
+│  │  │   └── S0_Project-SAL-Grid_생성/                                      │       │
+│  │  │       └── method/json/data/                                          │       │
+│  │  │           ├── index.json                                             │       │
+│  │  │           └── grid_records/*.json                                    │       │
 │  │  └── ...                                                                │       │
 │  │                                                                         │       │
 │  │  Claude Code로 개발 진행                                                 │       │
@@ -323,7 +324,7 @@ function getProjectId() {
 ### 데이터 소스
 
 ```
-S0_Project-SAL-Grid_생성/method/json/data/
+Process/S0_Project-SAL-Grid_생성/method/json/data/
 ├── index.json             ← Task ID 목록
 └── grid_records/          ← 개별 Task JSON 파일
     ├── S1BI1.json
@@ -405,7 +406,7 @@ function main() {
     });
 
     // S1~S5 계산 (개별 JSON 파일 기반)
-    const gridDataPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data');
+    const gridDataPath = path.join(PROJECT_ROOT, 'Process', 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data');
     const stageProgress = calculateStageProgressFromJSON(gridDataPath);
     Object.entries(stageProgress).forEach(([code, data]) => {
         result.phases[code] = data;
@@ -1106,7 +1107,7 @@ window.addEventListener('load', () => {
 
 ## 6. JSON 데이터 구조 (개별 파일 방식)
 
-**위치:** `S0_Project-SAL-Grid_생성/method/json/data/`
+**위치:** `Process/S0_Project-SAL-Grid_생성/method/json/data/`
 
 ```
 method/json/data/
@@ -1178,8 +1179,8 @@ S5: 9/9 = 100%
 ```
 
 **전제 조건:**
-- `S0_Project-SAL-Grid_생성/method/json/data/index.json` 파일이 존재해야 함
-- `S0_Project-SAL-Grid_생성/method/json/data/grid_records/` 폴더에 개별 Task JSON 파일이 존재해야 함
+- `Process/S0_Project-SAL-Grid_생성/method/json/data/index.json` 파일이 존재해야 함
+- `Process/S0_Project-SAL-Grid_생성/method/json/data/grid_records/` 폴더에 개별 Task JSON 파일이 존재해야 함
 - P0~S0 폴더 구조가 존재해야 함
 
 ---
@@ -1259,7 +1260,7 @@ Process_Monitor/
 scripts/
 └── upload-progress.js                     # DB_Method에서 복사 (필수!)
 
-S0_Project-SAL-Grid_생성/method/json/data/
+Process/S0_Project-SAL-Grid_생성/method/json/data/
 ├── index.json                             # Task ID 목록 (입력)
 └── grid_records/                          # S1~S5 개별 Task JSON
     ├── S1BI1.json

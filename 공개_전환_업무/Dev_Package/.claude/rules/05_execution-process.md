@@ -56,9 +56,9 @@ Main Agent → Task Agent 서브에이전트 투입 (Task tool 사용)
 **수행자:** AI → PO
 
 **요청이 필요한 상황:**
-- 외부 서비스 API 키 필요 (Resend, Stripe, OpenAI 등)
+- 외부 서비스 API 키 필요 (이메일 서비스, 결제 게이트웨이, AI API 등)
 - OAuth Provider 설정 필요 (Google, GitHub, Kakao 등)
-- 환경 변수 설정 필요 (Vercel, DB 등)
+- 환경 변수 설정 필요 (호스팅 서비스, DB 등)
 - 외부 대시보드 접속 필요
 
 **요청 형식:**
@@ -149,8 +149,8 @@ Main Agent가 직접 검증:
 
 ### 3) 설정 완료 체크리스트
 ```
-- [ ] Google OAuth 설정 완료
-- [ ] Resend API 키 설정 완료
+- [ ] OAuth Provider 설정 완료
+- [ ] 외부 서비스 API 키 설정 완료
 - [ ] 환경 변수 배포 완료
 ```
 

@@ -336,7 +336,7 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/users?email=eq.{
   -d '{"github_repo_url": "https://github.com/{username}/{repo}"}'
 ```
 
-> **참고**: 환경변수는 SSAL Works 플랫폼에서 제공됩니다. Claude Code가 자동으로 처리합니다.
+> **참고**: 환경변수는 Dev_Package의 .env.sample에 포함되어 있습니다. .env.sample을 .env로 복사하면 자동으로 사용됩니다.
 
 ### 완료 메시지
 
@@ -345,7 +345,8 @@ curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/users?email=eq.{
 
 www.ssalworks.ai.kr에서 확인할 수 있습니다:
 1. 사이트 접속 후 로그인
-2. 사이드바 → Project SAL Grid → '내 프로젝트'
+2. 메인 화면 하단 "Project SAL Grid" 섹션
+3. "{프로젝트명}(진행중) Viewer 열기" 버튼 클릭
 
 GitHub URL: https://github.com/{username}/{repo}
 

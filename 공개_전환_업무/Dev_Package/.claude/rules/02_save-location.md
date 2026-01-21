@@ -60,10 +60,10 @@ File: google-login.html
 ### Backend APIs (BA Area)
 ```
 Task: S2BA1
-File: subscription-cancel.js
+File: user-profile.js
 
-1. 저장: Process/S2_개발-1차/Backend_APIs/subscription-cancel.js    ← 원본
-2. 자동복사: api/Backend_APIs/subscription-cancel.js        ← 배포
+1. 저장: Process/S2_개발-1차/Backend_APIs/user-profile.js    ← 원본
+2. 자동복사: api/Backend_APIs/user-profile.js        ← 배포
 ```
 
 ### Security (S Area)
@@ -142,14 +142,14 @@ api/
 └── External/               ← 외부 연동
 ```
 
-**⚠️ 폴더명 변경 금지!** Vercel이 `api` 이름을 인식함
+**⚠️ 폴더명 변경 금지!** 서버리스 플랫폼(Vercel, Netlify 등)이 `api` 폴더를 자동 인식함
 
 ### pages/ (화면/페이지)
 
 ```
 pages/
 ├── auth/                   ← 인증 관련
-├── subscription/           ← 구독 관련
+├── dashboard/           ← 대시보드
 └── mypage/                 ← My Page
 ```
 
@@ -195,4 +195,4 @@ assets/
 | index.html | app/page.tsx |
 | 404.html | app/not-found.tsx |
 
-**상세 설명:** `부수적_고유기능/콘텐츠/Tips/개발_실무/Vanilla와_React란_무엇인가.md`
+**상세 설명:** `부수적_고유기능/콘텐츠/실전_Tips/개발_실무/Vanilla와_React란_무엇인가.md`

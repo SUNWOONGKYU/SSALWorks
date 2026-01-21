@@ -286,9 +286,9 @@ DB 자동 기록: created_at, updated_at (Supabase)
 ║                PROJECT SAL GRID 관리 범위 (S1-S5)                     ║
 ╠═══════════════════════════════════════════════════════════════════════╣
 ║   Stage 1: Development Setup (개발 준비)        ← 일부 Areas          ║
-║   Stage 2: Auth & Registration (개발 1차)       ← 11 Areas            ║
-║   Stage 3: AI Integration (개발 2차)            ← 11 Areas            ║
-║   Stage 4: Payment & Admin (개발 3차)           ← 일부 Areas          ║
+║   Stage 2: Core Development (개발 1차)       ← 11 Areas            ║
+║   Stage 3: Additional Development (개발 2차)            ← 11 Areas            ║
+║   Stage 4: Advanced Development (개발 3차)           ← 일부 Areas          ║
 ║   Stage 5: Development Stabilization (개발 마무리) ← 9 Areas          ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
@@ -300,9 +300,9 @@ DB 자동 기록: created_at, updated_at (Supabase)
 #### **5 Stages (GRID 관리 범위)**
 ```
 Stage 1: Development Setup (개발 준비)
-Stage 2: Auth & Registration (개발 1차)
-Stage 3: AI Integration (개발 2차)
-Stage 4: Payment & Admin (개발 3차)
+Stage 2: Core Development (개발 1차)
+Stage 3: Additional Development (개발 2차)
+Stage 4: Advanced Development (개발 3차)
 Stage 5: Development Stabilization (개발 마무리)
 ```
 
@@ -948,9 +948,9 @@ project-root/
 ├── P2_프로젝트_기획/                   # Project Planning (GRID 범위 밖)
 ├── P3_프로토타입_제작/                 # Prototype (GRID 범위 밖)
 ├── S1_개발_준비/                       # Development Setup (Stage 1)
-├── S2_개발-1차/                        # Auth & Registration (Stage 2)
-├── S3_개발-2차/                        # AI Integration (Stage 3)
-├── S4_개발-3차/                        # Payment & Admin (Stage 4)
+├── S2_개발-1차/                        # Core Development (Stage 2)
+├── S3_개발-2차/                        # Additional Development (Stage 3)
+├── S4_개발-3차/                        # Advanced Development (Stage 4)
 ├── S5_개발_마무리/                     # Development Stabilization (Stage 5)
 │
 ├── .claude/                           # Claude Code 설정
@@ -1791,7 +1791,7 @@ grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
 |---------|-----------------|----------------------------------|
 | S1BI1 | 환경변수 설정 | ~~Supabase 클라이언트 설정~~ |
 | S2F1 | Google 소셜 로그인 UI | ~~My Page UI~~ |
-| S2BI2 | 에러 핸들링 시스템 | ~~구독 클라이언트 모듈~~ |
+| S2BI2 | 에러 핸들링 시스템 | ~~알림 시스템 모듈~~ |
 
 **불일치 시 발생하는 문제:**
 - ❌ 잘못된 Task를 검증하게 됨
@@ -4220,7 +4220,7 @@ python -m http.server 8080
 
 **실시간 업데이트:**
 - Supabase에서 데이터 변경 시 자동 반영
-- 새로고침 불필요 (Real-time 구독 기능)
+- 새로고침 불필요 (Real-time 연동 기능)
 
 ---
 
@@ -5860,7 +5860,7 @@ A:
 - **v3.8 (2025-12-23)**: S4F6 Task 확장
   - S4F6 Task 이름 변경: "인앱 알림 UI" -> "My Page 기능 (알림/문의)"
   - My Page 문의 관리 페이지 추가
-  - S4F1 modification_history 업데이트 (크레딧 관리 섹션 개선)
+  - S4F1 modification_history 업데이트 (리소스 관리 섹션 개선)
   - TASK_PLAN.md v3.5 반영
 
 - **v3.7 (2025-12-22)**: 인앱 알림 시스템 Task 추가

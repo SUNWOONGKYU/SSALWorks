@@ -1,13 +1,8 @@
-# Dev Package for SSAL Works
+# Dev Package
 
 ## What is this?
 
-이 Dev Package는 SSAL Works 플랫폼(www.ssalworks.ai.kr)에서 프로젝트 등록 시 다운로드된 시작 템플릿입니다.
-
-**다운로드 경로:**
-```
-SSAL Works 접속 → 로그인 → 빌더 계정 개설 → 프로젝트 등록 → Dev Package 다운로드
-```
+풀스택 웹사이트 개발 프로젝트를 Claude Code와 함께 처음부터 끝까지 체계적으로 수행할 수 있도록 설계된 통합 개발 환경입니다.
 
 ---
 
@@ -30,8 +25,6 @@ cp .env.sample .env  # 환경 변수 파일 생성 (선택)
 ```
 "개발 환경 확인하고 프로젝트 초기 설정 해줘"
 ```
-
-**상세 가이드:** SSAL Works 웹사이트 (www.ssalworks.ai.kr) → 프로젝트 등록 안내문 참조
 
 ---
 
@@ -123,12 +116,35 @@ P0~P3 (기획) → S0 (SAL Grid 생성) → S1~S5 (본개발) → 배포/연동
 | **S0** | Task 목록 정의 + SAL Grid 생성 | index.json, grid_records/*.json |
 | **S1~S5** | 정의된 Task 순서대로 개발 | 코드 파일 |
 
-### 배포/연동 (S0 완료 후)
+### 진행률 확인 방법
 
-| 단계 | 설명 | 상세 |
-|------|------|------|
-| GitHub Pages 배포 | Viewer를 웹에서 확인 가능 | → CLAUDE.md "GitHub Pages로 Viewer 배포" 참조 |
-| SSAL Works 연동 | 플랫폼에서 진행률 확인 가능 | → CLAUDE.md "SSAL Works 플랫폼 연동" 참조 |
+**자동 업데이트 프로세스:**
+```
+작업 완료 → Claude Code에게 "커밋해줘" 요청
+  ↓
+git commit 실행
+  ↓
+Pre-commit Hook 자동 실행
+  ↓
+진행률 계산 및 Supabase DB 업로드
+  ↓
+SSAL Works 플랫폼에 자동 반영 ✅
+```
+
+**SSAL Works 플랫폼에서 확인:**
+1. www.ssalworks.ai.kr 접속
+2. 로그인
+3. **왼쪽 사이드바에서 진행률 바로 확인** (자동 표시)
+   - P0, P1, P2, P3, S0, S1~S5 각 단계별 진행률 바
+
+**Project SAL Grid Viewer (Task 상세 확인):**
+- 메인 화면 하단 "Project SAL Grid" 섹션
+- "{프로젝트명}(진행중) Viewer 열기" 버튼 클릭
+- 각 Task별 상세 현황 확인 가능
+
+**추가 확인 방법 (선택):**
+- GitHub Pages 배포: → CLAUDE.md "GitHub Pages로 Viewer 배포" 참조
+- Viewer 연결 설정: → CLAUDE.md "SSAL Works 플랫폼 연동" 참조
 
 ---
 

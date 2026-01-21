@@ -112,7 +112,7 @@
 | Task ID | Task Name | Status | Verification |
 |---------|-----------|--------|--------------|
 | S2F1 | Google 로그인 UI | ✅ 완료 | ✅ Passed |
-| S2BA1 | 구독 취소 API | ✅ 완료 | ✅ Passed |
+| S2BA1 | 사용자 프로필 API | ✅ 완료 | ✅ Passed |
 | ... | ... | ... | ... |
 
 ## 2. 빌드/테스트 결과

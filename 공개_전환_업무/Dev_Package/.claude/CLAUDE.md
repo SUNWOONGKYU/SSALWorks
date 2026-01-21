@@ -312,7 +312,7 @@ verification_status 전이:
 - 루트 폴더에 직접 저장 (Stage 거치지 않고)
 - 수동으로 이중 저장 (자동화 무시)
 
-**⚠️ 폴더명 변경 금지:** Vercel이 `api` 이름을 인식함
+**⚠️ 폴더명 변경 금지:** 서버리스 플랫폼(Vercel, Netlify 등)이 `api` 폴더를 자동 인식함
 
 **상세 규칙:** `.claude/rules/02_save-location.md` 참조
 
@@ -409,65 +409,45 @@ work_logs/current.md 기록
 
 ---
 
-## 📊 Progress Monitor - DB 업로드 ⭐
+## 📊 Progress Monitor - 진행률 자동 업로드 ⭐
 
-> **웹에서 개인별 진행률을 표시하려면 설정 필요!**
-> **SSAL Works 플랫폼 연동을 원하는 경우에만 설정**
+> **✅ Dev Package에 이미 설정되어 있음 - 별도 설정 불필요!**
+> **✅ git commit 시 자동으로 SSAL Works 플랫폼에 진행률 표시**
 
-### 왜 필요한가?
-
-```
-❌ 로컬 JSON만 = GitHub Pages로 Viewer만 사용 가능
-✅ DB에 업로드 = SSAL Works 플랫폼에서 진행률 표시 가능
-```
-
-### 언제 설정하는가?
-
-| 상황 | 필요 여부 |
-|------|----------|
-| GitHub Pages로 Viewer만 사용 | ❌ 불필요 |
-| SSAL Works 플랫폼 연동 원함 | ✅ 필요 |
-
----
-
-### 초기 설정 단계 (Claude Code가 자동 처리)
-
-> **핵심: project_id는 수동 입력 아님!** SSAL Works API로 자동 조회!
-
-**Step 1: 사용자 이메일 확인**
-
-Claude Code가 사용자에게 질문:
-```
-"SSAL Works 가입 시 사용한 이메일을 알려주세요"
-```
-
-**Step 2: API로 project_id 자동 조회**
+### Dev Package에 포함된 것
 
 ```
-1. users 테이블: email → user_id 조회
-2. projects 테이블: user_id → project_id 조회
+✅ .ssal-project.json (프로젝트 정보)
+✅ Pre-commit Hook (자동 실행 설정)
+✅ 진행률 계산 스크립트 (build-progress.js)
+✅ DB 업로드 스크립트 (upload-progress.js)
 ```
 
-**Step 3: .ssal-project.json 자동 생성**
+**프로젝트 등록 시 자동 생성된 파일:**
 
-Claude Code가 조회 결과로 파일 자동 생성:
+`.ssal-project.json` (루트 폴더)
 ```json
 {
-  "project_id": "A3B5C7D9-P001",  // ← API 조회 결과
-  "project_name": "프로젝트명",    // ← API 조회 결과
-  "owner_email": "user@email.com" // ← 사용자 입력 이메일
+  "project_id": "2512000001TH-P001",  // ← 프로젝트 등록 시 자동 부여
+  "project_name": "내 프로젝트",       // ← 등록 시 입력한 이름
+  "created_at": "2025-12-23"
 }
 ```
 
-**Step 4: Pre-commit Hook 설정**
+**이미 설정된 Hook:**
 
+`.git/hooks/pre-commit` (자동 생성됨)
 ```bash
-node scripts/setup-hooks.js
+#!/bin/sh
+echo "🔄 Pre-commit Hook 실행 중..."
+
+# 진행률 계산 및 DB 업로드
+node scripts/build-progress.js
+node scripts/upload-progress.js
+
+git add -A
+echo "✅ Pre-commit Hook 완료!"
 ```
-
-**상세 프로세스:** `.claude/methods/00_initial-setup.md` 참조
-
-이 스크립트가 `.git/hooks/pre-commit` 파일을 자동 생성합니다.
 
 ---
 
@@ -549,7 +529,7 @@ SSAL Works 플랫폼에서 진행률 표시
 
 ## 📂 웹 배포 파일 업데이트
 
-Order Sheet, 안내문, Manual 수정 시:
+Manual 수정 시:
 ```bash
 node scripts/build-web-assets.js
 ```
@@ -679,18 +659,20 @@ git push
 
 ### "Viewer 연결해줘" 명령어
 
-**사용 시점:** GitHub 배포 완료 후
+**사용 시점:** 프로젝트를 GitHub에 push한 후
 
 **Claude Code가 수행하는 작업:**
 ```
-1. 현재 Git remote URL 확인
-   git remote get-url origin
-
-2. SSAL Works users 테이블에 github_repo_url 등록
-   (사용자 이메일 기준)
-
-3. 연동 완료 안내
+1. .ssal-project.json에서 owner_email 확인
+2. .env에서 SUPABASE_URL, SUPABASE_ANON_KEY 로드
+3. git remote get-url origin 실행 → GitHub URL 확인
+4. Supabase users 테이블 UPDATE:
+   - 조건: email = owner_email
+   - 업데이트: github_repo_url = {GitHub URL}
+5. 연동 완료 안내
 ```
+
+**실행 스크립트:** `scripts/connect-viewer.js`
 
 **사용자가 말할 것:**
 ```
@@ -705,7 +687,8 @@ git push
 
 📊 이제 www.ssalworks.ai.kr에서 확인할 수 있습니다:
    1. 사이트 접속 후 로그인
-   2. 사이드바 → Project SAL Grid → '내 프로젝트'
+   2. 메인 화면 하단 "Project SAL Grid" 섹션
+   3. "{프로젝트명}(진행중) Viewer 열기" 버튼 클릭
 
 🔗 GitHub URL: https://github.com/{username}/{repo}
 📁 데이터 위치: Process/S0_Project-SAL-Grid_생성/method/json/data/
@@ -724,8 +707,9 @@ git push
 **SSAL Works 사이트에서:**
 1. www.ssalworks.ai.kr 접속
 2. 같은 이메일로 로그인
-3. 사이드바 → Project SAL Grid → "내 프로젝트" 클릭
-4. 프로젝트 진행 현황 확인
+3. 메인 화면 하단 "Project SAL Grid" 섹션
+4. "{프로젝트명}(진행중) Viewer 열기" 버튼 클릭
+5. 프로젝트 진행 현황 확인
 
 **연동 안 되면:**
 - "GitHub 연결이 필요합니다" 메시지 표시
@@ -795,20 +779,12 @@ const rawBaseUrl = githubToRawUrl(userData.github_repo_url);
 | **서버** (실시간 API) | `bridge_server.js` | 개발용 로컬 서버 |
 
 **⛔ 혼동 금지:**
-- "Order Sheet 빌드해" → `build-web-assets.js` 실행
-- "안내문 빌드해" → `build-web-assets.js` 실행
+- "Manual 빌드해" → `build-web-assets.js` 실행
 - **`bridge_server.js`는 빌드 도구가 아님!** (런타임 API 서버)
-
-**스크립트 저장 원칙:**
-```
-1. 단일 대상 스크립트 → 해당 폴더에 저장
-2. 복수 대상 스크립트 → 루트 scripts/에 저장
-```
 
 **빌드 스크립트 위치:**
 ```
-scripts/build-web-assets.js             ← 통합 빌드 (복수 대상)
-Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js  ← Order Sheet (단일)
-Briefings_OrderSheets/Briefings/generate-briefings-js.js               ← Briefings (단일)
+scripts/build-web-assets.js    ← SAL Grid 매뉴얼 MD→HTML 변환
+scripts/sync-to-root.js        ← Stage → Root 자동 복사
 ```
 

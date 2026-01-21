@@ -23,9 +23,9 @@
 | Stage | 정확한 명칭 |
 |-------|-------------|
 | S1 | 개발 준비 (Development Setup) |
-| S2 | 개발 1차 (Auth & Registration) |
-| S3 | 개발 2차 (AI Integration) |
-| S4 | 개발 3차 (Payment & Admin) |
+| S2 | 개발 1차 (Core Development) |
+| S3 | 개발 2차 (Additional Development) |
+| S4 | 개발 3차 (Advanced Development) |
 | S5 | 운영 (Operations) |
 
 ❌ 금지: "기반 구축", "설정", "셋업" 등 임의 변경
@@ -201,7 +201,7 @@ Tools는 실제 개발 도구를 의미합니다:
 ```
 ✅ 좋은 예:
 - google-login.js      (뭐하는 파일인지 바로 앎)
-- subscription-cancel.js
+- user-profile.js
 - email-send.js
 
 ❌ 나쁜 예:

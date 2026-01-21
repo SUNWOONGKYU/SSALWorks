@@ -100,7 +100,7 @@
 ```
 ✅ 올바른 형식:
 - google-login.js
-- subscription-cancel.js
+- user-profile.js
 - forgot-password.html
 - ai-health.js
 
@@ -127,7 +127,7 @@
 예시:
 - google-login.js       → 기능: google, 동작: login
 - email-send.js         → 기능: email, 동작: send
-- subscription-cancel.js → 기능: subscription, 동작: cancel
+- user-profile.js → 기능: user, 동작: profile
 - password-reset.html   → 기능: password, 동작: reset
 ```
 
@@ -140,7 +140,7 @@
 | F (Frontend) | 페이지 | `.html` | `google-login.html` |
 | F (Frontend) | 스크립트 | `.js` | `sidebar.js` |
 | F (Frontend) | 스타일 | `.css` | `dashboard.css` |
-| BA (Backend APIs) | API | `.js` | `subscription-cancel.js` |
+| BA (Backend APIs) | API | `.js` | `user-profile.js` |
 | S (Security) | 인증 API | `.js` | `google-callback.js` |
 | BI (Backend Infra) | 라이브러리 | `.js` | `supabase-client.js` |
 | E (External) | 외부 연동 | `.js` | `ai-health.js` |
@@ -153,17 +153,17 @@
 
 ```
 ❌ 파일명에 Task ID 넣지 않음:
-- S2BA1_subscription-cancel.js  (X)
+- S2BA1_user-profile.js  (X)
 
 ✅ 파일명은 기능만, Task ID는 주석에:
-- subscription-cancel.js        (O)
+- user-profile.js        (O)
 ```
 
 **JavaScript 파일:**
 ```javascript
 /**
  * @task S2BA1
- * @description 구독 취소 API
+ * @description 사용자 프로필 API
  */
 export default async function handler(req, res) {
   // ...
@@ -237,9 +237,9 @@ export default async function handler(req, res) {
 | # | 코드 | 영문명 | 한글명 | 주요 내용 | 폴더명 |
 |---|------|--------|--------|----------|--------|
 | 1 | **S1** | Development Setup | 개발 준비 | 환경설정, DB스키마, Auth설정 | `S1_개발_준비/` |
-| 2 | **S2** | Auth & Registration | 개발 1차 | OAuth, 이메일, 회원가입 | `S2_개발-1차/` |
-| 3 | **S3** | AI Integration | 개발 2차 | AI 연동, AI Q&A | `S3_개발-2차/` |
-| 4 | **S4** | Payment & Admin | 개발 3차 | 결제, 관리자, 크레딧 | `S4_개발-3차/` |
+| 2 | **S2** | Core Development | 개발 1차 | 핵심 기능 구현 | `S2_개발-1차/` |
+| 3 | **S3** | Additional Development | 개발 2차 | 추가 기능 구현 | `S3_개발-2차/` |
+| 4 | **S4** | Advanced Development | 개발 3차 | 고급 기능 구현 | `S4_개발-3차/` |
 | 5 | **S5** | Development Stabilization | 개발 마무리 | 배포, QA, 안정화 | `S5_개발_마무리/` |
 
 ---
@@ -699,7 +699,7 @@ Main Agent → Task Agent 서브에이전트 투입 (Task tool 사용)
 **수행자:** AI → PO
 
 **요청이 필요한 상황:**
-- 외부 서비스 API 키 필요 (Resend, Stripe, OpenAI 등)
+- 외부 서비스 API 키 필요 (이메일 서비스, 결제 게이트웨이, AI API 등)
 - OAuth Provider 설정 필요 (Google, GitHub, Kakao 등)
 - 환경 변수 설정 필요 (Vercel, Supabase 등)
 - 외부 대시보드 접속 필요
@@ -792,8 +792,8 @@ Main Agent가 직접 검증:
 
 ### 3) 설정 완료 체크리스트
 ```
-- [ ] Google OAuth 설정 완료
-- [ ] Resend API 키 설정 완료
+- [ ] OAuth Provider 설정 완료
+- [ ] 외부 서비스 API 키 설정 완료
 - [ ] 환경 변수 배포 완료
 ```
 
@@ -963,7 +963,7 @@ END IF;
 | Task ID | Task Name | Status | Verification |
 |---------|-----------|--------|--------------|
 | S2F1 | Google 로그인 UI | ✅ 완료 | ✅ Passed |
-| S2BA1 | 구독 취소 API | ✅ 완료 | ✅ Passed |
+| S2BA1 | 사용자 프로필 API | ✅ 완료 | ✅ Passed |
 | ... | ... | ... | ... |
 
 ## 2. 빌드/테스트 결과
@@ -1284,9 +1284,9 @@ DB 자동 기록: created_at, updated_at (Supabase)
 ║                PROJECT SAL GRID 관리 범위 (S1-S5)                     ║
 ╠═══════════════════════════════════════════════════════════════════════╣
 ║   Stage 1: Development Setup (개발 준비)        ← 일부 Areas          ║
-║   Stage 2: Auth & Registration (개발 1차)       ← 11 Areas            ║
-║   Stage 3: AI Integration (개발 2차)            ← 11 Areas            ║
-║   Stage 4: Payment & Admin (개발 3차)           ← 일부 Areas          ║
+║   Stage 2: Core Development (개발 1차)       ← 11 Areas            ║
+║   Stage 3: Additional Development (개발 2차)            ← 11 Areas            ║
+║   Stage 4: Advanced Development (개발 3차)           ← 일부 Areas          ║
 ║   Stage 5: Development Stabilization (개발 마무리) ← 9 Areas          ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 ```
@@ -1298,9 +1298,9 @@ DB 자동 기록: created_at, updated_at (Supabase)
 #### **5 Stages (GRID 관리 범위)**
 ```
 Stage 1: Development Setup (개발 준비)
-Stage 2: Auth & Registration (개발 1차)
-Stage 3: AI Integration (개발 2차)
-Stage 4: Payment & Admin (개발 3차)
+Stage 2: Core Development (개발 1차)
+Stage 3: Additional Development (개발 2차)
+Stage 4: Advanced Development (개발 3차)
 Stage 5: Development Stabilization (개발 마무리)
 ```
 
@@ -1587,8 +1587,8 @@ S2F1_S1F6_login_component.tsx
    | 6. 테스트 성공 시 "완료" | AI | ✅ |
 
    **Human-AI Task 예시:**
-   - S1S1: Google OAuth 설정
-   - S2BI1: Resend 이메일 설정
+   - S1S1: OAuth Provider 설정
+   - S2BI1: 이메일 서비스 설정
    - S3E1: AI API 키 설정
    - S4O1: PG사 설정
    - S5O1/S5O2: 배포/도메인 연결
@@ -1946,9 +1946,9 @@ project-root/
 ├── P2_프로젝트_기획/                   # Project Planning (GRID 범위 밖)
 ├── P3_프로토타입_제작/                 # Prototype (GRID 범위 밖)
 ├── S1_개발_준비/                       # Development Setup (Stage 1)
-├── S2_개발-1차/                        # Auth & Registration (Stage 2)
-├── S3_개발-2차/                        # AI Integration (Stage 3)
-├── S4_개발-3차/                        # Payment & Admin (Stage 4)
+├── S2_개발-1차/                        # Core Development (Stage 2)
+├── S3_개발-2차/                        # Additional Development (Stage 3)
+├── S4_개발-3차/                        # Advanced Development (Stage 4)
 ├── S5_개발_마무리/                     # Development Stabilization (Stage 5)
 │
 ├── .claude/                           # Claude Code 설정
@@ -2789,7 +2789,7 @@ grep "## Task Name" verification-instructions/S2F1_verification.md -A 1
 |---------|-----------------|----------------------------------|
 | S1BI1 | 환경변수 설정 | ~~Supabase 클라이언트 설정~~ |
 | S2F1 | Google 소셜 로그인 UI | ~~My Page UI~~ |
-| S2BI2 | 에러 핸들링 시스템 | ~~구독 클라이언트 모듈~~ |
+| S2BI2 | 에러 핸들링 시스템 | ~~알림 시스템 모듈~~ |
 
 **불일치 시 발생하는 문제:**
 - ❌ 잘못된 Task를 검증하게 됨
@@ -4703,7 +4703,7 @@ SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 **이제 다음 중 선택:**
 
-1. **바로 설치하고 싶다면** → [14. 표준 Grid 설치](#14-표준-grid-설치-66개-task)
+1. **바로 설치하고 싶다면** → [14. 표준 Grid 설치](#14-표준-grid-설치)
 2. **먼저 이해하고 싶다면** → [16. Supabase 기본 개념](#16-supabase-기본-개념)
 
 ---
@@ -5218,7 +5218,7 @@ python -m http.server 8080
 
 **실시간 업데이트:**
 - Supabase에서 데이터 변경 시 자동 반영
-- 새로고침 불필요 (Real-time 구독 기능)
+- 새로고침 불필요 (Real-time 연동 기능)
 
 ---
 
@@ -6858,7 +6858,7 @@ A:
 - **v3.8 (2025-12-23)**: S4F6 Task 확장
   - S4F6 Task 이름 변경: "인앱 알림 UI" -> "My Page 기능 (알림/문의)"
   - My Page 문의 관리 페이지 추가
-  - S4F1 modification_history 업데이트 (크레딧 관리 섹션 개선)
+  - S4F1 modification_history 업데이트 (리소스 관리 섹션 개선)
   - TASK_PLAN.md v3.5 반영
 
 - **v3.7 (2025-12-22)**: 인앱 알림 시스템 Task 추가

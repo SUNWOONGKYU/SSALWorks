@@ -26,11 +26,11 @@
 
 | # | 코드 | 영문명 | 한글명 | 주요 내용 | 폴더명 |
 |---|------|--------|--------|----------|--------|
-| 1 | **S1** | Development Setup | 개발 준비 | 환경설정, DB스키마, Auth설정 | `Process/S1_개발_준비/` |
-| 2 | **S2** | Auth & Registration | 개발 1차 | OAuth, 이메일, 회원가입 | `Process/S2_개발-1차/` |
-| 3 | **S3** | AI Integration | 개발 2차 | AI 연동, AI Q&A | `Process/S3_개발-2차/` |
-| 4 | **S4** | Payment & Admin | 개발 3차 | 결제, 관리자, 크레딧 | `Process/S4_개발-3차/` |
-| 5 | **S5** | Development Stabilization | 개발 마무리 | 배포, QA, 안정화 | `Process/S5_개발_마무리/` |
+| 1 | **S1** | Development Setup | 개발 준비 | 환경 설정, 초기 구성 | `Process/S1_개발_준비/` |
+| 2 | **S2** | Core Development | 개발 1차 | 핵심 기능 구현 | `Process/S2_개발-1차/` |
+| 3 | **S3** | Additional Development | 개발 2차 | 추가 기능 구현 | `Process/S3_개발-2차/` |
+| 4 | **S4** | Advanced Development | 개발 3차 | 고급 기능 구현 | `Process/S4_개발-3차/` |
+| 5 | **S5** | Development Stabilization | 개발 마무리 | 배포 준비, 안정화 | `Process/S5_개발_마무리/` |
 
 ---
 

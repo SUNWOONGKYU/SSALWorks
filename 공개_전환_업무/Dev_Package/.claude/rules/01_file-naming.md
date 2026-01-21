@@ -11,7 +11,7 @@
 ```
 ✅ 올바른 형식:
 - google-login.js
-- subscription-cancel.js
+- user-profile.js
 - forgot-password.html
 - ai-health.js
 
@@ -30,15 +30,15 @@
 
 | 구성 | 설명 | 예시 |
 |------|------|------|
-| 기능 | 무엇에 관한 것인지 | google, email, subscription |
-| 동작 | 무엇을 하는지 | login, send, cancel |
+| 기능 | 무엇에 관한 것인지 | google, email, user |
+| 동작 | 무엇을 하는지 | login, send, profile |
 | 확장자 | 파일 유형 | .js, .html, .css |
 
 ```
 예시:
 - google-login.js       → 기능: google, 동작: login
 - email-send.js         → 기능: email, 동작: send
-- subscription-cancel.js → 기능: subscription, 동작: cancel
+- user-profile.js → 기능: user, 동작: profile
 - password-reset.html   → 기능: password, 동작: reset
 ```
 
@@ -51,7 +51,7 @@
 | F (Frontend) | 페이지 | `.html` | `google-login.html` |
 | F (Frontend) | 스크립트 | `.js` | `sidebar.js` |
 | F (Frontend) | 스타일 | `.css` | `dashboard.css` |
-| BA (Backend APIs) | API | `.js` | `subscription-cancel.js` |
+| BA (Backend APIs) | API | `.js` | `user-profile.js` |
 | S (Security) | 인증 API | `.js` | `google-callback.js` |
 | BI (Backend Infra) | 라이브러리 | `.js` | `supabase-client.js` |
 | E (External) | 외부 연동 | `.js` | `ai-health.js` |
@@ -64,17 +64,17 @@
 
 ```
 ❌ 파일명에 Task ID 넣지 않음:
-- S2BA1_subscription-cancel.js  (X)
+- S2BA1_user-profile.js  (X)
 
 ✅ 파일명은 기능만, Task ID는 주석에:
-- subscription-cancel.js        (O)
+- user-profile.js        (O)
 ```
 
 **JavaScript 파일:**
 ```javascript
 /**
  * @task S2BA1
- * @description 구독 취소 API
+ * @description 사용자 프로필 API
  */
 export default async function handler(req, res) {
   // ...
