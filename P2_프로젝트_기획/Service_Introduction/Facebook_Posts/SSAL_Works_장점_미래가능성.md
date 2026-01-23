@@ -58,4 +58,4 @@ SSAL Works는 그 변화를 위한 플랫폼입니다.
 
 ## 해시태그
 
-#AI개발 #NoCode #프로젝트관리 #특허기술 #SSAL_Works #클로드코드 #스타트업
+#AI개발 #NoCode #프로젝트관리 #특허기술 #SSAL_Works #AI개발 #스타트업
