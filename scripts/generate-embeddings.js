@@ -238,7 +238,7 @@ async function main() {
     console.log('═══════════════════════════════════════════════\n');
 
     // 기존 데이터 삭제 (필요시 주석 해제)
-    // await clearExistingData();
+    await clearExistingData();
 
     const stats = { files: 0, chunks: 0, errors: 0 };
     const startTime = Date.now();
