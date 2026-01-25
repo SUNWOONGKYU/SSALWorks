@@ -2750,8 +2750,8 @@ h6 {
 /* Large Desktop: 1920px+ */
 @media (min-width: 1920px) {
     .layout-container {
-        grid-template-columns: 280px minmax(500px, 650px) 280px;
-        padding: 0 110px;
+        grid-template-columns: 280px minmax(500px, 780px) 280px;
+        padding: 0;
     }
 }
 
