@@ -5907,7 +5907,7 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 특정 콘텐츠 열기
         function openLearningContent(path) {
-            window.open('/%EB%B6%80%EC%88%98%EC%A0%81_%EA%B3%A0%EC%9C%A0%EA%B8%B0%EB%8A%A5/%EC%BD%98%ED%85%90%EC%B8%A0/%ED%95%99%EC%8A%B5%EC%9A%A9_Books_New/viewer.html?path=' + encodeURIComponent(path), '_blank');
+            window.open('/부수적_고유기능/콘텐츠/학습용_Books_New/viewer.html?path=' + encodeURIComponent(path), '_blank');
         }
 
         // ================================================
@@ -10764,7 +10764,7 @@ Claude Code가 작업을 완료하면:
 
             // MD 파일 fetch
             try {
-                const url = GITHUB_RAW_BASE + '/부수적_고유기능/콘텐츠/' + item.path;
+                const url = '/부수적_고유기능/콘텐츠/' + item.path;
                 const response = await fetch(url);
 
                 if (!response.ok) {
