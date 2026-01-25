@@ -62,7 +62,8 @@ function buildPrompt(question, contextDocs = []) {
         content_id: doc.content_id,
         title: doc.title,
         similarity: doc.similarity,
-        content_type: doc.content_type
+        content_type: doc.content_type,
+        content: doc.content || doc.chunk_content || '' // content 필드 추가
     }));
 
     return {
