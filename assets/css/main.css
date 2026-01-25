@@ -2936,6 +2936,7 @@ h6 {
     }
     .footer-copyright > div {
         font-size: 9px !important;
+        white-space: normal !important;
     }
 }
 /* 실행 상태 카드 - 모바일에서 숨김 (PC 전용) */
