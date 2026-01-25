@@ -2915,14 +2915,12 @@ h6 {
     .footer-company-info .footer-divider-pc {
         display: none !important;
     }
-    /* Footer copyright - 지적재산권 정보 모바일 최적화 */
-    .footer-copyright > div:last-child {
-        font-size: 9px !important;
-        gap: 3px !important;
+    /* Footer copyright - 모바일 폰트 크기 조정 */
+    .footer-copyright {
+        font-size: 10px !important;
     }
-    .footer-copyright > div:last-child > div {
+    .footer-copyright > div {
         font-size: 9px !important;
-        gap: 4px !important;
     }
 }
 /* 실행 상태 카드 - 모바일에서 숨김 (PC 전용) */
