@@ -5907,7 +5907,29 @@ Bridge 서버(localhost:3030)에 연결할 수 없습니다.
 
         // 특정 콘텐츠 열기
         function openLearningContent(path) {
-            window.open('/부수적_고유기능/콘텐츠/학습용_Books_New/viewer.html?path=' + encodeURIComponent(path), '_blank');
+            // path에서 book과 index 추출
+            // 예: "부수적_고유기능/콘텐츠/학습용_Books_New/1권_Claude_ClaudeCode_사용법/01편_Anthropic_창업과_철학.md"
+            //   → book=book1, index=0
+
+            let book = 'book1';
+            let index = 0;
+
+            // 권 번호 추출
+            if (path.includes('1권')) {
+                book = 'book1';
+            } else if (path.includes('2권')) {
+                book = 'book2';
+            } else if (path.includes('3권')) {
+                book = 'book3';
+            }
+
+            // 편 번호 추출 (예: "01편" → index 0, "15편" → index 14)
+            const match = path.match(/(\d+)편/);
+            if (match) {
+                index = parseInt(match[1]) - 1; // 1편은 index 0
+            }
+
+            window.open(`/부수적_고유기능/콘텐츠/학습용_Books_New/viewer.html?book=${book}&index=${index}`, '_blank');
         }
 
         // ================================================
