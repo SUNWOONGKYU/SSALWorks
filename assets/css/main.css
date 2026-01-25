@@ -2892,9 +2892,13 @@ h6 {
         margin-top: 4px;
     }
     .admin-link {
-        display: block;
-        margin-top: 8px !important;
+        position: static !important;
+        display: block !important;
+        text-align: center;
+        margin-top: 12px !important;
         margin-left: 0 !important;
+        opacity: 0.3 !important;
+        font-size: 10px !important;
     }
     /* Footer company info - 모바일에서 두 줄 */
     .footer-company-info {
@@ -2910,6 +2914,15 @@ h6 {
     }
     .footer-company-info .footer-divider-pc {
         display: none !important;
+    }
+    /* Footer copyright - 지적재산권 정보 모바일 최적화 */
+    .footer-copyright > div:last-child {
+        font-size: 9px !important;
+        gap: 3px !important;
+    }
+    .footer-copyright > div:last-child > div {
+        font-size: 9px !important;
+        gap: 4px !important;
     }
 }
 /* 실행 상태 카드 - 모바일에서 숨김 (PC 전용) */
