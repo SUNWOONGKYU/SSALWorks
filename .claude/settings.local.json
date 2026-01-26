@@ -40,7 +40,10 @@
       "Bash(ls:*)",
       "WebFetch(domain:www.ssalworks.ai.kr)",
       "WebFetch(domain:ssal-works.vercel.app)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "Bash(npm --version:*)",
+      "Bash(\"/c/Program Files/nodejs/npm\" install @anthropic-ai/sdk)",
+      "Bash(bash:*)"
     ],
     "deny": [],
     "ask": []
