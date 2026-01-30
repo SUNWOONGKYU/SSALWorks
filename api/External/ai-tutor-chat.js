@@ -103,11 +103,13 @@ module.exports = async function handler(req, res) {
             return res.status(402).json({ error: 'Insufficient credits' });
         }
 
-        // RAG 파이프라인 실행
+        // RAG 파이프라인 실행 (하이브리드 검색: 벡터 + 키워드)
         const ragResult = await ragPipeline(supabaseAdmin, message, {
-            matchThreshold: 0.25, // 검색 감도 향상 (0.5 → 0.3 → 0.25)
-            matchCount: 10, // 검색 문서 수 증가 (5 → 10)
-            history: history
+            matchThreshold: 0.25,
+            matchCount: 10,
+            history: history,
+            vectorWeight: 0.7,
+            keywordWeight: 0.3
         });
 
         // SSE 헤더 설정

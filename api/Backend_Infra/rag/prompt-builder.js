@@ -45,10 +45,12 @@ function buildPrompt(question, contextDocs = []) {
         const formattedDocs = contextDocs
             .map((doc, i) => {
                 const title = doc.title || `문서 ${i + 1}`;
-                const similarity = doc.similarity
-                    ? ` (관련도: ${(doc.similarity * 100).toFixed(1)}%)`
-                    : '';
-                return `### [참조 ${i + 1}] ${title}${similarity}\n${doc.content}`;
+                const score = doc.combined_score
+                    ? ` (종합: ${(doc.combined_score * 100).toFixed(1)}%)`
+                    : doc.similarity
+                        ? ` (관련도: ${(doc.similarity * 100).toFixed(1)}%)`
+                        : '';
+                return `### [참조 ${i + 1}] ${title}${score}\n${doc.content}`;
             })
             .join('\n\n---\n\n');
 
@@ -62,8 +64,10 @@ function buildPrompt(question, contextDocs = []) {
         content_id: doc.content_id,
         title: doc.title,
         similarity: doc.similarity,
+        keyword_similarity: doc.keyword_similarity,
+        combined_score: doc.combined_score,
         content_type: doc.content_type,
-        content: doc.content || doc.chunk_content || '' // content 필드 추가
+        content: doc.content || doc.chunk_content || ''
     }));
 
     return {
