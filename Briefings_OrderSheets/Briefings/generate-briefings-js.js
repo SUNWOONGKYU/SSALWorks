@@ -62,8 +62,8 @@ function mdToHtml(md) {
         return `<pre style="background: #3a3a3a; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; font-family: 'Consolas', 'Monaco', monospace; font-size: 12px; line-height: 1.5;"><code>${escapedCode}</code></pre>`;
     });
 
-    // 2. 들여쓰기 하위 항목 처리 (   - 로 시작하는 줄)
-    html = html.replace(/^   - (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 6px; font-size: 12px; line-height: 1.7; color: #555;">• $1</div>');
+    // 2. 들여쓰기 하위 항목 처리 (2~4칸 공백 + - 로 시작하는 줄)
+    html = html.replace(/^ {2,4}- (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 6px; font-size: 12px; line-height: 1.7; color: #555;">• $1</div>');
 
     // 3. 제목 변환 (크기: h1=15px, h2=14px, h3=13px)
     html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 16px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #333;">$1</h3>');

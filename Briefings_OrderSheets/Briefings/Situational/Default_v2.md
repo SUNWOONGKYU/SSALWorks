@@ -3,8 +3,8 @@
 **SSAL Works**는 AI를 활용해서 SAL Grid 등의 체계적 개발 방법론을 적용하여 풀스택 웹사이트를 개발하는 플랫폼입니다.
 
 - **AI란?**
-  - **Claude Code**: Anthropic이 만든 AI 코딩 도구로, 사람 대신 코딩을 수행하며, SSAL Works의 주력 AI입니다.
-  - **Gemini CLI**: Google에서 개발한 AI 모델로, 비용 효율적인 분석, 코드 리뷰, CLI 환경에서의 지시 이행 등 보조적인 역할을 수행합니다.
+  - Claude Code: Anthropic이 만든 AI 코딩 도구로, 사람 대신 코딩을 수행하며, SSAL Works의 주력 AI입니다.
+  - Gemini CLI: Google에서 개발한 AI 모델로, 비용 효율적인 분석, 코드 리뷰, CLI 환경에서의 지시 이행 등 보조적인 역할을 수행합니다.
 - **SAL Grid**: SAL(Stage, Area, Level의 3차원 좌표계) 기반의 Grid를 활용하여 개발 프로젝트의 실행/관리/통제/검증을 진행하는 시스템입니다.
 - **풀스택 웹사이트**: 프론트엔드(화면) + 백엔드(서버/API) + 데이터베이스를 모두 갖춘 완전한 웹사이트입니다.
 
