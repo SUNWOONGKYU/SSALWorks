@@ -5856,6 +5856,7 @@
                     <td>${formatDate(proj.created_at)}</td>
                     <td>
                         <a href="#" class="action-link" onclick="event.preventDefault(); viewProjectDetail('${proj.id}')">상세</a>
+                        <a href="#" class="action-link" style="color: #dc3545; margin-left: 8px;" onclick="event.preventDefault(); deleteProject('${proj.project_id}', '${(proj.project_name || '').replace(/'/g, "\\'")}')">삭제</a>
                     </td>
                 </tr>
             `).join('');
@@ -5917,6 +5918,45 @@
             }
 
             alert(`프로젝트 상세\n\n프로젝트 ID: ${project.project_id}\n프로젝트명: ${project.project_name}\n사용자 ID: ${project.user_id}\n상태: ${project.status}\n진행률: ${project.progress}%\n등록일: ${formatDateTime(project.created_at)}`);
+        }
+
+        /**
+         * 프로젝트 삭제 (Admin 전용)
+         */
+        async function deleteProject(projectId, projectName) {
+            if (!confirm(`정말 삭제하시겠습니까?\n\n프로젝트 ID: ${projectId}\n프로젝트명: ${projectName}\n\n⚠️ 삭제하면 관련 진행률 데이터도 함께 삭제됩니다.`)) {
+                return;
+            }
+
+            try {
+                // 1. project_phase_progress 삭제 (FK 관계)
+                const { error: phaseError } = await supabaseClient
+                    .from('project_phase_progress')
+                    .delete()
+                    .eq('project_id', projectId);
+
+                if (phaseError) {
+                    console.warn('phase_progress 삭제 경고:', phaseError.message);
+                }
+
+                // 2. projects 삭제
+                const { error } = await supabaseClient
+                    .from('projects')
+                    .delete()
+                    .eq('project_id', projectId);
+
+                if (error) throw error;
+
+                showToast(`프로젝트 "${projectName}" 삭제 완료`, 'success');
+                console.log('✅ 프로젝트 삭제:', projectId);
+
+                // 목록 새로고침
+                loadProjects();
+
+            } catch (error) {
+                console.error('❌ 프로젝트 삭제 실패:', error);
+                showToast('프로젝트 삭제 실패: ' + error.message, 'error');
+            }
         }
 
         // ========================================
