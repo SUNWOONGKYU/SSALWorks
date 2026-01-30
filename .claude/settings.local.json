@@ -43,7 +43,8 @@
       "Bash(npx vercel:*)",
       "Bash(npm --version:*)",
       "Bash(\"/c/Program Files/nodejs/npm\" install @anthropic-ai/sdk)",
-      "Bash(bash:*)"
+      "Bash(bash:*)",
+      "Bash(supabase login:*)"
     ],
     "deny": [],
     "ask": []
