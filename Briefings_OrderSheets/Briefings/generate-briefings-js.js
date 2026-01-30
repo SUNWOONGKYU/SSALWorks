@@ -63,7 +63,7 @@ function mdToHtml(md) {
     });
 
     // 2. 들여쓰기 하위 항목 처리 (2~4칸 공백 + - 로 시작하는 줄)
-    html = html.replace(/^ {2,4}- (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 6px; font-size: 12px; line-height: 1.7; color: #555;">• $1</div>');
+    html = html.replace(/^ {2,4}- (.+)$/gm, '<div style="margin-left: 24px; margin-bottom: 2px; font-size: 12px; line-height: 1.7;">- $1</div>');
 
     // 3. 제목 변환 (크기: h1=15px, h2=14px, h3=13px)
     html = html.replace(/^### (.+)$/gm, '<h3 style="margin-top: 16px; margin-bottom: 8px; font-size: 13px; font-weight: 600; color: #333;">$1</h3>');
@@ -133,6 +133,10 @@ function mdToHtml(md) {
         if (blockTags.test(para) || para.trim() === '') return para;
         return '<p style="margin: 12px 0; font-size: 12px; line-height: 1.8;">' + para + '</p>';
     }).join('\n');
+
+    // 13. 하위 항목(<div>) 바로 앞의 </ul> 하단 마진 제거 (부모-자식 간격 축소)
+    html = html.replace(/(<ul style="padding-left: 20px; margin: 12px 0;">)([\s\S]*?<\/ul>)(\s*<div style="margin-left: 24px)/g,
+        '<ul style="padding-left: 20px; margin: 12px 0 0 0;">$2$3');
 
     return html;
 }
