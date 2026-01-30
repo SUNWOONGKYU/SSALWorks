@@ -11410,36 +11410,31 @@ Claude Code가 작업을 완료하면:
     <div id="qProgramPopup" class="q-popup-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: flex-start; justify-content: flex-end; padding: 80px 20px 20px; z-index: 99999; opacity: 0; visibility: hidden; transition: all 0.3s ease;">
         <div class="q-popup-container" style="position: relative; max-width: 650px; width: 95%; max-height: calc(100vh - 100px); overflow-y: auto; border-radius: 20px; box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5); transform: translateX(50px); transition: transform 0.3s ease;">
             <!-- 닫기 버튼 -->
-            <button onclick="closeQPopup()" style="position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border: none; border-radius: 50%; color: white; font-size: 24px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.5)'">&times;</button>
+            <button onclick="closeQPopup()" style="position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: rgba(0,0,0,0.1); border: none; border-radius: 50%; color: #6b7280; font-size: 24px; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='rgba(0,0,0,0.2)'" onmouseout="this.style.background='rgba(0,0,0,0.1)'">&times;</button>
 
             <!-- 포스터 내용 -->
-            <div style="background: linear-gradient(180deg, #1a2d4d 0%, #2C4A8A 100%); font-family: 'Noto Sans KR', sans-serif; position: relative; overflow: hidden;">
-                <!-- 배경 장식 -->
-                <div style="position: absolute; width: 200px; height: 200px; background: radial-gradient(circle, rgba(16, 185, 129, 0.12) 0%, transparent 60%); border-radius: 50%; top: -60px; right: -60px;"></div>
-                <div style="position: absolute; width: 150px; height: 150px; background: radial-gradient(circle, rgba(217, 119, 6, 0.08) 0%, transparent 60%); border-radius: 50%; bottom: 100px; left: -50px;"></div>
+            <div style="background: #ffffff; font-family: 'Noto Sans KR', sans-serif; position: relative; overflow: hidden;">
 
                 <!-- 헤더 -->
-                <div style="position: relative; z-index: 1; padding: 35px 30px 25px; text-align: center;">
-                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px;">
+                <div style="position: relative; z-index: 1; padding: 30px 30px 20px; text-align: center;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px;">
                         <span style="display: flex; align-items: center; gap: 3px; transform: rotate(-15deg);">
                             <span style="width: 10px; height: 18px; background: linear-gradient(135deg, #D97706 0%, #B45309 100%); border-radius: 40%; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.5); transform: rotate(-5deg);"></span>
                             <span style="width: 10px; height: 18px; background: linear-gradient(135deg, #D97706 0%, #B45309 100%); border-radius: 40%; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.5); transform: rotate(5deg); margin-top: 2px;"></span>
                             <span style="width: 10px; height: 18px; background: linear-gradient(135deg, #D97706 0%, #B45309 100%); border-radius: 40%; box-shadow: 0 2px 4px rgba(217, 119, 6, 0.5); transform: rotate(-3deg); margin-top: -1px;"></span>
                         </span>
-                        <span style="font-size: 22px; font-weight: 800; color: white; letter-spacing: -1px;">SSAL Works</span>
+                        <span style="font-size: 22px; font-weight: 800; color: #1a2d4d; letter-spacing: -1px;">SSAL Works</span>
                     </div>
-                    <h1 style="font-size: 26px; font-weight: 900; color: #10B981; margin-bottom: 15px; letter-spacing: -1px; text-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);">SSAL Builder Q 프로그램</h1>
-                    <p style="font-size: 15px; font-weight: 700; color: white; line-height: 1.6; margin-bottom: 8px;">비개발자가 3개월 이내에<br>나만의 풀스택 웹서비스를 런칭하는 프로그램</p>
-                    <p style="font-size: 12px; font-weight: 400; color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">플랫폼, 개발 코칭, 사업 멘토링을 함께 제공합니다.</p>
-                    <div style="display: inline-block; background: rgba(255, 255, 255, 0.08); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.15); text-align: left;">
-                        <p style="font-size: 12px; color: rgba(255, 255, 255, 0.95); line-height: 1.8; margin: 0;">- <b>SSAL Builder</b> = SSAL Works로 웹서비스를 직접 만들어 운영하는 사업가<br>- <b>Q 프로그램</b> = Builder 자격을 갖추는(Qualifying) 3개월 집중 과정<br>- <b>대상</b> = 혁신적 아이디어를 갖고 있는 비개발자</p>
-                    </div>
+                    <h1 style="font-size: 26px; font-weight: 900; color: #10B981; margin-bottom: 10px; letter-spacing: -1px;">SSAL Builder Q 프로그램</h1>
+                    <p style="font-size: 15px; font-weight: 700; color: #1a2d4d; line-height: 1.6; margin-bottom: 6px;">비개발자가 3개월 이내에<br>나만의 풀스택 웹서비스를 런칭하는 프로그램</p>
+                    <p style="font-size: 12px; font-weight: 400; color: #6b7280; margin-bottom: 15px;">플랫폼, 개발 코칭, 사업 멘토링을 함께 제공합니다.</p>
+                    <p style="font-size: 11px; color: #6b7280; line-height: 1.8; margin: 0;">SSAL Builder = SSAL Works로 웹서비스를 직접 만들어 운영하는 사업가 · Q 프로그램 = Builder 자격을 갖추는 3개월 집중 과정 · 대상 = 혁신적 아이디어를 갖고 있는 비개발자</p>
                 </div>
 
                 <!-- 콘텐츠 -->
                 <!-- 플랫폼 제공 (단독 카드) -->
                 <div style="position: relative; z-index: 1; padding: 20px 25px 0;">
-                    <div style="background: white; border-radius: 16px; padding: 12px 20px;">
+                    <div style="background: #f9fafb; border-radius: 16px; padding: 12px 20px; border: 1px solid #e5e7eb;">
                         <h2 style="font-size: 13px; font-weight: 800; color: #1a2d4d; margin-bottom: 8px; padding-bottom: 8px; border-bottom: 3px solid #10B981; display: flex; align-items: center; gap: 8px;">
                             <span style="width: 28px; height: 28px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">📦</span>
                             플랫폼이 제공하는 것
@@ -11460,7 +11455,7 @@ Claude Code가 작업을 완료하면:
 
                 <!-- Sunny 직접 코칭 (단독 카드) -->
                 <div style="position: relative; z-index: 1; padding: 15px 25px 0;">
-                    <div style="background: white; border-radius: 16px; padding: 20px;">
+                    <div style="background: #f9fafb; border-radius: 16px; padding: 20px; border: 1px solid #e5e7eb;">
                         <h2 style="font-size: 13px; font-weight: 800; color: #1a2d4d; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 3px solid #10B981; display: flex; align-items: center; gap: 8px;">
                             <span style="width: 28px; height: 28px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">👨‍🏫</span>
                             Sunny가 직접 제공하는 것
@@ -11482,7 +11477,7 @@ Claude Code가 작업을 완료하면:
                 <!-- 크리덴셜(좌) + 3개월 목표(우) 2열 -->
                 <div style="position: relative; z-index: 1; padding: 15px 25px; display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                     <!-- Sunny의 크리덴셜 -->
-                    <div style="background: white; border-radius: 16px; padding: 20px;">
+                    <div style="background: #f9fafb; border-radius: 16px; padding: 20px; border: 1px solid #e5e7eb;">
                         <h2 style="font-size: 13px; font-weight: 800; color: #1a2d4d; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 3px solid #10B981; display: flex; align-items: center; gap: 8px;">
                             <span style="width: 28px; height: 28px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">🏆</span>
                             Sunny의 크리덴셜
@@ -11497,7 +11492,7 @@ Claude Code가 작업을 완료하면:
                     </div>
 
                     <!-- 3개월 목표 -->
-                    <div style="background: white; border-radius: 16px; padding: 20px;">
+                    <div style="background: #f9fafb; border-radius: 16px; padding: 20px; border: 1px solid #e5e7eb;">
                         <h2 style="font-size: 13px; font-weight: 800; color: #1a2d4d; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 3px solid #10B981; display: flex; align-items: center; gap: 8px;">
                             <span style="width: 28px; height: 28px; background: linear-gradient(135deg, #10B981 0%, #059669 100%); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0;">🎯</span>
                             3개월 후 달성 목표
@@ -11507,7 +11502,7 @@ Claude Code가 작업을 완료하면:
                             <li style="font-size: 11px; color: #1f2937; line-height: 1.8; padding: 3px 0; padding-left: 12px; position: relative;"><span style="position: absolute; left: 0; color: #10B981; font-weight: 800;">-</span>비즈니스 모델 정립</li>
                             <li style="font-size: 11px; color: #1f2937; line-height: 1.8; padding: 3px 0; padding-left: 12px; position: relative;"><span style="position: absolute; left: 0; color: #10B981; font-weight: 800;">-</span>사업계획서 2종(정부지원사업용, 일반용) 완성</li>
                             <li style="font-size: 11px; color: #1f2937; line-height: 1.8; padding: 3px 0; padding-left: 12px; position: relative;"><span style="position: absolute; left: 0; color: #10B981; font-weight: 800;">-</span>저작권 등록 + 특허 출원</li>
-                            <li style="font-size: 11px; color: #1f2937; line-height: 1.8; padding: 3px 0; padding-left: 12px; position: relative;"><span style="position: absolute; left: 0; color: #10B981; font-weight: 800;">-</span>풀스택 웹사이트를 자유자재로 만들 수 있는 역량</li>
+                            <li style="font-size: 11px; color: #1f2937; line-height: 1.8; padding: 3px 0; padding-left: 12px; position: relative;"><span style="position: absolute; left: 0; color: #10B981; font-weight: 800;">-</span>풀스택 웹사이트를 자유자재로 만들 수 있는 역량 보유</li>
                         </ul>
                     </div>
                 </div>
