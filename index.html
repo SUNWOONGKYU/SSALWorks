@@ -10919,11 +10919,21 @@ Claude Code가 작업을 완료하면:
                 return;
             }
 
-            let mdContent;
+            // serviceId → 번들 파일명 키 매핑
+            const SERVICE_GUIDE_BUNDLE_KEYS = {
+                'database': '01_데이터베이스_설정',
+                'auth': '02_회원인증_설정',
+                'email': '03_이메일_시스템_설정',
+                'deploy': '04_배포_도메인_설정',
+                'payment': '05_결제_시스템_설정'
+            };
 
-            // 1. 번들된 콘텐츠 우선 사용 (로컬/오프라인 지원)
-            if (typeof SERVICE_GUIDE_CONTENTS !== 'undefined' && SERVICE_GUIDE_CONTENTS[serviceId]) {
-                mdContent = SERVICE_GUIDE_CONTENTS[serviceId];
+            let mdContent;
+            const bundleKey = SERVICE_GUIDE_BUNDLE_KEYS[serviceId];
+
+            // 1. 번들된 콘텐츠 우선 사용 (service-guides.js → window.SERVICE_GUIDES)
+            if (typeof SERVICE_GUIDES !== 'undefined' && bundleKey && SERVICE_GUIDES[bundleKey]) {
+                mdContent = SERVICE_GUIDES[bundleKey];
             }
             // 2. Fallback: GitHub Raw URL에서 로드
             else {
