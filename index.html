@@ -10601,6 +10601,7 @@ Claude Code가 작업을 완료하면:
             { category: '세션 관리', title: '세션 끊어졌을 때 복구하기', path: '실전_Tips/세션_관리/세션_끊어졌을_때_복구하기.md' },
             { category: '세션 관리', title: '헤매면 미련 없이 세션 정리하기', path: '실전_Tips/세션_관리/헤매면_미련_없이_세션_정리하기.md' },
             { category: '세션 관리', title: 'CLI 여러 개 동시 실행하기', path: '실전_Tips/세션_관리/CLI_여러_개_동시_실행하기.md' },
+            { category: '세션 관리', title: '병렬 인스턴스 운영으로 생산성 극대화하기', path: '실전_Tips/세션_관리/병렬_인스턴스_운영으로_생산성_극대화하기.md' },
             { category: '세션 관리', title: 'Google Drive 동기화 문제 해결', path: '실전_Tips/세션_관리/Google_Drive_동기화_문제_해결.md' },
             { category: '검증 & 문서화', title: '별도 서브에이전트로 검증하기', path: '실전_Tips/검증_문서화/별도_서브에이전트로_검증하기.md' },
             { category: '검증 & 문서화', title: '수시로 문서화 지시하기', path: '실전_Tips/검증_문서화/수시로_문서화_지시하기.md' },
@@ -10959,7 +10960,11 @@ Claude Code가 작업을 완료하면:
                         <div style="display: flex; gap: 8px;">
                             <button onclick="copyServiceGuideContent()" title="마크다운 복사"
                                     style="padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: white; cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px;">
-                                📋 MD 파일 복사하기
+                                📋 복사하기
+                            </button>
+                            <button onclick="downloadServiceGuideContent()" title="마크다운 다운로드"
+                                    style="padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: white; cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px;">
+                                ⬇ 다운로드
                             </button>
                             <button onclick="this.closest('.service-guide-overlay').remove()"
                                     style="padding: 6px 14px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.5); background: rgba(255,255,255,0.15); color: white; cursor: pointer; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px;">
@@ -10968,15 +10973,16 @@ Claude Code가 작업을 완료하면:
                         </div>
                     </div>
                     <div style="padding: 8px 16px; background: #FEF3C7; border-bottom: 1px solid #D97706; font-size: 11px; color: #92400E;">
-                        💡 <strong>복사해서 사용하세요:</strong> 📋 버튼을 클릭하면 마크다운 원본이 클립보드에 복사됩니다.
+                        💡 <strong>복사 또는 다운로드:</strong> 📋 복사하기로 클립보드에 복사하거나, ⬇ 다운로드로 MD 파일을 저장하세요.
                     </div>
                     <div id="serviceGuideContent" class="service-guide-content" style="flex: 1; overflow-y: auto; padding: 20px;">
                         ${renderServiceGuideMarkdown(mdContent)}
                     </div>
                 `;
 
-                // 마크다운 원본 저장 (복사용)
+                // 마크다운 원본 저장 (복사/다운로드용)
                 modal.dataset.mdContent = mdContent;
+                modal.dataset.serviceId = serviceId;
 
                 overlay.appendChild(modal);
                 overlay.onclick = (e) => {
@@ -11036,6 +11042,33 @@ Claude Code가 작업을 완료하면:
                 }).catch(err => {
                     showStatus('❌ 복사 실패', 'error');
                 });
+            }
+        }
+
+        /**
+         * 서비스 가이드 마크다운 다운로드
+         */
+        function downloadServiceGuideContent() {
+            const modal = document.querySelector('.service-guide-modal');
+            if (modal && modal.dataset.mdContent) {
+                const GUIDE_FILENAMES = {
+                    'database': '01_데이터베이스_설정.md',
+                    'auth': '02_회원인증_설정.md',
+                    'email': '03_이메일_시스템_설정.md',
+                    'deploy': '04_배포_도메인_설정.md',
+                    'payment': '05_결제_시스템_설정.md'
+                };
+                const filename = GUIDE_FILENAMES[modal.dataset.serviceId] || 'guide.md';
+                const blob = new Blob([modal.dataset.mdContent], { type: 'text/markdown; charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showStatus('✅ MD 파일이 다운로드되었습니다!', 'success');
             }
         }
 
