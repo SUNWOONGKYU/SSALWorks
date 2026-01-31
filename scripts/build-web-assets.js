@@ -35,7 +35,7 @@ const PATHS = {
     ordersheetsGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js'),
     guidesGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings/generate-briefings-js.js'),
     serviceGuidesGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/generate-service-guides-js.js'),
-    customSkillsGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/Custom_Skills/generate-custom-skills-js.js'),
+    customSkillsGenerator: path.join(PROJECT_ROOT, 'scripts/generate-custom-skills-js.js'),
     serviceIntroMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/서비스_소개.md'),
     indexHtml: path.join(PROJECT_ROOT, 'index.html'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),

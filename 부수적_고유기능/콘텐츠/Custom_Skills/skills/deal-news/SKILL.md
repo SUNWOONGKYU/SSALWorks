@@ -1,13 +1,13 @@
 ---
 name: deal-news
-description: Deal 뉴스 수동 수집 - GitHub Actions 트리거 + 모니터링 + 결과 확인
+description: Deal 뉴스 자동 수집 - GitHub Actions 트리거 + 모니터링 + 결과 확인
 argument-hint: "[날짜 YYYY-MM-DD]"
 allowed-tools: "Bash(gh *), Bash(cd *), Bash(sleep *), Read, Grep"
 ---
 
-# Deal News 수동 수집
+# Deal News 자동 수집
 
-투자 뉴스를 수동으로 수집합니다. GitHub Actions 워크플로우를 트리거하고 결과를 확인합니다.
+투자 뉴스를 자동으로 수집합니다. GitHub Actions 워크플로우를 트리거하고 결과를 확인합니다.
 
 ## 프로세스
 
@@ -23,7 +23,7 @@ gh workflow run "Daily Investment News Scraper" --ref master -f target_date=$ARG
 gh workflow run "Daily Investment News Scraper" --ref master
 ```
 
-실행 디렉토리: 레포지토리 루트 (C:\ValueLink)
+실행 디렉토리: 현재 프로젝트의 Git 레포지토리 루트 (`git rev-parse --show-toplevel`로 확인)
 
 ### Step 2: 실행 대기 및 모니터링
 

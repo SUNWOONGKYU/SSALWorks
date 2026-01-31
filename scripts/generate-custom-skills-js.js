@@ -6,10 +6,11 @@
 const fs = require('fs');
 const path = require('path');
 
-const inputDir = __dirname;
-const skillsDir = path.join(inputDir, 'skills');
-const listFile = path.join(inputDir, 'skills-list.json');
-const outputFile = path.join(inputDir, 'custom-skills.js');
+const projectRoot = path.resolve(__dirname, '..');
+const contentDir = path.join(projectRoot, '부수적_고유기능/콘텐츠/Custom_Skills');
+const skillsDir = path.join(contentDir, 'skills');
+const listFile = path.join(contentDir, 'skills-list.json');
+const outputFile = path.join(contentDir, 'custom-skills.js');
 
 console.log('🔧 custom-skills.js 생성 시작...');
 
