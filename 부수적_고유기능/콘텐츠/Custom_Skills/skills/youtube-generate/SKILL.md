@@ -94,3 +94,17 @@ python orchestrator.py --blog <유튜브URL> output/[Step3 폴더경로]
 - 메타데이터: `modules/metadata_generator.py`
 - 블로그: `modules/blog_generator.py`
 - 설정: `config/settings.yaml`
+
+## 사전 준비 (이 스킬을 사용하기 전에)
+
+이 SKILL.md는 **실행 지시서**입니다. 아래 파일/환경이 프로젝트에 먼저 준비되어 있어야 동작합니다.
+
+1. **Python 프로젝트 구조**: 위 관련 파일 목록의 Python 파일들을 직접 구축해야 합니다.
+   - `orchestrator.py` - 전체 파이프라인을 조율하는 메인 스크립트
+   - `modules/` - 각 단계별 모듈 (리서치, 대본, 음성, 이미지, 블로그 등)
+   - `config/settings.yaml` - API 키, 모델 설정 등
+2. **Python 환경**: Python 3.x + 필요한 패키지 설치 (`pip install -r requirements.txt`)
+3. **외부 API 키**: 사용하는 AI 모델(Gemini, Claude 등)의 API 키 설정
+4. **Claude Code**: `.claude/skills/youtube-generate/SKILL.md`에 배치하면 `/youtube-generate` 명령 사용 가능
+
+위 파일들은 이 스킬에 포함되어 있지 않습니다. 이 스킬은 "이미 구축된 YouTube 영상 자동화 프로젝트"를 Claude Code에서 편리하게 실행하기 위한 명령 템플릿입니다. 자신의 프로젝트 구조에 맞게 명령어와 경로를 수정하여 사용하세요.

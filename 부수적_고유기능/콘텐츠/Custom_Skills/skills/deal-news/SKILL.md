@@ -81,3 +81,14 @@ gh run view {RUN_ID} --log-failed 2>&1 | grep -E "error|Error|Traceback|TypeErro
 - 워크플로우: `.github/workflows/daily-news-scraper.yml`
 - 수집 스크립트: `Valuation_Company/scripts/investment-news-scraper/daily_auto_collect.py`
 - 이메일 발송: `Valuation_Company/scripts/investment-news-scraper/send_daily_email.py`
+
+## 사전 준비 (이 스킬을 사용하기 전에)
+
+이 SKILL.md는 **실행 지시서**입니다. 아래 항목이 프로젝트에 먼저 준비되어 있어야 동작합니다.
+
+1. **GitHub Actions 워크플로우 파일**: `.github/workflows/daily-news-scraper.yml`을 프로젝트에 생성하세요. 뉴스를 수집하는 Python 스크립트를 실행하는 워크플로우입니다.
+2. **뉴스 수집 Python 스크립트**: 실제 뉴스를 크롤링/수집하는 스크립트를 작성하세요.
+3. **GitHub CLI (`gh`)**: 로컬에 설치되어 있어야 합니다. (`gh auth login`으로 인증 필요)
+4. **GitHub 레포지토리**: 프로젝트가 GitHub에 push되어 있어야 Actions가 동작합니다.
+
+위 파일들은 이 스킬에 포함되어 있지 않습니다. 자신의 프로젝트에 맞게 직접 구축한 후, 이 SKILL.md를 `.claude/skills/deal-news/SKILL.md`에 배치하면 `/deal-news` 명령으로 자동화할 수 있습니다.
