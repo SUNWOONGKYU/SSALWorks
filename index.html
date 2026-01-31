@@ -1298,17 +1298,6 @@ The content you enter in the Control Desk will be displayed here.</pre>
             </div>
             <!-- 학습용 콘텐츠 섹션 끝 -->
 
-            <!-- Custom Skills -->
-            <div class="sidebar-section" id="customSkillsSection">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
-                    🔧 Custom Skills
-                </h3>
-                <div id="customSkillsList" style="max-height: 400px; overflow-y: auto;">
-                    <!-- JS에서 동적 렌더링 -->
-                </div>
-            </div>
-            <!-- Custom Skills 섹션 끝 -->
-
             <!-- 실전 Tips -->
             <div class="sidebar-section" id="tipsSection">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
@@ -1830,6 +1819,18 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 </div>
                 </div>
                 <!-- faqStaticBackup 끝 -->
+            </div>
+
+            <!-- Custom Skills -->
+            <div class="sidebar-section" id="customSkillsSection">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    🔧 Custom Skills
+                    <span id="customSkillsMoreBtn" onclick="toggleCustomSkillsMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#6B5CCC'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
+                </h3>
+                <!-- 스킬 목록 (JS에서 동적 렌더링) -->
+                <div id="customSkillsList">
+                    <!-- renderCustomSkillsList()에서 채워짐 -->
+                </div>
             </div>
 
             <!-- 외부 연동 설정 Guide -->
@@ -11103,40 +11104,62 @@ Claude Code가 작업을 완료하면:
         }
 
         /**
-         * Custom Skills 사이드바 렌더링
+         * Custom Skills 사이드바 렌더링 (외부 연동 설정 Guide와 동일 패턴)
          */
         function renderCustomSkillsList() {
             const container = document.getElementById('customSkillsList');
             if (!container) return;
 
-            // window.CUSTOM_SKILLS가 없거나 비어있으면 빈 상태 표시
             if (typeof CUSTOM_SKILLS === 'undefined' || Object.keys(CUSTOM_SKILLS).length === 0) {
-                container.innerHTML = `
-                    <div style="padding: 16px; text-align: center; color: #9CA3AF; font-size: 13px; line-height: 1.6;">
-                        아직 등록된 스킬이 없습니다
-                    </div>
-                `;
+                container.innerHTML = '<div style="padding: 8px; text-align: center; color: #9CA3AF; font-size: 12px;">아직 등록된 스킬이 없습니다</div>';
+                document.getElementById('customSkillsMoreBtn').style.display = 'none';
                 return;
             }
 
             const skillEntries = Object.values(CUSTOM_SKILLS);
-            let html = '';
-            skillEntries.forEach(skill => {
-                const meta = skill.meta;
-                html += `
-                    <div onclick="openCustomSkill('${meta.id}')"
-                         style="padding: 10px 12px; border-bottom: 1px solid #F3F4F6; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: background 0.2s;"
-                         onmouseover="this.style.background='#F3E8FF'" onmouseout="this.style.background='transparent'">
-                        <span style="font-size: 20px;">${meta.icon || '🔧'}</span>
-                        <div style="flex: 1; min-width: 0;">
-                            <div style="font-weight: 600; color: #1F2937; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${meta.title}</div>
-                            <div style="font-size: 11px; color: #6B7280; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${meta.description || ''}</div>
-                        </div>
-                        <span style="color: #9CA3AF; font-size: 12px; flex-shrink: 0;">▶</span>
-                    </div>
-                `;
-            });
+            const first = skillEntries[0];
+            const rest = skillEntries.slice(1);
+
+            // 첫 번째 항목: 항상 노출 (클릭 시 더보기 펼침 + 모달 열기)
+            let html = '<div>';
+            html += '<a onclick="toggleCustomSkillsMenu(); openCustomSkill(\'' + first.meta.id + '\')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(107, 92, 204, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background=\'rgba(107, 92, 204, 0.15)\'" onmouseout="this.style.background=\'rgba(107, 92, 204, 0.08)\'">';
+            html += first.meta.title;
+            html += '</a></div>';
+
+            // 나머지 항목: 더보기로 펼침
+            if (rest.length > 0) {
+                html += '<div id="customSkillsLinks" style="display: none; margin-top: 4px;">';
+                html += '<div style="display: flex; flex-direction: column; gap: 4px;">';
+                rest.forEach(skill => {
+                    html += '<a onclick="openCustomSkill(\'' + skill.meta.id + '\')" style="display: block; padding: 4px 8px; color: #495057; text-decoration: none; font-size: 12px; font-weight: 700; border-radius: 4px; background: rgba(107, 92, 204, 0.08); transition: all 0.2s; cursor: pointer;" onmouseover="this.style.background=\'rgba(107, 92, 204, 0.15)\'" onmouseout="this.style.background=\'rgba(107, 92, 204, 0.08)\'">';
+                    html += skill.meta.title;
+                    html += '</a>';
+                });
+                html += '</div></div>';
+            }
+
             container.innerHTML = html;
+
+            // 1개뿐이면 더보기 버튼 숨김
+            if (rest.length === 0) {
+                document.getElementById('customSkillsMoreBtn').style.display = 'none';
+            }
+        }
+
+        /**
+         * Custom Skills 더보기 토글 (외부 연동 설정 Guide toggleServiceGuideMenu 동일 패턴)
+         */
+        function toggleCustomSkillsMenu() {
+            const links = document.getElementById('customSkillsLinks');
+            const btn = document.getElementById('customSkillsMoreBtn');
+            if (!links) return;
+            if (links.style.display === 'none') {
+                links.style.display = 'block';
+                if (btn) btn.textContent = '접기 ←';
+            } else {
+                links.style.display = 'none';
+                if (btn) btn.textContent = '더보기 →';
+            }
         }
 
         /**
