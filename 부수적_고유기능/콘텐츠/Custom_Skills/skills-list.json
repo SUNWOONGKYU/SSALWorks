@@ -13,6 +13,13 @@
       "icon": "🎬",
       "category": "콘텐츠 제작",
       "description": "소재 파일 하나로 리서치 → 대본 → 음성/이미지/가이드 → 블로그까지 자동 생성"
+    },
+    {
+      "id": "ai-tutor-build",
+      "title": "[템플릿] RAG 기반 AI 튜터 구축",
+      "icon": "🎓",
+      "category": "AI 시스템",
+      "description": "학습 콘텐츠를 벡터 임베딩으로 변환하고 RAG 파이프라인으로 AI 튜터를 구축하는 가이드"
     }
   ]
 }
