@@ -11505,11 +11505,34 @@ Claude Code가 작업을 완료하면:
     <style>
         /* Q 프로그램 팝업 반응형 */
         @media (max-width: 768px) {
-            #qProgramPopup .q-popup-container {
-                max-width: 95% !important;
+            #qProgramPopup {
+                align-items: flex-start !important;
+                justify-content: center !important;
+                padding: 20px 10px !important;
             }
-            #qProgramPopup .q-popup-container > div > div:nth-child(3) {
-                grid-template-columns: 1fr !important;
+            #qProgramPopup .q-popup-container {
+                max-width: 100% !important;
+                width: 100% !important;
+                max-height: calc(100vh - 40px) !important;
+                border-radius: 14px !important;
+            }
+            #qProgramPopup .q-popup-container > div > div:first-child {
+                padding: 20px 20px 12px !important;
+            }
+            #qProgramPopup .q-popup-container h1 {
+                font-size: 20px !important;
+            }
+            #qProgramPopup .q-popup-container > div > div:first-child > div:first-child span:last-child {
+                font-size: 18px !important;
+            }
+            #qProgramPopup .q-popup-container > div > div:last-child {
+                padding: 15px 15px 20px !important;
+            }
+            #qProgramPopup .q-popup-container > div > div:last-child > div {
+                padding: 16px 20px !important;
+            }
+            #qProgramPopup .q-popup-container > div > div:last-child p:nth-child(2) {
+                font-size: 18px !important;
             }
         }
     </style>
