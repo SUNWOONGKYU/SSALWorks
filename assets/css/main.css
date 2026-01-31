@@ -1471,11 +1471,11 @@ h6 {
 }
 
 .sidebar-section h3 {
-    /* H3 스타일 적용 */
+    /* H3 스타일 적용 - 프라이머리 컬러 (헤더와 동일) */
     font-size: 14px;
     font-weight: 700;
     margin-bottom: 8px;
-    color: #495057;
+    color: #2C4A8A;
     display: flex;
     align-items: center;
     gap: 6px;
