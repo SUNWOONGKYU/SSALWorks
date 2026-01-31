@@ -1,6 +1,6 @@
 {
   "project_id": "2512000002TH-P001",
-  "updated_at": "2026-01-31T14:30:57.722Z",
+  "updated_at": "2026-01-31T15:38:01.937Z",
   "phases": {
     "P0": {
       "name": "작업 디렉토리 구조 생성",
@@ -46,9 +46,9 @@
     },
     "S3": {
       "name": "개발 2차",
-      "progress": 91,
-      "completed": 10,
-      "total": 11
+      "progress": 92,
+      "completed": 11,
+      "total": 12
     },
     "S4": {
       "name": "개발 3차",

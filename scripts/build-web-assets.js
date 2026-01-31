@@ -29,11 +29,13 @@ const PATHS = {
     ordersheetsDir: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates'),
     guidesDir: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings'),
     serviceGuidesDir: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide'),
+    customSkillsDir: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/Custom_Skills'),
 
     // Generator 스크립트 경로
     ordersheetsGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/generate-ordersheets-js.js'),
     guidesGenerator: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings/generate-briefings-js.js'),
     serviceGuidesGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/generate-service-guides-js.js'),
+    customSkillsGenerator: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/Custom_Skills/generate-custom-skills-js.js'),
     serviceIntroMd: path.join(PROJECT_ROOT, 'P2_프로젝트_기획/Service_Introduction/서비스_소개.md'),
     indexHtml: path.join(PROJECT_ROOT, 'index.html'),
     manualMd: path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성/manual/PROJECT_SAL_GRID_MANUAL.md'),
@@ -43,6 +45,7 @@ const PATHS = {
     ordersheetsOutput: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/OrderSheet_Templates/ordersheets.js'),
     guidesOutput: path.join(PROJECT_ROOT, 'Briefings_OrderSheets/Briefings/guides.js'),
     serviceGuidesOutput: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/외부_연동_설정_Guide/service-guides.js'),
+    customSkillsOutput: path.join(PROJECT_ROOT, '부수적_고유기능/콘텐츠/Custom_Skills/custom-skills.js'),
     manualHtml: path.join(PROJECT_ROOT, '참고자료/PROJECT_SAL_GRID_MANUAL.html'),
     builderManualHtml: path.join(PROJECT_ROOT, 'pages/mypage/manual.html'),
     builderManualPdf: path.join(PROJECT_ROOT, 'pages/mypage/manual.pdf'),
@@ -57,6 +60,9 @@ const PATHS = {
         ],
         serviceGuides: [
             path.join(PROJECT_ROOT, 'P3_프로토타입_제작/Frontend/Prototype/service-guides.js')
+        ],
+        customSkills: [
+            path.join(PROJECT_ROOT, 'P3_프로토타입_제작/Frontend/Prototype/custom-skills.js')
         ]
     }
 };
@@ -152,6 +158,31 @@ function buildServiceGuides() {
         return true;
     } catch (err) {
         log.error(`Service Guides 빌드 실패: ${err.message}`);
+        return false;
+    }
+}
+
+// Custom Skills 빌드
+function buildCustomSkills() {
+    log.header('Custom Skills 빌드');
+
+    try {
+        log.info('generate-custom-skills-js.js 실행 중...');
+        execSync(`node "${PATHS.customSkillsGenerator}"`, {
+            stdio: 'inherit',
+            cwd: path.dirname(PATHS.customSkillsGenerator)
+        });
+
+        // 추가 위치에 복사
+        log.info('추가 위치에 복사 중...');
+        PATHS.copyTargets.customSkills.forEach(target => {
+            copyFile(PATHS.customSkillsOutput, target);
+        });
+
+        log.success('Custom Skills 빌드 완료!');
+        return true;
+    } catch (err) {
+        log.error(`Custom Skills 빌드 실패: ${err.message}`);
         return false;
     }
 }
@@ -899,6 +930,7 @@ function buildAll() {
         ordersheets: buildOrdersheets(),
         guides: buildGuides(),
         serviceGuides: buildServiceGuides(),
+        customSkills: buildCustomSkills(),
         serviceIntro: buildServiceIntro(),
         manual: buildManual(),
         builderManual: buildBuilderManual(),
@@ -914,6 +946,7 @@ function buildAll() {
     console.log(`  Order Sheets:     ${results.ordersheets ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Guides:           ${results.guides ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Service Guides:   ${results.serviceGuides ? '✅ 성공' : '❌ 실패'}`);
+    console.log(`  Custom Skills:    ${results.customSkills ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Service Intro:    ${results.serviceIntro ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Manual:           ${results.manual ? '✅ 성공' : '❌ 실패'}`);
     console.log(`  Builder Manual:   ${results.builderManual ? '✅ 성공' : '❌ 실패'}`);
@@ -938,6 +971,7 @@ if (args.includes('--help') || args.includes('-h')) {
   --ordersheets      Order Sheet 템플릿만 빌드
   --guides           안내문(Guides)만 빌드
   --service-guides   외부 연동 설정 가이드만 빌드
+  --custom-skills    Custom Skills만 빌드
   --service-intro    서비스 소개 모달만 빌드
   --manual           PROJECT SAL GRID Manual HTML만 빌드
   --builder-manual   빌더 계정 사용 매뉴얼 HTML만 빌드
@@ -963,6 +997,9 @@ if (args.length === 0) {
     }
     if (args.includes('--service-guides')) {
         success = buildServiceGuides() && success;
+    }
+    if (args.includes('--custom-skills')) {
+        success = buildCustomSkills() && success;
     }
     if (args.includes('--service-intro')) {
         success = buildServiceIntro() && success;
