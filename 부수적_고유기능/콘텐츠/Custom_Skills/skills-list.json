@@ -1,3 +1,11 @@
 {
-  "skills": []
+  "skills": [
+    {
+      "id": "deal-news",
+      "title": "Deal 뉴스 수동 수집",
+      "icon": "📰",
+      "category": "자동화",
+      "description": "GitHub Actions로 투자 뉴스를 수집하고 결과를 확인하는 워크플로우 자동화 스킬"
+    }
+  ]
 }
