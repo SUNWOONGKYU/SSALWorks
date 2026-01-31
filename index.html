@@ -11173,7 +11173,8 @@ Claude Code가 작업을 완료하면:
 
             const skill = CUSTOM_SKILLS[skillId];
             const meta = skill.meta;
-            const mdContent = skill.content;
+            // frontmatter 제거 (--- 사이의 YAML 메타데이터는 Claude Code용이므로 표시 불필요)
+            const mdContent = skill.content.replace(/^---[\s\S]*?---\s*\n?/, '');
 
             const overlay = document.createElement('div');
             overlay.className = 'custom-skill-overlay';
@@ -11209,7 +11210,7 @@ Claude Code가 작업을 완료하면:
                 </div>
             `;
 
-            modal.dataset.mdContent = mdContent;
+            modal.dataset.mdContent = skill.content;  // 복사/다운로드는 frontmatter 포함 원본
             modal.dataset.skillId = skillId;
 
             overlay.appendChild(modal);
