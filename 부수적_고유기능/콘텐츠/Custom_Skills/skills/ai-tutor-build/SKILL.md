@@ -9,6 +9,19 @@ allowed-tools: "Bash(node *), Bash(npm *), Read, Write, Edit, AskUserQuestion"
 
 학습 콘텐츠(마크다운 파일)를 벡터 임베딩으로 변환하고, 사용자 질문에 대해 관련 문서를 검색하여 AI가 답변하는 튜터 시스템을 구축합니다.
 
+## 사용 AI 모델
+
+이 템플릿은 **Google Gemini**를 기본으로 사용합니다:
+- **임베딩**: Gemini `embedding-001` (768차원 벡터)
+- **응답 생성**: Gemini `gemini-2.0-flash-exp` (스트리밍 지원)
+
+다른 모델로 대체 가능합니다:
+- **OpenAI**: `text-embedding-3-small` (임베딩) + `gpt-4o` (생성) — 차원 수 변경 필요 (1536차원)
+- **Anthropic Claude**: 생성 모델로 대체 가능 (임베딩은 별도 서비스 필요)
+- **Cohere**: `embed-multilingual-v3.0` (임베딩) + `command-r-plus` (생성)
+
+> 모델 변경 시 임베딩 차원 수(`vector(768)`)와 API 호출 코드를 해당 모델에 맞게 수정하세요.
+
 ## 아키텍처 개요
 
 ```
@@ -20,7 +33,7 @@ allowed-tools: "Bash(node *), Bash(npm *), Read, Write, Edit, AskUserQuestion"
     ↓
 [RAG 파이프라인]
   1. 질문 → 임베딩 벡터 생성 (Gemini embedding-001, 768차원)
-  2. 벡터 유사도 검색 (Supabase pgvector)
+  2. 하이브리드 검색 (벡터 70% + 키워드 30%)
   3. 관련 문서 + 시스템 프롬프트 조합
     ↓
 [LLM] Gemini에 프롬프트 전송 → 스트리밍 응답
@@ -34,11 +47,14 @@ allowed-tools: "Bash(node *), Bash(npm *), Read, Write, Edit, AskUserQuestion"
 
 사용자에게 Supabase 프로젝트 URL과 키를 확인합니다.
 
-pgvector 확장과 테이블을 생성합니다:
+pgvector 확장과 pg_trgm 확장을 활성화하고, 하이브리드 검색을 위한 테이블과 함수를 생성합니다:
 
 ```sql
 -- 벡터 확장 활성화
 CREATE EXTENSION IF NOT EXISTS vector;
+
+-- 키워드 검색용 트라이그램 확장 (하이브리드 검색)
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
 
 -- 콘텐츠 임베딩 테이블
 CREATE TABLE content_embeddings (
@@ -58,7 +74,11 @@ CREATE INDEX idx_content_embeddings_vector
 ON content_embeddings USING ivfflat (embedding vector_cosine_ops)
 WITH (lists = 100);
 
--- 유사도 검색 RPC 함수
+-- 키워드 검색 인덱스 (트라이그램)
+CREATE INDEX idx_content_embeddings_trgm
+ON content_embeddings USING gin (content gin_trgm_ops);
+
+-- 벡터 전용 유사도 검색 RPC 함수
 CREATE OR REPLACE FUNCTION search_content(
     query_embedding vector(768),
     match_threshold float DEFAULT 0.3,
@@ -80,6 +100,44 @@ BEGIN
     FROM content_embeddings ce
     WHERE 1 - (ce.embedding <=> query_embedding) > match_threshold
     ORDER BY ce.embedding <=> query_embedding
+    LIMIT match_count;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 하이브리드 검색 RPC 함수 (벡터 70% + 키워드 30%)
+CREATE OR REPLACE FUNCTION hybrid_search_content(
+    query_embedding vector(768),
+    query_text text,
+    match_threshold float DEFAULT 0.3,
+    match_count int DEFAULT 5,
+    vector_weight float DEFAULT 0.7,
+    keyword_weight float DEFAULT 0.3
+)
+RETURNS TABLE (
+    id UUID,
+    content_type VARCHAR,
+    content_id VARCHAR,
+    title VARCHAR,
+    content TEXT,
+    similarity float,
+    keyword_score float,
+    combined_score float
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT
+        ce.id, ce.content_type, ce.content_id, ce.title, ce.content,
+        (1 - (ce.embedding <=> query_embedding))::float AS similarity,
+        COALESCE(similarity(ce.content, query_text), 0)::float AS keyword_score,
+        (
+            vector_weight * (1 - (ce.embedding <=> query_embedding)) +
+            keyword_weight * COALESCE(similarity(ce.content, query_text), 0)
+        )::float AS combined_score
+    FROM content_embeddings ce
+    WHERE
+        (1 - (ce.embedding <=> query_embedding)) > match_threshold
+        OR similarity(ce.content, query_text) > 0.1
+    ORDER BY combined_score DESC
     LIMIT match_count;
 END;
 $$ LANGUAGE plpgsql;
@@ -134,13 +192,14 @@ function removeFrontmatter(text) { ... }
 
 **2-2. 임베딩 모듈 (embeddings.js)**
 
-Gemini embedding-001로 벡터를 생성하고 Supabase에서 유사도 검색합니다.
+Gemini embedding-001로 벡터를 생성하고, 하이브리드 검색(벡터 70% + 키워드 30%)으로 관련 문서를 찾습니다.
 
 ```javascript
 // embeddings.js 핵심 함수
 async function generateEmbedding(text) { ... }        // 768차원 벡터 생성
-async function searchSimilarContent(supabase, queryEmbedding, options) { ... }  // RPC 호출
-async function findRelevantDocuments(supabase, question, options) { ... }       // 통합
+async function searchSimilarContent(supabase, queryEmbedding, options) { ... }  // 벡터 전용 검색
+async function hybridSearch(supabase, queryEmbedding, queryText, options) { ... } // 하이브리드 검색
+async function findRelevantDocuments(supabase, question, options) { ... }       // 통합 (하이브리드 우선)
 ```
 
 **2-3. 프롬프트 빌더 (prompt-builder.js)**
@@ -160,7 +219,8 @@ function buildPromptWithHistory(question, documents, history) { ... }
 // index.js - 전체 파이프라인 조율
 async function ragPipeline(supabase, question, options) {
     const embedding = await generateEmbedding(question);
-    const docs = await searchSimilarContent(supabase, embedding, options);
+    // 하이브리드 검색: 벡터 유사도 70% + 키워드 매칭 30%
+    const docs = await hybridSearch(supabase, embedding, question, options);
     const prompt = buildPromptWithHistory(question, docs, options.history);
     return { systemPrompt, userPrompt, sources };
 }
@@ -243,6 +303,8 @@ node test-ai-tutor.js
 | 임베딩 모델 | embedding-001 | 768차원 벡터 |
 | 생성 모델 | gemini-2.0-flash-exp | 스트리밍 지원 |
 | 청크 크기 | 1000자 | 오버랩 200자 |
+| 벡터 검색 가중치 | 0.7 (70%) | 의미적 유사도 |
+| 키워드 검색 가중치 | 0.3 (30%) | 트라이그램 매칭 |
 | 유사도 임계값 | 0.3 | 낮을수록 더 많은 문서 매칭 |
 | 검색 문서 수 | 5 | 상위 N개 |
 | temperature | 0.7 | 응답 다양성 |
