@@ -4,6 +4,24 @@
 
 ---
 
+## 2026-02-04 - S3C2 Custom Skills UI 위치/색상 업데이트
+
+### 작업 상태: Completed
+
+### 변경 사항
+| 항목 | 이전 | 이후 |
+|------|------|------|
+| 사이드바 위치 | 실전 Tips 아래 (line 1824) | 학습용 Books와 실전 Tips 사이 (line 1301) |
+| 모달 헤더 색상 | 오렌지 (#D97706 → #B45309) | 퍼플 (#6B5CCC → #5847B3) |
+| 안내 바 색상 | 노란색 (#FEF3C7, #D97706) | 라벤더 (#F0EEFF, #6B5CCC) |
+
+### 수정된 파일
+1. `index.html` - 사이드바 섹션 이동 + 모달 색상 변경
+2. `S0_Project-SAL-Grid_생성/method/json/data/grid_records/S3C2.json` - modification_history 추가
+3. Supabase DB `project_sal_grid` - modification_history, remarks 업데이트
+
+---
+
 ## 2026-02-01 - S3C2 Custom Skills 다운로드 라이브러리 구축
 
 ### 작업 상태: Completed (구현 + 검증 완료)
