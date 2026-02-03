@@ -1298,6 +1298,18 @@ The content you enter in the Control Desk will be displayed here.</pre>
             </div>
             <!-- 학습용 콘텐츠 섹션 끝 -->
 
+            <!-- Custom Skills -->
+            <div class="sidebar-section" id="customSkillsSection">
+                <h3 style="display: flex; justify-content: space-between; align-items: center;">
+                    🔧 Custom Skills
+                    <span id="customSkillsMoreBtn" onclick="toggleCustomSkillsMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#D97706'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
+                </h3>
+                <!-- 스킬 목록 (JS에서 동적 렌더링) -->
+                <div id="customSkillsList">
+                    <!-- renderCustomSkillsList()에서 채워짐 -->
+                </div>
+            </div>
+
             <!-- 실전 Tips -->
             <div class="sidebar-section" id="tipsSection">
                 <h3 style="display: flex; justify-content: space-between; align-items: center;">
@@ -1819,18 +1831,6 @@ The content you enter in the Control Desk will be displayed here.</pre>
                 </div>
                 </div>
                 <!-- faqStaticBackup 끝 -->
-            </div>
-
-            <!-- Custom Skills -->
-            <div class="sidebar-section" id="customSkillsSection">
-                <h3 style="display: flex; justify-content: space-between; align-items: center;">
-                    🔧 Custom Skills
-                    <span id="customSkillsMoreBtn" onclick="toggleCustomSkillsMenu()" style="cursor: pointer; font-size: 11px; font-weight: 400; color: #6c757d; transition: color 0.2s;" onmouseover="this.style.color='#D97706'" onmouseout="this.style.color='#6c757d'">더보기 →</span>
-                </h3>
-                <!-- 스킬 목록 (JS에서 동적 렌더링) -->
-                <div id="customSkillsList">
-                    <!-- renderCustomSkillsList()에서 채워짐 -->
-                </div>
             </div>
 
             <!-- 외부 연동 설정 Guide -->
@@ -11186,7 +11186,7 @@ Claude Code가 작업을 완료하면:
             modal.style.cssText = 'background: white; border-radius: 12px; max-width: 855px; width: 95%; max-height: 85vh; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); position: relative;';
 
             modal.innerHTML = `
-                <div class="custom-skill-modal-header" style="background: linear-gradient(135deg, #D97706 0%, #B45309 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
+                <div class="custom-skill-modal-header" style="background: linear-gradient(135deg, #6B5CCC 0%, #5847B3 100%); padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; cursor: move; user-select: none;">
                     <div style="font-size: 18px; font-weight: 700; color: white; pointer-events: none;">${meta.icon || '🔧'} ${meta.title} <span style="font-size: 11px; opacity: 0.8;">- 드래그하여 이동</span></div>
                     <div style="display: flex; gap: 8px;">
                         <button onclick="copyCustomSkillContent()" title="SKILL.md 복사"
@@ -11203,7 +11203,7 @@ Claude Code가 작업을 완료하면:
                         </button>
                     </div>
                 </div>
-                <div style="padding: 8px 16px; background: #FEF3C7; border-bottom: 1px solid #D97706; font-size: 11px; color: #92400E; line-height: 1.5;">
+                <div style="padding: 8px 16px; background: #F0EEFF; border-bottom: 1px solid #6B5CCC; font-size: 11px; color: #3D3480; line-height: 1.5;">
                     💡 다운로드한 SKILL.md를 <strong>.claude/skills/${meta.id}/SKILL.md</strong>에 저장하세요.
                 </div>
                 <div id="customSkillContent" class="custom-skill-content" style="flex: 1; overflow-y: auto; padding: 20px;">

@@ -63,7 +63,40 @@ async function searchSimilarContent(supabase, queryEmbedding, options = {}) {
 }
 
 /**
- * 질문에 대한 유사 문서 검색 (임베딩 생성 + 검색 통합)
+ * 하이브리드 검색 (벡터 + pg_trgm 키워드 매칭)
+ * @param {object} supabase - Supabase 클라이언트
+ * @param {number[]} queryEmbedding - 쿼리 임베딩 벡터
+ * @param {string} queryText - 원본 질문 텍스트
+ * @param {object} options - 검색 옵션
+ * @returns {Promise<object[]>} 유사 문서 배열 (combined_score 포함)
+ */
+async function hybridSearchContent(supabase, queryEmbedding, queryText, options = {}) {
+    const {
+        matchThreshold = 0.3,
+        matchCount = 10,
+        vectorWeight = 0.7,
+        keywordWeight = 0.3
+    } = options;
+
+    const { data, error } = await supabase.rpc('hybrid_search_content', {
+        query_embedding: queryEmbedding,
+        query_text: queryText,
+        match_threshold: matchThreshold,
+        match_count: matchCount,
+        vector_weight: vectorWeight,
+        keyword_weight: keywordWeight
+    });
+
+    if (error) {
+        console.error('하이브리드 검색 오류:', error);
+        throw error;
+    }
+
+    return data || [];
+}
+
+/**
+ * 질문에 대한 유사 문서 검색 (하이브리드 검색, 실패 시 벡터 전용 폴백)
  * @param {object} supabase - Supabase 클라이언트
  * @param {string} question - 사용자 질문
  * @param {object} options - 검색 옵션
@@ -73,14 +106,21 @@ async function findRelevantDocuments(supabase, question, options = {}) {
     // 질문 임베딩 생성
     const queryEmbedding = await generateEmbedding(question);
 
-    // 유사 문서 검색
-    const documents = await searchSimilarContent(supabase, queryEmbedding, options);
-
-    return documents;
+    // 하이브리드 검색 시도
+    try {
+        const documents = await hybridSearchContent(supabase, queryEmbedding, question, options);
+        return documents;
+    } catch (hybridError) {
+        console.warn('하이브리드 검색 실패, 벡터 전용 폴백:', hybridError.message);
+        // 벡터 전용 폴백
+        const documents = await searchSimilarContent(supabase, queryEmbedding, options);
+        return documents;
+    }
 }
 
 module.exports = {
     generateEmbedding,
     searchSimilarContent,
+    hybridSearchContent,
     findRelevantDocuments
 };

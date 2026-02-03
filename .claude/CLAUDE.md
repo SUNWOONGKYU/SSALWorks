@@ -648,6 +648,9 @@ YY MM NNNNNN XX
 - `P0_작업_디렉토리_구조_생성/Project_Status.md`
 - `P0_작업_디렉토리_구조_생성/Project_Directory_Structure.md`
 
+### 4. 외부 스킬 참고
+개발 중 전문 스킬이 필요하면 `.claude/skills/references/Agent_Skills_Directory_참고.md` 참조 → `npx skills add <owner/repo>` 설치
+
 ---
 
 ## 📂 웹 배포 파일 업데이트

@@ -3,7 +3,7 @@
  * @description RAG (Retrieval-Augmented Generation) 파이프라인 메인 모듈
  */
 
-const { generateEmbedding, searchSimilarContent, findRelevantDocuments } = require('./embeddings');
+const { generateEmbedding, searchSimilarContent, hybridSearchContent, findRelevantDocuments } = require('./embeddings');
 const { buildPrompt, buildPromptWithHistory, SYSTEM_PROMPT } = require('./prompt-builder');
 const { chunkText, extractTitle, removeFrontmatter } = require('./chunker');
 
@@ -18,18 +18,31 @@ async function ragPipeline(supabase, question, options = {}) {
     const {
         matchThreshold = 0.5,
         matchCount = 5,
-        history = []
+        history = [],
+        vectorWeight = 0.7,
+        keywordWeight = 0.3
     } = options;
 
     try {
         // 1. 질문 임베딩 생성
         const queryEmbedding = await generateEmbedding(question);
 
-        // 2. 유사 문서 검색
-        const similarDocs = await searchSimilarContent(supabase, queryEmbedding, {
-            matchThreshold,
-            matchCount
-        });
+        // 2. 하이브리드 검색 (벡터 + 키워드, 실패 시 벡터 전용 폴백)
+        let similarDocs;
+        try {
+            similarDocs = await hybridSearchContent(supabase, queryEmbedding, question, {
+                matchThreshold,
+                matchCount,
+                vectorWeight,
+                keywordWeight
+            });
+        } catch (hybridError) {
+            console.warn('하이브리드 검색 실패, 벡터 전용 폴백:', hybridError.message);
+            similarDocs = await searchSimilarContent(supabase, queryEmbedding, {
+                matchThreshold,
+                matchCount
+            });
+        }
 
         // 3. 프롬프트 구성
         const promptData = history.length > 0
@@ -79,6 +92,7 @@ module.exports = {
     // 유틸리티 (하위 모듈에서 재내보내기)
     generateEmbedding,
     searchSimilarContent,
+    hybridSearchContent,
     findRelevantDocuments,
     buildPrompt,
     buildPromptWithHistory,
