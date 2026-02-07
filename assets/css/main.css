@@ -929,7 +929,7 @@ h6 {
 }
 
 .workspace-top {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     min-height: 680px;
     background: white;
     border-bottom: 2px solid var(--border-color);
