@@ -1220,9 +1220,11 @@ h6 {
 }
 
 .workspace-bottom {
-    flex: none;
+    height: 220px;
+    flex-shrink: 0;
     background: white;
-    padding-bottom: 24px;
+    display: flex;
+    flex-direction: column;
 }
 
 .grid-viewer-header {
@@ -2857,6 +2859,7 @@ h6 {
 
     .center-workspace { grid-column: 1 !important; grid-row: 1 !important; min-height: calc(100vh - 60px - 50px); display: flex !important; width: 100% !important; overflow-y: auto !important; }
     .workspace-top { height: auto; min-height: 30vh; max-height: 50vh; }
+    .workspace-bottom { height: 180px !important; flex-shrink: 0 !important; }
     .workspace-header { flex-direction: column; gap: 12px; align-items: stretch; padding: 12px; }
     .workspace-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; width: 100%; }
     .action-btn { min-height: 44px; padding: 10px 8px; font-size: 12px; justify-content: center; width: 100%; }
@@ -2950,9 +2953,9 @@ h6 {
         max-height: none !important;
     }
     .workspace-bottom {
-        flex: none !important;
-        height: auto !important;
-        min-height: auto !important;
+        flex-shrink: 0 !important;
+        height: 180px !important;
+        min-height: 180px !important;
     }
     .grid-content {
         display: flex !important;

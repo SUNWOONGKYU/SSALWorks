@@ -2186,28 +2186,24 @@ The content you enter in the Control Desk will be displayed here.</pre>
         });
 
 
-        // Clear editor - Control Desk 완전히 비우기 (모든 콘텐츠 숨김)
+        // Clear editor - Control Desk 비우기
         async function clearEditor() {
             if (await customConfirm('Control Desk 내용을 모두 지우시겠습니까?', 'Control Desk 지우기')) {
                 const textEditor = document.getElementById('textEditor');
                 const workspaceGuide = document.getElementById('workspaceGuide');
-                const translationSection = document.getElementById('translationSection');
 
-                // 1. textEditor 비우기 및 숨기기
+                // 1. textEditor 비우기 및 다시 보이기
                 if (textEditor) {
                     textEditor.value = '';
-                    textEditor.setAttribute('style', 'display: none !important; visibility: hidden !important;');
+                    textEditor.removeAttribute('style');
+                    textEditor.style.display = 'block';
+                    textEditor.focus();
                 }
 
                 // 2. workspaceGuide 비우기 및 숨기기
                 if (workspaceGuide) {
                     workspaceGuide.innerHTML = '';
-                    workspaceGuide.setAttribute('style', 'display: none !important; visibility: hidden !important;');
-                }
-
-                // 3. translationSection 숨기기
-                if (translationSection) {
-                    translationSection.setAttribute('style', 'display: none !important;');
+                    workspaceGuide.style.display = 'none';
                 }
 
                 // 현재 로드된 가이드 초기화
