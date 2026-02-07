@@ -612,7 +612,7 @@
                 // 1. index.json 로드 (항상 GitHub에서)
                 let indexUrl;
                 if (useGitHub) {
-                    indexUrl = githubToRawUrl(jsonBasePath, 'S0_Project-SAL-Grid_생성/method/json/data/index.json');
+                    indexUrl = githubToRawUrl(jsonBasePath, 'method/json/data/index.json');
                 } else {
                     indexUrl = `${jsonBasePath}/index.json`;
                 }
@@ -655,7 +655,7 @@
                 const taskPromises = taskIds.map(async (taskId, idx) => {
                     let taskUrl;
                     if (useGitHub) {
-                        taskUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/grid_records/${taskId}.json`);
+                        taskUrl = githubToRawUrl(jsonBasePath, `method/json/data/grid_records/${taskId}.json`);
                     } else {
                         taskUrl = `${jsonBasePath}/grid_records/${taskId}.json`;
                     }
@@ -714,7 +714,7 @@
 
             for (const num of stageNums) {
                 try {
-                    const gateUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/stage_gate_records/S${num}_gate.json`);
+                    const gateUrl = githubToRawUrl(jsonBasePath, `method/json/data/stage_gate_records/S${num}_gate.json`);
                     console.log(`Loading Stage Gate ${num}:`, gateUrl);
                     const response = await fetch(gateUrl);
                     if (response.ok) {

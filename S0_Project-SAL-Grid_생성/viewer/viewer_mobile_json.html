@@ -621,7 +621,7 @@
                 // 1. index.json 로드
                 let indexUrl;
                 if (useGitHub) {
-                    indexUrl = githubToRawUrl(jsonBasePath, 'S0_Project-SAL-Grid_생성/method/json/data/index.json');
+                    indexUrl = githubToRawUrl(jsonBasePath, 'method/json/data/index.json');
                 } else {
                     indexUrl = `${jsonBasePath}/index.json`;
                 }
@@ -660,7 +660,7 @@
                 const taskPromises = taskIds.map(async (taskId, idx) => {
                     let taskUrl;
                     if (useGitHub) {
-                        taskUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/grid_records/${taskId}.json`);
+                        taskUrl = githubToRawUrl(jsonBasePath, `method/json/data/grid_records/${taskId}.json`);
                     } else {
                         taskUrl = `${jsonBasePath}/grid_records/${taskId}.json`;
                     }
@@ -720,7 +720,7 @@
             const stageNums = [1, 2, 3, 4, 5];
             for (const num of stageNums) {
                 try {
-                    const gateUrl = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/stage_gate_records/S${num}_gate.json`);
+                    const gateUrl = githubToRawUrl(jsonBasePath, `method/json/data/stage_gate_records/S${num}_gate.json`);
                     const response = await fetch(gateUrl);
                     if (response.ok) {
                         const gateData = await response.json();
@@ -912,7 +912,7 @@
                 // 개별 Task 파일에서 상세 정보 로드 (토큰 효율적!)
                 let taskPath;
                 if (useGitHub) {
-                    taskPath = githubToRawUrl(jsonBasePath, `S0_Project-SAL-Grid_생성/method/json/data/grid_records/${taskId}.json`);
+                    taskPath = githubToRawUrl(jsonBasePath, `method/json/data/grid_records/${taskId}.json`);
                 } else {
                     taskPath = `${jsonBasePath}/grid_records/${taskId}.json`;
                 }
