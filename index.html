@@ -2206,11 +2206,12 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     workspaceGuide.setAttribute('style', 'display: none !important;');
                 }
 
-                // 3. workspace-top 높이 유지 (CSS min-height: 680px = S1 라인)
-
-                // 4. 스크롤을 맨 위로 이동하여 입력창 첫 줄이 보이도록
-                const centerWorkspace = document.querySelector('.center-workspace');
-                if (centerWorkspace) centerWorkspace.scrollTop = 0;
+                // 3. 스크롤을 맨 위로 이동하여 입력창 첫 줄이 보이도록
+                requestAnimationFrame(() => {
+                    const centerWorkspace = document.querySelector('.center-workspace');
+                    if (centerWorkspace) centerWorkspace.scrollTop = 0;
+                    if (textEditor) textEditor.scrollTop = 0;
+                });
 
                 // 현재 로드된 가이드 초기화
                 window.currentLoadedGuide = null;
