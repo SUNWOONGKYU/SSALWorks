@@ -931,12 +931,11 @@ h6 {
 .workspace-top {
     flex: 0 1 auto;
     min-height: 150px;
-    max-height: 55vh;
     background: white;
     border-bottom: 2px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: visible;
 }
 
 .workspace-header {
