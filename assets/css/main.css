@@ -929,13 +929,14 @@ h6 {
 }
 
 .workspace-top {
-    flex: 1;
-    min-height: 0;
+    flex: 0 1 auto;
+    min-height: 150px;
+    max-height: 45vh;
     background: white;
     border-bottom: 2px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .workspace-header {
