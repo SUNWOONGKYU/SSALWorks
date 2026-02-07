@@ -856,11 +856,13 @@ Claude Code에게: 이 파일 수정 요청이 들어오면 반드시 사용자�
         }
 
         .workspace-top {
-            height: 75%;
+            flex: 1;
+            min-height: 0;
             background: white;
             border-bottom: 2px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
 
         .workspace-header {
@@ -1028,90 +1030,17 @@ Claude Code에게: 이 파일 수정 요청이 들어오면 반드시 사용자�
             flex-direction: column;
             gap: 8px;
             padding: 12px;
-            overflow-y: auto;
+            overflow: hidden;
             flex: 1;
-            max-height: 100%;
+            min-height: 0;
             font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
             font-size: 12px;
-        }
-
-        .translation-section {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding: 10px 14px;
-            margin-bottom: 16px;
-            background: #f8f9fa;
-            border-radius: var(--border-radius);
-            border-left: 3px solid var(--tertiary);
-            flex-shrink: 0;
-        }
-
-        .translation-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-        }
-
-        .translation-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--tertiary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .translation-toggle {
-            font-size: 13px;
-            color: var(--neutral);
-            cursor: pointer;
-            padding: 4px 8px;
-            background: white;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .translation-toggle:hover {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .translation-preview {
-            background: white;
-            padding: 8px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            line-height: 1.4;
-            color: #495057;
-            max-height: 100px;
-            overflow-y: auto;
-            display: none;
-        }
-
-        .translation-preview.expanded {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .translation-preview pre {
-            margin: 0;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        .translation-info {
-            font-size: 13px;
-            color: #868e96;
-            padding: 6px 0;
-            line-height: 1.4;
         }
 
         .text-editor {
             width: 100%;
             flex: 1;
-            min-height: 300px;
+            min-height: 0;
             padding: 12px;
             border: 2px solid var(--border-color);
             border-radius: var(--border-radius);
@@ -1133,11 +1062,11 @@ Claude Code에게: 이 파일 수정 요청이 들어오면 반드시 사용자�
         }
 
         .workspace-bottom {
-            height: 25%;
+            height: 220px;
+            flex-shrink: 0;
             background: white;
             display: flex;
             flex-direction: column;
-            min-height: 200px;
         }
 
         .grid-viewer-header {
@@ -2900,31 +2829,7 @@ Claude Code에게: 이 파일 수정 요청이 들어오면 반드시 사용자�
 ## 참고사항
 - 비밀번호 최소 8자, 영문+숫자+특수문자 포함
 - Task ID: P1BA1
-" oninput="translateToEnglish()"></textarea>
-
-                    <!-- Translation Preview -->
-                    <div class="translation-section" id="translationSection">
-                        <div class="translation-header">
-                            <div class="translation-title" onclick="toggleTranslation()"
-                                style="cursor: pointer; user-select: none;">
-                                <span>English Translation</span>
-                                <span id="toggleText" style="margin-left: 8px; font-size: 12px;">▼</span>
-                            </div>
-                            <button class="action-btn" onclick="openTranslationFullview()">
-                                <span style="display: flex; flex-direction: column; line-height: 1.3;">
-                                    <span>전체</span>
-                                    <span>보기</span>
-                                </span>
-                            </button>
-                        </div>
-                        <div class="translation-preview" id="translationPreview" style="display: block; max-height: 85px; overflow: hidden;">
-                            <pre id="translatedText" style="margin: 0; font-size: 12px; color: #868e96;">[Claude Code Only] This English translation section is for Claude Code.
-The Korean content from the workspace above is translated here for Claude Code to read.
-────────────────────────────────────────
-워크스페이스에 입력한 내용이 여기에 표시됩니다.
-The content you enter in the workspace will be displayed here.</pre>
-                        </div>
-                    </div>
+"></textarea>
                 </div>
             </div>
 
@@ -4011,7 +3916,9 @@ The content you enter in the workspace will be displayed here.</pre>
         // Clear editor
         function clearEditor() {
             if (confirm('Workspace에 작성 중인 내용을 지우시겠습니까?')) {
-                document.getElementById('textEditor').value = '';
+                const editor = document.getElementById('textEditor');
+                editor.value = '';
+                editor.focus();
             }
         }
 
@@ -5388,148 +5295,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
             loadWelcomeMessage();
         });
 
-        // Translation functionality
-        let translationTimeout;
-
-        function toggleTranslation() {
-            const preview = document.getElementById('translationPreview');
-            const toggleText = document.getElementById('toggleText');
-
-            if (preview.style.display === 'none') {
-                preview.style.display = 'block';
-                toggleText.textContent = '▲';
-            } else {
-                preview.style.display = 'none';
-                toggleText.textContent = '▼';
-            }
-        }
-
-        async function translateToEnglish() {
-            clearTimeout(translationTimeout);
-
-            const content = document.getElementById('textEditor').value;
-            const translationSection = document.getElementById('translationSection');
-            const translatedText = document.getElementById('translatedText');
-
-            // 한글이 있는지 확인
-            const hasKorean = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(content);
-
-            if (!content.trim() || !hasKorean) {
-                translationSection.style.display = 'none';
-                return;
-            }
-
-            translationSection.style.display = 'flex';
-
-            // 즉시 번역 시작 (300ms debounce만 적용)
-            translationTimeout = setTimeout(async () => {
-                translatedText.textContent = '번역 중...';
-
-                try {
-                    // AI 기반 번역 + 문법 교정
-                    const translated = await translateWithAI(content);
-                    // 병기 마크다운 형식으로 미리보기
-                    const bilingualMd = generateBilingualMarkdown(content, translated);
-                    translatedText.textContent = bilingualMd;
-                } catch (error) {
-                    translatedText.textContent = '번역 실패. 다시 시도해주세요.';
-                }
-            }, 300);
-        }
-
-        // AI 기반 번역 + 문법 교정 (Perplexity API 사용)
-        async function translateWithAI(text) {
-            try {
-                const response = await fetch('http://localhost:3030/translate', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        text: text,
-                        mode: 'translate_and_fix'  // 번역 + 문법 교정 모드
-                    })
-                });
-
-                if (!response.ok) {
-                    throw new Error('Translation failed');
-                }
-
-                const data = await response.json();
-                return data.translated;
-
-            } catch (error) {
-                console.error('AI 번역 실패, 기본 번역으로 전환:', error);
-                // Fallback: 간단한 번역
-                return await mockTranslate(text);
-            }
-        }
-
-        // Mock translation (Fallback용)
-        async function mockTranslate(text) {
-            // 시뮬레이션: 짧은 딜레이
-            await new Promise(resolve => setTimeout(resolve, 200));
-
-            // 간단한 키워드 매핑 (데모용)
-            const translations = {
-                '회원가입': 'Sign Up',
-                '로그인': 'Login',
-                '비밀번호': 'Password',
-                '이메일': 'Email',
-                '요구사항': 'Requirements',
-                '산출물': 'Deliverables',
-                '참고사항': 'Notes',
-                '구현': 'Implementation',
-                'API': 'API',
-                '연동': 'Integration',
-                '중복': 'Duplicate',
-                '확인': 'Verification',
-                '암호화': 'Encryption',
-                '테스트': 'Test',
-                '코드': 'Code',
-                '최소': 'Minimum',
-                '영문': 'English',
-                '숫자': 'Number',
-                '특수문자': 'Special Character',
-                '포함': 'Include'
-            };
-
-            let translated = text;
-            for (const [kr, en] of Object.entries(translations)) {
-                translated = translated.replace(new RegExp(kr, 'g'), en);
-            }
-
-            return translated;
-        }
-
-        // 한영 병기 마크다운 생성 (Claude Code는 영어만 읽음)
-        function generateBilingualMarkdown(koreanText, englishText) {
-            const lines = koreanText.split('\n');
-            const translatedLines = englishText.split('\n');
-            let result = [];
-
-            result.push('<!-- Claude Code: Read English only -->');
-            result.push('');
-
-            for (let i = 0; i < lines.length; i++) {
-                const korLine = lines[i];
-                const engLine = translatedLines[i] || '';
-
-                // 한글이 있는 줄만 처리
-                if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(korLine)) {
-                    // 한글은 HTML 주석으로 감싸기 (Claude Code가 무시)
-                    result.push(`<!-- 🇰🇷 ${korLine} -->`);
-                    // 영어는 일반 텍스트로 (Claude Code가 읽음)
-                    result.push(engLine);
-                } else {
-                    // 한글이 없으면 그대로
-                    result.push(korLine);
-                }
-            }
-
-            return result.join('\n');
-        }
-
         // Download to inbox functionality (자동 저장)
         async function downloadToInbox() {
             const content = document.getElementById('textEditor').value;
@@ -6220,14 +5985,10 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 const gridModal = document.getElementById('gridFullscreenModal');
-                const translationModal = document.getElementById('translationFullviewModal');
                 const addProjectModal = document.getElementById('addProjectModal');
 
                 if (gridModal.classList.contains('active')) {
                     closeGridFullscreen();
-                }
-                if (translationModal.classList.contains('active')) {
-                    closeTranslationFullview();
                 }
                 if (addProjectModal.classList.contains('active')) {
                     closeAddProjectModal();
@@ -6252,25 +6013,6 @@ AI와 함께 웹사이트를 개발하는 여정을 시작해보세요.
         // 프로젝트 그리드 전체화면 닫기
         function closeGridFullscreen() {
             const modal = document.getElementById('gridFullscreenModal');
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        }
-
-        // 번역 전체보기 열기
-        function openTranslationFullview() {
-            const modal = document.getElementById('translationFullviewModal');
-            const translatedText = document.getElementById('translatedText').textContent;
-            const fullviewText = document.getElementById('fullviewTranslatedText');
-
-            fullviewText.textContent = translatedText || '번역된 내용이 없습니다.';
-
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // 번역 전체보기 닫기
-        function closeTranslationFullview() {
-            const modal = document.getElementById('translationFullviewModal');
             modal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
@@ -7346,18 +7088,6 @@ ${result.answer}`;
         </div>
         <div class="grid-fullscreen-content" id="fullscreenGridContent">
             <!-- 그리드 콘텐츠가 여기에 복사됩니다 -->
-        </div>
-    </div>
-
-    <!-- Translation Fullview Modal -->
-    <div id="translationFullviewModal" class="grid-fullscreen-modal">
-        <div class="grid-fullscreen-header">
-            <div class="grid-fullscreen-title">🌐 English Translation - Full View</div>
-            <button class="grid-fullscreen-close" onclick="closeTranslationFullview()">✕ 닫기</button>
-        </div>
-        <div class="grid-fullscreen-content" style="padding: 40px;">
-            <pre id="fullviewTranslatedText"
-                style="font-family: 'Consolas', 'Monaco', monospace; font-size: 14px; line-height: 1.8; color: #495057; white-space: pre-wrap; word-wrap: break-word;"></pre>
         </div>
     </div>
 
