@@ -2206,9 +2206,9 @@ The content you enter in the Control Desk will be displayed here.</pre>
                     workspaceGuide.setAttribute('style', 'display: none !important;');
                 }
 
-                // 3. workspace-top 높이 확보
+                // 3. workspace-top 높이 확보 (flex: 1이 남은 공간 채움)
                 if (workspaceTop) {
-                    workspaceTop.style.minHeight = '350px';
+                    workspaceTop.style.minHeight = '';
                 }
 
                 // 현재 로드된 가이드 초기화

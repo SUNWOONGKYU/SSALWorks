@@ -925,11 +925,11 @@ h6 {
     display: flex;
     flex-direction: column;
     background: var(--bg-light);
-    overflow: hidden;
+    overflow-y: auto;
 }
 
 .workspace-top {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     min-height: 680px;
     background: white;
     border-bottom: 2px solid var(--border-color);
