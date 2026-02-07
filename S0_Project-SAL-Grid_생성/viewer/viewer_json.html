@@ -885,9 +885,10 @@
                             <div style="font-size:40px; margin-bottom:15px;">🔗</div>
                             <h3 style="color:#343a40; margin-bottom:10px;">GitHub 연결이 필요합니다</h3>
                             <p style="margin-bottom:15px; font-size:14px;">Claude Code에게 <b>"Viewer 연결해줘"</b>라고 요청하세요.</p>
-                            <div style="background:#f8f9fa; padding:15px; border-radius:8px; text-align:left; max-width:620px; margin:0 auto; font-size:12px; border:1px solid #dee2e6;">
+                            <div style="background:#f8f9fa; padding:15px; border-radius:8px; text-align:left; max-width:650px; margin:0 auto; font-size:12px; border:1px solid #dee2e6;">
                                 <p style="margin:0 0 8px 0; font-size:13px;"><b>📧 이메일:</b> <code style="background:#e9ecef; padding:2px 6px; border-radius:3px;">${userEmail || '(로그인 필요)'}</code></p>
-                                <p style="margin:0 0 12px 0; font-size:13px;"><b>🔗 GitHub URL:</b> 사용자가 Claude Code에게 알려줘야 함</p>
+                                <p style="margin:0 0 8px 0; font-size:13px;"><b>🔗 GitHub URL:</b> 사용자가 Claude Code에게 알려줘야 함</p>
+                                <p style="margin:0 0 12px 0; font-size:13px;"><b>📂 JSON 경로:</b> <code style="background:#e9ecef; padding:2px 6px; border-radius:3px;">method/json/data/index.json</code></p>
                                 <div style="background:#212529; color:#f8f9fa; padding:12px; border-radius:6px; font-family:monospace; font-size:11px; overflow-x:auto;">
                                     <div style="color:#6c757d; margin-bottom:8px;"># Claude Code가 실행할 명령어 (GitHub URL을 사용자에게 받아서 실행)</div>
                                     <div style="word-break:break-all;">curl -X PATCH "https://zwjmfewyshhwpgwdtrus.supabase.co/rest/v1/users?email=eq.<span style="color:#ffc107;">${userEmail || '{이메일}'}</span>" \\</div>
@@ -896,7 +897,7 @@
                                     <div style="padding-left:20px;">-H "Content-Type: application/json" \\</div>
                                     <div style="padding-left:20px;">-d '{"github_repo_url": "<span style="color:#ffc107;">{사용자GitHub URL}</span>"}'</div>
                                 </div>
-                                <p style="margin:10px 0 0 0; color:#868e96; font-size:11px;">⚠️ {사용자GitHub URL} 부분을 사용자가 알려준 GitHub 레포지토리 주소로 교체하세요.</p>
+                                <p style="margin:10px 0 0 0; color:#868e96; font-size:11px;">⚠️ JSON 데이터는 GitHub 레포지토리의 <b>method/json/data/</b> 경로에 있어야 합니다.</p>
                             </div>
                             <p style="color:#868e96; font-size:0.8em; margin-top:12px;">연결 완료 후 이 페이지를 새로고침하세요.</p>
                         </div>
