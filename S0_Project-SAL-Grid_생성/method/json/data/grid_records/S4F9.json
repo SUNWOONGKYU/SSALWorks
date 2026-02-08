@@ -1,0 +1,15 @@
+{
+  "task_id": "S4F9",
+  "task_name": "사이드바 Project UI 개선",
+  "stage": 4,
+  "area": "F",
+  "task_status": "Pending",
+  "task_progress": 0,
+  "verification_status": "Not Verified",
+  "dependencies": "S4F5",
+  "task_instruction": "등록 버튼 위치 이동/스타일 변경, 프로젝트 액션 버튼(완료/폴더연결) 추가",
+  "task_agent": "frontend-developer",
+  "verification_instruction": "UI 배치, 액션 버튼, 기존 기능 회귀 검증",
+  "verification_agent": "code-reviewer",
+  "execution_type": "AI-Only"
+}

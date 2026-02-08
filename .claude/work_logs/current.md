@@ -4,6 +4,29 @@
 
 ---
 
+## 2026-02-08 - S4F9, S4F10 Task 추가
+
+### 작업 상태: ✅ 완료
+
+### 추가된 Task
+| Task ID | Task Name | Area | 설명 |
+|---------|-----------|------|------|
+| S4F9 | 사이드바 Project UI 개선 | F | 등록 버튼 위치/스타일 변경, 프로젝트 액션 버튼(완료/폴더연결) |
+| S4F10 | File System Access API 로컬 폴더 연결 | F | 로컬 프로젝트 폴더 접근(읽기/쓰기), IndexedDB 핸들 저장 |
+
+### 업데이트된 파일/위치
+1. SSALWORKS_TASK_PLAN.md (v4.9 → v5.0, 72 → 74 tasks)
+2. task-instructions/S4F9_instruction.md (신규)
+3. task-instructions/S4F10_instruction.md (신규)
+4. verification-instructions/S4F9_verification.md (신규)
+5. verification-instructions/S4F10_verification.md (신규)
+6. Supabase DB project_sal_grid 테이블 (2건 INSERT)
+7. method/json/data/index.json (task_ids 추가)
+8. method/json/data/grid_records/S4F9.json (신규)
+9. method/json/data/grid_records/S4F10.json (신규)
+
+---
+
 ## 2026-02-04 - S3C2 Custom Skills UI 위치/색상 업데이트
 
 ### 작업 상태: Completed

@@ -1,0 +1,15 @@
+{
+  "task_id": "S4F10",
+  "task_name": "File System Access API 로컬 폴더 연결",
+  "stage": 4,
+  "area": "F",
+  "task_status": "Pending",
+  "task_progress": 0,
+  "verification_status": "Not Verified",
+  "dependencies": "S4F9",
+  "task_instruction": "File System Access API로 로컬 프로젝트 폴더 접근(읽기/쓰기), IndexedDB 핸들 저장, Chrome/Edge 지원",
+  "task_agent": "frontend-developer",
+  "verification_instruction": "API 기능, 핸들 저장/복원, 비지원 브라우저 처리, 보안 검증",
+  "verification_agent": "code-reviewer",
+  "execution_type": "AI-Only"
+}
