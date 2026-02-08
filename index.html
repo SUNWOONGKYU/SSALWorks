@@ -9731,7 +9731,7 @@ Claude Code가 작업을 완료하면:
                                 onmouseout="this.style.background='#f8f9fa'; this.style.borderColor='#dee2e6'">
                                 ✅ 완료 처리
                             </button>
-                            <button onclick="connectLocalFolder('${project.project_id}', '${escapedName}')" style="flex: 1; padding: 5px 8px; font-size: 11px; font-weight: 600; background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 4px; cursor: pointer; color: #1971c2; transition: all 0.2s;"
+                            <button data-folder-btn onclick="connectLocalFolder('${project.project_id}', '${escapedName}')" style="flex: 1; padding: 5px 8px; font-size: 11px; font-weight: 600; background: #f0f7ff; border: 1px solid #b8d4f0; border-radius: 4px; cursor: pointer; color: #1971c2; transition: all 0.2s;"
                                 onmouseover="this.style.background='#dbeafe'; this.style.borderColor='#7aadde'"
                                 onmouseout="this.style.background='#f0f7ff'; this.style.borderColor='#b8d4f0'">
                                 📁 폴더 연결
@@ -9743,6 +9743,9 @@ Claude Code가 작업을 완료하면:
 
                 // 프로젝트 진행률 로드 (project_id 전달)
                 await loadProjectProgress(project.project_id);
+
+                // 폴더 연결 상태 자동 복원
+                restoreFolderConnection(project.project_id);
 
             } catch (error) {
                 console.error('프로젝트 로드 실패:', error);
@@ -9763,9 +9766,138 @@ Claude Code가 작업을 완료하면:
             actionsDiv.style.display = isVisible ? 'none' : 'flex';
         }
 
-        // 로컬 폴더 연결 (S4F10에서 구현 예정)
-        function connectLocalFolder(projectId, projectName) {
-            alert('📁 폴더 연결 기능은 준비 중입니다.\n\n다음 업데이트에서 File System Access API를 통해\n프로젝트 폴더를 직접 연결할 수 있습니다.');
+        // ===== File System Access API (S4F10) =====
+        const FS_DB_NAME = 'ssalworks_fs';
+        const FS_DB_VERSION = 1;
+        const FS_STORE_NAME = 'dir_handles';
+
+        function openFSDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(FS_DB_NAME, FS_DB_VERSION);
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains(FS_STORE_NAME)) {
+                        db.createObjectStore(FS_STORE_NAME, { keyPath: 'projectId' });
+                    }
+                };
+                request.onsuccess = (e) => resolve(e.target.result);
+                request.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+        async function saveDirectoryHandle(projectId, handle) {
+            const db = await openFSDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(FS_STORE_NAME, 'readwrite');
+                tx.objectStore(FS_STORE_NAME).put({ projectId, handle, savedAt: new Date().toISOString() });
+                tx.oncomplete = () => resolve();
+                tx.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+        async function getSavedDirectoryHandle(projectId) {
+            const db = await openFSDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(FS_STORE_NAME, 'readonly');
+                const request = tx.objectStore(FS_STORE_NAME).get(projectId);
+                request.onsuccess = (e) => resolve(e.target.result?.handle || null);
+                request.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+        async function removeSavedDirectoryHandle(projectId) {
+            const db = await openFSDB();
+            return new Promise((resolve, reject) => {
+                const tx = db.transaction(FS_STORE_NAME, 'readwrite');
+                tx.objectStore(FS_STORE_NAME).delete(projectId);
+                tx.oncomplete = () => resolve();
+                tx.onerror = (e) => reject(e.target.error);
+            });
+        }
+
+        let currentDirHandle = null;
+
+        async function connectLocalFolder(projectId, projectName) {
+            if (!('showDirectoryPicker' in window)) {
+                alert('이 브라우저에서는 폴더 연결을 지원하지 않습니다.\n\nChrome 또는 Edge 브라우저를 사용해주세요.');
+                return;
+            }
+
+            try {
+                const savedHandle = await getSavedDirectoryHandle(projectId);
+                if (savedHandle) {
+                    try {
+                        const perm = await savedHandle.requestPermission({ mode: 'readwrite' });
+                        if (perm === 'granted') {
+                            currentDirHandle = savedHandle;
+                            updateFolderConnectionUI(projectId, savedHandle.name, true);
+                            console.log('✅ 기존 폴더 연결 복원:', savedHandle.name);
+                            return;
+                        }
+                    } catch (e) {
+                        console.log('기존 핸들 만료, 새로 선택 필요');
+                    }
+                }
+
+                const dirHandle = await window.showDirectoryPicker({ mode: 'readwrite' });
+                await saveDirectoryHandle(projectId, dirHandle);
+                currentDirHandle = dirHandle;
+                updateFolderConnectionUI(projectId, dirHandle.name, true);
+                console.log('✅ 폴더 연결 완료:', dirHandle.name);
+
+            } catch (err) {
+                if (err.name === 'AbortError') return;
+                console.error('폴더 연결 실패:', err);
+                alert('폴더 연결 중 오류가 발생했습니다.\n\n' + err.message);
+            }
+        }
+
+        async function disconnectLocalFolder(projectId) {
+            if (!confirm('폴더 연결을 해제하시겠습니까?')) return;
+            await removeSavedDirectoryHandle(projectId);
+            currentDirHandle = null;
+            updateFolderConnectionUI(projectId, null, false);
+            console.log('📁 폴더 연결 해제');
+        }
+
+        function updateFolderConnectionUI(projectId, folderName, isConnected) {
+            const folderBtn = document.querySelector('[data-folder-btn]');
+            if (!folderBtn) return;
+
+            if (isConnected) {
+                folderBtn.textContent = '✅ ' + folderName;
+                folderBtn.style.background = '#ecfdf5';
+                folderBtn.style.borderColor = '#6ee7b7';
+                folderBtn.style.color = '#065f46';
+                folderBtn.setAttribute('onclick', "disconnectLocalFolder('" + projectId + "')");
+                folderBtn.onmouseover = function() { this.style.background='#d1fae5'; this.style.borderColor='#34d399'; };
+                folderBtn.onmouseout = function() { this.style.background='#ecfdf5'; this.style.borderColor='#6ee7b7'; };
+            } else {
+                folderBtn.textContent = '📁 폴더 연결';
+                folderBtn.style.background = '#f0f7ff';
+                folderBtn.style.borderColor = '#b8d4f0';
+                folderBtn.style.color = '#1971c2';
+                folderBtn.setAttribute('onclick', "connectLocalFolder('" + projectId + "')");
+                folderBtn.onmouseover = function() { this.style.background='#dbeafe'; this.style.borderColor='#7aadde'; };
+                folderBtn.onmouseout = function() { this.style.background='#f0f7ff'; this.style.borderColor='#b8d4f0'; };
+            }
+        }
+
+        async function restoreFolderConnection(projectId) {
+            if (!('showDirectoryPicker' in window)) return;
+            try {
+                const savedHandle = await getSavedDirectoryHandle(projectId);
+                if (savedHandle) {
+                    const perm = await savedHandle.queryPermission({ mode: 'readwrite' });
+                    if (perm === 'granted') {
+                        currentDirHandle = savedHandle;
+                        updateFolderConnectionUI(projectId, savedHandle.name, true);
+                        console.log('✅ 폴더 연결 자동 복원:', savedHandle.name);
+                    }
+                }
+            } catch (e) {
+                console.log('폴더 연결 복원 생략:', e.message);
+            }
         }
 
         // 프로젝트 완료 처리
