@@ -180,21 +180,22 @@
                     </div>
                 </div>
 
-                <!-- 3. 진행중 Project -->
+                <!-- 새로운 Project 등록 버튼 (진행중 Project 위) -->
+                <div style="margin-bottom: 6px;">
+                    <button onclick="registerNewProject()" style="width: 100%; padding: 7px 10px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 11.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 5px; transition: background 0.2s;"
+                        onmouseover="this.style.background='#059669'"
+                        onmouseout="this.style.background='var(--primary)'">
+                        <span style="font-size: 13px; line-height: 1;">+</span>
+                        <span>새로운 Project 등록</span>
+                    </button>
+                </div>
+
+                <!-- 진행중 Project -->
                 <div style="margin-bottom: 6px;">
                     <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #495057; padding: 6px 8px; background: rgba(16, 185, 129, 0.05); border-radius: 4px; cursor: pointer;"
                         onclick="toggleCurrentProject()">
                         <span>진행중 Project</span>
                         <span id="currentProjectArrow" style="font-size: 10px;">▼</span>
-                    </div>
-                    <!-- 4. 새로운 Project 등록 버튼 (프로젝트 목록 위) -->
-                    <div style="margin-top: 6px; padding-left: 8px;">
-                        <button onclick="registerNewProject()" style="width: 100%; padding: 7px 10px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 11.5px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 5px; transition: background 0.2s;"
-                            onmouseover="this.style.background='#059669'"
-                            onmouseout="this.style.background='var(--primary)'">
-                            <span style="font-size: 13px; line-height: 1;">+</span>
-                            <span>새로운 Project 등록</span>
-                        </button>
                     </div>
                     <div id="currentProjectList" style="display: flex; flex-direction: column; gap: 4px; margin-top: 6px; padding-left: 8px;">
                         <!-- 진행중 프로젝트 동적 로드 -->
