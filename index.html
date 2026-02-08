@@ -10075,7 +10075,25 @@ Claude Code가 작업을 완료하면:
                 html += '<div style="font-size:11px; color:#868e96; margin-top:3px;">' + sizeTxt + ' · ' + (file.type || '알 수 없는 타입') + ' · 수정: ' + new Date(file.lastModified).toLocaleString('ko-KR') + '</div>';
                 html += '</div>';
 
-                if (isText && file.size <= 1048576) {
+                const isHtml = ext === '.html' || ext === '.htm';
+
+                if (isHtml && file.size <= 2097152) {
+                    const text = await file.text();
+                    const blob = new Blob([text], { type: 'text/html' });
+                    const blobUrl = URL.createObjectURL(blob);
+                    window._currentHtmlBlobUrl = blobUrl;
+                    window._currentHtmlSource = text;
+
+                    // 탭 버튼: 실행 | 소스 코드 | 편집
+                    html += '<div style="margin-bottom:8px; display:flex; gap:6px;">';
+                    html += '<button id="tabRender" onclick="showHtmlRender()" style="padding:5px 14px; font-size:12px; font-weight:600; background:#228be6; color:#fff; border:none; border-radius:5px; cursor:pointer;">실행</button>';
+                    html += '<button id="tabSource" onclick="showHtmlSource(' + idx + ')" style="padding:5px 14px; font-size:12px; font-weight:600; background:#e9ecef; color:#495057; border:none; border-radius:5px; cursor:pointer;">소스 코드</button>';
+                    html += '<button onclick="startEditFile(' + idx + ')" id="btnEditFile" style="padding:5px 14px; font-size:12px; font-weight:600; background:#e9ecef; color:#495057; border:none; border-radius:5px; cursor:pointer;">편집</button>';
+                    html += '</div>';
+                    // iframe 렌더링 (기본)
+                    html += '<iframe id="htmlRenderFrame" src="' + blobUrl + '" style="width:100%; height:calc(100% - 80px); min-height:400px; border:1px solid #e9ecef; border-radius:6px; background:#fff;" sandbox="allow-scripts allow-same-origin"></iframe>';
+                    html += '<pre id="filePreviewContent" style="display:none; font-size:12px; font-family:\'Consolas\',\'Courier New\',monospace; background:#fff; border:1px solid #e9ecef; border-radius:6px; padding:12px; margin:0; white-space:pre-wrap; word-break:break-all; color:#212529; line-height:1.5; overflow:auto;">' + text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>';
+                } else if (isText && file.size <= 1048576) {
                     const text = await file.text();
                     // 편집 버튼
                     html += '<div style="margin-bottom:8px; display:flex; gap:6px;">';
@@ -10094,6 +10112,28 @@ Claude Code가 작업을 완료하면:
                 preview.innerHTML = '<div style="padding:20px; color:#e03131; font-size:12px;">파일을 열 수 없습니다: ' + err.message + '</div>';
                 console.error('파일 미리보기 오류:', err);
             }
+        }
+
+        function showHtmlRender() {
+            const iframe = document.getElementById('htmlRenderFrame');
+            const pre = document.getElementById('filePreviewContent');
+            const tabRender = document.getElementById('tabRender');
+            const tabSource = document.getElementById('tabSource');
+            if (iframe) iframe.style.display = 'block';
+            if (pre) pre.style.display = 'none';
+            if (tabRender) { tabRender.style.background = '#228be6'; tabRender.style.color = '#fff'; }
+            if (tabSource) { tabSource.style.background = '#e9ecef'; tabSource.style.color = '#495057'; }
+        }
+
+        function showHtmlSource(idx) {
+            const iframe = document.getElementById('htmlRenderFrame');
+            const pre = document.getElementById('filePreviewContent');
+            const tabRender = document.getElementById('tabRender');
+            const tabSource = document.getElementById('tabSource');
+            if (iframe) iframe.style.display = 'none';
+            if (pre) pre.style.display = 'block';
+            if (tabRender) { tabRender.style.background = '#e9ecef'; tabRender.style.color = '#495057'; }
+            if (tabSource) { tabSource.style.background = '#228be6'; tabSource.style.color = '#fff'; }
         }
 
         async function startEditFile(idx) {
