@@ -526,7 +526,7 @@
                     </div>
                     <div class="detail-section">
                         <div class="detail-label">7. Tools</div>
-                        <div class="detail-value">${data.tools || '-'}</div>
+                        <div class="detail-value">${Array.isArray(data.tools) ? data.tools.join(', ') : (data.tools || '-')}</div>
                     </div>
                     <div class="detail-section">
                         <div class="detail-label">8. Execution Type</div>
