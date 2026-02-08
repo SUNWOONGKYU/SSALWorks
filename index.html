@@ -7,7 +7,7 @@
     <meta http-equiv="Permissions-Policy" content="notifications()">
     <title>SSALWorks Dashboard - 프로젝트 관리</title>
     <!-- Main CSS (분리됨) -->
-    <link rel="stylesheet" href="/assets/css/main.css?v=20260208b">
+    <link rel="stylesheet" href="/assets/css/main.css?v=20260208c">
 
     <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2193,27 +2193,37 @@ The content you enter in the Control Desk will be displayed here.</pre>
             const workspaceTop = document.querySelector('.workspace-top');
             if (!s1 || !sidebar || !workspaceTop) return;
 
-            const sidebarRect = sidebar.getBoundingClientRect();
-            const s1Rect = s1.getBoundingClientRect();
-            const s1Offset = (s1Rect.top - sidebarRect.top) + sidebar.scrollTop;
+            // 사이드바 스크롤을 0으로 리셋하여 정확한 측정 보장
+            const savedScroll = sidebar.scrollTop;
+            sidebar.scrollTop = 0;
 
-            if (s1Offset > 0) {
-                workspaceTop.style.minHeight = s1Offset + 'px';
+            const sidebarTop = sidebar.getBoundingClientRect().top;
+            const s1Top = s1.getBoundingClientRect().top;
+            // workspace-top border-bottom(2px)을 빼서 SAL Grid 상단이 S1 상단에 정확히 정렬
+            const targetMinHeight = Math.round(s1Top - sidebarTop) - 2;
+
+            // 사이드바 스크롤 복원
+            sidebar.scrollTop = savedScroll;
+
+            if (targetMinHeight > 100) {
+                workspaceTop.style.minHeight = targetMinHeight + 'px';
             }
         }
 
         // 페이지 로드 후 정렬 (동적 프로젝트 로딩 대기)
         window.addEventListener('load', () => {
-            setTimeout(alignSALGridWithS1, 300);
+            setTimeout(alignSALGridWithS1, 500);
         });
         window.addEventListener('resize', alignSALGridWithS1);
 
-        // 사이드바 내용 변경 감지 (동적 프로젝트 로딩 시 재정렬)
+        // 사이드바 내용 변경 감지 (동적 프로젝트 로딩 시 재정렬) - 디바운싱 적용
         requestAnimationFrame(() => {
             const sidebar = document.querySelector('.left-sidebar');
             if (sidebar) {
+                let alignTimer = null;
                 const observer = new MutationObserver(() => {
-                    setTimeout(alignSALGridWithS1, 100);
+                    clearTimeout(alignTimer);
+                    alignTimer = setTimeout(alignSALGridWithS1, 200);
                 });
                 observer.observe(sidebar, { childList: true, subtree: true });
             }
