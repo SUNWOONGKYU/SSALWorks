@@ -3,13 +3,15 @@
   "task_name": "사이드바 Project UI 개선",
   "stage": 4,
   "area": "F",
-  "task_status": "Pending",
-  "task_progress": 0,
-  "verification_status": "Not Verified",
+  "task_status": "Completed",
+  "task_progress": 100,
+  "verification_status": "Verified",
   "dependencies": "S4F5",
   "task_instruction": "등록 버튼 위치 이동/스타일 변경, 프로젝트 액션 버튼(완료/폴더연결) 추가",
   "task_agent": "frontend-developer",
+  "generated_files": "index.html (lines 183-202 HTML, lines 9722-9740 rendering, lines 9757-9768 functions)",
   "verification_instruction": "UI 배치, 액션 버튼, 기존 기능 회귀 검증",
   "verification_agent": "code-reviewer",
-  "execution_type": "AI-Only"
+  "execution_type": "AI-Only",
+  "remarks": "등록 버튼을 프로젝트 목록 위로 이동, 솔리드 버튼 스타일. 프로젝트 클릭 시 완료처리/폴더연결 액션 패널 토글. connectLocalFolder는 S4F10용 placeholder."
 }
