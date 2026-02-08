@@ -9737,7 +9737,6 @@ Claude Code가 작업을 완료하면:
                                 📁 폴더 연결
                             </button>
                         </div>
-                        <div style="padding: 0 0 0 2px; font-size: 9.5px; color: #868e96; margin-top: 2px;">※ Chrome / Edge 전용 기능</div>
                         <div data-folder-panel style="display: none;"></div>
                     </div>
                 `;
@@ -9887,45 +9886,92 @@ Claude Code가 작업을 완료하면:
             }
         }
 
+        // 폴더 탐색 상태 관리
+        let folderNavStack = []; // [{handle, name}] - 탐색 경로 스택
+
         async function toggleFolderPanel(projectId) {
             const panel = document.querySelector('[data-folder-panel]');
             if (!panel) return;
 
-            if (panel.style.display === 'block') {
+            if (panel.style.display === 'block' && !panel.dataset.fileView) {
                 panel.style.display = 'none';
+                folderNavStack = [];
                 return;
             }
+            delete panel.dataset.fileView;
 
             if (!currentDirHandle) {
                 panel.style.display = 'none';
                 return;
             }
 
-            panel.innerHTML = '<div style="padding: 6px 8px; font-size: 10px; color: #868e96;">파일 목록 로딩...</div>';
+            folderNavStack = [{ handle: currentDirHandle, name: currentDirHandle.name }];
+            await renderFolderContents(projectId, currentDirHandle);
+        }
+
+        async function renderFolderContents(projectId, dirHandle) {
+            const panel = document.querySelector('[data-folder-panel]');
+            if (!panel) return;
+
+            panel.innerHTML = '<div style="padding: 6px 8px; font-size: 10px; color: #868e96;">로딩...</div>';
             panel.style.display = 'block';
+            delete panel.dataset.fileView;
 
             try {
                 let items = [];
-                for await (const [name, handle] of currentDirHandle.entries()) {
-                    items.push({ name, kind: handle.kind });
+                for await (const [name, handle] of dirHandle.entries()) {
+                    items.push({ name, kind: handle.kind, handle });
                 }
                 items.sort((a, b) => {
                     if (a.kind !== b.kind) return a.kind === 'directory' ? -1 : 1;
                     return a.name.localeCompare(b.name);
                 });
 
-                let html = '<div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 4px; padding: 6px; margin-top: 4px; max-height: 200px; overflow-y: auto;">';
-                html += '<div style="font-size: 10px; font-weight: 600; color: #495057; margin-bottom: 4px; padding-bottom: 3px; border-bottom: 1px solid #e9ecef;">📂 ' + currentDirHandle.name + '</div>';
+                // 현재 폴더 항목 캐시 (클릭 시 참조)
+                window._folderItems = items;
 
+                // 경로 빵빵이(breadcrumb) 생성
+                let breadcrumb = '';
+                folderNavStack.forEach((entry, idx) => {
+                    if (idx > 0) breadcrumb += ' <span style="color:#adb5bd;">/</span> ';
+                    if (idx < folderNavStack.length - 1) {
+                        breadcrumb += '<span onclick="navigateToStackIndex(' + idx + ', \'' + projectId + '\')" style="cursor:pointer; color:#1971c2; text-decoration:underline;">' + entry.name.replace(/</g, '&lt;') + '</span>';
+                    } else {
+                        breadcrumb += '<span style="color:#495057; font-weight:600;">' + entry.name.replace(/</g, '&lt;') + '</span>';
+                    }
+                });
+
+                let html = '<div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 4px; padding: 6px; margin-top: 4px;">';
+
+                // 상단: 경로 + 닫기
+                html += '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px; padding-bottom: 3px; border-bottom: 1px solid #e9ecef;">';
+                html += '<div style="font-size: 10px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1;">📂 ' + breadcrumb + '</div>';
+                html += '<span onclick="closeFolderPanel()" style="cursor:pointer; font-size:12px; color:#868e96; margin-left:6px;" title="닫기">✕</span>';
+                html += '</div>';
+
+                // 상위 폴더 이동 버튼
+                if (folderNavStack.length > 1) {
+                    html += '<div onclick="navigateUp(\'' + projectId + '\')" style="font-size: 10px; color: #1971c2; padding: 3px 4px; cursor: pointer; border-radius: 3px;" onmouseover="this.style.background=\'#e7f5ff\'" onmouseout="this.style.background=\'transparent\'">⬆ 상위 폴더</div>';
+                }
+
+                // 파일/폴더 목록
+                html += '<div style="max-height: 220px; overflow-y: auto;">';
                 if (items.length === 0) {
                     html += '<div style="font-size: 10px; color: #adb5bd; padding: 4px 0;">빈 폴더</div>';
                 } else {
-                    items.forEach(item => {
+                    items.forEach((item, idx) => {
                         const icon = item.kind === 'directory' ? '📁' : '📄';
-                        html += '<div style="font-size: 10px; color: #495057; padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + icon + ' ' + item.name.replace(/</g, '&lt;') + '</div>';
+                        const escapedName = item.name.replace(/</g, '&lt;').replace(/'/g, "\\'");
+                        if (item.kind === 'directory') {
+                            html += '<div onclick="navigateIntoFolder(' + idx + ', \'' + projectId + '\')" style="font-size: 10px; color: #1971c2; padding: 3px 4px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-radius: 3px;" onmouseover="this.style.background=\'#e7f5ff\'" onmouseout="this.style.background=\'transparent\'">' + icon + ' ' + escapedName + '</div>';
+                        } else {
+                            html += '<div onclick="openFileFromFolder(' + idx + ', \'' + projectId + '\')" style="font-size: 10px; color: #495057; padding: 3px 4px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-radius: 3px;" onmouseover="this.style.background=\'#fff3bf\'" onmouseout="this.style.background=\'transparent\'">' + icon + ' ' + escapedName + '</div>';
+                        }
                     });
                 }
+                html += '</div>';
 
+                // 하단: 연결 해제
                 html += '<div style="margin-top: 6px; padding-top: 5px; border-top: 1px solid #e9ecef; text-align: right;">';
                 html += '<span onclick="disconnectLocalFolder(\'' + projectId + '\')" style="font-size: 9.5px; color: #868e96; cursor: pointer; text-decoration: underline;">연결 해제</span>';
                 html += '</div></div>';
@@ -9934,6 +9980,82 @@ Claude Code가 작업을 완료하면:
             } catch (err) {
                 panel.innerHTML = '<div style="padding: 6px 8px; font-size: 10px; color: #e03131;">파일 목록을 불러올 수 없습니다.</div>';
                 console.error('폴더 목록 오류:', err);
+            }
+        }
+
+        function closeFolderPanel() {
+            const panel = document.querySelector('[data-folder-panel]');
+            if (panel) { panel.style.display = 'none'; delete panel.dataset.fileView; }
+            folderNavStack = [];
+        }
+
+        async function navigateIntoFolder(itemIndex, projectId) {
+            const item = window._folderItems?.[itemIndex];
+            if (!item || item.kind !== 'directory') return;
+            folderNavStack.push({ handle: item.handle, name: item.name });
+            await renderFolderContents(projectId, item.handle);
+        }
+
+        async function navigateUp(projectId) {
+            if (folderNavStack.length <= 1) return;
+            folderNavStack.pop();
+            const current = folderNavStack[folderNavStack.length - 1];
+            await renderFolderContents(projectId, current.handle);
+        }
+
+        async function navigateToStackIndex(index, projectId) {
+            if (index < 0 || index >= folderNavStack.length) return;
+            folderNavStack = folderNavStack.slice(0, index + 1);
+            const current = folderNavStack[folderNavStack.length - 1];
+            await renderFolderContents(projectId, current.handle);
+        }
+
+        async function openFileFromFolder(itemIndex, projectId) {
+            const item = window._folderItems?.[itemIndex];
+            if (!item || item.kind !== 'file') return;
+            const panel = document.querySelector('[data-folder-panel]');
+            if (!panel) return;
+
+            panel.dataset.fileView = 'true';
+
+            try {
+                const file = await item.handle.getFile();
+                const sizeTxt = file.size < 1024 ? file.size + ' B'
+                    : file.size < 1048576 ? (file.size / 1024).toFixed(1) + ' KB'
+                    : (file.size / 1048576).toFixed(1) + ' MB';
+
+                let html = '<div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 4px; padding: 6px; margin-top: 4px;">';
+
+                // 상단: 파일명 + 닫기
+                html += '<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px; padding-bottom: 3px; border-bottom: 1px solid #e9ecef;">';
+                html += '<div style="font-size: 10px; font-weight:600; color:#495057; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1;">📄 ' + file.name.replace(/</g, '&lt;') + ' <span style="font-weight:400; color:#868e96;">(' + sizeTxt + ')</span></div>';
+                html += '<span onclick="renderFolderContents(\'' + projectId + '\', folderNavStack[folderNavStack.length-1].handle)" style="cursor:pointer; font-size:12px; color:#868e96; margin-left:6px;" title="목록으로">✕</span>';
+                html += '</div>';
+
+                // 파일 내용
+                const textExts = ['.txt','.md','.js','.ts','.jsx','.tsx','.html','.css','.json','.xml','.csv','.yml','.yaml','.sh','.bat','.py','.sql','.env','.gitignore','.log','.cfg','.ini','.toml'];
+                const ext = '.' + file.name.split('.').pop().toLowerCase();
+                const isText = textExts.includes(ext) || file.type.startsWith('text/');
+
+                if (isText && file.size <= 512000) {
+                    const text = await file.text();
+                    html += '<pre style="max-height: 280px; overflow: auto; font-size: 10px; font-family: \'Consolas\',\'Courier New\',monospace; background: #fff; border: 1px solid #e9ecef; border-radius: 3px; padding: 6px; margin: 0; white-space: pre-wrap; word-break: break-all; color: #212529;">' + text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</pre>';
+                } else if (file.type.startsWith('image/') && file.size <= 5242880) {
+                    const url = URL.createObjectURL(file);
+                    html += '<div style="max-height: 280px; overflow: auto; text-align:center; background:#fff; border: 1px solid #e9ecef; border-radius: 3px; padding: 4px;"><img src="' + url + '" style="max-width:100%; max-height:260px;" onload="URL.revokeObjectURL(this.src)"></div>';
+                } else {
+                    html += '<div style="font-size: 10px; color: #868e96; padding: 12px 0; text-align:center;">미리보기를 지원하지 않는 파일 형식입니다.<br>(' + (file.type || '알 수 없는 타입') + ')</div>';
+                }
+
+                // 하단: 돌아가기
+                html += '<div style="margin-top: 6px; padding-top: 5px; border-top: 1px solid #e9ecef;">';
+                html += '<span onclick="renderFolderContents(\'' + projectId + '\', folderNavStack[folderNavStack.length-1].handle)" style="font-size: 9.5px; color: #1971c2; cursor: pointer;">← 폴더로 돌아가기</span>';
+                html += '</div></div>';
+
+                panel.innerHTML = html;
+            } catch (err) {
+                panel.innerHTML = '<div style="padding: 6px 8px; font-size: 10px; color: #e03131;">파일을 열 수 없습니다: ' + err.message + '</div>';
+                console.error('파일 열기 오류:', err);
             }
         }
 
