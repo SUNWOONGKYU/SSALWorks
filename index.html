@@ -9737,6 +9737,8 @@ Claude Code가 작업을 완료하면:
                                 📁 폴더 연결
                             </button>
                         </div>
+                        <div style="padding: 0 0 0 2px; font-size: 9.5px; color: #868e96; margin-top: 2px;">※ Chrome / Edge 전용 기능</div>
+                        <div data-folder-panel style="display: none;"></div>
                     </div>
                 `;
                 console.log('✅ 프로젝트 로드:', project.project_name, 'ID:', project.project_id);
@@ -9856,6 +9858,8 @@ Claude Code가 작업을 완료하면:
             if (!confirm('폴더 연결을 해제하시겠습니까?')) return;
             await removeSavedDirectoryHandle(projectId);
             currentDirHandle = null;
+            const panel = document.querySelector('[data-folder-panel]');
+            if (panel) panel.style.display = 'none';
             updateFolderConnectionUI(projectId, null, false);
             console.log('📁 폴더 연결 해제');
         }
@@ -9865,11 +9869,11 @@ Claude Code가 작업을 완료하면:
             if (!folderBtn) return;
 
             if (isConnected) {
-                folderBtn.textContent = '✅ ' + folderName;
+                folderBtn.textContent = '📂 ' + folderName;
                 folderBtn.style.background = '#ecfdf5';
                 folderBtn.style.borderColor = '#6ee7b7';
                 folderBtn.style.color = '#065f46';
-                folderBtn.setAttribute('onclick', "disconnectLocalFolder('" + projectId + "')");
+                folderBtn.setAttribute('onclick', "toggleFolderPanel('" + projectId + "')");
                 folderBtn.onmouseover = function() { this.style.background='#d1fae5'; this.style.borderColor='#34d399'; };
                 folderBtn.onmouseout = function() { this.style.background='#ecfdf5'; this.style.borderColor='#6ee7b7'; };
             } else {
@@ -9880,6 +9884,56 @@ Claude Code가 작업을 완료하면:
                 folderBtn.setAttribute('onclick', "connectLocalFolder('" + projectId + "')");
                 folderBtn.onmouseover = function() { this.style.background='#dbeafe'; this.style.borderColor='#7aadde'; };
                 folderBtn.onmouseout = function() { this.style.background='#f0f7ff'; this.style.borderColor='#b8d4f0'; };
+            }
+        }
+
+        async function toggleFolderPanel(projectId) {
+            const panel = document.querySelector('[data-folder-panel]');
+            if (!panel) return;
+
+            if (panel.style.display === 'block') {
+                panel.style.display = 'none';
+                return;
+            }
+
+            if (!currentDirHandle) {
+                panel.style.display = 'none';
+                return;
+            }
+
+            panel.innerHTML = '<div style="padding: 6px 8px; font-size: 10px; color: #868e96;">파일 목록 로딩...</div>';
+            panel.style.display = 'block';
+
+            try {
+                let items = [];
+                for await (const [name, handle] of currentDirHandle.entries()) {
+                    items.push({ name, kind: handle.kind });
+                }
+                items.sort((a, b) => {
+                    if (a.kind !== b.kind) return a.kind === 'directory' ? -1 : 1;
+                    return a.name.localeCompare(b.name);
+                });
+
+                let html = '<div style="background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 4px; padding: 6px; margin-top: 4px; max-height: 200px; overflow-y: auto;">';
+                html += '<div style="font-size: 10px; font-weight: 600; color: #495057; margin-bottom: 4px; padding-bottom: 3px; border-bottom: 1px solid #e9ecef;">📂 ' + currentDirHandle.name + '</div>';
+
+                if (items.length === 0) {
+                    html += '<div style="font-size: 10px; color: #adb5bd; padding: 4px 0;">빈 폴더</div>';
+                } else {
+                    items.forEach(item => {
+                        const icon = item.kind === 'directory' ? '📁' : '📄';
+                        html += '<div style="font-size: 10px; color: #495057; padding: 2px 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + icon + ' ' + item.name.replace(/</g, '&lt;') + '</div>';
+                    });
+                }
+
+                html += '<div style="margin-top: 6px; padding-top: 5px; border-top: 1px solid #e9ecef; text-align: right;">';
+                html += '<span onclick="disconnectLocalFolder(\'' + projectId + '\')" style="font-size: 9.5px; color: #868e96; cursor: pointer; text-decoration: underline;">연결 해제</span>';
+                html += '</div></div>';
+
+                panel.innerHTML = html;
+            } catch (err) {
+                panel.innerHTML = '<div style="padding: 6px 8px; font-size: 10px; color: #e03131;">파일 목록을 불러올 수 없습니다.</div>';
+                console.error('폴더 목록 오류:', err);
             }
         }
 
