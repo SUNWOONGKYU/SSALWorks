@@ -64,10 +64,11 @@
     .slide li::marker { color: var(--accent); }
     .slide strong { color: var(--accent); font-weight: 700; }
     .slide em strong { color: var(--accent2); }
-    .slide code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-size: 0.92em; color: var(--accent2); }
+    .slide code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-size: 0.92em; color: var(--text); font-weight: 600; }
     .slide pre { background: var(--code-bg); border-radius: 12px; padding: 18px 22px; overflow-x: auto; margin: 14px 0; font-size: 0.88rem; line-height: 1.6; border: 1px solid var(--border); }
-    .slide table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 0.95rem; }
-    .slide th { background: var(--accent); padding: 10px 14px; text-align: left; font-weight: 700; color: #fff; }
+    .slide pre code { font-weight: 400; }
+    .slide table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 1rem; }
+    .slide th { background: var(--surface); padding: 10px 14px; text-align: left; font-weight: 700; color: var(--accent); border-bottom: 2px solid var(--accent); }
     .slide td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
     .slide tr:hover td { background: rgba(37,99,235,0.04); }
 
@@ -95,7 +96,7 @@
     .vs-box { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin: 16px 0; }
     .vs-box .side { background: var(--surface); padding: 16px 20px; border-radius: 12px; border: 1px solid var(--border); }
     .vs-box .vs { font-size: 1.5rem; font-weight: 900; color: var(--warn); }
-    @media (max-width: 640px) { .vs-box { grid-template-columns: 1fr; } .vs-box .vs { text-align: center; } }
+    @media (max-width: 640px) { .vs-box { grid-template-columns: 1fr; } .vs-box .vs { text-align: center; padding: 4px 0; } }
 
     .arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(37,99,235,0.1); border: none; color: var(--accent); font-size: 34px; cursor: pointer; padding: 16px 10px; z-index: 10; border-radius: 6px; transition: background 0.2s; line-height: 1; }
     .arrow:hover { background: rgba(37,99,235,0.2); }
@@ -116,6 +117,7 @@
       .slides { position: static; height: auto; }
       .slide { position: static; opacity: 1 !important; transform: none !important; pointer-events: auto !important; page-break-after: always; height: 100vh; padding: 40px; }
       .slide:last-child { page-break-after: avoid; }
+      .slide img { max-width: 80% !important; }
     }
     @media (max-width: 640px) {
       .slide { padding: 40px 20px 70px; }
@@ -127,8 +129,8 @@
 <body>
 
 <div class="progress" id="progress"></div>
-<button class="fs-toggle" id="fsToggle" title="전체화면 (F)">⛶</button>
-<button class="theme-toggle" id="themeToggle">Dark</button>
+<button class="fs-toggle" id="fsToggle" title="전체화면 (F)" aria-label="전체화면 토글">⛶</button>
+<button class="theme-toggle" id="themeToggle" aria-label="테마 전환">Dark</button>
 
 <div class="slides" id="slides">
   <button class="arrow arrow-l" id="arrow-l" onclick="prev()" title="이전 (←)" aria-label="이전 슬라이드">❮</button>
@@ -238,16 +240,20 @@
   <!-- ===== SLIDE 7: SAL ID 파싱 정규식 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2><span class="text">SAL ID</span> 파싱 정규식</h2>
-      <pre><code>^S(\d{1,2})([A-Z]{2})(\d{1,2})([a-z])?$</code></pre>
+      <h2><span class="text">SAL ID</span> 파싱 과정</h2>
+      <pre><code>정규식:  ^S(\d{1,2})([A-Z]{2})(\d{1,2})([a-z])?$
+
+파싱 예시:  S 2 BA 3 a
+           │ │  │  │ └─ 그룹4: Variant = a (병렬 분기)
+           │ │  │  └─── 그룹3: Level   = 3 (의존성 계층)
+           │ │  └────── 그룹2: Area    = BA (Backend API)
+           │ └───────── 그룹1: Stage   = 2 (진행 단계)
+           └─────────── 접두사 S (고정)</code></pre>
       <ul>
-        <li>캡처 그룹 1: <strong>Stage</strong> — 캡처 그룹 2: <strong style="color:var(--accent2)">Area</strong> — 캡처 그룹 3: <strong style="color:var(--accent3)">Level</strong> — 캡처 그룹 4: <strong style="color:var(--warn)">Variant</strong></li>
-        <li>정규식 하나로 유효성 검증 + 구성요소 추출 동시 수행</li>
-        <li>이후 범위 검사 → Area 코드 등록 확인 → 고유성 검사 → 정규화된 좌표 객체 생성</li>
+        <li>정규식 하나로 <strong>유효성 검증 + 구성요소 추출</strong> 동시 수행</li>
+        <li>추출 후: 범위 검사(Stage 1~99) → Area 코드 등록 확인 → ID 고유성 검사 → 정규화된 좌표 객체 생성</li>
+        <li>이 파싱 결과가 22개 속성 그리드 자동 구축의 <strong>출발점</strong></li>
       </ul>
-      <div class="highlight">
-        이 파싱이 SAL Grid 방법론의 <strong>출발점</strong>이다. 문자열 → 구조화된 좌표 변환 → 프로젝트 그리드 자동 구축 시작.
-      </div>
     </div>
   </div>
 
@@ -322,12 +328,13 @@
       <h2><span class="text">핵심 차별점 ①</span> 의존성 자동 추론</h2>
       <p>기존 워크플로우 시스템은 의존성을 <strong>사람이 직접 선언</strong>해야 한다. SAL Grid는 이 전제를 뒤집는다.</p>
       <ul>
-        <li><strong style="color:var(--warn)">Airflow</strong>: Task 100개면 의존성 코드 100줄 이상 수동 작성</li>
-        <li><strong>SAL Grid</strong>: <code>S2BA1, S2BA2, S2BA3</code> ID만 부여하면 Level 비교로 순서 자동 결정</li>
-        <li><code>S1</code> 모든 Task는 <code>S2</code> Task보다 선행 — Stage 비교로 자동 추론</li>
+        <li><strong style="color:var(--warn)">Airflow</strong>: Task 100개면 의존성 코드 100줄 이상 수동 작성. Task가 추가되면 기존 의존성도 수정 필요</li>
+        <li><strong>SAL Grid</strong>: <code>S2BA1, S2BA2, S2BA3</code> ID만 부여하면 Level 비교로 순서 자동 결정. 새 Task 추가 시 기존 의존성 수정 불필요</li>
+        <li><code>S1</code>의 모든 Task는 <code>S2</code> Task보다 반드시 선행 — Stage 값의 대소 비교로 자동 추론</li>
+        <li>비유: 건물 층수를 보면 "1층은 2층보다 먼저 짓는다"는 것을 <strong>별도 명시 없이</strong> 알 수 있는 것과 같은 원리</li>
       </ul>
       <div class="highlight">
-        "의존성 선언을 자동화"한 것이 아니다. <strong>의존성이라는 개념 자체를 식별자의 구조적 속성으로 치환</strong>한 것이다.
+        "의존성 선언을 자동화"한 것이 아니다. <strong>의존성이라는 개념 자체를 식별자의 구조적 속성으로 치환</strong>한 것이다. 패러다임의 근본적 전환.
       </div>
     </div>
   </div>
@@ -344,6 +351,7 @@
             <li><code>task_a >> task_b</code> 수동 선언 필수</li>
             <li>프로그래밍 지식 필수</li>
             <li>식별자에 구조 정보 없음</li>
+            <li>Task 추가 시 의존성 재작성</li>
           </ul>
         </div>
         <div class="vs">VS</div>
@@ -351,9 +359,10 @@
           <h3 style="color:var(--accent)">SAL Grid</h3>
           <ul style="font-size:0.95rem">
             <li>SAL ID 부여만으로 의존성 추론</li>
-            <li>코딩 불필요</li>
+            <li>코딩 불필요 (No-Code)</li>
             <li>비개발자도 즉시 활용</li>
             <li>식별자에 3차원 좌표 인코딩</li>
+            <li>Task 추가해도 기존 구조 유지</li>
           </ul>
         </div>
       </div>
@@ -369,7 +378,7 @@
         <div class="card"><div class="value" style="font-size:1.05rem;color:var(--accent)">기본 정보 4개</div><div class="desc">Stage, Area, Task ID, Name</div></div>
         <div class="card"><div class="value" style="font-size:1.05rem;color:var(--accent2)">작업 지시 5개</div><div class="desc">지침, 에이전트, 도구, 의존성, 타입</div></div>
         <div class="card"><div class="value" style="font-size:1.05rem;color:var(--accent3)">작업 실행 4개</div><div class="desc">상태, 진행률, 산출물, 소요시간</div></div>
-        <div class="card"><div class="value" style="font-size:0.9rem;color:var(--warn)">검증 지시 2개</div><div class="desc">검증 기준, 검증 에이전트</div></div>
+        <div class="card"><div class="value" style="font-size:1.05rem;color:var(--warn)">검증 지시 2개</div><div class="desc">검증 기준, 검증 에이전트</div></div>
         <div class="card"><div class="value" style="font-size:1.05rem;color:var(--accent)">검증 실행 4개</div><div class="desc">테스트, 빌드, 통합, 차단요소</div></div>
         <div class="card"><div class="value" style="font-size:1.05rem;color:var(--accent2)">검증 완료 3개</div><div class="desc">종합, AI 의견, Stage Gate</div></div>
       </div>
@@ -411,13 +420,16 @@
   <div class="slide">
     <div class="slide-inner">
       <h2><span class="text">핵심 차별점 ③</span> ID 체인 — Append-Only</h2>
-      <p>SAL ID가 변경되어도 기존 ID를 삭제하지 않고 <strong>뒤에 연결</strong>하여 이력을 보존한다.</p>
-      <pre><code>S4BI1 → S1BI2로 변경 시:  S4BI1_S1BI2
-한 번 더 변경 시:          S4BI1_S1BI2_S1BI3
-마지막 세그먼트 = 최신 ID, 체인 전체 = 변경 이력</code></pre>
+      <p>프로젝트 구조가 변경되면 SAL ID도 바뀌는데, 기존 ID를 삭제하지 않고 <strong>뒤에 연결</strong>하여 전체 이력을 보존한다.</p>
+      <pre><code>최초 ID:      S4BI1
+1차 변경 후:  S4BI1_S1BI2       ← 기존 ID 뒤에 새 ID 연결
+2차 변경 후:  S4BI1_S1BI2_S1BI3 ← 체인이 계속 연장
+              ───────────  ──────
+              변경 이력      최신 ID</code></pre>
       <ul>
-        <li><strong style="color:var(--accent2)">추가만 가능</strong>, 삭제·수정 불가 — 블록체인과 동일 원리</li>
-        <li>변경 이력의 위변조가 <strong style="color:var(--accent2)">구조적으로 불가능</strong></li>
+        <li><strong style="color:var(--accent2)">추가만 가능(Append-Only)</strong>, 삭제·수정 불가 — 블록체인의 불변 원장과 동일한 원리</li>
+        <li>변경 이력의 위변조가 <strong style="color:var(--accent2)">구조적으로 불가능</strong> — 감사 추적(Audit Trail) 자동 확보</li>
+        <li>마지막 세그먼트가 <strong>현재 유효한 ID</strong>, 체인 전체가 <strong>변경 히스토리</strong></li>
       </ul>
     </div>
   </div>
@@ -455,12 +467,12 @@
   <div class="slide">
     <div class="slide-inner">
       <h2><span class="text">핵심 차별점 ④</span> Stage Gate</h2>
-      <p>개별 Task 검증에 더하여, <strong>Stage 단위 최종 승인</strong> 절차가 존재한다.</p>
+      <p>개별 Task 검증에 더하여, <strong>Stage 단위 최종 승인 절차</strong>가 존재한다. 비유하면 "층별 준공 검사"와 같다.</p>
       <ul>
-        <li>Stage 내 모든 Task Completed 확인</li>
-        <li>전체 빌드·테스트 통과 확인</li>
-        <li>의존성 체인 완결성 + 차단 요소 확인</li>
-        <li>승인 → 다음 Stage 진입 / 거절 → Task 실행 단계로 자동 회귀</li>
+        <li>Stage 내 <strong>모든 Task가 Completed</strong> 상태인지 확인 — 하나라도 미완이면 통과 불가</li>
+        <li>전체 빌드·테스트 통과 + 의존성 체인 완결성 + 차단 요소(Blocker) 종합 점검</li>
+        <li>AI가 검증 리포트 자동 생성 → 관리자(PO)가 직접 테스트 후 최종 승인</li>
+        <li>승인(Approved) → 다음 Stage 진입 / 거절(Rejected) → ④단계(Task 실행)로 자동 회귀</li>
       </ul>
       <div class="highlight warn">
         <strong>Jira에는 Stage Gate 개념이 없다.</strong> "Done"으로 옮기면 끝. SAL Grid의 Stage Gate는 시스템 레벨에서 강제되는 품질 관문이다.
@@ -473,7 +485,7 @@
     <div class="slide-inner">
       <h2><span class="text">선행기술 대비</span> 종합 비교</h2>
       <table>
-        <tr><th>비교 항목</th><th>Airflow</th><th>Jira / Asana</th><th>간트 차트</th><th style="background:var(--accent2)">SAL Grid</th></tr>
+        <tr><th>비교 항목</th><th>Airflow</th><th>Jira / Asana</th><th>간트 차트</th><th style="color:var(--accent2);font-weight:900">SAL Grid</th></tr>
         <tr><td><strong>의존성 정의</strong></td><td>Python 수동</td><td>수동 링크</td><td>수동 연결</td><td style="color:var(--accent)">ID 파싱 자동</td></tr>
         <tr><td><strong>식별자 구조</strong></td><td>단순 문자열</td><td>순차 번호</td><td>없음</td><td style="color:var(--accent)">3차원 좌표</td></tr>
         <tr><td><strong>변경 이력</strong></td><td>Git 이력</td><td>텍스트 로그</td><td>미지원</td><td style="color:var(--accent)">Append-Only</td></tr>
@@ -489,13 +501,15 @@
   <div class="slide">
     <div class="slide-inner">
       <h2><span class="text">왜 기존 기술로</span> 도달할 수 없는가</h2>
+      <p>기존 기술의 개선 방향과 SAL Grid의 접근 방식은 <strong>근본적으로 다른 차원</strong>에 있다.</p>
       <ul>
-        <li><strong>기존 통념</strong>: "의존성은 코드로 선언해야 한다" — Airflow 문서, 논문, 상용 도구 전반의 암묵적 전제</li>
-        <li><strong>기존 개선 방향</strong>: 의존성 선언을 "더 편하게", "더 직관적으로" → <strong style="color:var(--warn)">선언 자체를 없앤다는 발상에 도달 불가</strong></li>
-        <li><strong style="color:var(--accent)">SAL Grid의 접근</strong>: 식별자에 좌표를 인코딩하고, 좌표의 대소 비교로 의존성을 추론 → 식별자가 <strong style="color:var(--accent)">자기 설명적 객체</strong>로 재정의됨</li>
+        <li><strong>기존 통념</strong>: "의존성은 코드로 선언해야 한다" — Airflow 문서, 학술 논문, 상용 도구 전반에 깔린 암묵적 전제</li>
+        <li><strong>기존 개선 방향</strong>: 의존성 선언을 "더 편하게", "더 직관적으로", "UI로 드래그" → <strong style="color:var(--warn)">"선언 자체를 없앤다"는 발상에는 도달 불가</strong></li>
+        <li><strong style="color:var(--accent)">SAL Grid의 접근</strong>: 식별자에 좌표를 인코딩하고, 좌표의 대소 비교로 의존성을 추론. 식별자가 단순한 이름표가 아닌 <strong style="color:var(--accent)">자기 설명적 객체</strong>로 재정의됨</li>
+        <li>비유: 기존 기술이 "더 빠른 마차"를 만들고 있었다면, SAL Grid는 <strong style="color:var(--accent2)">"자동차"라는 새로운 개념</strong>을 제시한 것</li>
       </ul>
       <div class="highlight purple">
-        이것은 점진적 기술 개선이 아니라, <strong>설계 패러다임의 전환</strong>이다.
+        이것은 점진적 기술 개선이 아니라, <strong>설계 패러다임의 전환</strong>이다. 기존 기술의 연장선에서는 도달할 수 없는 구조적 혁신.
       </div>
     </div>
   </div>
@@ -504,6 +518,7 @@
   <div class="slide">
     <div class="slide-inner">
       <h2><span class="text">9단계</span> 오케스트레이션 사이클</h2>
+      <p style="margin-bottom:12px"><strong>계획</strong>(①~③) → <strong style="color:var(--accent2)">실행</strong>(④~⑥) → <strong style="color:var(--accent3)">검증·승인</strong>(⑦~⑨)의 3단계 그룹으로 구성.</p>
       <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="card"><div class="value" style="font-size:1.05rem;color:var(--accent)">① 계획 수립</div><div class="desc">매트릭스에서 Task 선정</div></div>
         <div class="card"><div class="value" style="font-size:1.05rem;color:var(--accent)">② SAL ID 생성</div><div class="desc">3차원 좌표 인코딩</div></div>
@@ -584,6 +599,7 @@
   <div class="slide">
     <div class="slide-inner">
       <h2><span class="text">기대</span> 효과</h2>
+      <p>SAL Grid 도입 시 프로젝트 관리의 <strong>비용, 정밀도, 품질, 안정성</strong> 네 가지 측면에서 혁신적 개선이 가능하다.</p>
       <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
         <div class="card">
           <div class="value" style="font-size:1.05rem;color:var(--accent)">No-Code 즉시 구축</div>
@@ -651,7 +667,8 @@
   <!-- ===== SLIDE 30: 출원번호통지서 (캡처) ===== -->
   <div class="slide end-slide">
     <div class="slide-inner" style="text-align:center;">
-      <img src="특허출원번호통지서.png" alt="출원번호통지서" style="max-width:560px;width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);border:1px solid var(--border);">
+      <img src="특허출원번호통지서.png" alt="출원번호통지서 — 출원일 2026.01.17 / 출원번호 10-2026-0009425" style="max-width:560px;width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);border:1px solid var(--border);">
+      <p style="margin-top:16px;font-size:0.9rem;color:var(--muted)">출원일 2026.01.17 &nbsp;|&nbsp; 출원번호 10-2026-0009425</p>
     </div>
   </div>
 
@@ -697,9 +714,9 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Home') updateSlide(0);
   if (e.key === 'End') updateSlide(slides.length - 1);
 });
-let tx = 0;
-document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
-document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); } });
+let tx = 0, ty = 0;
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; });
+document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - tx; const dy = e.changedTouches[0].clientY - ty; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : prev(); } });
 document.getElementById('themeToggle').addEventListener('click', () => {
   document.documentElement.classList.toggle('dark');
   document.getElementById('themeToggle').textContent = document.documentElement.classList.contains('dark') ? 'Light' : 'Dark';
