@@ -1,10 +1,10 @@
 /**
  * build-progress.js
  *
- * P0~S0 진행률을 폴더/파일 구조에서 자동 계산하여 JSON 생성
- * S1~S5 진행률은 개별 Task JSON 파일 (grid_records/)에서 자동 계산
+ * P0~S5 진행률 계산 → phase_progress.json 생성
+ * upload-progress.js가 이 파일을 SSAL Works DB에 업로드
  *
- * 사용법: node build-progress.js
+ * 사용법: node Process_Monitor/build-progress.js
  */
 
 const fs = require('fs');
@@ -13,41 +13,40 @@ const path = require('path');
 // 프로젝트 루트 경로
 const PROJECT_ROOT = path.join(__dirname, '..');
 
-// Phase 정의 (P0~S0)
+// Phase 정의 (P0~S0) - Process 폴더 안에 있음
 const PHASES = {
     'P0': {
-        folder: 'P0_작업_디렉토리_구조_생성',
+        folder: 'Process/P0_작업_디렉토리_구조_생성',
         name: '작업 디렉토리 구조 생성'
     },
     'P1': {
-        folder: 'P1_사업계획',
+        folder: 'Process/P1_사업계획',
         name: '사업계획'
     },
     'P2': {
-        folder: 'P2_프로젝트_기획',
+        folder: 'Process/P2_프로젝트_기획',
         name: '프로젝트 기획'
     },
     'P3': {
-        folder: 'P3_프로토타입_제작',
+        folder: 'Process/P3_프로토타입_제작',
         name: '프로토타입 제작'
     },
     'S0': {
-        folder: 'S0_Project-SAL-Grid_생성',
+        folder: 'Process/S0_Project-SAL-Grid_생성',
         name: 'Project SAL Grid 생성'
     }
 };
 
-// 파일에 내용이 있는지 확인 (크기 > 0)
-function hasContent(filePath) {
-    try {
-        const stats = fs.statSync(filePath);
-        return stats.size > 0;
-    } catch (e) {
-        return false;
-    }
-}
+// Stage 정의 (S1~S5)
+const STAGES = {
+    'S1': { name: '개발 준비', stageNum: 1 },
+    'S2': { name: '개발 1차', stageNum: 2 },
+    'S3': { name: '개발 2차', stageNum: 3 },
+    'S4': { name: '개발 3차', stageNum: 4 },
+    'S5': { name: '개발 마무리', stageNum: 5 }
+};
 
-// 폴더 안에 파일이 1개 이상 있는지 확인 (하위 폴더 포함)
+// 폴더 안에 파일이 1개 이상 있는지 확인
 function hasFiles(folderPath) {
     try {
         const items = fs.readdirSync(folderPath);
@@ -55,10 +54,9 @@ function hasFiles(folderPath) {
             const itemPath = path.join(folderPath, item);
             try {
                 const stats = fs.statSync(itemPath);
-                if (stats.isFile()) {
+                if (stats.isFile() && !item.startsWith('.') && !item.startsWith('_')) {
                     return true;
                 }
-                // 하위 폴더도 재귀적으로 확인
                 if (stats.isDirectory() && !item.startsWith('.') && !item.startsWith('_')) {
                     return hasFiles(itemPath);
                 }
@@ -72,12 +70,14 @@ function hasFiles(folderPath) {
     }
 }
 
-// Phase 진행률 계산
+// Phase 진행률 계산 (폴더 기반)
 function calculatePhaseProgress(phaseCode, phasePath) {
     try {
-        const items = fs.readdirSync(phasePath);
+        if (!fs.existsSync(phasePath)) {
+            return { completed: 0, total: 0, progress: 0 };
+        }
 
-        // 하위 폴더 목록 (숨김 폴더 제외)
+        const items = fs.readdirSync(phasePath);
         const subfolders = items.filter(item => {
             if (item.startsWith('.') || item.startsWith('_')) return false;
             const itemPath = path.join(phasePath, item);
@@ -88,127 +88,93 @@ function calculatePhaseProgress(phaseCode, phasePath) {
             }
         });
 
-        // 파일 목록 (숨김 파일 제외, .md/.json/.js 등 주요 파일만)
-        const files = items.filter(item => {
-            if (item.startsWith('.') || item.startsWith('_')) return false;
-            const itemPath = path.join(phasePath, item);
-            try {
-                return fs.statSync(itemPath).isFile();
-            } catch (e) {
-                return false;
-            }
-        });
-
-        let completed, total, details;
-
-        if (subfolders.length > 0) {
-            // 폴더 기반 계산 (P1~S0)
-            total = subfolders.length;
-            const completedFolders = subfolders.filter(folder => {
-                const folderPath = path.join(phasePath, folder);
-                return hasFiles(folderPath);
+        if (subfolders.length === 0) {
+            // 파일 기반
+            const files = items.filter(item => {
+                if (item.startsWith('.') || item.startsWith('_')) return false;
+                try {
+                    return fs.statSync(path.join(phasePath, item)).isFile();
+                } catch (e) {
+                    return false;
+                }
             });
-            completed = completedFolders.length;
-
-            details = subfolders.map(folder => ({
-                name: folder,
-                completed: hasFiles(path.join(phasePath, folder))
-            }));
-        } else {
-            // 파일 기반 계산 (P0)
-            total = files.length;
-            const completedFiles = files.filter(file => {
-                const filePath = path.join(phasePath, file);
-                return hasContent(filePath);
-            });
-            completed = completedFiles.length;
-
-            details = files.map(file => ({
-                name: file,
-                completed: hasContent(path.join(phasePath, file))
-            }));
+            const completed = files.filter(f => {
+                try {
+                    return fs.statSync(path.join(phasePath, f)).size > 0;
+                } catch (e) {
+                    return false;
+                }
+            }).length;
+            return {
+                completed,
+                total: files.length,
+                progress: files.length > 0 ? Math.round(completed / files.length * 100) : 0
+            };
         }
 
-        const progress = total > 0 ? Math.round(completed / total * 100) : 0;
-
+        // 폴더 기반
+        const completed = subfolders.filter(folder => hasFiles(path.join(phasePath, folder))).length;
         return {
             completed,
-            total,
-            progress,
-            details
+            total: subfolders.length,
+            progress: subfolders.length > 0 ? Math.round(completed / subfolders.length * 100) : 0
         };
     } catch (e) {
         console.error(`Error calculating progress for ${phaseCode}:`, e.message);
-        return {
-            completed: 0,
-            total: 0,
-            progress: 0,
-            details: []
-        };
+        return { completed: 0, total: 0, progress: 0 };
     }
 }
 
-// SAL Grid 개별 JSON 파일에서 S1~S5 진행률 계산
-// 구조: index.json + grid_records/ 폴더의 개별 Task JSON 파일
-function calculateStageProgressFromJSON(basePath) {
-    const stageProgress = {
-        'S1': { name: '개발 준비', progress: 0, completed: 0, total: 0 },
-        'S2': { name: '개발 1차', progress: 0, completed: 0, total: 0 },
-        'S3': { name: '개발 2차', progress: 0, completed: 0, total: 0 },
-        'S4': { name: '개발 3차', progress: 0, completed: 0, total: 0 },
-        'S5': { name: '개발 마무리', progress: 0, completed: 0, total: 0 }
-    };
+// JSON 파일에서 S1~S5 진행률 계산
+function calculateStageProgressFromJSON() {
+    const stageProgress = {};
+    Object.entries(STAGES).forEach(([code, config]) => {
+        stageProgress[code] = { name: config.name, progress: 0, completed: 0, total: 0 };
+    });
+
+    // JSON 파일 경로들 (우선순위)
+    const jsonPaths = [
+        path.join(PROJECT_ROOT, 'method', 'json', 'data'),
+        path.join(PROJECT_ROOT, 'Process', 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data')
+    ];
+
+    let gridRecordsPath = null;
+    for (const basePath of jsonPaths) {
+        const testPath = path.join(basePath, 'grid_records');
+        if (fs.existsSync(testPath)) {
+            gridRecordsPath = testPath;
+            break;
+        }
+    }
+
+    if (!gridRecordsPath) {
+        console.warn('grid_records 폴더를 찾을 수 없습니다.');
+        return stageProgress;
+    }
+
+    console.log(`JSON 경로: ${gridRecordsPath}`);
 
     try {
-        const indexPath = path.join(basePath, 'index.json');
-        const gridRecordsPath = path.join(basePath, 'grid_records');
+        const files = fs.readdirSync(gridRecordsPath);
+        const jsonFiles = files.filter(f => f.endsWith('.json') && !f.startsWith('_'));
 
-        // index.json 확인
-        if (!fs.existsSync(indexPath)) {
-            console.warn('index.json not found, S1~S5 progress will be 0');
-            return stageProgress;
-        }
-
-        // grid_records 폴더 확인
-        if (!fs.existsSync(gridRecordsPath)) {
-            console.warn('grid_records folder not found, S1~S5 progress will be 0');
-            return stageProgress;
-        }
-
-        // index.json에서 task_ids 가져오기
-        const indexContent = fs.readFileSync(indexPath, 'utf-8');
-        const indexData = JSON.parse(indexContent);
-
-        if (!indexData.task_ids || !Array.isArray(indexData.task_ids)) {
-            console.warn('index.json format error: task_ids array not found');
-            return stageProgress;
-        }
-
-        // 각 Task JSON 파일 읽기
-        indexData.task_ids.forEach(taskId => {
-            const taskFilePath = path.join(gridRecordsPath, `${taskId}.json`);
-
+        jsonFiles.forEach(file => {
             try {
-                if (!fs.existsSync(taskFilePath)) {
-                    console.warn(`Task file not found: ${taskId}.json`);
-                    return;
-                }
+                const filePath = path.join(gridRecordsPath, file);
+                const content = fs.readFileSync(filePath, 'utf-8');
+                const task = JSON.parse(content);
 
-                const taskContent = fs.readFileSync(taskFilePath, 'utf-8');
-                const task = JSON.parse(taskContent);
+                const stageNum = task.stage;
+                const stageKey = `S${stageNum}`;
 
-                const stage = task.stage;  // integer: 1~5
-                const status = task.task_status;
-
-                const stageKey = `S${stage}`;
                 if (stageProgress[stageKey]) {
                     stageProgress[stageKey].total++;
-                    if (status === 'Completed') {
+                    if (task.task_status === 'Completed') {
                         stageProgress[stageKey].completed++;
                     }
                 }
             } catch (e) {
-                console.error(`Error reading ${taskId}.json:`, e.message);
+                // Skip invalid JSON files
             }
         });
 
@@ -220,34 +186,17 @@ function calculateStageProgressFromJSON(basePath) {
 
         return stageProgress;
     } catch (e) {
-        console.error('Error calculating stage progress:', e.message);
+        console.error('Error reading JSON files:', e.message);
         return stageProgress;
     }
 }
 
-// .ssal-project.json에서 project_id 읽기
-function getProjectId() {
-    const projectConfigPath = path.join(PROJECT_ROOT, '.ssal-project.json');
-    try {
-        if (fs.existsSync(projectConfigPath)) {
-            const config = JSON.parse(fs.readFileSync(projectConfigPath, 'utf-8'));
-            return config.project_id || 'UNKNOWN_PROJECT';
-        }
-    } catch (e) {
-        console.warn('.ssal-project.json 읽기 실패:', e.message);
-    }
-    return 'UNKNOWN_PROJECT';
-}
-
 // 메인 실행
 function main() {
-    console.log('📊 Progress Builder - P0~S5 진행률 계산\n');
-
-    const projectId = getProjectId();
-    console.log(`🆔 Project ID: ${projectId}\n`);
+    console.log('📊 Progress Builder (JSON 버전) - P0~S5 진행률 계산\n');
 
     const result = {
-        project_id: projectId,
+        project_id: 'ValueLink',
         updated_at: new Date().toISOString(),
         phases: {}
     };
@@ -269,10 +218,9 @@ function main() {
         console.log(`${status} ${code}: ${progress.completed}/${progress.total} = ${progress.progress}%`);
     });
 
-    // S1~S5 진행률 계산 (개별 JSON 파일 기반)
-    console.log('\n=== S1~S5 (SAL Grid 개별 JSON 기반) ===');
-    const gridDataPath = path.join(PROJECT_ROOT, 'S0_Project-SAL-Grid_생성', 'method', 'json', 'data');
-    const stageProgress = calculateStageProgressFromJSON(gridDataPath);
+    // S1~S5 진행률 계산 (JSON 기반)
+    console.log('\n=== S1~S5 (JSON 기반) ===');
+    const stageProgress = calculateStageProgressFromJSON();
 
     Object.entries(stageProgress).forEach(([code, data]) => {
         result.phases[code] = {
@@ -286,7 +234,7 @@ function main() {
         console.log(`${status} ${code}: ${data.completed}/${data.total} = ${data.progress}%`);
     });
 
-    // JSON 파일 저장 (Development_Process_Monitor/data/ 폴더)
+    // JSON 파일 저장
     const outputDir = path.join(__dirname, 'data');
     if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
@@ -294,8 +242,12 @@ function main() {
 
     const outputPath = path.join(outputDir, 'phase_progress.json');
     fs.writeFileSync(outputPath, JSON.stringify(result, null, 2), 'utf-8');
-
     console.log(`\n✅ 저장 완료: ${outputPath}`);
+
+    // 루트 method/json/data에도 저장 (GitHub용)
+    const githubOutputPath = path.join(PROJECT_ROOT, 'method', 'json', 'data', 'phase_progress.json');
+    fs.writeFileSync(githubOutputPath, JSON.stringify(result, null, 2), 'utf-8');
+    console.log(`✅ GitHub용 저장: ${githubOutputPath}`);
 
     return result;
 }

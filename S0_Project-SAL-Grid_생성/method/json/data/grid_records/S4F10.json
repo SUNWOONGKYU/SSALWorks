@@ -12,6 +12,6 @@
   "verification_instruction": "API 기능, 핸들 저장/복원, 비지원 브라우저 처리, 보안 검증",
   "verification_agent": "code-reviewer",
   "execution_type": "AI-Only",
-  "generated_files": "index.html (connectLocalFolder, IndexedDB helpers, updateFolderConnectionUI, restoreFolderConnection, disconnectLocalFolder)",
-  "remarks": "S4F10 완료. showDirectoryPicker + IndexedDB 핸들 저장 + 자동 복원 + UI 상태 토글 구현."
+  "generated_files": "index.html (connectLocalFolder, IndexedDB helpers, updateFolderConnectionUI, restoreFolderConnection, disconnectLocalFolder, openFolderModal, renderFolderModal, navInto, navUp, navToStackIdx, previewFile, startEditFile, saveEditFile, showHtmlRender, showHtmlSource, closeFolderModal)",
+  "remarks": "S4F10 완료. showDirectoryPicker + IndexedDB 핸들 저장 + 자동 복원 + 모달 폴더 탐색기(1100px, 85vh) + 좌우 2분할(파일목록28%/미리보기72%) + 파일 편집/저장(Ctrl+S, Tab) + HTML iframe 렌더링(실행/소스코드 탭) + 이미지 미리보기 + breadcrumb 경로 탐색."
 }
