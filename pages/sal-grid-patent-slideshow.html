@@ -134,10 +134,11 @@
       .nav-bar, .progress, .theme-toggle, .fs-toggle, .arrow { display: none !important; }
       .slides { position: static; height: auto; }
       .slide { position: static; opacity: 1 !important; transform: none !important; pointer-events: auto !important; page-break-after: always; height: 100vh; padding: 40px; }
+      .slide:last-child { page-break-after: avoid; }
     }
     @media (max-width: 640px) {
       .slide { padding: 40px 20px 70px; }
-      .card-grid { grid-template-columns: 1fr 1fr; }
+      .card-grid { grid-template-columns: 1fr; }
       .arrow { font-size: 24px; padding: 12px 6px; }
     }
   </style>
@@ -149,8 +150,8 @@
 <button class="theme-toggle" id="themeToggle">Light</button>
 
 <div class="slides" id="slides">
-  <button class="arrow arrow-l" id="arrow-l" onclick="prev()" title="이전 (←)">❮</button>
-  <button class="arrow arrow-r" id="arrow-r" onclick="next()" title="다음 (→)">❯</button>
+  <button class="arrow arrow-l" id="arrow-l" onclick="prev()" title="이전 (←)" aria-label="이전 슬라이드">❮</button>
+  <button class="arrow arrow-r" id="arrow-r" onclick="next()" title="다음 (→)" aria-label="다음 슬라이드">❯</button>
 
   <!-- ===== SLIDE 1: 타이틀 ===== -->
   <div class="slide title-slide active">
@@ -856,7 +857,7 @@ Z = Level × Grid_Unit_Height</code></pre>
 
 <nav class="nav-bar">
   <button class="nav-btn" id="btn-p" onclick="prev()">◀ 이전</button>
-  <span class="counter" id="counter">1 / 30</span>
+  <span class="counter" id="counter">1 / 31</span>
   <button class="nav-btn" id="btn-n" onclick="next()">다음 ▶</button>
 </nav>
 
