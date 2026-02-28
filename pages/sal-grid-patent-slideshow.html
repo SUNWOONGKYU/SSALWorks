@@ -9,6 +9,19 @@
     html, body { height: 100%; overflow: hidden; font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
 
     :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --muted: #475569;
+      --accent: #2563eb;
+      --accent2: #7c3aed;
+      --accent3: #059669;
+      --warn: #d97706;
+      --code-bg: #f1f5f9;
+      --slide-max-w: 1100px;
+      --border: rgba(100,116,139,0.15);
+    }
+    :root.dark {
       --bg: #0a0e1a;
       --surface: #141b2d;
       --text: #e8ecf4;
@@ -18,18 +31,7 @@
       --accent3: #34d399;
       --warn: #fbbf24;
       --code-bg: #1a2236;
-      --slide-max-w: 1100px;
-    }
-    :root.light {
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text: #1e293b;
-      --muted: #64748b;
-      --accent: #0284c7;
-      --accent2: #7c3aed;
-      --accent3: #059669;
-      --warn: #d97706;
-      --code-bg: #f1f5f9;
+      --border: rgba(148,163,184,0.12);
     }
 
     body { background: var(--bg); color: var(--text); }
@@ -50,69 +52,64 @@
     .slide.prev { opacity: 0; transform: translateX(-60px); }
     .slide-inner { max-width: var(--slide-max-w); width: 100%; }
 
-    .slide h2 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 800; margin-bottom: 28px; line-height: 1.3; }
+    .slide h2 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 800; margin-bottom: 28px; line-height: 1.3; color: var(--accent); }
     .slide h2 .accent { color: var(--accent); }
     .slide h2 .accent2 { color: var(--accent2); }
     .slide h2 .accent3 { color: var(--accent3); }
-    .slide h3 { font-size: 1.2rem; color: var(--accent); margin: 20px 0 12px; font-weight: 700; }
-    .slide p { font-size: 1.1rem; line-height: 1.85; color: var(--muted); margin-bottom: 14px; }
-    .slide p.big { font-size: 1.25rem; color: var(--text); }
+    .slide h2 .text { color: var(--text); }
+    .slide h3 { font-size: 1.15rem; color: var(--accent2); margin: 18px 0 10px; font-weight: 700; }
+    .slide p { font-size: 1.05rem; line-height: 1.8; color: var(--text); margin-bottom: 12px; }
     .slide ul, .slide ol { font-size: 1.05rem; line-height: 2; padding-left: 24px; color: var(--text); }
     .slide li { margin-bottom: 6px; }
     .slide li::marker { color: var(--accent); }
     .slide strong { color: var(--accent); font-weight: 700; }
     .slide em strong { color: var(--accent2); }
-    .slide code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-size: 0.95em; color: var(--accent); }
-    .slide pre { background: var(--code-bg); border-radius: 12px; padding: 20px 24px; overflow-x: auto; margin: 16px 0; font-size: 0.9rem; line-height: 1.6; border: 1px solid rgba(148,163,184,0.1); }
+    .slide code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-size: 0.95em; color: var(--accent2); }
+    .slide pre { background: var(--code-bg); border-radius: 12px; padding: 20px 24px; overflow-x: auto; margin: 16px 0; font-size: 0.9rem; line-height: 1.6; border: 1px solid var(--border); }
     .slide table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.95rem; }
-    .slide th { background: var(--surface); padding: 10px 14px; text-align: left; font-weight: 700; border-bottom: 2px solid var(--accent); color: var(--accent); }
-    .slide td { padding: 10px 14px; border-bottom: 1px solid rgba(148,163,184,0.12); }
-    .slide tr:hover td { background: rgba(56,189,248,0.04); }
+    .slide th { background: var(--accent); padding: 10px 14px; text-align: left; font-weight: 700; color: #fff; }
+    .slide td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    .slide tr:hover td { background: rgba(37,99,235,0.04); }
 
     .slide.title-slide { text-align: center; }
-    .slide.title-slide h1 { font-size: clamp(1.6rem, 3.8vw, 2.8rem); font-weight: 900; line-height: 1.35; margin-bottom: 24px; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .slide.title-slide .subtitle { font-size: 1.15rem; color: var(--muted); margin-bottom: 20px; line-height: 1.7; }
-    .slide.title-slide .date { font-size: 1rem; color: var(--accent3); }
+    .slide.title-slide h1 { font-size: clamp(1.5rem, 3.5vw, 2.6rem); font-weight: 900; line-height: 1.5; margin-bottom: 28px; color: var(--accent); }
+    .slide.title-slide .subtitle { font-size: 1.15rem; color: var(--accent2); margin-bottom: 20px; font-weight: 600; }
+    .slide.title-slide .date { font-size: 0.95rem; color: var(--muted); }
 
     .slide.end-slide { text-align: center; }
 
     .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 18px 0; }
-    .card { background: var(--surface); border-radius: 12px; padding: 18px 20px; border: 1px solid rgba(148,163,184,0.1); }
+    .card { background: var(--surface); border-radius: 12px; padding: 18px 20px; border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
     .card .label { font-size: 0.82rem; color: var(--muted); margin-bottom: 4px; }
     .card .value { font-size: 1.5rem; font-weight: 800; color: var(--accent); }
-    .card .desc { font-size: 0.85rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .card .desc { font-size: 0.9rem; color: var(--text); margin-top: 4px; line-height: 1.5; }
 
     .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
     @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
 
-    .highlight { background: linear-gradient(135deg, rgba(56,189,248,0.08), rgba(167,139,250,0.08)); border-left: 4px solid var(--accent); padding: 14px 18px; border-radius: 0 12px 12px 0; margin: 14px 0; font-size: 1.05rem; line-height: 1.7; }
-    .highlight.warn { border-left-color: var(--warn); background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(251,191,36,0.04)); }
-    .highlight.green { border-left-color: var(--accent3); background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.04)); }
+    .highlight { background: rgba(37,99,235,0.06); border-left: 4px solid var(--accent); padding: 14px 18px; border-radius: 0 12px 12px 0; margin: 14px 0; font-size: 1rem; line-height: 1.7; color: var(--text); }
+    .highlight.warn { border-left-color: var(--warn); background: rgba(217,119,6,0.06); }
+    .highlight.green { border-left-color: var(--accent3); background: rgba(5,150,105,0.06); }
+    .highlight.purple { border-left-color: var(--accent2); background: rgba(124,58,237,0.06); }
 
     .vs-box { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; margin: 16px 0; }
-    .vs-box .side { background: var(--surface); padding: 16px 20px; border-radius: 12px; border: 1px solid rgba(148,163,184,0.1); }
+    .vs-box .side { background: var(--surface); padding: 16px 20px; border-radius: 12px; border: 1px solid var(--border); }
     .vs-box .vs { font-size: 1.5rem; font-weight: 900; color: var(--warn); }
     @media (max-width: 640px) { .vs-box { grid-template-columns: 1fr; } .vs-box .vs { text-align: center; } }
 
-    .icon-box { display: flex; align-items: flex-start; gap: 14px; margin: 10px 0; }
-    .icon-box .icon { font-size: 1.8rem; min-width: 40px; text-align: center; }
-    .icon-box .content { flex: 1; }
-    .icon-box .content .title { font-weight: 700; font-size: 1.05rem; color: var(--text); margin-bottom: 2px; }
-    .icon-box .content .desc { font-size: 0.92rem; color: var(--muted); line-height: 1.5; }
-
-    .arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; color: var(--accent); font-size: 34px; cursor: pointer; padding: 16px 10px; z-index: 10; border-radius: 6px; transition: background 0.2s; line-height: 1; }
-    .arrow:hover { background: rgba(56,189,248,0.3); }
+    .arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(37,99,235,0.1); border: none; color: var(--accent); font-size: 34px; cursor: pointer; padding: 16px 10px; z-index: 10; border-radius: 6px; transition: background 0.2s; line-height: 1; }
+    .arrow:hover { background: rgba(37,99,235,0.2); }
     .arrow-l { left: 0; }
     .arrow-r { right: 0; }
 
-    .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid rgba(148,163,184,0.15); padding: 10px 20px; display: flex; align-items: center; justify-content: center; gap: 20px; z-index: 100; }
+    .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; justify-content: center; gap: 20px; z-index: 100; }
     .nav-btn { background: none; border: 2px solid var(--accent); color: var(--accent); padding: 6px 24px; border-radius: 20px; cursor: pointer; font-size: 15px; font-weight: 700; transition: all 0.2s; font-family: inherit; }
-    .nav-btn:hover { background: var(--accent); color: var(--bg); }
-    .nav-btn:disabled { border-color: rgba(148,163,184,0.2); color: rgba(148,163,184,0.3); cursor: default; background: none; }
+    .nav-btn:hover { background: var(--accent); color: #fff; }
+    .nav-btn:disabled { border-color: rgba(100,116,139,0.2); color: rgba(100,116,139,0.3); cursor: default; background: none; }
     .counter { color: var(--muted); font-size: 15px; min-width: 70px; text-align: center; font-weight: 700; font-variant-numeric: tabular-nums; }
 
-    .theme-toggle { position: fixed; top: 12px; right: 12px; z-index: 100; background: var(--surface); border: 1px solid rgba(148,163,184,0.2); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
-    .fs-toggle { position: fixed; top: 12px; right: 80px; z-index: 100; background: var(--surface); border: 1px solid rgba(148,163,184,0.2); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+    .theme-toggle { position: fixed; top: 12px; right: 12px; z-index: 100; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
+    .fs-toggle { position: fixed; top: 12px; right: 80px; z-index: 100; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
 
     @media print {
       .nav-bar, .progress, .theme-toggle, .fs-toggle, .arrow { display: none !important; }
@@ -131,16 +128,16 @@
 
 <div class="progress" id="progress"></div>
 <button class="fs-toggle" id="fsToggle" title="전체화면 (F)">⛶</button>
-<button class="theme-toggle" id="themeToggle">Light</button>
+<button class="theme-toggle" id="themeToggle">Dark</button>
 
 <div class="slides" id="slides">
   <button class="arrow arrow-l" id="arrow-l" onclick="prev()" title="이전 (←)" aria-label="이전 슬라이드">❮</button>
   <button class="arrow arrow-r" id="arrow-r" onclick="next()" title="다음 (→)" aria-label="다음 슬라이드">❯</button>
 
-  <!-- ===== SLIDE 1: 타이틀 — 특허명 ===== -->
+  <!-- ===== SLIDE 1: 타이틀 ===== -->
   <div class="slide title-slide active">
     <div class="slide-inner">
-      <h1>3차원 좌표 정보가 인코딩된 ID 기반 프로젝트 그리드를 활용한 멀티태스크 오케스트레이션</h1>
+      <h1>3차원 좌표 정보가 인코딩된 ID 기반<br>프로젝트 그리드를 활용한<br>멀티태스크 오케스트레이션</h1>
       <div class="subtitle">특허 출원 기술 소개</div>
       <div class="date">출원번호 10-2026-0009425 · IPC: G06F 9/46, G06F 9/48, G06Q 10/06</div>
     </div>
@@ -149,16 +146,16 @@
   <!-- ===== SLIDE 2: 목차 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>소개 <span class="accent">구성</span></h2>
+      <h2><span class="text">소개</span> 구성</h2>
       <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));">
         <div class="card"><div class="value" style="font-size:1.2rem">01</div><div class="desc">기존 프로젝트 관리 기술의 한계</div></div>
-        <div class="card"><div class="value" style="font-size:1.2rem">02</div><div class="desc">SAL Grid 방법론 — 전체 개요</div></div>
-        <div class="card"><div class="value" style="font-size:1.2rem">03</div><div class="desc">SAL ID — 자기 설명적 식별자의 구조</div></div>
+        <div class="card"><div class="value" style="font-size:1.2rem">02</div><div class="desc">SAL Grid 방법론 개요</div></div>
+        <div class="card"><div class="value" style="font-size:1.2rem">03</div><div class="desc">SAL ID — 자기 설명적 식별자</div></div>
         <div class="card"><div class="value" style="font-size:1.2rem">04</div><div class="desc">3차원 좌표계 (Stage-Area-Level)</div></div>
-        <div class="card"><div class="value" style="font-size:1.2rem">05</div><div class="desc">핵심 차별점 — 선행기술로 도달 불가능한 영역</div></div>
+        <div class="card"><div class="value" style="font-size:1.2rem">05</div><div class="desc">4대 핵심 차별점</div></div>
         <div class="card"><div class="value" style="font-size:1.2rem">06</div><div class="desc">9단계 오케스트레이션 사이클</div></div>
         <div class="card"><div class="value" style="font-size:1.2rem">07</div><div class="desc">선행기술 대비 종합 비교</div></div>
-        <div class="card"><div class="value" style="font-size:1.2rem">08</div><div class="desc">산업 적용 분야 및 기대 효과</div></div>
+        <div class="card"><div class="value" style="font-size:1.2rem">08</div><div class="desc">산업 적용 및 기대 효과</div></div>
       </div>
     </div>
   </div>
@@ -166,233 +163,313 @@
   <!-- ===== SLIDE 3: 기존 기술의 한계 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>기존 프로젝트 관리 기술의 <span class="accent">구조적 한계</span></h2>
-      <p>현재 프로젝트 관리 및 워크플로우 기술은 크게 세 가지 문제를 안고 있다. 첫째, Apache Airflow로 대표되는 워크플로우 엔진은 의존성을 <code>task_a >> task_b</code> 형태로 Python 코드에 직접 선언해야 한다. 의존성 변경마다 코드 수정과 디버깅이 불가피하며, 비개발자는 접근 자체가 불가능하다.</p>
-      <p>둘째, Jira(PROJECT-1234)나 Asana 같은 이슈 트래커의 식별자는 자동 증가하는 순차 번호에 불과하다. 식별자만 보고는 해당 작업이 어떤 단계, 어떤 영역에 속하는지 알 수 없으며, 매번 별도 데이터베이스를 조회해야 한다. 작업의 속성이 변경되면 기존 참조 링크가 깨지고, 변경 이력은 텍스트 로그에 의존한다.</p>
-      <p>셋째, 간트 차트는 시간(X축)과 작업명(Y축)의 2차원 평면에 한정된다. 수천 개 작업의 입체적 위상 관계를 평면에 억지로 펼쳐야 하므로, 프로젝트 규모가 커질수록 시각화의 한계가 드러난다. 또한 기존의 모든 도구에서 Task 실행과 품질 검증은 별개의 시스템으로 분절 운영되어, 검증 누락과 피드백 지연이 구조적으로 발생한다.</p>
+      <h2><span class="text">기존 기술의</span> 구조적 한계</h2>
+      <ul>
+        <li><strong>Airflow</strong> — 의존성을 <code>task_a >> task_b</code> 형태로 Python 코드에 직접 선언해야 함. 비개발자 접근 불가</li>
+        <li><strong>Jira / Asana</strong> — 식별자(PROJECT-1234)는 순차 번호에 불과. 식별자만으로 단계·영역 파악 불가</li>
+        <li><strong>간트 차트</strong> — 시간(X축) × 작업명(Y축)의 2차원 한계. 수천 개 작업의 입체적 관계 표현 불가</li>
+        <li><strong>공통 문제</strong> — Task 실행과 품질 검증이 별개 시스템으로 분절 운영 → 검증 누락 구조적 발생</li>
+      </ul>
     </div>
   </div>
 
-  <!-- ===== SLIDE 4: SAL Grid 방법론 전체 개요 ===== -->
+  <!-- ===== SLIDE 4: SAL Grid 방법론 개요 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>SAL Grid <span class="accent">방법론</span></h2>
-      <p class="big">SAL Grid는 식별자 하나에 3차원 좌표 정보(Stage, Area, Level)를 인코딩하고, 이를 파싱하여 프로젝트 관리에 필요한 전체 구조를 자동으로 구축하는 방법론이다.</p>
-      <p>기존 시스템이 "사람이 의존성을 코드로 선언한다"는 전제 위에 서 있었다면, SAL Grid는 그 전제 자체를 뒤집는다. 식별자를 읽는 것만으로 어떤 작업이 먼저이고 어떤 작업이 나중인지, 어떤 작업이 병렬 실행 가능한지가 자동으로 결정된다. 의존성은 선언하는 것이 아니라, 식별자에서 읽어내는 것이다.</p>
-      <p>SAL ID가 시스템에 입력되면, 파싱을 거쳐 22개 속성으로 구성된 프로젝트 그리드(SAL Grid)가 자동으로 구축된다. Task 지시서와 검증 지시서가 동시에 생성되고, 에이전트와 도구가 자동 배정되며, 9단계 오케스트레이션 사이클이 구동된다. 코딩 없이, 식별자 하나로 프로젝트 관리 체계 전체가 완성된다.</p>
+      <h2><span class="text">SAL Grid</span> 방법론</h2>
+      <p><strong>SAL Grid</strong>는 식별자 하나에 3차원 좌표(Stage, Area, Level)를 인코딩하고, 이를 파싱하여 프로젝트 관리 구조 전체를 자동 구축하는 방법론이다.</p>
+      <div class="highlight">
+        <strong>핵심 발상:</strong> 의존성은 선언하는 것이 아니라, 식별자에서 읽어내는 것이다.
+      </div>
+      <ul>
+        <li>SAL ID 파싱 → <strong style="color:var(--accent2)">22개 속성</strong>의 프로젝트 그리드 자동 구축</li>
+        <li>Task 지시서 + 검증 지시서 <strong style="color:var(--accent3)">동시 생성</strong></li>
+        <li>에이전트·도구 자동 배정, 9단계 사이클 자동 구동</li>
+        <li>코딩 없이 식별자 하나로 프로젝트 관리 체계 완성</li>
+      </ul>
     </div>
   </div>
 
-  <!-- ===== SLIDE 5: SAL ID 형식 정의 ===== -->
+  <!-- ===== SLIDE 5: SAL ID 형식 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>SAL ID <span class="accent">형식 정의</span></h2>
-      <p class="big">SAL ID는 S + Stage + Area + Level + Variant(선택)로 구성된 자기 설명적 식별자이다.</p>
+      <h2><span class="text">SAL ID</span> 형식 정의</h2>
       <pre><code>S{Stage}{Area}{Level}{Variant?}
 
-  S       — 접두사 (SAL ID 식별, 고정)
-  Stage   — 1~2자리 정수 (1~99). 프로젝트 진행 단계
+  S       — 접두사 (고정)
+  Stage   — 1~2자리 정수. 프로젝트 진행 단계
   Area    — 2자리 영문 대문자. 기능적 영역 코드
-  Level   — 1~2자리 정수 (1~99). 의존성 계층
-  Variant — 소문자 a~z (선택). 동일 좌표 내 병렬 분기</code></pre>
-      <p>예를 들어 <code>S2BA3</code>은 "Stage 2, Backend API 영역, Level 3 작업"을 의미한다. <code>S1FE1a</code>는 "Stage 1, Frontend, Level 1의 첫 번째 병렬 분기"이다. 식별자를 읽는 것만으로 해당 작업의 위치와 맥락을 즉시 파악할 수 있다. Jira의 PROJECT-1234 같은 순차 번호와 근본적으로 다른 점이다.</p>
+  Level   — 1~2자리 정수. 의존성 계층
+  Variant — 소문자 a~z (선택). 병렬 분기</code></pre>
+      <p><code>S2BA3</code> = Stage 2, Backend API, Level 3<br>
+      <code>S1FE1a</code> = Stage 1, Frontend, Level 1, 첫 번째 병렬 분기</p>
+      <div class="highlight purple">
+        Jira의 PROJECT-1234(순차 번호)와 달리, <strong>식별자를 읽는 것만으로 작업의 위치와 맥락을 즉시 파악</strong>할 수 있다.
+      </div>
     </div>
   </div>
 
   <!-- ===== SLIDE 6: SAL ID에 인코딩된 4가지 정보 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>SAL ID에 <span class="accent">인코딩된 4가지 정보</span></h2>
-      <p>SAL ID는 단순한 참조 번호가 아니다. 하나의 식별자 안에 네 가지 구조적 정보가 내재되어 있다.</p>
-      <p><strong>첫째, 절차적 순서.</strong> Stage 값이 작을수록 먼저 수행되는 단계이다. <code>S1 → S2 → S3</code> 순서가 Stage 값의 대소 비교만으로 자동 결정된다. 별도 시간표를 만들 필요가 없다.</p>
-      <p><strong>둘째, 실행 의존성.</strong> 동일 Stage-Area 내에서 Level 값의 크고 작음이 선후 관계를 결정한다. <code>S2BA1 → S2BA2 → S2BA3</code>는 Level 비교만으로 추론되며, dependencies 필드를 명시적으로 선언하지 않아도 된다.</p>
-      <p><strong>셋째, 병렬성.</strong> 동일 좌표에 Variant(a, b, c)가 부여되면 병렬 실행 가능으로 판별된다. <code>S2BA1a</code>와 <code>S2BA1b</code>는 동시 수행 가능하다.</p>
-      <p><strong>넷째, 기능적 인접성.</strong> 동일 Stage-Area 조합의 Task들은 같은 기능적 맥락을 공유한다. <code>S2BA1</code>, <code>S2BA2</code>, <code>S2BA3</code>은 모두 "Stage 2의 Backend API 구현"이라는 맥락에 속한다.</p>
+      <h2><span class="text">SAL ID에 인코딩된</span> 4가지 정보</h2>
+      <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--accent)">① 절차적 순서</div>
+          <div class="desc">Stage 값 대소 비교로 순서 자동 결정<br><code>S1 → S2 → S3</code></div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--accent2)">② 실행 의존성</div>
+          <div class="desc">동일 Stage-Area 내 Level 비교로 선후 관계 추론<br><code>S2BA1 → S2BA2 → S2BA3</code></div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--accent3)">③ 병렬성</div>
+          <div class="desc">Variant(a, b, c)로 병렬 실행 판별<br><code>S2BA1a</code>와 <code>S2BA1b</code> 동시 수행</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--warn)">④ 기능적 인접성</div>
+          <div class="desc">동일 Stage-Area 조합의 Task는 같은 맥락 공유<br><code>S2BA1, S2BA2, S2BA3</code> = 같은 기능군</div>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- ===== SLIDE 7: SAL ID 파싱 정규식 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>SAL ID <span class="accent">파싱 정규식</span></h2>
-      <p class="big">시스템이 SAL ID를 해석하는 데 사용하는 정규 표현식은 단 한 줄이다.</p>
+      <h2><span class="text">SAL ID</span> 파싱 정규식</h2>
       <pre><code>^S(\d{1,2})([A-Z]{2})(\d{1,2})([a-z])?$</code></pre>
-      <p>이 정규식 하나로 SAL ID의 유효성 검증과 구성요소 추출을 동시에 수행한다. 첫 번째 캡처 그룹이 Stage, 두 번째가 Area 코드, 세 번째가 Level, 네 번째(선택)가 Variant이다.</p>
-      <p>형식에 맞지 않는 입력은 즉시 예외 처리 경로로 분기되어 시스템 전체 흐름을 중단시키지 않는다. 이후 범위 검사(Stage·Level이 1~99 이내인지), Area 코드의 등록 여부 확인, 좌표 조합의 고유성 검사를 거쳐 정규화된 좌표 객체가 생성된다.</p>
+      <ul>
+        <li>캡처 그룹 1: <strong>Stage</strong> — 캡처 그룹 2: <strong style="color:var(--accent2)">Area</strong> — 캡처 그룹 3: <strong style="color:var(--accent3)">Level</strong> — 캡처 그룹 4: <strong style="color:var(--warn)">Variant</strong></li>
+        <li>정규식 하나로 유효성 검증 + 구성요소 추출 동시 수행</li>
+        <li>이후 범위 검사 → Area 코드 등록 확인 → 고유성 검사 → 정규화된 좌표 객체 생성</li>
+      </ul>
       <div class="highlight">
-        이 파싱 과정이 SAL Grid 방법론의 출발점이다. 문자열 하나를 읽어서 구조화된 좌표로 변환하는 순간, 프로젝트 그리드 자동 구축이 시작된다.
+        이 파싱이 SAL Grid 방법론의 <strong>출발점</strong>이다. 문자열 → 구조화된 좌표 변환 → 프로젝트 그리드 자동 구축 시작.
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 8: 3차원 좌표 — Stage ===== -->
+  <!-- ===== SLIDE 8: Stage 축 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>3차원 좌표계 ① <span class="accent">Stage 축</span></h2>
-      <p class="big">프로젝트의 시간적 진행 단계를 나타내는 축. 1~99 범위의 정수 값.</p>
-      <p>낮은 숫자가 초기 단계, 높은 숫자가 후기 단계를 의미한다. 소프트웨어 개발이라면 S1=기획, S2=설계, S3=개발, S4=테스트, S5=배포로 정의할 수 있고, 건설 프로젝트라면 S1=설계, S2=조달, S3=시공, S4=검수, S5=인도로 재정의할 수 있다. 도메인에 종속되지 않는 범용적 구조이다.</p>
-      <p>Stage 값의 대소 비교만으로 프로젝트 전체의 절차적 순서가 자동 결정된다는 점이 핵심이다. 별도 일정표나 타임라인 도구 없이도, SAL ID의 Stage 값을 읽는 것만으로 "이 작업은 저 작업보다 먼저 수행되어야 한다"는 관계가 드러난다.</p>
+      <h2><span class="text">3차원 좌표계 ①</span> Stage 축</h2>
+      <p>프로젝트의 <strong>시간적 진행 단계</strong>. 1~99 범위 정수.</p>
+      <ul>
+        <li>낮은 숫자 = 초기 단계, 높은 숫자 = 후기 단계</li>
+        <li>SW 개발: S1=기획, S2=설계, S3=개발, S4=테스트, S5=배포</li>
+        <li>건설: S1=설계, S2=조달, S3=시공, S4=검수, S5=인도</li>
+      </ul>
+      <div class="highlight green">
+        Stage 값의 <strong>대소 비교만으로</strong> 프로젝트 전체의 절차적 순서가 자동 결정된다. 별도 일정표 불필요.
+      </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 9: 3차원 좌표 — Area ===== -->
+  <!-- ===== SLIDE 9: Area 축 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>3차원 좌표계 ② <span class="accent2">Area 축</span></h2>
-      <p class="big">프로젝트 내의 기능적 영역을 나타내는 축. 2자리 영문 대문자 코드.</p>
-      <p>Area 코드는 프로젝트 초기에 정의하며, FE(Frontend), BE(Backend), QA(Quality Assurance), SE(Security), DA(Data) 등 최대 676개(26×26)의 고유 영역을 정의할 수 있다. 실무적으로는 10~30개가 일반적이다.</p>
-      <p>Area 코드는 단순한 분류 태그가 아니다. SAL Grid 방법론에서 Area 코드는 에이전트 자동 배정의 기준이 된다. 예를 들어 FE 코드가 파싱되면 frontend-developer 에이전트가 자동 배정되고, SE 코드이면 security-specialist가 배정된다. 또한 작업을 수행하는 에이전트와 검증하는 에이전트가 반드시 다른 역할군에서 배정되어, 작성자 ≠ 검증자 원칙이 구조적으로 강제된다.</p>
+      <h2><span class="text">3차원 좌표계 ②</span> <span class="accent2">Area 축</span></h2>
+      <p>프로젝트 내의 <strong style="color:var(--accent2)">기능적 영역</strong>. 2자리 영문 대문자 코드.</p>
+      <ul>
+        <li>FE(Frontend), BE(Backend), QA, SE(Security), DA(Data) 등 최대 <strong style="color:var(--accent2)">676개</strong>(26×26) 정의 가능</li>
+        <li>Area 코드 → <strong style="color:var(--accent2)">에이전트 자동 배정</strong> 기준 (FE → frontend-developer, SE → security-specialist)</li>
+        <li>작업 에이전트 ≠ 검증 에이전트 — <strong style="color:var(--accent2)">작성자 ≠ 검증자 원칙</strong> 구조적 강제</li>
+      </ul>
     </div>
   </div>
 
-  <!-- ===== SLIDE 10: 3차원 좌표 — Level ===== -->
+  <!-- ===== SLIDE 10: Level 축 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>3차원 좌표계 ③ <span class="accent3">Level 축</span></h2>
-      <p class="big">동일 Stage-Area 셀 내에서 작업 간 의존성과 수행 순서를 결정하는 축.</p>
-      <p>Level 값이 작은 Task가 선행 작업, 큰 Task가 후행 작업이다. <code>S2BA1</code>이 완료되어야 <code>S2BA2</code>를 시작할 수 있고, <code>S2BA2</code>가 완료되어야 <code>S2BA3</code>을 시작할 수 있다. 이 순서는 Level 값의 대소 비교만으로 자동 결정되며, 별도의 dependencies 선언이 필요하지 않다.</p>
-      <p>서로 다른 Area 간의 의존성은 dependencies 필드로 명시적으로 선언한다. 예를 들어 "Backend API 구현이 Frontend 개발에 선행해야 한다"는 관계는 SAL ID의 좌표만으로는 추론할 수 없으므로 별도로 명시한다. 같은 Area 내 Level 기반 자동 추론과 서로 다른 Area 간 명시적 선언이 상호 보완적으로 작동하는 이중 구조이다.</p>
+      <h2><span class="text">3차원 좌표계 ③</span> <span class="accent3">Level 축</span></h2>
+      <p>동일 Stage-Area 셀 내에서 <strong style="color:var(--accent3)">의존성과 수행 순서</strong>를 결정하는 축.</p>
+      <ul>
+        <li>Level 작은 값 = 선행, 큰 값 = 후행. <code>S2BA1 → S2BA2 → S2BA3</code></li>
+        <li>같은 Area 내: Level 비교로 <strong style="color:var(--accent3)">자동 추론</strong></li>
+        <li>다른 Area 간: dependencies 필드로 <strong style="color:var(--accent3)">명시적 선언</strong></li>
+        <li>자동 추론 + 명시적 선언의 <strong style="color:var(--accent3)">이중 구조</strong></li>
+      </ul>
     </div>
   </div>
 
   <!-- ===== SLIDE 11: Stage × Area 매트릭스 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>Stage × Area <span class="accent">매트릭스</span></h2>
-      <p class="big">SAL Grid의 모든 작업은 Stage(X축)와 Area(Y축)로 구성된 2차원 매트릭스 위에 배치된다.</p>
-      <p>프로젝트 시작 시 Stage 범위(몇 단계로 나눌 것인가)와 Area 범위(어떤 기능 영역을 관리할 것인가)를 정의하면, 매트릭스의 각 셀(Stage × Area 교차점)이 작업 영역이 된다. 각 셀 안에서 Level과 Variant를 부여하면 SAL ID가 확정된다.</p>
-      <p>실제 적용 사례로, SSAL Works 프로젝트에서는 5개 Stage × 11개 Area = 55개 셀의 매트릭스 위에 총 71개 Task를 배치하여 관리하고 있다. 매트릭스를 먼저 그리고, 각 셀에 필요한 Task를 배치한 뒤, SAL ID를 부여하면 나머지(의존성 구조, 지시서, 에이전트 배정, 검증 체계)는 시스템이 자동으로 구축한다.</p>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 12: 핵심 차별점 ① 의존성 자동 추론 — 원리 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 차별점 ① <span class="accent">의존성 자동 추론</span></h2>
-      <p class="big">기존의 모든 워크플로우 시스템은 의존성을 사람이 직접 선언해야 한다는 전제 위에 서 있다. SAL Grid는 이 전제를 뒤집는다.</p>
-      <p>Apache Airflow에서 10개 Task의 의존성을 정의하려면 <code>task_a >> task_b >> task_c</code> 형태의 코드를 하나하나 작성해야 한다. Task가 100개, 1,000개로 늘어나면 의존성 코드의 복잡도는 기하급수적으로 증가하고, 하나의 변경이 연쇄적 수정을 요구한다.</p>
-      <p>SAL Grid에서는 <code>S2BA1</code>, <code>S2BA2</code>, <code>S2BA3</code>이라는 SAL ID만 부여하면, Level 값 비교(1 &lt; 2 &lt; 3)를 통해 <code>S2BA1 → S2BA2 → S2BA3</code> 순서가 자동으로 결정된다. 또한 <code>S1</code>에 속한 모든 Task는 <code>S2</code> Task보다 선행한다는 관계도 Stage 값 비교로 자동 추론된다. 의존성을 코드로 작성하는 행위 자체가 불필요해진다.</p>
+      <h2><span class="text">Stage × Area</span> 매트릭스</h2>
+      <p>모든 작업은 Stage(X축) × Area(Y축) <strong>2차원 매트릭스</strong> 위에 배치된다.</p>
+      <ul>
+        <li>Stage 범위 + Area 범위 정의 → 매트릭스 셀(교차점)이 작업 영역</li>
+        <li>각 셀 안에서 Level + Variant 부여 → SAL ID 확정</li>
+        <li>매트릭스를 그리고, Task를 배치하고, SAL ID를 부여하면 → <strong>나머지는 시스템이 자동 구축</strong></li>
+      </ul>
       <div class="highlight">
-        이것은 "의존성 선언을 자동화했다"는 수준이 아니다. <strong>의존성이라는 개념 자체를 식별자의 구조적 속성으로 치환한 것</strong>이며, 해당 기술 분야에서 선행 사례가 없는 접근이다.
+        SSAL Works 적용 사례: <strong>5 Stage × 11 Area = 55 셀</strong>, 총 71개 Task 운영 중
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 13: 핵심 차별점 ① Airflow와의 결정적 차이 ===== -->
+  <!-- ===== SLIDE 12: 핵심① 의존성 자동 추론 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>핵심 차별점 ① <span class="accent">Airflow와의 결정적 차이</span></h2>
+      <h2><span class="text">핵심 차별점 ①</span> 의존성 자동 추론</h2>
+      <p>기존 워크플로우 시스템은 의존성을 <strong>사람이 직접 선언</strong>해야 한다. SAL Grid는 이 전제를 뒤집는다.</p>
+      <ul>
+        <li><strong style="color:var(--warn)">Airflow</strong>: Task 100개면 의존성 코드 100줄 이상 수동 작성</li>
+        <li><strong>SAL Grid</strong>: <code>S2BA1, S2BA2, S2BA3</code> ID만 부여하면 Level 비교로 순서 자동 결정</li>
+        <li><code>S1</code> 모든 Task는 <code>S2</code> Task보다 선행 — Stage 비교로 자동 추론</li>
+      </ul>
+      <div class="highlight">
+        "의존성 선언을 자동화"한 것이 아니다. <strong>의존성이라는 개념 자체를 식별자의 구조적 속성으로 치환</strong>한 것이다.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 13: 핵심① Airflow 비교 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2><span class="text">핵심 차별점 ①</span> Airflow와의 결정적 차이</h2>
       <div class="vs-box">
         <div class="side">
           <h3 style="color:var(--warn)">Apache Airflow</h3>
-          <p style="font-size:0.95rem;color:var(--muted);line-height:1.7">DAG 구조를 Python 코드로 직접 작성한다. <code>task_a >> task_b</code> 형태의 수동 의존성 선언이 필수이며, 반복문·조건문·함수 등 프로그래밍 지식이 요구된다. 의존성 변경 시 코드 수정과 디버깅이 불가피하다. 식별자(task_id)는 구조 정보가 없는 단순 문자열이다.</p>
+          <ul style="font-size:0.95rem">
+            <li>DAG를 Python 코드로 작성</li>
+            <li><code>task_a >> task_b</code> 수동 선언 필수</li>
+            <li>프로그래밍 지식 필수</li>
+            <li>식별자에 구조 정보 없음</li>
+          </ul>
         </div>
         <div class="vs">VS</div>
         <div class="side">
           <h3 style="color:var(--accent)">SAL Grid</h3>
-          <p style="font-size:0.95rem;color:var(--muted);line-height:1.7">SAL ID를 부여하는 것만으로 의존성이 자동 추론된다. 코딩이 필요하지 않으며, 비개발자(프로젝트 관리자)도 즉시 활용할 수 있다. 의존성 구조 변경이 필요하면 Level 값만 조정하면 되고, 시스템이 기존 Task들의 순서를 자동으로 재배열한다. 식별자 자체에 3차원 좌표가 인코딩되어 있다.</p>
+          <ul style="font-size:0.95rem">
+            <li>SAL ID 부여만으로 의존성 추론</li>
+            <li>코딩 불필요</li>
+            <li>비개발자도 즉시 활용</li>
+            <li>식별자에 3차원 좌표 인코딩</li>
+          </ul>
         </div>
       </div>
-      <p>이 차이는 단순히 "편의성"의 문제가 아니다. Airflow는 고숙련 엔지니어 없이는 대규모 워크플로우를 운용할 수 없지만, SAL Grid는 식별자 체계만 이해하면 누구든 프로젝트 구조를 구축할 수 있다. 진입 장벽의 근본적 차이이다.</p>
     </div>
   </div>
 
-  <!-- ===== SLIDE 14: 핵심 차별점 ② SAL Grid 22개 속성 자동 구축 ===== -->
+  <!-- ===== SLIDE 14: 핵심② 그리드 자동 구축 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>핵심 차별점 ② <span class="accent">프로젝트 그리드 자동 구축</span></h2>
-      <p class="big">SAL ID 하나를 파싱하면, 22개 속성으로 구성된 프로젝트 관리 그리드가 자동으로 완성된다.</p>
-      <p>기존 프로젝트 관리 도구에서는 Task를 등록한 뒤 담당자, 우선순위, 의존성, 검증 기준 등을 사람이 하나하나 입력해야 한다. SAL Grid에서는 이 과정이 자동화된다. SAL ID가 파싱되면 기본 정보(Stage, Area, Task ID, Task Name)가 자동 입력되고, 이를 기반으로 Task 지시서(수행 지침, 완료 조건, 기술 스택)와 검증 지시서(검증 기준, 테스트 명령, 통합 검증 항목)가 동시에 생성된다.</p>
-      <p>22개 속성은 6개 그룹으로 나뉜다. 기본 정보(4개), 작업 지시(5개), 작업 실행(4개), 검증 지시(2개), 검증 실행(4개), 검증 완료(3개)이다. Task의 생성부터 실행, 검증, 최종 완료까지 전 과정을 하나의 그리드 레코드에서 추적한다.</p>
-      <div class="highlight green">
-        지시서 자동 생성이 특히 중요하다. Task 지시서와 검증 지시서가 <strong>동시에</strong> 생성되어, 실행과 검증이 처음부터 쌍(Pair)으로 존재한다. 이것이 실행-검증 일체화의 구조적 기반이다.
+      <h2><span class="text">핵심 차별점 ②</span> 프로젝트 그리드 자동 구축</h2>
+      <p>SAL ID 하나를 파싱하면 <strong style="color:var(--accent2)">22개 속성</strong>의 프로젝트 관리 그리드가 자동 완성된다.</p>
+      <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card"><div class="value" style="font-size:0.9rem;color:var(--accent)">기본 정보 4개</div><div class="desc">Stage, Area, Task ID, Name</div></div>
+        <div class="card"><div class="value" style="font-size:0.9rem;color:var(--accent2)">작업 지시 5개</div><div class="desc">지침, 에이전트, 도구, 의존성, 타입</div></div>
+        <div class="card"><div class="value" style="font-size:0.9rem;color:var(--accent3)">작업 실행 4개</div><div class="desc">상태, 진행률, 산출물, 소요시간</div></div>
+        <div class="card"><div class="value" style="font-size:0.9rem;color:var(--warn)">검증 지시 2개</div><div class="desc">검증 기준, 검증 에이전트</div></div>
+        <div class="card"><div class="value" style="font-size:0.9rem;color:var(--accent)">검증 실행 4개</div><div class="desc">테스트, 빌드, 통합, 차단요소</div></div>
+        <div class="card"><div class="value" style="font-size:0.9rem;color:var(--accent2)">검증 완료 3개</div><div class="desc">종합, AI 의견, Stage Gate</div></div>
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 15: 핵심 차별점 ② 지시서 자동 생성 상세 ===== -->
+  <!-- ===== SLIDE 15: 핵심② 지시서 자동 생성 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>핵심 차별점 ② <span class="accent">지시서 자동 생성</span></h2>
-      <p class="big">파싱된 좌표 정보로부터 Task 지시서와 검증 지시서가 동시에 생성된다.</p>
+      <h2><span class="text">핵심 차별점 ②</span> <span class="accent2">지시서 자동 생성</span></h2>
       <div class="two-col">
         <div>
-          <h3>Task 지시서</h3>
-          <p>Task ID, Task Name, Task Goal, Prerequisites(선행 조건), Specific Instructions(구체적 수행 지침), Expected Output Files(산출물), Completion Criteria(완료 기준), Tech Stack, Agent, Tools, Execution Type이 자동으로 채워진다.</p>
+          <h3 style="color:var(--accent)">Task 지시서</h3>
+          <ul>
+            <li>Task Goal, Prerequisites</li>
+            <li>수행 지침, 산출물, 완료 기준</li>
+            <li>Tech Stack, Agent, Tools</li>
+          </ul>
         </div>
         <div>
-          <h3>검증 지시서</h3>
-          <p>Verification Criteria(검증 기준), Test Commands(테스트 명령), Build Verification(빌드 검증), Integration Verification(통합 검증 항목)이 Task 지시서와 대응하여 생성된다.</p>
+          <h3 style="color:var(--accent3)">검증 지시서</h3>
+          <ul>
+            <li>Verification Criteria</li>
+            <li>Test Commands</li>
+            <li>Build·Integration 검증 항목</li>
+          </ul>
         </div>
       </div>
-      <p>기존 시스템에서는 "무엇을 해야 하는가"(지시서)와 "제대로 했는지 어떻게 확인하는가"(검증)를 별도로 작성해야 했다. SAL Grid에서는 양쪽이 하나의 ID 파싱에서 동시에 생성되므로, 검증 기준이 누락될 구조적 가능성 자체가 사라진다.</p>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 16: 핵심 차별점 ③ ID 체인 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 차별점 ③ <span class="accent">ID 체인 — Append-Only 변경 이력</span></h2>
-      <p class="big">SAL ID가 변경되어도 기존 식별자를 삭제하지 않고, 새로운 ID를 뒤에 연결하여 전체 이력을 보존한다.</p>
-      <p>기존 시스템에서 작업 속성이 변경되면 두 가지 문제가 발생한다. 식별자를 바꾸면 기존에 그 식별자를 참조하던 모든 링크가 깨진다(Jira의 경우). 식별자를 바꾸지 않으면 하나의 번호에 서로 다른 맥락의 이력이 혼재된다(속성은 변했는데 번호는 그대로).</p>
-      <p>SAL Grid의 ID 체인은 이 딜레마를 해결한다. SAL ID가 <code>S4BI1</code>에서 <code>S1BI2</code>로 변경되면, 기존 ID를 삭제하는 대신 <code>S4BI1_S1BI2</code> 형태로 언더바 구분자를 사용해 연결한다. 한 번 더 변경되면 <code>S4BI1_S1BI2_S1BI3</code>이 된다. 마지막 세그먼트가 항상 최신 SAL ID이며, 체인 전체가 변경 이력이다.</p>
-      <div class="highlight">
-        추가만 가능하고 삭제·수정은 불가능한 <strong>Append-Only 구조</strong>이다. 블록체인의 원리와 동일하며, 변경 이력의 위변조가 구조적으로 불가능하다.
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 17: 핵심 차별점 ③ 리졸버 자가 치유 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 차별점 ③ <span class="accent">리졸버 — 참조 무결성 자가 치유</span></h2>
-      <p class="big">외부에서 구(Old) SAL ID로 조회해도, 리졸버가 체인을 순회하여 최신 ID를 자동으로 반환한다.</p>
-      <p>Jira에서 Issue가 다른 프로젝트로 이동하면 번호가 바뀌고, 기존에 그 번호를 링크하던 문서, 커밋 메시지, 슬랙 메시지의 참조가 모두 깨진다. 이 문제를 해결하려면 수동으로 모든 참조를 찾아 업데이트해야 하며, 대규모 프로젝트에서는 사실상 불가능하다.</p>
-      <p>SAL Grid의 리졸버는 이 문제를 자동으로 해결한다. 누군가가 <code>S4BI1</code>이라는 구 ID로 조회를 요청하면, 리졸버는 ID 체인(<code>S4BI1_S1BI2_S1BI3</code>)을 순회하여 마지막 세그먼트인 <code>S1BI3</code>을 최신 ID로 반환한다. 요청자는 SAL ID가 변경되었다는 사실을 인지하지 못한 채 정상적으로 최신 데이터에 접근한다.</p>
       <div class="highlight green">
-        이것을 <strong>참조 무결성의 자가 치유(Self-Healing Referential Integrity)</strong>라 정의한다. 프로젝트 구조가 아무리 변경되어도, 한 번 생성된 참조 링크는 영구적으로 유효하다. 선행기술에서 이 수준의 참조 무결성을 제공하는 시스템은 존재하지 않는다.
+        Task 지시서와 검증 지시서가 <strong>동시에</strong> 생성되므로, 검증 기준이 누락될 구조적 가능성이 사라진다.
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 18: 핵심 차별점 ④ 실행-검증 일체화 ===== -->
+  <!-- ===== SLIDE 16: 핵심③ ID 체인 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>핵심 차별점 ④ <span class="accent">실행-검증 일체화</span></h2>
-      <p class="big">Task 완료와 동시에 검증이 자동으로 트리거되며, 작성자와 검증자는 반드시 분리 배정된다.</p>
-      <p>기존의 프로젝트 관리 도구에서 실행과 검증은 별개의 시스템으로 운영된다. Jira에서 Task를 "완료"로 옮긴 뒤 별도의 QA 도구에서 검증을 수행하고, 결과를 다시 Jira에 기록하는 식이다. 이 과정에서 검증이 누락되거나, 검증 결과가 제때 반영되지 않는 일이 빈번하다.</p>
-      <p>SAL Grid에서는 Task가 "실행 완료(Executed)" 상태로 전환되는 순간, 검증 지시서에 따라 검증 에이전트가 자동으로 투입된다. 검증 에이전트는 Task 에이전트와 반드시 다른 역할군에서 배정되어, 자기가 만든 결과물을 자기가 검증하는 상황이 구조적으로 차단된다.</p>
-      <p>검증 결과(테스트, 빌드, 통합 검증, 차단 요소)는 해당 Task의 그리드 레코드에 실시간으로 기록되며, 종합 검증을 통과해야만 "완료(Completed)" 상태로 전환될 수 있다. Verified 상태가 아닌 Task는 Completed로 전환이 불가능하도록 시스템이 강제한다.</p>
+      <h2><span class="text">핵심 차별점 ③</span> ID 체인 — Append-Only</h2>
+      <p>SAL ID가 변경되어도 기존 ID를 삭제하지 않고 <strong>뒤에 연결</strong>하여 이력을 보존한다.</p>
+      <pre><code>S4BI1 → S1BI2로 변경 시:  S4BI1_S1BI2
+한 번 더 변경 시:          S4BI1_S1BI2_S1BI3
+마지막 세그먼트 = 최신 ID, 체인 전체 = 변경 이력</code></pre>
+      <ul>
+        <li><strong style="color:var(--accent2)">추가만 가능</strong>, 삭제·수정 불가 — 블록체인과 동일 원리</li>
+        <li>변경 이력의 위변조가 <strong style="color:var(--accent2)">구조적으로 불가능</strong></li>
+      </ul>
     </div>
   </div>
 
-  <!-- ===== SLIDE 19: 핵심 차별점 ④ Stage Gate ===== -->
+  <!-- ===== SLIDE 17: 핵심③ 리졸버 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>핵심 차별점 ④ <span class="accent">Stage Gate — 승인 없이 다음 단계 진입 불가</span></h2>
-      <p class="big">개별 Task 검증에 더하여, Stage 단위의 최종 승인 절차가 존재한다.</p>
-      <p>Stage Gate는 해당 Stage 내 모든 Task가 Completed 상태인지, 전체 빌드와 테스트가 통과했는지, 의존성 체인에 누락이 없는지, 차단 요소(Blocker)가 없는지를 종합적으로 확인한다. 이 검증을 통과하면 Stage 검증 리포트가 자동 생성되고, 최종 승인 권한자의 결재를 거쳐야만 다음 Stage로 진입할 수 있다.</p>
-      <p>승인이 거절되면 해당 Stage의 Task 실행 단계로 자동 회귀하여 문제를 수정한 뒤 재검증하는 피드백 루프가 내장되어 있다. 결함이 있는 작업물이 다음 단계로 넘어가는 것을 구조적으로 차단하는 장치이다.</p>
+      <h2><span class="text">핵심 차별점 ③</span> <span class="accent3">리졸버 — 자가 치유</span></h2>
+      <p>구(Old) SAL ID로 조회해도, 리졸버가 체인을 순회하여 <strong style="color:var(--accent3)">최신 ID를 자동 반환</strong>한다.</p>
+      <ul>
+        <li><strong style="color:var(--warn)">Jira</strong>: Issue 이동 시 기존 참조 링크 전부 깨짐 → 수동 복구 필요</li>
+        <li><strong style="color:var(--accent3)">SAL Grid</strong>: <code>S4BI1</code>로 조회 → 리졸버가 체인 순회 → <code>S1BI3</code>(최신) 자동 반환</li>
+      </ul>
+      <div class="highlight green">
+        <strong>참조 무결성의 자가 치유(Self-Healing Referential Integrity)</strong> — 프로젝트 구조가 아무리 변경되어도, 한 번 생성된 참조는 영구 유효.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 18: 핵심④ 실행-검증 일체화 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2><span class="text">핵심 차별점 ④</span> 실행-검증 일체화</h2>
+      <p>Task 완료와 동시에 검증이 <strong>자동 트리거</strong>되며, 작성자 ≠ 검증자 <strong style="color:var(--accent2)">분리 배정</strong>.</p>
+      <ul>
+        <li><strong style="color:var(--warn)">기존</strong>: Jira에서 "완료" → 별도 QA 도구 → 결과를 다시 Jira에 기록 (검증 누락 빈번)</li>
+        <li><strong>SAL Grid</strong>: Executed 상태 전환 → 검증 에이전트 자동 투입 → 결과 실시간 기록</li>
+        <li><strong style="color:var(--accent2)">Verified 아닌 Task는 Completed 전환 불가</strong> — 시스템이 강제</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 19: 핵심④ Stage Gate ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2><span class="text">핵심 차별점 ④</span> Stage Gate</h2>
+      <p>개별 Task 검증에 더하여, <strong>Stage 단위 최종 승인</strong> 절차가 존재한다.</p>
+      <ul>
+        <li>Stage 내 모든 Task Completed 확인</li>
+        <li>전체 빌드·테스트 통과 확인</li>
+        <li>의존성 체인 완결성 + 차단 요소 확인</li>
+        <li>승인 → 다음 Stage 진입 / 거절 → Task 실행 단계로 자동 회귀</li>
+      </ul>
       <div class="highlight warn">
-        기존 도구에는 이런 Stage Gate 개념이 없다. Jira에서 "Done"으로 상태를 옮기면 그걸로 끝이다. 다음 스프린트 시작에 별도 품질 검증 절차가 없으며, 있더라도 수동으로 운영해야 한다. SAL Grid의 Stage Gate는 시스템 레벨에서 강제되는 품질 관문이다.
+        <strong>Jira에는 Stage Gate 개념이 없다.</strong> "Done"으로 옮기면 끝. SAL Grid의 Stage Gate는 시스템 레벨에서 강제되는 품질 관문이다.
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 20: 선행기술 대비 종합 비교표 ===== -->
+  <!-- ===== SLIDE 20: 선행기술 종합 비교 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>선행기술 대비 <span class="accent">종합 비교</span></h2>
+      <h2><span class="text">선행기술 대비</span> 종합 비교</h2>
       <table>
-        <tr><th>비교 항목</th><th>Airflow</th><th>Jira / Asana</th><th>간트 차트</th><th style="color:var(--accent)">SAL Grid</th></tr>
-        <tr><td><strong>의존성 정의</strong></td><td>Python 코드 수동</td><td>수동 링크 설정</td><td>화살표 수동 연결</td><td>ID 파싱 자동 추론</td></tr>
-        <tr><td><strong>식별자 구조</strong></td><td>단순 문자열</td><td>순차 번호</td><td>없음</td><td>3차원 좌표 인코딩</td></tr>
-        <tr><td><strong>변경 이력</strong></td><td>코드 Git 이력</td><td>텍스트 로그</td><td>미지원</td><td>Append-Only 체인</td></tr>
-        <tr><td><strong>참조 무결성</strong></td><td>해당 없음</td><td>링크 깨짐</td><td>해당 없음</td><td>리졸버 자가 치유</td></tr>
-        <tr><td><strong>실행-검증</strong></td><td>별도 도구</td><td>별도 도구</td><td>미지원</td><td>일체화 (자동 트리거)</td></tr>
-        <tr><td><strong>지시서 생성</strong></td><td>수동 작성</td><td>수동 작성</td><td>미지원</td><td>ID 파싱 시 자동</td></tr>
-        <tr><td><strong>Stage Gate</strong></td><td>없음</td><td>없음</td><td>없음</td><td>시스템 레벨 강제</td></tr>
-        <tr><td><strong>비개발자 접근</strong></td><td>불가</td><td>제한적</td><td>가능</td><td>완전 가능</td></tr>
+        <tr><th>비교 항목</th><th>Airflow</th><th>Jira / Asana</th><th>간트 차트</th><th style="background:var(--accent2)">SAL Grid</th></tr>
+        <tr><td><strong>의존성 정의</strong></td><td>Python 수동</td><td>수동 링크</td><td>수동 연결</td><td style="color:var(--accent)">ID 파싱 자동</td></tr>
+        <tr><td><strong>식별자 구조</strong></td><td>단순 문자열</td><td>순차 번호</td><td>없음</td><td style="color:var(--accent)">3차원 좌표</td></tr>
+        <tr><td><strong>변경 이력</strong></td><td>Git 이력</td><td>텍스트 로그</td><td>미지원</td><td style="color:var(--accent)">Append-Only</td></tr>
+        <tr><td><strong>참조 무결성</strong></td><td>해당 없음</td><td>링크 깨짐</td><td>해당 없음</td><td style="color:var(--accent)">자가 치유</td></tr>
+        <tr><td><strong>실행-검증</strong></td><td>별도 도구</td><td>별도 도구</td><td>미지원</td><td style="color:var(--accent)">일체화</td></tr>
+        <tr><td><strong>Stage Gate</strong></td><td>없음</td><td>없음</td><td>없음</td><td style="color:var(--accent)">시스템 강제</td></tr>
+        <tr><td><strong>비개발자</strong></td><td>불가</td><td>제한적</td><td>가능</td><td style="color:var(--accent)">완전 가능</td></tr>
       </table>
     </div>
   </div>
@@ -400,119 +477,176 @@
   <!-- ===== SLIDE 21: 왜 기존 기술로 도달 불가능한가 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>왜 기존 기술의 <span class="accent">연장선에서 도달할 수 없는가</span></h2>
-      <p>SAL Grid 방법론의 핵심 발상은 "의존성은 코드로 선언해야 한다"는 전제를 뒤집는 것이다. 이 전제는 Apache Airflow의 공식 문서, 워크플로우 엔진 관련 주요 논문, 그리고 Jira·Asana 등 상용 도구 전반에 걸쳐 의문 없이 받아들여져 온 통념이다.</p>
-      <p>통상의 기술자가 이 통념 안에서 기술을 개선하면, "의존성 선언을 더 편하게" 하거나 "선언 문법을 더 직관적으로" 만드는 방향으로 진화한다. 의존성 선언 자체를 없앤다는 발상에는 도달하기 어렵다.</p>
-      <p>SAL Grid는 식별자의 구조에 좌표 정보를 인코딩하고, 그 좌표의 대소 비교로 의존성을 추론한다는 완전히 새로운 접근을 취한다. 식별자가 단순한 참조 번호가 아니라 구조적 의미를 내재한 자기 설명적 객체로 재정의된 것이다. 이것은 기존 기술을 점진적으로 개선하는 것으로는 도달할 수 없는, 설계 패러다임의 전환이다.</p>
+      <h2><span class="text">왜 기존 기술로</span> 도달할 수 없는가</h2>
+      <ul>
+        <li><strong>기존 통념</strong>: "의존성은 코드로 선언해야 한다" — Airflow 문서, 논문, 상용 도구 전반의 암묵적 전제</li>
+        <li><strong>기존 개선 방향</strong>: 의존성 선언을 "더 편하게", "더 직관적으로" → <strong style="color:var(--warn)">선언 자체를 없앤다는 발상에 도달 불가</strong></li>
+        <li><strong style="color:var(--accent)">SAL Grid의 접근</strong>: 식별자에 좌표를 인코딩하고, 좌표의 대소 비교로 의존성을 추론 → 식별자가 <strong style="color:var(--accent)">자기 설명적 객체</strong>로 재정의됨</li>
+      </ul>
+      <div class="highlight purple">
+        이것은 점진적 기술 개선이 아니라, <strong>설계 패러다임의 전환</strong>이다.
+      </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 22: 9단계 오케스트레이션 사이클 전체 ===== -->
+  <!-- ===== SLIDE 22: 9단계 사이클 전체 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>9단계 <span class="accent">오케스트레이션 사이클</span></h2>
-      <p class="big">SAL Grid 방법론은 계획 수립부터 Stage 승인까지 9단계의 순환적 사이클로 프로젝트를 운영한다.</p>
-      <p><strong>① 계획 수립</strong> — Stage × Area 매트릭스 상에서 필요한 Task를 선정한다. <strong>② SAL ID 생성</strong> — 선정된 Task에 3차원 좌표를 인코딩한 SAL ID를 부여한다. <strong>③ SAL 그리드 구축</strong> — SAL ID를 파싱하여 22개 속성의 프로젝트 그리드를 자동 구축한다.</p>
-      <p><strong>④ Task 실행</strong> — 배정된 에이전트가 Task 지시서에 따라 작업을 수행한다. <strong>⑤ 검증 수행</strong> — Task 완료 즉시 검증 에이전트가 자동 투입되어 검증 지시서에 따라 품질을 검증한다. <strong>⑥ 결과 기록</strong> — 실행 및 검증 결과가 그리드 레코드에 실시간으로 기록된다.</p>
-      <p><strong>⑦ Stage 검증</strong> — 해당 Stage 내 모든 Task의 완료 및 검증 상태를 종합 확인한다. <strong>⑧ 리포트 생성</strong> — Stage 검증 결과를 자동으로 리포트 형태로 생성한다. <strong>⑨ Stage 승인</strong> — 최종 승인 후 다음 Stage 사이클이 시작된다. 거절 시 ④단계로 자동 회귀한다.</p>
+      <h2><span class="text">9단계</span> 오케스트레이션 사이클</h2>
+      <div class="card-grid" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent)">① 계획 수립</div><div class="desc">매트릭스에서 Task 선정</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent)">② SAL ID 생성</div><div class="desc">3차원 좌표 인코딩</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent)">③ 그리드 구축</div><div class="desc">22개 속성 자동 생성</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent2)">④ Task 실행</div><div class="desc">에이전트가 지시서 따라 수행</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent2)">⑤ 검증 수행</div><div class="desc">검증 에이전트 자동 투입</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent2)">⑥ 결과 기록</div><div class="desc">그리드 레코드에 실시간 기록</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent3)">⑦ Stage 검증</div><div class="desc">Stage 전체 단위 종합 확인</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent3)">⑧ 리포트 생성</div><div class="desc">검증 결과 자동 문서화</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent3)">⑨ Stage 승인</div><div class="desc">승인 → 다음 Stage / 거절 → ④회귀</div></div>
+      </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 23: 사이클 ①~③ 계획-생성-구축 ===== -->
+  <!-- ===== SLIDE 23: ①~③ ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>사이클 ①~③ <span class="accent">계획 → ID 생성 → 그리드 구축</span></h2>
-      <p>첫 세 단계는 프로젝트의 구조를 잡는 과정이다. 먼저 Stage × Area 매트릭스 위에서 필요한 작업들을 선정하고, 각 작업에 Stage, Area, Level, Variant를 부여하여 SAL ID를 확정한다. 이때 SAL ID는 가확정(Provisional) 상태로 부여된 뒤, 의존성 유효성 검증을 거쳐 최종 확정(Finalization)된다.</p>
-      <p>확정된 SAL ID가 시스템에 입력되면, 정규식 파싱 → 범위 검사 → 코드 유효성 검사 → 고유성 검사 → 정렬 키 생성의 5단계 검증을 거친 뒤, 22개 속성의 프로젝트 그리드가 자동으로 구축된다. Task 지시서와 검증 지시서가 동시에 생성되고, Area 코드에 따라 에이전트와 도구가 자동 배정된다.</p>
+      <h2><span class="text">사이클 ①~③</span> 계획 → ID 생성 → 그리드 구축</h2>
+      <ul>
+        <li><strong>① 계획</strong>: Stage × Area 매트릭스에서 필요한 작업 선정</li>
+        <li><strong style="color:var(--accent2)">② ID 생성</strong>: SAL ID 가확정(Provisional) → 의존성 검증 → 최종 확정(Finalization)</li>
+        <li><strong style="color:var(--accent3)">③ 그리드 구축</strong>: 정규식 파싱 → 범위 검사 → 코드 유효성 → 고유성 → 22개 속성 자동 생성</li>
+      </ul>
       <div class="highlight">
-        이 세 단계를 거치면 <strong>코딩 한 줄 없이</strong> 프로젝트의 실행-검증 체계 전체가 완성된다. 기존 도구에서는 프로젝트 셋업에 수일~수주가 소요되지만, SAL Grid에서는 ID 부여와 동시에 완료된다.
+        이 세 단계를 거치면 <strong>코딩 한 줄 없이</strong> 프로젝트의 실행-검증 체계가 완성된다.
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 24: 사이클 ④~⑥ 실행-검증-기록 ===== -->
+  <!-- ===== SLIDE 24: ④~⑥ ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>사이클 ④~⑥ <span class="accent">실행 → 검증 → 기록</span></h2>
-      <p>네 번째 단계에서 배정된 에이전트가 Task 지시서에 따라 작업을 수행한다. 상태(Pending → In Progress → Executed), 진행률, 산출물, 소요 시간 등이 실시간으로 추적된다.</p>
-      <p>다섯 번째 단계가 SAL Grid 방법론의 핵심 차별점이다. Task가 Executed 상태가 되는 순간, 검증 에이전트가 자동으로 투입된다. 검증 에이전트는 테스트 결과, 빌드 성공 여부, 통합 검증, 차단 요소를 검증 지시서에 따라 확인한다. 수동 개입이나 별도 트리거가 불필요하다.</p>
-      <p>여섯 번째 단계에서 실행 및 검증 결과가 해당 Task의 그리드 레코드에 원자적 쓰기(Atomic Write) 방식으로 기록된다. 기록 도중 중단이 발생해도 부분 기록이 방지되며, 데이터 무결성이 보장된다.</p>
+      <h2><span class="text">사이클 ④~⑥</span> 실행 → 검증 → 기록</h2>
+      <ul>
+        <li><strong>④ 실행</strong>: 에이전트가 지시서에 따라 작업 수행. 상태·진행률·산출물 실시간 추적</li>
+        <li><strong style="color:var(--accent2)">⑤ 검증</strong>: Executed 상태 전환 즉시 검증 에이전트 자동 투입. 수동 개입 불필요</li>
+        <li><strong style="color:var(--accent3)">⑥ 기록</strong>: 실행·검증 결과를 원자적 쓰기(Atomic Write)로 기록. 부분 기록 방지</li>
+      </ul>
       <div class="highlight green">
-        이 세 단계의 핵심은 <strong>실행과 검증 사이에 인간의 개입이 없다</strong>는 것이다. Task 완료 → 검증 투입 → 결과 기록이 하나의 연속된 자동 프로세스로 구동된다.
+        실행과 검증 사이에 <strong>인간의 개입이 없다</strong>. Task 완료 → 검증 → 기록이 하나의 연속 자동 프로세스.
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 25: 사이클 ⑦~⑨ 검증-리포트-승인 ===== -->
+  <!-- ===== SLIDE 25: ⑦~⑨ ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>사이클 ⑦~⑨ <span class="accent">Stage 검증 → 리포트 → 승인</span></h2>
-      <p>일곱 번째 단계에서 해당 Stage 내 모든 Task의 완료 여부, 전체 빌드 및 테스트 통과 여부, 의존성 체인의 완결성, 차단 요소 존재 여부를 종합적으로 확인한다. 개별 Task가 아닌 Stage 전체를 단위로 하는 검증이다.</p>
-      <p>여덟 번째 단계에서 Stage 검증 결과가 자동으로 리포트 형태로 생성된다. Task 완료 현황, 빌드 검증 결과, 테스트 검증 결과, 의존성 체인 검증, 차단 요소, 종합 판정을 포함하는 구조화된 문서이다.</p>
-      <p>아홉 번째 단계인 Stage Gate에서 최종 승인이 이루어진다. 승인되면 다음 Stage의 사이클이 시작되고, 거절되면 네 번째 단계(Task 실행)로 자동 회귀하여 문제를 수정한 뒤 다시 검증-리포트-승인 절차를 거친다. 이 피드백 루프가 내장되어 있어, 결함이 있는 상태로 다음 Stage에 진입하는 것이 구조적으로 불가능하다.</p>
+      <h2><span class="text">사이클 ⑦~⑨</span> Stage 검증 → 리포트 → 승인</h2>
+      <ul>
+        <li><strong>⑦ Stage 검증</strong>: Stage 내 모든 Task 완료·검증 여부 + 빌드·테스트 + 의존성 체인 종합 확인</li>
+        <li><strong style="color:var(--accent2)">⑧ 리포트</strong>: Stage 검증 결과를 구조화된 문서로 자동 생성</li>
+        <li><strong style="color:var(--accent3)">⑨ 승인</strong>: 승인 → 다음 Stage 사이클 시작 / 거절 → ④단계 자동 회귀</li>
+      </ul>
+      <div class="highlight warn">
+        피드백 루프가 내장되어, <strong>결함이 있는 상태로 다음 Stage 진입이 구조적으로 불가능</strong>하다.
+      </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 26: 산업 적용 분야 ===== -->
+  <!-- ===== SLIDE 26: 산업 적용 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>산업 <span class="accent">적용 분야</span></h2>
-      <p>SAL Grid 방법론은 소프트웨어 개발에 한정되지 않는다. 3차원 좌표계(Stage-Area-Level)는 도메인에 종속되지 않는 범용적 구조이므로, Stage와 Area의 정의만 바꾸면 어떤 산업에든 적용할 수 있다.</p>
-      <p><strong>소프트웨어 개발</strong> — 마이크로서비스 아키텍처에서 각 서비스의 배포 단계를 3차원 그리드에 매핑하여 의존성 충돌 사전 방지. <strong>대형 제조 및 선박 건조</strong> — 수만 개 부품과 공정이 얽힌 제조 현장에서 블록 조립 및 의장 작업을 좌표계로 체계화하고, 품질 검사 이력을 ID 체인으로 추적.</p>
-      <p><strong>건설 및 인프라</strong> — 토목·골조·마감 등 시공 단계와 공구별 작업을 입체적으로 관리하고, 다수 협력사 간 작업 간섭을 방지. <strong>회계 감사</strong> — 감사 절차를 그리드 작업으로 정의하고, 수행 내역과 승인 과정을 ID 체인에 기록하여 위변조 불가능한 감사 증적(Audit Trail) 확보. <strong>영화·드라마 제작</strong> — 프리프로덕션~포스트프로덕션 과정에서 씬, 장소, 배우, 촬영 스케줄을 3차원 구조화.</p>
+      <h2><span class="text">산업</span> 적용 분야</h2>
+      <p>3차원 좌표계는 도메인 비종속 구조. Stage와 Area 정의만 바꾸면 어디든 적용.</p>
+      <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent)">소프트웨어 개발</div><div class="desc">MSA 배포 단계를 그리드에 매핑, 의존성 충돌 사전 방지</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent2)">제조 / 선박 건조</div><div class="desc">블록 조립·의장 작업 좌표화, ID 체인으로 품질 이력 추적</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--accent3)">건설 / 인프라</div><div class="desc">시공 단계 × 공구별 작업 입체 관리, 협력사 간 간섭 방지</div></div>
+        <div class="card"><div class="value" style="font-size:1rem;color:var(--warn)">회계 감사 / 영상 제작</div><div class="desc">감사 증적(Audit Trail) 확보, 프리~포스트프로덕션 3차원 구조화</div></div>
+      </div>
     </div>
   </div>
 
   <!-- ===== SLIDE 27: 기대 효과 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>기대 <span class="accent">효과</span></h2>
-      <p><strong>No-Code 즉시 구축</strong> — SAL ID 파싱만으로 의존성 구조, 지시서, 검증 체계를 포함한 프로젝트 그리드가 자동 완성된다. 고숙련 엔지니어 없이도 대규모 프로젝트의 오케스트레이션 체계를 즉시 구축할 수 있어, 도입 비용과 시간이 획기적으로 절감된다.</p>
-      <p><strong>3차원 정밀 제어</strong> — Stage-Area-Level 좌표계가 작업 간 위상(Topology)을 정의하는 논리적 기반으로 기능한다. 2차원 평면(간트 차트, 칸반 보드)으로는 표현할 수 없었던 복잡한 의존 관계를 입체적으로 관리하여, 수만 개 태스크를 충돌 없이 제어할 수 있다.</p>
-      <p><strong>품질 무결성</strong> — 실행-검증 일체화와 Stage Gate 승인으로 결함 전파를 원천 차단한다. 검증을 통과하지 못한 작업물이 다음 단계로 넘어가는 것이 구조적으로 불가능하다.</p>
-      <p><strong>영구적 참조 무결성</strong> — Append-Only ID 체인과 리졸버의 자가 치유 메커니즘으로 프로젝트 구조가 아무리 변경되어도 기존 참조가 자동으로 보존된다.</p>
+      <h2><span class="text">기대</span> 효과</h2>
+      <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--accent)">No-Code 즉시 구축</div>
+          <div class="desc">SAL ID 파싱만으로 프로젝트 그리드 자동 완성. 도입 비용·시간 획기적 절감</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--accent2)">3차원 정밀 제어</div>
+          <div class="desc">2차원(간트, 칸반)으로 불가능했던 복잡한 의존 관계를 입체적으로 관리</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--accent3)">품질 무결성</div>
+          <div class="desc">실행-검증 일체화 + Stage Gate로 결함 전파 원천 차단</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1rem;color:var(--warn)">영구적 참조 무결성</div>
+          <div class="desc">Append-Only ID 체인 + 리졸버 자가 치유로 참조 자동 보존</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 28: 핵심 차별성 한 눈 요약 ===== -->
+  <!-- ===== SLIDE 29: 핵심 차별성 요약 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>핵심 차별성 <span class="accent">요약</span></h2>
-      <p class="big">SAL Grid 방법론이 선행기술과 결정적으로 다른 네 가지.</p>
-      <p><strong>1. 의존성은 선언하는 것이 아니라, 식별자에서 읽어내는 것이다.</strong> — SAL ID의 Stage·Level 값 비교만으로 실행 순서가 자동 결정된다. 코드 작성, 수동 링크, 화살표 연결이 불필요하다. 해당 기술 분야에서 선행 사례가 없는 접근이다.</p>
-      <p><strong>2. 식별자 하나로 프로젝트 관리 체계 전체가 자동 구축된다.</strong> — SAL ID를 파싱하면 22개 속성의 그리드, Task 지시서, 검증 지시서, 에이전트 배정이 동시에 완성된다. 기존 도구에서 수동으로 수행하던 프로젝트 셋업 작업이 통째로 대체된다.</p>
-      <p><strong>3. 한 번 생성된 참조는 영구적으로 유효하다.</strong> — Append-Only ID 체인이 변경 이력을 보존하고, 리졸버가 구 ID를 최신 ID로 자동 리디렉트한다. 참조 링크가 깨지는 것이 구조적으로 불가능하다.</p>
-      <p><strong>4. 실행과 검증이 하나의 연속된 자동 프로세스이다.</strong> — Task 완료 → 검증 자동 트리거 → 결과 실시간 기록 → Stage Gate 승인의 순환적 사이클이 시스템 레벨에서 강제된다.</p>
+      <h2><span class="text">핵심 차별성</span> 요약</h2>
+      <ol>
+        <li><strong>의존성은 선언하는 것이 아니라, 식별자에서 읽어내는 것이다.</strong><br><span style="color:var(--muted)">Stage·Level 값 비교만으로 실행 순서 자동 결정. 선행 사례 없음.</span></li>
+        <li><strong style="color:var(--accent2)">식별자 하나로 프로젝트 관리 체계 전체가 자동 구축된다.</strong><br><span style="color:var(--muted)">22개 속성 그리드 + 지시서 + 검증 지시서 + 에이전트 배정 동시 완성.</span></li>
+        <li><strong style="color:var(--accent3)">한 번 생성된 참조는 영구적으로 유효하다.</strong><br><span style="color:var(--muted)">Append-Only ID 체인 + 리졸버 자동 리디렉트. 참조 깨짐 구조적 불가.</span></li>
+        <li><strong style="color:var(--warn)">실행과 검증이 하나의 연속된 자동 프로세스이다.</strong><br><span style="color:var(--muted)">Task 완료 → 검증 자동 트리거 → Stage Gate 승인. 시스템 레벨 강제.</span></li>
+      </ol>
     </div>
   </div>
 
-  <!-- ===== SLIDE 29: 특허 청구 범위 핵심 ===== -->
+  <!-- ===== SLIDE 30: 특허 청구 범위 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>특허 <span class="accent">청구 범위</span> 핵심</h2>
-      <p class="big">본 발명의 독립항은 크게 시스템 청구항과 방법 청구항으로 구성된다.</p>
-      <p><strong>시스템 청구항</strong>은 SAL ID를 수신하여 3차원 좌표(Stage, Area, Level)를 추출하는 파서, 추출된 좌표로부터 22개 속성의 프로젝트 그리드를 자동 구축하는 그리드 생성기, Task 간 의존성을 Level 값 비교로 자동 추론하는 시퀀서, Area 코드 기반으로 에이전트를 분리 배정하는 배분기, SAL ID 변경 이력을 Append-Only 체인으로 관리하고 리졸버로 참조 무결성을 자가 치유하는 이력 관리 모듈로 구성된 멀티태스크 오케스트레이션 시스템을 청구한다.</p>
-      <p><strong>방법 청구항</strong>은 3차원 좌표가 인코딩된 식별자를 파싱하여 프로젝트 그리드를 자동 구축하고, 실행-검증 일체화 사이클과 Stage Gate 승인을 통해 멀티태스크를 오케스트레이션하는 방법을 청구한다.</p>
-      <p style="color:var(--text)">IPC 분류: <code>G06F 9/46</code> (멀티프로그래밍 배치), <code>G06F 9/48</code> (프로그램 개시·전환·실행), <code>G06Q 10/06</code> (자원·워크플로우·프로젝트 관리)</p>
+      <h2><span class="text">특허</span> 청구 범위</h2>
+      <div class="two-col">
+        <div>
+          <h3 style="color:var(--accent)">시스템 청구항</h3>
+          <ul>
+            <li>SAL ID → 3차원 좌표 추출 파서</li>
+            <li>22개 속성 그리드 자동 구축 생성기</li>
+            <li>Level 비교 의존성 자동 추론 시퀀서</li>
+            <li>Area 기반 에이전트 분리 배정 배분기</li>
+            <li>Append-Only 체인 + 리졸버</li>
+          </ul>
+        </div>
+        <div>
+          <h3 style="color:var(--accent2)">방법 청구항</h3>
+          <ul>
+            <li>3차원 좌표 인코딩 식별자 파싱</li>
+            <li>프로젝트 그리드 자동 구축 방법</li>
+            <li>실행-검증 일체화 사이클</li>
+            <li>Stage Gate 승인 방법</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin-top:16px;color:var(--muted);font-size:0.95rem">IPC: <code>G06F 9/46</code> (멀티프로그래밍) · <code>G06F 9/48</code> (프로그램 실행) · <code>G06Q 10/06</code> (프로젝트 관리)</p>
     </div>
   </div>
 
-  <!-- ===== SLIDE 30: 특허 출원 접수증 ===== -->
+  <!-- ===== SLIDE 31: 출원번호통지서 ===== -->
   <div class="slide end-slide">
     <div class="slide-inner" style="text-align:center;">
-      <h2>특허 <span class="accent">출원 완료</span></h2>
-      <div style="background:var(--surface);border-radius:16px;padding:36px 40px;margin:24px auto;max-width:640px;border:1px solid rgba(148,163,184,0.15);text-align:left;">
-        <p style="text-align:center;color:var(--accent);font-size:1.1rem;font-weight:700;margin-bottom:24px;letter-spacing:2px;">출 원 번 호 통 지 서</p>
+      <div style="background:var(--surface);border-radius:16px;padding:36px 40px;margin:24px auto;max-width:640px;border:1px solid var(--border);text-align:left;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
+        <p style="text-align:center;color:var(--accent);font-size:1.15rem;font-weight:700;margin-bottom:28px;letter-spacing:3px;">출 원 번 호 통 지 서</p>
         <table style="width:100%;font-size:1rem;border-collapse:collapse;">
-          <tr><td style="padding:10px 0;color:var(--muted);width:140px;vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">출 원 일 자</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">2026. 01. 17</td></tr>
-          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">출 원 번 호</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">10-2026-0009425<br><span style="font-size:0.85rem;color:var(--muted)">(접수번호 1-1-2026-0067929-94)</span></td></tr>
-          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">출 원 인</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">선웅규 (4-2008-018449-1)</td></tr>
-          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">발 명 자</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">선웅규</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);width:140px;vertical-align:top;border-bottom:1px solid var(--border);">출 원 일 자</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid var(--border);">2026. 01. 17</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid var(--border);">출 원 번 호</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid var(--border);">10-2026-0009425<br><span style="font-size:0.85rem;color:var(--muted)">(접수번호 1-1-2026-0067929-94)</span></td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid var(--border);">출 원 인</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid var(--border);">선웅규 (4-2008-018449-1)</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid var(--border);">발 명 자</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid var(--border);">선웅규</td></tr>
           <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;">발 명 의 명 칭</td><td style="padding:10px 0;font-weight:700;line-height:1.6;">3차원 좌표 정보가 인코딩된 식별자 기반으로 구축하는 프로젝트 그리드를 활용한 멀티태스크 오케스트레이션 시스템 및 방법</td></tr>
         </table>
       </div>
       <p style="color:var(--muted);font-size:0.9rem;margin-top:20px;">지 식 재 산 처 장</p>
-      <p style="color:var(--muted);font-size:0.85rem;margin-top:8px;">IPC: G06F 9/46 · G06F 9/48 · G06Q 10/06</p>
     </div>
   </div>
 
@@ -562,8 +696,8 @@ let tx = 0;
 document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
 document.addEventListener('touchend', e => { const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); } });
 document.getElementById('themeToggle').addEventListener('click', () => {
-  document.documentElement.classList.toggle('light');
-  document.getElementById('themeToggle').textContent = document.documentElement.classList.contains('light') ? 'Dark' : 'Light';
+  document.documentElement.classList.toggle('dark');
+  document.getElementById('themeToggle').textContent = document.documentElement.classList.contains('dark') ? 'Light' : 'Dark';
 });
 document.getElementById('fsToggle').addEventListener('click', toggleFS);
 updateSlide(0);
