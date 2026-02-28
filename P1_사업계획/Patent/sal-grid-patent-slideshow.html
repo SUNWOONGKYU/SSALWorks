@@ -44,6 +44,7 @@
       opacity: 0; transform: translateX(60px);
       transition: opacity 0.45s ease, transform 0.45s ease;
       pointer-events: none;
+      overflow-y: auto;
     }
     .slide.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
     .slide.prev { opacity: 0; transform: translateX(-60px); }
@@ -154,859 +155,700 @@
   <!-- ===== SLIDE 1: 타이틀 ===== -->
   <div class="slide title-slide active">
     <div class="slide-inner">
-      <h1>프로젝트를 3차원으로 관리하는 새로운 방법</h1>
-      <div class="subtitle">SAL Grid — 식별자 하나에 담긴 프로젝트의 모든 구조</div>
+      <h1>식별자에 구조를 인코딩하다</h1>
+      <div class="subtitle">SAL ID 기반 3차원 좌표계 멀티태스크 오케스트레이션 시스템</div>
       <div class="date">특허 출원 기술 소개</div>
-      <div class="badge">3차원 좌표계(Stage-Area-Level) 기반 멀티태스크 오케스트레이션 시스템</div>
+      <div class="badge">Stage-Area-Level이 인코딩된 식별자 기반 프로젝트 그리드 오케스트레이션</div>
     </div>
   </div>
 
   <!-- ===== SLIDE 2: 목차 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>소개 <span class="accent">목차</span></h2>
+      <h2>소개 <span class="accent">구성</span></h2>
       <div class="card-grid">
-        <div class="card"><div class="value" style="font-size:1.3rem">01</div><div class="desc">왜 이 기술이 필요한가</div></div>
-        <div class="card"><div class="value" style="font-size:1.3rem">02</div><div class="desc">핵심 아이디어: SAL ID</div></div>
-        <div class="card"><div class="value" style="font-size:1.3rem">03</div><div class="desc">3차원 좌표계</div></div>
-        <div class="card"><div class="value" style="font-size:1.3rem">04</div><div class="desc">시스템 구성 (5계층)</div></div>
-        <div class="card"><div class="value" style="font-size:1.3rem">05</div><div class="desc">핵심 모듈들</div></div>
-        <div class="card"><div class="value" style="font-size:1.3rem">06</div><div class="desc">9단계 운영 사이클</div></div>
-        <div class="card"><div class="value" style="font-size:1.3rem">07</div><div class="desc">기존 기술과의 차이</div></div>
-        <div class="card"><div class="value" style="font-size:1.3rem">08</div><div class="desc">활용 분야 및 효과</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">01</div><div class="desc">기존 기술의 한계</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">02</div><div class="desc">SAL ID — 자기 설명적 식별자</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">03</div><div class="desc">3차원 좌표계 (Stage-Area-Level)</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">04</div><div class="desc">5계층 시스템 아키텍처</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">05</div><div class="desc">7개 핵심 모듈</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">06</div><div class="desc">9단계 오케스트레이션 사이클</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">07</div><div class="desc">선행기술 대비 차별성</div></div>
+        <div class="card"><div class="value" style="font-size:1.3rem">08</div><div class="desc">산업 적용 분야 및 기대 효과</div></div>
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 3: 현실의 문제 ===== -->
+  <!-- ===== SLIDE 3: 기존 기술의 한계 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>대규모 프로젝트, <span class="accent">왜 어려운가?</span></h2>
-      <p class="big">수백 개의 작업이 얽힌 프로젝트를 체계적으로 관리하는 것은 매우 어렵습니다.</p>
-      <div class="card-grid" style="margin-top:24px">
-        <div class="card">
-          <div class="icon" style="font-size:2rem;margin-bottom:8px">🏗️</div>
-          <div class="label">선박 건조</div>
-          <div class="value" style="font-size:1.3rem">수만 개</div>
-          <div class="desc">부품과 공정이 복잡하게 얽힘</div>
+      <h2>기존 프로젝트 관리 기술의 <span class="accent">구조적 한계</span></h2>
+      <ul>
+        <li><strong>코딩 의존적 워크플로우</strong> — Apache Airflow 등은 DAG 구조를 Python 코드로 직접 작성해야 하며, 의존성 변경 시 코드 수정과 디버깅 필수. 비개발자 접근 불가</li>
+        <li><strong>식별자의 구조 정보 부재</strong> — Jira(PROJECT-1234), Asana 등의 식별자는 자동 증가 순차 번호에 불과. 어떤 단계, 어떤 영역의 작업인지 식별자만으로 파악 불가. 별도 매핑 테이블 조회 필수</li>
+        <li><strong>참조 무결성 위반</strong> — 작업 속성 변경 시 기존 식별자가 무효화되거나 참조 링크 깨짐. 변경 이력을 텍스트 로그로만 관리하여 역추적 고비용</li>
+        <li><strong>2차원 시각화의 한계</strong> — 간트 차트는 시간(X)과 작업명(Y)의 2차원 평면에 한정. 수천 개 작업의 입체적 위상을 평면으로 억지 병합(Flatten)할 수밖에 없는 구조</li>
+        <li><strong>실행-검증 프로세스 단절</strong> — Task 실행과 품질 검증이 별개 도구로 분절 운영. 검증 누락, 피드백 지연 빈발. 체계적 오케스트레이션 사이클 부재</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 4: 핵심 발상의 전환 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>발상의 <span class="accent">전환</span></h2>
+      <div class="highlight">
+        종래 기술의 통념: <strong>"의존성은 코드로 명시해야 한다"</strong><br>
+        본 발명의 역발상: <strong>"식별자 자체가 구조 정보를 내재하면, 명시적 선언 없이 자동 추론 가능"</strong>
+      </div>
+      <p>기존의 모든 워크플로우 시스템은 의존성을 <code>task_a >> task_b</code> 형태로 수동 코딩하는 것을 당연한 전제로 삼아 왔음. 해당 기술 분야의 공식 문서와 주요 논문 모두 이 전제에서 출발</p>
+      <p>본 발명은 이 통념을 깨고, <strong>식별자 자체에 3차원 좌표(Stage, Area, Level)를 인코딩</strong>하여 파싱만으로 의존성 구조를 자동 구축하는 No-Code 방식을 최초로 제안</p>
+      <div class="highlight green">
+        <strong>SAL ID</strong> = Self-Descriptive Identifier. 식별자 하나에 작업의 단계, 영역, 계층, 병렬 분기 정보가 모두 내재된 자기 설명적 식별자
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 5: SAL ID 형식 정의 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>SAL ID <span class="accent">형식 정의</span></h2>
+      <pre><code>S{Stage}{Area}{Level}{Variant?}
+
+  S   — 접두사 (SAL ID 식별자, 고정)
+  Stage  — 1~2자리 정수 (1~99). 프로젝트 진행 단계
+  Area   — 2자리 영문 대문자. 기능적 영역 코드 (FE, BE, QA 등)
+  Level  — 1~2자리 정수 (1~99). 의존성 계층 (작을수록 선행)
+  Variant — 소문자 a~z (선택). 동일 좌표 내 병렬 작업 구분</code></pre>
+      <h3>실제 예시</h3>
+      <table>
+        <tr><th>SAL ID</th><th>Stage</th><th>Area</th><th>Level</th><th>Variant</th><th>해석</th></tr>
+        <tr><td><code>S1FE1</code></td><td>1</td><td>FE</td><td>1</td><td>-</td><td>Stage 1, Frontend, 최우선 작업</td></tr>
+        <tr><td><code>S2BE2</code></td><td>2</td><td>BE</td><td>2</td><td>-</td><td>Stage 2, Backend, Level 2 후행 작업</td></tr>
+        <tr><td><code>S1FE1a</code></td><td>1</td><td>FE</td><td>1</td><td>a</td><td>S1FE1 좌표의 첫 번째 병렬 분기</td></tr>
+        <tr><td><code>S10DA5c</code></td><td>10</td><td>DA</td><td>5</td><td>c</td><td>Stage 10, Data, Level 5, 세 번째 병렬 분기</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 6: SAL ID의 4가지 구조적 특성 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>SAL ID에 <span class="accent">인코딩된 4가지 정보</span></h2>
+      <div class="two-col">
+        <div>
+          <h3>1. 절차적 순서</h3>
+          <p>Stage 값이 작을수록 먼저 수행되는 단계. <code>S1 → S2 → S3</code> 순서가 Stage 값 파싱만으로 자동 결정. 별도 시간표 불필요</p>
+          <h3>2. 실행 의존성</h3>
+          <p>동일 Stage-Area 내에서 Level 값의 크고 작음이 선후 관계 결정. <code>S2BA1 → S2BA2 → S2BA3</code> — dependencies 필드 명시 없이도 Level 비교로 자동 추론</p>
         </div>
-        <div class="card">
-          <div class="icon" style="font-size:2rem;margin-bottom:8px">💻</div>
-          <div class="label">소프트웨어 개발</div>
-          <div class="value" style="font-size:1.3rem">수백 개</div>
-          <div class="desc">마이크로서비스 간 의존성</div>
+        <div>
+          <h3>3. 병렬성</h3>
+          <p>동일 (Stage, Area, Level) 좌표에 Variant(a, b, c)가 부여되면 병렬 실행 가능. <code>S2BA1a || S2BA1b</code> — Variant 유무 확인만으로 즉시 판별</p>
+          <h3>4. 기능적 인접성</h3>
+          <p>동일 Stage-Area 조합의 Task는 같은 기능적 맥락 공유. <code>S2BA1, S2BA2, S2BA3</code> 모두 "Stage 2의 Backend API 구현"이라는 맥락에 속함</p>
         </div>
-        <div class="card">
-          <div class="icon" style="font-size:2rem;margin-bottom:8px">🏢</div>
-          <div class="label">건설 프로젝트</div>
-          <div class="value" style="font-size:1.3rem">수천 개</div>
-          <div class="desc">공정 간 시간적·물리적 간섭</div>
+      </div>
+      <div class="highlight">
+        <strong>핵심:</strong> SAL ID는 단순 참조 번호가 아닌, 절차적 순서·실행 의존성·병렬성·기능적 인접성이 구조적으로 내재된 <strong>자기 설명적(Self-Descriptive) 식별자</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 7: SAL ID 정규식 — 맛보기 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>SAL ID <span class="accent">파싱 정규식</span></h2>
+      <p>파서 모듈(40)이 SAL ID를 해석하는 데 사용하는 정규 표현식</p>
+      <pre><code>^S(\d{1,2})([A-Z]{2})(\d{1,2})([a-z])?$</code></pre>
+      <table>
+        <tr><th>패턴</th><th>캡처 대상</th><th>설명</th></tr>
+        <tr><td><code>^S</code></td><td>접두사</td><td>SAL ID 식별 고정 문자</td></tr>
+        <tr><td><code>(\d{1,2})</code></td><td>Stage</td><td>1~2자리 정수 (1~99)</td></tr>
+        <tr><td><code>([A-Z]{2})</code></td><td>Area</td><td>대문자 알파벳 2자리 코드</td></tr>
+        <tr><td><code>(\d{1,2})</code></td><td>Level</td><td>1~2자리 정수 (1~99)</td></tr>
+        <tr><td><code>([a-z])?</code></td><td>Variant</td><td>소문자 1자리 (선택적)</td></tr>
+      </table>
+      <div class="highlight">
+        이 정규식 하나로 SAL ID의 유효성 검증과 구성요소 추출을 동시 수행. 형식 불일치 시 Unassigned Queue(46)로 격리하여 시스템 흐름 보호
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 8: 3차원 좌표계 — Stage 축 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>3차원 좌표계 ① <span class="accent">Stage 축 (X)</span></h2>
+      <p class="big">프로젝트의 시간적 진행 단계. 1~99 범위의 정수 값</p>
+      <p>낮은 숫자가 초기 단계, 높은 숫자가 후기 단계를 의미. 도메인에 따라 재정의 가능</p>
+      <div class="two-col" style="margin-top:16px">
+        <div>
+          <h3>소프트웨어 개발</h3>
+          <ul>
+            <li>S1: 기획 — 요구사항 정의, 범위 설정</li>
+            <li>S2: 설계 — 아키텍처, 상세 설계</li>
+            <li>S3: 개발 — 구현, 코딩</li>
+            <li>S4: 테스트 — 단위, 통합 테스트</li>
+            <li>S5: 배포 — 스테이징, 프로덕션</li>
+          </ul>
+        </div>
+        <div>
+          <h3>제조/건설</h3>
+          <ul>
+            <li>S1: 설계</li>
+            <li>S2: 조달</li>
+            <li>S3: 조립/시공</li>
+            <li>S4: 검수</li>
+            <li>S5: 인도/완공</li>
+          </ul>
+        </div>
+      </div>
+      <div class="highlight">
+        Stage 값의 대소 비교만으로 프로젝트 전체의 절차적 순서가 자동 결정 — 별도 일정표 없이도 실행 순서 추론 가능
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 9: 3차원 좌표계 — Area 축 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>3차원 좌표계 ② <span class="accent2">Area 축 (Y)</span></h2>
+      <p class="big">프로젝트 내의 기능적 영역, 모듈, 업무 도메인. 2자리 대문자 코드</p>
+      <p>Area 코드표는 프로젝트 초기에 정의. 최대 26x26 = 676개 고유 Area 정의 가능 (실무상 10~30개가 일반적)</p>
+      <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));">
+        <div class="card"><div class="value" style="font-size:1.1rem">FE</div><div class="desc">Frontend</div></div>
+        <div class="card"><div class="value" style="font-size:1.1rem">BE</div><div class="desc">Backend</div></div>
+        <div class="card"><div class="value" style="font-size:1.1rem">DE</div><div class="desc">Design</div></div>
+        <div class="card"><div class="value" style="font-size:1.1rem">QA</div><div class="desc">Quality Assurance</div></div>
+        <div class="card"><div class="value" style="font-size:1.1rem">IN</div><div class="desc">Infrastructure</div></div>
+        <div class="card"><div class="value" style="font-size:1.1rem">DA</div><div class="desc">Data/Analytics</div></div>
+        <div class="card"><div class="value" style="font-size:1.1rem">SE</div><div class="desc">Security</div></div>
+        <div class="card"><div class="value" style="font-size:1.1rem">DO</div><div class="desc">Documentation</div></div>
+      </div>
+      <p>Area 코드는 Area_Code_Master 테이블에 등록. 파서(40)의 코드 유효성 검사(Semantic Validation) 단계에서 등록 여부 자동 확인</p>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 10: 3차원 좌표계 — Level 축 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>3차원 좌표계 ③ <span class="accent3">Level 축 (Z)</span></h2>
+      <p class="big">작업 간 의존성과 수행 순서의 계층. 1~99 범위 정수</p>
+      <ul>
+        <li><strong>Level 값이 작은 Task = 선행 작업</strong>, 큰 Task = 후행 작업</li>
+        <li>동일 Stage-Area 내에서 Level이 낮은 작업이 완료되어야 높은 Level 작업 시작 가능</li>
+        <li>Level 1: 해당 셀에서 가장 먼저 수행되는 기초 작업</li>
+        <li>Level 2, 3, ...: 순차적으로 의존하는 후행 작업</li>
+      </ul>
+      <div class="highlight">
+        <strong>의존성 자동 추론의 핵심:</strong> <code>S2BA1 → S2BA2 → S2BA3</code> 순서는 Level 값의 대소 비교만으로 결정. dependencies 필드에 명시적 선언이 없어도 파서(40)가 자동으로 선후 관계를 추론
+      </div>
+      <p>서로 다른 Area 간의 의존성은 별도 속성(dependencies 필드)으로 명시적 선언 — 같은 Area 내 Level 기반 자동 추론과 보완적 관계</p>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 11: Stage × Area 매트릭스 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>Stage × Area <span class="accent">매트릭스 기반 Task 선정</span></h2>
+      <p>SAL ID 생성에 앞서, 모든 작업은 Stage(X)와 Area(Y)로 구성된 2차원 매트릭스에서 선정</p>
+      <ol>
+        <li><strong>Stage 범위 결정</strong> — 프로젝트를 몇 개의 단계로 구성할지 정의</li>
+        <li><strong>Area 범위 결정</strong> — 관리할 기능 영역을 코드로 정의</li>
+        <li><strong>매트릭스 상 위치 선정</strong> — 각 Task가 속할 Stage와 Area 결정</li>
+        <li><strong>Level 및 Variant 부여</strong> — 같은 셀 내 우선순위와 병렬 구분</li>
+        <li><strong>SAL ID 생성</strong> — 위 정보를 인코딩하여 최종 식별자 확정</li>
+      </ol>
+      <div class="highlight">
+        실적용 사례: SSAL Works 프로젝트 — 5개 Stage × 11개 Area = 5×11 매트릭스로 총 71개 Task 관리. Stage별 분포: S1(9개), S2(17개), S3(11개), S4(21개), S5(13개)
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 12: SAL Grid 22개 속성 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>SAL Grid — <span class="accent">22개 속성</span> 프로젝트 그리드</h2>
+      <p>SAL ID를 파싱하여 자동 구축되는 프로젝트 그리드. 6개 그룹, 22개 속성으로 구성</p>
+      <div class="two-col" style="font-size:0.95rem">
+        <div>
+          <h3>기본 정보 (4개)</h3>
+          <p>Stage, Area, Task ID(=SAL ID), Task Name</p>
+          <h3>작업 지시 (5개)</h3>
+          <p>Task 지시서, Task Agent, Tools, Execution Type, Dependencies</p>
+          <h3>작업 실행 (4개)</h3>
+          <p>Task Progress, Task Status, Generated Files, SAL ID History</p>
+        </div>
+        <div>
+          <h3>검증 지시 (2개)</h3>
+          <p>Verification Instruction, Verification Agent</p>
+          <h3>검증 실행 (4개)</h3>
+          <p>Test, Build, Integration Verification, Blockers</p>
+          <h3>검증 완료 (3개)</h3>
+          <p>Comprehensive Verification, Verification Status, Remarks</p>
+        </div>
+      </div>
+      <div class="highlight">
+        SAL ID 파싱 → 기본 정보 자동 입력 → 지시서 자동 생성 → 에이전트/도구 자동 배분 — 코딩 없이 프로젝트 그리드 완성
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 13: 5계층 아키텍처 개요 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>5계층 <span class="accent">시스템 아키텍처</span></h2>
+      <table>
+        <tr><th>계층</th><th>역할</th><th>핵심 모듈</th></tr>
+        <tr><td><strong>계층 1: 입력</strong></td><td>SAL ID 생성 및 수신</td><td>SAL ID 생성 모듈(30)</td></tr>
+        <tr><td><strong>계층 2: 엔진</strong></td><td>파싱, 지시서 생성, 순서 조정, 자원 배분</td><td>파서(40), 그리드 생성기(52), 시퀀서(53), 배분기(54)</td></tr>
+        <tr><td><strong>계층 3: SAL 그리드</strong></td><td>Task 실행, 검증 수행, 결과 기록</td><td>SAL 그리드 레코더(60)</td></tr>
+        <tr><td><strong>계층 4: 이력 관리</strong></td><td>SAL ID 변경 이력 보존 (Append-Only)</td><td>ID 체인 모듈(70), 리졸버(74)</td></tr>
+        <tr><td><strong>계층 5: 출력</strong></td><td>3차원 시각화, Stage 검증 리포트</td><td>SAL 그리드 뷰어(63), 리포팅 모듈(88)</td></tr>
+      </table>
+      <div class="flow" style="margin-top:16px">
+        <span class="flow-item">입력</span><span class="flow-arrow">→</span>
+        <span class="flow-item">엔진</span><span class="flow-arrow">→</span>
+        <span class="flow-item">SAL 그리드</span><span class="flow-arrow">→</span>
+        <span class="flow-item">이력 관리</span><span class="flow-arrow">→</span>
+        <span class="flow-item">출력</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 14: 엔진 계층 상세 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>엔진 계층 — <span class="accent">4개 모듈의 순차 처리</span></h2>
+      <p>입력된 SAL ID가 실행 가능한 프로젝트 그리드로 변환되는 핵심 처리 과정</p>
+      <div class="flow">
+        <span class="flow-item">SAL ID 수신</span><span class="flow-arrow">→</span>
+        <span class="flow-item">파서(40)</span><span class="flow-arrow">→</span>
+        <span class="flow-item">그리드 생성기(52)</span><span class="flow-arrow">→</span>
+        <span class="flow-item">시퀀서(53)</span><span class="flow-arrow">→</span>
+        <span class="flow-item">배분기(54)</span>
+      </div>
+      <ul>
+        <li><strong>파서(40)</strong> — 정규식 매칭 → 범위 검사 → 코드 유효성 검사 → 고유성 검사 → 정렬 키 생성. 총 5단계 검증을 거쳐 정규화된 좌표 객체 생성</li>
+        <li><strong>그리드 생성기(52)</strong> — 파싱된 좌표 정보로 Task 지시서(수행 지침, 완료 조건, 기술 스택)와 검증 지시서(검증 기준, 테스트 명령, 통합 검증)를 자동 생성</li>
+        <li><strong>시퀀서(53)</strong> — 전체 Task의 dependencies를 분석하여 Level 충돌 감지 및 SAL ID 자동 조정. 기존 Task들의 Level 값을 밀어내거나 당겨서 순서 재배열</li>
+        <li><strong>배분기(54)</strong> — Area 코드 기반으로 Task 에이전트와 검증 에이전트를 분리 배정. 작성자 ≠ 검증자 원칙 강제</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 15: 파서 모듈 상세 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>핵심 모듈 ① <span class="accent">파서(40)</span></h2>
+      <p class="big">불완전한 문자열을 실행 가능한 정규화된 좌표 객체로 변환하는 엔진</p>
+      <h3>5단계 검증 프로세스</h3>
+      <ol>
+        <li><strong>정규식 매칭 (Lexical Analysis)</strong> — <code>^S(\d{1,2})([A-Z]{2})(\d{1,2})([a-z])?$</code> 패턴과 일치 여부 확인. 불일치 시 즉시 예외 처리로 분기</li>
+        <li><strong>범위 검사 (Range Validation)</strong> — Stage, Level 값이 유효 범위(1~99) 내인지 확인</li>
+        <li><strong>코드 유효성 검사 (Semantic Validation)</strong> — Area 코드가 Area_Code_Master 테이블에 등록된 코드인지 확인</li>
+        <li><strong>고유성 검사 (Uniqueness Check)</strong> — (Stage, Area, Level, Variant) 조합 중복 여부 확인</li>
+        <li><strong>정렬 키 생성 (Sort Key Generation)</strong> — <code>02_FE_02_a</code> 형식의 정렬 키 생성. 실행 순서 자동 결정에 활용</li>
+      </ol>
+      <div class="highlight warn">
+        검증 실패 시 Unassigned Queue(46)로 격리 — 시스템 전체 흐름 중단 없이 오류를 별도 관리. 관리자가 수동으로 재정의하거나 해결하는 안전장치
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 16: 시퀀서 모듈 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>핵심 모듈 ② <span class="accent">시퀀서(53)</span></h2>
+      <p class="big">Level 충돌 감지 및 SAL ID 동적 조정</p>
+      <p>Task 간 의존성 관계를 분석하여, Level 값의 순서가 실제 의존 관계와 불일치하는 경우를 자동으로 감지하고 해결</p>
+      <h3>처리 절차</h3>
+      <ol>
+        <li>전체 Task 지시서의 dependencies 필드 파싱 → 각 Task의 선행/후행 Task 목록 추출</li>
+        <li>선행-후행 관계에서 Level 값의 크고 작음이 일치하는지 검사. 후행 Task의 Level이 선행보다 작으면 <strong>Level 충돌</strong>으로 판정</li>
+        <li>충돌 감지 시 해당 Task를 원하는 Level로 이동. 이동 대상 Level 이상의 기존 Task들의 Level 값을 1씩 자동 증가(밀어내기), 또는 빈 Level 구간의 Task들을 1씩 감소(당기기)</li>
+      </ol>
+      <div class="highlight">
+        <strong>Apache Airflow와의 차이:</strong> Airflow에서는 DAG 구조 변경 시 수동으로 코드를 수정하고 디버깅해야 함. 본 발명의 시퀀서는 Level 값 조정만으로 의존성 구조를 자동 재배열
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 17: 배분기 모듈 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>핵심 모듈 ③ <span class="accent">배분기(54)</span></h2>
+      <p class="big">Area 코드 기반 에이전트 및 도구 자동 배정</p>
+      <h3>배정 원칙</h3>
+      <ul>
+        <li><strong>Task 에이전트와 검증 에이전트의 분리 배정</strong> — 작성자와 검증자가 동일하면 검증의 객관성이 훼손되므로, 반드시 다른 역할군에서 배정</li>
+        <li><strong>Execution Type 기반 분기</strong> — AI-Only(AI 에이전트만), Human-AI(사람+AI), Manual(사람만)으로 구분하여 배정</li>
+        <li><strong>도구 자동 배분</strong> — Task 지시서의 tools 필드에 명시된 도구 목록을 에이전트에게 자동 제공</li>
+      </ul>
+      <h3>Area별 에이전트 매핑 예시</h3>
+      <div class="two-col" style="font-size:0.92rem">
+        <div>
+          <p><code>FE</code> → frontend-developer<br>
+          <code>BE</code> → backend-developer<br>
+          <code>QA</code> → test-engineer<br>
+          <code>SE</code> → security-specialist</p>
+        </div>
+        <div>
+          <p><code>DA</code> → database-specialist<br>
+          <code>IN</code> → devops-troubleshooter<br>
+          <code>DO</code> → documentation-specialist<br>
+          검증: code-reviewer, qa-specialist, security-auditor</p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 4: 기존 도구의 한계 1 ===== -->
+  <!-- ===== SLIDE 18: SAL 그리드 레코더 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>기존 도구의 한계 <span class="accent">①</span> — 코딩이 필요하다</h2>
+      <h2>핵심 모듈 ④ <span class="accent">SAL 그리드 레코더(60)</span></h2>
+      <p class="big">Task 실행 및 검증 결과를 실시간으로 SAL 그리드에 기록</p>
+      <h3>기록 데이터 구조</h3>
+      <table>
+        <tr><th>필드</th><th>타입</th><th>내용</th></tr>
+        <tr><td>sal_id</td><td>String</td><td>해당 Task의 SAL ID</td></tr>
+        <tr><td>event_type</td><td>Enum</td><td>TASK_STARTED, TASK_COMPLETED, VERIFICATION_PASSED/FAILED, BLOCKER_DETECTED</td></tr>
+        <tr><td>duration_seconds</td><td>Integer</td><td>작업 소요 시간 (초)</td></tr>
+        <tr><td>artifacts</td><td>List</td><td>생성된 산출물 파일 경로</td></tr>
+        <tr><td>test_result / build_result</td><td>Boolean</td><td>테스트/빌드 통과 여부</td></tr>
+        <tr><td>agent_id</td><td>String</td><td>수행 에이전트 식별자</td></tr>
+      </table>
+      <div class="highlight">
+        <strong>원자적 쓰기(Atomic Write)</strong> — 기록 도중 중단 시에도 부분 기록 방지. 트랜잭션 방식으로 데이터 무결성 보장
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 19: ID 체인 모듈 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>핵심 모듈 ⑤ <span class="accent">ID 체인(70) + 리졸버(74)</span></h2>
+      <p class="big">SAL ID 변경 이력을 블록체인 방식으로 보존하는 Append-Only 체인</p>
+      <h3>체인 구조</h3>
+      <p>SAL ID 변경 시 기존 ID를 삭제하지 않고, 언더바(_) 구분자로 새 ID를 뒤에 연결</p>
+      <pre><code>S4BI1 → S4BI1_S1BI2 → S4BI1_S1BI2_S1BI3
+         ↑ 최초      ↑ 1차 변경       ↑ 2차 변경
+마지막 세그먼트(S1BI3)가 항상 최신 SAL ID</code></pre>
+      <h3>리졸버(74)의 자가 치유 메커니즘</h3>
+      <ul>
+        <li>외부 시스템이 구(Old) SAL ID(<code>S4BI1</code>)로 조회 요청</li>
+        <li>리졸버가 체인을 순회하여 마지막 세그먼트(<code>S1BI3</code>)를 최신 ID로 반환</li>
+        <li>사용자는 SAL ID 변경 사실을 인지하지 못한 채 정상 조회 가능</li>
+      </ul>
+      <div class="highlight green">
+        <strong>참조 무결성 자가 치유(Self-Healing)</strong> — Jira 등에서 Issue 번호 변경 시 발생하는 참조 링크 깨짐 문제를 원천 해소. 추가만 가능하고 삭제/수정 불가(Append-Only)
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 20: SAL 그리드 뷰어 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>핵심 모듈 ⑥ <span class="accent">SAL 그리드 뷰어(63)</span></h2>
+      <p class="big">3계층 구조의 시각화 시스템</p>
+      <div class="three-col">
+        <div class="card">
+          <div class="label">계층 1</div>
+          <div class="value" style="font-size:1.1rem">데이터베이스</div>
+          <div class="desc">관계형 DB 또는 JSON 파일 시스템. 어댑터 인터페이스로 양쪽 모두 지원</div>
+        </div>
+        <div class="card">
+          <div class="label">계층 2</div>
+          <div class="value" style="font-size:1.1rem">뷰어 엔진</div>
+          <div class="desc">Data Loader(비동기 로드) → State Parser(상태·진행률·좌표 변환)</div>
+        </div>
+        <div class="card">
+          <div class="label">계층 3</div>
+          <div class="value" style="font-size:1.1rem">UI 렌더링</div>
+          <div class="desc">2D 카드 뷰, 3D 블록 뷰, Dashboard 제공</div>
+        </div>
+      </div>
+      <h3>3D 블록 뷰 좌표 매핑</h3>
+      <pre><code>X = Stage × Grid_Unit_Width
+Y = Area_Index × Grid_Unit_Depth
+Z = Level × Grid_Unit_Height</code></pre>
+      <p>Task 상태별 색상 구분: <span class="tag">Pending — 회색</span> <span class="tag blue">In Progress — 노랑</span> <span class="tag blue">Executed — 파랑</span> <span class="tag green">Completed — 녹색</span> <span class="tag" style="border-color:red;color:red">Failed — 빨강</span></p>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 21: 그리드 생성기 + 지시서 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>핵심 모듈 ⑦ <span class="accent">그리드 생성기(52) — 지시서 자동 생성</span></h2>
+      <p class="big">파싱된 좌표 정보로 Task 지시서와 검증 지시서를 동시 생성</p>
+      <div class="two-col">
+        <div>
+          <h3>Task 지시서 구성</h3>
+          <ul>
+            <li>Task ID, Task Name, Task Goal</li>
+            <li>Prerequisites (선행 조건)</li>
+            <li>Specific Instructions (구체적 수행 지침)</li>
+            <li>Expected Output Files (산출물)</li>
+            <li>Completion Criteria (완료 기준)</li>
+            <li>Tech Stack, Agent, Tools, Execution Type</li>
+          </ul>
+        </div>
+        <div>
+          <h3>검증 지시서 구성</h3>
+          <ul>
+            <li>Verification Criteria (검증 기준)</li>
+            <li>Test Commands (테스트 명령)</li>
+            <li>Build Verification (빌드 검증)</li>
+            <li>Integration Verification (통합 검증)</li>
+          </ul>
+          <div class="highlight" style="margin-top:12px">
+            Task 지시서와 검증 지시서가 동시에 생성되어 실행-검증 일체화의 기반이 됨
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 22: 9단계 오케스트레이션 사이클 개요 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>9단계 <span class="accent">오케스트레이션 사이클</span></h2>
+      <p class="big">계획 수립부터 Stage 승인까지 — 실행·검증·기록·승인의 순환적 사이클</p>
+      <div class="flow">
+        <span class="flow-item">① 계획 수립</span><span class="flow-arrow">→</span>
+        <span class="flow-item">② SAL ID 생성</span><span class="flow-arrow">→</span>
+        <span class="flow-item">③ 그리드 구축</span><span class="flow-arrow">→</span>
+        <span class="flow-item">④ Task 실행</span><span class="flow-arrow">→</span>
+        <span class="flow-item">⑤ 검증 수행</span><span class="flow-arrow">→</span>
+        <span class="flow-item">⑥ 결과 기록</span><span class="flow-arrow">→</span>
+        <span class="flow-item">⑦ Stage 검증</span><span class="flow-arrow">→</span>
+        <span class="flow-item">⑧ 리포트 생성</span><span class="flow-arrow">→</span>
+        <span class="flow-item">⑨ Stage 승인</span>
+      </div>
+      <div class="highlight warn">
+        <strong>피드백 루프 내장:</strong> Stage 승인 거절 시 → ④ Task 실행 단계로 자동 회귀하여 수정 후 재실행. Stage 승인 완료 후 → 다음 Stage에 대해 동일 사이클 반복
+      </div>
+      <p>각 Task 완료 시 자동으로 검증이 트리거되고, 검증 결과가 실시간 기록됨. Stage 단위의 최종 승인 없이는 다음 단계 진행 불가</p>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 23: 사이클 ①~③ 계획-생성-구축 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>사이클 ①~③ <span class="accent">계획 → 생성 → 구축</span></h2>
+      <h3>① 계획 수립 (81)</h3>
+      <p>Stage × Area 매트릭스 상에서 프로젝트에 필요한 Task를 선정. 각 Task에 Level 및 Variant 부여</p>
+      <h3>② SAL ID 생성 (82)</h3>
+      <p>선정된 Task의 Stage, Area, Level, Variant 정보를 인코딩하여 고유한 SAL ID 생성. Provisional(가확정) → 의존성 검증 → Finalization(확정) 프로세스를 거침</p>
+      <h3>③ SAL 그리드 구축 (83)</h3>
+      <ul>
+        <li>파서(40) — SAL ID 파싱, 3차원 좌표 추출, 5단계 검증</li>
+        <li>그리드 생성기(52) — Task 지시서 + 검증 지시서 자동 생성</li>
+        <li>시퀀서(53) — Level 충돌 감지 및 SAL ID 동적 조정</li>
+        <li>배분기(54) — 에이전트 및 도구 자동 배정</li>
+      </ul>
+      <div class="highlight">
+        이 3단계를 거치면 22개 속성으로 구성된 프로젝트 SAL 그리드가 완성 — 코딩 없이 자동 구축
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 24: 사이클 ④~⑥ 실행-검증-기록 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>사이클 ④~⑥ <span class="accent">실행 → 검증 → 기록</span></h2>
+      <h3>④ Task 실행 (84)</h3>
+      <p>배정된 Task 에이전트가 Task 지시서에 따라 작업 수행. 상태 변화(Status), 진행률(Progress), 산출물(Artifacts), 소요 시간(Duration) 등 동적 속성을 실시간 추적</p>
+      <h3>⑤ 검증 수행 (85)</h3>
+      <p>작업 완료 즉시 검증 에이전트가 자동 투입. 테스트 결과, 빌드 성공 여부, 코드 품질을 검증 지시서에 따라 검증. Task 에이전트와 검증 에이전트는 반드시 분리 배정</p>
+      <h3>⑥ 결과 기록 (86)</h3>
+      <p>SAL 그리드 레코더(60)가 실행 및 검증 결과를 원자적 쓰기(Atomic Write)로 실시간 기록. 기록 데이터: SAL ID, 이벤트 유형, 소요 시간, 산출물, 테스트/빌드 결과, 특이사항</p>
+      <div class="highlight green">
+        <strong>실행-검증 일체화(Quality Assurance Loop):</strong> Task 완료와 동시에 검증이 자동 트리거되는 강결합 프로세스. 결함 전파를 원천 차단하고 산출물 무결성 보장
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 25: 사이클 ⑦~⑨ 검증-리포트-승인 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>사이클 ⑦~⑨ <span class="accent">Stage 검증 → 리포트 → 승인</span></h2>
+      <h3>⑦ Stage 검증 (87)</h3>
+      <ul>
+        <li>해당 Stage 내 모든 Task 완료 여부 확인</li>
+        <li>전체 빌드 및 테스트 통과 여부 확인</li>
+        <li>의존성 체인 완결성 확인 (순환 의존성, 미해결 의존성 없음)</li>
+        <li>산출물 생성 여부 및 차단 요소(Blockers) 존재 여부 확인</li>
+      </ul>
+      <h3>⑧ 리포트 생성 (88)</h3>
+      <p>Stage 완료 현황, 빌드 검증, 테스트 검증, 의존성 체인 검증, 산출물 검증, 차단 요소, 종합 판정, 다음 Stage 준비 상태를 포함하는 검증 리포트 자동 생성</p>
+      <h3>⑨ Stage 승인 (89) — Stage Gate</h3>
+      <p>생성된 리포트 기반으로 다음 Stage 진입 여부 최종 결정. 승인 시 다음 Stage 사이클 시작. <strong>거절 시 ④ Task 실행 단계로 자동 회귀</strong>하여 수정 후 재실행하는 피드백 루프 내장</p>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 26: 선행기술 대비 차별성 — Airflow ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>선행기술 대비 ① <span class="accent">Apache Airflow와의 차별성</span></h2>
       <div class="vs-box">
         <div class="side">
-          <h3 style="margin-top:0">Apache Airflow 방식</h3>
-          <pre><code>task_a = PythonOperator(...)
-task_b = PythonOperator(...)
-task_c = PythonOperator(...)
-
-task_a >> task_b >> task_c</code></pre>
-          <p style="font-size:0.9rem">의존성을 코드로 직접 작성해야 함</p>
+          <h3 style="color:var(--warn)">Apache Airflow</h3>
+          <ul style="font-size:0.95rem">
+            <li>DAG 구조를 Python 코드로 명시적 작성</li>
+            <li><code>task_a >> task_b</code> 형태의 수동 의존성 코딩</li>
+            <li>반복문, 조건문, 함수 등 고급 프로그래밍 지식 필요</li>
+            <li>의존성 변경 시 코드 수정 + 디버깅 필수</li>
+            <li>식별자(task_id)는 구조 정보 미포함 단순 문자열</li>
+          </ul>
         </div>
         <div class="vs">VS</div>
         <div class="side">
-          <h3 style="margin-top:0">SAL ID 방식</h3>
-          <pre><code>S2BA1  →  "Stage 2, Backend API, Level 1"
-S2BA2  →  "Stage 2, Backend API, Level 2"
-S2BA3  →  "Stage 2, Backend API, Level 3"</code></pre>
-          <p style="font-size:0.9rem">식별자만으로 순서가 자동 결정</p>
-        </div>
-      </div>
-      <div class="highlight">핵심: 코드 한 줄 없이, <strong>이름만으로</strong> 작업의 순서와 관계를 정의할 수 있다</div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 5: 기존 도구의 한계 2 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>기존 도구의 한계 <span class="accent">②</span> — 식별자가 의미 없다</h2>
-      <div class="two-col">
-        <div>
-          <h3 style="margin-top:0">Jira / Asana의 식별자</h3>
-          <div class="highlight warn">
-            <code>PROJECT-1234</code><br>
-            <code>ISSUE-5678</code><br><br>
-            단순 일련번호 — 이 번호만 보고는<br>
-            <strong style="color:var(--warn)">어떤 단계? 어떤 영역? 무슨 관계?</strong><br>
-            아무것도 알 수 없다
-          </div>
-        </div>
-        <div>
-          <h3 style="margin-top:0">SAL ID의 식별자</h3>
-          <div class="highlight green">
-            <code>S2BA5</code><br><br>
-            즉시 알 수 있는 정보:<br>
-            <strong style="color:var(--accent3)">2단계 · Backend API · 5번째 작업</strong><br>
-            별도 조회 없이 위치와 맥락 파악 가능
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 6: 기존 도구의 한계 3 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>기존 도구의 한계 <span class="accent">③</span> — 2차원의 벽</h2>
-      <p class="big">간트 차트, 칸반 보드 — 모두 평면(2D)에 갇혀 있습니다.</p>
-      <div class="two-col" style="margin-top:20px">
-        <div>
-          <h3 style="margin-top:0">2D 간트 차트</h3>
-          <ul>
-            <li>X축: 시간, Y축: 작업명</li>
-            <li>작업 영역(Area) 정보 표현 불가</li>
-            <li>의존성 계층(Level) 표현 불가</li>
-            <li>수백 개 작업 → <strong>인지적 과부하</strong></li>
+          <h3 style="color:var(--accent)">SAL Grid (본 발명)</h3>
+          <ul style="font-size:0.95rem">
+            <li>SAL ID 파싱만으로 의존성 자동 추론</li>
+            <li>No-Code 방식 — 코딩 불필요</li>
+            <li>비개발자(프로젝트 관리자)도 즉시 활용 가능</li>
+            <li>시퀀서(53)가 Level 충돌 자동 감지 및 해결</li>
+            <li>식별자 자체에 3차원 좌표 정보 인코딩</li>
           </ul>
         </div>
-        <div>
-          <h3 style="margin-top:0;color:var(--accent3)">3D SAL Grid</h3>
-          <ul>
-            <li>X축: Stage(단계)</li>
-            <li>Y축: Area(영역)</li>
-            <li>Z축: Level(계층)</li>
-            <li>수천 개 작업도 <strong style="color:var(--accent3)">구조적으로 파악</strong></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 7: 발상의 전환 ===== -->
-  <div class="slide">
-    <div class="slide-inner" style="text-align:center">
-      <p style="color:var(--muted);font-size:1rem;margin-bottom:12px">핵심 발상의 전환</p>
-      <h2 style="font-size:clamp(1.6rem,4vw,2.8rem);margin-bottom:32px">
-        "의존성은 <span style="text-decoration:line-through;color:var(--muted)">코드로 선언</span>해야 한다"<br>
-        ↓<br>
-        "식별자가 구조를 <span class="accent">내재</span>하면<br>
-        <span class="accent2">자동 추론</span>할 수 있다"
-      </h2>
-      <div class="highlight" style="text-align:left;max-width:700px;margin:0 auto">
-        <strong>종래 기술의 통념</strong>을 깨는 역발상:<br>
-        이름 자체에 3차원 좌표를 담아, 별도의 코딩 없이도<br>
-        순서, 의존성, 병렬성을 시스템이 자동으로 이해합니다.
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 8: SAL ID란 무엇인가 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2><span class="accent">SAL ID</span>란 무엇인가?</h2>
-      <p class="big">프로젝트의 3차원 좌표가 인코딩된 "자기 설명적 식별자"입니다.</p>
-      <div style="text-align:center;margin:28px 0">
-        <div style="display:inline-flex;gap:0;font-size:0;border-radius:12px;overflow:hidden;border:2px solid var(--accent)">
-          <div style="background:var(--accent);color:var(--bg);padding:16px 20px;font-size:1.1rem;font-weight:800">S</div>
-          <div style="background:var(--surface);padding:16px 20px;font-size:1.1rem;font-weight:800;border-right:1px solid rgba(148,163,184,0.2)">2</div>
-          <div style="background:var(--surface);padding:16px 20px;font-size:1.1rem;font-weight:800;border-right:1px solid rgba(148,163,184,0.2)">BA</div>
-          <div style="background:var(--surface);padding:16px 20px;font-size:1.1rem;font-weight:800;border-right:1px solid rgba(148,163,184,0.2)">5</div>
-          <div style="background:var(--surface);padding:16px 20px;font-size:1.1rem;font-weight:800;color:var(--muted)">a</div>
-        </div>
-      </div>
-      <div style="display:flex;gap:0;justify-content:center;font-size:0.9rem;color:var(--muted);margin-bottom:20px">
-        <div style="width:60px;text-align:center">접두사</div>
-        <div style="width:60px;text-align:center;color:var(--accent)">Stage</div>
-        <div style="width:60px;text-align:center;color:var(--accent2)">Area</div>
-        <div style="width:60px;text-align:center;color:var(--accent3)">Level</div>
-        <div style="width:60px;text-align:center">Variant</div>
       </div>
       <div class="highlight">
-        <code>S2BA5a</code> = <strong>2단계</strong>(개발 1차) · <strong>BA</strong>(Backend API) · <strong>5번째</strong> 작업 · <strong>a</strong> 병렬 분기
+        통상의 기술자가 기존 기술의 연장선에서 도달할 수 없는 <strong>발상의 전환</strong> — "의존성은 명시적으로 선언되어야 한다"는 통념을 깨고 식별자 기반 자동 추론을 최초 제시
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 9: SAL ID 4개 세그먼트 ===== -->
+  <!-- ===== SLIDE 27: 선행기술 대비 — Jira/Gantt ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>SAL ID의 <span class="accent">4가지 구성 요소</span></h2>
+      <h2>선행기술 대비 ② <span class="accent">Jira, Gantt와의 차별성</span></h2>
       <table>
-        <thead>
-          <tr><th>세그먼트</th><th>범위</th><th>의미</th><th>예시</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Stage</strong></td><td>1~99</td><td>프로젝트 진행 단계 (X축)</td><td>1=기획, 2=설계, 3=개발...</td></tr>
-          <tr><td><strong>Area</strong></td><td>AA~ZZ</td><td>기능적 영역 (Y축)</td><td>FE=프론트엔드, BE=백엔드...</td></tr>
-          <tr><td><strong>Level</strong></td><td>1~99</td><td>의존성 계층 (Z축)</td><td>L1=기초작업 → L2=2차작업...</td></tr>
-          <tr><td><strong>Variant</strong></td><td>a~z (선택)</td><td>병렬 분기 구분</td><td>a, b = 동시 실행 가능</td></tr>
-        </tbody>
-      </table>
-      <div class="highlight">
-        최대 <strong>99단계 × 676영역 × 99계층 × 26분기</strong> = 사실상 무한대의 작업을 표현 가능
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 10: SAL ID가 내재하는 4가지 정보 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>이름 하나에 담긴 <span class="accent">4가지 정보</span></h2>
-      <div class="card-grid" style="grid-template-columns: repeat(2, 1fr);">
-        <div class="card">
-          <div class="label">① 절차적 순서</div>
-          <div style="font-size:1rem;margin-top:8px;color:var(--text)">
-            Stage 값이 곧 순서<br>
-            <code>S1</code> → <code>S2</code> → <code>S3</code>
-          </div>
-          <div class="desc" style="margin-top:6px">단계 번호만 보면 실행 순서를 안다</div>
-        </div>
-        <div class="card">
-          <div class="label">② 실행 의존성</div>
-          <div style="font-size:1rem;margin-top:8px;color:var(--text)">
-            같은 Stage-Area 내 Level 비교<br>
-            <code>S2BA1</code> → <code>S2BA2</code> → <code>S2BA3</code>
-          </div>
-          <div class="desc" style="margin-top:6px">Level이 낮은 작업이 먼저</div>
-        </div>
-        <div class="card">
-          <div class="label">③ 병렬성</div>
-          <div style="font-size:1rem;margin-top:8px;color:var(--text)">
-            같은 좌표 + Variant 구분<br>
-            <code>S2BA1a</code> ∥ <code>S2BA1b</code>
-          </div>
-          <div class="desc" style="margin-top:6px">Variant가 다르면 동시 실행 가능</div>
-        </div>
-        <div class="card">
-          <div class="label">④ 기능적 인접성</div>
-          <div style="font-size:1rem;margin-top:8px;color:var(--text)">
-            같은 Stage-Area = 관련 작업<br>
-            <code>S2BA1</code>, <code>S2BA2</code>, <code>S2BA3</code>
-          </div>
-          <div class="desc" style="margin-top:6px">같은 영역 작업은 공통 맥락 공유</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 11: SAL ID 실제 예시 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>실제 프로젝트의 <span class="accent">SAL ID 예시</span></h2>
-      <table>
-        <thead>
-          <tr><th>SAL ID</th><th>Stage</th><th>Area</th><th>Level</th><th>의미</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><code>S1BI1</code></td><td>1(개발 준비)</td><td>BI(백엔드기반)</td><td>1</td><td>환경변수 설정</td></tr>
-          <tr><td><code>S2BA5</code></td><td>2(개발 1차)</td><td>BA(백엔드API)</td><td>5</td><td>프로젝트 관리 API</td></tr>
-          <tr><td><code>S3E1</code></td><td>3(개발 2차)</td><td>E(외부연동)</td><td>1</td><td>AI 서비스 연동</td></tr>
-          <tr><td><code>S5U2</code></td><td>5(마무리)</td><td>U(디자인)</td><td>2</td><td>디자인 품질보증 2차</td></tr>
-        </tbody>
-      </table>
-      <div class="highlight">
-        실제 프로젝트(SSAL Works)에서 <strong>5×11 매트릭스, 71개 Task</strong>를 이 체계로 관리
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 12: 3차원 좌표계 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2><span class="accent">3차원 좌표계</span> — 프로젝트의 공간</h2>
-      <div class="two-col">
-        <div>
-          <div class="icon-box">
-            <div class="icon">📐</div>
-            <div class="content">
-              <div class="title" style="color:var(--accent)">X축: Stage (단계)</div>
-              <div class="desc">S1 기획 → S2 설계 → S3 개발 → S4 테스트 → S5 배포</div>
-            </div>
-          </div>
-          <div class="icon-box">
-            <div class="icon">📦</div>
-            <div class="content">
-              <div class="title" style="color:var(--accent2)">Y축: Area (영역)</div>
-              <div class="desc">FE 프론트엔드, BE 백엔드, QA 품질보증, SE 보안...</div>
-            </div>
-          </div>
-          <div class="icon-box">
-            <div class="icon">📊</div>
-            <div class="content">
-              <div class="title" style="color:var(--accent3)">Z축: Level (계층)</div>
-              <div class="desc">L1 기초작업 → L2 2차 → L3 3차 (의존성 깊이)</div>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;align-items:center;justify-content:center">
-          <div style="background:var(--surface);border-radius:16px;padding:24px;border:1px solid rgba(148,163,184,0.1);text-align:center">
-            <pre style="font-size:0.95rem;line-height:1.8;margin:0;background:transparent;padding:0">
-    Level (Z) ↑
-              |    ■ ■
-              |  ■ ■ ■
-              | ■ ■ ■ ■
-              +----------→ Stage (X)
-             /
-            / Area (Y)</pre>
-            <p style="font-size:0.85rem;color:var(--muted);margin-top:12px">각 ■ = 하나의 Task<br>3D 공간에서의 위치 = SAL ID</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 13: Stage × Area 매트릭스 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2><span class="accent">Stage × Area</span> 매트릭스로 작업 선정</h2>
-      <p>SAL ID 생성에 앞서, 2D 매트릭스에서 먼저 작업을 배치합니다.</p>
-      <table style="font-size:0.85rem;margin-top:16px">
-        <thead>
-          <tr><th></th><th>S1 준비</th><th>S2 개발1</th><th>S3 개발2</th><th>S4 개발3</th><th>S5 마무리</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>F (프론트엔드)</strong></td><td>2개</td><td>4개</td><td>2개</td><td>5개</td><td>2개</td></tr>
-          <tr><td><strong>BA (백엔드API)</strong></td><td>-</td><td>5개</td><td>3개</td><td>4개</td><td>1개</td></tr>
-          <tr><td><strong>BI (백엔드기반)</strong></td><td>2개</td><td>1개</td><td>1개</td><td>1개</td><td>1개</td></tr>
-          <tr><td><strong>D (데이터베이스)</strong></td><td>1개</td><td>-</td><td>1개</td><td>1개</td><td>-</td></tr>
-          <tr><td><strong>S (보안)</strong></td><td>1개</td><td>2개</td><td>1개</td><td>-</td><td>-</td></tr>
-          <tr><td><strong>기타 6개 Area</strong></td><td>3개</td><td>5개</td><td>3개</td><td>10개</td><td>9개</td></tr>
-        </tbody>
-      </table>
-      <div class="highlight">
-        매트릭스에서 선정 → Level/Variant 부여 → <strong>SAL ID 자동 생성</strong>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 14: 전체 시스템 구성 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>시스템 전체 구성 — <span class="accent">5계층 아키텍처</span></h2>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px;border-left:4px solid var(--accent);display:flex;align-items:center;gap:12px">
-          <span class="tag blue">계층 1</span>
-          <strong>입력 계층</strong>
-          <span style="color:var(--muted);font-size:0.9rem;margin-left:auto">SAL ID 생성 모듈</span>
-        </div>
-        <div style="text-align:center;color:var(--accent);font-size:1.2rem">↓</div>
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px;border-left:4px solid var(--accent2);display:flex;align-items:center;gap:12px">
-          <span class="tag purple">계층 2</span>
-          <strong>엔진 계층</strong>
-          <span style="color:var(--muted);font-size:0.9rem;margin-left:auto">파서 → 생성기 → 시퀀서 → 배분기</span>
-        </div>
-        <div style="text-align:center;color:var(--accent);font-size:1.2rem">↓</div>
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px;border-left:4px solid var(--accent3);display:flex;align-items:center;gap:12px">
-          <span class="tag green">계층 3</span>
-          <strong>SAL 그리드 계층</strong>
-          <span style="color:var(--muted);font-size:0.9rem;margin-left:auto">실행 · 검증 · 기록 · Stage 검증</span>
-        </div>
-        <div style="text-align:center;color:var(--accent);font-size:1.2rem">↓</div>
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px;border-left:4px solid var(--warn);display:flex;align-items:center;gap:12px">
-          <span class="tag" style="border-color:var(--warn);color:var(--warn)">계층 4</span>
-          <strong>이력 관리 계층</strong>
-          <span style="color:var(--muted);font-size:0.9rem;margin-left:auto">SAL ID 체인 (변경 이력)</span>
-        </div>
-        <div style="text-align:center;color:var(--accent);font-size:1.2rem">↓</div>
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px;border-left:4px solid #f472b6;display:flex;align-items:center;gap:12px">
-          <span class="tag" style="border-color:#f472b6;color:#f472b6">계층 5</span>
-          <strong>출력 계층</strong>
-          <span style="color:var(--muted);font-size:0.9rem;margin-left:auto">3D 뷰어 · Stage 검증 리포트</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 15: 파서 모듈 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 모듈 ① — <span class="accent">파서</span> (SAL ID 해석기)</h2>
-      <p>SAL ID 문자열을 받아 좌표를 추출하고 유효성을 검증합니다.</p>
-      <div class="flow" style="margin:20px 0">
-        <div class="flow-item">SAL ID 입력</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">정규식 매칭</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">범위 검사</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">코드 유효성</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">고유성 검사</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item" style="border-color:var(--accent3);color:var(--accent3)">좌표 객체</div>
-      </div>
-      <pre><code>정규식: ^S(\d{1,2})([A-Z]{2})(\d{1,2})([a-z])?$
-
-"S2FE2a" → { stage: 2, area: "FE", level: 2, variant: "a" }</code></pre>
-      <div class="highlight">유효하지 않은 ID → <strong>Unassigned Queue</strong>로 격리 → 시스템은 멈추지 않는다</div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 16: SAL 그리드 생성기 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 모듈 ② — <span class="accent">그리드 생성기</span></h2>
-      <p class="big">파싱된 정보로 <strong>Task 지시서</strong>와 <strong>검증 지시서</strong>를 자동 생성합니다.</p>
-      <div class="two-col" style="margin-top:20px">
-        <div class="card" style="border-left:3px solid var(--accent)">
-          <div class="label" style="color:var(--accent);font-weight:700;font-size:0.95rem">Task 지시서 (작업 지시)</div>
-          <ul style="font-size:0.92rem;margin-top:10px">
-            <li>Task ID, 이름, 목표</li>
-            <li>선행 조건 (Prerequisites)</li>
-            <li>구체적 수행 지침</li>
-            <li>예상 산출물 목록</li>
-            <li>완료 기준</li>
-            <li>사용 기술, 에이전트, 도구</li>
-          </ul>
-        </div>
-        <div class="card" style="border-left:3px solid var(--accent2)">
-          <div class="label" style="color:var(--accent2);font-weight:700;font-size:0.95rem">검증 지시서 (품질 확인)</div>
-          <ul style="font-size:0.92rem;margin-top:10px">
-            <li>검증 기준 체크리스트</li>
-            <li>테스트 명령어</li>
-            <li>빌드 검증 방법</li>
-            <li>통합 검증 항목</li>
-            <li>통과/실패 판정 기준</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 17: 시퀀서 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 모듈 ③ — <span class="accent">시퀀서</span> (순서 자동 조정)</h2>
-      <p>작업 간 Level 충돌을 감지하고, SAL ID를 자동으로 재배치합니다.</p>
-      <h3>Level 충돌이란?</h3>
-      <div class="highlight warn">
-        S2F9(후행)가 S2F1(선행)에 의존하는데, Level 9가 Level 1보다 뒤에 있어야 하는 상황 <br>
-        → 시퀀서가 자동으로 S2F9를 S2F1 위치로 이동시킴
-      </div>
-      <h3>자동 재배치 동작</h3>
-      <div class="flow">
-        <div class="flow-item">S2F1</div>
-        <div class="flow-item">S2F2</div>
-        <div class="flow-item">S2F3</div>
-        <div class="flow-item" style="border-color:var(--warn);color:var(--warn)">← S2F9 이동</div>
-      </div>
-      <p style="font-size:0.95rem">→ 기존 S2F1, F2, F3이 자동으로 F2, F3, F4로 밀려남 (또는 역방향 당김)</p>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 18: 배분기 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 모듈 ④ — <span class="accent">배분기</span> (자원 자동 배정)</h2>
-      <p>Area에 따라 최적의 에이전트와 도구를 자동 배정합니다.</p>
-      <table style="font-size:0.92rem">
-        <thead>
-          <tr><th>Area</th><th>Task 에이전트</th><th>검증 에이전트</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>F (프론트엔드)</td><td>frontend-developer</td><td>code-reviewer</td></tr>
-          <tr><td>BA (백엔드 API)</td><td>backend-developer</td><td>code-reviewer</td></tr>
-          <tr><td>D (데이터베이스)</td><td>database-specialist</td><td>database-specialist</td></tr>
-          <tr><td>S (보안)</td><td>security-specialist</td><td>security-auditor</td></tr>
-          <tr><td>T (테스트)</td><td>test-engineer</td><td>qa-specialist</td></tr>
-        </tbody>
-      </table>
-      <div class="highlight green">
-        핵심 원칙: <strong style="color:var(--accent3)">작성자 ≠ 검증자</strong> — 동일 에이전트가 작성과 검증을 동시에 하지 않음
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 19: SAL 그리드 22개 속성 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>SAL 그리드 — <span class="accent">22개 속성</span>으로 구성</h2>
-      <p>각 Task는 6개 그룹, 22개 속성으로 완벽하게 기술됩니다.</p>
-      <div class="three-col" style="margin-top:16px;font-size:0.88rem">
-        <div class="card">
-          <div class="label" style="color:var(--accent)">기본 정보 (4개)</div>
-          <div style="margin-top:6px;line-height:1.7">Stage · Area<br>Task ID · Task Name</div>
-        </div>
-        <div class="card">
-          <div class="label" style="color:var(--accent2)">작업 지시 (5개)</div>
-          <div style="margin-top:6px;line-height:1.7">지시서 · Agent<br>Tools · 실행방식 · 의존성</div>
-        </div>
-        <div class="card">
-          <div class="label" style="color:var(--accent3)">작업 실행 (4개)</div>
-          <div style="margin-top:6px;line-height:1.7">진행률 · 상태<br>산출물 · ID 이력</div>
-        </div>
-        <div class="card">
-          <div class="label" style="color:var(--warn)">검증 지시 (2개)</div>
-          <div style="margin-top:6px;line-height:1.7">검증 기준<br>검증 Agent</div>
-        </div>
-        <div class="card">
-          <div class="label" style="color:#f472b6">검증 실행 (4개)</div>
-          <div style="margin-top:6px;line-height:1.7">Test · Build<br>통합검증 · 차단요소</div>
-        </div>
-        <div class="card">
-          <div class="label" style="color:#fb923c">검증 완료 (3개)</div>
-          <div style="margin-top:6px;line-height:1.7">종합검증 · 상태<br>비고</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 20: 레코더 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 모듈 ⑤ — <span class="accent">SAL 그리드 레코더</span></h2>
-      <p class="big">Task 실행과 검증 결과를 <strong>실시간</strong>으로 기록합니다.</p>
-      <div class="card-grid" style="grid-template-columns: repeat(3, 1fr); margin-top:20px">
-        <div class="card" style="text-align:center">
-          <div style="font-size:2rem;margin-bottom:8px">⏱️</div>
-          <div class="label">소요 시간</div>
-          <div class="desc">작업별 소요 시간 자동 기록</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:2rem;margin-bottom:8px">📁</div>
-          <div class="label">산출물</div>
-          <div class="desc">생성된 파일 경로 자동 기록</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:2rem;margin-bottom:8px">✅</div>
-          <div class="label">검증 결과</div>
-          <div class="desc">테스트/빌드 통과 여부 기록</div>
-        </div>
-      </div>
-      <div class="highlight">
-        <strong>원자적 쓰기(Atomic Write)</strong> — 기록 도중 중단되어도 부분 기록이 발생하지 않음
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 21: 뷰어 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 모듈 ⑥ — <span class="accent">SAL 그리드 뷰어</span></h2>
-      <p>프로젝트 현황을 3계층 구조로 시각화합니다.</p>
-      <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px;display:flex;align-items:center;gap:12px">
-          <span class="tag blue">Layer 1</span>
-          <div><strong>데이터 소스</strong> — DB 또는 JSON 파일</div>
-        </div>
-        <div style="text-align:center;color:var(--accent)">↓</div>
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px;display:flex;align-items:center;gap:12px">
-          <span class="tag purple">Layer 2</span>
-          <div><strong>뷰어 엔진</strong> — Data Loader + State Parser</div>
-        </div>
-        <div style="text-align:center;color:var(--accent)">↓</div>
-        <div style="background:var(--surface);padding:14px 20px;border-radius:10px">
-          <span class="tag green" style="margin-bottom:8px">Layer 3</span>
-          <strong> UI 렌더링</strong>
-          <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap">
-            <span class="tag">2D 카드 뷰</span>
-            <span class="tag">3D 블록 뷰</span>
-            <span class="tag">Dashboard</span>
-          </div>
-        </div>
-      </div>
-      <p style="font-size:0.92rem;margin-top:14px">상태별 색상: <span style="color:#9ca3af">■ 대기</span> · <span style="color:var(--warn)">■ 진행중</span> · <span style="color:var(--accent)">■ 실행완료</span> · <span style="color:var(--accent3)">■ 검증완료</span> · <span style="color:#ef4444">■ 실패</span></p>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 22: ID 체인 관리 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>핵심 모듈 ⑦ — <span class="accent">ID 체인</span> (변경 이력 추적)</h2>
-      <p class="big">SAL ID가 변경되어도 기존 참조가 끊어지지 않습니다.</p>
-      <h3 style="margin-top:20px">블록체인 방식의 Append-Only 체인</h3>
-      <div class="flow" style="margin:16px 0">
-        <div class="flow-item">S4BI1</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item">S4BI1<strong>_S1BI2</strong></div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-item" style="border-color:var(--accent3)">S4BI1_S1BI2<strong style="color:var(--accent3)">_S1BI3</strong></div>
-      </div>
-      <div class="highlight">
-        <strong>실제 예시:</strong> Sentry 모니터링 Task가 Stage 4에서 Stage 1로 이동<br>
-        → S4BI1이 삭제되지 않고 <code>S4BI1_S1BI2</code>로 체인 기록<br>
-        → 마지막 세그먼트 = 최신 ID
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 23: 리졸버 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>자가 치유(Self-Healing) — <span class="accent">리졸버</span></h2>
-      <p class="big">옛날 이름으로 검색해도, 최신 작업으로 자동 안내됩니다.</p>
-      <div style="background:var(--surface);border-radius:16px;padding:24px;margin:20px 0;border:1px solid rgba(148,163,184,0.1)">
-        <div style="display:flex;flex-direction:column;gap:16px;font-size:1.05rem">
-          <div>① 사용자가 <code>S4BI1</code> (옛 ID)로 조회 요청</div>
-          <div style="color:var(--accent)">② 리졸버가 체인 발견: <code>S4BI1_S1BI2</code></div>
-          <div>③ 언더바(_)로 분리 → 마지막 세그먼트 추출</div>
-          <div style="color:var(--accent3);font-weight:700">④ <code>S1BI2</code> (최신 ID) 자동 반환</div>
-        </div>
-      </div>
-      <div class="highlight green">
-        기존 참조가 깨지지 않는 <strong style="color:var(--accent3)">참조 무결성 자가 치유</strong> 메커니즘
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 24: 9단계 오케스트레이션 사이클 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2><span class="accent">9단계</span> 오케스트레이션 사이클</h2>
-      <p>모든 Stage는 이 9단계를 순환하며 진행됩니다.</p>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;font-size:0.88rem">
-        <div class="card" style="text-align:center"><div style="color:var(--accent);font-weight:800;font-size:1.2rem">①</div><div style="margin-top:4px">계획 수립</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent);font-weight:800;font-size:1.2rem">②</div><div style="margin-top:4px">SAL ID 생성</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent);font-weight:800;font-size:1.2rem">③</div><div style="margin-top:4px">그리드 구축</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent2);font-weight:800;font-size:1.2rem">④</div><div style="margin-top:4px">Task 실행</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent2);font-weight:800;font-size:1.2rem">⑤</div><div style="margin-top:4px">검증 수행</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent2);font-weight:800;font-size:1.2rem">⑥</div><div style="margin-top:4px">결과 기록</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent3);font-weight:800;font-size:1.2rem">⑦</div><div style="margin-top:4px">Stage 검증</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent3);font-weight:800;font-size:1.2rem">⑧</div><div style="margin-top:4px">리포트 생성</div></div>
-        <div class="card" style="text-align:center"><div style="color:var(--accent3);font-weight:800;font-size:1.2rem">⑨</div><div style="margin-top:4px">Stage 승인</div></div>
-      </div>
-      <div style="text-align:center;margin-top:14px;color:var(--accent);font-size:1.1rem;font-weight:700">⑨ 승인 완료 → 다음 Stage로 → ①부터 반복 🔄</div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 25: 실행-검증-기록 순환 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>실행 → 검증 → 기록의 <span class="accent">자동화된 순환</span></h2>
-      <p class="big">작업이 끝나면 자동으로 검증이 시작되고, 결과가 기록됩니다.</p>
-      <div class="two-col" style="margin-top:20px">
-        <div>
-          <h3 style="margin-top:0;color:var(--warn)">피드백 루프 ①: Task 반복</h3>
-          <div class="flow" style="flex-direction:column;align-items:flex-start">
-            <div class="flow-item">④ Task 실행</div>
-            <div class="flow-arrow" style="transform:rotate(90deg);margin:4px 0 4px 40px">→</div>
-            <div class="flow-item">⑤ 검증 수행</div>
-            <div class="flow-arrow" style="transform:rotate(90deg);margin:4px 0 4px 40px">→</div>
-            <div class="flow-item">⑥ 결과 기록</div>
-            <div style="color:var(--warn);font-size:0.9rem;margin:6px 0 0 12px">↩ 검증 실패 시 → ④로 돌아감</div>
-          </div>
-        </div>
-        <div>
-          <h3 style="margin-top:0;color:#ef4444">피드백 루프 ②: Stage 반려</h3>
-          <div class="flow" style="flex-direction:column;align-items:flex-start">
-            <div class="flow-item">⑨ Stage 승인</div>
-            <div style="color:#ef4444;font-size:0.9rem;margin:6px 0 0 12px">↩ 승인 거절 시</div>
-            <div class="flow-arrow" style="transform:rotate(90deg);margin:4px 0 4px 40px">→</div>
-            <div class="flow-item">④ Task 실행으로 회귀</div>
-            <div class="desc" style="margin-top:6px;font-size:0.9rem">수정 후 다시 ④→⑤→⑥→⑦→⑧→⑨</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 26: Stage Gate 승인 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2><span class="accent">Stage Gate</span> — 관문을 통과해야 다음으로</h2>
-      <p>각 Stage 완료 시 5가지 항목을 자동 검증합니다.</p>
-      <div style="margin-top:16px">
-        <div class="icon-box">
-          <div class="icon">✅</div>
-          <div class="content">
-            <div class="title">모든 Task 완료 확인</div>
-            <div class="desc">Stage 내 전체 Task가 Completed 상태인지 확인</div>
-          </div>
-        </div>
-        <div class="icon-box">
-          <div class="icon">🔨</div>
-          <div class="content">
-            <div class="title">빌드 및 테스트 통과</div>
-            <div class="desc">전체 빌드 성공, 단위/통합 테스트 모두 통과</div>
-          </div>
-        </div>
-        <div class="icon-box">
-          <div class="icon">🔗</div>
-          <div class="content">
-            <div class="title">의존성 체인 완결성</div>
-            <div class="desc">순환 의존성 없음, 미해결 의존성 없음</div>
-          </div>
-        </div>
-        <div class="icon-box">
-          <div class="icon">📦</div>
-          <div class="content">
-            <div class="title">산출물 생성 확인</div>
-            <div class="desc">예상된 모든 파일이 실제로 생성되었는지</div>
-          </div>
-        </div>
-        <div class="icon-box">
-          <div class="icon">🚫</div>
-          <div class="content">
-            <div class="title">차단 요소 확인</div>
-            <div class="desc">Blocker가 0개인지 확인</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== SLIDE 27: 선행기술 대비 차별성 ===== -->
-  <div class="slide">
-    <div class="slide-inner">
-      <h2>기존 기술과 <span class="accent">무엇이 다른가</span></h2>
-      <table style="font-size:0.88rem">
-        <thead>
-          <tr><th>비교 대상</th><th>기존 방식</th><th style="color:var(--accent)">SAL Grid 방식</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong>Apache Airflow</strong></td>
-            <td>Python으로 DAG 직접 코딩</td>
-            <td style="color:var(--accent)">No-Code, ID만으로 자동 추론</td>
-          </tr>
-          <tr>
-            <td><strong>Jira / Asana</strong></td>
-            <td>PROJECT-1234 (단순 번호)</td>
-            <td style="color:var(--accent)">3D 좌표 인코딩 식별자</td>
-          </tr>
-          <tr>
-            <td><strong>간트 차트</strong></td>
-            <td>2D 시각화에 한정</td>
-            <td style="color:var(--accent)">완전한 오케스트레이션 시스템</td>
-          </tr>
-          <tr>
-            <td><strong>CPM / PERT</strong></td>
-            <td>정적 분석 (실행 연동 없음)</td>
-            <td style="color:var(--accent)">실행-검증-기록 실시간 연동</td>
-          </tr>
-          <tr>
-            <td><strong>BPM (Camunda)</strong></td>
-            <td>다차원 구조 표현 한계</td>
-            <td style="color:var(--accent)">3D 좌표계 기반 위상 제어</td>
-          </tr>
-        </tbody>
+        <tr><th>비교 항목</th><th>Jira / Asana</th><th>간트 차트</th><th>SAL Grid (본 발명)</th></tr>
+        <tr><td><strong>식별자 구조</strong></td><td>순차 번호 (PROJECT-1234)</td><td>없음 (시각화 도구)</td><td>3차원 좌표 인코딩 (S2BA3)</td></tr>
+        <tr><td><strong>의존성 정의</strong></td><td>수동 링크 설정</td><td>화살표 수동 연결</td><td>Level 값 기반 자동 추론</td></tr>
+        <tr><td><strong>변경 이력</strong></td><td>Issue 번호 고정 → 맥락 혼재</td><td>지원 안 함</td><td>ID 체인 Append-Only 보존</td></tr>
+        <tr><td><strong>참조 무결성</strong></td><td>새 Issue 생성 시 기존 연결 단절</td><td>해당 없음</td><td>리졸버(74) 자가 치유</td></tr>
+        <tr><td><strong>차원</strong></td><td>2D (리스트/칸반)</td><td>2D (시간×작업)</td><td>3D (Stage×Area×Level)</td></tr>
+        <tr><td><strong>검증 통합</strong></td><td>별도 도구</td><td>미지원</td><td>실행-검증 일체화 (강결합)</td></tr>
+        <tr><td><strong>지시서 생성</strong></td><td>수동 작성</td><td>미지원</td><td>자동 생성 (Task + 검증)</td></tr>
       </table>
     </div>
   </div>
 
-  <!-- ===== SLIDE 28: 적용 분야 ===== -->
+  <!-- ===== SLIDE 28: 차별성 요약 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>어디에 <span class="accent">활용</span>할 수 있는가</h2>
-      <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top:16px">
+      <h2>본 발명의 <span class="accent">핵심 차별성 요약</span></h2>
+      <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
         <div class="card">
-          <div style="font-size:2rem;margin-bottom:8px">💻</div>
-          <div class="label" style="color:var(--accent);font-weight:700">소프트웨어 개발</div>
-          <div class="desc" style="margin-top:6px">MSA 환경의 빌드·테스트·배포 파이프라인 관리, 서비스 간 의존성 시각화</div>
+          <div class="label">차별성 1</div>
+          <div class="value" style="font-size:1.1rem">No-Code 의존성 자동 추론</div>
+          <div class="desc">SAL ID 파싱만으로 복잡한 DAG 구조를 코딩 없이 자동 구축. 고숙련 엔지니어 없이도 대규모 오케스트레이션 즉시 운용 가능</div>
         </div>
         <div class="card">
-          <div style="font-size:2rem;margin-bottom:8px">🚢</div>
-          <div class="label" style="color:var(--accent2);font-weight:700">제조 / 선박 건조</div>
-          <div class="desc" style="margin-top:6px">수만 개 부품·공정의 3D 체계화, 품질 검사 이력 체인 추적</div>
+          <div class="label">차별성 2</div>
+          <div class="value" style="font-size:1.1rem">자기 설명적 식별자</div>
+          <div class="desc">식별자 하나에 절차적 순서, 실행 의존성, 병렬성, 기능적 인접성이 모두 내재. 별도 매핑 테이블 조회 없이 즉시 맥락 파악</div>
         </div>
         <div class="card">
-          <div style="font-size:2rem;margin-bottom:8px">🏗️</div>
-          <div class="label" style="color:var(--accent3);font-weight:700">건설 / 인프라</div>
-          <div class="desc" style="margin-top:6px">토목·골조·마감 시공 단계 입체 관리, 협력사 작업 간섭 방지</div>
+          <div class="label">차별성 3</div>
+          <div class="value" style="font-size:1.1rem">ID 체인 자가 치유</div>
+          <div class="desc">Append-Only 체인으로 변경 이력 보존. 리졸버가 구 ID 조회 시 최신 ID 자동 반환 — 참조 무결성 영구 보장</div>
         </div>
         <div class="card">
-          <div style="font-size:2rem;margin-bottom:8px">📊</div>
-          <div class="label" style="color:var(--warn);font-weight:700">회계 감사</div>
-          <div class="desc" style="margin-top:6px">감사 절차 그리드 정의, 블록체인식 감사 증적 확보</div>
-        </div>
-        <div class="card">
-          <div style="font-size:2rem;margin-bottom:8px">🎬</div>
-          <div class="label" style="color:#f472b6;font-weight:700">영화 / 드라마 제작</div>
-          <div class="desc" style="margin-top:6px">프리·프로덕션·포스트 3D 구조화, 촬영 스케줄 최적화</div>
+          <div class="label">차별성 4</div>
+          <div class="value" style="font-size:1.1rem">실행-검증 일체화</div>
+          <div class="desc">Task 완료 → 검증 자동 트리거 → 결과 실시간 기록 → Stage Gate 승인의 순환적 사이클. 검증 누락 원천 차단</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 29: 효과 요약 ===== -->
+  <!-- ===== SLIDE 29: 산업 적용 분야 ===== -->
   <div class="slide">
     <div class="slide-inner">
-      <h2>이 발명이 가져오는 <span class="accent">8가지 효과</span></h2>
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:16px;font-size:0.92rem">
-        <div class="icon-box">
-          <div class="icon">🚀</div>
-          <div class="content">
-            <div class="title">No-Code 그리드 구축</div>
-            <div class="desc">코딩 없이 즉시 운용 가능</div>
-          </div>
+      <h2>산업 <span class="accent">적용 분야</span></h2>
+      <div class="icon-box">
+        <div class="icon">SW</div>
+        <div class="content">
+          <div class="title">소프트웨어 개발</div>
+          <div class="desc">마이크로서비스 아키텍처(MSA) 환경에서 각 서비스의 배포 단계를 3차원 그리드에 매핑. 의존성 충돌 사전 방지, 배포 병목 구간 신속 파악</div>
         </div>
-        <div class="icon-box">
-          <div class="icon">🔍</div>
-          <div class="content">
-            <div class="title">자기 설명적 식별자</div>
-            <div class="desc">ID만 보고 위치·맥락 즉시 파악</div>
-          </div>
+      </div>
+      <div class="icon-box">
+        <div class="icon">MF</div>
+        <div class="content">
+          <div class="title">대형 제조 / 선박 건조</div>
+          <div class="desc">수만 개 부품과 공정이 얽힌 제조 현장에서 블록 조립 및 의장 작업을 좌표계로 체계화. 공정 간 시간적·물리적 간섭 시뮬레이션, 품질 검사 이력 체인 추적</div>
         </div>
-        <div class="icon-box">
-          <div class="icon">📐</div>
-          <div class="content">
-            <div class="title">3D 정밀 실행 제어</div>
-            <div class="desc">수만 개 Task 충돌 없이 제어</div>
-          </div>
+      </div>
+      <div class="icon-box">
+        <div class="icon">CN</div>
+        <div class="content">
+          <div class="title">건설 / 인프라</div>
+          <div class="desc">토목·골조·마감 등 시공 단계와 공구별 작업을 입체적 관리. 다수 협력사 간 작업 간섭 방지, 자재 투입 시점 최적화</div>
         </div>
-        <div class="icon-box">
-          <div class="icon">🔄</div>
-          <div class="content">
-            <div class="title">실행-검증 일체화</div>
-            <div class="desc">결함 전파 원천 차단</div>
-          </div>
+      </div>
+      <div class="icon-box">
+        <div class="icon">AU</div>
+        <div class="content">
+          <div class="title">회계 감사</div>
+          <div class="desc">감사 절차를 그리드 작업으로 정의. 수행 내역과 승인 과정이 ID 체인에 기록되어 위변조 불가능한 감사 증적(Audit Trail) 확보</div>
         </div>
-        <div class="icon-box">
-          <div class="icon">🔗</div>
-          <div class="content">
-            <div class="title">참조 무결성 자가 치유</div>
-            <div class="desc">ID 변경해도 참조 안 깨짐</div>
-          </div>
-        </div>
-        <div class="icon-box">
-          <div class="icon">🛡️</div>
-          <div class="content">
-            <div class="title">입력 오류 격리</div>
-            <div class="desc">잘못된 ID는 큐에서 별도 관리</div>
-          </div>
-        </div>
-        <div class="icon-box">
-          <div class="icon">⚡</div>
-          <div class="content">
-            <div class="title">자동 순서·자원 최적화</div>
-            <div class="desc">시퀀서+배분기로 수동 조율 불필요</div>
-          </div>
-        </div>
-        <div class="icon-box">
-          <div class="icon">👁️</div>
-          <div class="content">
-            <div class="title">실시간 가시성 확보</div>
-            <div class="desc">레코더로 언제든 정확한 현황 파악</div>
-          </div>
+      </div>
+      <div class="icon-box">
+        <div class="icon">MD</div>
+        <div class="content">
+          <div class="title">영화 / 드라마 제작</div>
+          <div class="desc">프리프로덕션~포스트프로덕션 과정에서 씬, 장소, 배우, 촬영 스케줄을 3차원 구조화. 일정 효율적 조정, 자원 낭비 방지</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ===== SLIDE 30: 마무리 ===== -->
+  <!-- ===== SLIDE 30: 기대 효과 ===== -->
+  <div class="slide">
+    <div class="slide-inner">
+      <h2>기대 <span class="accent">효과</span></h2>
+      <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); text-align:left;">
+        <div class="card">
+          <div class="value" style="font-size:1.1rem">No-Code 즉시 구축</div>
+          <div class="desc">SAL ID 파싱만으로 DAG + 지시서 + 검증 체계 포함 프로젝트 그리드 자동 완성. 도입 비용과 시간 획기적 절감</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1.1rem">3차원 정밀 제어</div>
+          <div class="desc">Stage-Area-Level 좌표계가 작업 간 위상(Topology)을 정의하는 논리적 기반으로 기능. 수만 개 태스크를 충돌 없이 제어</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1.1rem">품질 무결성</div>
+          <div class="desc">실행-검증 강결합과 Stage Gate 승인으로 결함 전파 원천 차단. 검증 누락 구조적 불가</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1.1rem">영구적 참조 무결성</div>
+          <div class="desc">Append-Only ID 체인과 리졸버의 자가 치유 메커니즘. 프로젝트 구조 변경에도 기존 참조 자동 보존</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 31: 특허 출원 접수증 ===== -->
   <div class="slide end-slide">
-    <div class="slide-inner">
-      <h2 style="font-size:clamp(2rem,5vw,3.2rem);background:linear-gradient(135deg, var(--accent), var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:24px">
-        프로젝트에 좌표를 부여하다
-      </h2>
-      <p style="font-size:1.2rem;color:var(--text);margin-bottom:28px">
-        SAL Grid — 이름 하나로 구조를 말하는 새로운 방법
-      </p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px">
-        <span class="tag blue">3차원 좌표계</span>
-        <span class="tag purple">자기 설명적 식별자</span>
-        <span class="tag green">자동 오케스트레이션</span>
-        <span class="tag" style="border-color:var(--warn);color:var(--warn)">참조 무결성</span>
+    <div class="slide-inner" style="text-align:center;">
+      <h2>특허 <span class="accent">출원 완료</span></h2>
+      <div style="background:var(--surface);border-radius:16px;padding:36px 40px;margin:24px auto;max-width:640px;border:1px solid rgba(148,163,184,0.15);text-align:left;">
+        <p style="text-align:center;color:var(--accent);font-size:1.1rem;font-weight:700;margin-bottom:24px;letter-spacing:2px;">출 원 번 호 통 지 서</p>
+        <table style="width:100%;font-size:1rem;border-collapse:collapse;">
+          <tr><td style="padding:10px 0;color:var(--muted);width:140px;vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">출 원 일 자</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">2026. 01. 17</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">출 원 번 호</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">10-2026-0009425<br><span style="font-size:0.85rem;color:var(--muted)">(접수번호 1-1-2026-0067929-94)</span></td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">출 원 인</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">선웅규 (4-2008-018449-1)</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;border-bottom:1px solid rgba(148,163,184,0.1);">발 명 자</td><td style="padding:10px 0;font-weight:700;border-bottom:1px solid rgba(148,163,184,0.1);">선웅규</td></tr>
+          <tr><td style="padding:10px 0;color:var(--muted);vertical-align:top;">발 명 의 명 칭</td><td style="padding:10px 0;font-weight:700;line-height:1.6;">3차원 좌표 정보가 인코딩된 식별자 기반으로 구축하는 프로젝트 그리드를 활용한 멀티태스크 오케스트레이션 시스템 및 방법</td></tr>
+        </table>
       </div>
-      <p style="font-size:1.3rem;color:var(--accent);font-weight:700">감사합니다</p>
-      <p style="font-size:1rem;color:var(--muted);margin-top:8px">Q&A</p>
+      <p style="color:var(--muted);font-size:0.9rem;margin-top:20px;">지 식 재 산 처 장</p>
+      <p style="color:var(--muted);font-size:0.85rem;margin-top:8px;">IPC: G06F 9/46 · G06F 9/48 · G06Q 10/06</p>
     </div>
   </div>
 
