@@ -67,7 +67,8 @@
     .slide code { background: var(--code-bg); padding: 2px 8px; border-radius: 4px; font-size: 0.92em; color: var(--text); font-weight: 600; }
     .slide pre { background: var(--code-bg); border-radius: 12px; padding: 18px 22px; overflow-x: auto; margin: 14px 0; font-size: 0.88rem; line-height: 1.6; border: 1px solid var(--border); }
     .slide pre code { font-weight: 400; }
-    .slide table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 1rem; }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0; }
+    .slide table { width: 100%; border-collapse: collapse; font-size: 1rem; min-width: 600px; }
     .slide th { background: var(--surface); padding: 10px 14px; text-align: left; font-weight: 700; color: var(--accent); border-bottom: 2px solid var(--accent); }
     .slide td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
     .slide tr:hover td { background: rgba(37,99,235,0.04); }
@@ -167,12 +168,24 @@
     <div class="slide-inner">
       <h2><span class="text">기존 기술의</span> 구조적 한계</h2>
       <p>현재 프로젝트 관리 도구들은 <strong>의존성 정의, 식별자 구조, 검증 통합</strong> 세 가지 영역에서 근본적인 한계를 갖는다.</p>
-      <ul>
-        <li><strong>Airflow</strong> — 의존성을 <code>task_a >> task_b</code> 형태로 Python 코드에 직접 선언해야 함. Task가 100개면 의존성 코드도 100줄 이상. 비개발자 접근 불가</li>
-        <li><strong>Jira / Asana</strong> — 식별자(PROJECT-1234)는 순차 번호에 불과. 식별자만으로 작업의 단계·영역·우선순위 파악 불가. 별도 라벨·필드에 의존</li>
-        <li><strong>간트 차트</strong> — 시간(X축) × 작업명(Y축)의 2차원 한계. 수백~수천 개 작업의 입체적 관계를 평면에서 표현 불가</li>
-        <li><strong>공통 문제</strong> — Task 실행과 품질 검증이 별개 시스템으로 분리 운영. "개발 완료" 후 검증 누락이 구조적으로 발생</li>
-      </ul>
+      <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card">
+          <div class="value" style="font-size:1.05rem;color:var(--warn)">Airflow</div>
+          <div class="desc">의존성을 <code>task_a >> task_b</code> 형태로 Python 코드에 직접 선언. Task 100개면 의존성 코드도 100줄 이상. 비개발자 접근 불가</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1.05rem;color:var(--warn)">Jira / Asana</div>
+          <div class="desc">식별자(PROJECT-1234)는 순차 번호에 불과. 식별자만으로 단계·영역·우선순위 파악 불가. 별도 라벨·필드에 의존</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1.05rem;color:var(--warn)">간트 차트</div>
+          <div class="desc">시간(X축) × 작업명(Y축)의 2차원 한계. 수백~수천 개 작업의 입체적 관계를 평면에서 표현 불가</div>
+        </div>
+        <div class="card">
+          <div class="value" style="font-size:1.05rem;color:var(--warn)">공통 문제</div>
+          <div class="desc">Task 실행과 품질 검증이 별개 시스템으로 분리 운영. "개발 완료" 후 검증 누락이 구조적으로 발생</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -484,7 +497,7 @@
   <div class="slide">
     <div class="slide-inner">
       <h2><span class="text">선행기술 대비</span> 종합 비교</h2>
-      <table>
+      <div class="table-wrap"><table>
         <tr><th>비교 항목</th><th>Airflow</th><th>Jira / Asana</th><th>간트 차트</th><th style="color:var(--accent2);font-weight:900">SAL Grid</th></tr>
         <tr><td><strong>의존성 정의</strong></td><td>Python 수동</td><td>수동 링크</td><td>수동 연결</td><td style="color:var(--accent)">ID 파싱 자동</td></tr>
         <tr><td><strong>식별자 구조</strong></td><td>단순 문자열</td><td>순차 번호</td><td>없음</td><td style="color:var(--accent)">3차원 좌표</td></tr>
@@ -493,7 +506,7 @@
         <tr><td><strong>실행-검증</strong></td><td>별도 도구</td><td>별도 도구</td><td>미지원</td><td style="color:var(--accent)">일체화</td></tr>
         <tr><td><strong>Stage Gate</strong></td><td>없음</td><td>없음</td><td>없음</td><td style="color:var(--accent)">시스템 강제</td></tr>
         <tr><td><strong>비개발자</strong></td><td>불가</td><td>제한적</td><td>가능</td><td style="color:var(--accent)">완전 가능</td></tr>
-      </table>
+      </table></div>
     </div>
   </div>
 
@@ -625,12 +638,24 @@
   <div class="slide">
     <div class="slide-inner">
       <h2><span class="text">핵심 차별성</span> 요약</h2>
-      <ol>
-        <li><strong>의존성은 선언하는 것이 아니라, 식별자에서 읽어내는 것이다.</strong><br><span style="color:var(--muted)">Stage·Level 값 비교만으로 실행 순서 자동 결정. 선행 사례 없음.</span></li>
-        <li><strong style="color:var(--accent2)">식별자 하나로 프로젝트 관리 체계 전체가 자동 구축된다.</strong><br><span style="color:var(--muted)">22개 속성 그리드 + 지시서 + 검증 지시서 + 에이전트 배정 동시 완성.</span></li>
-        <li><strong style="color:var(--accent3)">한 번 생성된 참조는 영구적으로 유효하다.</strong><br><span style="color:var(--muted)">Append-Only ID 체인 + 리졸버 자동 리디렉트. 참조 깨짐 구조적 불가.</span></li>
-        <li><strong style="color:var(--warn)">실행과 검증이 하나의 연속된 자동 프로세스이다.</strong><br><span style="color:var(--muted)">Task 완료 → 검증 자동 트리거 → Stage Gate 승인. 시스템 레벨 강제.</span></li>
-      </ol>
+      <div class="card-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="card" style="border-left:4px solid var(--accent);">
+          <div class="value" style="font-size:1.05rem;color:var(--accent)">① 의존성 자동 추론</div>
+          <div class="desc">의존성은 선언하는 것이 아니라, <strong>식별자에서 읽어내는 것</strong>이다. Stage·Level 값 비교만으로 실행 순서 자동 결정. 선행 사례 없음.</div>
+        </div>
+        <div class="card" style="border-left:4px solid var(--accent2);">
+          <div class="value" style="font-size:1.05rem;color:var(--accent2)">② 그리드 자동 구축</div>
+          <div class="desc">식별자 하나로 <strong>프로젝트 관리 체계 전체가 자동 구축</strong>된다. 22개 속성 그리드 + 지시서 + 에이전트 배정 동시 완성.</div>
+        </div>
+        <div class="card" style="border-left:4px solid var(--accent3);">
+          <div class="value" style="font-size:1.05rem;color:var(--accent3)">③ 영구적 참조 무결성</div>
+          <div class="desc">한 번 생성된 참조는 <strong>영구적으로 유효</strong>하다. Append-Only ID 체인 + 리졸버 자동 리디렉트. 참조 깨짐 구조적 불가.</div>
+        </div>
+        <div class="card" style="border-left:4px solid var(--warn);">
+          <div class="value" style="font-size:1.05rem;color:var(--warn)">④ 실행-검증 일체화</div>
+          <div class="desc">실행과 검증이 <strong>하나의 연속된 자동 프로세스</strong>이다. Task 완료 → 검증 자동 트리거 → Stage Gate 승인. 시스템 레벨 강제.</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -668,7 +693,7 @@
   <div class="slide end-slide">
     <div class="slide-inner" style="text-align:center;">
       <img src="특허출원번호통지서.png" alt="출원번호통지서 — 출원일 2026.01.17 / 출원번호 10-2026-0009425" style="max-width:560px;width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);border:1px solid var(--border);">
-      <p style="margin-top:16px;font-size:0.9rem;color:var(--muted)">출원일 2026.01.17 &nbsp;|&nbsp; 출원번호 10-2026-0009425</p>
+      <p style="margin-top:16px;font-size:0.95rem;color:var(--muted)">출원일 2026.01.17 &nbsp;|&nbsp; 출원번호 10-2026-0009425</p>
     </div>
   </div>
 
