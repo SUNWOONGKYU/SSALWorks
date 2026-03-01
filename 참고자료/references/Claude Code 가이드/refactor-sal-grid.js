@@ -9,8 +9,15 @@ const baseDir = __dirname;
 const inputFile = path.join(baseDir, 'claude-code-mastering-guide.md');
 const outputFile = path.join(baseDir, 'Claude_Code_Master_Guide_SAL_Grid_Edition.md');
 
-const content = fs.readFileSync(inputFile, 'utf-8');
-const lines = content.split('\n');
+let content, lines;
+try {
+  content = fs.readFileSync(inputFile, 'utf-8');
+  lines = content.split('\n');
+} catch (err) {
+  console.error('❌ 입력 파일을 읽을 수 없습니다:', inputFile);
+  console.error(err.message);
+  process.exit(1);
+}
 
 // Helper: extract line range (1-indexed, inclusive)
 function extract(startLine, endLine) {
@@ -19,22 +26,20 @@ function extract(startLine, endLine) {
 
 // ─── Section-to-LineRange Mapping ───
 const sections = {
-  preface: { start: 33, end: 130, title: '서문' },
   '01': { start: 131, end: 474, title: '바이브 코딩이란? (Claude Code란 무엇인가?)' },
   '02': { start: 267, end: 327, title: '6대 핵심 철학 (Claude Code의 핵심 철학)' },
-  '03': { start: 5013, end: 5185, title: '4단계 황금 워크플로우 (탐색-계획-코딩-커밋 사이클)' },
+  '03': { start: 5013, end: 5167, title: '4단계 황금 워크플로우 (탐색-계획-코딩-커밋 사이클)' },
   '04': { start: 1767, end: 2481, title: 'CLAUDE.md 완전 가이드' },
   // [05] 컨텍스트 관리 → split into 05a, 05b (내용 기준 분할)
   '05a': { start: 1027, end: 1047, title: '컨텍스트 기초 — 토큰과 비용',
-    note: '⚠️쪼갬: 200K 토큰 이해, /clear /compact 기본, 토큰과 비용 관계',
-    extraRanges: [{ start: 1230, end: 1265 }] },
+    note: '⚠️쪼갬: 200K 토큰 이해, /clear /compact 기본, 토큰과 비용 관계' },
   '05b': { start: 6074, end: 6220, title: '컨텍스트 관리 전략',
     note: '⚠️쪼갬: Handoff 패턴, 전략적 컨텍스트 설계, 멀티 인스턴스 컨텍스트, 병렬 처리' },
   // [06] 프롬프팅 → split into 06a, 06b
-  '06a': { start: 1203, end: 1435, title: '프롬프팅 기본 기법',
-    note: '⚠️쪼갬: 명확한 지시, 단계별 요청, 기본 구조' },
-  '06b': { start: 5186, end: 5501, title: '프롬프팅 고급 기법',
-    note: '⚠️쪼갬: 검증 수단, 인터뷰 기법, TDD, 리팩토링, 문서화 자동화' },
+  '06a': { start: 1285, end: 1435, title: '프롬프팅 기본 기법',
+    note: '⚠️쪼갬: 명확한 지시, 단계별 요청, 기본 구조 (1285~ : [14]와 분리)' },
+  '06b': { start: 5186, end: 5259, title: '프롬프팅 고급 기법',
+    note: '⚠️쪼갬: 검증 수단, 인터뷰 기법, TDD (5259까지: [17]과 분리)' },
   // [07] 서브에이전트 → split into 07a, 07b (내용 기준 분할)
   '07a': { start: 5550, end: 5646, title: '멀티 인스턴스 기본 — 유형과 역할 이해',
     note: '⚠️쪼갬: 학습 목표, 멀티 인스턴스 개념, 역할 분담 아키텍처 (이해/개념)' },
@@ -54,16 +59,18 @@ const sections = {
     note: '⚠️쪼갬: 브랜치 명명 규칙, 브랜치 플로우, 머지 전략, 커밋 메시지',
     extraRanges: [{ start: 5168, end: 5184 }] },
   '14': { start: 1203, end: 1284, title: '필수 단축키 & 명령어',
-    note: '통째. 참고: [06a]와 시작점 공유, 이 섹션은 3.1절만 포함' },
+    note: '통째. 3.1절 (1203-1284). [06a]는 1285부터 시작하여 분리됨' },
   '15': { start: 1626, end: 1746, title: '10대 황금 원칙 (프로 팁: 효율성 극대화 + 워크플로우)',
     extraRanges: [{ start: 5474, end: 5549 }] },
   '16': { start: 33, end: 130, title: '최신 업데이트 & 시대 변천',
+    note: '서문(33-130)을 재활용 + 부록',
     extraRanges: [{ start: 19581, end: 19789 }] },
   '17': { start: 5260, end: 5407, title: '고급 꿀팁 & 워크플로우' },
   '18': { start: 328, end: 474, title: '바이브 코딩 적합성 판단 (다른 AI 코딩 도구와의 차별점)' },
   '19': { start: 748, end: 883, title: '요금제 선택 가이드 (기본 설정 최적화)' },
   '20': { start: 2482, end: 4971, title: '실전 프로젝트 레시피 12종 (프레임워크별 + 언어별)' },
-  '21': { start: 5408, end: 5501, title: '프롬프트 템플릿 라이브러리 (실전 워크플로우)' },
+  '21': { start: 5408, end: 5501, title: '프롬프트 템플릿 라이브러리 (실전 워크플로우)',
+    note: '5408~ : [06b]와 분리됨 (06b는 5259까지)' },
   '22': { start: 1436, end: 1526, title: '디버깅 마스터 전략',
     extraRanges: [{ start: 5299, end: 5342 }] },
   '23': { start: 5873, end: 6281, title: '멀티세션 워크플로우 8가지 패턴' },
@@ -123,7 +130,7 @@ output.push(`# Claude Code Master Guide (SAL Grid Edition)
 > 원본: Claude Code 완전 정복 마스터 가이드 (황민호, 2025.06)
 > 재편: SAL Grid (Stage × Area × Level)
 > 버전: v3.0
-> 생성일: ${new Date().toISOString().split('T')[0]}
+> 생성일: 2026-03-02
 
 ---
 
@@ -649,7 +656,13 @@ S1CO → S1ST(빈) → S1WF → S1TO(빈) → S1QC(빈) → S1CM
 
 // Write the file
 const result = output.join('\n');
-fs.writeFileSync(outputFile, result, 'utf-8');
+try {
+  fs.writeFileSync(outputFile, result, 'utf-8');
+} catch (err) {
+  console.error('❌ 출력 파일을 쓸 수 없습니다:', outputFile);
+  console.error(err.message);
+  process.exit(1);
+}
 
 const lineCount = result.split('\n').length;
 const sizeKB = Math.round(result.length / 1024);
