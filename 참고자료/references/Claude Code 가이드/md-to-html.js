@@ -22,7 +22,7 @@ function convertMd(src) {
   const lines = src.split('\n');
   const out = [];
   const toc = []; // {level, id, text}
-  let inCode = false, codeLang = '', codeLines = [];
+  let inCode = false, codeLang = '', codeLines = [], codeFence = '';
   let inTable = false, tableRows = [];
   let inList = false, listType = '', listItems = [];
   let inBlockquote = false, bqLines = [];
@@ -81,19 +81,26 @@ function convertMd(src) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
 
-    // Code block
-    if (line.startsWith('```')) {
+    // Code block — fence 길이 기반 매칭 (중첩 코드 블록 지원)
+    const fenceMatch = line.match(/^(`{3,})(.*)/);
+    if (fenceMatch) {
+      const fenceTicks = fenceMatch[1];
+      const fenceRest = fenceMatch[2].trim();
       if (!inCode) {
         flushBlockquote(); flushTable(); flushList();
         inCode = true;
-        codeLang = line.slice(3).trim();
+        codeFence = fenceTicks;
+        codeLang = fenceRest;
         codeLines = [];
-      } else {
+        continue;
+      } else if (fenceTicks.length >= codeFence.length && fenceRest === '') {
+        // 닫기: 같은 길이 이상의 backtick + 뒤에 텍스트 없음
         inCode = false;
         const langLabel = codeLang ? `<span class="code-lang">${escapeHtml(codeLang)}</span>` : '';
         out.push(`<div class="code-block">${langLabel}<pre><code>${escapeHtml(codeLines.join('\n'))}</code></pre></div>`);
+        continue;
       }
-      continue;
+      // 코드 블록 안의 더 짧은 backtick이나 lang 있는 backtick → 코드 내용으로 취급
     }
     if (inCode) { codeLines.push(line); continue; }
 
