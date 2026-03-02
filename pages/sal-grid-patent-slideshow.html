@@ -25,8 +25,6 @@
       --hl-green: rgba(5,150,105,0.08);
       --hl-purple: rgba(124,58,237,0.08);
       --hover-bg: rgba(37,99,235,0.05);
-      --arrow-bg: rgba(37,99,235,0.1);
-      --arrow-hover: rgba(37,99,235,0.2);
     }
     :root.dark {
       --bg: #002451;
@@ -44,8 +42,6 @@
       --hl-green: rgba(209,241,169,0.08);
       --hl-purple: rgba(235,187,255,0.08);
       --hover-bg: rgba(187,218,255,0.08);
-      --arrow-bg: rgba(187,218,255,0.12);
-      --arrow-hover: rgba(187,218,255,0.25);
     }
 
     body { background: var(--bg); color: var(--text); }
@@ -116,10 +112,6 @@
     .vs-box .vs { font-size: 1.5rem; font-weight: 900; color: var(--warn); }
     @media (max-width: 768px) { .vs-box { grid-template-columns: 1fr; } .vs-box .vs { text-align: center; padding: 4px 0; } }
 
-    .arrow { position: absolute; top: 50%; transform: translateY(-50%); background: var(--arrow-bg); border: none; color: var(--accent); font-size: 34px; cursor: pointer; padding: 16px 10px; z-index: 10; border-radius: 6px; transition: background 0.2s; line-height: 1; }
-    .arrow:hover { background: var(--arrow-hover); }
-    .arrow-l { left: 0; }
-    .arrow-r { right: 0; }
 
     .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: 10px 20px; display: flex; align-items: center; justify-content: center; gap: 20px; z-index: 100; }
     .nav-btn { background: none; border: 2px solid var(--accent); color: var(--accent); padding: 6px 24px; border-radius: 20px; cursor: pointer; font-size: 15px; font-weight: 700; transition: all 0.2s; font-family: inherit; }
@@ -131,7 +123,7 @@
     .fs-toggle { position: fixed; top: 12px; right: 80px; z-index: 100; background: var(--surface); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
 
     @media print {
-      .nav-bar, .progress, .theme-toggle, .fs-toggle, .arrow { display: none !important; }
+      .nav-bar, .progress, .theme-toggle, .fs-toggle { display: none !important; }
       .slides { position: static; height: auto; }
       .slide { position: static; opacity: 1 !important; transform: none !important; pointer-events: auto !important; page-break-after: always; height: 100vh; padding: 40px; }
       .slide:last-child { page-break-after: avoid; }
@@ -140,7 +132,6 @@
     @media (max-width: 768px) {
       .slide { padding: 48px 18px 68px; }
       .card-grid { grid-template-columns: 1fr !important; }
-      .arrow { font-size: 26px; padding: 14px 7px; }
       .toc-grid { grid-template-columns: 1fr !important; }
       .toc-left { border-right: none !important; padding-right: 0 !important; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 8px; }
       .toc-right { padding-left: 0 !important; }
@@ -195,8 +186,6 @@
 <button class="theme-toggle" id="themeToggle" aria-label="테마 전환">Light</button>
 
 <div class="slides" id="slides">
-  <button class="arrow arrow-l" id="arrow-l" onclick="prev()" title="이전 (←)" aria-label="이전 슬라이드">❮</button>
-  <button class="arrow arrow-r" id="arrow-r" onclick="next()" title="다음 (→)" aria-label="다음 슬라이드">❯</button>
 
   <!-- ===== 1. 타이틀 ===== -->
   <div class="slide title-slide active">
@@ -770,8 +759,6 @@
 const slides = document.querySelectorAll('.slide');
 const btnP = document.getElementById('btn-p');
 const btnN = document.getElementById('btn-n');
-const arrowL = document.getElementById('arrow-l');
-const arrowR = document.getElementById('arrow-r');
 const counter = document.getElementById('counter');
 const progress = document.getElementById('progress');
 let cur = 0;
@@ -786,8 +773,6 @@ function updateSlide(n) {
   progress.style.width = ((cur + 1) / slides.length * 100) + '%';
   btnP.disabled = (cur === 0);
   btnN.disabled = (cur === slides.length - 1);
-  arrowL.style.display = (cur === 0) ? 'none' : '';
-  arrowR.style.display = (cur === slides.length - 1) ? 'none' : '';
 }
 function next() { updateSlide(cur + 1); }
 function prev() { updateSlide(cur - 1); }
