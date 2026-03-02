@@ -99,62 +99,63 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 .toc-h3 { font-weight: 600; }
 .toc-h4 { font-size: 0.78rem; }
 
-/* ── TOC 3단계 계층: Stage → Area → Item ── */
-.toc-stage { margin-top: 6px; }
-.toc-h2-row {
-  display: flex; align-items: center; padding: 2px 0;
+/* ── TOC: Stage / Area / Item 동일 크기, 항상 표시 ── */
+.toc-lv1 {
+  display: block; padding: 5px 12px; color: var(--text); text-decoration: none;
+  font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border-left: 3px solid transparent; transition: all 0.15s;
 }
-.toc-h2-row .toc-item, .toc-area-row .toc-item { flex: 1; min-width: 0; }
-.toc-stage-title { font-weight: 800 !important; font-size: 0.9rem !important; color: var(--text) !important; }
+.toc-lv1:hover { color: var(--accent); background: rgba(56,189,248,0.06); }
+.toc-lv1.active { color: var(--accent); border-left-color: var(--accent); background: rgba(56,189,248,0.1); }
 
-/* Area 행 */
-.toc-area-section { margin-left: 8px; }
-.toc-area-row {
-  display: flex; align-items: center; padding: 1px 0;
-}
-.toc-area-title { font-weight: 600 !important; font-size: 0.82rem !important; }
+/* Stage */
+.toc-stage-link { margin-top: 12px; font-weight: 800; padding-left: 10px; }
+
+/* Area */
+.toc-area-link { padding-left: 20px; color: var(--text); }
 .area-code {
-  display: inline-block; font-size: 0.7rem; font-weight: 800; padding: 0px 4px;
-  border-radius: 3px; margin-right: 4px; background: var(--bg3); color: var(--accent);
+  display: inline-block; font-size: 0.75rem; font-weight: 800; padding: 1px 5px;
+  border-radius: 3px; margin-right: 5px; background: var(--bg3); color: var(--accent);
   vertical-align: middle; letter-spacing: 0.5px;
 }
 
-/* 일반 h2 서브섹션 */
-.toc-subsection { margin-left: 4px; }
-.toc-h2-sub {
-  display: block; padding: 4px 12px 4px 28px; color: var(--text); text-decoration: none;
-  font-size: 0.84rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  border-left: 2px solid transparent; transition: all 0.15s;
+/* Item (SAL ID) — 토글 있음 */
+.toc-item-row {
+  display: flex; align-items: center; padding-left: 28px;
 }
-.toc-h2-sub:hover { color: var(--accent); background: rgba(56,189,248,0.05); }
-
-/* 토글 버튼 */
+.toc-item-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 4px; }
+.toc-item-solo { padding-left: 56px; }
 .toc-toggle {
-  width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   background: none; border: 1px solid var(--bg3); color: var(--muted); border-radius: 4px;
-  cursor: pointer; font-size: 0.5rem; margin-left: 6px; margin-right: 2px;
-  transition: all 0.2s; line-height: 1;
+  cursor: pointer; font-size: 0.5rem; transition: all 0.2s; line-height: 1;
 }
-.toc-toggle-sm { width: 18px; height: 18px; font-size: 0.45rem; margin-left: 12px; }
 .toc-toggle:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 .toc-toggle.open { transform: rotate(90deg); color: var(--accent); border-color: var(--accent); }
 
-/* 펼치기/접기 */
-.toc-children {
-  max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
-}
-.toc-children.open { max-height: 8000px; }
-.toc-child { border-left: 2px solid transparent; }
-
-/* SAL Grid ID 뱃지 */
+/* SAL Grid ID */
 .sal-id {
-  display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 0px 4px;
-  border-radius: 3px; margin-right: 4px; color: var(--accent); opacity: 0.7;
-  font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  display: inline-block; font-size: 0.78rem; font-weight: 700; margin-right: 5px;
+  color: var(--accent); font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
   vertical-align: middle; letter-spacing: 0.3px;
 }
-html.light .sal-id { color: var(--accent); opacity: 0.8; }
+
+/* 세부 내용 (항목 아래, 작은 글씨, 접힘/펼침) */
+.toc-details {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+}
+.toc-details.open { max-height: 5000px; }
+.toc-detail {
+  display: block; padding: 3px 12px 3px 64px; color: var(--muted); text-decoration: none;
+  font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: all 0.15s; border-left: 2px solid transparent;
+}
+.toc-detail:hover { color: var(--accent); background: rgba(56,189,248,0.04); }
+.toc-detail.active { color: var(--accent); border-left-color: var(--accent); }
+.toc-orphan { padding-left: 40px; font-size: 0.75rem; color: var(--muted); }
+
 html.light .area-code { background: #e2e8f0; color: #2563eb; }
+html.light .sal-id { color: #2563eb; }
 
 /* ── Sidebar 전체 펼치기/접기 버튼 ── */
 .toc-controls {
@@ -326,978 +327,429 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
   <button class="toc-ctrl-btn" id="tocExpandAll">전체 펼치기</button>
   <button class="toc-ctrl-btn" id="tocCollapseAll">전체 접기</button>
 </div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-0" aria-label="Toggle">▶</button>
-  <a href="#sec-2" class="toc-item toc-h2-sub">SAL Grid 구조 안내</a>
+<a href="#sec-2" class="toc-detail toc-orphan">SAL Grid 구조 안내</a>
+<a href="#sec-3" class="toc-detail toc-orphan">Stage 정의 (5단계)</a>
+<a href="#sec-4" class="toc-detail toc-orphan">Area 정의 (6영역)</a>
+<a href="#sec-5" class="toc-detail toc-orphan">30셀 그리드 맵</a>
+<a href="#sec-6" class="toc-lv1 toc-stage-link"><span class="badge s1">S1</span>입문 (Beginner)</a>
+<a href="#sec-7" class="toc-lv1 toc-area-link"><span class="area-code">CO</span>개념 (Concept)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-0" aria-label="Toggle">▶</button>
+  <a href="#sec-8" class="toc-lv1 toc-item-link"><span class="sal-id">S1CO01</span>바이브 코딩이란?</a>
 </div>
-<div class="toc-children" id="tg-0">
-<a href="#sec-3" class="toc-item toc-child toc-h3" style="padding-left:36px">Stage 정의 (5단계)</a>
-<a href="#sec-4" class="toc-item toc-child toc-h3" style="padding-left:36px">Area 정의 (6영역)</a>
-<a href="#sec-5" class="toc-item toc-h2-sub" style="padding-left:28px">30셀 그리드 맵</a>
+<div class="toc-details" id="tg-0">
+  <a href="#sec-10" class="toc-detail">1.1 전통적인 개발 도구의 한계</a>
+  <a href="#sec-11" class="toc-detail">현재 개발 환경의 도전 과제</a>
+  <a href="#sec-12" class="toc-detail">IDE의 진화와 한계</a>
+  <a href="#sec-13" class="toc-detail">1.2 AI 페어 프로그래밍의 등장</a>
+  <a href="#sec-14" class="toc-detail">페어 프로그래밍의 재정의</a>
+  <a href="#sec-15" class="toc-detail">AI 개발 도구의 스펙트럼</a>
+  <a href="#sec-16" class="toc-detail">1.3 Claude Code의 핵심 철학</a>
+  <a href="#sec-17" class="toc-detail">1. 유연성 (Flexibility)</a>
+  <a href="#sec-18" class="toc-detail">2. 투명성 (Transparency)</a>
+  <a href="#sec-19" class="toc-detail">3. 협업 (Collaboration)</a>
+  <a href="#sec-20" class="toc-detail">4. 맥락 이해 (Context Awareness)</a>
+  <a href="#sec-21" class="toc-detail">1.4 다른 AI 코딩 도구와의 차별점</a>
+  <a href="#sec-22" class="toc-detail">GitHub Copilot과의 비교</a>
+  <a href="#sec-23" class="toc-detail">ChatGPT와의 비교</a>
+  <a href="#sec-24" class="toc-detail">Claude Code만의 독특한 기능</a>
+  <a href="#sec-25" class="toc-detail">실제 사례: 30분 만에 만든 실시간 채팅 앱</a>
+  <a href="#sec-26" class="toc-detail">마치며</a>
 </div>
-</div>
-<div class="toc-stage">
-<div class="toc-h2-row">
+<div class="toc-item-row">
   <button class="toc-toggle" data-group="tg-1" aria-label="Toggle">▶</button>
-  <a href="#sec-6" class="toc-item toc-h2 toc-stage-title"><span class="badge s1">S1</span>입문 (Beginner)</a>
-</div>
-<div class="toc-children" id="tg-1">
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-2" aria-label="Toggle">▶</button>
-  <a href="#sec-7" class="toc-item toc-h3 toc-area-title"><span class="area-code">CO</span>개념 (Concept)</a>
-</div>
-<div class="toc-children" id="tg-2">
-<a href="#sec-8" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S1CO01</span>바이브 코딩이란?</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-3" aria-label="Toggle">▶</button>
-  <a href="#sec-10" class="toc-item toc-h2-sub">1.1 전통적인 개발 도구의 한계</a>
-</div>
-<div class="toc-children" id="tg-3">
-<a href="#sec-11" class="toc-item toc-child toc-h3" style="padding-left:36px">현재 개발 환경의 도전 과제</a>
-<a href="#sec-12" class="toc-item toc-child toc-h3" style="padding-left:36px">IDE의 진화와 한계</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-4" aria-label="Toggle">▶</button>
-  <a href="#sec-13" class="toc-item toc-h2-sub">1.2 AI 페어 프로그래밍의 등장</a>
-</div>
-<div class="toc-children" id="tg-4">
-<a href="#sec-14" class="toc-item toc-child toc-h3" style="padding-left:36px">페어 프로그래밍의 재정의</a>
-<a href="#sec-15" class="toc-item toc-child toc-h3" style="padding-left:36px">AI 개발 도구의 스펙트럼</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-5" aria-label="Toggle">▶</button>
-  <a href="#sec-16" class="toc-item toc-h2-sub">1.3 Claude Code의 핵심 철학</a>
-</div>
-<div class="toc-children" id="tg-5">
-<a href="#sec-17" class="toc-item toc-child toc-h3" style="padding-left:36px">1. 유연성 (Flexibility)</a>
-<a href="#sec-18" class="toc-item toc-child toc-h3" style="padding-left:36px">2. 투명성 (Transparency)</a>
-<a href="#sec-19" class="toc-item toc-child toc-h3" style="padding-left:36px">3. 협업 (Collaboration)</a>
-<a href="#sec-20" class="toc-item toc-child toc-h3" style="padding-left:36px">4. 맥락 이해 (Context Awareness)</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-6" aria-label="Toggle">▶</button>
-  <a href="#sec-21" class="toc-item toc-h2-sub">1.4 다른 AI 코딩 도구와의 차별점</a>
-</div>
-<div class="toc-children" id="tg-6">
-<a href="#sec-22" class="toc-item toc-child toc-h3" style="padding-left:36px">GitHub Copilot과의 비교</a>
-<a href="#sec-23" class="toc-item toc-child toc-h3" style="padding-left:36px">ChatGPT와의 비교</a>
-<a href="#sec-24" class="toc-item toc-child toc-h3" style="padding-left:36px">Claude Code만의 독특한 기능</a>
-<a href="#sec-25" class="toc-item toc-h2-sub" style="padding-left:28px">실제 사례: 30분 만에 만든 실시간 채팅 앱</a>
-<a href="#sec-26" class="toc-item toc-h2-sub" style="padding-left:28px">마치며</a>
-<a href="#sec-27" class="toc-item toc-child toc-h4" style="padding-left:52px">비개발자 가이드 — 개념편</a>
-<a href="#sec-28" class="toc-item toc-h2-sub" style="padding-left:28px">학습 목표</a>
-<a href="#sec-29" class="toc-item toc-h2-sub" style="padding-left:28px">개요</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-7" aria-label="Toggle">▶</button>
-  <a href="#sec-30" class="toc-item toc-h2-sub">13.10 법무 팀 - 비개발자의 도구 개발</a>
-</div>
-<div class="toc-children" id="tg-7">
-<a href="#sec-31" class="toc-item toc-child toc-h3" style="padding-left:36px">법무 특화 도구 개발</a>
-<a href="#sec-32" class="toc-item toc-child toc-h3" style="padding-left:36px">시각 중심 프로토타이핑</a>
-<a href="#sec-33" class="toc-item toc-child toc-h3" style="padding-left:36px">법무 워크플로우 디지털화</a>
-<a href="#sec-34" class="toc-item toc-child toc-h3" style="padding-left:36px">팀 성과</a>
-<a href="#sec-35" class="toc-item toc-child toc-h3" style="padding-left:36px">법무 팀 성공 노하우</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-8" aria-label="Toggle">▶</button>
-  <a href="#sec-36" class="toc-item toc-h2-sub">마치며 - 조직 혁신의 새로운 패러다임</a>
-</div>
-<div class="toc-children" id="tg-8">
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-9" aria-label="Toggle">▶</button>
-  <a href="#sec-37" class="toc-item toc-h3">핵심 인사이트</a>
-</div>
-<div class="toc-children" id="tg-9">
-<a href="#sec-38" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 비개발자 관점</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-10" aria-label="Toggle">▶</button>
-  <a href="#sec-39" class="toc-item toc-h3 toc-area-title"><span class="area-code">ST</span>스트럭처 (Structure)</a>
-</div>
-<div class="toc-children" id="tg-10">
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-11" aria-label="Toggle">▶</button>
-  <a href="#sec-40" class="toc-item toc-h3 toc-area-title"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
-</div>
-<div class="toc-children" id="tg-11">
-<a href="#sec-41" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S1WF01</span>환경 설정 &amp; 첫 프로젝트</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-12" aria-label="Toggle">▶</button>
-  <a href="#sec-43" class="toc-item toc-h2-sub">2.1 시스템 요구사항</a>
-</div>
-<div class="toc-children" id="tg-12">
-<a href="#sec-44" class="toc-item toc-child toc-h3" style="padding-left:36px">최소 요구사항</a>
-<a href="#sec-45" class="toc-item toc-child toc-h3" style="padding-left:36px">사전 준비사항</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-13" aria-label="Toggle">▶</button>
-  <a href="#sec-46" class="toc-item toc-h2-sub">2.2 설치 가이드 (OS별)</a>
-</div>
-<div class="toc-children" id="tg-13">
-<a href="#sec-47" class="toc-item toc-child toc-h3" style="padding-left:36px">macOS에서 설치하기</a>
-<a href="#sec-48" class="toc-item toc-child toc-h3" style="padding-left:36px">Windows에서 설치하기</a>
-<a href="#sec-49" class="toc-item toc-child toc-h3" style="padding-left:36px">Linux (Ubuntu/Debian)에서 설치하기</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-14" aria-label="Toggle">▶</button>
-  <a href="#sec-50" class="toc-item toc-h2-sub">2.3 첫 번째 명령어 실행하기</a>
-</div>
-<div class="toc-children" id="tg-14">
-<a href="#sec-51" class="toc-item toc-child toc-h3" style="padding-left:36px">API 키 설정</a>
-<a href="#sec-52" class="toc-item toc-child toc-h3" style="padding-left:36px">첫 번째 대화</a>
-<a href="#sec-53" class="toc-item toc-child toc-h3" style="padding-left:36px">대화형 모드 vs 명령 모드</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-15" aria-label="Toggle">▶</button>
-  <a href="#sec-54" class="toc-item toc-h2-sub">2.4 기본 설정 최적화</a>
-</div>
-<div class="toc-children" id="tg-15">
-<a href="#sec-55" class="toc-item toc-child toc-h3" style="padding-left:36px">전역 설정 파일</a>
-<a href="#sec-56" class="toc-item toc-child toc-h3" style="padding-left:36px">권한 설정</a>
-<a href="#sec-57" class="toc-item toc-child toc-h3" style="padding-left:36px">에디터 통합</a>
-<a href="#sec-58" class="toc-item toc-child toc-h3" style="padding-left:36px">프록시 설정 (기업 환경)</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-16" aria-label="Toggle">▶</button>
-  <a href="#sec-59" class="toc-item toc-h2-sub">2.5 문제 해결 가이드</a>
-</div>
-<div class="toc-children" id="tg-16">
-<a href="#sec-60" class="toc-item toc-child toc-h3" style="padding-left:36px">자주 발생하는 문제와 해결 방법</a>
-<a href="#sec-61" class="toc-item toc-child toc-h3" style="padding-left:36px">성능 최적화 팁</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-17" aria-label="Toggle">▶</button>
-  <a href="#sec-62" class="toc-item toc-h3">Junior Developer - 가속 학습자</a>
-</div>
-<div class="toc-children" id="tg-17">
-<a href="#sec-63" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 SSAL Works 설치 가이드</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-18" aria-label="Toggle">▶</button>
-  <a href="#sec-64" class="toc-item toc-h3 toc-area-title"><span class="area-code">TO</span>팀운용 (Team Operations)</a>
-</div>
-<div class="toc-children" id="tg-18">
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-19" aria-label="Toggle">▶</button>
-  <a href="#sec-65" class="toc-item toc-h3 toc-area-title"><span class="area-code">QC</span>품질관리 (Quality Control)</a>
-</div>
-<div class="toc-children" id="tg-19">
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-20" aria-label="Toggle">▶</button>
-  <a href="#sec-66" class="toc-item toc-h3 toc-area-title"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
-</div>
-<div class="toc-children" id="tg-20">
-<a href="#sec-67" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S1CM01</span>요금제 선택 가이드</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-21" aria-label="Toggle">▶</button>
-  <a href="#sec-68" class="toc-item toc-h2-sub">2.4 기본 설정 최적화</a>
-</div>
-<div class="toc-children" id="tg-21">
-<a href="#sec-69" class="toc-item toc-child toc-h3" style="padding-left:36px">전역 설정 파일</a>
-<a href="#sec-70" class="toc-item toc-child toc-h3" style="padding-left:36px">권한 설정</a>
-<a href="#sec-71" class="toc-item toc-child toc-h3" style="padding-left:36px">에디터 통합</a>
-<a href="#sec-72" class="toc-item toc-child toc-h3" style="padding-left:36px">프록시 설정 (기업 환경)</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="toc-stage">
-<div class="toc-h2-row">
-  <button class="toc-toggle" data-group="tg-22" aria-label="Toggle">▶</button>
-  <a href="#sec-73" class="toc-item toc-h2 toc-stage-title"><span class="badge s2">S2</span>초급 (Elementary)</a>
-</div>
-<div class="toc-children" id="tg-22">
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-23" aria-label="Toggle">▶</button>
-  <a href="#sec-74" class="toc-item toc-h3 toc-area-title"><span class="area-code">CO</span>개념 (Concept)</a>
-</div>
-<div class="toc-children" id="tg-23">
-<a href="#sec-75" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S2CO01</span>6대 핵심 철학</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-24" aria-label="Toggle">▶</button>
-  <a href="#sec-76" class="toc-item toc-h2-sub">1.3 Claude Code의 핵심 철학</a>
-</div>
-<div class="toc-children" id="tg-24">
-<a href="#sec-77" class="toc-item toc-child toc-h3" style="padding-left:36px">1. 유연성 (Flexibility)</a>
-<a href="#sec-78" class="toc-item toc-child toc-h3" style="padding-left:36px">2. 투명성 (Transparency)</a>
-<a href="#sec-79" class="toc-item toc-child toc-h3" style="padding-left:36px">3. 협업 (Collaboration)</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-25" aria-label="Toggle">▶</button>
-  <a href="#sec-80" class="toc-item toc-h3">4. 맥락 이해 (Context Awareness)</a>
-</div>
-<div class="toc-children" id="tg-25">
-<a href="#sec-81" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 7번째 철학 "Muscle Memory Outsourcing"</a>
-<a href="#sec-82" class="toc-item toc-child toc-h4" style="padding-left:52px">바이브 코딩 적합성 판단</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-26" aria-label="Toggle">▶</button>
-  <a href="#sec-83" class="toc-item toc-h2-sub">1.4 다른 AI 코딩 도구와의 차별점</a>
-</div>
-<div class="toc-children" id="tg-26">
-<a href="#sec-84" class="toc-item toc-child toc-h3" style="padding-left:36px">GitHub Copilot과의 비교</a>
-<a href="#sec-85" class="toc-item toc-child toc-h3" style="padding-left:36px">ChatGPT와의 비교</a>
-<a href="#sec-86" class="toc-item toc-child toc-h3" style="padding-left:36px">Claude Code만의 독특한 기능</a>
-<a href="#sec-87" class="toc-item toc-h2-sub" style="padding-left:28px">실제 사례: 30분 만에 만든 실시간 채팅 앱</a>
-<a href="#sec-88" class="toc-item toc-h2-sub" style="padding-left:28px">마치며</a>
-<a href="#sec-89" class="toc-item toc-child toc-h4" style="padding-left:52px">10대 황금 원칙</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-27" aria-label="Toggle">▶</button>
-  <a href="#sec-90" class="toc-item toc-h2-sub">프로 팁: 효율성 극대화</a>
-</div>
-<div class="toc-children" id="tg-27">
-<a href="#sec-91" class="toc-item toc-child toc-h3" style="padding-left:36px">1. 별칭(Alias) 설정</a>
-<a href="#sec-92" class="toc-item toc-child toc-h3" style="padding-left:36px">2. 템플릿 활용</a>
-<a href="#sec-93" class="toc-item toc-child toc-h3" style="padding-left:36px">3. 컨텍스트 유지</a>
-<a href="#sec-94" class="toc-item toc-h2-sub" style="padding-left:28px">워크플로우 CLAUDE.md 예시</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-28" aria-label="Toggle">▶</button>
-  <a href="#sec-95" class="toc-item toc-h2-sub">마치며</a>
-</div>
-<div class="toc-children" id="tg-28">
-<a href="#sec-96" class="toc-item toc-child toc-h3" style="padding-left:36px">핵심 원칙 요약</a>
-<a href="#sec-97" class="toc-item toc-child toc-h3" style="padding-left:36px">실무 적용 전략</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-29" aria-label="Toggle">▶</button>
-  <a href="#sec-98" class="toc-item toc-h3 toc-area-title"><span class="area-code">ST</span>스트럭처 (Structure)</a>
-</div>
-<div class="toc-children" id="tg-29">
-<a href="#sec-99" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S2ST01</span>CLAUDE.md 완전 가이드</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-30" aria-label="Toggle">▶</button>
-  <a href="#sec-101" class="toc-item toc-h2-sub">4.1 CLAUDE.md의 역할과 중요성</a>
-</div>
-<div class="toc-children" id="tg-30">
-<a href="#sec-102" class="toc-item toc-child toc-h3" style="padding-left:36px">CLAUDE.md란?</a>
-<a href="#sec-103" class="toc-item toc-child toc-h3" style="padding-left:36px">왜 중요한가?</a>
-<a href="#sec-104" class="toc-item toc-child toc-h3" style="padding-left:36px">CLAUDE.md vs README.md</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-31" aria-label="Toggle">▶</button>
-  <a href="#sec-105" class="toc-item toc-h2-sub">4.2 프로젝트 구조 문서화</a>
-</div>
-<div class="toc-children" id="tg-31">
-<a href="#sec-106" class="toc-item toc-child toc-h3" style="padding-left:36px">기본 구조 설명</a>
-<a href="#sec-107" class="toc-item toc-child toc-h3" style="padding-left:36px">아키텍처 패턴 명시</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-32" aria-label="Toggle">▶</button>
-  <a href="#sec-108" class="toc-item toc-h2-sub">코딩 스타일</a>
-</div>
-<div class="toc-children" id="tg-32">
-<a href="#sec-109" class="toc-item toc-child toc-h3" style="padding-left:36px">TypeScript/JavaScript</a>
-<a href="#sec-110" class="toc-item toc-child toc-h3" style="padding-left:36px">명명 규칙 예시</a>
-<a href="#sec-111" class="toc-item toc-child toc-h3" style="padding-left:36px">Import 순서</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-33" aria-label="Toggle">▶</button>
-  <a href="#sec-112" class="toc-item toc-h2-sub">코드 품질 기준</a>
-</div>
-<div class="toc-children" id="tg-33">
-<a href="#sec-113" class="toc-item toc-child toc-h3" style="padding-left:36px">함수 작성 규칙</a>
-<a href="#sec-114" class="toc-item toc-child toc-h3" style="padding-left:36px">에러 처리</a>
-<a href="#sec-115" class="toc-item toc-child toc-h3" style="padding-left:36px">주석 작성</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-34" aria-label="Toggle">▶</button>
-  <a href="#sec-116" class="toc-item toc-h2-sub">4.4 개발 환경 자동화</a>
-</div>
-<div class="toc-children" id="tg-34">
-<a href="#sec-117" class="toc-item toc-child toc-h3" style="padding-left:36px">개발 환경 설정</a>
-<a href="#sec-118" class="toc-item toc-child toc-h3" style="padding-left:36px">VS Code 설정</a>
-<a href="#sec-119" class="toc-item toc-child toc-h3" style="padding-left:36px">코드 생성 템플릿</a>
-<a href="#sec-120" class="toc-item toc-child toc-h3" style="padding-left:36px">Git Hooks</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-35" aria-label="Toggle">▶</button>
-  <a href="#sec-121" class="toc-item toc-h2-sub">4.5 팀 협업을 위한 규칙 설정</a>
-</div>
-<div class="toc-children" id="tg-35">
-<a href="#sec-122" class="toc-item toc-child toc-h3" style="padding-left:36px">코드 리뷰 가이드라인</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-36" aria-label="Toggle">▶</button>
-  <a href="#sec-123" class="toc-item toc-h2-sub">팀 커뮤니케이션</a>
-</div>
-<div class="toc-children" id="tg-36">
-<a href="#sec-124" class="toc-item toc-child toc-h3" style="padding-left:36px">이슈 템플릿</a>
-<a href="#sec-125" class="toc-item toc-child toc-h3" style="padding-left:36px">일일 스탠드업</a>
-<a href="#sec-126" class="toc-item toc-child toc-h3" style="padding-left:36px">기술 결정 기록</a>
-<a href="#sec-127" class="toc-item toc-h2-sub" style="padding-left:28px">실전 예제: 대규모 전자상거래 프로젝트</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-37" aria-label="Toggle">▶</button>
-  <a href="#sec-128" class="toc-item toc-h2-sub">프로 팁: CLAUDE.md 최적화</a>
-</div>
-<div class="toc-children" id="tg-37">
-<a href="#sec-129" class="toc-item toc-child toc-h3" style="padding-left:36px">1. 섹션별 우선순위</a>
-<a href="#sec-130" class="toc-item toc-child toc-h3" style="padding-left:36px">2. 동적 업데이트</a>
-<a href="#sec-131" class="toc-item toc-child toc-h3" style="padding-left:36px">3. 환경별 설정 관리</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-38" aria-label="Toggle">▶</button>
-  <a href="#sec-132" class="toc-item toc-h2-sub">환경별 설정</a>
-</div>
-<div class="toc-children" id="tg-38">
-<a href="#sec-133" class="toc-item toc-child toc-h3" style="padding-left:36px">개발 환경</a>
-<a href="#sec-134" class="toc-item toc-child toc-h3" style="padding-left:36px">프로덕션 환경</a>
-<a href="#sec-135" class="toc-item toc-child toc-h3" style="padding-left:36px">4. 지속적 개선과 버전 관리</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-39" aria-label="Toggle">▶</button>
-  <a href="#sec-136" class="toc-item toc-h2-sub">CLAUDE.md 버전 관리</a>
-</div>
-<div class="toc-children" id="tg-39">
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-40" aria-label="Toggle">▶</button>
-  <a href="#sec-137" class="toc-item toc-h3">v2.1.0 (2024-03-15)</a>
-</div>
-<div class="toc-children" id="tg-40">
-<a href="#sec-138" class="toc-item toc-child toc-h4" style="padding-left:52px">추가</a>
-<a href="#sec-139" class="toc-item toc-child toc-h4" style="padding-left:52px">변경</a>
-<a href="#sec-140" class="toc-item toc-child toc-h4" style="padding-left:52px">제거</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-41" aria-label="Toggle">▶</button>
-  <a href="#sec-141" class="toc-item toc-h3">v2.0.0 (2024-02-01)</a>
-</div>
-<div class="toc-children" id="tg-41">
-<a href="#sec-142" class="toc-item toc-child toc-h4" style="padding-left:52px">주요 변경</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-42" aria-label="Toggle">▶</button>
-  <a href="#sec-143" class="toc-item toc-h2-sub">마치며</a>
-</div>
-<div class="toc-children" id="tg-42">
-<a href="#sec-144" class="toc-item toc-child toc-h3" style="padding-left:36px">핵심 학습 내용</a>
-<a href="#sec-145" class="toc-item toc-child toc-h3" style="padding-left:36px">실무 적용 로드맵</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-43" aria-label="Toggle">▶</button>
-  <a href="#sec-146" class="toc-item toc-h3">CLAUDE.md의 전략적 가치</a>
-</div>
-<div class="toc-children" id="tg-43">
-<a href="#sec-147" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 SSAL 프로젝트 통합 연동</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-44" aria-label="Toggle">▶</button>
-  <a href="#sec-148" class="toc-item toc-h3 toc-area-title"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
-</div>
-<div class="toc-children" id="tg-44">
-<a href="#sec-149" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S2WF01</span>4단계 황금 워크플로우</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-45" aria-label="Toggle">▶</button>
-  <a href="#sec-150" class="toc-item toc-h2-sub">7.1 탐색-계획-코딩-커밋 사이클</a>
-</div>
-<div class="toc-children" id="tg-45">
-<a href="#sec-151" class="toc-item toc-child toc-h3" style="padding-left:36px">EPCC (Explore-Plan-Code-Commit) 워크플로우</a>
-<a href="#sec-152" class="toc-item toc-child toc-h3" style="padding-left:36px">1단계: Explore (탐색) - 체계적 코드베이스 이해</a>
-<a href="#sec-217" class="toc-item toc-h2-sub" style="padding-left:28px">🚨 중요 규칙 (항상 준수)</a>
-<a href="#sec-218" class="toc-item toc-h2-sub" style="padding-left:28px">📋 일반 가이드라인</a>
-<a href="#sec-219" class="toc-item toc-h2-sub" style="padding-left:28px">💡 권장사항</a>
-<a href="#sec-241" class="toc-item toc-h2-sub" style="padding-left:28px">컴포넌트 규칙</a>
-<a href="#sec-242" class="toc-item toc-h2-sub" style="padding-left:28px">상태 관리</a>
-<a href="#sec-243" class="toc-item toc-h2-sub" style="padding-left:28px">폴더 구조</a>
-<a href="#sec-244" class="toc-item toc-h2-sub" style="padding-left:28px">성능 최적화</a>
-<a href="#sec-250" class="toc-item toc-h2-sub" style="padding-left:28px">API 설계 원칙</a>
-<a href="#sec-251" class="toc-item toc-h2-sub" style="padding-left:28px">응답 형식</a>
-<a href="#sec-252" class="toc-item toc-h2-sub" style="padding-left:28px">에러 처리</a>
-<a href="#sec-253" class="toc-item toc-h2-sub" style="padding-left:28px">보안</a>
-<a href="#sec-255" class="toc-item toc-h2-sub" style="padding-left:28px">앱 구조</a>
-<a href="#sec-256" class="toc-item toc-h2-sub" style="padding-left:28px">모델 설계</a>
-<a href="#sec-257" class="toc-item toc-h2-sub" style="padding-left:28px">API 설계</a>
-<a href="#sec-258" class="toc-item toc-h2-sub" style="padding-left:28px">테스트</a>
-<a href="#sec-260" class="toc-item toc-h2-sub" style="padding-left:28px">아키텍처</a>
-<a href="#sec-261" class="toc-item toc-h2-sub" style="padding-left:28px">성능</a>
-<a href="#sec-262" class="toc-item toc-h2-sub" style="padding-left:28px">플랫폼별 처리</a>
-<a href="#sec-263" class="toc-item toc-h2-sub" style="padding-left:28px">테스트</a>
-<a href="#sec-275" class="toc-item toc-h2-sub" style="padding-left:28px">프로젝트 구조</a>
-<a href="#sec-276" class="toc-item toc-h2-sub" style="padding-left:28px">코딩 규칙</a>
-<a href="#sec-277" class="toc-item toc-h2-sub" style="padding-left:28px">데이터 처리</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-46" aria-label="Toggle">▶</button>
-  <a href="#sec-278" class="toc-item toc-h2-sub">모델 관리</a>
-</div>
-<div class="toc-children" id="tg-46">
-<a href="#sec-298" class="toc-item toc-child toc-h3" style="padding-left:36px">타입 안전성 극대화</a>
-<a href="#sec-299" class="toc-item toc-child toc-h3" style="padding-left:36px">JavaScript 모던 패턴</a>
-<a href="#sec-300" class="toc-item toc-child toc-h3" style="padding-left:36px">TypeScript/JavaScript CLAUDE.md 예시</a>
-<a href="#sec-301" class="toc-item toc-child toc-h3" style="padding-left:36px">TypeScript 실전 디버깅과 모니터링</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-47" aria-label="Toggle">▶</button>
-  <a href="#sec-302" class="toc-item toc-h2-sub">6.2 Python - 엔터프라이즈 파이썬</a>
-</div>
-<div class="toc-children" id="tg-47">
-<a href="#sec-303" class="toc-item toc-child toc-h3" style="padding-left:36px">Python 엔터프라이즈 프로젝트 구조화</a>
-<a href="#sec-304" class="toc-item toc-child toc-h3" style="padding-left:36px">고급 타입 시스템과 정적 분석</a>
-<a href="#sec-305" class="toc-item toc-child toc-h3" style="padding-left:36px">Python 성능 최적화 - 엔터프라이즈 수준</a>
-<a href="#sec-306" class="toc-item toc-child toc-h3" style="padding-left:36px">Python 엔터프라이즈 CLAUDE.md 예시</a>
-<a href="#sec-313" class="toc-item toc-child toc-h3" style="padding-left:36px">Python 실전 디버깅과 모니터링</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-48" aria-label="Toggle">▶</button>
-  <a href="#sec-314" class="toc-item toc-h2-sub">6.3 Java/Kotlin - 엔터프라이즈 JVM</a>
-</div>
-<div class="toc-children" id="tg-48">
-<a href="#sec-315" class="toc-item toc-child toc-h3" style="padding-left:36px">Java 엔터프라이즈 프로젝트 현대화</a>
-<a href="#sec-316" class="toc-item toc-child toc-h3" style="padding-left:36px">Spring Boot 엔터프라이즈 패턴</a>
-<a href="#sec-317" class="toc-item toc-child toc-h3" style="padding-left:36px">Kotlin 엔터프라이즈 개발 패턴</a>
-<a href="#sec-318" class="toc-item toc-child toc-h3" style="padding-left:36px">Java/Kotlin 성능 최적화 전략</a>
-<a href="#sec-319" class="toc-item toc-child toc-h3" style="padding-left:36px">Java/Kotlin 엔터프라이즈 CLAUDE.md 예시</a>
-<a href="#sec-324" class="toc-item toc-h2-sub" style="padding-left:28px">프로젝트 구조</a>
-<a href="#sec-325" class="toc-item toc-h2-sub" style="padding-left:28px">코딩 규칙</a>
-<a href="#sec-326" class="toc-item toc-h2-sub" style="padding-left:28px">에러 처리</a>
-<a href="#sec-327" class="toc-item toc-h2-sub" style="padding-left:28px">테스트</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-49" aria-label="Toggle">▶</button>
-  <a href="#sec-328" class="toc-item toc-h2-sub">6.5 Rust</a>
-</div>
-<div class="toc-children" id="tg-49">
-<a href="#sec-329" class="toc-item toc-child toc-h3" style="padding-left:36px">Rust 안전성 활용</a>
-<a href="#sec-330" class="toc-item toc-child toc-h3" style="padding-left:36px">Rust 에러 처리</a>
-<a href="#sec-331" class="toc-item toc-child toc-h3" style="padding-left:36px">Rust CLAUDE.md 예시</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-50" aria-label="Toggle">▶</button>
-  <a href="#sec-332" class="toc-item toc-h2-sub">언어 간 상호 운용성</a>
-</div>
-<div class="toc-children" id="tg-50">
-<a href="#sec-333" class="toc-item toc-child toc-h3" style="padding-left:36px">다국어 프로젝트</a>
-<a href="#sec-334" class="toc-item toc-child toc-h3" style="padding-left:36px">FFI (Foreign Function Interface)</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-51" aria-label="Toggle">▶</button>
-  <a href="#sec-335" class="toc-item toc-h2-sub">언어별 최적화 전략</a>
-</div>
-<div class="toc-children" id="tg-51">
-<a href="#sec-336" class="toc-item toc-child toc-h3" style="padding-left:36px">1. 성능 중심 언어 (C++, Rust, Go)</a>
-<a href="#sec-337" class="toc-item toc-child toc-h3" style="padding-left:36px">2. 생산성 중심 언어 (Python, Ruby, JavaScript)</a>
-<a href="#sec-338" class="toc-item toc-child toc-h3" style="padding-left:36px">3. 안전성 중심 언어 (Rust, Haskell, Kotlin)</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-52" aria-label="Toggle">▶</button>
-  <a href="#sec-339" class="toc-item toc-h2-sub">실전 팁: 언어 선택 가이드</a>
-</div>
-<div class="toc-children" id="tg-52">
-<a href="#sec-340" class="toc-item toc-child toc-h3" style="padding-left:36px">언어 선택 기준</a>
-<a href="#sec-341" class="toc-item toc-child toc-h3" style="padding-left:36px">언어별 적합한 도메인</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-53" aria-label="Toggle">▶</button>
-  <a href="#sec-342" class="toc-item toc-h2-sub">마치며</a>
-</div>
-<div class="toc-children" id="tg-53">
-<a href="#sec-343" class="toc-item toc-child toc-h3" style="padding-left:36px">핵심 원칙 요약</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-54" aria-label="Toggle">▶</button>
-  <a href="#sec-344" class="toc-item toc-h3">실무 적용 전략</a>
-</div>
-<div class="toc-children" id="tg-54">
-<a href="#sec-345" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 5개 도메인 레시피</a>
-<a href="#sec-346" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 Inbox/Outbox JSON 기초</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-55" aria-label="Toggle">▶</button>
-  <a href="#sec-347" class="toc-item toc-h3 toc-area-title"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
-</div>
-<div class="toc-children" id="tg-55">
-<a href="#sec-348" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S2WF01</span>프롬프팅 고급 기법</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-56" aria-label="Toggle">▶</button>
-  <a href="#sec-349" class="toc-item toc-h2-sub">7.2 테스트 주도 개발(TDD) 실천</a>
-</div>
-<div class="toc-children" id="tg-56">
-<a href="#sec-350" class="toc-item toc-child toc-h3" style="padding-left:36px">TDD 사이클</a>
-<a href="#sec-351" class="toc-item toc-child toc-h3" style="padding-left:36px">TDD with Claude Code</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-57" aria-label="Toggle">▶</button>
-  <a href="#sec-352" class="toc-item toc-h3">TDD 실전 예제</a>
-</div>
-<div class="toc-children" id="tg-57">
-<a href="#sec-353" class="toc-item toc-child toc-h4" style="padding-left:52px">프롬프트 템플릿 라이브러리</a>
-<a href="#sec-368" class="toc-item toc-h2-sub" style="padding-left:28px">기능 개발 프로세스</a>
-<a href="#sec-369" class="toc-item toc-h2-sub" style="padding-left:28px">일일 루틴</a>
-<a href="#sec-370" class="toc-item toc-h2-sub" style="padding-left:28px">품질 체크리스트</a>
-<a href="#sec-375" class="toc-item toc-h2-sub" style="padding-left:28px">현재 진행 상황</a>
-<a href="#sec-376" class="toc-item toc-h2-sub" style="padding-left:28px">공통 결정사항</a>
-<a href="#sec-402" class="toc-item toc-h2-sub" style="padding-left:28px">주요 기술 스택</a>
-<a href="#sec-403" class="toc-item toc-h2-sub" style="padding-left:28px">컴포넌트 규칙</a>
-<a href="#sec-404" class="toc-item toc-h2-sub" style="padding-left:28px">성능 최적화</a>
-<a href="#sec-406" class="toc-item toc-h2-sub" style="padding-left:28px">주요 기술 스택</a>
-<a href="#sec-407" class="toc-item toc-h2-sub" style="padding-left:28px">API 설계 원칙</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-58" aria-label="Toggle">▶</button>
-  <a href="#sec-408" class="toc-item toc-h2-sub">보안 요구사항</a>
-</div>
-<div class="toc-children" id="tg-58">
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-59" aria-label="Toggle">▶</button>
-  <a href="#sec-423" class="toc-item toc-h3">4단계: Commit (커밋)</a>
-</div>
-<div class="toc-children" id="tg-59">
-<a href="#sec-424" class="toc-item toc-child toc-h4" style="padding-left:52px">디버깅 마스터 전략</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-60" aria-label="Toggle">▶</button>
-  <a href="#sec-425" class="toc-item toc-h2-sub">3.4 테스트 실행과 디버깅</a>
-</div>
-<div class="toc-children" id="tg-60">
-<a href="#sec-426" class="toc-item toc-child toc-h3" style="padding-left:36px">테스트 작성</a>
-<a href="#sec-427" class="toc-item toc-child toc-h3" style="padding-left:36px">디버깅 전략</a>
-<a href="#sec-428" class="toc-item toc-child toc-h3" style="padding-left:36px">실시간 디버깅 세션</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-61" aria-label="Toggle">▶</button>
-  <a href="#sec-429" class="toc-item toc-h2-sub">7.4 리팩토링과 코드 품질 개선</a>
-</div>
-<div class="toc-children" id="tg-61">
-<a href="#sec-430" class="toc-item toc-child toc-h3" style="padding-left:36px">체계적인 리팩토링</a>
-<a href="#sec-431" class="toc-item toc-child toc-h3" style="padding-left:36px">코드 품질 메트릭</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-62" aria-label="Toggle">▶</button>
-  <a href="#sec-432" class="toc-item toc-h3 toc-area-title"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
-</div>
-<div class="toc-children" id="tg-62">
-<a href="#sec-433" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S2CM01</span>비용 최적화 10가지 전략</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-63" aria-label="Toggle">▶</button>
-  <a href="#sec-434" class="toc-item toc-h2-sub">11.9 모니터링과 성능 최적화</a>
-</div>
-<div class="toc-children" id="tg-63">
-<a href="#sec-435" class="toc-item toc-child toc-h3" style="padding-left:36px">종합적인 모니터링 시스템</a>
-<a href="#sec-436" class="toc-item toc-child toc-h3" style="padding-left:36px">성능 최적화 전략</a>
-<a href="#sec-437" class="toc-item toc-child toc-h3" style="padding-left:36px">비용 모니터링과 최적화</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="toc-stage">
-<div class="toc-h2-row">
-  <button class="toc-toggle" data-group="tg-64" aria-label="Toggle">▶</button>
-  <a href="#sec-438" class="toc-item toc-h2 toc-stage-title"><span class="badge s4">S4</span>고급 (Advanced)</a>
-</div>
-<div class="toc-children" id="tg-64">
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-65" aria-label="Toggle">▶</button>
-  <a href="#sec-439" class="toc-item toc-h3 toc-area-title"><span class="area-code">CO</span>개념 (Concept)</a>
-</div>
-<div class="toc-children" id="tg-65">
-<a href="#sec-440" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S4CO01</span>🌾 SSAL 철학</a>
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-66" aria-label="Toggle">▶</button>
-  <a href="#sec-441" class="toc-item toc-h3 toc-area-title"><span class="area-code">ST</span>스트럭처 (Structure)</a>
-</div>
-<div class="toc-children" id="tg-66">
-<a href="#sec-442" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S4ST01</span>멀티세션 워크플로우 8가지 패턴</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-67" aria-label="Toggle">▶</button>
-  <a href="#sec-443" class="toc-item toc-h2-sub">8.2 Git Worktree와의 고급 통합 전략</a>
-</div>
-<div class="toc-children" id="tg-67">
-<a href="#sec-444" class="toc-item toc-child toc-h3" style="padding-left:36px">엔터프라이즈급 Worktree 아키텍처</a>
-<a href="#sec-445" class="toc-item toc-child toc-h3" style="padding-left:36px">지능형 Worktree 관리 시스템</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-68" aria-label="Toggle">▶</button>
-  <a href="#sec-446" class="toc-item toc-h2-sub">8.3 마이크로서비스 동시 개발</a>
-</div>
-<div class="toc-children" id="tg-68">
-<a href="#sec-447" class="toc-item toc-child toc-h3" style="padding-left:36px">서비스별 개발 환경 분리</a>
-<a href="#sec-448" class="toc-item toc-child toc-h3" style="padding-left:36px">서비스 간 통신 관리</a>
-<a href="#sec-449" class="toc-item toc-child toc-h3" style="padding-left:36px">서비스 간 계약 관리</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-69" aria-label="Toggle">▶</button>
-  <a href="#sec-450" class="toc-item toc-h2-sub">8.4 프론트엔드-백엔드 병렬 작업</a>
-</div>
-<div class="toc-children" id="tg-69">
-<a href="#sec-451" class="toc-item toc-child toc-h3" style="padding-left:36px">API 우선 개발</a>
-<a href="#sec-452" class="toc-item toc-child toc-h3" style="padding-left:36px">타입 공유 전략</a>
-<a href="#sec-453" class="toc-item toc-child toc-h3" style="padding-left:36px">실시간 동기화</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-70" aria-label="Toggle">▶</button>
-  <a href="#sec-454" class="toc-item toc-h2-sub">8.5 효율적인 컨텍스트 관리</a>
-</div>
-<div class="toc-children" id="tg-70">
-<a href="#sec-455" class="toc-item toc-child toc-h3" style="padding-left:36px">컨텍스트 스위칭 최적화</a>
-<a href="#sec-456" class="toc-item toc-child toc-h3" style="padding-left:36px">브랜치별 컨텍스트 관리</a>
-<a href="#sec-457" class="toc-item toc-child toc-h3" style="padding-left:36px">인스턴스 간 정보 공유</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-71" aria-label="Toggle">▶</button>
-  <a href="#sec-458" class="toc-item toc-h2-sub">8.6 병렬 처리 실전 예제</a>
-</div>
-<div class="toc-children" id="tg-71">
-<a href="#sec-459" class="toc-item toc-child toc-h3" style="padding-left:36px">시나리오: 전자상거래 플랫폼 구축</a>
-<a href="#sec-460" class="toc-item toc-child toc-h3" style="padding-left:36px">1주차: 프로젝트 설정</a>
-<a href="#sec-461" class="toc-item toc-child toc-h3" style="padding-left:36px">2주차: 통합과 테스트</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-72" aria-label="Toggle">▶</button>
-  <a href="#sec-462" class="toc-item toc-h2-sub">멀티태스킹 최적화 팁</a>
-</div>
-<div class="toc-children" id="tg-72">
-<a href="#sec-463" class="toc-item toc-child toc-h3" style="padding-left:36px">1. 작업 우선순위 관리</a>
-<a href="#sec-464" class="toc-item toc-child toc-h3" style="padding-left:36px">2. 종속성 관리</a>
-<a href="#sec-465" class="toc-item toc-child toc-h3" style="padding-left:36px">3. 리소스 모니터링</a>
-<a href="#sec-466" class="toc-item toc-child toc-h3" style="padding-left:36px">4. 동기화 포인트 설정</a>
-<a href="#sec-467" class="toc-item toc-h2-sub" style="padding-left:28px">멀티태스킹 CLAUDE.md 예시</a>
-<a href="#sec-468" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 Inbox/Outbox 완전 가이드</a>
-<a href="#sec-469" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 소대편제</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-73" aria-label="Toggle">▶</button>
-  <a href="#sec-470" class="toc-item toc-h3 toc-area-title"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
-</div>
-<div class="toc-children" id="tg-73">
-<a href="#sec-471" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S4WF01</span>Hooks 시스템</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-74" aria-label="Toggle">▶</button>
-  <a href="#sec-472" class="toc-item toc-h2-sub">9.1 지능형 Headless 모드 아키텍처</a>
-</div>
-<div class="toc-children" id="tg-74">
-<a href="#sec-473" class="toc-item toc-child toc-h3" style="padding-left:36px">엔터프라이즈급 Headless 통합 전략</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-75" aria-label="Toggle">▶</button>
-  <a href="#sec-474" class="toc-item toc-h3">엔터프라이즈 환경 구성 관리</a>
-</div>
-<div class="toc-children" id="tg-75">
-<a href="#sec-475" class="toc-item toc-child toc-h4" style="padding-left:52px">고급 꿀팁 &amp; 워크플로우</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-76" aria-label="Toggle">▶</button>
-  <a href="#sec-476" class="toc-item toc-h2-sub">7.3 비주얼 디자인 구현 워크플로우</a>
-</div>
-<div class="toc-children" id="tg-76">
-<a href="#sec-477" class="toc-item toc-child toc-h3" style="padding-left:36px">디자인을 코드로</a>
-<a href="#sec-478" class="toc-item toc-child toc-h3" style="padding-left:36px">컴포넌트 라이브러리 구축</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-77" aria-label="Toggle">▶</button>
-  <a href="#sec-479" class="toc-item toc-h2-sub">7.4 리팩토링과 코드 품질 개선</a>
-</div>
-<div class="toc-children" id="tg-77">
-<a href="#sec-480" class="toc-item toc-child toc-h3" style="padding-left:36px">체계적인 리팩토링</a>
-<a href="#sec-481" class="toc-item toc-child toc-h3" style="padding-left:36px">코드 품질 메트릭</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-78" aria-label="Toggle">▶</button>
-  <a href="#sec-482" class="toc-item toc-h2-sub">7.5 문서화 자동화</a>
-</div>
-<div class="toc-children" id="tg-78">
-<a href="#sec-483" class="toc-item toc-child toc-h3" style="padding-left:36px">코드에서 문서로</a>
-<a href="#sec-484" class="toc-item toc-child toc-h3" style="padding-left:36px">다이어그램 생성</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-79" aria-label="Toggle">▶</button>
-  <a href="#sec-485" class="toc-item toc-h2-sub">실전 워크플로우: 기능 추가 시나리오</a>
-</div>
-<div class="toc-children" id="tg-79">
-<a href="#sec-486" class="toc-item toc-child toc-h3" style="padding-left:36px">프로젝트 개요: 새로운 결제 기능 추가</a>
-<a href="#sec-487" class="toc-item toc-child toc-h3" style="padding-left:36px">Day 1: 탐색과 계획</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-80" aria-label="Toggle">▶</button>
-  <a href="#sec-516" class="toc-item toc-h2-sub">📈 적응형 품질 기준</a>
-</div>
-<div class="toc-children" id="tg-80">
-<a href="#sec-517" class="toc-item toc-child toc-h3" style="padding-left:36px">프로젝트 단계별 리뷰 강도</a>
-<a href="#sec-518" class="toc-item toc-child toc-h3" style="padding-left:36px">팀원별 맞춤형 기준</a>
-<a href="#sec-519" class="toc-item toc-child toc-h3" style="padding-left:36px">비즈니스 임팩트별 리뷰 깊이</a>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-81" aria-label="Toggle">▶</button>
-  <a href="#sec-520" class="toc-item toc-h2-sub">🎓 리뷰를 통한 팀 성장 시스템</a>
-</div>
-<div class="toc-children" id="tg-81">
-<a href="#sec-521" class="toc-item toc-child toc-h3" style="padding-left:36px">지식 전수 추적</a>
-<div class="toc-subsection">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-82" aria-label="Toggle">▶</button>
-  <a href="#sec-522" class="toc-item toc-h3">혁신 아이디어 발굴</a>
-</div>
-<div class="toc-children" id="tg-82">
-<a href="#sec-523" class="toc-item toc-child toc-h4" style="padding-left:52px">🌾 Stage Gate 디버깅</a>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-83" aria-label="Toggle">▶</button>
-  <a href="#sec-524" class="toc-item toc-h3 toc-area-title"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
-</div>
-<div class="toc-children" id="tg-83">
-<a href="#sec-525" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S4CM01</span>🌾 MoAI 비용 전략</a>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="toc-stage">
-<div class="toc-h2-row">
-  <button class="toc-toggle" data-group="tg-84" aria-label="Toggle">▶</button>
-  <a href="#sec-526" class="toc-item toc-h2 toc-stage-title"><span class="badge s5">S5</span>마스터 (Master) — 전체 추후 삽입</a>
-</div>
-<div class="toc-children" id="tg-84">
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-85" aria-label="Toggle">▶</button>
-  <a href="#sec-527" class="toc-item toc-h3 toc-area-title"><span class="area-code">CO</span>개념 (Concept)</a>
-</div>
-<div class="toc-children" id="tg-85">
-<a href="#sec-528" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5CO01</span>🌾 13DGC-AODM 방법론</a>
-<a href="#sec-529" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5CO02</span>🌾 4계층 역할 체계</a>
-<a href="#sec-530" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5CO03</span>🌾 6대 철학 확장</a>
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-86" aria-label="Toggle">▶</button>
-  <a href="#sec-531" class="toc-item toc-h3 toc-area-title"><span class="area-code">ST</span>스트럭처 (Structure)</a>
-</div>
-<div class="toc-children" id="tg-86">
-<a href="#sec-532" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5ST01</span>🌾 SAL Grid 완전 가이드</a>
-<a href="#sec-533" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5ST02</span>🌾 PROJECT SAL GRID 실전</a>
-<a href="#sec-534" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5ST03</span>🌾 3D 시각화</a>
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-87" aria-label="Toggle">▶</button>
-  <a href="#sec-535" class="toc-item toc-h3 toc-area-title"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
-</div>
-<div class="toc-children" id="tg-87">
-<a href="#sec-536" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5WF01</span>🌾 SSAL 프로세스</a>
-<a href="#sec-537" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5WF02</span>🌾 Inbox/Outbox 실전 운용</a>
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-88" aria-label="Toggle">▶</button>
-  <a href="#sec-538" class="toc-item toc-h3 toc-area-title"><span class="area-code">TO</span>팀운용 (Team Operations)</a>
-</div>
-<div class="toc-children" id="tg-88">
-<a href="#sec-539" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5TO01</span>🌾 MoAI v2.5 시스템</a>
-<a href="#sec-540" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5TO02</span>🌾 Mercenary Types 고급 운용</a>
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-89" aria-label="Toggle">▶</button>
-  <a href="#sec-541" class="toc-item toc-h3 toc-area-title"><span class="area-code">QC</span>품질관리 (Quality Control)</a>
-</div>
-<div class="toc-children" id="tg-89">
-<a href="#sec-542" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5QC01</span>🌾 이중 검증 체계</a>
-<a href="#sec-543" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5QC02</span>🌾 품질 보증 프로세스</a>
-</div>
-</div>
-<div class="toc-area-section">
-<div class="toc-area-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-90" aria-label="Toggle">▶</button>
-  <a href="#sec-544" class="toc-item toc-h3 toc-area-title"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
-</div>
-<div class="toc-children" id="tg-90">
-<a href="#sec-545" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5CM01</span>🌾 비용 극대화 전략</a>
-<a href="#sec-546" class="toc-item toc-child toc-h4" style="padding-left:52px"><span class="sal-id">S5CM02</span>🌾 대규모 프로젝트 비용 시뮬레이션</a>
-</div>
-</div>
-<div class="toc-subsection">
-<div class="toc-h2-row">
-  <button class="toc-toggle toc-toggle-sm" data-group="tg-91" aria-label="Toggle">▶</button>
-  <a href="#sec-547" class="toc-item toc-h2-sub">부록</a>
-</div>
-<div class="toc-children" id="tg-91">
-<a href="#sec-548" class="toc-item toc-child toc-h3" style="padding-left:36px">출처 &amp; 크레딧</a>
-<a href="#sec-549" class="toc-item toc-child toc-h3" style="padding-left:36px">쪼갬 섹션 추적표</a>
-<a href="#sec-550" class="toc-item toc-child toc-h3" style="padding-left:36px">통계</a>
-<a href="#sec-551" class="toc-item toc-child toc-h3" style="padding-left:36px">파일 순서 인덱스</a>
-</div>
-</div>
-</div>
+  <a href="#sec-27" class="toc-lv1 toc-item-link"><span class="sal-id">S1CO02</span>비개발자 가이드 — 개념편</a>
+</div>
+<div class="toc-details" id="tg-1">
+  <a href="#sec-28" class="toc-detail">학습 목표</a>
+  <a href="#sec-29" class="toc-detail">개요</a>
+  <a href="#sec-30" class="toc-detail">13.10 법무 팀 - 비개발자의 도구 개발</a>
+  <a href="#sec-31" class="toc-detail">법무 특화 도구 개발</a>
+  <a href="#sec-32" class="toc-detail">시각 중심 프로토타이핑</a>
+  <a href="#sec-33" class="toc-detail">법무 워크플로우 디지털화</a>
+  <a href="#sec-34" class="toc-detail">팀 성과</a>
+  <a href="#sec-35" class="toc-detail">법무 팀 성공 노하우</a>
+  <a href="#sec-36" class="toc-detail">마치며 - 조직 혁신의 새로운 패러다임</a>
+  <a href="#sec-37" class="toc-detail">핵심 인사이트</a>
+</div>
+<a href="#sec-38" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S1CO03</span>🌾 비개발자 관점</a>
+<a href="#sec-39" class="toc-lv1 toc-area-link"><span class="area-code">ST</span>스트럭처 (Structure)</a>
+<a href="#sec-40" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-2" aria-label="Toggle">▶</button>
+  <a href="#sec-41" class="toc-lv1 toc-item-link"><span class="sal-id">S1WF01</span>환경 설정 &amp; 첫 프로젝트</a>
+</div>
+<div class="toc-details" id="tg-2">
+  <a href="#sec-43" class="toc-detail">2.1 시스템 요구사항</a>
+  <a href="#sec-44" class="toc-detail">최소 요구사항</a>
+  <a href="#sec-45" class="toc-detail">사전 준비사항</a>
+  <a href="#sec-46" class="toc-detail">2.2 설치 가이드 (OS별)</a>
+  <a href="#sec-47" class="toc-detail">macOS에서 설치하기</a>
+  <a href="#sec-48" class="toc-detail">Windows에서 설치하기</a>
+  <a href="#sec-49" class="toc-detail">Linux (Ubuntu/Debian)에서 설치하기</a>
+  <a href="#sec-50" class="toc-detail">2.3 첫 번째 명령어 실행하기</a>
+  <a href="#sec-51" class="toc-detail">API 키 설정</a>
+  <a href="#sec-52" class="toc-detail">첫 번째 대화</a>
+  <a href="#sec-53" class="toc-detail">대화형 모드 vs 명령 모드</a>
+  <a href="#sec-54" class="toc-detail">2.4 기본 설정 최적화</a>
+  <a href="#sec-55" class="toc-detail">전역 설정 파일</a>
+  <a href="#sec-56" class="toc-detail">권한 설정</a>
+  <a href="#sec-57" class="toc-detail">에디터 통합</a>
+  <a href="#sec-58" class="toc-detail">프록시 설정 (기업 환경)</a>
+  <a href="#sec-59" class="toc-detail">2.5 문제 해결 가이드</a>
+  <a href="#sec-60" class="toc-detail">자주 발생하는 문제와 해결 방법</a>
+  <a href="#sec-61" class="toc-detail">성능 최적화 팁</a>
+  <a href="#sec-62" class="toc-detail">Junior Developer - 가속 학습자</a>
+</div>
+<a href="#sec-63" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S1WF02</span>🌾 SSAL Works 설치 가이드</a>
+<a href="#sec-64" class="toc-lv1 toc-area-link"><span class="area-code">TO</span>팀운용 (Team Operations)</a>
+<a href="#sec-65" class="toc-lv1 toc-area-link"><span class="area-code">QC</span>품질관리 (Quality Control)</a>
+<a href="#sec-66" class="toc-lv1 toc-area-link"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-3" aria-label="Toggle">▶</button>
+  <a href="#sec-67" class="toc-lv1 toc-item-link"><span class="sal-id">S1CM01</span>요금제 선택 가이드</a>
+</div>
+<div class="toc-details" id="tg-3">
+  <a href="#sec-68" class="toc-detail">2.4 기본 설정 최적화</a>
+  <a href="#sec-69" class="toc-detail">전역 설정 파일</a>
+  <a href="#sec-70" class="toc-detail">권한 설정</a>
+  <a href="#sec-71" class="toc-detail">에디터 통합</a>
+  <a href="#sec-72" class="toc-detail">프록시 설정 (기업 환경)</a>
+</div>
+<a href="#sec-73" class="toc-lv1 toc-stage-link"><span class="badge s2">S2</span>초급 (Elementary)</a>
+<a href="#sec-74" class="toc-lv1 toc-area-link"><span class="area-code">CO</span>개념 (Concept)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-4" aria-label="Toggle">▶</button>
+  <a href="#sec-75" class="toc-lv1 toc-item-link"><span class="sal-id">S2CO01</span>6대 핵심 철학</a>
+</div>
+<div class="toc-details" id="tg-4">
+  <a href="#sec-76" class="toc-detail">1.3 Claude Code의 핵심 철학</a>
+  <a href="#sec-77" class="toc-detail">1. 유연성 (Flexibility)</a>
+  <a href="#sec-78" class="toc-detail">2. 투명성 (Transparency)</a>
+  <a href="#sec-79" class="toc-detail">3. 협업 (Collaboration)</a>
+  <a href="#sec-80" class="toc-detail">4. 맥락 이해 (Context Awareness)</a>
+</div>
+<a href="#sec-81" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2CO02</span>🌾 7번째 철학 "Muscle Memory Outsour...</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-5" aria-label="Toggle">▶</button>
+  <a href="#sec-82" class="toc-lv1 toc-item-link"><span class="sal-id">S2CO03</span>바이브 코딩 적합성 판단</a>
+</div>
+<div class="toc-details" id="tg-5">
+  <a href="#sec-83" class="toc-detail">1.4 다른 AI 코딩 도구와의 차별점</a>
+  <a href="#sec-84" class="toc-detail">GitHub Copilot과의 비교</a>
+  <a href="#sec-85" class="toc-detail">ChatGPT와의 비교</a>
+  <a href="#sec-86" class="toc-detail">Claude Code만의 독특한 기능</a>
+  <a href="#sec-87" class="toc-detail">실제 사례: 30분 만에 만든 실시간 채팅 앱</a>
+  <a href="#sec-88" class="toc-detail">마치며</a>
+</div>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-6" aria-label="Toggle">▶</button>
+  <a href="#sec-89" class="toc-lv1 toc-item-link"><span class="sal-id">S2CO04</span>10대 황금 원칙</a>
+</div>
+<div class="toc-details" id="tg-6">
+  <a href="#sec-90" class="toc-detail">프로 팁: 효율성 극대화</a>
+  <a href="#sec-91" class="toc-detail">1. 별칭(Alias) 설정</a>
+  <a href="#sec-92" class="toc-detail">2. 템플릿 활용</a>
+  <a href="#sec-93" class="toc-detail">3. 컨텍스트 유지</a>
+  <a href="#sec-94" class="toc-detail">워크플로우 CLAUDE.md 예시</a>
+  <a href="#sec-95" class="toc-detail">마치며</a>
+  <a href="#sec-96" class="toc-detail">핵심 원칙 요약</a>
+  <a href="#sec-97" class="toc-detail">실무 적용 전략</a>
+</div>
+<a href="#sec-98" class="toc-lv1 toc-area-link"><span class="area-code">ST</span>스트럭처 (Structure)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-7" aria-label="Toggle">▶</button>
+  <a href="#sec-99" class="toc-lv1 toc-item-link"><span class="sal-id">S2ST01</span>CLAUDE.md 완전 가이드</a>
+</div>
+<div class="toc-details" id="tg-7">
+  <a href="#sec-101" class="toc-detail">4.1 CLAUDE.md의 역할과 중요성</a>
+  <a href="#sec-102" class="toc-detail">CLAUDE.md란?</a>
+  <a href="#sec-103" class="toc-detail">왜 중요한가?</a>
+  <a href="#sec-104" class="toc-detail">CLAUDE.md vs README.md</a>
+  <a href="#sec-105" class="toc-detail">4.2 프로젝트 구조 문서화</a>
+  <a href="#sec-106" class="toc-detail">기본 구조 설명</a>
+  <a href="#sec-107" class="toc-detail">아키텍처 패턴 명시</a>
+  <a href="#sec-108" class="toc-detail">코딩 스타일</a>
+  <a href="#sec-109" class="toc-detail">TypeScript/JavaScript</a>
+  <a href="#sec-110" class="toc-detail">명명 규칙 예시</a>
+  <a href="#sec-111" class="toc-detail">Import 순서</a>
+  <a href="#sec-112" class="toc-detail">코드 품질 기준</a>
+  <a href="#sec-113" class="toc-detail">함수 작성 규칙</a>
+  <a href="#sec-114" class="toc-detail">에러 처리</a>
+  <a href="#sec-115" class="toc-detail">주석 작성</a>
+  <a href="#sec-116" class="toc-detail">4.4 개발 환경 자동화</a>
+  <a href="#sec-117" class="toc-detail">개발 환경 설정</a>
+  <a href="#sec-118" class="toc-detail">VS Code 설정</a>
+  <a href="#sec-119" class="toc-detail">코드 생성 템플릿</a>
+  <a href="#sec-120" class="toc-detail">Git Hooks</a>
+  <a href="#sec-121" class="toc-detail">4.5 팀 협업을 위한 규칙 설정</a>
+  <a href="#sec-122" class="toc-detail">코드 리뷰 가이드라인</a>
+  <a href="#sec-123" class="toc-detail">팀 커뮤니케이션</a>
+  <a href="#sec-124" class="toc-detail">이슈 템플릿</a>
+  <a href="#sec-125" class="toc-detail">일일 스탠드업</a>
+  <a href="#sec-126" class="toc-detail">기술 결정 기록</a>
+  <a href="#sec-127" class="toc-detail">실전 예제: 대규모 전자상거래 프로젝트</a>
+  <a href="#sec-128" class="toc-detail">프로 팁: CLAUDE.md 최적화</a>
+  <a href="#sec-129" class="toc-detail">1. 섹션별 우선순위</a>
+  <a href="#sec-130" class="toc-detail">2. 동적 업데이트</a>
+  <a href="#sec-131" class="toc-detail">3. 환경별 설정 관리</a>
+  <a href="#sec-132" class="toc-detail">환경별 설정</a>
+  <a href="#sec-133" class="toc-detail">개발 환경</a>
+  <a href="#sec-134" class="toc-detail">프로덕션 환경</a>
+  <a href="#sec-135" class="toc-detail">4. 지속적 개선과 버전 관리</a>
+  <a href="#sec-136" class="toc-detail">CLAUDE.md 버전 관리</a>
+  <a href="#sec-137" class="toc-detail">v2.1.0 (2024-03-15)</a>
+</div>
+<a href="#sec-138" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2ST02</span>추가</a>
+<a href="#sec-139" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2ST03</span>변경</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-8" aria-label="Toggle">▶</button>
+  <a href="#sec-140" class="toc-lv1 toc-item-link"><span class="sal-id">S2ST04</span>제거</a>
+</div>
+<div class="toc-details" id="tg-8">
+  <a href="#sec-141" class="toc-detail">v2.0.0 (2024-02-01)</a>
+</div>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-9" aria-label="Toggle">▶</button>
+  <a href="#sec-142" class="toc-lv1 toc-item-link"><span class="sal-id">S2ST05</span>주요 변경</a>
+</div>
+<div class="toc-details" id="tg-9">
+  <a href="#sec-143" class="toc-detail">마치며</a>
+  <a href="#sec-144" class="toc-detail">핵심 학습 내용</a>
+  <a href="#sec-145" class="toc-detail">실무 적용 로드맵</a>
+  <a href="#sec-146" class="toc-detail">CLAUDE.md의 전략적 가치</a>
+</div>
+<a href="#sec-147" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2ST06</span>🌾 SSAL 프로젝트 통합 연동</a>
+<a href="#sec-148" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-10" aria-label="Toggle">▶</button>
+  <a href="#sec-149" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF01</span>4단계 황금 워크플로우</a>
+</div>
+<div class="toc-details" id="tg-10">
+  <a href="#sec-150" class="toc-detail">7.1 탐색-계획-코딩-커밋 사이클</a>
+  <a href="#sec-151" class="toc-detail">EPCC (Explore-Plan-Code-Commit) 워크플로우</a>
+  <a href="#sec-152" class="toc-detail">1단계: Explore (탐색) - 체계적 코드베이스 이해</a>
+  <a href="#sec-217" class="toc-detail">🚨 중요 규칙 (항상 준수)</a>
+  <a href="#sec-218" class="toc-detail">📋 일반 가이드라인</a>
+  <a href="#sec-219" class="toc-detail">💡 권장사항</a>
+  <a href="#sec-241" class="toc-detail">컴포넌트 규칙</a>
+  <a href="#sec-242" class="toc-detail">상태 관리</a>
+  <a href="#sec-243" class="toc-detail">폴더 구조</a>
+  <a href="#sec-244" class="toc-detail">성능 최적화</a>
+  <a href="#sec-250" class="toc-detail">API 설계 원칙</a>
+  <a href="#sec-251" class="toc-detail">응답 형식</a>
+  <a href="#sec-252" class="toc-detail">에러 처리</a>
+  <a href="#sec-253" class="toc-detail">보안</a>
+  <a href="#sec-255" class="toc-detail">앱 구조</a>
+  <a href="#sec-256" class="toc-detail">모델 설계</a>
+  <a href="#sec-257" class="toc-detail">API 설계</a>
+  <a href="#sec-258" class="toc-detail">테스트</a>
+  <a href="#sec-260" class="toc-detail">아키텍처</a>
+  <a href="#sec-261" class="toc-detail">성능</a>
+  <a href="#sec-262" class="toc-detail">플랫폼별 처리</a>
+  <a href="#sec-263" class="toc-detail">테스트</a>
+  <a href="#sec-275" class="toc-detail">프로젝트 구조</a>
+  <a href="#sec-276" class="toc-detail">코딩 규칙</a>
+  <a href="#sec-277" class="toc-detail">데이터 처리</a>
+  <a href="#sec-278" class="toc-detail">모델 관리</a>
+  <a href="#sec-298" class="toc-detail">타입 안전성 극대화</a>
+  <a href="#sec-299" class="toc-detail">JavaScript 모던 패턴</a>
+  <a href="#sec-300" class="toc-detail">TypeScript/JavaScript CLAUDE.md 예시</a>
+  <a href="#sec-301" class="toc-detail">TypeScript 실전 디버깅과 모니터링</a>
+  <a href="#sec-302" class="toc-detail">6.2 Python - 엔터프라이즈 파이썬</a>
+  <a href="#sec-303" class="toc-detail">Python 엔터프라이즈 프로젝트 구조화</a>
+  <a href="#sec-304" class="toc-detail">고급 타입 시스템과 정적 분석</a>
+  <a href="#sec-305" class="toc-detail">Python 성능 최적화 - 엔터프라이즈 수준</a>
+  <a href="#sec-306" class="toc-detail">Python 엔터프라이즈 CLAUDE.md 예시</a>
+  <a href="#sec-313" class="toc-detail">Python 실전 디버깅과 모니터링</a>
+  <a href="#sec-314" class="toc-detail">6.3 Java/Kotlin - 엔터프라이즈 JVM</a>
+  <a href="#sec-315" class="toc-detail">Java 엔터프라이즈 프로젝트 현대화</a>
+  <a href="#sec-316" class="toc-detail">Spring Boot 엔터프라이즈 패턴</a>
+  <a href="#sec-317" class="toc-detail">Kotlin 엔터프라이즈 개발 패턴</a>
+  <a href="#sec-318" class="toc-detail">Java/Kotlin 성능 최적화 전략</a>
+  <a href="#sec-319" class="toc-detail">Java/Kotlin 엔터프라이즈 CLAUDE.md 예시</a>
+  <a href="#sec-324" class="toc-detail">프로젝트 구조</a>
+  <a href="#sec-325" class="toc-detail">코딩 규칙</a>
+  <a href="#sec-326" class="toc-detail">에러 처리</a>
+  <a href="#sec-327" class="toc-detail">테스트</a>
+  <a href="#sec-328" class="toc-detail">6.5 Rust</a>
+  <a href="#sec-329" class="toc-detail">Rust 안전성 활용</a>
+  <a href="#sec-330" class="toc-detail">Rust 에러 처리</a>
+  <a href="#sec-331" class="toc-detail">Rust CLAUDE.md 예시</a>
+  <a href="#sec-332" class="toc-detail">언어 간 상호 운용성</a>
+  <a href="#sec-333" class="toc-detail">다국어 프로젝트</a>
+  <a href="#sec-334" class="toc-detail">FFI (Foreign Function Interface)</a>
+  <a href="#sec-335" class="toc-detail">언어별 최적화 전략</a>
+  <a href="#sec-336" class="toc-detail">1. 성능 중심 언어 (C++, Rust, Go)</a>
+  <a href="#sec-337" class="toc-detail">2. 생산성 중심 언어 (Python, Ruby, JavaScript)</a>
+  <a href="#sec-338" class="toc-detail">3. 안전성 중심 언어 (Rust, Haskell, Kotlin)</a>
+  <a href="#sec-339" class="toc-detail">실전 팁: 언어 선택 가이드</a>
+  <a href="#sec-340" class="toc-detail">언어 선택 기준</a>
+  <a href="#sec-341" class="toc-detail">언어별 적합한 도메인</a>
+  <a href="#sec-342" class="toc-detail">마치며</a>
+  <a href="#sec-343" class="toc-detail">핵심 원칙 요약</a>
+  <a href="#sec-344" class="toc-detail">실무 적용 전략</a>
+</div>
+<a href="#sec-345" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2WF02</span>🌾 5개 도메인 레시피</a>
+<a href="#sec-346" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2WF03</span>🌾 Inbox/Outbox JSON 기초</a>
+<a href="#sec-347" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-11" aria-label="Toggle">▶</button>
+  <a href="#sec-348" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF01</span>프롬프팅 고급 기법</a>
+</div>
+<div class="toc-details" id="tg-11">
+  <a href="#sec-349" class="toc-detail">7.2 테스트 주도 개발(TDD) 실천</a>
+  <a href="#sec-350" class="toc-detail">TDD 사이클</a>
+  <a href="#sec-351" class="toc-detail">TDD with Claude Code</a>
+  <a href="#sec-352" class="toc-detail">TDD 실전 예제</a>
+</div>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-12" aria-label="Toggle">▶</button>
+  <a href="#sec-353" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF02</span>프롬프트 템플릿 라이브러리</a>
+</div>
+<div class="toc-details" id="tg-12">
+  <a href="#sec-368" class="toc-detail">기능 개발 프로세스</a>
+  <a href="#sec-369" class="toc-detail">일일 루틴</a>
+  <a href="#sec-370" class="toc-detail">품질 체크리스트</a>
+  <a href="#sec-375" class="toc-detail">현재 진행 상황</a>
+  <a href="#sec-376" class="toc-detail">공통 결정사항</a>
+  <a href="#sec-402" class="toc-detail">주요 기술 스택</a>
+  <a href="#sec-403" class="toc-detail">컴포넌트 규칙</a>
+  <a href="#sec-404" class="toc-detail">성능 최적화</a>
+  <a href="#sec-406" class="toc-detail">주요 기술 스택</a>
+  <a href="#sec-407" class="toc-detail">API 설계 원칙</a>
+  <a href="#sec-408" class="toc-detail">보안 요구사항</a>
+  <a href="#sec-423" class="toc-detail">4단계: Commit (커밋)</a>
+</div>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-13" aria-label="Toggle">▶</button>
+  <a href="#sec-424" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF03</span>디버깅 마스터 전략</a>
+</div>
+<div class="toc-details" id="tg-13">
+  <a href="#sec-425" class="toc-detail">3.4 테스트 실행과 디버깅</a>
+  <a href="#sec-426" class="toc-detail">테스트 작성</a>
+  <a href="#sec-427" class="toc-detail">디버깅 전략</a>
+  <a href="#sec-428" class="toc-detail">실시간 디버깅 세션</a>
+  <a href="#sec-429" class="toc-detail">7.4 리팩토링과 코드 품질 개선</a>
+  <a href="#sec-430" class="toc-detail">체계적인 리팩토링</a>
+  <a href="#sec-431" class="toc-detail">코드 품질 메트릭</a>
+</div>
+<a href="#sec-432" class="toc-lv1 toc-area-link"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-14" aria-label="Toggle">▶</button>
+  <a href="#sec-433" class="toc-lv1 toc-item-link"><span class="sal-id">S2CM01</span>비용 최적화 10가지 전략</a>
+</div>
+<div class="toc-details" id="tg-14">
+  <a href="#sec-434" class="toc-detail">11.9 모니터링과 성능 최적화</a>
+  <a href="#sec-435" class="toc-detail">종합적인 모니터링 시스템</a>
+  <a href="#sec-436" class="toc-detail">성능 최적화 전략</a>
+  <a href="#sec-437" class="toc-detail">비용 모니터링과 최적화</a>
+</div>
+<a href="#sec-438" class="toc-lv1 toc-stage-link"><span class="badge s4">S4</span>고급 (Advanced)</a>
+<a href="#sec-439" class="toc-lv1 toc-area-link"><span class="area-code">CO</span>개념 (Concept)</a>
+<a href="#sec-440" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S4CO01</span>🌾 SSAL 철학</a>
+<a href="#sec-441" class="toc-lv1 toc-area-link"><span class="area-code">ST</span>스트럭처 (Structure)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-15" aria-label="Toggle">▶</button>
+  <a href="#sec-442" class="toc-lv1 toc-item-link"><span class="sal-id">S4ST01</span>멀티세션 워크플로우 8가지 패턴</a>
+</div>
+<div class="toc-details" id="tg-15">
+  <a href="#sec-443" class="toc-detail">8.2 Git Worktree와의 고급 통합 전략</a>
+  <a href="#sec-444" class="toc-detail">엔터프라이즈급 Worktree 아키텍처</a>
+  <a href="#sec-445" class="toc-detail">지능형 Worktree 관리 시스템</a>
+  <a href="#sec-446" class="toc-detail">8.3 마이크로서비스 동시 개발</a>
+  <a href="#sec-447" class="toc-detail">서비스별 개발 환경 분리</a>
+  <a href="#sec-448" class="toc-detail">서비스 간 통신 관리</a>
+  <a href="#sec-449" class="toc-detail">서비스 간 계약 관리</a>
+  <a href="#sec-450" class="toc-detail">8.4 프론트엔드-백엔드 병렬 작업</a>
+  <a href="#sec-451" class="toc-detail">API 우선 개발</a>
+  <a href="#sec-452" class="toc-detail">타입 공유 전략</a>
+  <a href="#sec-453" class="toc-detail">실시간 동기화</a>
+  <a href="#sec-454" class="toc-detail">8.5 효율적인 컨텍스트 관리</a>
+  <a href="#sec-455" class="toc-detail">컨텍스트 스위칭 최적화</a>
+  <a href="#sec-456" class="toc-detail">브랜치별 컨텍스트 관리</a>
+  <a href="#sec-457" class="toc-detail">인스턴스 간 정보 공유</a>
+  <a href="#sec-458" class="toc-detail">8.6 병렬 처리 실전 예제</a>
+  <a href="#sec-459" class="toc-detail">시나리오: 전자상거래 플랫폼 구축</a>
+  <a href="#sec-460" class="toc-detail">1주차: 프로젝트 설정</a>
+  <a href="#sec-461" class="toc-detail">2주차: 통합과 테스트</a>
+  <a href="#sec-462" class="toc-detail">멀티태스킹 최적화 팁</a>
+  <a href="#sec-463" class="toc-detail">1. 작업 우선순위 관리</a>
+  <a href="#sec-464" class="toc-detail">2. 종속성 관리</a>
+  <a href="#sec-465" class="toc-detail">3. 리소스 모니터링</a>
+  <a href="#sec-466" class="toc-detail">4. 동기화 포인트 설정</a>
+  <a href="#sec-467" class="toc-detail">멀티태스킹 CLAUDE.md 예시</a>
+</div>
+<a href="#sec-468" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S4ST02</span>🌾 Inbox/Outbox 완전 가이드</a>
+<a href="#sec-469" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S4ST03</span>🌾 소대편제</a>
+<a href="#sec-470" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-16" aria-label="Toggle">▶</button>
+  <a href="#sec-471" class="toc-lv1 toc-item-link"><span class="sal-id">S4WF01</span>Hooks 시스템</a>
+</div>
+<div class="toc-details" id="tg-16">
+  <a href="#sec-472" class="toc-detail">9.1 지능형 Headless 모드 아키텍처</a>
+  <a href="#sec-473" class="toc-detail">엔터프라이즈급 Headless 통합 전략</a>
+  <a href="#sec-474" class="toc-detail">엔터프라이즈 환경 구성 관리</a>
+</div>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-17" aria-label="Toggle">▶</button>
+  <a href="#sec-475" class="toc-lv1 toc-item-link"><span class="sal-id">S4WF02</span>고급 꿀팁 &amp; 워크플로우</a>
+</div>
+<div class="toc-details" id="tg-17">
+  <a href="#sec-476" class="toc-detail">7.3 비주얼 디자인 구현 워크플로우</a>
+  <a href="#sec-477" class="toc-detail">디자인을 코드로</a>
+  <a href="#sec-478" class="toc-detail">컴포넌트 라이브러리 구축</a>
+  <a href="#sec-479" class="toc-detail">7.4 리팩토링과 코드 품질 개선</a>
+  <a href="#sec-480" class="toc-detail">체계적인 리팩토링</a>
+  <a href="#sec-481" class="toc-detail">코드 품질 메트릭</a>
+  <a href="#sec-482" class="toc-detail">7.5 문서화 자동화</a>
+  <a href="#sec-483" class="toc-detail">코드에서 문서로</a>
+  <a href="#sec-484" class="toc-detail">다이어그램 생성</a>
+  <a href="#sec-485" class="toc-detail">실전 워크플로우: 기능 추가 시나리오</a>
+  <a href="#sec-486" class="toc-detail">프로젝트 개요: 새로운 결제 기능 추가</a>
+  <a href="#sec-487" class="toc-detail">Day 1: 탐색과 계획</a>
+  <a href="#sec-516" class="toc-detail">📈 적응형 품질 기준</a>
+  <a href="#sec-517" class="toc-detail">프로젝트 단계별 리뷰 강도</a>
+  <a href="#sec-518" class="toc-detail">팀원별 맞춤형 기준</a>
+  <a href="#sec-519" class="toc-detail">비즈니스 임팩트별 리뷰 깊이</a>
+  <a href="#sec-520" class="toc-detail">🎓 리뷰를 통한 팀 성장 시스템</a>
+  <a href="#sec-521" class="toc-detail">지식 전수 추적</a>
+  <a href="#sec-522" class="toc-detail">혁신 아이디어 발굴</a>
+</div>
+<a href="#sec-523" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S4WF03</span>🌾 Stage Gate 디버깅</a>
+<a href="#sec-524" class="toc-lv1 toc-area-link"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
+<a href="#sec-525" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S4CM01</span>🌾 MoAI 비용 전략</a>
+<a href="#sec-526" class="toc-lv1 toc-stage-link"><span class="badge s5">S5</span>마스터 (Master) — 전체 추후 삽입</a>
+<a href="#sec-527" class="toc-lv1 toc-area-link"><span class="area-code">CO</span>개념 (Concept)</a>
+<a href="#sec-528" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5CO01</span>🌾 13DGC-AODM 방법론</a>
+<a href="#sec-529" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5CO02</span>🌾 4계층 역할 체계</a>
+<a href="#sec-530" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5CO03</span>🌾 6대 철학 확장</a>
+<a href="#sec-531" class="toc-lv1 toc-area-link"><span class="area-code">ST</span>스트럭처 (Structure)</a>
+<a href="#sec-532" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5ST01</span>🌾 SAL Grid 완전 가이드</a>
+<a href="#sec-533" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5ST02</span>🌾 PROJECT SAL GRID 실전</a>
+<a href="#sec-534" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5ST03</span>🌾 3D 시각화</a>
+<a href="#sec-535" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
+<a href="#sec-536" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5WF01</span>🌾 SSAL 프로세스</a>
+<a href="#sec-537" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5WF02</span>🌾 Inbox/Outbox 실전 운용</a>
+<a href="#sec-538" class="toc-lv1 toc-area-link"><span class="area-code">TO</span>팀운용 (Team Operations)</a>
+<a href="#sec-539" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5TO01</span>🌾 MoAI v2.5 시스템</a>
+<a href="#sec-540" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5TO02</span>🌾 Mercenary Types 고급 운용</a>
+<a href="#sec-541" class="toc-lv1 toc-area-link"><span class="area-code">QC</span>품질관리 (Quality Control)</a>
+<a href="#sec-542" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5QC01</span>🌾 이중 검증 체계</a>
+<a href="#sec-543" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5QC02</span>🌾 품질 보증 프로세스</a>
+<a href="#sec-544" class="toc-lv1 toc-area-link"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
+<a href="#sec-545" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5CM01</span>🌾 비용 극대화 전략</a>
+<div class="toc-item-row">
+  <button class="toc-toggle" data-group="tg-18" aria-label="Toggle">▶</button>
+  <a href="#sec-546" class="toc-lv1 toc-item-link"><span class="sal-id">S5CM02</span>🌾 대규모 프로젝트 비용 시뮬레이션</a>
+</div>
+<div class="toc-details" id="tg-18">
+  <a href="#sec-547" class="toc-detail">부록</a>
+  <a href="#sec-548" class="toc-detail">출처 &amp; 크레딧</a>
+  <a href="#sec-549" class="toc-detail">쪼갬 섹션 추적표</a>
+  <a href="#sec-550" class="toc-detail">통계</a>
+  <a href="#sec-551" class="toc-detail">파일 순서 인덱스</a>
 </div>
 
 </nav>
@@ -8031,11 +7483,12 @@ window.addEventListener('scroll', () => {
 backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 // ── Active TOC highlight ──
-const tocLinks = document.querySelectorAll('.toc-item');
+const allTocLinks = document.querySelectorAll('.toc-lv1, .toc-detail');
 const headings = [];
-tocLinks.forEach(a => {
-  const id = a.getAttribute('href').slice(1);
-  const el = document.getElementById(id);
+allTocLinks.forEach(a => {
+  const href = a.getAttribute('href');
+  if (!href) return;
+  const el = document.getElementById(href.slice(1));
   if (el) headings.push({ el, link: a });
 });
 
@@ -8044,25 +7497,32 @@ function updateActive() {
   for (const h of headings) {
     if (h.el.getBoundingClientRect().top <= 100) current = h;
   }
-  tocLinks.forEach(a => a.classList.remove('active'));
+  allTocLinks.forEach(a => a.classList.remove('active'));
   if (current) {
     current.link.classList.add('active');
-    // 현재 활성 항목이 보이도록 부모 그룹 자동 펼치기
-    if (typeof autoExpandActiveGroup === 'function') autoExpandActiveGroup();
+    // 세부 내용이 active → 부모 toc-details 자동 펼치기
+    if (current.link.classList.contains('toc-detail')) {
+      const details = current.link.closest('.toc-details');
+      if (details && !details.classList.contains('open')) {
+        details.classList.add('open');
+        const toggle = details.previousElementSibling?.querySelector('.toc-toggle');
+        if (toggle) toggle.classList.add('open');
+      }
+    }
     current.link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 }
 window.addEventListener('scroll', updateActive);
 updateActive();
 
-// ── TOC 접기/펼치기 ──
+// ── 항목 토글 (세부 내용 펼치기/접기) ──
 document.querySelectorAll('.toc-toggle').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
-    const groupId = btn.dataset.group;
-    const children = document.getElementById(groupId);
-    if (children) {
-      children.classList.toggle('open');
+    const g = btn.dataset.group;
+    const details = document.getElementById(g);
+    if (details) {
+      details.classList.toggle('open');
       btn.classList.toggle('open');
     }
   });
@@ -8070,30 +7530,13 @@ document.querySelectorAll('.toc-toggle').forEach(btn => {
 
 // 전체 펼치기/접기
 document.getElementById('tocExpandAll').addEventListener('click', () => {
-  document.querySelectorAll('.toc-children').forEach(c => c.classList.add('open'));
+  document.querySelectorAll('.toc-details').forEach(c => c.classList.add('open'));
   document.querySelectorAll('.toc-toggle').forEach(b => b.classList.add('open'));
 });
 document.getElementById('tocCollapseAll').addEventListener('click', () => {
-  document.querySelectorAll('.toc-children').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.toc-details').forEach(c => c.classList.remove('open'));
   document.querySelectorAll('.toc-toggle').forEach(b => b.classList.remove('open'));
 });
-
-// 스크롤 시 현재 보이는 섹션의 TOC 그룹 자동 펼치기
-function autoExpandActiveGroup() {
-  const activeLink = document.querySelector('.toc-item.active');
-  if (activeLink && activeLink.classList.contains('toc-child')) {
-    const parentGroup = activeLink.closest('.toc-children');
-    if (parentGroup && !parentGroup.classList.contains('open')) {
-      parentGroup.classList.add('open');
-      // 해당 토글 버튼도 열기
-      const section = parentGroup.closest('.toc-section');
-      if (section) {
-        const toggleBtn = section.querySelector('.toc-toggle');
-        if (toggleBtn) toggleBtn.classList.add('open');
-      }
-    }
-  }
-}
 
 // ── Mobile menu ──
 const menuBtn = document.getElementById('menuBtn');

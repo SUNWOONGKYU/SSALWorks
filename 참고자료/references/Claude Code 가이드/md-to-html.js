@@ -216,163 +216,108 @@ const { html: bodyHtml, toc } = convertMd(md);
 
 function buildTocHtml(toc) {
   let html = '';
-  let groupId = 0;
+  let gid = 0;
 
-  // Stage 패턴: "S1 입문", "S2 초급" 등
   function isStage(text) { return /^S[1-5]\s/.test(text); }
-  // Area 패턴: "S1CO —", "S2WF —" 등
   function isArea(text) { return /^S[1-5][A-Z]{2}\s/.test(text); }
-  // Stage 번호 추출
-  function stageNum(text) {
-    const m = text.match(/^S([1-5])/);
-    return m ? m[1] : null;
-  }
-  // 뱃지 생성 (한 번만)
+  function stageNum(text) { const m = text.match(/^S([1-5])/); return m ? m[1] : null; }
   function stageBadge(n) {
     const cls = ['', 's1', 's2', 's3', 's4', 's5'];
     return `<span class="badge ${cls[n]}">S${n}</span>`;
   }
+  function tr(text, max) { return text.length > max ? text.slice(0, max - 3) + '...' : text; }
 
-  function truncate(text, max) {
-    return text.length > max ? text.slice(0, max - 3) + '...' : text;
+  let currentStage = null;
+  let currentArea = null;
+  const areaItemCount = {};
+
+  // ── 1단계: h4 항목별로 세부 내용(일반 h2/h3) 매핑 ──
+  // h4 이후 ~ 다음 h4/Area/Stage 사이의 일반 h2/h3를 해당 h4의 세부 내용으로 묶음
+  const itemDetails = {}; // index → [detail items]
+  let lastH4Idx = -1;
+  let lastH4Stage = null;
+  let lastH4Area = null;
+
+  for (let i = 0; i < toc.length; i++) {
+    const t = toc[i];
+    if (t.level === 2 && isStage(t.text)) { lastH4Idx = -1; lastH4Stage = stageNum(t.text); lastH4Area = null; continue; }
+    if (t.level === 3 && isArea(t.text)) { lastH4Idx = -1; lastH4Area = t.text; continue; }
+    if (t.level === 4 && lastH4Stage && lastH4Area) { lastH4Idx = i; itemDetails[i] = []; continue; }
+    // 일반 h2/h3 → lastH4의 세부 내용
+    if (lastH4Idx >= 0 && (t.level === 2 || t.level === 3)) {
+      itemDetails[lastH4Idx].push(t);
+    }
   }
 
-  // 열린 div 스택 관리
-  let openDivs = 0;
-  function closeAll() {
-    let s = '';
-    while (openDivs > 0) { s += '</div>\n'; openDivs--; }
-    return s;
-  }
-
-  let currentStage = null; // 현재 열린 Stage
-  let currentArea = null;  // 현재 열린 Area
-  const areaItemCount = {}; // Area별 항목 카운터
+  // ── 2단계: HTML 생성 ──
+  currentStage = null;
+  currentArea = null;
 
   for (let i = 0; i < toc.length; i++) {
     const item = toc[i];
     const text = item.text;
-    const displayText = truncate(text, 50);
-    const sn = stageNum(text);
 
-    // ── Stage 헤딩 (h2, "S1 입문" 등) ──
+    // ── Stage (항상 보임, 토글 없음) ──
     if (item.level === 2 && isStage(text)) {
-      // 이전 Area, Stage 닫기
-      html += closeAll();
+      currentStage = stageNum(text);
       currentArea = null;
-
-      const gid = 'tg-' + (groupId++);
-      currentStage = sn;
-
-      // Stage 제목에서 뱃지 중복 방지: "S1 입문" 표시할 때 뱃지로 S1 표시하므로 텍스트에서 S1 제거
-      const stageDisplayText = truncate(text.replace(/^S[1-5]\s*/, ''), 45);
-
-      html += `<div class="toc-stage">\n`;
-      openDivs++;
-      html += `<div class="toc-h2-row">\n`;
-      html += `  <button class="toc-toggle" data-group="${gid}" aria-label="Toggle">▶</button>\n`;
-      html += `  <a href="#${item.id}" class="toc-item toc-h2 toc-stage-title">${stageBadge(sn)}${escapeHtml(stageDisplayText)}</a>\n`;
-      html += `</div>\n`;
-      html += `<div class="toc-children" id="${gid}">\n`;
-      openDivs++;
+      const stageText = tr(text.replace(/^S[1-5]\s*/, ''), 45);
+      html += `<a href="#${item.id}" class="toc-lv1 toc-stage-link">${stageBadge(currentStage)}${escapeHtml(stageText)}</a>\n`;
       continue;
     }
 
-    // ── Area 헤딩 (h3, "S1CO — 개념" 등) ──
+    // ── Area (항상 보임, 토글 없음) ──
     if (item.level === 3 && isArea(text)) {
-      // 이전 Area 닫기
-      if (currentArea) {
-        html += '</div>\n'; openDivs--; // children
-        html += '</div>\n'; openDivs--; // area section
-      }
-
-      const gid = 'tg-' + (groupId++);
       currentArea = text;
-
-      // Area 뱃지에서 Stage 번호 제거: "S1CO — 개념" → 뱃지 없이 "CO — 개념" 표시
       const areaCode = text.match(/^S[1-5]([A-Z]{2})/)?.[1] || '';
-      const areaDisplayText = truncate(text.replace(/^S[1-5][A-Z]{2}\s*—?\s*/, ''), 40);
-
-      html += `<div class="toc-area-section">\n`;
-      openDivs++;
-      html += `<div class="toc-area-row">\n`;
-      html += `  <button class="toc-toggle toc-toggle-sm" data-group="${gid}" aria-label="Toggle">▶</button>\n`;
-      html += `  <a href="#${item.id}" class="toc-item toc-h3 toc-area-title"><span class="area-code">${areaCode}</span>${escapeHtml(areaDisplayText)}</a>\n`;
-      html += `</div>\n`;
-      html += `<div class="toc-children" id="${gid}">\n`;
-      openDivs++;
+      const areaText = tr(text.replace(/^S[1-5][A-Z]{2}\s*—?\s*/, ''), 40);
+      html += `<a href="#${item.id}" class="toc-lv1 toc-area-link"><span class="area-code">${areaCode}</span>${escapeHtml(areaText)}</a>\n`;
       continue;
     }
 
-    // ── h4 항목 (Area 안의 개별 항목) ──
+    // ── 항목 (SAL ID) — 세부 내용 있으면 ▶ 토글, 없으면 링크만 ──
     if (item.level === 4) {
-      // SAL Grid ID 생성: Stage + Area코드 + 순번
       let salId = '';
       if (currentStage && currentArea) {
-        const areaMatch = currentArea.match(/^S[1-5]([A-Z]{2})/);
-        if (areaMatch) {
+        const am = currentArea.match(/^S[1-5]([A-Z]{2})/);
+        if (am) {
           if (!areaItemCount[currentArea]) areaItemCount[currentArea] = 0;
           areaItemCount[currentArea]++;
-          const num = String(areaItemCount[currentArea]).padStart(2, '0');
-          salId = `S${currentStage}${areaMatch[1]}${num}`;
+          salId = `S${currentStage}${am[1]}${String(areaItemCount[currentArea]).padStart(2, '0')}`;
         }
       }
-
-      // 원래 [번호] 제거하고 SAL ID 표시
-      let cleanText = text.replace(/^\[[\w\s]+\]\s*/, '').replace(/^🌾\s*\[추후 삽입\]\s*/, '🌾 ');
+      const cleanText = text.replace(/^\[[\w\s]+\]\s*/, '').replace(/^🌾\s*\[추후 삽입\]\s*/, '🌾 ');
       const salBadge = salId ? `<span class="sal-id">${salId}</span>` : '';
+      const details = itemDetails[i] || [];
 
-      html += `<a href="#${item.id}" class="toc-item toc-child toc-h4" style="padding-left:52px">${salBadge}${escapeHtml(truncate(cleanText, 38))}</a>\n`;
-      continue;
-    }
-
-    // ── 일반 h2 (Stage가 아닌 h2 — 챕터 제목 등) ──
-    if (item.level === 2) {
-      // 이전 Area, Stage 닫기
-      if (currentArea) { html += '</div>\n</div>\n'; openDivs -= 2; currentArea = null; }
-
-      // Stage 안에 있는 일반 h2인지 확인
-      const hasH3Children = (i + 1 < toc.length && toc[i + 1].level === 3);
-
-      if (hasH3Children) {
-        const gid = 'tg-' + (groupId++);
-        html += `<div class="toc-subsection">\n`;
-        openDivs++;
-        html += `<div class="toc-h2-row">\n`;
-        html += `  <button class="toc-toggle toc-toggle-sm" data-group="${gid}" aria-label="Toggle">▶</button>\n`;
-        html += `  <a href="#${item.id}" class="toc-item toc-h2-sub">${escapeHtml(displayText)}</a>\n`;
+      if (details.length > 0) {
+        const g = 'tg-' + (gid++);
+        html += `<div class="toc-item-row">\n`;
+        html += `  <button class="toc-toggle" data-group="${g}" aria-label="Toggle">▶</button>\n`;
+        html += `  <a href="#${item.id}" class="toc-lv1 toc-item-link">${salBadge}${escapeHtml(tr(cleanText, 35))}</a>\n`;
         html += `</div>\n`;
-        html += `<div class="toc-children" id="${gid}">\n`;
-        openDivs++;
+        html += `<div class="toc-details" id="${g}">\n`;
+        for (const d of details) {
+          html += `  <a href="#${d.id}" class="toc-detail">${escapeHtml(tr(d.text, 40))}</a>\n`;
+        }
+        html += `</div>\n`;
       } else {
-        html += `<a href="#${item.id}" class="toc-item toc-h2-sub" style="padding-left:28px">${escapeHtml(displayText)}</a>\n`;
+        html += `<a href="#${item.id}" class="toc-lv1 toc-item-link toc-item-solo">${salBadge}${escapeHtml(tr(cleanText, 35))}</a>\n`;
       }
       continue;
     }
 
-    // ── 일반 h3 (Area가 아닌 h3) ──
-    if (item.level === 3) {
-      // h3 다음에 h4가 있는지 확인
-      const hasH4Children = (i + 1 < toc.length && toc[i + 1].level === 4);
-
-      if (hasH4Children) {
-        const gid = 'tg-' + (groupId++);
-        html += `<div class="toc-subsection">\n`;
-        openDivs++;
-        html += `<div class="toc-area-row">\n`;
-        html += `  <button class="toc-toggle toc-toggle-sm" data-group="${gid}" aria-label="Toggle">▶</button>\n`;
-        html += `  <a href="#${item.id}" class="toc-item toc-h3">${escapeHtml(truncate(text, 45))}</a>\n`;
-        html += `</div>\n`;
-        html += `<div class="toc-children" id="${gid}">\n`;
-        openDivs++;
-      } else {
-        html += `<a href="#${item.id}" class="toc-item toc-child toc-h3" style="padding-left:36px">${escapeHtml(truncate(text, 45))}</a>\n`;
-      }
-      continue;
+    // ── Stage 밖의 일반 h2/h3 (이미 h4에 매핑된 것은 skip) ──
+    // h4에 매핑되지 않은 것만 표시
+    let mapped = false;
+    for (const key of Object.keys(itemDetails)) {
+      if (itemDetails[key].includes(item)) { mapped = true; break; }
+    }
+    if (!mapped) {
+      html += `<a href="#${item.id}" class="toc-detail toc-orphan">${escapeHtml(tr(text, 45))}</a>\n`;
     }
   }
 
-  html += closeAll();
   return html;
 }
 
@@ -481,62 +426,63 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 .toc-h3 { font-weight: 600; }
 .toc-h4 { font-size: 0.78rem; }
 
-/* ── TOC 3단계 계층: Stage → Area → Item ── */
-.toc-stage { margin-top: 6px; }
-.toc-h2-row {
-  display: flex; align-items: center; padding: 2px 0;
+/* ── TOC: Stage / Area / Item 동일 크기, 항상 표시 ── */
+.toc-lv1 {
+  display: block; padding: 5px 12px; color: var(--text); text-decoration: none;
+  font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border-left: 3px solid transparent; transition: all 0.15s;
 }
-.toc-h2-row .toc-item, .toc-area-row .toc-item { flex: 1; min-width: 0; }
-.toc-stage-title { font-weight: 800 !important; font-size: 0.9rem !important; color: var(--text) !important; }
+.toc-lv1:hover { color: var(--accent); background: rgba(56,189,248,0.06); }
+.toc-lv1.active { color: var(--accent); border-left-color: var(--accent); background: rgba(56,189,248,0.1); }
 
-/* Area 행 */
-.toc-area-section { margin-left: 8px; }
-.toc-area-row {
-  display: flex; align-items: center; padding: 1px 0;
-}
-.toc-area-title { font-weight: 600 !important; font-size: 0.82rem !important; }
+/* Stage */
+.toc-stage-link { margin-top: 12px; font-weight: 800; padding-left: 10px; }
+
+/* Area */
+.toc-area-link { padding-left: 20px; color: var(--text); }
 .area-code {
-  display: inline-block; font-size: 0.7rem; font-weight: 800; padding: 0px 4px;
-  border-radius: 3px; margin-right: 4px; background: var(--bg3); color: var(--accent);
+  display: inline-block; font-size: 0.75rem; font-weight: 800; padding: 1px 5px;
+  border-radius: 3px; margin-right: 5px; background: var(--bg3); color: var(--accent);
   vertical-align: middle; letter-spacing: 0.5px;
 }
 
-/* 일반 h2 서브섹션 */
-.toc-subsection { margin-left: 4px; }
-.toc-h2-sub {
-  display: block; padding: 4px 12px 4px 28px; color: var(--text); text-decoration: none;
-  font-size: 0.84rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  border-left: 2px solid transparent; transition: all 0.15s;
+/* Item (SAL ID) — 토글 있음 */
+.toc-item-row {
+  display: flex; align-items: center; padding-left: 28px;
 }
-.toc-h2-sub:hover { color: var(--accent); background: rgba(56,189,248,0.05); }
-
-/* 토글 버튼 */
+.toc-item-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 4px; }
+.toc-item-solo { padding-left: 56px; }
 .toc-toggle {
-  width: 22px; height: 22px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
   background: none; border: 1px solid var(--bg3); color: var(--muted); border-radius: 4px;
-  cursor: pointer; font-size: 0.5rem; margin-left: 6px; margin-right: 2px;
-  transition: all 0.2s; line-height: 1;
+  cursor: pointer; font-size: 0.5rem; transition: all 0.2s; line-height: 1;
 }
-.toc-toggle-sm { width: 18px; height: 18px; font-size: 0.45rem; margin-left: 12px; }
 .toc-toggle:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 .toc-toggle.open { transform: rotate(90deg); color: var(--accent); border-color: var(--accent); }
 
-/* 펼치기/접기 */
-.toc-children {
-  max-height: 0; overflow: hidden; transition: max-height 0.35s ease;
-}
-.toc-children.open { max-height: 8000px; }
-.toc-child { border-left: 2px solid transparent; }
-
-/* SAL Grid ID 뱃지 */
+/* SAL Grid ID */
 .sal-id {
-  display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 0px 4px;
-  border-radius: 3px; margin-right: 4px; color: var(--accent); opacity: 0.7;
-  font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  display: inline-block; font-size: 0.78rem; font-weight: 700; margin-right: 5px;
+  color: var(--accent); font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
   vertical-align: middle; letter-spacing: 0.3px;
 }
-html.light .sal-id { color: var(--accent); opacity: 0.8; }
+
+/* 세부 내용 (항목 아래, 작은 글씨, 접힘/펼침) */
+.toc-details {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+}
+.toc-details.open { max-height: 5000px; }
+.toc-detail {
+  display: block; padding: 3px 12px 3px 64px; color: var(--muted); text-decoration: none;
+  font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: all 0.15s; border-left: 2px solid transparent;
+}
+.toc-detail:hover { color: var(--accent); background: rgba(56,189,248,0.04); }
+.toc-detail.active { color: var(--accent); border-left-color: var(--accent); }
+.toc-orphan { padding-left: 40px; font-size: 0.75rem; color: var(--muted); }
+
 html.light .area-code { background: #e2e8f0; color: #2563eb; }
+html.light .sal-id { color: #2563eb; }
 
 /* ── Sidebar 전체 펼치기/접기 버튼 ── */
 .toc-controls {
@@ -747,11 +693,12 @@ window.addEventListener('scroll', () => {
 backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 // ── Active TOC highlight ──
-const tocLinks = document.querySelectorAll('.toc-item');
+const allTocLinks = document.querySelectorAll('.toc-lv1, .toc-detail');
 const headings = [];
-tocLinks.forEach(a => {
-  const id = a.getAttribute('href').slice(1);
-  const el = document.getElementById(id);
+allTocLinks.forEach(a => {
+  const href = a.getAttribute('href');
+  if (!href) return;
+  const el = document.getElementById(href.slice(1));
   if (el) headings.push({ el, link: a });
 });
 
@@ -760,25 +707,32 @@ function updateActive() {
   for (const h of headings) {
     if (h.el.getBoundingClientRect().top <= 100) current = h;
   }
-  tocLinks.forEach(a => a.classList.remove('active'));
+  allTocLinks.forEach(a => a.classList.remove('active'));
   if (current) {
     current.link.classList.add('active');
-    // 현재 활성 항목이 보이도록 부모 그룹 자동 펼치기
-    if (typeof autoExpandActiveGroup === 'function') autoExpandActiveGroup();
+    // 세부 내용이 active → 부모 toc-details 자동 펼치기
+    if (current.link.classList.contains('toc-detail')) {
+      const details = current.link.closest('.toc-details');
+      if (details && !details.classList.contains('open')) {
+        details.classList.add('open');
+        const toggle = details.previousElementSibling?.querySelector('.toc-toggle');
+        if (toggle) toggle.classList.add('open');
+      }
+    }
     current.link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 }
 window.addEventListener('scroll', updateActive);
 updateActive();
 
-// ── TOC 접기/펼치기 ──
+// ── 항목 토글 (세부 내용 펼치기/접기) ──
 document.querySelectorAll('.toc-toggle').forEach(btn => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation();
-    const groupId = btn.dataset.group;
-    const children = document.getElementById(groupId);
-    if (children) {
-      children.classList.toggle('open');
+    const g = btn.dataset.group;
+    const details = document.getElementById(g);
+    if (details) {
+      details.classList.toggle('open');
       btn.classList.toggle('open');
     }
   });
@@ -786,30 +740,13 @@ document.querySelectorAll('.toc-toggle').forEach(btn => {
 
 // 전체 펼치기/접기
 document.getElementById('tocExpandAll').addEventListener('click', () => {
-  document.querySelectorAll('.toc-children').forEach(c => c.classList.add('open'));
+  document.querySelectorAll('.toc-details').forEach(c => c.classList.add('open'));
   document.querySelectorAll('.toc-toggle').forEach(b => b.classList.add('open'));
 });
 document.getElementById('tocCollapseAll').addEventListener('click', () => {
-  document.querySelectorAll('.toc-children').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.toc-details').forEach(c => c.classList.remove('open'));
   document.querySelectorAll('.toc-toggle').forEach(b => b.classList.remove('open'));
 });
-
-// 스크롤 시 현재 보이는 섹션의 TOC 그룹 자동 펼치기
-function autoExpandActiveGroup() {
-  const activeLink = document.querySelector('.toc-item.active');
-  if (activeLink && activeLink.classList.contains('toc-child')) {
-    const parentGroup = activeLink.closest('.toc-children');
-    if (parentGroup && !parentGroup.classList.contains('open')) {
-      parentGroup.classList.add('open');
-      // 해당 토글 버튼도 열기
-      const section = parentGroup.closest('.toc-section');
-      if (section) {
-        const toggleBtn = section.querySelector('.toc-toggle');
-        if (toggleBtn) toggleBtn.classList.add('open');
-      }
-    }
-  }
-}
 
 // ── Mobile menu ──
 const menuBtn = document.getElementById('menuBtn');
