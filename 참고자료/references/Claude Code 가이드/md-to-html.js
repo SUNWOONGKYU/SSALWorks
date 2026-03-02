@@ -428,8 +428,8 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 
 /* ── TOC: Stage / Area / Item 동일 크기, 항상 표시 ── */
 .toc-lv1 {
-  display: block; padding: 5px 12px; color: var(--text); text-decoration: none;
-  font-size: 0.88rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: block; padding: 6px 12px; color: var(--text); text-decoration: none;
+  font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   border-left: 3px solid transparent; transition: all 0.15s;
 }
 .toc-lv1:hover { color: var(--accent); background: rgba(56,189,248,0.06); }
@@ -441,8 +441,8 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 /* Area */
 .toc-area-link { padding-left: 20px; color: var(--text); }
 .area-code {
-  display: inline-block; font-size: 0.75rem; font-weight: 800; padding: 1px 5px;
-  border-radius: 3px; margin-right: 5px; background: var(--bg3); color: var(--accent);
+  display: inline-block; font-size: 0.82rem; font-weight: 800; padding: 2px 7px;
+  border-radius: 4px; margin-right: 6px; background: var(--bg3); color: var(--accent);
   vertical-align: middle; letter-spacing: 0.5px;
 }
 
@@ -462,8 +462,10 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 
 /* SAL Grid ID */
 .sal-id {
-  display: inline-block; font-size: 0.78rem; font-weight: 700; margin-right: 5px;
-  color: var(--accent); font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
+  display: inline-block; font-size: 0.82rem; font-weight: 800; margin-right: 6px;
+  padding: 2px 7px; border-radius: 4px;
+  background: rgba(56,189,248,0.12); color: var(--accent);
+  font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
   vertical-align: middle; letter-spacing: 0.3px;
 }
 
@@ -482,7 +484,7 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 .toc-orphan { padding-left: 40px; font-size: 0.75rem; color: var(--muted); }
 
 html.light .area-code { background: #e2e8f0; color: #2563eb; }
-html.light .sal-id { color: #2563eb; }
+html.light .sal-id { color: #2563eb; background: rgba(37,99,235,0.1); }
 
 /* ── Sidebar 전체 펼치기/접기 버튼 ── */
 .toc-controls {
@@ -496,8 +498,8 @@ html.light .sal-id { color: #2563eb; }
 .toc-ctrl-btn:hover { background: var(--accent); color: var(--bg); }
 
 .badge {
-  display: inline-block; font-size: 0.65rem; font-weight: 800; padding: 1px 5px;
-  border-radius: 4px; margin-right: 4px; vertical-align: middle;
+  display: inline-block; font-size: 0.82rem; font-weight: 800; padding: 2px 7px;
+  border-radius: 4px; margin-right: 6px; vertical-align: middle;
 }
 .badge.s1 { background: #065f46; color: #6ee7b7; }
 .badge.s2 { background: #1e40af; color: #93c5fd; }
