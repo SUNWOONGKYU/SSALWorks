@@ -212,16 +212,15 @@ function convertMd(src) {
 
 const { html: bodyHtml, toc } = convertMd(md);
 
-// ── TOC (사이드바 네비게이션) 생성 ──
+// ── TOC (사이드바 네비게이션) 생성 — 접기/펼치기 아코디언 ──
 
 function buildTocHtml(toc) {
   let html = '';
-  for (const item of toc) {
+  let inGroup = false; // h2 그룹 안에 있는지
+
+  for (let i = 0; i < toc.length; i++) {
+    const item = toc[i];
     const indent = (item.level - 2) * 16;
-    let cls = 'toc-item';
-    if (item.level === 2) cls += ' toc-h2';
-    else if (item.level === 3) cls += ' toc-h3';
-    else cls += ' toc-h4';
 
     // Stage badge
     let badge = '';
@@ -232,8 +231,37 @@ function buildTocHtml(toc) {
     else if (/^S5/.test(item.text)) badge = '<span class="badge s5">S5</span>';
 
     const displayText = item.text.length > 50 ? item.text.slice(0, 47) + '...' : item.text;
-    html += `<a href="#${item.id}" class="${cls}" style="padding-left:${12 + indent}px">${badge}${escapeHtml(displayText)}</a>\n`;
+
+    if (item.level === 2) {
+      // 이전 그룹 닫기
+      if (inGroup) html += '</div>\n';
+
+      // h2 다음에 하위 항목(h3/h4)이 있는지 확인
+      const hasChildren = (i + 1 < toc.length && toc[i + 1].level > 2);
+      const groupId = 'toc-group-' + i;
+
+      if (hasChildren) {
+        html += `<div class="toc-section">\n`;
+        html += `<a href="#${item.id}" class="toc-item toc-h2 toc-parent" data-group="${groupId}" style="padding-left:12px">${badge}<span class="toc-arrow">▶</span>${escapeHtml(displayText)}</a>\n`;
+        html += `<div class="toc-children" id="${groupId}">\n`;
+        inGroup = true;
+      } else {
+        html += `<a href="#${item.id}" class="toc-item toc-h2" style="padding-left:12px">${badge}${escapeHtml(displayText)}</a>\n`;
+        inGroup = false;
+      }
+    } else {
+      // h3, h4 — 하위 항목
+      let cls = 'toc-item toc-child';
+      if (item.level === 3) cls += ' toc-h3';
+      else cls += ' toc-h4';
+
+      html += `<a href="#${item.id}" class="${cls}" style="padding-left:${12 + indent}px">${badge}${escapeHtml(displayText)}</a>\n`;
+    }
   }
+
+  // 마지막 그룹 닫기
+  if (inGroup) html += '</div>\n</div>\n';
+
   return html;
 }
 
@@ -341,6 +369,31 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 .toc-h2 { font-weight: 700; font-size: 0.88rem; color: var(--text); margin-top: 8px; }
 .toc-h3 { font-weight: 600; }
 .toc-h4 { font-size: 0.78rem; }
+
+/* ── TOC 접기/펼치기 ── */
+.toc-section { position: relative; }
+.toc-parent { cursor: pointer; position: relative; }
+.toc-arrow {
+  display: inline-block; font-size: 0.6rem; margin-right: 4px; transition: transform 0.2s;
+  width: 10px; text-align: center; color: var(--muted);
+}
+.toc-parent.open .toc-arrow { transform: rotate(90deg); }
+.toc-children {
+  max-height: 0; overflow: hidden; transition: max-height 0.3s ease;
+}
+.toc-children.open { max-height: 5000px; }
+.toc-child { border-left: 2px solid transparent; }
+
+/* ── Sidebar 전체 펼치기/접기 버튼 ── */
+.toc-controls {
+  display: flex; gap: 4px; padding: 8px 12px 12px; border-bottom: 1px solid var(--td-border); margin-bottom: 8px;
+}
+.toc-ctrl-btn {
+  flex: 1; background: var(--bg3); border: none; color: var(--muted);
+  padding: 5px 8px; border-radius: 6px; cursor: pointer; font-size: 0.75rem;
+  font-weight: 600; transition: all 0.2s; font-family: inherit;
+}
+.toc-ctrl-btn:hover { background: var(--accent); color: var(--bg); }
 
 .badge {
   display: inline-block; font-size: 0.65rem; font-weight: 800; padding: 1px 5px;
@@ -497,6 +550,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <div class="progress"><div class="progress-bar" id="progressBar"></div></div>
 
 <nav class="sidebar" id="sidebar">
+<div class="toc-controls">
+  <button class="toc-ctrl-btn" id="tocExpandAll">전체 펼치기</button>
+  <button class="toc-ctrl-btn" id="tocCollapseAll">전체 접기</button>
+</div>
 ${tocHtml}
 </nav>
 
@@ -552,11 +609,50 @@ function updateActive() {
   tocLinks.forEach(a => a.classList.remove('active'));
   if (current) {
     current.link.classList.add('active');
+    // 현재 활성 항목이 보이도록 부모 그룹 자동 펼치기
+    if (typeof autoExpandActiveGroup === 'function') autoExpandActiveGroup();
     current.link.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   }
 }
 window.addEventListener('scroll', updateActive);
 updateActive();
+
+// ── TOC 접기/펼치기 ──
+document.querySelectorAll('.toc-parent').forEach(parent => {
+  parent.addEventListener('click', (e) => {
+    // 링크 클릭 시 해당 섹션으로 이동은 허용하되, 토글도 동시 수행
+    const groupId = parent.dataset.group;
+    const children = document.getElementById(groupId);
+    if (children) {
+      const isOpen = children.classList.contains('open');
+      children.classList.toggle('open');
+      parent.classList.toggle('open');
+    }
+  });
+});
+
+// 전체 펼치기/접기
+document.getElementById('tocExpandAll').addEventListener('click', () => {
+  document.querySelectorAll('.toc-children').forEach(c => c.classList.add('open'));
+  document.querySelectorAll('.toc-parent').forEach(p => p.classList.add('open'));
+});
+document.getElementById('tocCollapseAll').addEventListener('click', () => {
+  document.querySelectorAll('.toc-children').forEach(c => c.classList.remove('open'));
+  document.querySelectorAll('.toc-parent').forEach(p => p.classList.remove('open'));
+});
+
+// 스크롤 시 현재 보이는 섹션의 TOC 그룹 자동 펼치기
+function autoExpandActiveGroup() {
+  const activeLink = document.querySelector('.toc-item.active');
+  if (activeLink && activeLink.classList.contains('toc-child')) {
+    const parentGroup = activeLink.closest('.toc-children');
+    if (parentGroup && !parentGroup.classList.contains('open')) {
+      parentGroup.classList.add('open');
+      const parentBtn = parentGroup.previousElementSibling;
+      if (parentBtn) parentBtn.classList.add('open');
+    }
+  }
+}
 
 // ── Mobile menu ──
 const menuBtn = document.getElementById('menuBtn');
