@@ -253,7 +253,37 @@ function buildTocHtml(toc) {
   currentStage = null;
   currentArea = null;
 
-  for (let i = 0; i < toc.length; i++) {
+  // 프롤로그 수집 (첫 Stage 전의 h2/h3)
+  const prologueItems = [];
+  let firstStageIdx = toc.findIndex(t => t.level === 2 && isStage(t.text));
+  if (firstStageIdx < 0) firstStageIdx = toc.length;
+
+  for (let i = 0; i < firstStageIdx; i++) {
+    prologueItems.push(toc[i]);
+  }
+
+  // 프롤로그 렌더링: 첫 번째 항목을 토글 헤더로, 나머지를 접기 내용으로
+  if (prologueItems.length > 0) {
+    const pHead = prologueItems[0];
+    const pRest = prologueItems.slice(1);
+    const pg = 'tg-' + (gid++);
+
+    if (pRest.length > 0) {
+      html += `<div class="toc-prologue-row">\n`;
+      html += `  <button class="toc-toggle" data-group="${pg}" aria-label="Toggle">▶</button>\n`;
+      html += `  <a href="#${pHead.id}" class="toc-lv1">${escapeHtml(tr(pHead.text, 40))}</a>\n`;
+      html += `</div>\n`;
+      html += `<div class="toc-details" id="${pg}">\n`;
+      for (const p of pRest) {
+        html += `  <a href="#${p.id}" class="toc-prologue-detail">${escapeHtml(tr(p.text, 40))}</a>\n`;
+      }
+      html += `</div>\n`;
+    } else {
+      html += `<a href="#${pHead.id}" class="toc-lv1 toc-stage-link">${escapeHtml(tr(pHead.text, 40))}</a>\n`;
+    }
+  }
+
+  for (let i = firstStageIdx; i < toc.length; i++) {
     const item = toc[i];
     const text = item.text;
 
@@ -308,7 +338,6 @@ function buildTocHtml(toc) {
     }
 
     // ── Stage 밖의 일반 h2/h3 (이미 h4에 매핑된 것은 skip) ──
-    // h4에 매핑되지 않은 것만 표시
     let mapped = false;
     for (const key of Object.keys(itemDetails)) {
       if (itemDetails[key].includes(item)) { mapped = true; break; }
@@ -426,47 +455,47 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 .toc-h3 { font-weight: 600; }
 .toc-h4 { font-size: 0.78rem; }
 
-/* ── TOC: Stage / Area / Item 동일 크기, 항상 표시 ── */
+/* ── TOC: Stage / Area / Item 동일 크기 ── */
 .toc-lv1 {
-  display: block; padding: 6px 12px; color: var(--text); text-decoration: none;
-  font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  border-left: 3px solid transparent; transition: all 0.15s;
+  display: block; padding: 4px 10px; color: var(--muted); text-decoration: none;
+  font-size: 0.75rem; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border-left: 2px solid transparent; transition: all 0.15s;
 }
-.toc-lv1:hover { color: var(--accent); background: rgba(56,189,248,0.06); }
-.toc-lv1.active { color: var(--accent); border-left-color: var(--accent); background: rgba(56,189,248,0.1); }
+.toc-lv1:hover { color: var(--text); background: rgba(56,189,248,0.05); }
+.toc-lv1.active { color: var(--accent); border-left-color: var(--accent); background: rgba(56,189,248,0.08); }
 
 /* Stage */
-.toc-stage-link { margin-top: 12px; font-weight: 800; padding-left: 10px; }
+.toc-stage-link { margin-top: 10px; font-weight: 600; padding-left: 8px; color: var(--text); }
 
 /* Area */
-.toc-area-link { padding-left: 20px; color: var(--text); }
+.toc-area-link { padding-left: 18px; }
 .area-code {
-  display: inline-block; font-size: 0.82rem; font-weight: 800; padding: 2px 7px;
-  border-radius: 4px; margin-right: 6px; background: var(--bg3); color: var(--accent);
-  vertical-align: middle; letter-spacing: 0.5px;
+  display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 1px 4px;
+  border-radius: 3px; margin-right: 4px; background: var(--bg3); color: var(--accent);
+  vertical-align: middle; letter-spacing: 0.3px;
 }
 
 /* Item (SAL ID) — 토글 있음 */
 .toc-item-row {
-  display: flex; align-items: center; padding-left: 28px;
+  display: flex; align-items: center; padding-left: 26px;
 }
-.toc-item-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 4px; }
-.toc-item-solo { padding-left: 56px; }
+.toc-item-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 3px; }
+.toc-item-solo { padding-left: 46px; }
 .toc-toggle {
-  width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-  background: none; border: 1px solid var(--bg3); color: var(--muted); border-radius: 4px;
-  cursor: pointer; font-size: 0.5rem; transition: all 0.2s; line-height: 1;
+  width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid var(--bg3); color: var(--muted); border-radius: 3px;
+  cursor: pointer; font-size: 0.45rem; transition: all 0.2s; line-height: 1;
 }
 .toc-toggle:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 .toc-toggle.open { transform: rotate(90deg); color: var(--accent); border-color: var(--accent); }
 
 /* SAL Grid ID */
 .sal-id {
-  display: inline-block; font-size: 0.82rem; font-weight: 800; margin-right: 6px;
-  padding: 2px 7px; border-radius: 4px;
-  background: rgba(56,189,248,0.12); color: var(--accent);
+  display: inline-block; font-size: 0.65rem; font-weight: 600; margin-right: 4px;
+  padding: 1px 4px; border-radius: 3px;
+  background: rgba(56,189,248,0.1); color: var(--accent);
   font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
-  vertical-align: middle; letter-spacing: 0.3px;
+  vertical-align: middle; letter-spacing: 0.2px;
 }
 
 /* 세부 내용 (항목 아래, 작은 글씨, 접힘/펼침) */
@@ -475,16 +504,29 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 }
 .toc-details.open { max-height: 5000px; }
 .toc-detail {
-  display: block; padding: 3px 12px 3px 64px; color: var(--muted); text-decoration: none;
-  font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: block; padding: 2px 10px 2px 54px; color: var(--muted); text-decoration: none;
+  font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   transition: all 0.15s; border-left: 2px solid transparent;
 }
 .toc-detail:hover { color: var(--accent); background: rgba(56,189,248,0.04); }
 .toc-detail.active { color: var(--accent); border-left-color: var(--accent); }
-.toc-orphan { padding-left: 40px; font-size: 0.75rem; color: var(--muted); }
+
+/* 프롤로그 (SAL Grid 구조 안내 등) — 접기/펼치기 */
+.toc-prologue-row {
+  display: flex; align-items: center; padding-left: 8px;
+}
+.toc-prologue-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 3px; font-weight: 600; color: var(--text); }
+.toc-prologue-detail {
+  display: block; padding: 2px 10px 2px 32px; color: var(--muted); text-decoration: none;
+  font-size: 0.68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: all 0.15s; border-left: 2px solid transparent;
+}
+.toc-prologue-detail:hover { color: var(--accent); background: rgba(56,189,248,0.04); }
+.toc-prologue-detail.active { color: var(--accent); border-left-color: var(--accent); }
+.toc-orphan { padding-left: 32px; font-size: 0.68rem; color: var(--muted); }
 
 html.light .area-code { background: #e2e8f0; color: #2563eb; }
-html.light .sal-id { color: #2563eb; background: rgba(37,99,235,0.1); }
+html.light .sal-id { color: #2563eb; background: rgba(37,99,235,0.08); }
 
 /* ── Sidebar 전체 펼치기/접기 버튼 ── */
 .toc-controls {
@@ -498,8 +540,8 @@ html.light .sal-id { color: #2563eb; background: rgba(37,99,235,0.1); }
 .toc-ctrl-btn:hover { background: var(--accent); color: var(--bg); }
 
 .badge {
-  display: inline-block; font-size: 0.82rem; font-weight: 800; padding: 2px 7px;
-  border-radius: 4px; margin-right: 6px; vertical-align: middle;
+  display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 1px 4px;
+  border-radius: 3px; margin-right: 4px; vertical-align: middle;
 }
 .badge.s1 { background: #065f46; color: #6ee7b7; }
 .badge.s2 { background: #1e40af; color: #93c5fd; }
@@ -695,7 +737,7 @@ window.addEventListener('scroll', () => {
 backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 // ── Active TOC highlight ──
-const allTocLinks = document.querySelectorAll('.toc-lv1, .toc-detail');
+const allTocLinks = document.querySelectorAll('.toc-lv1, .toc-detail, .toc-prologue-detail');
 const headings = [];
 allTocLinks.forEach(a => {
   const href = a.getAttribute('href');
@@ -713,7 +755,7 @@ function updateActive() {
   if (current) {
     current.link.classList.add('active');
     // 세부 내용이 active → 부모 toc-details 자동 펼치기
-    if (current.link.classList.contains('toc-detail')) {
+    if (current.link.classList.contains('toc-detail') || current.link.classList.contains('toc-prologue-detail')) {
       const details = current.link.closest('.toc-details');
       if (details && !details.classList.contains('open')) {
         details.classList.add('open');

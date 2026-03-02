@@ -99,47 +99,47 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 .toc-h3 { font-weight: 600; }
 .toc-h4 { font-size: 0.78rem; }
 
-/* ── TOC: Stage / Area / Item 동일 크기, 항상 표시 ── */
+/* ── TOC: Stage / Area / Item 동일 크기 ── */
 .toc-lv1 {
-  display: block; padding: 6px 12px; color: var(--text); text-decoration: none;
-  font-size: 0.85rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  border-left: 3px solid transparent; transition: all 0.15s;
+  display: block; padding: 4px 10px; color: var(--muted); text-decoration: none;
+  font-size: 0.75rem; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  border-left: 2px solid transparent; transition: all 0.15s;
 }
-.toc-lv1:hover { color: var(--accent); background: rgba(56,189,248,0.06); }
-.toc-lv1.active { color: var(--accent); border-left-color: var(--accent); background: rgba(56,189,248,0.1); }
+.toc-lv1:hover { color: var(--text); background: rgba(56,189,248,0.05); }
+.toc-lv1.active { color: var(--accent); border-left-color: var(--accent); background: rgba(56,189,248,0.08); }
 
 /* Stage */
-.toc-stage-link { margin-top: 12px; font-weight: 800; padding-left: 10px; }
+.toc-stage-link { margin-top: 10px; font-weight: 600; padding-left: 8px; color: var(--text); }
 
 /* Area */
-.toc-area-link { padding-left: 20px; color: var(--text); }
+.toc-area-link { padding-left: 18px; }
 .area-code {
-  display: inline-block; font-size: 0.82rem; font-weight: 800; padding: 2px 7px;
-  border-radius: 4px; margin-right: 6px; background: var(--bg3); color: var(--accent);
-  vertical-align: middle; letter-spacing: 0.5px;
+  display: inline-block; font-size: 0.65rem; font-weight: 700; padding: 1px 4px;
+  border-radius: 3px; margin-right: 4px; background: var(--bg3); color: var(--accent);
+  vertical-align: middle; letter-spacing: 0.3px;
 }
 
 /* Item (SAL ID) — 토글 있음 */
 .toc-item-row {
-  display: flex; align-items: center; padding-left: 28px;
+  display: flex; align-items: center; padding-left: 26px;
 }
-.toc-item-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 4px; }
-.toc-item-solo { padding-left: 56px; }
+.toc-item-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 3px; }
+.toc-item-solo { padding-left: 46px; }
 .toc-toggle {
-  width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-  background: none; border: 1px solid var(--bg3); color: var(--muted); border-radius: 4px;
-  cursor: pointer; font-size: 0.5rem; transition: all 0.2s; line-height: 1;
+  width: 16px; height: 16px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+  background: none; border: 1px solid var(--bg3); color: var(--muted); border-radius: 3px;
+  cursor: pointer; font-size: 0.45rem; transition: all 0.2s; line-height: 1;
 }
 .toc-toggle:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 .toc-toggle.open { transform: rotate(90deg); color: var(--accent); border-color: var(--accent); }
 
 /* SAL Grid ID */
 .sal-id {
-  display: inline-block; font-size: 0.82rem; font-weight: 800; margin-right: 6px;
-  padding: 2px 7px; border-radius: 4px;
-  background: rgba(56,189,248,0.12); color: var(--accent);
+  display: inline-block; font-size: 0.65rem; font-weight: 600; margin-right: 4px;
+  padding: 1px 4px; border-radius: 3px;
+  background: rgba(56,189,248,0.1); color: var(--accent);
   font-family: 'Fira Code', 'Cascadia Code', Consolas, monospace;
-  vertical-align: middle; letter-spacing: 0.3px;
+  vertical-align: middle; letter-spacing: 0.2px;
 }
 
 /* 세부 내용 (항목 아래, 작은 글씨, 접힘/펼침) */
@@ -148,16 +148,29 @@ body { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', -apple
 }
 .toc-details.open { max-height: 5000px; }
 .toc-detail {
-  display: block; padding: 3px 12px 3px 64px; color: var(--muted); text-decoration: none;
-  font-size: 0.72rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: block; padding: 2px 10px 2px 54px; color: var(--muted); text-decoration: none;
+  font-size: 0.65rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   transition: all 0.15s; border-left: 2px solid transparent;
 }
 .toc-detail:hover { color: var(--accent); background: rgba(56,189,248,0.04); }
 .toc-detail.active { color: var(--accent); border-left-color: var(--accent); }
-.toc-orphan { padding-left: 40px; font-size: 0.75rem; color: var(--muted); }
+
+/* 프롤로그 (SAL Grid 구조 안내 등) — 접기/펼치기 */
+.toc-prologue-row {
+  display: flex; align-items: center; padding-left: 8px;
+}
+.toc-prologue-row .toc-lv1 { flex: 1; min-width: 0; padding-left: 3px; font-weight: 600; color: var(--text); }
+.toc-prologue-detail {
+  display: block; padding: 2px 10px 2px 32px; color: var(--muted); text-decoration: none;
+  font-size: 0.68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  transition: all 0.15s; border-left: 2px solid transparent;
+}
+.toc-prologue-detail:hover { color: var(--accent); background: rgba(56,189,248,0.04); }
+.toc-prologue-detail.active { color: var(--accent); border-left-color: var(--accent); }
+.toc-orphan { padding-left: 32px; font-size: 0.68rem; color: var(--muted); }
 
 html.light .area-code { background: #e2e8f0; color: #2563eb; }
-html.light .sal-id { color: #2563eb; background: rgba(37,99,235,0.1); }
+html.light .sal-id { color: #2563eb; background: rgba(37,99,235,0.08); }
 
 /* ── Sidebar 전체 펼치기/접기 버튼 ── */
 .toc-controls {
@@ -171,8 +184,8 @@ html.light .sal-id { color: #2563eb; background: rgba(37,99,235,0.1); }
 .toc-ctrl-btn:hover { background: var(--accent); color: var(--bg); }
 
 .badge {
-  display: inline-block; font-size: 0.82rem; font-weight: 800; padding: 2px 7px;
-  border-radius: 4px; margin-right: 6px; vertical-align: middle;
+  display: inline-block; font-size: 0.6rem; font-weight: 700; padding: 1px 4px;
+  border-radius: 3px; margin-right: 4px; vertical-align: middle;
 }
 .badge.s1 { background: #065f46; color: #6ee7b7; }
 .badge.s2 { background: #1e40af; color: #93c5fd; }
@@ -329,17 +342,22 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
   <button class="toc-ctrl-btn" id="tocExpandAll">전체 펼치기</button>
   <button class="toc-ctrl-btn" id="tocCollapseAll">전체 접기</button>
 </div>
-<a href="#sec-2" class="toc-detail toc-orphan">SAL Grid 구조 안내</a>
-<a href="#sec-3" class="toc-detail toc-orphan">Stage 정의 (5단계)</a>
-<a href="#sec-4" class="toc-detail toc-orphan">Area 정의 (6영역)</a>
-<a href="#sec-5" class="toc-detail toc-orphan">30셀 그리드 맵</a>
+<div class="toc-prologue-row">
+  <button class="toc-toggle" data-group="tg-0" aria-label="Toggle">▶</button>
+  <a href="#sec-2" class="toc-lv1">SAL Grid 구조 안내</a>
+</div>
+<div class="toc-details" id="tg-0">
+  <a href="#sec-3" class="toc-prologue-detail">Stage 정의 (5단계)</a>
+  <a href="#sec-4" class="toc-prologue-detail">Area 정의 (6영역)</a>
+  <a href="#sec-5" class="toc-prologue-detail">30셀 그리드 맵</a>
+</div>
 <a href="#sec-6" class="toc-lv1 toc-stage-link"><span class="badge s1">S1</span>입문 (Beginner)</a>
 <a href="#sec-7" class="toc-lv1 toc-area-link"><span class="area-code">CO</span>개념 (Concept)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-0" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-1" aria-label="Toggle">▶</button>
   <a href="#sec-8" class="toc-lv1 toc-item-link"><span class="sal-id">S1CO01</span>바이브 코딩이란?</a>
 </div>
-<div class="toc-details" id="tg-0">
+<div class="toc-details" id="tg-1">
   <a href="#sec-10" class="toc-detail">1.1 전통적인 개발 도구의 한계</a>
   <a href="#sec-11" class="toc-detail">현재 개발 환경의 도전 과제</a>
   <a href="#sec-12" class="toc-detail">IDE의 진화와 한계</a>
@@ -359,10 +377,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
   <a href="#sec-26" class="toc-detail">마치며</a>
 </div>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-1" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-2" aria-label="Toggle">▶</button>
   <a href="#sec-27" class="toc-lv1 toc-item-link"><span class="sal-id">S1CO02</span>비개발자 가이드 — 개념편</a>
 </div>
-<div class="toc-details" id="tg-1">
+<div class="toc-details" id="tg-2">
   <a href="#sec-28" class="toc-detail">학습 목표</a>
   <a href="#sec-29" class="toc-detail">개요</a>
   <a href="#sec-30" class="toc-detail">13.10 법무 팀 - 비개발자의 도구 개발</a>
@@ -378,10 +396,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-39" class="toc-lv1 toc-area-link"><span class="area-code">ST</span>스트럭처 (Structure)</a>
 <a href="#sec-40" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-2" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-3" aria-label="Toggle">▶</button>
   <a href="#sec-41" class="toc-lv1 toc-item-link"><span class="sal-id">S1WF01</span>환경 설정 &amp; 첫 프로젝트</a>
 </div>
-<div class="toc-details" id="tg-2">
+<div class="toc-details" id="tg-3">
   <a href="#sec-43" class="toc-detail">2.1 시스템 요구사항</a>
   <a href="#sec-44" class="toc-detail">최소 요구사항</a>
   <a href="#sec-45" class="toc-detail">사전 준비사항</a>
@@ -408,10 +426,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-65" class="toc-lv1 toc-area-link"><span class="area-code">QC</span>품질관리 (Quality Control)</a>
 <a href="#sec-66" class="toc-lv1 toc-area-link"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-3" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-4" aria-label="Toggle">▶</button>
   <a href="#sec-67" class="toc-lv1 toc-item-link"><span class="sal-id">S1CM01</span>요금제 선택 가이드</a>
 </div>
-<div class="toc-details" id="tg-3">
+<div class="toc-details" id="tg-4">
   <a href="#sec-68" class="toc-detail">2.4 기본 설정 최적화</a>
   <a href="#sec-69" class="toc-detail">전역 설정 파일</a>
   <a href="#sec-70" class="toc-detail">권한 설정</a>
@@ -421,10 +439,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-73" class="toc-lv1 toc-stage-link"><span class="badge s2">S2</span>초급 (Elementary)</a>
 <a href="#sec-74" class="toc-lv1 toc-area-link"><span class="area-code">CO</span>개념 (Concept)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-4" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-5" aria-label="Toggle">▶</button>
   <a href="#sec-75" class="toc-lv1 toc-item-link"><span class="sal-id">S2CO01</span>6대 핵심 철학</a>
 </div>
-<div class="toc-details" id="tg-4">
+<div class="toc-details" id="tg-5">
   <a href="#sec-76" class="toc-detail">1.3 Claude Code의 핵심 철학</a>
   <a href="#sec-77" class="toc-detail">1. 유연성 (Flexibility)</a>
   <a href="#sec-78" class="toc-detail">2. 투명성 (Transparency)</a>
@@ -433,10 +451,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 </div>
 <a href="#sec-81" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2CO02</span>🌾 7번째 철학 "Muscle Memory Outsour...</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-5" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-6" aria-label="Toggle">▶</button>
   <a href="#sec-82" class="toc-lv1 toc-item-link"><span class="sal-id">S2CO03</span>바이브 코딩 적합성 판단</a>
 </div>
-<div class="toc-details" id="tg-5">
+<div class="toc-details" id="tg-6">
   <a href="#sec-83" class="toc-detail">1.4 다른 AI 코딩 도구와의 차별점</a>
   <a href="#sec-84" class="toc-detail">GitHub Copilot과의 비교</a>
   <a href="#sec-85" class="toc-detail">ChatGPT와의 비교</a>
@@ -445,10 +463,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
   <a href="#sec-88" class="toc-detail">마치며</a>
 </div>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-6" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-7" aria-label="Toggle">▶</button>
   <a href="#sec-89" class="toc-lv1 toc-item-link"><span class="sal-id">S2CO04</span>10대 황금 원칙</a>
 </div>
-<div class="toc-details" id="tg-6">
+<div class="toc-details" id="tg-7">
   <a href="#sec-90" class="toc-detail">프로 팁: 효율성 극대화</a>
   <a href="#sec-91" class="toc-detail">1. 별칭(Alias) 설정</a>
   <a href="#sec-92" class="toc-detail">2. 템플릿 활용</a>
@@ -460,10 +478,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 </div>
 <a href="#sec-98" class="toc-lv1 toc-area-link"><span class="area-code">ST</span>스트럭처 (Structure)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-7" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-8" aria-label="Toggle">▶</button>
   <a href="#sec-99" class="toc-lv1 toc-item-link"><span class="sal-id">S2ST01</span>CLAUDE.md 완전 가이드</a>
 </div>
-<div class="toc-details" id="tg-7">
+<div class="toc-details" id="tg-8">
   <a href="#sec-101" class="toc-detail">4.1 CLAUDE.md의 역할과 중요성</a>
   <a href="#sec-102" class="toc-detail">CLAUDE.md란?</a>
   <a href="#sec-103" class="toc-detail">왜 중요한가?</a>
@@ -505,17 +523,17 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-138" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2ST02</span>추가</a>
 <a href="#sec-139" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2ST03</span>변경</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-8" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-9" aria-label="Toggle">▶</button>
   <a href="#sec-140" class="toc-lv1 toc-item-link"><span class="sal-id">S2ST04</span>제거</a>
 </div>
-<div class="toc-details" id="tg-8">
+<div class="toc-details" id="tg-9">
   <a href="#sec-141" class="toc-detail">v2.0.0 (2024-02-01)</a>
 </div>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-9" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-10" aria-label="Toggle">▶</button>
   <a href="#sec-142" class="toc-lv1 toc-item-link"><span class="sal-id">S2ST05</span>주요 변경</a>
 </div>
-<div class="toc-details" id="tg-9">
+<div class="toc-details" id="tg-10">
   <a href="#sec-143" class="toc-detail">마치며</a>
   <a href="#sec-144" class="toc-detail">핵심 학습 내용</a>
   <a href="#sec-145" class="toc-detail">실무 적용 로드맵</a>
@@ -524,10 +542,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-147" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2ST06</span>🌾 SSAL 프로젝트 통합 연동</a>
 <a href="#sec-148" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-10" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-11" aria-label="Toggle">▶</button>
   <a href="#sec-149" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF01</span>4단계 황금 워크플로우</a>
 </div>
-<div class="toc-details" id="tg-10">
+<div class="toc-details" id="tg-11">
   <a href="#sec-150" class="toc-detail">7.1 탐색-계획-코딩-커밋 사이클</a>
   <a href="#sec-151" class="toc-detail">EPCC (Explore-Plan-Code-Commit) 워크플로우</a>
   <a href="#sec-152" class="toc-detail">1단계: Explore (탐색) - 체계적 코드베이스 이해</a>
@@ -596,20 +614,20 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-346" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S2WF03</span>🌾 Inbox/Outbox JSON 기초</a>
 <a href="#sec-347" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-11" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-12" aria-label="Toggle">▶</button>
   <a href="#sec-348" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF01</span>프롬프팅 고급 기법</a>
 </div>
-<div class="toc-details" id="tg-11">
+<div class="toc-details" id="tg-12">
   <a href="#sec-349" class="toc-detail">7.2 테스트 주도 개발(TDD) 실천</a>
   <a href="#sec-350" class="toc-detail">TDD 사이클</a>
   <a href="#sec-351" class="toc-detail">TDD with Claude Code</a>
   <a href="#sec-352" class="toc-detail">TDD 실전 예제</a>
 </div>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-12" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-13" aria-label="Toggle">▶</button>
   <a href="#sec-353" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF02</span>프롬프트 템플릿 라이브러리</a>
 </div>
-<div class="toc-details" id="tg-12">
+<div class="toc-details" id="tg-13">
   <a href="#sec-368" class="toc-detail">기능 개발 프로세스</a>
   <a href="#sec-369" class="toc-detail">일일 루틴</a>
   <a href="#sec-370" class="toc-detail">품질 체크리스트</a>
@@ -624,10 +642,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
   <a href="#sec-423" class="toc-detail">4단계: Commit (커밋)</a>
 </div>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-13" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-14" aria-label="Toggle">▶</button>
   <a href="#sec-424" class="toc-lv1 toc-item-link"><span class="sal-id">S2WF03</span>디버깅 마스터 전략</a>
 </div>
-<div class="toc-details" id="tg-13">
+<div class="toc-details" id="tg-14">
   <a href="#sec-425" class="toc-detail">3.4 테스트 실행과 디버깅</a>
   <a href="#sec-426" class="toc-detail">테스트 작성</a>
   <a href="#sec-427" class="toc-detail">디버깅 전략</a>
@@ -638,10 +656,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 </div>
 <a href="#sec-432" class="toc-lv1 toc-area-link"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-14" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-15" aria-label="Toggle">▶</button>
   <a href="#sec-433" class="toc-lv1 toc-item-link"><span class="sal-id">S2CM01</span>비용 최적화 10가지 전략</a>
 </div>
-<div class="toc-details" id="tg-14">
+<div class="toc-details" id="tg-15">
   <a href="#sec-434" class="toc-detail">11.9 모니터링과 성능 최적화</a>
   <a href="#sec-435" class="toc-detail">종합적인 모니터링 시스템</a>
   <a href="#sec-436" class="toc-detail">성능 최적화 전략</a>
@@ -652,10 +670,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-440" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S4CO01</span>🌾 SSAL 철학</a>
 <a href="#sec-441" class="toc-lv1 toc-area-link"><span class="area-code">ST</span>스트럭처 (Structure)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-15" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-16" aria-label="Toggle">▶</button>
   <a href="#sec-442" class="toc-lv1 toc-item-link"><span class="sal-id">S4ST01</span>멀티세션 워크플로우 8가지 패턴</a>
 </div>
-<div class="toc-details" id="tg-15">
+<div class="toc-details" id="tg-16">
   <a href="#sec-443" class="toc-detail">8.2 Git Worktree와의 고급 통합 전략</a>
   <a href="#sec-444" class="toc-detail">엔터프라이즈급 Worktree 아키텍처</a>
   <a href="#sec-445" class="toc-detail">지능형 Worktree 관리 시스템</a>
@@ -686,19 +704,19 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-469" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S4ST03</span>🌾 소대편제</a>
 <a href="#sec-470" class="toc-lv1 toc-area-link"><span class="area-code">WF</span>워크플로우 (Workflow)</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-16" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-17" aria-label="Toggle">▶</button>
   <a href="#sec-471" class="toc-lv1 toc-item-link"><span class="sal-id">S4WF01</span>Hooks 시스템</a>
 </div>
-<div class="toc-details" id="tg-16">
+<div class="toc-details" id="tg-17">
   <a href="#sec-472" class="toc-detail">9.1 지능형 Headless 모드 아키텍처</a>
   <a href="#sec-473" class="toc-detail">엔터프라이즈급 Headless 통합 전략</a>
   <a href="#sec-474" class="toc-detail">엔터프라이즈 환경 구성 관리</a>
 </div>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-17" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-18" aria-label="Toggle">▶</button>
   <a href="#sec-475" class="toc-lv1 toc-item-link"><span class="sal-id">S4WF02</span>고급 꿀팁 &amp; 워크플로우</a>
 </div>
-<div class="toc-details" id="tg-17">
+<div class="toc-details" id="tg-18">
   <a href="#sec-476" class="toc-detail">7.3 비주얼 디자인 구현 워크플로우</a>
   <a href="#sec-477" class="toc-detail">디자인을 코드로</a>
   <a href="#sec-478" class="toc-detail">컴포넌트 라이브러리 구축</a>
@@ -743,10 +761,10 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <a href="#sec-544" class="toc-lv1 toc-area-link"><span class="area-code">CM</span>비용관리 (Cost Management)</a>
 <a href="#sec-545" class="toc-lv1 toc-item-link toc-item-solo"><span class="sal-id">S5CM01</span>🌾 비용 극대화 전략</a>
 <div class="toc-item-row">
-  <button class="toc-toggle" data-group="tg-18" aria-label="Toggle">▶</button>
+  <button class="toc-toggle" data-group="tg-19" aria-label="Toggle">▶</button>
   <a href="#sec-546" class="toc-lv1 toc-item-link"><span class="sal-id">S5CM02</span>🌾 대규모 프로젝트 비용 시뮬레이션</a>
 </div>
-<div class="toc-details" id="tg-18">
+<div class="toc-details" id="tg-19">
   <a href="#sec-547" class="toc-detail">부록</a>
   <a href="#sec-548" class="toc-detail">출처 &amp; 크레딧</a>
   <a href="#sec-549" class="toc-detail">쪼갬 섹션 추적표</a>
@@ -771,13 +789,11 @@ mark { background: rgba(251,191,36,0.3); color: var(--yellow); padding: 0 2px; b
 <h2 id="sec-5">30셀 그리드 맵</h2>
 <div class="code-block"><pre><code>         │ CO(개념)     │ ST(스트럭처)  │ WF(워크플로우) │ TO(팀운용)    │ QC(품질관리)  │ CM(비용관리)
 ━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━
-S1 입문  │ [01] [25a]  │ (빈 셀)      │ [25b]        │ (빈 셀)      │ (빈 셀)      │ [19]
-S2 초급  │ [02][18][15]│ [04]         │ [03][06a][14]│ [07a]        │ [12][13a]    │ [05a]
-S3 중급  │ [16]        │ [20]         │ [06b][21][05b]│ [07b][10]   │ [11][13b][22]│ [24]
-S4 고급  │ 🌾추후      │ [23]         │ [09][17]     │ [08][26]     │ [27]         │ 🌾추후
-S5 마스터│ 🌾추후      │ 🌾추후       │ 🌾추후       │ 🌾추후       │ 🌾추후       │ 🌾추후</code></pre></div>
-<p>주황색 = 쪼갬 variant: [05a][05b] [06a][06b] [07a][07b] [13a][13b] [25a][25b]</p>
-<p>검정색 = 원본 통째: [01][02][03][04]...[27]</p>
+S1 입문  │             │             │              │             │             │
+S2 초급  │             │             │              │             │             │
+S3 중급  │             │             │              │             │             │
+S4 고급  │             │             │              │             │             │
+S5 마스터│             │             │              │             │             │</code></pre></div>
 <hr>
 <h2 id="sec-6" class="stage-heading">S1 입문 (Beginner)</h2>
 <hr>
@@ -7485,7 +7501,7 @@ window.addEventListener('scroll', () => {
 backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
 // ── Active TOC highlight ──
-const allTocLinks = document.querySelectorAll('.toc-lv1, .toc-detail');
+const allTocLinks = document.querySelectorAll('.toc-lv1, .toc-detail, .toc-prologue-detail');
 const headings = [];
 allTocLinks.forEach(a => {
   const href = a.getAttribute('href');
@@ -7503,7 +7519,7 @@ function updateActive() {
   if (current) {
     current.link.classList.add('active');
     // 세부 내용이 active → 부모 toc-details 자동 펼치기
-    if (current.link.classList.contains('toc-detail')) {
+    if (current.link.classList.contains('toc-detail') || current.link.classList.contains('toc-prologue-detail')) {
       const details = current.link.closest('.toc-details');
       if (details && !details.classList.contains('open')) {
         details.classList.add('open');
