@@ -10,20 +10,18 @@
 ## SAL Grid 구조 안내
 
 SAL Grid는 3차원 지식 관리 체계입니다:
-- **Stage (Y축)**: 난이도 단계 — 순차적 (S1→S2→S3→S4→S5)
+- **Stage (Y축)**: 난이도 단계 — 순차적 (S1→S2→S3)
 - **Area (X축)**: 지식 영역 — 병렬적 (순서 없음)
 - **Level (Z축)**: 셀 내 의존성 순서 — 순차적 (L1→L2→L3)
 - **Variant**: 같은 섹션의 분리본 — 소문자 (a, b, c)
 
-### Stage 정의 (5단계)
+### Stage 정의 (3단계)
 
 | ID | 이름 | 영문 | 대상 |
 |----|------|------|------|
-| S1 | 입문 | Beginner | 비개발자도 즉시 시작 가능 |
-| S2 | 초급 | Elementary | 핵심 개념과 기본 사용법 |
-| S3 | 중급 | Intermediate | 실무 프로젝트 직접 적용 |
-| S4 | 고급 | Advanced | 멀티 에이전트, 자동화, 고급 기법 |
-| S5 | 마스터 | Master | 대규모 운영, 방법론 설계 |
+| S1 | 초급 | Beginner | 비개발자부터 핵심 개념과 기본 사용법 |
+| S2 | 중급 | Intermediate | 실무 프로젝트 직접 적용 |
+| S3 | 고급 | Advanced | 멀티 에이전트, 자동화, 대규모 운영 |
 
 ### Area 정의 (6영역)
 
@@ -38,25 +36,23 @@ SAL Grid는 3차원 지식 관리 체계입니다:
 
 ---
 
-## 30셀 그리드 맵
+## 18셀 그리드 맵
 
 ```
          │ CO(개념)     │ ST(스트럭처)  │ WF(워크플로우) │ TO(팀운용)    │ QC(품질관리)  │ CM(비용관리)
 ━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━┿━━━━━━━━━━━━━
-S1 입문  │             │             │              │             │             │
-S2 초급  │             │             │              │             │             │
-S3 중급  │             │             │              │             │             │
-S4 고급  │             │             │              │             │             │
-S5 마스터│             │             │              │             │             │
+S1 초급  │             │             │              │             │             │
+S2 중급  │             │             │              │             │             │
+S3 고급  │             │             │              │             │             │
 ```
 
 ---
 
 
-## S1 입문 (Beginner)
+
+## S1 초급 (Beginner)
 
 ---
-
 ### S1CO — 개념 (Concept)
 
 #### [01] 바이브 코딩이란?
@@ -710,759 +706,9 @@ Anthropic의 다양한 팀 사례를 통해 Claude Code가 단순한 개발 도�
 
 ---
 
-### S1ST — 스트럭처 (Structure)
-
-> (빈 셀)
-
----
-
-### S1WF — 워크플로우 (Workflow)
-
-#### [25b] 환경 설정 & 첫 프로젝트
-> **출처**: 섹션25 (쪼갬 variant) | **셀**: S1WF | **Level**: L1
-> ⚠️쪼갬: "환경 설정", "첫 프로젝트", "흔한 실수 5가지"
-
-
-# 제2장: 설치와 초기 설정
-
-> "시작이 반이다" - 한국 속담
-
-이제 Claude Code를 설치해보겠습니다. 이 장에서는 **각 운영체제별로 단계별 설치 가이드**를 제공하며, 설치 과정에서 발생할 수 있는 문제들과 해결 방법도 함께 다룹니다.
-
-## 2.1 시스템 요구사항
-
-### 최소 요구사항
-
-먼저 시스템이 Claude Code를 실행할 수 있는지 확인해보겠습니다. 최소 요구사항은 일반적인 개발 환경과 유사하며, 대부분의 현대적인 시스템에서 실행 가능합니다.
-
-| 구성 요소 | 최소 요구사항 | 권장 사항 |
-|----------|-------------|----------|
-| 운영체제 | macOS 12+, Windows 10+, Ubuntu 20.04+ | 최신 버전 |
-| RAM | 8GB | 16GB 이상 |
-| 저장공간 | 2GB 여유 공간 | 10GB 이상 |
-| 인터넷 | 안정적인 연결 필요 | 고속 인터넷 |
-| Node.js | 18.0 이상 | 20.0 이상 |
-
-### 사전 준비사항
-
-설치 전 시스템 환경을 확인하겠습니다. 터미널을 열고 다음 명령어들을 실행하여 필요한 도구들이 설치되어 있는지 확인하세요.
-
-**터미널 실행 방법**
-
-- **Mac**: `Cmd + Space` → "터미널" 검색
-- **Windows**: `Win + R` → "cmd" 입력
-- **Linux**: `Ctrl + Alt + T`
-
-```bash
-# Node.js 버전 확인
-node --version
-
-# npm 버전 확인
-npm --version
-
-# Git 설치 확인 (선택사항이지만 권장)
-git --version
-```
-
-**Node.js가 설치되어 있지 않거나 버전이 낮다면**
-
-1. [Node.js 공식 사이트](https://nodejs.org)에서 LTS 버전을 다운로드하세요
-2. 또는 패키지 매니저를 사용하세요
-   - **Mac**: `brew install node` (Homebrew 필요)
-   - **Windows**: `choco install nodejs` (Chocolatey 필요)
-   - **Linux**: `sudo apt install nodejs npm` (Ubuntu/Debian)
-
-> **권장사항**: LTS(Long Term Support) 버전을 사용하면 안정성과 호환성을 보장받을 수 있습니다.
-
-## 2.2 설치 가이드 (OS별)
-
-이제 운영체제별로 Claude Code를 설치하겠습니다. 각 OS에 최적화된 설치 방법을 제공합니다.
-
-### macOS에서 설치하기
-
-macOS에서는 두 가지 설치 방법을 제공합니다.
-
-**방법 1: npm을 통한 설치 (권장)**
-
-가장 간단하고 안정적인 방법입니다.
-
-```bash
-# Claude Code 설치
-npm install -g @anthropic-ai/claude-code
-
-# 설치 확인
-claude --version
-```
-
-**방법 2: Homebrew를 통한 설치**
-
-```bash
-# Homebrew tap 추가
-brew tap anthropic-ai/claude-code
-
-# Claude Code 설치
-brew install claude-code
-
-# 설치 확인
-claude --version
-```
-
-**macOS 특화 설정**
-
-```bash
-# 터미널 권한 설정 (필요한 경우)
-# 시스템 환경설정 > 보안 및 개인정보 > 개인정보 > 전체 디스크 접근 권한
-# Terminal.app 또는 사용 중인 터미널 앱 추가
-
-# Spotlight 검색 제외 (선택사항)
-# .claude-code 디렉토리를 Spotlight 검색에서 제외하여 성능 향상
-```
-
-### Windows에서 설치하기
-
-Windows에서는 WSL 2(Windows Subsystem for Linux)를 통해 Claude Code를 설치하는 것이 권장됩니다. 현재 Claude Code는 Windows 네이티브 클라이언트를 지원하지 않으므로, Linux 환경이 필요합니다.
-
-**시스템 요구사항**
-
-| 항목 | 최소 조건 |
-|------|-----------|
-| OS | Windows 10 (21H2) 또는 Windows 11 + WSL 2 |
-| RAM | 4GB 이상 |
-| 네트워크 | 인터넷 연결 (OAuth 인증 및 API 호출) |
-| 소프트웨어 | WSL 2, Node.js 18+, Git(선택사항) |
-
-**1단계: WSL 2 설치**
-
-PowerShell을 **관리자 권한**으로 실행하고 다음 명령어를 입력하세요.
-
-```powershell
-# WSL 설치 (Ubuntu 22.04 LTS 기본 포함)
-wsl --install
-
-# 설치 후 시스템 재부팅
-```
-
-기존에 WSL 1을 사용하고 있다면 다음과 같이 업그레이드하세요.
-
-```powershell
-# WSL 2로 업그레이드
-wsl --set-version Ubuntu 2
-
-# 설치 상태 확인
-wsl --status
-wsl --list --verbose
-```
-
-**2단계: Node.js 설치 (WSL 내부)**
-
-WSL 터미널(Ubuntu)을 열고 NVM을 통해 Node.js를 설치하세요.
-
-```bash
-# NVM 설치
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
-
-# 변경사항 적용
-source ~/.bashrc
-
-# Node.js 18 LTS 설치 및 사용
-nvm install 18
-nvm use 18
-
-# 설치 확인
-node --version
-npm --version
-```
-
-> **중요**: `which node` 명령 실행 시 경로가 `/home/<username>/.nvm/...`으로 표시되어야 합니다. `/mnt/c/...` 경로가 나타나면 Windows와 경로가 충돌하는 상황이므로 위 과정을 다시 진행하세요.
-
-**3단계: Claude Code 설치**
-
-```bash
-# Claude Code 설치
-npm install -g @anthropic-ai/claude-code
-
-# 설치 확인
-claude --version
-```
-
-**설치 오류 해결**
-
-| 오류 | 해결방법 |
-|------|----------|
-| `OS detection failed` | `npm config set os linux` 실행 후 `npm install -g @anthropic-ai/claude-code --force --no-os-check` |
-| `exec: node: not found` | Node.js 설치 재확인, `which node` 경로 점검 |
-| 권한 오류 | `npm config set prefix '~/.npm-global'` 실행 후 재설치 |
-
-### Linux (Ubuntu/Debian)에서 설치하기
-
-```bash
-# 시스템 패키지 업데이트
-sudo apt update && sudo apt upgrade
-
-# Node.js 설치 (아직 없는 경우)
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt install nodejs
-
-# Claude Code 설치
-sudo npm install -g @anthropic-ai/claude-code
-
-# 설치 확인
-claude --version
-
-# 권한 설정 (필요한 경우)
-sudo chmod +x /usr/local/bin/claude
-```
-
-## 2.3 첫 번째 명령어 실행하기
-
-설치가 완료되었습니다. 이제 Claude Code의 기본 설정을 진행하겠습니다.
-
-### API 키 설정
-
-Claude Code를 사용하려면 API 키 설정이 필요합니다. 무료 사용량으로 시작할 수 있습니다.
-
-**1단계: API 키 발급받기**
-
-1. [Anthropic Console](https://console.anthropic.com)에 접속하세요
-2. 계정을 만들거나 로그인하세요
-3. "API Keys" 섹션에서 새 키를 생성하세요
-
-**2단계: API 키 설정하기**
-```bash
-# API 키 설정 명령어 실행
-claude login
-
-# 프롬프트가 나타나면 복사한 API 키를 붙여넣기
-# (키를 입력할 때는 화면에 표시되지 않는 것이 정상입니다)
-```
-
-> **보안 주의사항**: API 키는 개인 계정과 연결되므로 타인과 공유하지 않도록 주의하세요.
-
-### 첫 번째 대화
-
-이제 Claude Code와 첫 대화를 시작해보겠습니다.
-
-```bash
-# 첫 인사 (Claude가 답변하면 성공!)
-claude "안녕하세요, Claude! 처음 뵙겠습니다."
-
-# 간단한 작업 요청해보기
-claude "현재 시스템 정보를 알려주세요"
-
-# 디렉토리 탐색해보기
-claude "현재 폴더에 어떤 파일들이 있는지 보여주세요"
-```
-
-**응답이 정상적으로 출력되면 설치와 기본 설정이 완료된 것입니다.** Claude Code 사용 준비가 완료되었습니다.
-
-### 대화형 모드 vs 명령 모드
-
-**명령 모드 (일회성 작업)**
-```bash
-claude "package.json 파일을 읽고 요약해줘"
-```
-
-**대화형 모드 (지속적인 작업)**
-
-명령 모드는 단발성 작업에 적합하지만, 복잡한 프로젝트나 여러 단계를 거쳐야 하는 작업에는 대화형 모드가 더 효율적입니다.
-
-```bash
-# 대화형 모드 시작
-claude
-
-# 이제 지속적으로 대화 가능
-> 새로운 React 프로젝트를 시작하고 싶어
-> TypeScript를 사용하고, 테스트 환경도 설정해줘
-> Material-UI도 추가해줘
-```
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
-graph LR
-    subgraph interactive ["대화형 모드의 장점"]
-        A["컨텍스트 유지<br/>이전 대화 내용 기억"]
-        B["단계적 개선<br/>점진적 요구사항 조정"]
-        C["효율적 협업<br/>대화를 통한 구체화"]
-        
-        A --> B
-        B --> C
-        C --> A
-    end
-    
-    classDef advantageStyle fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#1e293b
-    
-    class A,B,C advantageStyle
-```
-
-대화형 모드의 장점
-
-## 2.4 기본 설정 최적화
-
-Claude Code를 더 효율적으로 사용하기 위해서는 개인의 작업 환경과 선호도에 맞게 설정을 조정하는 것이 중요합니다. 이 섹션에서는 주요 설정 옵션들과 최적화 방법을 알아보겠습니다.
-
-### 전역 설정 파일
-
-Claude Code의 모든 설정은 홈 디렉토리의 설정 파일에서 관리됩니다. 이 파일을 통해 개인화된 작업 환경을 구성할 수 있습니다.
-
-**설정 파일 위치**: `~/.claude-code/config.json`
-
-```json
-{
-  "api_key": "sk-ant-...",              // API 인증 키
-  "default_model": "claude-3-opus-20240229", // 기본 사용 모델
-  "theme": "dark",                       // 인터페이스 테마 (dark/light)
-  "editor": "vscode",                    // 선호 에디터
-  "auto_commit": false,                  // 자동 커밋 여부
-  "language": "ko",                      // 기본 언어 설정
-  "permissions": {
-    "file_write": true,                  // 파일 쓰기 권한
-    "file_read": true,                   // 파일 읽기 권한
-    "command_execution": true            // 명령 실행 권한
-  }
-}
-```
-
-**주요 설정 옵션 설명**
-
-- `default_model`: 작업 유형에 따라 적절한 모델 선택 (opus: 복잡한 작업, sonnet: 일반 작업, haiku: 빠른 응답)
-- `auto_commit`: 코드 변경 시 자동으로 Git 커밋할지 결정
-- `permissions`: 보안을 위해 필요한 권한만 활성화하는 것을 권장
-
-### 권한 설정
-
-Claude Code는 강력한 도구이므로 적절한 권한 관리가 중요합니다. 작업 환경과 보안 요구사항에 따라 권한을 조정할 수 있습니다.
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
-graph TB
-    subgraph permissions ["권한 유형별 설명"]
-        direction TB
-        A["file_read<br/>프로젝트 파일 읽기<br/>코드 분석, 리뷰에 필수"]
-        B["file_write<br/>파일 생성 및 수정<br/>개발 작업에 필수"]
-        C["command_execution<br/>시스템 명령 실행<br/>빌드, 테스트 등에 필요"]
-        
-        A --> B
-        B --> C
-    end
-    
-    classDef permissionStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
-    
-    class A,B,C permissionStyle
-```
-
-**권한 유형별 설명**
-
-보안과 편의성의 균형을 위한 권한 설정 전략
-
-```bash
-# 모든 권한 부여 (개발 환경)
-claude --allow-all
-
-# 읽기 전용 모드 (코드 리뷰용)
-claude --read-only
-
-# 특정 권한만 부여
-claude --allow-read --allow-write --deny-execute
-```
-
-### 에디터 통합
-
-개발 효율성을 높이기 위해 Claude Code를 기존 에디터와 통합할 수 있습니다. 에디터 통합을 통해 코드 편집과 AI 지원을 원활하게 연결할 수 있습니다.
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
-graph LR
-    subgraph editors ["지원되는 에디터"]
-        A["Visual Studio Code<br/>가장 완전한 통합 지원"]
-        B["Vim/Neovim<br/>터미널 기반 워크플로우"]
-        C["JetBrains IDEs<br/>IntelliJ, PyCharm 등"]
-        D["Sublime Text<br/>경량 에디터"]
-    end
-    
-    classDef editorStyle fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#1e293b
-    
-    class A,B,C,D editorStyle
-```
-
-**지원되는 에디터**
-
-선호하는 에디터와 통합 설정
-
-```bash
-# VSCode 통합
-claude config set editor vscode
-
-# Vim 통합
-claude config set editor vim
-
-# 에디터에서 직접 Claude Code 호출
-# VSCode: Cmd+Shift+P > "Claude: Ask"
-```
-
-### 프록시 설정 (기업 환경)
-
-많은 기업에서는 보안상의 이유로 프록시 서버를 통해 외부 인터넷에 접속합니다. Claude Code도 이런 환경에서 사용할 수 있도록 프록시 설정을 지원합니다.
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
-flowchart TD
-    A["프록시 설정이 필요한 경우"]
-    
-    A --> B["회사 방화벽 뒤에서<br/>작업하는 경우"]
-    A --> C["VPN을 통해 회사 네트워크에<br/>연결된 경우"]
-    A --> D["특정 보안 정책이 적용된<br/>네트워크 환경"]
-    
-    classDef caseStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
-    classDef rootStyle fill:#e2e8f0,stroke:#334155,stroke-width:3px,color:#1e293b
-    
-    class A rootStyle
-    class B,C,D caseStyle
-```
-
-**프록시 설정이 필요한 경우**
-
-기업 환경에서 프록시를 사용하는 경우의 설정 방법
-
-```bash
-# HTTP 프록시 설정
-export HTTP_PROXY=http://proxy.company.com:8080
-export HTTPS_PROXY=http://proxy.company.com:8080
-
-# Claude Code 전용 프록시 설정
-claude config set proxy http://proxy.company.com:8080
-```
-
-## 2.5 문제 해결 가이드
-
-Claude Code 설치 및 초기 사용 과정에서 발생할 수 있는 일반적인 문제들과 해결 방법을 정리했습니다. 문제 상황별로 단계적인 해결 방안을 제시하므로, 차근차근 따라하면 대부분의 문제를 해결할 수 있습니다.
-
-### 자주 발생하는 문제와 해결 방법
-
-다음은 Claude Code 사용자들이 가장 자주 경험하는 문제들과 검증된 해결 방법들입니다.
-
-**1. "command not found: claude"**
-
-이 오류는 Claude Code가 설치되었지만 시스템 PATH에 등록되지 않았을 때 발생합니다.
-
-**원인 분석**
-
-- npm 전역 설치 경로가 PATH에 포함되지 않음
-- 잘못된 설치 경로
-- Shell 환경 변수 설정 문제
-
-**해결 방법**
-```bash
-# 1단계: npm 전역 경로 확인
-npm config get prefix
-
-# 2단계: PATH에 추가 (bash/zsh)
-echo 'export PATH="$PATH:$(npm config get prefix)/bin"' >> ~/.bashrc
-source ~/.bashrc
-
-# 3단계: 설치 확인
-claude --version
-```
-
-**추가 해결책**
-
-- macOS에서 `.zshrc` 파일 수정 필요할 수 있음
-- Windows에서는 시스템 환경 변수에서 PATH 수정
-
-**2. "EACCES: permission denied"**
-
-이 오류는 npm 전역 설치 시 권한 문제로 발생합니다. 특히 Linux나 macOS에서 자주 나타납니다.
-
-**원인 분석**
-
-- npm 전역 디렉토리에 대한 쓰기 권한 부족
-- sudo로 설치했을 때 소유권 문제
-- 시스템 보호된 디렉토리에 설치 시도
-
-**해결 방법**
-```bash
-# 방법 1: 권한 수정 (권장)
-sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
-
-# 방법 2: npx를 통한 실행 (임시 해결)
-npx @anthropic-ai/claude-code
-
-# 방법 3: npm 전역 디렉토리 변경
-mkdir ~/.npm-global
-npm config set prefix '~/.npm-global'
-echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
-source ~/.bashrc
-```
-
-**3. "API rate limit exceeded"**
-
-API 사용량 제한에 도달했을 때 발생하는 오류입니다. Anthropic의 API 정책에 따라 시간당 요청 횟수가 제한됩니다.
-
-**원인 분석**
-- 단시간 내 너무 많은 요청
-- API 플랜의 사용량 한계 도달
-- 네트워크 문제로 인한 중복 요청
-
-**해결 방법**
-```bash
-# 1단계: 현재 상태 확인
-claude status
-
-# 2단계: 자동 재시도 간격 설정 (밀리초)
-claude config set retry_delay 5000
-
-# 3단계: 최대 재시도 횟수 설정
-claude config set max_retries 3
-```
-
-**예방 방법**
-
-- 대용량 작업 시 작은 단위로 분할하여 실행
-- `--rate-limit` 옵션 사용하여 요청 속도 조절
-- API 사용량 모니터링으로 제한 사전 파악
-
-**4. "SSL certificate problem"**
-
-기업 환경에서 자체 인증서를 사용하거나 네트워크 보안 정책으로 인해 SSL 인증서 검증에 실패할 때 발생합니다.
-
-**원인 분석**
-
-- 회사 방화벽의 SSL 검사
-- 자체 서명된 인증서 사용
-- 오래된 시스템의 인증서 저장소 문제
-
-**해결 방법**
-```bash
-# ⚠️ 임시 해결책 (보안 위험 있음)
-export NODE_TLS_REJECT_UNAUTHORIZED=0
-
-# ✅ 권장 해결책: 회사 인증서 설치
-# 1단계: IT 부서에서 인증서 파일 받기
-# 2단계: npm에 인증서 등록
-npm config set cafile /path/to/company-cert.pem
-
-# 3단계: Claude Code 전용 설정
-claude config set tls_verify true
-claude config set ca_bundle /path/to/company-cert.pem
-```
-
-**보안 고려사항**
-
-- `NODE_TLS_REJECT_UNAUTHORIZED=0`은 보안 위험이 있으므로 임시로만 사용
-- 가능하면 IT 부서와 협력하여 적절한 인증서 설정
-
-### 성능 최적화 팁
-
-Claude Code의 응답 속도와 효율성을 향상시키기 위한 설정들입니다. 프로젝트 규모와 작업 패턴에 따라 적절히 조정하여 사용하세요.
-
-**1. 캐시 활성화**
-
-반복적인 요청에 대한 응답을 캐시하여 속도를 향상시킵니다.
-
-```bash
-# 응답 캐싱 활성화
-claude config set cache_enabled true
-
-# 캐시 유지 시간 설정 (초 단위, 기본: 3600초 = 1시간)
-claude config set cache_ttl 3600
-
-# 캐시 크기 제한 설정 (MB 단위)
-claude config set cache_max_size 100
-```
-
-**캐시 활용 팁**
-
-- 동일한 코드를 반복 분석할 때 유용
-- 큰 프로젝트에서 점진적 작업 시 효과적
-- 캐시 무효화: `claude cache clear`
-
-
-### Junior Developer - 가속 학습자
-```bash
-# 학습 가속화
-claude "주니어 개발자의 빠른 성장을 위해 이 작업을 학습 기회로 활용해줘
-- 단계별 구현 가이드
-- 각 단계에서 배울 수 있는 핵심 개념
-- 흔히 하는 실수와 예방법
-- 시니어에게 질문할 타이밍과 방법
-- 자신의 진전을 측정하는 방법
-
-단순히 정답을 주기보다는 사고 과정을 기를 수 있도록 안내해줘"
-```
-
----
-
-#### 🌾 [추후 삽입] SSAL Works 설치 가이드
-> **셀**: S1WF | **Level**: L1a
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
----
-
-### S1TO — 팀운용 (Team Operations)
-
-> (빈 셀)
-
----
-
-### S1QC — 품질관리 (Quality Control)
-
-> (빈 셀)
-
----
-
-### S1CM — 비용관리 (Cost Management)
-
-#### [19] 요금제 선택 가이드
-> **출처**: 섹션19 (통째) | **셀**: S1CM | **Level**: L1
-
-
-## 2.4 기본 설정 최적화
-
-Claude Code를 더 효율적으로 사용하기 위해서는 개인의 작업 환경과 선호도에 맞게 설정을 조정하는 것이 중요합니다. 이 섹션에서는 주요 설정 옵션들과 최적화 방법을 알아보겠습니다.
-
-### 전역 설정 파일
-
-Claude Code의 모든 설정은 홈 디렉토리의 설정 파일에서 관리됩니다. 이 파일을 통해 개인화된 작업 환경을 구성할 수 있습니다.
-
-**설정 파일 위치**: `~/.claude-code/config.json`
-
-```json
-{
-  "api_key": "sk-ant-...",              // API 인증 키
-  "default_model": "claude-3-opus-20240229", // 기본 사용 모델
-  "theme": "dark",                       // 인터페이스 테마 (dark/light)
-  "editor": "vscode",                    // 선호 에디터
-  "auto_commit": false,                  // 자동 커밋 여부
-  "language": "ko",                      // 기본 언어 설정
-  "permissions": {
-    "file_write": true,                  // 파일 쓰기 권한
-    "file_read": true,                   // 파일 읽기 권한
-    "command_execution": true            // 명령 실행 권한
-  }
-}
-```
-
-**주요 설정 옵션 설명**
-
-- `default_model`: 작업 유형에 따라 적절한 모델 선택 (opus: 복잡한 작업, sonnet: 일반 작업, haiku: 빠른 응답)
-- `auto_commit`: 코드 변경 시 자동으로 Git 커밋할지 결정
-- `permissions`: 보안을 위해 필요한 권한만 활성화하는 것을 권장
-
-### 권한 설정
-
-Claude Code는 강력한 도구이므로 적절한 권한 관리가 중요합니다. 작업 환경과 보안 요구사항에 따라 권한을 조정할 수 있습니다.
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
-graph TB
-    subgraph permissions ["권한 유형별 설명"]
-        direction TB
-        A["file_read<br/>프로젝트 파일 읽기<br/>코드 분석, 리뷰에 필수"]
-        B["file_write<br/>파일 생성 및 수정<br/>개발 작업에 필수"]
-        C["command_execution<br/>시스템 명령 실행<br/>빌드, 테스트 등에 필요"]
-        
-        A --> B
-        B --> C
-    end
-    
-    classDef permissionStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
-    
-    class A,B,C permissionStyle
-```
-
-**권한 유형별 설명**
-
-보안과 편의성의 균형을 위한 권한 설정 전략
-
-```bash
-# 모든 권한 부여 (개발 환경)
-claude --allow-all
-
-# 읽기 전용 모드 (코드 리뷰용)
-claude --read-only
-
-# 특정 권한만 부여
-claude --allow-read --allow-write --deny-execute
-```
-
-### 에디터 통합
-
-개발 효율성을 높이기 위해 Claude Code를 기존 에디터와 통합할 수 있습니다. 에디터 통합을 통해 코드 편집과 AI 지원을 원활하게 연결할 수 있습니다.
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
-graph LR
-    subgraph editors ["지원되는 에디터"]
-        A["Visual Studio Code<br/>가장 완전한 통합 지원"]
-        B["Vim/Neovim<br/>터미널 기반 워크플로우"]
-        C["JetBrains IDEs<br/>IntelliJ, PyCharm 등"]
-        D["Sublime Text<br/>경량 에디터"]
-    end
-    
-    classDef editorStyle fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#1e293b
-    
-    class A,B,C,D editorStyle
-```
-
-**지원되는 에디터**
-
-선호하는 에디터와 통합 설정
-
-```bash
-# VSCode 통합
-claude config set editor vscode
-
-# Vim 통합
-claude config set editor vim
-
-# 에디터에서 직접 Claude Code 호출
-# VSCode: Cmd+Shift+P > "Claude: Ask"
-```
-
-### 프록시 설정 (기업 환경)
-
-많은 기업에서는 보안상의 이유로 프록시 서버를 통해 외부 인터넷에 접속합니다. Claude Code도 이런 환경에서 사용할 수 있도록 프록시 설정을 지원합니다.
-
-```mermaid
-%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
-flowchart TD
-    A["프록시 설정이 필요한 경우"]
-    
-    A --> B["회사 방화벽 뒤에서<br/>작업하는 경우"]
-    A --> C["VPN을 통해 회사 네트워크에<br/>연결된 경우"]
-    A --> D["특정 보안 정책이 적용된<br/>네트워크 환경"]
-    
-    classDef caseStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
-    classDef rootStyle fill:#e2e8f0,stroke:#334155,stroke-width:3px,color:#1e293b
-    
-    class A rootStyle
-    class B,C,D caseStyle
-```
-
-**프록시 설정이 필요한 경우**
-
-기업 환경에서 프록시를 사용하는 경우의 설정 방법
-
-```bash
-# HTTP 프록시 설정
-export HTTP_PROXY=http://proxy.company.com:8080
-export HTTPS_PROXY=http://proxy.company.com:8080
-
-# Claude Code 전용 프록시 설정
-claude config set proxy http://proxy.company.com:8080
-```
-
-
----
-
-
-## S2 초급 (Elementary)
-
----
-
-### S2CO — 개념 (Concept)
 
 #### [02] 6대 핵심 철학
-> **출처**: 섹션02 (통째) | **셀**: S2CO | **Level**: L1
+> **출처**: 섹션02 (통째) | **셀**: S1CO | **Level**: L1
 
 
 ## 1.3 Claude Code의 핵심 철학
@@ -1530,13 +776,13 @@ mindmap
 ---
 
 #### 🌾 [추후 삽입] 7번째 철학 "Muscle Memory Outsourcing"
-> **셀**: S2CO | **Level**: L1a
+> **셀**: S1CO | **Level**: L1a
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
 #### [18] 바이브 코딩 적합성 판단
-> **출처**: 섹션18 (통째) | **셀**: S2CO | **Level**: L2
+> **출처**: 섹션18 (통째) | **셀**: S1CO | **Level**: L2
 
 
 ## 1.4 다른 AI 코딩 도구와의 차별점
@@ -1690,7 +936,7 @@ flowchart LR
 ---
 
 #### [15] 10대 황금 원칙
-> **출처**: 섹션15 (통째) | **셀**: S2CO | **Level**: L3
+> **출처**: 섹션15 (통째) | **셀**: S1CO | **Level**: L3
 
 
 ## 프로 팁: 효율성 극대화
@@ -1894,10 +1140,15 @@ mindmap
 
 ---
 
-### S2ST — 스트럭처 (Structure)
+### S1ST — 스트럭처 (Structure)
+
+> (빈 셀)
+
+---
+
 
 #### [04] CLAUDE.md 완전 가이드
-> **출처**: 섹션04 (통째) | **셀**: S2ST | **Level**: L1
+> **출처**: 섹션04 (통째) | **셀**: S1ST | **Level**: L1
 
 
 # 제4장: CLAUDE.md로 프로젝트 맞춤 설정
@@ -2619,15 +1870,604 @@ claude "최근 발생한 버그들을 분석해서
 ---
 
 #### 🌾 [추후 삽입] SSAL 프로젝트 통합 연동
-> **셀**: S2ST | **Level**: L1a
+> **셀**: S1ST | **Level**: L1a
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### Skills 설치 및 구조
+> **셀**: S1ST | **분산 배치**
+> **관련**: Skills 실행/활용법은 → WF 영역 참조
+
+- Skills 저장 위치: `.claude/skills/` 디렉토리
+- 스킬 설치: `npx skills add <owner/repo>`
+- 스킬 파일 구조: 각 스킬은 독립 디렉토리에 prompt + 설정 파일로 구성
+- 사용자 스킬: `~/.claude/skills/` (전역) 또는 프로젝트 `.claude/skills/` (로컬)
+
+---
+
+### S1WF — 워크플로우 (Workflow)
+
+#### [25b] 환경 설정 & 첫 프로젝트
+> **출처**: 섹션25 (쪼갬 variant) | **셀**: S1WF | **Level**: L1
+> ⚠️쪼갬: "환경 설정", "첫 프로젝트", "흔한 실수 5가지"
+
+
+# 제2장: 설치와 초기 설정
+
+> "시작이 반이다" - 한국 속담
+
+이제 Claude Code를 설치해보겠습니다. 이 장에서는 **각 운영체제별로 단계별 설치 가이드**를 제공하며, 설치 과정에서 발생할 수 있는 문제들과 해결 방법도 함께 다룹니다.
+
+## 2.1 시스템 요구사항
+
+### 최소 요구사항
+
+먼저 시스템이 Claude Code를 실행할 수 있는지 확인해보겠습니다. 최소 요구사항은 일반적인 개발 환경과 유사하며, 대부분의 현대적인 시스템에서 실행 가능합니다.
+
+| 구성 요소 | 최소 요구사항 | 권장 사항 |
+|----------|-------------|----------|
+| 운영체제 | macOS 12+, Windows 10+, Ubuntu 20.04+ | 최신 버전 |
+| RAM | 8GB | 16GB 이상 |
+| 저장공간 | 2GB 여유 공간 | 10GB 이상 |
+| 인터넷 | 안정적인 연결 필요 | 고속 인터넷 |
+| Node.js | 18.0 이상 | 20.0 이상 |
+
+### 사전 준비사항
+
+설치 전 시스템 환경을 확인하겠습니다. 터미널을 열고 다음 명령어들을 실행하여 필요한 도구들이 설치되어 있는지 확인하세요.
+
+**터미널 실행 방법**
+
+- **Mac**: `Cmd + Space` → "터미널" 검색
+- **Windows**: `Win + R` → "cmd" 입력
+- **Linux**: `Ctrl + Alt + T`
+
+```bash
+# Node.js 버전 확인
+node --version
+
+# npm 버전 확인
+npm --version
+
+# Git 설치 확인 (선택사항이지만 권장)
+git --version
+```
+
+**Node.js가 설치되어 있지 않거나 버전이 낮다면**
+
+1. [Node.js 공식 사이트](https://nodejs.org)에서 LTS 버전을 다운로드하세요
+2. 또는 패키지 매니저를 사용하세요
+   - **Mac**: `brew install node` (Homebrew 필요)
+   - **Windows**: `choco install nodejs` (Chocolatey 필요)
+   - **Linux**: `sudo apt install nodejs npm` (Ubuntu/Debian)
+
+> **권장사항**: LTS(Long Term Support) 버전을 사용하면 안정성과 호환성을 보장받을 수 있습니다.
+
+## 2.2 설치 가이드 (OS별)
+
+이제 운영체제별로 Claude Code를 설치하겠습니다. 각 OS에 최적화된 설치 방법을 제공합니다.
+
+### macOS에서 설치하기
+
+macOS에서는 두 가지 설치 방법을 제공합니다.
+
+**방법 1: npm을 통한 설치 (권장)**
+
+가장 간단하고 안정적인 방법입니다.
+
+```bash
+# Claude Code 설치
+npm install -g @anthropic-ai/claude-code
+
+# 설치 확인
+claude --version
+```
+
+**방법 2: Homebrew를 통한 설치**
+
+```bash
+# Homebrew tap 추가
+brew tap anthropic-ai/claude-code
+
+# Claude Code 설치
+brew install claude-code
+
+# 설치 확인
+claude --version
+```
+
+**macOS 특화 설정**
+
+```bash
+# 터미널 권한 설정 (필요한 경우)
+# 시스템 환경설정 > 보안 및 개인정보 > 개인정보 > 전체 디스크 접근 권한
+# Terminal.app 또는 사용 중인 터미널 앱 추가
+
+# Spotlight 검색 제외 (선택사항)
+# .claude-code 디렉토리를 Spotlight 검색에서 제외하여 성능 향상
+```
+
+### Windows에서 설치하기
+
+Windows에서는 WSL 2(Windows Subsystem for Linux)를 통해 Claude Code를 설치하는 것이 권장됩니다. 현재 Claude Code는 Windows 네이티브 클라이언트를 지원하지 않으므로, Linux 환경이 필요합니다.
+
+**시스템 요구사항**
+
+| 항목 | 최소 조건 |
+|------|-----------|
+| OS | Windows 10 (21H2) 또는 Windows 11 + WSL 2 |
+| RAM | 4GB 이상 |
+| 네트워크 | 인터넷 연결 (OAuth 인증 및 API 호출) |
+| 소프트웨어 | WSL 2, Node.js 18+, Git(선택사항) |
+
+**1단계: WSL 2 설치**
+
+PowerShell을 **관리자 권한**으로 실행하고 다음 명령어를 입력하세요.
+
+```powershell
+# WSL 설치 (Ubuntu 22.04 LTS 기본 포함)
+wsl --install
+
+# 설치 후 시스템 재부팅
+```
+
+기존에 WSL 1을 사용하고 있다면 다음과 같이 업그레이드하세요.
+
+```powershell
+# WSL 2로 업그레이드
+wsl --set-version Ubuntu 2
+
+# 설치 상태 확인
+wsl --status
+wsl --list --verbose
+```
+
+**2단계: Node.js 설치 (WSL 내부)**
+
+WSL 터미널(Ubuntu)을 열고 NVM을 통해 Node.js를 설치하세요.
+
+```bash
+# NVM 설치
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# 변경사항 적용
+source ~/.bashrc
+
+# Node.js 18 LTS 설치 및 사용
+nvm install 18
+nvm use 18
+
+# 설치 확인
+node --version
+npm --version
+```
+
+> **중요**: `which node` 명령 실행 시 경로가 `/home/<username>/.nvm/...`으로 표시되어야 합니다. `/mnt/c/...` 경로가 나타나면 Windows와 경로가 충돌하는 상황이므로 위 과정을 다시 진행하세요.
+
+**3단계: Claude Code 설치**
+
+```bash
+# Claude Code 설치
+npm install -g @anthropic-ai/claude-code
+
+# 설치 확인
+claude --version
+```
+
+**설치 오류 해결**
+
+| 오류 | 해결방법 |
+|------|----------|
+| `OS detection failed` | `npm config set os linux` 실행 후 `npm install -g @anthropic-ai/claude-code --force --no-os-check` |
+| `exec: node: not found` | Node.js 설치 재확인, `which node` 경로 점검 |
+| 권한 오류 | `npm config set prefix '~/.npm-global'` 실행 후 재설치 |
+
+### Linux (Ubuntu/Debian)에서 설치하기
+
+```bash
+# 시스템 패키지 업데이트
+sudo apt update && sudo apt upgrade
+
+# Node.js 설치 (아직 없는 경우)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install nodejs
+
+# Claude Code 설치
+sudo npm install -g @anthropic-ai/claude-code
+
+# 설치 확인
+claude --version
+
+# 권한 설정 (필요한 경우)
+sudo chmod +x /usr/local/bin/claude
+```
+
+## 2.3 첫 번째 명령어 실행하기
+
+설치가 완료되었습니다. 이제 Claude Code의 기본 설정을 진행하겠습니다.
+
+### API 키 설정
+
+Claude Code를 사용하려면 API 키 설정이 필요합니다. 무료 사용량으로 시작할 수 있습니다.
+
+**1단계: API 키 발급받기**
+
+1. [Anthropic Console](https://console.anthropic.com)에 접속하세요
+2. 계정을 만들거나 로그인하세요
+3. "API Keys" 섹션에서 새 키를 생성하세요
+
+**2단계: API 키 설정하기**
+```bash
+# API 키 설정 명령어 실행
+claude login
+
+# 프롬프트가 나타나면 복사한 API 키를 붙여넣기
+# (키를 입력할 때는 화면에 표시되지 않는 것이 정상입니다)
+```
+
+> **보안 주의사항**: API 키는 개인 계정과 연결되므로 타인과 공유하지 않도록 주의하세요.
+
+### 첫 번째 대화
+
+이제 Claude Code와 첫 대화를 시작해보겠습니다.
+
+```bash
+# 첫 인사 (Claude가 답변하면 성공!)
+claude "안녕하세요, Claude! 처음 뵙겠습니다."
+
+# 간단한 작업 요청해보기
+claude "현재 시스템 정보를 알려주세요"
+
+# 디렉토리 탐색해보기
+claude "현재 폴더에 어떤 파일들이 있는지 보여주세요"
+```
+
+**응답이 정상적으로 출력되면 설치와 기본 설정이 완료된 것입니다.** Claude Code 사용 준비가 완료되었습니다.
+
+### 대화형 모드 vs 명령 모드
+
+**명령 모드 (일회성 작업)**
+```bash
+claude "package.json 파일을 읽고 요약해줘"
+```
+
+**대화형 모드 (지속적인 작업)**
+
+명령 모드는 단발성 작업에 적합하지만, 복잡한 프로젝트나 여러 단계를 거쳐야 하는 작업에는 대화형 모드가 더 효율적입니다.
+
+```bash
+# 대화형 모드 시작
+claude
+
+# 이제 지속적으로 대화 가능
+> 새로운 React 프로젝트를 시작하고 싶어
+> TypeScript를 사용하고, 테스트 환경도 설정해줘
+> Material-UI도 추가해줘
+```
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
+graph LR
+    subgraph interactive ["대화형 모드의 장점"]
+        A["컨텍스트 유지<br/>이전 대화 내용 기억"]
+        B["단계적 개선<br/>점진적 요구사항 조정"]
+        C["효율적 협업<br/>대화를 통한 구체화"]
+        
+        A --> B
+        B --> C
+        C --> A
+    end
+    
+    classDef advantageStyle fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#1e293b
+    
+    class A,B,C advantageStyle
+```
+
+대화형 모드의 장점
+
+## 2.4 기본 설정 최적화
+
+Claude Code를 더 효율적으로 사용하기 위해서는 개인의 작업 환경과 선호도에 맞게 설정을 조정하는 것이 중요합니다. 이 섹션에서는 주요 설정 옵션들과 최적화 방법을 알아보겠습니다.
+
+### 전역 설정 파일
+
+Claude Code의 모든 설정은 홈 디렉토리의 설정 파일에서 관리됩니다. 이 파일을 통해 개인화된 작업 환경을 구성할 수 있습니다.
+
+**설정 파일 위치**: `~/.claude-code/config.json`
+
+```json
+{
+  "api_key": "sk-ant-...",              // API 인증 키
+  "default_model": "claude-3-opus-20240229", // 기본 사용 모델
+  "theme": "dark",                       // 인터페이스 테마 (dark/light)
+  "editor": "vscode",                    // 선호 에디터
+  "auto_commit": false,                  // 자동 커밋 여부
+  "language": "ko",                      // 기본 언어 설정
+  "permissions": {
+    "file_write": true,                  // 파일 쓰기 권한
+    "file_read": true,                   // 파일 읽기 권한
+    "command_execution": true            // 명령 실행 권한
+  }
+}
+```
+
+**주요 설정 옵션 설명**
+
+- `default_model`: 작업 유형에 따라 적절한 모델 선택 (opus: 복잡한 작업, sonnet: 일반 작업, haiku: 빠른 응답)
+- `auto_commit`: 코드 변경 시 자동으로 Git 커밋할지 결정
+- `permissions`: 보안을 위해 필요한 권한만 활성화하는 것을 권장
+
+### 권한 설정
+
+Claude Code는 강력한 도구이므로 적절한 권한 관리가 중요합니다. 작업 환경과 보안 요구사항에 따라 권한을 조정할 수 있습니다.
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
+graph TB
+    subgraph permissions ["권한 유형별 설명"]
+        direction TB
+        A["file_read<br/>프로젝트 파일 읽기<br/>코드 분석, 리뷰에 필수"]
+        B["file_write<br/>파일 생성 및 수정<br/>개발 작업에 필수"]
+        C["command_execution<br/>시스템 명령 실행<br/>빌드, 테스트 등에 필요"]
+        
+        A --> B
+        B --> C
+    end
+    
+    classDef permissionStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
+    
+    class A,B,C permissionStyle
+```
+
+**권한 유형별 설명**
+
+보안과 편의성의 균형을 위한 권한 설정 전략
+
+```bash
+# 모든 권한 부여 (개발 환경)
+claude --allow-all
+
+# 읽기 전용 모드 (코드 리뷰용)
+claude --read-only
+
+# 특정 권한만 부여
+claude --allow-read --allow-write --deny-execute
+```
+
+### 에디터 통합
+
+개발 효율성을 높이기 위해 Claude Code를 기존 에디터와 통합할 수 있습니다. 에디터 통합을 통해 코드 편집과 AI 지원을 원활하게 연결할 수 있습니다.
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
+graph LR
+    subgraph editors ["지원되는 에디터"]
+        A["Visual Studio Code<br/>가장 완전한 통합 지원"]
+        B["Vim/Neovim<br/>터미널 기반 워크플로우"]
+        C["JetBrains IDEs<br/>IntelliJ, PyCharm 등"]
+        D["Sublime Text<br/>경량 에디터"]
+    end
+    
+    classDef editorStyle fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#1e293b
+    
+    class A,B,C,D editorStyle
+```
+
+**지원되는 에디터**
+
+선호하는 에디터와 통합 설정
+
+```bash
+# VSCode 통합
+claude config set editor vscode
+
+# Vim 통합
+claude config set editor vim
+
+# 에디터에서 직접 Claude Code 호출
+# VSCode: Cmd+Shift+P > "Claude: Ask"
+```
+
+### 프록시 설정 (기업 환경)
+
+많은 기업에서는 보안상의 이유로 프록시 서버를 통해 외부 인터넷에 접속합니다. Claude Code도 이런 환경에서 사용할 수 있도록 프록시 설정을 지원합니다.
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
+flowchart TD
+    A["프록시 설정이 필요한 경우"]
+    
+    A --> B["회사 방화벽 뒤에서<br/>작업하는 경우"]
+    A --> C["VPN을 통해 회사 네트워크에<br/>연결된 경우"]
+    A --> D["특정 보안 정책이 적용된<br/>네트워크 환경"]
+    
+    classDef caseStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
+    classDef rootStyle fill:#e2e8f0,stroke:#334155,stroke-width:3px,color:#1e293b
+    
+    class A rootStyle
+    class B,C,D caseStyle
+```
+
+**프록시 설정이 필요한 경우**
+
+기업 환경에서 프록시를 사용하는 경우의 설정 방법
+
+```bash
+# HTTP 프록시 설정
+export HTTP_PROXY=http://proxy.company.com:8080
+export HTTPS_PROXY=http://proxy.company.com:8080
+
+# Claude Code 전용 프록시 설정
+claude config set proxy http://proxy.company.com:8080
+```
+
+## 2.5 문제 해결 가이드
+
+Claude Code 설치 및 초기 사용 과정에서 발생할 수 있는 일반적인 문제들과 해결 방법을 정리했습니다. 문제 상황별로 단계적인 해결 방안을 제시하므로, 차근차근 따라하면 대부분의 문제를 해결할 수 있습니다.
+
+### 자주 발생하는 문제와 해결 방법
+
+다음은 Claude Code 사용자들이 가장 자주 경험하는 문제들과 검증된 해결 방법들입니다.
+
+**1. "command not found: claude"**
+
+이 오류는 Claude Code가 설치되었지만 시스템 PATH에 등록되지 않았을 때 발생합니다.
+
+**원인 분석**
+
+- npm 전역 설치 경로가 PATH에 포함되지 않음
+- 잘못된 설치 경로
+- Shell 환경 변수 설정 문제
+
+**해결 방법**
+```bash
+# 1단계: npm 전역 경로 확인
+npm config get prefix
+
+# 2단계: PATH에 추가 (bash/zsh)
+echo 'export PATH="$PATH:$(npm config get prefix)/bin"' >> ~/.bashrc
+source ~/.bashrc
+
+# 3단계: 설치 확인
+claude --version
+```
+
+**추가 해결책**
+
+- macOS에서 `.zshrc` 파일 수정 필요할 수 있음
+- Windows에서는 시스템 환경 변수에서 PATH 수정
+
+**2. "EACCES: permission denied"**
+
+이 오류는 npm 전역 설치 시 권한 문제로 발생합니다. 특히 Linux나 macOS에서 자주 나타납니다.
+
+**원인 분석**
+
+- npm 전역 디렉토리에 대한 쓰기 권한 부족
+- sudo로 설치했을 때 소유권 문제
+- 시스템 보호된 디렉토리에 설치 시도
+
+**해결 방법**
+```bash
+# 방법 1: 권한 수정 (권장)
+sudo chown -R $(whoami) $(npm config get prefix)/{lib/node_modules,bin,share}
+
+# 방법 2: npx를 통한 실행 (임시 해결)
+npx @anthropic-ai/claude-code
+
+# 방법 3: npm 전역 디렉토리 변경
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+source ~/.bashrc
+```
+
+**3. "API rate limit exceeded"**
+
+API 사용량 제한에 도달했을 때 발생하는 오류입니다. Anthropic의 API 정책에 따라 시간당 요청 횟수가 제한됩니다.
+
+**원인 분석**
+- 단시간 내 너무 많은 요청
+- API 플랜의 사용량 한계 도달
+- 네트워크 문제로 인한 중복 요청
+
+**해결 방법**
+```bash
+# 1단계: 현재 상태 확인
+claude status
+
+# 2단계: 자동 재시도 간격 설정 (밀리초)
+claude config set retry_delay 5000
+
+# 3단계: 최대 재시도 횟수 설정
+claude config set max_retries 3
+```
+
+**예방 방법**
+
+- 대용량 작업 시 작은 단위로 분할하여 실행
+- `--rate-limit` 옵션 사용하여 요청 속도 조절
+- API 사용량 모니터링으로 제한 사전 파악
+
+**4. "SSL certificate problem"**
+
+기업 환경에서 자체 인증서를 사용하거나 네트워크 보안 정책으로 인해 SSL 인증서 검증에 실패할 때 발생합니다.
+
+**원인 분석**
+
+- 회사 방화벽의 SSL 검사
+- 자체 서명된 인증서 사용
+- 오래된 시스템의 인증서 저장소 문제
+
+**해결 방법**
+```bash
+# ⚠️ 임시 해결책 (보안 위험 있음)
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+
+# ✅ 권장 해결책: 회사 인증서 설치
+# 1단계: IT 부서에서 인증서 파일 받기
+# 2단계: npm에 인증서 등록
+npm config set cafile /path/to/company-cert.pem
+
+# 3단계: Claude Code 전용 설정
+claude config set tls_verify true
+claude config set ca_bundle /path/to/company-cert.pem
+```
+
+**보안 고려사항**
+
+- `NODE_TLS_REJECT_UNAUTHORIZED=0`은 보안 위험이 있으므로 임시로만 사용
+- 가능하면 IT 부서와 협력하여 적절한 인증서 설정
+
+### 성능 최적화 팁
+
+Claude Code의 응답 속도와 효율성을 향상시키기 위한 설정들입니다. 프로젝트 규모와 작업 패턴에 따라 적절히 조정하여 사용하세요.
+
+**1. 캐시 활성화**
+
+반복적인 요청에 대한 응답을 캐시하여 속도를 향상시킵니다.
+
+```bash
+# 응답 캐싱 활성화
+claude config set cache_enabled true
+
+# 캐시 유지 시간 설정 (초 단위, 기본: 3600초 = 1시간)
+claude config set cache_ttl 3600
+
+# 캐시 크기 제한 설정 (MB 단위)
+claude config set cache_max_size 100
+```
+
+**캐시 활용 팁**
+
+- 동일한 코드를 반복 분석할 때 유용
+- 큰 프로젝트에서 점진적 작업 시 효과적
+- 캐시 무효화: `claude cache clear`
+
+
+### Junior Developer - 가속 학습자
+```bash
+# 학습 가속화
+claude "주니어 개발자의 빠른 성장을 위해 이 작업을 학습 기회로 활용해줘
+- 단계별 구현 가이드
+- 각 단계에서 배울 수 있는 핵심 개념
+- 흔히 하는 실수와 예방법
+- 시니어에게 질문할 타이밍과 방법
+- 자신의 진전을 측정하는 방법
+
+단순히 정답을 주기보다는 사고 과정을 기를 수 있도록 안내해줘"
+```
+
+---
+
+#### 🌾 [추후 삽입] SSAL Works 설치 가이드
+> **셀**: S1WF | **Level**: L1a
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
-### S2WF — 워크플로우 (Workflow)
 
 #### [03] 4단계 황금 워크플로우
-> **출처**: 섹션03 (통째) | **셀**: S2WF | **Level**: L1
+> **출처**: 섹션03 (통째) | **셀**: S1WF | **Level**: L1
 
 
 ## 7.1 탐색-계획-코딩-커밋 사이클
@@ -2789,7 +2629,7 @@ claude "구현한 기능을 기존 시스템과 통합해줘.
 ---
 
 #### [06a] 프롬프팅 기본 기법
-> **출처**: 섹션06 (쪼갬 variant) | **셀**: S2WF | **Level**: L2
+> **출처**: 섹션06 (쪼갬 variant) | **셀**: S1WF | **Level**: L2
 > ⚠️쪼갬: 명확한 지시, 단계별 요청, 기본 구조
 
 
@@ -2948,13 +2788,24 @@ claude "JavaScript 파일에 TypeScript 타입을 추가해줘"
 ---
 
 #### 🌾 [추후 삽입] 오더시트 시스템
-> **셀**: S2WF | **Level**: L2a
+> **셀**: S1WF | **Level**: L2a
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### MCP 도구 실전 활용 (비-AI 도구/서비스)
+> **셀**: S1WF | **분산 배치**
+> **관련**: MCP로 외부 AI 연동(Perplexity 등)은 → TO 영역 참조 | MCP 보안은 → QC 영역 참조
+
+- MCP 도구 호출: `mcp__서버명__기능명` 형식으로 작업 중 직접 호출
+- 예: `mcp__supabase__query`, `mcp__filesystem__read`
+- 비-AI 서비스(DB, 파일시스템, GitHub 등) 연동은 워크플로우 도구로 분류
+- `allowed_tools`로 사용할 MCP 도구 범위를 제한 가능
+
+> ⚠️ **MCP 분류 기준**: 연결 대상이 **AI**면 → TO(팀운용/용병), **비-AI**면 → WF(워크플로우/도구)
 
 ---
 
 #### [14] 필수 단축키 & 명령어
-> **출처**: 섹션14 (통째) | **셀**: S2WF | **Level**: L3
+> **출처**: 섹션14 (통째) | **셀**: S1WF | **Level**: L3
 
 
 ## 3.1 기본 명령어 구조
@@ -3042,10 +2893,15 @@ claude "버그를 찾아서 수정하고, 테스트도 작성한 다음, 커밋 
 
 ---
 
-### S2TO — 팀운용 (Team Operations)
+### S1TO — 팀운용 (Team Operations)
+
+> (빈 셀)
+
+---
+
 
 #### [07a] 서브에이전트 기본
-> **출처**: 섹션07 (쪼갬 variant) | **셀**: S2TO | **Level**: L1
+> **출처**: 섹션07 (쪼갬 variant) | **셀**: S1TO | **Level**: L1
 > ⚠️쪼갬: 3가지 유형, 프론트매터 필드
 
 
@@ -3149,10 +3005,15 @@ graph TD
 
 ---
 
-### S2QC — 품질관리 (Quality Control)
+### S1QC — 품질관리 (Quality Control)
+
+> (빈 셀)
+
+---
+
 
 #### [12] 바이브 코딩 7대 실수
-> **출처**: 섹션12 (통째) | **셀**: S2QC | **Level**: L1
+> **출처**: 섹션12 (통째) | **셀**: S1QC | **Level**: L1
 
 
 ## 12.7 고급 도전과제와 해결 전략
@@ -3316,7 +3177,7 @@ claude "예상치 못한 변화에 대한 팀의 적응력을 강화하는 방�
 ---
 
 #### [13a] Git 기본 — 절대 금지 & 레드 플래그
-> **출처**: 섹션13 (쪼갬 variant) | **셀**: S2QC | **Level**: L2
+> **출처**: 섹션13 (쪼갬 variant) | **셀**: S1QC | **Level**: L2
 > ⚠️쪼갬: 레드 플래그, 절대 금지 목록
 
 
@@ -3395,10 +3256,155 @@ claude "프로젝트의 PR 템플릿에 맞춰서 설명을 작성해줘"
 
 ---
 
-### S2CM — 비용관리 (Cost Management)
+### S1CM — 비용관리 (Cost Management)
+
+#### [19] 요금제 선택 가이드
+> **출처**: 섹션19 (통째) | **셀**: S1CM | **Level**: L1
+
+
+## 2.4 기본 설정 최적화
+
+Claude Code를 더 효율적으로 사용하기 위해서는 개인의 작업 환경과 선호도에 맞게 설정을 조정하는 것이 중요합니다. 이 섹션에서는 주요 설정 옵션들과 최적화 방법을 알아보겠습니다.
+
+### 전역 설정 파일
+
+Claude Code의 모든 설정은 홈 디렉토리의 설정 파일에서 관리됩니다. 이 파일을 통해 개인화된 작업 환경을 구성할 수 있습니다.
+
+**설정 파일 위치**: `~/.claude-code/config.json`
+
+```json
+{
+  "api_key": "sk-ant-...",              // API 인증 키
+  "default_model": "claude-3-opus-20240229", // 기본 사용 모델
+  "theme": "dark",                       // 인터페이스 테마 (dark/light)
+  "editor": "vscode",                    // 선호 에디터
+  "auto_commit": false,                  // 자동 커밋 여부
+  "language": "ko",                      // 기본 언어 설정
+  "permissions": {
+    "file_write": true,                  // 파일 쓰기 권한
+    "file_read": true,                   // 파일 읽기 권한
+    "command_execution": true            // 명령 실행 권한
+  }
+}
+```
+
+**주요 설정 옵션 설명**
+
+- `default_model`: 작업 유형에 따라 적절한 모델 선택 (opus: 복잡한 작업, sonnet: 일반 작업, haiku: 빠른 응답)
+- `auto_commit`: 코드 변경 시 자동으로 Git 커밋할지 결정
+- `permissions`: 보안을 위해 필요한 권한만 활성화하는 것을 권장
+
+### 권한 설정
+
+Claude Code는 강력한 도구이므로 적절한 권한 관리가 중요합니다. 작업 환경과 보안 요구사항에 따라 권한을 조정할 수 있습니다.
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
+graph TB
+    subgraph permissions ["권한 유형별 설명"]
+        direction TB
+        A["file_read<br/>프로젝트 파일 읽기<br/>코드 분석, 리뷰에 필수"]
+        B["file_write<br/>파일 생성 및 수정<br/>개발 작업에 필수"]
+        C["command_execution<br/>시스템 명령 실행<br/>빌드, 테스트 등에 필요"]
+        
+        A --> B
+        B --> C
+    end
+    
+    classDef permissionStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
+    
+    class A,B,C permissionStyle
+```
+
+**권한 유형별 설명**
+
+보안과 편의성의 균형을 위한 권한 설정 전략
+
+```bash
+# 모든 권한 부여 (개발 환경)
+claude --allow-all
+
+# 읽기 전용 모드 (코드 리뷰용)
+claude --read-only
+
+# 특정 권한만 부여
+claude --allow-read --allow-write --deny-execute
+```
+
+### 에디터 통합
+
+개발 효율성을 높이기 위해 Claude Code를 기존 에디터와 통합할 수 있습니다. 에디터 통합을 통해 코드 편집과 AI 지원을 원활하게 연결할 수 있습니다.
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
+graph LR
+    subgraph editors ["지원되는 에디터"]
+        A["Visual Studio Code<br/>가장 완전한 통합 지원"]
+        B["Vim/Neovim<br/>터미널 기반 워크플로우"]
+        C["JetBrains IDEs<br/>IntelliJ, PyCharm 등"]
+        D["Sublime Text<br/>경량 에디터"]
+    end
+    
+    classDef editorStyle fill:#e2e8f0,stroke:#334155,stroke-width:2px,color:#1e293b
+    
+    class A,B,C,D editorStyle
+```
+
+**지원되는 에디터**
+
+선호하는 에디터와 통합 설정
+
+```bash
+# VSCode 통합
+claude config set editor vscode
+
+# Vim 통합
+claude config set editor vim
+
+# 에디터에서 직접 Claude Code 호출
+# VSCode: Cmd+Shift+P > "Claude: Ask"
+```
+
+### 프록시 설정 (기업 환경)
+
+많은 기업에서는 보안상의 이유로 프록시 서버를 통해 외부 인터넷에 접속합니다. Claude Code도 이런 환경에서 사용할 수 있도록 프록시 설정을 지원합니다.
+
+```mermaid
+%%{init: {"theme": "base", "themeVariables": {"primaryColor": "#f8fafc", "primaryTextColor": "#1e293b", "primaryBorderColor": "#e2e8f0", "lineColor": "#94a3b8", "secondaryColor": "#f1f5f9", "tertiaryColor": "#e2e8f0"}, "flowchart": {"htmlLabels": false, "useMaxWidth": false}}}%%
+flowchart TD
+    A["프록시 설정이 필요한 경우"]
+    
+    A --> B["회사 방화벽 뒤에서<br/>작업하는 경우"]
+    A --> C["VPN을 통해 회사 네트워크에<br/>연결된 경우"]
+    A --> D["특정 보안 정책이 적용된<br/>네트워크 환경"]
+    
+    classDef caseStyle fill:#f1f5f9,stroke:#475569,stroke-width:2px,color:#1e293b
+    classDef rootStyle fill:#e2e8f0,stroke:#334155,stroke-width:3px,color:#1e293b
+    
+    class A rootStyle
+    class B,C,D caseStyle
+```
+
+**프록시 설정이 필요한 경우**
+
+기업 환경에서 프록시를 사용하는 경우의 설정 방법
+
+```bash
+# HTTP 프록시 설정
+export HTTP_PROXY=http://proxy.company.com:8080
+export HTTPS_PROXY=http://proxy.company.com:8080
+
+# Claude Code 전용 프록시 설정
+claude config set proxy http://proxy.company.com:8080
+```
+
+
+---
+
+
 
 #### [05a] 컨텍스트 기초 — 토큰과 비용
-> **출처**: 섹션05 (쪼갬 variant) | **셀**: S2CM | **Level**: L1
+> **출처**: 섹션05 (쪼갬 variant) | **셀**: S1CM | **Level**: L1
 > ⚠️쪼갬: 200K 토큰 이해, /clear /compact 기본, 토큰과 비용 관계
 
 
@@ -3427,14 +3433,14 @@ claude config get max_context_length
 ---
 
 
-## S3 중급 (Intermediate)
+
+## S2 중급 (Intermediate)
 
 ---
-
-### S3CO — 개념 (Concept)
+### S2CO — 개념 (Concept)
 
 #### [16] 최신 업데이트 & 시대 변천
-> **출처**: 섹션16 (통째) | **셀**: S3CO | **Level**: L1
+> **출처**: 섹션16 (통째) | **셀**: S2CO | **Level**: L1
 
 
 # 서문
@@ -3748,10 +3754,10 @@ AI와 함께하는 개발의 미래는 우리 모두가 만들어가는 것입�
 
 ---
 
-### S3ST — 스트럭처 (Structure)
+### S2ST — 스트럭처 (Structure)
 
 #### [20] 실전 프로젝트 레시피 12종
-> **출처**: 섹션20 (통째) | **셀**: S3ST | **Level**: L1
+> **출처**: 섹션20 (통째) | **셀**: S2ST | **Level**: L1
 
 
 # 제5장: 프레임워크별 베스트 프랙티스
@@ -6248,21 +6254,21 @@ mindmap
 ---
 
 #### 🌾 [추후 삽입] 5개 도메인 레시피
-> **셀**: S3ST | **Level**: L1a
+> **셀**: S2ST | **Level**: L1a
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
 #### 🌾 [추후 삽입] Inbox/Outbox JSON 기초
-> **셀**: S3ST | **Level**: L2
+> **셀**: S2ST | **Level**: L2
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
-### S3WF — 워크플로우 (Workflow)
+### S2WF — 워크플로우 (Workflow)
 
 #### [06b] 프롬프팅 고급 기법
-> **출처**: 섹션06 (쪼갬 variant) | **셀**: S3WF | **Level**: L1
+> **출처**: 섹션06 (쪼갬 variant) | **셀**: S2WF | **Level**: L1
 > ⚠️쪼갬: 검증 수단, 인터뷰 기법, @ 참조, 파이프
 
 
@@ -6344,7 +6350,7 @@ claude "사용자 스토리: '사용자는 비밀번호를 변경할 수 있다'
 ---
 
 #### [21] 프롬프트 템플릿 라이브러리
-> **출처**: 섹션21 (통째) | **셀**: S3WF | **Level**: L2
+> **출처**: 섹션21 (통째) | **셀**: S2WF | **Level**: L2
 
 
 # 오전: 기존 시스템 이해
@@ -6445,13 +6451,13 @@ claude "반복적인 작업을 자동화하는 스크립트를 만들어줘
 ---
 
 #### 🌾 [추후 삽입] 확장 템플릿 (스무고개, 5단계, 3대안)
-> **셀**: S3WF | **Level**: L2a
+> **셀**: S2WF | **Level**: L2a
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
 #### [05b] 컨텍스트 관리 전략
-> **출처**: 섹션05 (쪼갬 variant) | **셀**: S3WF | **Level**: L3
+> **출처**: 섹션05 (쪼갬 variant) | **셀**: S2WF | **Level**: L3
 > ⚠️쪼갬: Handoff 패턴, 7개 명령어 고급, 전략적 설계
 
 
@@ -6605,10 +6611,10 @@ claude "Playwright로 전체 사용자 플로우를 테스트해줘"
 
 ---
 
-### S3TO — 팀운용 (Team Operations)
+### S2TO — 팀운용 (Team Operations)
 
 #### [07b] 서브에이전트 병렬 개발
-> **출처**: 섹션07 (쪼갬 variant) | **셀**: S3TO | **Level**: L1
+> **출처**: 섹션07 (쪼갬 variant) | **셀**: S2TO | **Level**: L1
 > ⚠️쪼갬: Writer/Reviewer 패턴, 병렬 개발
 
 
@@ -6842,7 +6848,7 @@ claude "당신은 시스템 통합과 아키텍처 조정 전문가입니다.
 ---
 
 #### [10] 플러그인 & 확장 생태계
-> **출처**: 섹션10 (통째) | **셀**: S3TO | **Level**: L2
+> **출처**: 섹션10 (통째) | **셀**: S2WF | **Level**: L2
 
 
 ## 11.8 고급 커스터마이제이션
@@ -7129,10 +7135,10 @@ jobs:
 
 ---
 
-### S3QC — 품질관리 (Quality Control)
+### S2QC — 품질관리 (Quality Control)
 
 #### [11] 보안 위험 & 체크리스트
-> **출처**: 섹션11 (통째) | **셀**: S3QC | **Level**: L1
+> **출처**: 섹션11 (통째) | **셀**: S2QC | **Level**: L1
 
 
 ## 10.8 보안 강화
@@ -7409,7 +7415,7 @@ jobs:
 ---
 
 #### [13b] Git 전략 — 커밋 & 브랜치
-> **출처**: 섹션13 (쪼갬 variant) | **셀**: S3QC | **Level**: L2
+> **출처**: 섹션13 (쪼갬 variant) | **셀**: S2QC | **Level**: L2
 > ⚠️쪼갬: 커밋 전략, 브랜치 전략
 
 
@@ -7460,7 +7466,7 @@ conventional commits 형식을 따르고,
 ---
 
 #### [22] 디버깅 마스터 전략
-> **출처**: 섹션22 (통째) | **셀**: S3QC | **Level**: L3
+> **출처**: 섹션22 (통째) | **셀**: S2QC | **Level**: L3
 
 
 ## 3.4 테스트 실행과 디버깅
@@ -7602,10 +7608,10 @@ claude "코드 품질을 측정하고 개선 방안을 제시해줘
 
 ---
 
-### S3CM — 비용관리 (Cost Management)
+### S2CM — 비용관리 (Cost Management)
 
 #### [24] 비용 최적화 10가지 전략
-> **출처**: 섹션24 (통째) | **셀**: S3CM | **Level**: L1
+> **출처**: 섹션24 (통째) | **셀**: S2CM | **Level**: L1
 
 
 ## 11.9 모니터링과 성능 최적화
@@ -7834,22 +7840,37 @@ claude "Claude Code Action의 운영 비용을 모니터링하고 최적화하�
 ---
 
 
-## S4 고급 (Advanced)
+
+## S3 고급 (Advanced)
 
 ---
-
-### S4CO — 개념 (Concept)
+### S3CO — 개념 (Concept)
 
 #### 🌾 [추후 삽입] SSAL 철학
-> **셀**: S4CO | **Level**: L1
+> **셀**: S3CO | **Level**: L1
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
-### S4ST — 스트럭처 (Structure)
+
+#### 🌾 [추후 삽입] 13DGC-AODM 방법론
+> **셀**: S3CO | **Level**: L1
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### 🌾 [추후 삽입] 4계층 역할 체계
+> **셀**: S3CO | **Level**: L2
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### 🌾 [추후 삽입] 6대 철학 확장
+> **셀**: S3CO | **Level**: L3
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+---
+
+### S3ST — 스트럭처 (Structure)
 
 #### [23] 멀티세션 워크플로우 8가지 패턴
-> **출처**: 섹션23 (통째) | **셀**: S4ST | **Level**: L1
+> **출처**: 섹션23 (통째) | **셀**: S3ST | **Level**: L1
 
 
 ## 8.2 Git Worktree와의 고급 통합 전략
@@ -8265,21 +8286,45 @@ claude "팀 작업 진행 상황을 정리하고,
 ---
 
 #### 🌾 [추후 삽입] Inbox/Outbox 완전 가이드
-> **셀**: S4ST | **Level**: L2
+> **셀**: S3ST | **Level**: L2
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
 #### 🌾 [추후 삽입] 소대편제
-> **셀**: S4ST | **Level**: L3
+> **셀**: S3ST | **Level**: L3
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
-### S4WF — 워크플로우 (Workflow)
+
+#### 🌾 [추후 삽입] SAL Grid 완전 가이드
+> **셀**: S3ST | **Level**: L1
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### 🌾 [추후 삽입] PROJECT SAL GRID 실전
+> **셀**: S3ST | **Level**: L2
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### 🌾 [추후 삽입] 3D 시각화
+> **셀**: S3ST | **Level**: L3
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### Hooks 설정 구조
+> **셀**: S3ST | **분산 배치**
+> **관련**: Hooks 자동화 흐름은 → WF 영역 참조
+
+- Hooks 정의 위치: `.claude/settings.json` 또는 `~/.claude/settings.json`
+- 이벤트 타입: `PreToolUse`, `PostToolUse`, `Notification` 등
+- 구조: `{ "hooks": { "이벤트명": [{ "matcher": "패턴", "command": "명령어" }] } }`
+- Hook은 shell 명령어를 실행하며, exit code로 허용/차단 결정
+
+---
+
+### S3WF — 워크플로우 (Workflow)
 
 #### [09] Hooks 시스템
-> **출처**: 섹션09 (통째) | **셀**: S4WF | **Level**: L1
+> **출처**: 섹션09 (통째) | **셀**: S3WF | **Level**: L1
 
 
 ## 9.1 지능형 Headless 모드 아키텍처
@@ -8492,7 +8537,7 @@ load_claude_config
 ---
 
 #### [17] 고급 꿀팁 & 워크플로우
-> **출처**: 섹션17 (통째) | **셀**: S4WF | **Level**: L2
+> **출처**: 섹션17 (통째) | **셀**: S3WF | **Level**: L2
 
 
 ## 7.3 비주얼 디자인 구현 워크플로우
@@ -8646,10 +8691,21 @@ gantt
 
 ---
 
-### S4TO — 팀운용 (Team Operations)
+
+#### 🌾 [추후 삽입] SSAL 프로세스
+> **셀**: S3WF | **Level**: L1
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### 🌾 [추후 삽입] Inbox/Outbox 실전 운용
+> **셀**: S3WF | **Level**: L2
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+---
+
+### S3TO — 팀운용 (Team Operations)
 
 #### [08] Agent Teams — 멀티 에이전트 협업
-> **출처**: 섹션08 (통째) | **셀**: S4TO | **Level**: L1
+> **출처**: 섹션08 (통째) | **셀**: S3TO | **Level**: L1
 
 
 ## 8.3 마이크로서비스 동시 개발
@@ -8766,8 +8822,11 @@ claude "백엔드 API가 변경되면 프론트엔드 타입도
 
 ---
 
-#### [26] MCP 서버 실전 활용 10종
-> **출처**: 섹션26 (통째) | **셀**: S4TO | **Level**: L2
+#### [26] MCP 서버 실전 활용 10종 (외부 AI 연동)
+> **출처**: 섹션26 (통째) | **셀**: S3TO | **Level**: L2
+> **관련**: MCP 비-AI 도구 활용은 → WF 영역 참조 | MCP 보안은 → QC 영역 참조
+>
+> ⚠️ **TO에 배치하는 MCP**: Perplexity, Sequential Thinking 등 **외부 AI를 용병으로 활용**하는 경우
 
 
 ## 11.7 다중 클라우드 환경 설정
@@ -9334,15 +9393,26 @@ jobs:
 ---
 
 #### 🌾 [추후 삽입] 용병체계
-> **셀**: S4TO | **Level**: L2a
+> **셀**: S3TO | **Level**: L2a
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
-### S4QC — 품질관리 (Quality Control)
+
+#### 🌾 [추후 삽입] MoAI v2.5 시스템
+> **셀**: S3TO | **Level**: L1
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### 🌾 [추후 삽입] Mercenary Types 고급 운용
+> **셀**: S3TO | **Level**: L2
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+---
+
+### S3QC — 품질관리 (Quality Control)
 
 #### [27] AI 코드 리뷰 8가지 마스터 패턴
-> **출처**: 섹션27 (통째) | **셀**: S4QC | **Level**: L1
+> **출처**: 섹션27 (통째) | **셀**: S3QC | **Level**: L1
 
 
 ## 12.2 AI 증강 코드 리뷰 생태계
@@ -9763,100 +9833,47 @@ claude "최근 코드 리뷰에서 제기된 혁신적 아이디어들을 정리
 ---
 
 #### 🌾 [추후 삽입] Stage Gate 디버깅
-> **셀**: S4QC | **Level**: L1a
+> **셀**: S3QC | **Level**: L1a
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
-### S4CM — 비용관리 (Cost Management)
-
-#### 🌾 [추후 삽입] MoAI 비용 전략
-> **셀**: S4CM | **Level**: L1
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
----
-
-
-## S5 마스터 (Master) — 전체 추후 삽입
-
----
-
-### S5CO — 개념 (Concept)
-
-#### 🌾 [추후 삽입] 13DGC-AODM 방법론
-> **셀**: S5CO | **Level**: L1
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
-#### 🌾 [추후 삽입] 4계층 역할 체계
-> **셀**: S5CO | **Level**: L2
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
-#### 🌾 [추후 삽입] 6대 철학 확장
-> **셀**: S5CO | **Level**: L3
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
----
-
-### S5ST — 스트럭처 (Structure)
-
-#### 🌾 [추후 삽입] SAL Grid 완전 가이드
-> **셀**: S5ST | **Level**: L1
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
-#### 🌾 [추후 삽입] PROJECT SAL GRID 실전
-> **셀**: S5ST | **Level**: L2
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
-#### 🌾 [추후 삽입] 3D 시각화
-> **셀**: S5ST | **Level**: L3
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
----
-
-### S5WF — 워크플로우 (Workflow)
-
-#### 🌾 [추후 삽입] SSAL 프로세스
-> **셀**: S5WF | **Level**: L1
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
-#### 🌾 [추후 삽입] Inbox/Outbox 실전 운용
-> **셀**: S5WF | **Level**: L2
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
----
-
-### S5TO — 팀운용 (Team Operations)
-
-#### 🌾 [추후 삽입] MoAI v2.5 시스템
-> **셀**: S5TO | **Level**: L1
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
-#### 🌾 [추후 삽입] Mercenary Types 고급 운용
-> **셀**: S5TO | **Level**: L2
-> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
-
----
-
-### S5QC — 품질관리 (Quality Control)
 
 #### 🌾 [추후 삽입] 이중 검증 체계
-> **셀**: S5QC | **Level**: L1
+> **셀**: S3QC | **Level**: L1
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 #### 🌾 [추후 삽입] 품질 보증 프로세스
-> **셀**: S5QC | **Level**: L2
+> **셀**: S3QC | **Level**: L2
+> 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
+
+#### MCP 서버 보안 관리
+> **셀**: S3QC | **분산 배치**
+> **관련**: MCP 서버 설정은 → TO 영역 참조
+
+- API 키는 반드시 환경변수 또는 secrets로 관리 (하드코딩 금지)
+- `allowed_tools`로 MCP 도구 접근 범위를 최소 권한으로 제한
+- 내부 시스템 연동 시 네트워크 격리 및 인증 토큰 관리 필수
+- 정기적인 MCP 서버 보안 감사 권장
+
+---
+
+### S3CM — 비용관리 (Cost Management)
+
+#### 🌾 [추후 삽입] MoAI 비용 전략
+> **셀**: S3CM | **Level**: L1
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
 
-### S5CM — 비용관리 (Cost Management)
+
 
 #### 🌾 [추후 삽입] 비용 극대화 전략
-> **셀**: S5CM | **Level**: L1
+> **셀**: S3CM | **Level**: L1
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 #### 🌾 [추후 삽입] 대규모 프로젝트 비용 시뮬레이션
-> **셀**: S5CM | **Level**: L2
+> **셀**: S3CM | **Level**: L2
 > 이 슬롯은 추후 콘텐츠가 삽입될 예정입니다.
 
 ---
@@ -9878,10 +9895,10 @@ claude "최근 코드 리뷰에서 제기된 혁신적 아이디어들을 정리
 
 | 원본 섹션 | variant a | 배치 셀 | variant b | 배치 셀 | 추적 |
 |-----------|-----------|---------|-----------|---------|------|
-| 섹션05 컨텍스트 관리 | [05a] 토큰과 비용 | S2CM | [05b] 관리 전략 | S3WF | [05a]+[05b]=섹션05 전체 ✅ |
-| 섹션06 프롬프팅 | [06a] 기본 기법 | S2WF | [06b] 고급 기법 | S3WF | [06a]+[06b]=섹션06 전체 ✅ |
-| 섹션07 서브에이전트 | [07a] 기본 | S2TO | [07b] 병렬 개발 | S3TO | [07a]+[07b]=섹션07 전체 ✅ |
-| 섹션13 Git | [13a] 절대 금지 | S2QC | [13b] 커밋/브랜치 | S3QC | [13a]+[13b]=섹션13 전체 ✅ |
+| 섹션05 컨텍스트 관리 | [05a] 토큰과 비용 | S1CM | [05b] 관리 전략 | S2WF | [05a]+[05b]=섹션05 전체 ✅ |
+| 섹션06 프롬프팅 | [06a] 기본 기법 | S1WF | [06b] 고급 기법 | S2WF | [06a]+[06b]=섹션06 전체 ✅ |
+| 섹션07 서브에이전트 | [07a] 기본 | S1TO | [07b] 병렬 개발 | S2TO | [07a]+[07b]=섹션07 전체 ✅ |
+| 섹션13 Git | [13a] 절대 금지 | S1QC | [13b] 커밋/브랜치 | S2QC | [13a]+[13b]=섹션13 전체 ✅ |
 | 섹션25 비개발자 가이드 | [25a] 개념편 | S1CO | [25b] 환경 설정 | S1WF | [25a]+[25b]=섹션25 전체 ✅ |
 
 ---
@@ -9890,9 +9907,9 @@ claude "최근 코드 리뷰에서 제기된 혁신적 아이디어들을 정리
 
 | 항목 | 수량 |
 |------|------|
-| 총 셀 | 30개 (5 Stage × 6 Area) |
-| 활성 셀 | 27개 |
-| 빈 셀 | 3개 (S1ST, S1TO, S1QC) |
+| 총 셀 | 18개 (3 Stage × 6 Area) |
+| 활성 셀 | 18개 |
+| 빈 셀 | 0개 |
 | 배치 항목 | 32개 (원본 22개 통째 + 쪼갬 5개×2 variant = 10개) |
 | 쪼갬 섹션 | 5개 → 10개 variant |
 | 🌾 예약 슬롯 | 22개 |
@@ -9903,10 +9920,8 @@ claude "최근 코드 리뷰에서 제기된 혁신적 아이디어들을 정리
 ### 파일 순서 인덱스
 
 ```
-S1CO → S1ST(빈) → S1WF → S1TO(빈) → S1QC(빈) → S1CM
+S1CO → S1ST → S1WF → S1TO → S1QC → S1CM
 → S2CO → S2ST → S2WF → S2TO → S2QC → S2CM
 → S3CO → S3ST → S3WF → S3TO → S3QC → S3CM
-→ S4CO → S4ST → S4WF → S4TO → S4QC → S4CM
-→ S5CO → S5ST → S5WF → S5TO → S5QC → S5CM
 → 부록
 ```
